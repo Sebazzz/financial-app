@@ -1,4 +1,4 @@
-/// <reference path="../typings/angularjs/angular.d.ts" />
+﻿/// <reference path="../typings/angularjs/angular.d.ts" />
 /// <reference path="../typings/angularjs/angular-route.d.ts" />
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/moment/moment.d.ts" />
@@ -29,9 +29,8 @@ var FinancialApp;
                 FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
 
                 // special 'now' route
-                var now = new Date();
                 $routeProvider.when("/now", {
-                    redirectTo: '/sheet/' + now.getFullYear() + "/" + now.getMonth()
+                    redirectTo: Program.createNowRoute()
                 });
 
                 // fallback
@@ -45,6 +44,11 @@ var FinancialApp;
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
+        };
+
+        Program.createNowRoute = function () {
+            var now = new Date();
+            return '/sheet/' + now.getFullYear() + "/" + now.getMonth();
         };
         return Program;
     })();

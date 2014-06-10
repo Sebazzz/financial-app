@@ -30,9 +30,8 @@ module FinancialApp {
                 FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
 
                 // special 'now' route
-                var now: Date = new Date();
                 $routeProvider.when("/now", {
-                    redirectTo: '/sheet/' + now.getFullYear() + "/" + now.getMonth()
+                    redirectTo: Program.createNowRoute()
                 });
 
                 // fallback
@@ -46,6 +45,12 @@ module FinancialApp {
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
+        }
+
+
+        static createNowRoute(): string {
+            var now: Date = new Date();
+            return '/sheet/' + now.getFullYear() + "/" + now.getMonth();
         }
     }
 }

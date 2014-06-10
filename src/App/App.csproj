@@ -164,6 +164,15 @@
     <Content Include="Scripts\App\DefaultController.js.map">
       <DependentUpon>DefaultController.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\App\MenuController.js">
+      <DependentUpon>MenuController.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\SheetController.js.map">
+      <DependentUpon>SheetController.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\MenuController.js.map">
+      <DependentUpon>MenuController.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
@@ -175,6 +184,9 @@
     </Content>
     <Content Include="Scripts\App\DefaultController.js">
       <DependentUpon>DefaultController.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\SheetController.js">
+      <DependentUpon>SheetController.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -227,6 +239,7 @@
     <TypeScriptCompile Include="Scripts\App\ControllerInit.d.ts">
       <DependentUpon>ControllerInit.tt</DependentUpon>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\App\MenuController.ts" />
     <TypeScriptCompile Include="Scripts\App\Moment\MomentJs.ts" />
     <TypeScriptCompile Include="Scripts\App\SheetController.ts" />
     <TypeScriptCompile Include="Scripts\App\DefaultController.ts" />

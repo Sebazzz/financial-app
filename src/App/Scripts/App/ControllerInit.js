@@ -16,6 +16,7 @@ var FinancialApp;
         registerControllers: function($app) {
                     $app.controller('ArchiveController', FinancialApp.ArchiveController);
                     $app.controller('DefaultController', FinancialApp.DefaultController);
+                    $app.controller('MenuController', FinancialApp.MenuController);
                     $app.controller('SheetController', FinancialApp.SheetController);
             },
 
