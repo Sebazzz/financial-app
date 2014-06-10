@@ -1,13 +1,22 @@
-﻿ module FinancialApp {
+﻿/// <reference path="../typings/angularjs/angular.d.ts"/>
+/// <reference path="DTO.ts"/>
+
+module FinancialApp {
+
+    export interface IArchiveScope extends ng.IScope {
+        
+        sheets : DTO.ISheetListing[];
+    }
+
     export class ArchiveController {
-        static $inject = ["$scope"];
+        static $inject = ["$scope", "$resource"];
 
-        constructor($scope) {
-            $scope.test = "Hello World 2";
+        private api : ng.resource.IResourceClass<DTO.ISheetListing>;
 
-            $scope.helloFn = function () {
-                this.test += "Bye World 2";
-            };
+        constructor($scope : IArchiveScope, $resource : ng.resource.IResourceService) {
+            this.api = $resource<DTO.ISheetListing>("/api/sheet/:id");
+
+            $scope.sheets = this.api.query();
         }
     }
  }

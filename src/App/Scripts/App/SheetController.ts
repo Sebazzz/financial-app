@@ -14,7 +14,7 @@ module FinancialApp {
         static $inject = ["$scope", "$routeParams"];
 
         constructor($scope: ISheetScope, $routeParams: ISheetRouteParams) {
-            $scope.date = moment([parseInt($routeParams.year, 10), parseInt($routeParams.month, 10)]);
+            $scope.date = moment([parseInt($routeParams.year, 10), parseInt($routeParams.month, 10) - 1]);
         }
     }
 }

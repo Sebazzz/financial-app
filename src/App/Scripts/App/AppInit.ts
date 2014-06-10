@@ -23,7 +23,7 @@ module FinancialApp {
             moment.lang('nl');
 
             // define module
-            var app: ng.IModule = angular.module('main', ['ngRoute', 'ngMoment']);
+            var app: ng.IModule = angular.module('main', ['ngRoute', 'ngMoment', 'ngResource']);
 
             app.config(($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider) => {
                 // generated routes
@@ -50,7 +50,7 @@ module FinancialApp {
 
         static createNowRoute(): string {
             var now: Date = new Date();
-            return '/sheet/' + now.getFullYear() + "/" + now.getMonth();
+            return '/sheet/' + now.getFullYear() + "/" + (now.getMonth() + 1);
         }
     }
 }

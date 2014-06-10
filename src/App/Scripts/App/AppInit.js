@@ -22,7 +22,7 @@ var FinancialApp;
             moment.lang('nl');
 
             // define module
-            var app = angular.module('main', ['ngRoute', 'ngMoment']);
+            var app = angular.module('main', ['ngRoute', 'ngMoment', 'ngResource']);
 
             app.config(function ($routeProvider, $locationProvider) {
                 // generated routes
@@ -48,7 +48,7 @@ var FinancialApp;
 
         Program.createNowRoute = function () {
             var now = new Date();
-            return '/sheet/' + now.getFullYear() + "/" + now.getMonth();
+            return '/sheet/' + now.getFullYear() + "/" + (now.getMonth() + 1);
         };
         return Program;
     })();

@@ -10,14 +10,14 @@
         private static void ConfigureRoutes(RouteCollection routes) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.IgnoreRoute("api/{*pathInfo}");
+            
             routes.MapMvcAttributeRoutes();
 
-            
             routes.MapRoute(
                 "Error",
                 "{*catchall}",
-            new { controller = "Home", action = "Index" }
-        );
+                new { controller = "Home", action = "Index" });
         }
     }
 }

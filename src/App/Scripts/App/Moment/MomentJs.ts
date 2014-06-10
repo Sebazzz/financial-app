@@ -4,5 +4,7 @@
 module ng.Moment {
 
     angular.module('ngMoment', [])
-        .filter("moment", () => (input: any, format: string) => moment(input).format(format));
+        .filter("moment", () => function(input: any, format: string) {
+            return moment(input).format(format);
+        });
 }

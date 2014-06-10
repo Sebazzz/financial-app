@@ -3,7 +3,7 @@ var FinancialApp;
 (function (FinancialApp) {
     var SheetController = (function () {
         function SheetController($scope, $routeParams) {
-            $scope.date = moment([parseInt($routeParams.year, 10), parseInt($routeParams.month, 10)]);
+            $scope.date = moment([parseInt($routeParams.year, 10), parseInt($routeParams.month, 10) - 1]);
         }
         SheetController.$inject = ["$scope", "$routeParams"];
         return SheetController;

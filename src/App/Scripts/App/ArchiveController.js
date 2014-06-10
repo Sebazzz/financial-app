@@ -1,14 +1,14 @@
-﻿var FinancialApp;
+﻿/// <reference path="../typings/angularjs/angular.d.ts"/>
+/// <reference path="DTO.ts"/>
+var FinancialApp;
 (function (FinancialApp) {
     var ArchiveController = (function () {
-        function ArchiveController($scope) {
-            $scope.test = "Hello World 2";
+        function ArchiveController($scope, $resource) {
+            this.api = $resource("/api/sheet/:id");
 
-            $scope.helloFn = function () {
-                this.test += "Bye World 2";
-            };
+            $scope.sheets = this.api.query();
         }
-        ArchiveController.$inject = ["$scope"];
+        ArchiveController.$inject = ["$scope", "$resource"];
         return ArchiveController;
     })();
     FinancialApp.ArchiveController = ArchiveController;

@@ -6,8 +6,8 @@
     {
         protected void Application_Start()
         {
-            MvcConfig.Register();
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            MvcConfig.Register();
             BundleConfig.Register();
         }
 
