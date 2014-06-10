@@ -1,4 +1,4 @@
-﻿namespace AngularJSTest.App_Start {
+﻿namespace App {
     using System.Web.Optimization;
 
     public class BundleConfig {

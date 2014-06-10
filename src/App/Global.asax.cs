@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Routing;
-
-namespace AngularJSTest
+﻿namespace App
 {
-    using App_Start;
+    using System.Web.Http;
 
     public class WebApiApplication : System.Web.HttpApplication
     {
