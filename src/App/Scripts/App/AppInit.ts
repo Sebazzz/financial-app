@@ -39,7 +39,7 @@ module FinancialApp {
                     redirectTo: '/'
                 });
 
-                // use the HTML5 History API (without automatic fallback)
+                // use the HTML5 History API (with automatic fallback)
                 $locationProvider.html5Mode(true);
             });
 
