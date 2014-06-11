@@ -136,10 +136,6 @@
     <Content Include="Content\bootstrap.css.map">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
-    <Content Include="Scripts\angular-loader.js" />
-    <Content Include="Scripts\angular-loader.min.js">
-      <DependentUpon>angular-loader.js</DependentUpon>
-    </Content>
     <Content Include="Scripts\angular-progress.js" />
     <Content Include="Scripts\angular-progress.min.js">
       <DependentUpon>angular-progress.js</DependentUpon>
@@ -171,9 +167,6 @@
     </Content>
     <Content Include="Scripts\angular-resource.min.js.map">
       <DependentUpon>angular-resource.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\angular-loader.min.js.map">
-      <DependentUpon>angular-loader.js</DependentUpon>
     </Content>
     <Content Include="Scripts\App\AppInit.js.map">
       <DependentUpon>AppInit.ts</DependentUpon>
