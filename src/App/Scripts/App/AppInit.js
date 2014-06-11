@@ -1,4 +1,4 @@
-﻿/// <reference path="../typings/angularjs/angular.d.ts" />
+/// <reference path="../typings/angularjs/angular.d.ts" />
 /// <reference path="../typings/angularjs/angular-route.d.ts" />
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/moment/moment.d.ts" />
@@ -22,7 +22,7 @@ var FinancialApp;
             moment.lang('nl');
 
             // define module
-            var app = angular.module('main', ['ngRoute', 'ngMoment', 'ngResource', 'angular-loading-bar']);
+            var app = angular.module('main', ['ngRoute', 'ngMoment', 'ngResource', 'angular-loading-bar', 'ui.bootstrap']);
 
             app.config(function ($routeProvider, $locationProvider) {
                 // generated routes

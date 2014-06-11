@@ -17,7 +17,9 @@
                              "~/Scripts/angular.js",
                              "~/Scripts/angular-resource.js",
                              "~/Scripts/angular-route.js",
-                             "~/Scripts/angular-progress.js"));
+                             "~/Scripts/angular-progress.js",
+                             "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
+                             ));
 
             bundles.Add(
                 new StyleBundle("~/bundles/style-lib")

@@ -8,10 +8,12 @@
     <ul ng-repeat="category in categories" class="list-unstyled">
         <li>
             <div class="pull-right">
-                <a class="btn btn-danger btn-sm"
-                   ng-disabled="!category.canBeDeleted">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </a>
+                <p tooltip="{{category.canBeDeleted ? 'hh' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'}}">
+                    <a class="btn btn-danger btn-sm"
+                       ng-disabled="!category.canBeDeleted">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </p>
             </div>
 
             <strong>

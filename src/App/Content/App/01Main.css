@@ -6,6 +6,7 @@
     /* Shut up intellisense / R# */
 }
 
+/**** Rotation animation */
 @keyframes rotate {
   0% {
     -webkit-transform-origin: center center;
@@ -48,3 +49,6 @@
     -o-animation-timing-function:linear;
     animation-timing-function:linear;
 }
+
+/*** Required for AngularJS Bootstrap UI */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
