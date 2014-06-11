@@ -1,31 +1,31 @@
 ﻿<!DOCTYPE html>
 <html lang="nl" ng-app="main" ng-strict-di="true">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Financial App</title>
+        <title>Financial App</title>
 
-    <base href="/">
+        <base href="/">
 
-    @Styles.Render("~/bundles/style-lib")
-    @Styles.Render("~/bundles/style-app")
-</head>
-<body>
-    <div ng-include="'/Angular/Widgets/Menu.html'"></div>
+        @Styles.Render("~/bundles/style-lib")
+        @Styles.Render("~/bundles/style-app")
+    </head>
+    <body>
+        <div ng-include="'/Angular/Widgets/Menu.html'"></div>
 
-    <div class="container" ng-view></div>
+        <div class="container" ng-view></div>
 
-    @Scripts.Render("~/bundles/script-lib")
-    @Scripts.Render("~/bundles/script-app")
+        @Scripts.Render("~/bundles/script-lib")
+        @Scripts.Render("~/bundles/script-app")
 
-    <script>FinancialApp.Program.init();</script>
+        <script>FinancialApp.Program.init();</script>
 
-    <noscript>
-        <p>
-            Sorry, om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
-        </p>
-    </noscript>
-</body>
+        <noscript>
+            <p>
+                Sorry, om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
+            </p>
+        </noscript>
+    </body>
 </html>
