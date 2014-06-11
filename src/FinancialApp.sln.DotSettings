@@ -1,2 +1,56 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=Html_002EPathError/@EntryIndexedValue">HINT</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=Html_002EPathError/@EntryIndexedValue">HINT</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/CustomProperties/=Extension/@EntryIndexedValue">ts</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/CustomProperties/=FileName/@EntryIndexedValue">NewController</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/CustomProperties/=ValidateFileName/@EntryIndexedValue">True</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Description/@EntryValue">Controller for project</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Field/=Controller/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Field/=Controller/Expression/@EntryValue">getFileNameWithoutExtension()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Field/=Controller/InitialRange/@EntryValue">1</s:Int64>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Field/=Controller/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Scope/=0A12C11AC0ACCA4E921B6B2CEE180C57/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Scope/=0A12C11AC0ACCA4E921B6B2CEE180C57/Type/@EntryValue">InAnyWebProject</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=3772DB44F88EAC48AAAEA6295F95B202/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=3772DB44F88EAC48AAAEA6295F95B202/LocationSelectorConfig/@EntryValue">&lt;RelativeConfig File="$NAME$.js.map" /&gt;</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=3772DB44F88EAC48AAAEA6295F95B202/LocationSelectorName/@EntryValue">manual</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=3772DB44F88EAC48AAAEA6295F95B202/Order/@EntryValue">1</s:Int64>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=3772DB44F88EAC48AAAEA6295F95B202/SectionPlain/Text/@EntryValue">[]</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=D6091FBD5377854193608DA4B9E8E03C/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=D6091FBD5377854193608DA4B9E8E03C/LocationSelectorConfig/@EntryValue">&lt;RelativeConfig File="$NAME$.js" /&gt;</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=D6091FBD5377854193608DA4B9E8E03C/LocationSelectorName/@EntryValue">manual</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=D6091FBD5377854193608DA4B9E8E03C/Order/@EntryValue">0</s:Int64>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=D6091FBD5377854193608DA4B9E8E03C/SectionPlain/Text/@EntryValue">// TODO: compile&#xD;
+alert('Compile first, thank you');</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=EFA36E8A8D85724E9B270A2A25E426A1/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=EFA36E8A8D85724E9B270A2A25E426A1/LocationSelectorConfig/@EntryValue">&lt;RelativeConfig Folder="\Angular" File="$NAME$.html" /&gt;</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=EFA36E8A8D85724E9B270A2A25E426A1/LocationSelectorName/@EntryValue">manual</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=EFA36E8A8D85724E9B270A2A25E426A1/Order/@EntryValue">2</s:Int64>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Section/=EFA36E8A8D85724E9B270A2A25E426A1/SectionPlain/Text/@EntryValue">&lt;h1&gt;$Controller$&lt;/h1&gt;&#xD;
+&#xD;
+&lt;p&gt;&#xD;
+    TODO&#xD;
+&lt;/p&gt;&#xD;
+&#xD;
+</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=ACF40BB7960EEA479E17837AD3507712/Text/@EntryValue">/// &lt;init-options /&gt;&#xD;
+/// &lt;reference path="../typings/angularjs/angular.d.ts" /&gt; &#xD;
+&#xD;
+module FinancialApp {&#xD;
+	&#xD;
+	export interface I$Controller$Scope extends ng.IScope {&#xD;
+        // TODO: add items&#xD;
+    }&#xD;
+&#xD;
+    export class $Controller$Controller {&#xD;
+        static $inject = ["$scope"];&#xD;
+&#xD;
+        constructor($scope : I$Controller$Scope) {&#xD;
+			// TODO: init scope&#xD;
+        }&#xD;
+    } &#xD;
+&#xD;
+}</s:String></wpf:ResourceDictionary>
