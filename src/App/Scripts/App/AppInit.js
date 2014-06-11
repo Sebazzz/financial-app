@@ -1,4 +1,4 @@
-/// <reference path="../typings/angularjs/angular.d.ts" />
+﻿/// <reference path="../typings/angularjs/angular.d.ts" />
 /// <reference path="../typings/angularjs/angular-route.d.ts" />
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/moment/moment.d.ts" />
@@ -44,6 +44,11 @@ var FinancialApp;
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
+
+            // run
+            app.run(function ($templateCache, $http) {
+                $http.get('/Angular/Widgets/Loader.html', { cache: $templateCache });
+            });
         };
 
         Program.createNowRoute = function () {

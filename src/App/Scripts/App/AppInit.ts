@@ -45,6 +45,11 @@ module FinancialApp {
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
+
+            // run
+            app.run(($templateCache: ng.ITemplateCacheService, $http: ng.IHttpService) => {
+                $http.get('/Angular/Widgets/Loader.html', { cache: $templateCache });
+            });
         }
 
 
