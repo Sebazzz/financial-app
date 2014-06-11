@@ -22,7 +22,7 @@ var FinancialApp;
             moment.lang('nl');
 
             // define module
-            var app = angular.module('main', ['ngRoute', 'ngMoment', 'ngResource']);
+            var app = angular.module('main', ['ngRoute', 'ngMoment', 'ngResource', 'angular-loading-bar']);
 
             app.config(function ($routeProvider, $locationProvider) {
                 // generated routes

@@ -16,12 +16,14 @@
                              "~/Scripts/moment-with-langs.js",
                              "~/Scripts/angular.js",
                              "~/Scripts/angular-resource.js",
-                             "~/Scripts/angular-route.js"));
+                             "~/Scripts/angular-route.js",
+                             "~/Scripts/angular-progress.js"));
 
             bundles.Add(
                 new StyleBundle("~/bundles/style-lib")
                     .Include("~/Content/bootstrap.css")
-                    .Include("~/Content/bootstrap-theme.css"));
+                    .Include("~/Content/bootstrap-theme.css")
+                    .Include("~/Content/angular-progress.css"));
 
             // own
             ScriptBundle appScriptBundle =

@@ -27,7 +27,7 @@
   },
   "Css": {
     "AdjustRelativePaths": true,
-    "AutoMinify": false,
+    "AutoMinify": true,
     "GzipMinifiedFiles": false,
     "MakeMinified": false,
     "OutputDirectory": null,

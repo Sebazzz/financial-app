@@ -115,35 +115,66 @@
     <Content Include="Angular\Default.html" />
     <Content Include="Angular\Archive.html" />
     <Content Include="Angular\Sheet.html" />
+    <Content Include="Content\angular-progress.css" />
+    <Content Include="Content\angular-progress.min.css">
+      <DependentUpon>angular-progress.css</DependentUpon>
+    </Content>
     <Content Include="Content\App\01Main.css" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="Content\hotkeys.css" />
-    <Content Include="Content\hotkeys.min.css" />
+    <Content Include="Content\hotkeys.min.css">
+      <DependentUpon>hotkeys.css</DependentUpon>
+    </Content>
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="Scripts\angular-loader.js" />
-    <Content Include="Scripts\angular-loader.min.js" />
+    <Content Include="Scripts\angular-loader.min.js">
+      <DependentUpon>angular-loader.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular-progress.js" />
+    <Content Include="Scripts\angular-progress.min.js">
+      <DependentUpon>angular-progress.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\angular-resource.js" />
-    <Content Include="Scripts\angular-resource.min.js" />
+    <Content Include="Scripts\angular-resource.min.js">
+      <DependentUpon>angular-resource.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\angular-route.js" />
-    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular-route.min.js">
+      <DependentUpon>angular-route.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\angular-touch.js" />
-    <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-touch.min.js">
+      <DependentUpon>angular-touch.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\angular-route.min.js.map" />
-    <Content Include="Scripts\angular-touch.min.js.map" />
-    <Content Include="Scripts\angular-resource.min.js.map" />
-    <Content Include="Scripts\angular-loader.min.js.map" />
+    <Content Include="Scripts\angular.min.js">
+      <DependentUpon>angular.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular.min.js.map">
+      <DependentUpon>angular.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular-route.min.js.map">
+      <DependentUpon>angular-route.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular-touch.min.js.map">
+      <DependentUpon>angular-touch.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular-resource.min.js.map">
+      <DependentUpon>angular-resource.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular-loader.min.js.map">
+      <DependentUpon>angular-loader.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\App\AppInit.js.map">
       <DependentUpon>AppInit.ts</DependentUpon>
     </Content>
@@ -186,7 +217,12 @@
     <Content Include="Scripts\App\DTO.js.map">
       <DependentUpon>DTO.ts</DependentUpon>
     </Content>
-    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\angular-progress.min.js.map">
+      <DependentUpon>angular-progress.min.js</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-2.1.1.intellisense.js">
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </None>
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
@@ -202,21 +238,41 @@
       <DependentUpon>SheetController.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap.min.js">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\hotkeys.js" />
-    <Content Include="Scripts\hotkeys.min.js" />
+    <Content Include="Scripts\hotkeys.min.js">
+      <DependentUpon>hotkeys.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
-    <None Include="Scripts\jquery.linq-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js">
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery.linq-vsdoc.js">
+      <DependentUpon>jquery.linq.js</DependentUpon>
+    </None>
     <Content Include="Scripts\jquery.linq.js" />
-    <Content Include="Scripts\jquery.linq.min.js" />
-    <None Include="Scripts\linq-vsdoc.js" />
+    <Content Include="Scripts\jquery.linq.min.js">
+      <DependentUpon>jquery.linq.js</DependentUpon>
+    </Content>
+    <None Include="Scripts\linq-vsdoc.js">
+      <DependentUpon>linq.js</DependentUpon>
+    </None>
     <Content Include="Scripts\linq.js" />
-    <Content Include="Scripts\linq.min.js" />
-    <Content Include="Scripts\moment-with-langs.js" />
-    <Content Include="Scripts\moment-with-langs.min.js" />
+    <Content Include="Scripts\linq.min.js">
+      <DependentUpon>linq.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\moment-with-langs.js">
+      <DependentUpon>moment.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\moment-with-langs.min.js">
+      <DependentUpon>moment.js</DependentUpon>
+    </Content>
     <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\moment.min.js">
+      <DependentUpon>moment.js</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -233,7 +289,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Scripts\jquery-2.1.1.min.map">
+      <DependentUpon>jquery-2.1.1.js</DependentUpon>
+    </Content>
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Web.config" />
     <None Include="Web.Debug.config">
