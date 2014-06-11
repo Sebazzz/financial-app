@@ -1,14 +1,22 @@
 ﻿<h1>Archief</h1>
 
-<p>
-    Hier zie je het archief van opgeslagen maanden in je archief.
-</p>
+<div ng-show="isLoaded">
+    <p>
+        Hier zie je het lijst van opgeslagen maanden in je archief.
+    </p>
 
-<ul ng-repeat="sheet in sheets">
-    <li>
-        <a href="#"
-           ng-href="/sheet/{{sheet.year}}/{{sheet.month}}">
-            {{ [sheet.year, sheet.month - 1] | moment: 'MMMM YYYY' }} ({{sheet.name}})
-        </a>
-    </li>
-</ul>
+    <ul ng-repeat="sheet in sheets">
+        <li>
+            <a href="#"
+               ng-href="/sheet/{{sheet.year}}/{{sheet.month}}">
+                {{ [sheet.year, sheet.month - 1] | moment: 'MMMM YYYY' }} ({{sheet.name}})
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div ng-hide="isLoaded">
+    <p>
+        Bezig met laden...
+    </p>
+</div>

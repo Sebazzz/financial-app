@@ -5,7 +5,8 @@ module FinancialApp {
 
     export interface IArchiveScope extends ng.IScope {
         
-        sheets : DTO.ISheetListing[];
+        sheets: DTO.ISheetListing[];
+        isLoaded : boolean;
     }
 
     export class ArchiveController {
@@ -16,7 +17,10 @@ module FinancialApp {
         constructor($scope : IArchiveScope, $resource : ng.resource.IResourceService) {
             this.api = $resource<DTO.ISheetListing>("/api/sheet/:id");
 
-            $scope.sheets = this.api.query();
+
+            $scope.sheets = this.api.query(() => {
+                $scope.isLoaded = true;
+            });
         }
     }
  }
