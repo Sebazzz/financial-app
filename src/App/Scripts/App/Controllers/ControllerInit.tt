@@ -60,7 +60,7 @@ var FinancialApp;
             string fileName = Path.GetFileNameWithoutExtension(filePath); 
 
             const string suffix= "Controller";
-            if (!fileName.EndsWith(suffix)) {
+            if (fileName.StartsWith("ControllerInit")) {
                 continue;
             }
 
@@ -70,7 +70,7 @@ var FinancialApp;
                 continue;
             }
 
-            opts.controllerName = opts.controllerName ?? fileName;
+            opts.controllerName = opts.controllerName ?? fileName + suffix;
             opts.viewName = opts.viewName ?? opts.controllerName.Remove(opts.controllerName.Length - suffix.Length, suffix.Length);
             opts.route =  opts.route ?? "/" + opts.viewName.ToLower();
 

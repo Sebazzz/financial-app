@@ -1,5 +1,5 @@
 /// <init-options exclude="route"/>
-/// <reference path="../typings/angularjs/angular.d.ts"/>
+/// <reference path="../../typings/angularjs/angular.d.ts"/>
 
 module FinancialApp {
 

@@ -1,5 +1,5 @@
-﻿/// <reference path="../typings/angularjs/angular.d.ts"/>
-/// <reference path="DTO.ts"/>
+﻿/// <reference path="../../typings/angularjs/angular.d.ts"/>
+/// <reference path="../DTO.ts"/>
 
 module FinancialApp {
 

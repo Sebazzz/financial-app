@@ -2,7 +2,7 @@
 /// <reference path="../typings/angularjs/angular-route.d.ts" />
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/moment/moment.d.ts" />
-/// <reference path="ControllerInit.d.ts" />
+/// <reference path="Controllers/ControllerInit.d.ts" />
 var FinancialApp;
 (function (FinancialApp) {
     'use strict';

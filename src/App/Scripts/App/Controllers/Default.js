@@ -9,4 +9,4 @@ var FinancialApp;
     })();
     FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
-//# sourceMappingURL=DefaultController.js.map
+//# sourceMappingURL=Default.js.map

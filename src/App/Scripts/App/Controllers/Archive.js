@@ -1,5 +1,5 @@
-﻿/// <reference path="../typings/angularjs/angular.d.ts"/>
-/// <reference path="DTO.ts"/>
+﻿/// <reference path="../../typings/angularjs/angular.d.ts"/>
+/// <reference path="../DTO.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     var ArchiveController = (function () {
@@ -15,4 +15,4 @@ var FinancialApp;
     })();
     FinancialApp.ArchiveController = ArchiveController;
 })(FinancialApp || (FinancialApp = {}));
-//# sourceMappingURL=ArchiveController.js.map
+//# sourceMappingURL=Archive.js.map

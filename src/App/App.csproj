@@ -112,6 +112,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Angular\CategoryList.html" />
     <Content Include="Angular\Default.html" />
     <Content Include="Angular\Archive.html" />
     <Content Include="Angular\Sheet.html" />
@@ -171,38 +172,35 @@
     <Content Include="Scripts\App\AppInit.js.map">
       <DependentUpon>AppInit.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\ArchiveController.js">
-      <DependentUpon>ArchiveController.ts</DependentUpon>
+    <Content Include="Scripts\App\Controllers\Archive.js">
+      <DependentUpon>Archive.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\ControllerInit.js">
+    <Content Include="Scripts\App\Controllers\CategoryList.js">
+      <DependentUpon>CategoryList.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\ControllerInit.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ControllerInit.tt</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\ControllerInit.tt">
+    <Content Include="Scripts\App\Controllers\ControllerInit.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ControllerInit.js</LastGenOutput>
     </Content>
-    <Content Include="Scripts\App\ArchiveController.js.map">
-      <DependentUpon>ArchiveController.ts</DependentUpon>
+    <Content Include="Scripts\App\Controllers\Default.js">
+      <DependentUpon>Default.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\DefaultController.js.map">
-      <DependentUpon>DefaultController.ts</DependentUpon>
+    <Content Include="Scripts\App\Controllers\Menu.js">
+      <DependentUpon>Menu.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\Sheet.js">
+      <DependentUpon>Sheet.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\DTO.js">
       <DependentUpon>DTO.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\MenuController.js">
-      <DependentUpon>MenuController.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\App\Moment\MomentJs.js">
       <DependentUpon>MomentJs.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\SheetController.js.map">
-      <DependentUpon>SheetController.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\MenuController.js.map">
-      <DependentUpon>MenuController.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\Moment\MomentJs.js.map">
       <DependentUpon>MomentJs.ts</DependentUpon>
@@ -212,6 +210,21 @@
     </Content>
     <Content Include="Scripts\angular-progress.min.js.map">
       <DependentUpon>angular-progress.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\Archive.js.map">
+      <DependentUpon>Archive.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\CategoryList.js.map">
+      <DependentUpon>CategoryList.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\Default.js.map">
+      <DependentUpon>Default.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\Menu.js.map">
+      <DependentUpon>Menu.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\Sheet.js.map">
+      <DependentUpon>Sheet.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
@@ -223,12 +236,6 @@
     <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\App\AppInit.js">
       <DependentUpon>AppInit.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\DefaultController.js">
-      <DependentUpon>DefaultController.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\SheetController.js">
-      <DependentUpon>SheetController.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js">
@@ -299,15 +306,16 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\App\AppInit.ts" />
-    <TypeScriptCompile Include="Scripts\App\ArchiveController.ts" />
-    <TypeScriptCompile Include="Scripts\App\ControllerInit.d.ts">
+    <TypeScriptCompile Include="Scripts\App\Controllers\Archive.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\CategoryList.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\ControllerInit.d.ts">
       <DependentUpon>ControllerInit.tt</DependentUpon>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\App\DTO.ts" />
-    <TypeScriptCompile Include="Scripts\App\MenuController.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\Menu.ts" />
     <TypeScriptCompile Include="Scripts\App\Moment\MomentJs.ts" />
-    <TypeScriptCompile Include="Scripts\App\SheetController.ts" />
-    <TypeScriptCompile Include="Scripts\App\DefaultController.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\Sheet.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\Default.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />

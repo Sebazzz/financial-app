@@ -1,5 +1,5 @@
 /// <init-options exclude="route"/>
-/// <reference path="../typings/angularjs/angular.d.ts"/>
+/// <reference path="../../typings/angularjs/angular.d.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     var MenuController = (function () {
@@ -20,4 +20,4 @@ var FinancialApp;
     })();
     FinancialApp.MenuController = MenuController;
 })(FinancialApp || (FinancialApp = {}));
-//# sourceMappingURL=MenuController.js.map
+//# sourceMappingURL=Menu.js.map

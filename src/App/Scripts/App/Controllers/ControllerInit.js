@@ -15,6 +15,7 @@ var FinancialApp;
 
         registerControllers: function($app) {
                     $app.controller('ArchiveController', FinancialApp.ArchiveController);
+                    $app.controller('CategoryListController', FinancialApp.CategoryListController);
                     $app.controller('DefaultController', FinancialApp.DefaultController);
                     $app.controller('MenuController', FinancialApp.MenuController);
                     $app.controller('SheetController', FinancialApp.SheetController);
@@ -25,6 +26,11 @@ var FinancialApp;
                 {
                     controller: 'ArchiveController',
                     templateUrl: '/Angular/Archive.html'
+                });
+                $routeProvider.when('/manage/category', 
+                {
+                    controller: 'CategoryListController',
+                    templateUrl: '/Angular/CategoryList.html'
                 });
                 $routeProvider.when('/', 
                 {
