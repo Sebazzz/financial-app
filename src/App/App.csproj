@@ -116,6 +116,7 @@
     <Content Include="Angular\Default.html" />
     <Content Include="Angular\Archive.html" />
     <Content Include="Angular\Sheet.html" />
+    <Content Include="Angular\Widgets\Menu.html" />
     <Content Include="Content\angular-progress.css" />
     <Content Include="Content\angular-progress.min.css">
       <DependentUpon>angular-progress.css</DependentUpon>

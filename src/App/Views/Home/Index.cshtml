@@ -13,42 +13,9 @@
     @Styles.Render("~/bundles/style-app")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="MenuController">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Financial App</a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li ng-class="{ 'active': hasPath('/') }"><a href="#">Dashboard</a></li>
-                    <li ng-class="{ 'active': hasPath(nowPath) }"><a href="/now">Huidige maand</a></li>
-                    <li ng-class="{ 'active': hasPath('/archive') }"><a href="/archive">Archief</a></li>
-                </ul>
-                
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="javascript:void(0)"
-                           ng-class="{ 'active': hasPath('/manage') }"
-                           class="dropdown-toggle"
-                           data-toggle="dropdown">Beheer<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li ng-class="{ 'active': hasPath('/manage/category') }"><a href="/manage/category">Categorieëen</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <div ng-include="'/Angular/Widgets/Menu.html'"></div>
 
-    <div class="container" ng-view>
-        LADEN!
-    </div>
+    <div class="container" ng-view></div>
 
     @Scripts.Render("~/bundles/script-lib")
     @Scripts.Render("~/bundles/script-app")
