@@ -1,3 +1,7 @@
 ﻿body {
     padding-top: 50px;
 }
+
+.ng-hide {
+    /* Shut up intellisense / R# */
+}
