@@ -6,4 +6,11 @@ module FinancialApp.DTO {
         year: number;
         name: string;
     }
+
+    export interface ICategoryListing {
+        id: number;
+        canBeDeleted: boolean;
+        name: string;
+        description: string;
+    }
 }

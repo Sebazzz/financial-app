@@ -1,6 +1,33 @@
-﻿<h1>Title</h1>
+﻿<h1>Categorieën</h1>
 
-<p>
-    TODO
-</p>
+<div ng-show="isLoaded">
+    <p>
+        Onderstaand vindt je categorieën die je kan gebruiken bij het indelen van je financieën.
+    </p>
 
+    <ul ng-repeat="category in categories" class="list-unstyled">
+        <li>
+            <div class="pull-right">
+                <a class="btn btn-danger btn-sm"
+                   ng-disabled="!category.canBeDeleted">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </div>
+
+            <strong>
+                <a href="#"
+                   ng-href="/manage/category/{{category.id}}">{{category.name}}</a>
+            </strong> <br />
+
+            <small>
+                {{category.description}}
+            </small>
+        </li>
+    </ul>
+    
+    <p>
+        <a href=""></a>
+    </p>
+</div>
+
+<div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

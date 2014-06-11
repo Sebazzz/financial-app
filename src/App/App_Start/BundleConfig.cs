@@ -21,6 +21,7 @@
 
             bundles.Add(
                 new StyleBundle("~/bundles/style-lib")
+                    .Include("~/Content/animate.css")
                     .Include("~/Content/bootstrap.css")
                     .Include("~/Content/bootstrap-theme.css")
                     .Include("~/Content/angular-progress.css"));

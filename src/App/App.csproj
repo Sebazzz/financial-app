@@ -116,10 +116,15 @@
     <Content Include="Angular\Default.html" />
     <Content Include="Angular\Archive.html" />
     <Content Include="Angular\Sheet.html" />
+    <Content Include="Angular\Widgets\Loader.html" />
     <Content Include="Angular\Widgets\Menu.html" />
     <Content Include="Content\angular-progress.css" />
     <Content Include="Content\angular-progress.min.css">
       <DependentUpon>angular-progress.css</DependentUpon>
+    </Content>
+    <Content Include="Content\Animate.css" />
+    <Content Include="Content\Animate.min.css">
+      <DependentUpon>Animate.css</DependentUpon>
     </Content>
     <Content Include="Content\App\01Main.css" />
     <Content Include="Content\bootstrap.css" />
@@ -277,6 +282,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\SheetController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\MvcConfig.cs" />
@@ -285,6 +291,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\DTO\CategoryListing.cs" />
     <Compile Include="Models\DTO\SheetListing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

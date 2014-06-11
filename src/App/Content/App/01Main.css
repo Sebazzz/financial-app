@@ -5,3 +5,46 @@
 .ng-hide {
     /* Shut up intellisense / R# */
 }
+
+@keyframes rotate {
+  0% {
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+  }
+
+  50% {
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+}
+
+.rotate {
+    -webkit-animation-name: rotate;
+    -moz-animation-name: rotate;
+    -ms-animation-name: rotate;
+    -o-animation-name: rotate;
+    animation-name: rotate;
+
+    -webkit-animation-timing-function:linear; 
+    -moz-animation-timing-function:linear;
+    -ms-animation-timing-function:linear;
+    -o-animation-timing-function:linear;
+    animation-timing-function:linear;
+}
