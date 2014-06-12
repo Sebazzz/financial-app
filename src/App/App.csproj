@@ -202,17 +202,11 @@
     <Content Include="Scripts\App\Controllers\Sheet.js">
       <DependentUpon>Sheet.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\DTO.js">
-      <DependentUpon>DTO.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\App\Moment\MomentJs.js">
       <DependentUpon>MomentJs.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\Moment\MomentJs.js.map">
       <DependentUpon>MomentJs.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\DTO.js.map">
-      <DependentUpon>DTO.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\angular-progress.min.js.map">
       <DependentUpon>angular-progress.min.js</DependentUpon>
@@ -231,6 +225,11 @@
     </Content>
     <Content Include="Scripts\App\Controllers\Sheet.js.map">
       <DependentUpon>Sheet.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\DTO.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DTO.generated.ts</LastGenOutput>
+      <CustomToolNamespace>FinancialApp.DTO</CustomToolNamespace>
     </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
@@ -320,8 +319,12 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\ControllerInit.d.ts">
       <DependentUpon>ControllerInit.tt</DependentUpon>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="Scripts\App\DTO.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Menu.ts" />
+    <TypeScriptCompile Include="Scripts\App\DTO.generated.ts">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DTO.tt</DependentUpon>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\App\Moment\MomentJs.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Sheet.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Default.ts" />
