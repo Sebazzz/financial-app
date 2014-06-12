@@ -1,17 +1,17 @@
 ﻿<h1>Categorie {{ category.id > 0 ? 'bewerken' : 'aanmaken'}}</h1>
 
-<form novalidate name="form" role="form">
-    <div class="form-group" ng-class="{'has-error': form.category.name.$invalid && !form.category.name.$pristine}">
+<form novalidate name="cForm" role="form">
+    <div class="form-group" ng-class="{'has-error': cForm.name.$invalid && !cForm.name.$pristine}">
         <label for="name">Naam:</label>
-        <input id="name" type="text" class="form-control" ng-model="category.name" required />
-        
-        <span ng-show="form.category.name.$dirty && form.category.name.$error.required"
-              class="text-danger">Verplicht: voer een naam in voor de categorie.</span>
+        <input id="name" name="name" type="text" class="form-control" ng-model="category.name" required />
+
+        <span ng-show="cForm.name.$dirty && cForm.name.$error.required"
+              class="text-danger validation-block">Verplicht: voer een naam in voor de categorie.</span>
     </div>
 
     <div class="form-group">
         <label for="description">Beschrijving:</label>
-        <textarea id="description" class="form-control" rows="3" ng-model="category.description"></textarea>
+        <textarea id="description" name="description" class="form-control" rows="3" ng-model="category.description"></textarea>
 
         <p class="help-block">
             Korte beschrijving dat in het overzicht wordt getoond en als hulp bij het selecteren van een categorie.
@@ -19,8 +19,7 @@
     </div>
 
     <p class="clearfix">
-        <button class="btn btn-primary">Opslaan</button>
+        <button class="btn btn-primary" ng-disabled="cForm.$invalid">Opslaan</button>
         <a href="/manage/category" class="btn btn-link">Annuleren</a>
     </p>
 </form>
-

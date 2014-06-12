@@ -12,7 +12,7 @@ module FinancialApp {
         static $inject = ["$scope"];
 
         constructor($scope: ICategoryCreateScope) {
-            // TODO: init scope
+            
         }
     }
 

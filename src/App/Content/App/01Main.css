@@ -56,3 +56,9 @@
 .inline-block {
     display: inline-block !important;
 }
+
+.validation-block {
+    display: block;
+    text-align: right;
+    font-size: 9pt;
+}

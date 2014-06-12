@@ -5,7 +5,6 @@ var FinancialApp;
 (function (FinancialApp) {
     var CategoryCreateController = (function () {
         function CategoryCreateController($scope) {
-            // TODO: init scope
         }
         CategoryCreateController.$inject = ["$scope"];
         return CategoryCreateController;
