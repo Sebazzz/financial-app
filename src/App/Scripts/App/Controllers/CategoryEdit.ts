@@ -1,10 +1,11 @@
 ﻿/// <init-options route="/manage/category/edit/:id" />
 /// <reference path="../../typings/angularjs/angular.d.ts" /> 
+/// <reference path="../DTO.generated.ts" /> 
 
 module FinancialApp {
 
     export interface ICategoryEditScope extends ng.IScope {
-        // TODO: add items
+        category: DTO.ICategory;
     }
 
     export class CategoryEditController {

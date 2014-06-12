@@ -1,5 +1,6 @@
 ﻿/// <init-options route="/manage/category/edit/:id" />
 /// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.ts" />
 var FinancialApp;
 (function (FinancialApp) {
     var CategoryEditController = (function () {
