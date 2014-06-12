@@ -15,6 +15,8 @@ var FinancialApp;
 
         registerControllers: function($app) {
                     $app.controller('ArchiveController', FinancialApp.ArchiveController);
+                    $app.controller('CategoryCreateController', FinancialApp.CategoryCreateController);
+                    $app.controller('CategoryEditController', FinancialApp.CategoryEditController);
                     $app.controller('CategoryListController', FinancialApp.CategoryListController);
                     $app.controller('DefaultController', FinancialApp.DefaultController);
                     $app.controller('MenuController', FinancialApp.MenuController);
@@ -26,6 +28,16 @@ var FinancialApp;
                 {
                     controller: 'ArchiveController',
                     templateUrl: '/Angular/Archive.html'
+                });
+                $routeProvider.when('/manage/category/add', 
+                {
+                    controller: 'CategoryCreateController',
+                    templateUrl: '/Angular/CategoryEdit.html'
+                });
+                $routeProvider.when('/manage/category/edit/:id', 
+                {
+                    controller: 'CategoryEditController',
+                    templateUrl: '/Angular/CategoryEdit.html'
                 });
                 $routeProvider.when('/manage/category', 
                 {

@@ -112,6 +112,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Angular\CategoryEdit.html" />
     <Content Include="Angular\CategoryList.html" />
     <Content Include="Angular\Default.html" />
     <Content Include="Angular\Archive.html" />
@@ -181,6 +182,12 @@
     <Content Include="Scripts\App\Controllers\Archive.js">
       <DependentUpon>Archive.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\App\Controllers\CategoryCreate.js">
+      <DependentUpon>CategoryCreate.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\CategoryEdit.js">
+      <DependentUpon>CategoryEdit.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\App\Controllers\CategoryList.js">
       <DependentUpon>CategoryList.ts</DependentUpon>
     </Content>
@@ -230,6 +237,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DTO.generated.ts</LastGenOutput>
       <CustomToolNamespace>FinancialApp.DTO</CustomToolNamespace>
+    </Content>
+    <Content Include="Scripts\App\Controllers\CategoryEdit.js.map">
+      <DependentUpon>CategoryEdit.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\CategoryCreate.js.map">
+      <DependentUpon>CategoryCreate.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
@@ -315,6 +328,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\App\AppInit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Archive.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\CategoryCreate.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\CategoryEdit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryList.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\ControllerInit.d.ts">
       <DependentUpon>ControllerInit.tt</DependentUpon>
