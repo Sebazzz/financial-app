@@ -8,12 +8,16 @@
     <ul ng-repeat="category in categories" class="list-unstyled">
         <li>
             <div class="pull-right">
-                <p tooltip="{{category.canBeDeleted ? 'hh' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'}}">
+                <a class="btn btn-default btn-sm" ng-href="/manage/category/edit/{{category.id}}" tooltip="Bewerken">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+
+                <span class="inline-block" tooltip="{{category.canBeDeleted ? 'hh' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'}}">
                     <a class="btn btn-danger btn-sm"
                        ng-disabled="!category.canBeDeleted">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
-                </p>
+                </span>
             </div>
 
             <strong>
@@ -28,7 +32,7 @@
     </ul>
     
     <p>
-        <a href=""></a>
+        <a href="/manage/category/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Nieuwe categorie</a>
     </p>
 </div>
 

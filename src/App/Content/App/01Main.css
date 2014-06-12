@@ -52,3 +52,7 @@
 
 /*** Required for AngularJS Bootstrap UI */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.inline-block {
+    display: inline-block !important;
+}
