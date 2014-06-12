@@ -29,7 +29,8 @@ module FinancialApp {
                 // generated routes
                 FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
 
-                // special 'now' route
+                // custom routes
+                // ... special 'now' route
                 $routeProvider.when("/now", {
                     redirectTo: Program.createNowRoute()
                 });

@@ -1,4 +1,4 @@
-/// <reference path="../typings/angularjs/angular.d.ts" />
+﻿/// <reference path="../typings/angularjs/angular.d.ts" />
 /// <reference path="../typings/angularjs/angular-route.d.ts" />
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/moment/moment.d.ts" />
@@ -28,7 +28,8 @@ var FinancialApp;
                 // generated routes
                 FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
 
-                // special 'now' route
+                // custom routes
+                // ... special 'now' route
                 $routeProvider.when("/now", {
                     redirectTo: Program.createNowRoute()
                 });
