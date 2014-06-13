@@ -3,6 +3,8 @@
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/moment/moment.d.ts" />
 /// <reference path="Controllers/ControllerInit.d.ts" />
+/// <reference path="Factory/ResourceFactory.ts" />
+/// <reference path="DTO.generated.ts" />
 var FinancialApp;
 (function (FinancialApp) {
     'use strict';
@@ -42,6 +44,9 @@ var FinancialApp;
                 // use the HTML5 History API (with automatic fallback)
                 $locationProvider.html5Mode(true);
             });
+
+            // factories
+            app.factory("categoryResource", FinancialApp.Factories.ResourceFactory("/api/category/:id"));
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
