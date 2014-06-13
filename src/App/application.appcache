@@ -2,10 +2,11 @@
 # Version 1.0.0.0 - 2014 
 CACHE:
 /
-/Angular/Widgets/Menu.html
-/Angular/Widgets/Loader.html
-/Angular/Default.html
 /bundles/style-app
 /bundles/style-lib
 /bundles/script-lib
 /bundles/script-app
+
+NETWORK:
+/api
+*

@@ -1,4 +1,4 @@
-/// <reference path="../typings/angularjs/angular.d.ts" />
+﻿/// <reference path="../typings/angularjs/angular.d.ts" />
 /// <reference path="../typings/angularjs/angular-route.d.ts" />
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/moment/moment.d.ts" />
@@ -55,6 +55,28 @@ var FinancialApp;
             app.run(function ($templateCache, $http) {
                 $http.get('/Angular/Widgets/Loader.html', { cache: $templateCache });
             });
+
+            Program.initAppCache();
+        };
+
+        Program.initAppCache = function () {
+            // Check if a new cache is available on page load.
+            window.addEventListener('load', function (e) {
+                if (!window.applicationCache) {
+                    return;
+                }
+
+                window.applicationCache.addEventListener('updateready', function (e) {
+                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                        // Browser downloaded a new app cache.
+                        if (confirm('Een nieuwe versie is beschikbaar. Wens je te herladen?')) {
+                            window.location.reload();
+                        }
+                    } else {
+                        // Manifest didn't changed. Nothing new to server.
+                    }
+                }, false);
+            }, false);
         };
 
         Program.createNowRoute = function () {

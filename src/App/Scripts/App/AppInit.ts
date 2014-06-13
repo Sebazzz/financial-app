@@ -55,9 +55,31 @@ module FinancialApp {
             // run
             app.run(($templateCache: ng.ITemplateCacheService, $http: ng.IHttpService) => {
                 $http.get('/Angular/Widgets/Loader.html', { cache: $templateCache });
-            });
+            }); 
+
+            Program.initAppCache();
         }
 
+        private static initAppCache() {
+            // Check if a new cache is available on page load.
+            window.addEventListener('load', e => {
+                if (!window.applicationCache) {
+                    return;
+                }
+
+                window.applicationCache.addEventListener('updateready', function (e) {
+                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                        // Browser downloaded a new app cache.
+                        if (confirm('Een nieuwe versie is beschikbaar. Wens je te herladen?')) {
+                            window.location.reload();
+                        }
+                    } else {
+                        // Manifest didn't changed. Nothing new to server.
+                    }
+                }, false);
+
+            }, false);
+        }
 
         static createNowRoute(): string {
             var now: Date = new Date();
