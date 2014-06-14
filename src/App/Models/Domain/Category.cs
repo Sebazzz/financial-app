@@ -1,4 +1,5 @@
 ﻿namespace App.Models.Domain {
+    using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
     using Identity;
 
@@ -11,6 +12,7 @@
         public string Name { get; set; }
 
         [IgnoreDataMember]
+        [Required]
         public virtual AppOwner Owner { get; set; }
 
         [DataMember(Name = "description")]

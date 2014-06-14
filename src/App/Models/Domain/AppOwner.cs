@@ -19,5 +19,17 @@
 
         [Required]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Object"/> class.
+        /// </summary>
+        public AppOwner() {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Object"/> class.
+        /// </summary>
+        public AppOwner(string name) {
+            this.Name = name;
+        }
     }
 }
