@@ -17,7 +17,7 @@
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return null;
+            return input;
         }
     }
 }

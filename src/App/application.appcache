@@ -6,6 +6,8 @@ CACHE:
 /bundles/style-lib
 /bundles/script-lib
 /bundles/script-app
+/Angular/Widgets/Menu.html
+/Angular/Widgets/Loader.html
 
 NETWORK:
 /api

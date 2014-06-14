@@ -308,6 +308,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\CategoryController.cs" />
+    <Compile Include="Api\Extensions\Annotations.cs" />
     <Compile Include="Api\Extensions\ApiExtensions.cs" />
     <Compile Include="Api\SheetController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
