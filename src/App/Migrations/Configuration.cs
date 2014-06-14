@@ -1,34 +1,48 @@
-namespace App.Migrations
-{
-    using System;
+namespace App.Migrations {
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using Microsoft.AspNet.Identity;
     using Models.Domain;
     using Models.Domain.Identity;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<App.Models.Domain.AppDbContext>
-    {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = false;
+    internal sealed class Configuration : DbMigrationsConfiguration<AppDbContext> {
+        public Configuration() {
+            this.AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(App.Models.Domain.AppDbContext context)
-        {
+        protected override void Seed(AppDbContext context) {
             if (!context.Set<AppOwner>().Any()) {
-                this.SeedAccounts(context);
+                SeedAccounts(context);
+            }
+
+            if (!context.Set<Category>().Any()) {
+                SeedCategories(context);
             }
         }
 
-        private void SeedAccounts(AppDbContext context) {
-            var appOwners = context.Set<AppOwner>();
+        private static void SeedCategories(AppDbContext context) {
+            context.Set<Category>()
+                .Add(new Category {
+                                      Name = "Category #1",
+                                      Description = "Initial Category. Remove this.",
+                                      Owner = context.Set<AppOwner>().First()
+                                  });
+            context.SaveChanges();
+        }
 
-            AppOwner owner = new AppOwner("Initial");
+        private static void SeedAccounts(AppDbContext context) {
+            DbSet<AppOwner> appOwners = context.Set<AppOwner>();
+
+            // add initial user
+            var owner = new AppOwner("Initial");
+            appOwners.Add(owner);
 
             AppUser user = AppUser.Create("User", "user@example.com", owner);
-            appOwners.Add(owner);
-            context.Users.Add(user);
+            var svc = new AppUserManager(new AppUserStore(context));
+            svc.Create(user, "welcome01");
+
+            context.SaveChanges();
         }
     }
 }

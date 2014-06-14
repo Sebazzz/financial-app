@@ -1,7 +1,6 @@
 ﻿namespace App.Models.Domain {
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
-    using Identity;
 
     [DataContract]
     public class Category {

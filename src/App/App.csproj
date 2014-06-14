@@ -353,6 +353,8 @@
     <Compile Include="Models\Domain\AppOwner.cs" />
     <Compile Include="Models\Domain\Category.cs" />
     <Compile Include="Models\Domain\Identity\AppUser.cs" />
+    <Compile Include="Models\Domain\Identity\AppUserManager.cs" />
+    <Compile Include="Models\Domain\Identity\AppUserStore.cs" />
     <Compile Include="Models\DTO\CategoryListing.cs" />
     <Compile Include="Models\DTO\SheetListing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
