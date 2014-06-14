@@ -3,7 +3,7 @@
  /// <reference path="../typings/angularjs/angular-resource.d.ts" /> 
  /// <reference path="../typings/moment/moment.d.ts" /> 
  /// <reference path="Controllers/ControllerInit.d.ts" /> 
- /// <reference path="Factory/ResourceFactory.ts" /> 
+ /// <reference path="Factories/ResourceFactory.ts" /> 
  /// <reference path="DTO.generated.ts" /> 
 
 module FinancialApp {

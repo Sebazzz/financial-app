@@ -242,7 +242,7 @@
     <Content Include="Scripts\App\Controllers\Sheet.js">
       <DependentUpon>Sheet.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\Factory\ResourceFactory.js">
+    <Content Include="Scripts\App\Factories\ResourceFactory.js">
       <DependentUpon>ResourceFactory.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\Moment\MomentJs.js">
@@ -281,7 +281,7 @@
       <DependentUpon>CategoryCreate.ts</DependentUpon>
     </Content>
     <Content Include="application.appcache" />
-    <Content Include="Scripts\App\Factory\ResourceFactory.js.map">
+    <Content Include="Scripts\App\Factories\ResourceFactory.js.map">
       <DependentUpon>ResourceFactory.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\Common.js.map">
@@ -396,7 +396,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DTO.tt</DependentUpon>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="Scripts\App\Factory\ResourceFactory.ts" />
+    <TypeScriptCompile Include="Scripts\App\Factories\ResourceFactory.ts" />
     <TypeScriptCompile Include="Scripts\App\Moment\MomentJs.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Sheet.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Default.ts" />
