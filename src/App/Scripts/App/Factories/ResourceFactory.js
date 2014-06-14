@@ -1,4 +1,4 @@
-/// <reference path="../../typings/angularjs/angular.d.ts" />
+﻿/// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../Common.ts"/>
 var FinancialApp;
 (function (FinancialApp) {

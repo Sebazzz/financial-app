@@ -4,14 +4,20 @@
 module FinancialApp.Services {
     
     export class AuthenticationService {
-        static $inject = ["$document"];
+        static $inject = ["$document", "$rootScope"];
 
         private isAuthenticatedBit: boolean;
         private authenticationChangedEvent: Delegate<IAction>;
 
-        constructor($document : ng.IDocumentService) {
+        constructor($document: ng.IDocumentService, $rootScope : ng.IRootScopeService) {
             this.authenticationChangedEvent = new Delegate<IAction>();
             this.isAuthenticatedBit = AuthenticationService.checkDomAuthentication($document);
+
+            $rootScope.$on("$locationChangeStart", (ev, newLocation : string) => {
+                if (!this.isAuthenticatedBit && newLocation.indexOf('/auth/login') !== -1) {
+                    ev.preventDefault();
+                }
+            });
         }
 
         public addAuthenticationChange(invokable: IAction) {
