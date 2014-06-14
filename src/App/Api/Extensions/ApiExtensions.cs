@@ -12,7 +12,8 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static T EnsureNotNull<T>(this T input) where T : class {
+        [NotNull]
+        public static T EnsureNotNull<T>([CanBeNull]this T input) where T : class {
             if (input == null) {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
