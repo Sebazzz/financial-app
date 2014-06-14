@@ -1,5 +1,6 @@
 ﻿namespace App.Models.Domain {
     using System.Runtime.Serialization;
+    using Identity;
 
     [DataContract]
     public class Category {
@@ -8,6 +9,9 @@
 
         [DataMember(Name = "name")]
         public string Name { get; set; }
+
+        [IgnoreDataMember]
+        public virtual AppOwner Owner { get; set; }
 
         [DataMember(Name = "description")]
         public string Description { get; set; }

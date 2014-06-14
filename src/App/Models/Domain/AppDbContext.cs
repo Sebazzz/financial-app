@@ -52,6 +52,9 @@
 
             // categories
             modelBuilder.Entity<Category>();
+
+            // owner groups
+            modelBuilder.Entity<AppOwner>();
         }
     }
 }

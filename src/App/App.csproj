@@ -350,6 +350,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain\AppDbContext.cs" />
+    <Compile Include="Models\Domain\AppOwner.cs" />
     <Compile Include="Models\Domain\Category.cs" />
     <Compile Include="Models\Domain\Identity\AppUser.cs" />
     <Compile Include="Models\DTO\CategoryListing.cs" />
