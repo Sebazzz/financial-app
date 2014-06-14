@@ -287,6 +287,9 @@
     <Content Include="Scripts\App\Common.js.map">
       <DependentUpon>Common.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\App\Services\AuthenticationService.js.map">
+      <DependentUpon>AuthenticationService.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
@@ -297,6 +300,9 @@
     <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\App\AppInit.js">
       <DependentUpon>AppInit.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Services\AuthenticationService.js">
+      <DependentUpon>AuthenticationService.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js">
