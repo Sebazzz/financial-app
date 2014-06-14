@@ -9,6 +9,18 @@ var FinancialApp;
 
         return this;
     };
+
+    Array.prototype.remove = function (object) {
+        var cnt = this.length;
+        for (var i = 0; i < cnt; i++) {
+            if (object === this[i]) {
+                this.splice(i, 1);
+                return true;
+            }
+        }
+
+        return false;
+    };
 })(FinancialApp || (FinancialApp = {}));
 
 ;
