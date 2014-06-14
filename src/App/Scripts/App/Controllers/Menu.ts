@@ -7,7 +7,10 @@ module FinancialApp {
         currentPath : string;
         nowPath: string;
 
-        hasPath(str:string) : boolean;
+        hasPath(str: string): boolean;
+
+        extendMenuVisible: boolean;
+        toggleNavBar: IAction;
     }
 
     export class MenuController {
@@ -16,6 +19,7 @@ module FinancialApp {
         constructor($scope: IMenuControllerScope, $location: ng.ILocationService) {
             $scope.currentPath = $location.path();
             $scope.nowPath = Program.createNowRoute();
+            $scope.extendMenuVisible = false;
 
             $scope.hasPath = function(str: string): boolean {
                 return str == this.currentPath;
@@ -24,6 +28,8 @@ module FinancialApp {
             $scope.$on("$locationChangeSuccess", () => {
                 $scope.currentPath = $location.path();
             });
+
+            $scope.toggleNavBar = () => $scope.extendMenuVisible = !$scope.extendMenuVisible;
         }
     }
 

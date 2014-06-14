@@ -1,4 +1,4 @@
-/// <init-options exclude="route"/>
+﻿/// <init-options exclude="route"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
@@ -6,6 +6,7 @@ var FinancialApp;
         function MenuController($scope, $location) {
             $scope.currentPath = $location.path();
             $scope.nowPath = FinancialApp.Program.createNowRoute();
+            $scope.extendMenuVisible = false;
 
             $scope.hasPath = function (str) {
                 return str == this.currentPath;
@@ -14,6 +15,10 @@ var FinancialApp;
             $scope.$on("$locationChangeSuccess", function () {
                 $scope.currentPath = $location.path();
             });
+
+            $scope.toggleNavBar = function () {
+                return $scope.extendMenuVisible = !$scope.extendMenuVisible;
+            };
         }
         MenuController.$inject = ["$scope", "$location"];
         return MenuController;

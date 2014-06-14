@@ -1,7 +1,7 @@
 ﻿<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="MenuController">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" class="navbar-toggle" ng-click="toggleNavBar()">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -9,7 +9,7 @@
             </button>
             <a class="navbar-brand" href="#">Financial App</a>
         </div>
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" ng-class="{'collapse':extendMenuVisible}">
             <ul class="nav navbar-nav">
                 <li ng-class="{ 'active': hasPath('/') }"><a href="#">Dashboard</a></li>
                 <li ng-class="{ 'active': hasPath(nowPath) }"><a href="/now">Huidige maand</a></li>

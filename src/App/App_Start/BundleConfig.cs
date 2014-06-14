@@ -11,9 +11,7 @@
             // libraries
             bundles.Add(
                 new ScriptBundle("~/bundles/script-lib")
-                    .Include("~/Scripts/jquery-{version}.js",
-                             "~/Scripts/bootstrap.js",
-                             "~/Scripts/moment-with-langs.js",
+                    .Include("~/Scripts/moment-with-langs.js",
                              "~/Scripts/angular.js",
                              "~/Scripts/angular-resource.js",
                              "~/Scripts/angular-route.js",
