@@ -348,6 +348,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain\AppDbContext.cs" />
     <Compile Include="Models\Domain\Category.cs" />
     <Compile Include="Models\Domain\Identity\AppUser.cs" />

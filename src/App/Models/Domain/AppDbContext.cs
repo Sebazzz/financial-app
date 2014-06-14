@@ -13,7 +13,7 @@
         ///             of the derived context class.
         ///             See the class remarks for how this is used to create a connection.
         /// </summary>
-        public AppDbContext() {}
+        public AppDbContext() : base("AppConnection") {}
 
         /// <summary>
         /// Constructs a new context instance using the given string as the name or connection string for the
@@ -21,7 +21,7 @@
         ///             See the class remarks for how this is used to create a connection.
         /// </summary>
         /// <param name="nameOrConnectionString">Either the database name or a connection string. </param>
-        private AppDbContext(string nameOrConnectionString) : base(nameOrConnectionString) {}
+        public AppDbContext(string nameOrConnectionString) : base(nameOrConnectionString) {}
 
         /// <summary>
         /// Creates a new instance of <see cref="AppDbContext"/>
