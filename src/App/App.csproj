@@ -400,6 +400,7 @@
     <TypeScriptCompile Include="Scripts\App\Moment\MomentJs.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Sheet.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Default.ts" />
+    <TypeScriptCompile Include="Scripts\App\Services\AuthenticationService.ts" />
     <TypeScriptCompile Include="Scripts\typings\angular-ui-bootstrap\angular-ui-bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
