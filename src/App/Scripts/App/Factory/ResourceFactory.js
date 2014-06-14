@@ -1,4 +1,5 @@
 /// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../Common.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     (function (Factories) {
@@ -9,8 +10,7 @@ var FinancialApp;
             var fact = function ($resource) {
                 return $resource(spec);
             };
-            fact.$inject = ["$resource"];
-            return fact;
+            return fact.withInject("$resource");
         }
         Factories.ResourceFactory = ResourceFactory;
     })(FinancialApp.Factories || (FinancialApp.Factories = {}));

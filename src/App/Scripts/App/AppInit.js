@@ -1,4 +1,4 @@
-﻿/// <reference path="../typings/angularjs/angular.d.ts" />
+/// <reference path="../typings/angularjs/angular.d.ts" />
 /// <reference path="../typings/angularjs/angular-route.d.ts" />
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/moment/moment.d.ts" />
@@ -26,7 +26,7 @@ var FinancialApp;
             // define module
             var app = angular.module('main', ['ngRoute', 'ngMoment', 'ngResource', 'angular-loading-bar', 'ui.bootstrap']);
 
-            app.config(function ($routeProvider, $locationProvider) {
+            app.config((function ($routeProvider, $locationProvider) {
                 // generated routes
                 FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
 
@@ -43,7 +43,7 @@ var FinancialApp;
 
                 // use the HTML5 History API (with automatic fallback)
                 $locationProvider.html5Mode(true);
-            });
+            }).withInject("$routeProvider", "$locationProvider"));
 
             // factories
             app.factory("categoryResource", FinancialApp.Factories.ResourceFactory("/api/category/:id"));
@@ -52,10 +52,11 @@ var FinancialApp;
             FinancialApp.ControllerInitializer.registerControllers(app);
 
             // run
-            app.run(function ($templateCache, $http) {
+            app.run((function ($templateCache, $http) {
                 $http.get('/Angular/Widgets/Loader.html', { cache: $templateCache });
-            });
+            }).withInject("$templateCache", "$http"));
 
+            // application cache (HTML5)
             Program.initAppCache();
         };
 
@@ -66,7 +67,7 @@ var FinancialApp;
                     return;
                 }
 
-                window.applicationCache.addEventListener('updateready', function (e) {
+                window.applicationCache.addEventListener('updateready', function () {
                     if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
                         // Browser downloaded a new app cache.
                         if (confirm('Een nieuwe versie is beschikbaar. Wens je te herladen?')) {

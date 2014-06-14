@@ -27,7 +27,7 @@ module FinancialApp {
             // define module
             var app: ng.IModule = angular.module('main', ['ngRoute', 'ngMoment', 'ngResource', 'angular-loading-bar', 'ui.bootstrap']);
 
-            app.config(($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider) => {
+            app.config((($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider) => {
                 // generated routes
                 FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
 
@@ -44,7 +44,7 @@ module FinancialApp {
 
                 // use the HTML5 History API (with automatic fallback)
                 $locationProvider.html5Mode(true);
-            });
+            }).withInject("$routeProvider", "$locationProvider"));
 
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
@@ -53,10 +53,11 @@ module FinancialApp {
             FinancialApp.ControllerInitializer.registerControllers(app);
 
             // run
-            app.run(($templateCache: ng.ITemplateCacheService, $http: ng.IHttpService) => {
+            app.run((($templateCache: ng.ITemplateCacheService, $http: ng.IHttpService) => {
                 $http.get('/Angular/Widgets/Loader.html', { cache: $templateCache });
-            }); 
+            }).withInject("$templateCache", "$http")); 
 
+            // application cache (HTML5)
             Program.initAppCache();
         }
 
@@ -67,7 +68,7 @@ module FinancialApp {
                     return;
                 }
 
-                window.applicationCache.addEventListener('updateready', function (e) {
+                window.applicationCache.addEventListener('updateready', () => {
                     if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
                         // Browser downloaded a new app cache.
                         if (confirm('Een nieuwe versie is beschikbaar. Wens je te herladen?')) {

@@ -4,14 +4,14 @@
 var FinancialApp;
 (function (FinancialApp) {
     var CategoryListController = (function () {
-        function CategoryListController($scope, $resource) {
-            this.api = $resource("/api/category/:id");
+        function CategoryListController($scope, categoryResource) {
+            this.api = categoryResource;
 
             $scope.categories = this.api.query(function () {
                 $scope.isLoaded = true;
             });
         }
-        CategoryListController.$inject = ["$scope", "$resource"];
+        CategoryListController.$inject = ["$scope", "categoryResource"];
         return CategoryListController;
     })();
     FinancialApp.CategoryListController = CategoryListController;

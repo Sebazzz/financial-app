@@ -179,6 +179,9 @@
     <Content Include="Scripts\App\AppInit.js.map">
       <DependentUpon>AppInit.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\App\Common.js">
+      <DependentUpon>Common.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\App\Controllers\Archive.js">
       <DependentUpon>Archive.ts</DependentUpon>
     </Content>
@@ -251,6 +254,9 @@
     <Content Include="Scripts\App\Factory\ResourceFactory.js.map">
       <DependentUpon>ResourceFactory.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\App\Common.js.map">
+      <DependentUpon>Common.ts</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
@@ -302,6 +308,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\CategoryController.cs" />
+    <Compile Include="Api\Extensions\ApiExtensions.cs" />
     <Compile Include="Api\SheetController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\MvcConfig.cs" />
@@ -334,6 +341,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\App\AppInit.ts" />
+    <TypeScriptCompile Include="Scripts\App\Common.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Archive.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryEdit.ts" />

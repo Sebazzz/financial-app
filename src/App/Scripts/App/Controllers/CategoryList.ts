@@ -10,12 +10,12 @@ module FinancialApp {
     }
 
     export class CategoryListController {
-        static $inject = ["$scope", "$resource"];
+        static $inject = ["$scope", "categoryResource"];
 
         private api: ng.resource.IResourceClass<DTO.ICategoryListing>;
 
-        constructor($scope: ICategoryListControllerScope, $resource : ng.resource.IResourceService) {
-            this.api = $resource<DTO.ICategoryListing>("/api/category/:id");
+        constructor($scope: ICategoryListControllerScope, categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>) {
+            this.api = categoryResource;
 
             $scope.categories = this.api.query(() => {
                 $scope.isLoaded = true;
