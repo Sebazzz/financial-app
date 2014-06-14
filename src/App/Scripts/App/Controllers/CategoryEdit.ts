@@ -1,6 +1,6 @@
 ﻿/// <init-options route="/manage/category/edit/:id" />
 /// <reference path="../../typings/angularjs/angular.d.ts" /> 
-/// <reference path="../DTO.generated.ts" /> 
+/// <reference path="../DTO.generated.d.ts" /> 
 /// <reference path="../Common.ts"/>
 
 module FinancialApp {

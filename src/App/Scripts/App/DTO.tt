@@ -9,7 +9,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ output extension=".generated.ts" #>
+<#@ output extension=".generated.d.ts" #>
 
 <#@ import namespace="Microsoft.VisualStudio.Shell.Interop" #>
 <#@ import namespace="EnvDTE" #>
@@ -36,7 +36,7 @@
 ProcessRecursive(currentProject.CodeModel);
 #>
 
-module <#= GetSuggestedNamespace(templateProjectItem) #> {
+declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
 
     <#foreach (CodeClass cls in this._dataTypeObjects){#>
     

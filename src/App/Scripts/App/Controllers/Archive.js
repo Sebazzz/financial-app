@@ -1,5 +1,5 @@
 ﻿/// <reference path="../../typings/angularjs/angular.d.ts"/>
-/// <reference path="../DTO.generated.ts"/>
+/// <reference path="../DTO.generated.d.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     var ArchiveController = (function () {

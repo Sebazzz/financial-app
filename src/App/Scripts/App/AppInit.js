@@ -4,7 +4,7 @@
 /// <reference path="../typings/moment/moment.d.ts" />
 /// <reference path="Controllers/ControllerInit.d.ts" />
 /// <reference path="Factories/ResourceFactory.ts" />
-/// <reference path="DTO.generated.ts" />
+/// <reference path="DTO.generated.d.ts" />
 var FinancialApp;
 (function (FinancialApp) {
     'use strict';

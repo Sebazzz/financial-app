@@ -271,8 +271,8 @@
     </Content>
     <Content Include="Scripts\App\DTO.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DTO.generated.ts</LastGenOutput>
       <CustomToolNamespace>FinancialApp.DTO</CustomToolNamespace>
+      <LastGenOutput>DTO.generated.d.ts</LastGenOutput>
     </Content>
     <Content Include="Scripts\App\Controllers\CategoryEdit.js.map">
       <DependentUpon>CategoryEdit.ts</DependentUpon>
@@ -391,7 +391,7 @@
       <DependentUpon>ControllerInit.tt</DependentUpon>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\App\Controllers\Menu.ts" />
-    <TypeScriptCompile Include="Scripts\App\DTO.generated.ts">
+    <TypeScriptCompile Include="Scripts\App\DTO.generated.d.ts">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DTO.tt</DependentUpon>
