@@ -1,4 +1,4 @@
-﻿var FinancialApp;
+var FinancialApp;
 (function (FinancialApp) {
     Function.prototype.withInject = function () {
         var $inject = [];
