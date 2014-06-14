@@ -11,11 +11,12 @@
         /// </remarks>
         /// <typeparam name="T"></typeparam>
         /// <param name="input"></param>
+        /// <param name="throwCode"></param>
         /// <returns></returns>
         [NotNull]
-        public static T EnsureNotNull<T>([CanBeNull]this T input) where T : class {
+        public static T EnsureNotNull<T>([CanBeNull]this T input, HttpStatusCode throwCode = HttpStatusCode.NotFound) where T : class {
             if (input == null) {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(throwCode);
             }
 
             return input;

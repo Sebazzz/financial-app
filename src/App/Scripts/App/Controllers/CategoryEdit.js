@@ -14,7 +14,7 @@ var FinancialApp;
                 return $location.path("/manage/category");
             });
             $scope.save = function () {
-                return _this.api.save($scope.category, function () {
+                return _this.api.update({ id: $routeParams.id }, $scope.category, function () {
                     return $location.path("/manage/category");
                 });
             };

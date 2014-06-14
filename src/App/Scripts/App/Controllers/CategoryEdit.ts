@@ -13,13 +13,13 @@ module FinancialApp {
     export class CategoryEditController {
         static $inject = ["$scope", "$routeParams", "$location", "categoryResource"];
 
-        private api: ng.resource.IResourceClass<DTO.ICategory>;
+        private api: Factories.IWebResourceClass<DTO.ICategory>;
 
-        constructor($scope: ICategoryEditScope, $routeParams: IIdRouteParams, $location : ng.ILocationService, categoryResource: ng.resource.IResourceClass<DTO.ICategory>) {
+        constructor($scope: ICategoryEditScope, $routeParams: IIdRouteParams, $location : ng.ILocationService, categoryResource: Factories.IWebResourceClass<DTO.ICategory>) {
             this.api = categoryResource;
 
             $scope.category = this.api.get({ id: $routeParams.id }, () => { }, () => $location.path("/manage/category"));
-            $scope.save = () => this.api.save($scope.category, () => $location.path("/manage/category"));
+            $scope.save = () => this.api.update({ id: $routeParams.id }, $scope.category, () => $location.path("/manage/category"));
         }
     }
 

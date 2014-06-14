@@ -26,11 +26,15 @@
 
         // POST: api/Category
         public void Post([FromBody] Category value) {
+            value.EnsureNotNull(HttpStatusCode.BadRequest);
+
             Categories.Add(value);
         }
 
         // PUT: api/Category/5
         public void Put(int id, [FromBody] Category value) {
+            value.EnsureNotNull(HttpStatusCode.BadRequest);
+
             Category c = this.Get(id);
             Categories[Categories.IndexOf(c)] = value;
         }

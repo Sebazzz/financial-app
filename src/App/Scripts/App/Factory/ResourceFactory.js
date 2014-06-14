@@ -8,8 +8,11 @@ var FinancialApp;
         // ReSharper disable once InconsistentNaming
         function ResourceFactory(spec) {
             var fact = function ($resource) {
-                return $resource(spec);
+                return $resource(spec, undefined, {
+                    'update': { method: 'PUT' }
+                });
             };
+
             return fact.withInject("$resource");
         }
         Factories.ResourceFactory = ResourceFactory;
