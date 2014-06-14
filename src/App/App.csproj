@@ -324,6 +324,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Domain\AppDbContext.cs" />
     <Compile Include="Models\Domain\Category.cs" />
     <Compile Include="Models\DTO\CategoryListing.cs" />
     <Compile Include="Models\DTO\SheetListing.cs" />
