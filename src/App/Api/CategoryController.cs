@@ -16,7 +16,8 @@
             return Categories.Select(x => new CategoryListing() {
                                                                     Description = x.Description,
                                                                     Name = x.Name,
-                                                                    Id = x.Id
+                                                                    Id = x.Id,
+                                                                    CanBeDeleted = true
                                                                 });
         }
 
