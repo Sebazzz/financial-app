@@ -1,10 +1,12 @@
 ﻿namespace App.Models.Domain {
     using System.Data.Entity;
+    using Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     /// <summary>
     /// Represents the database context for the application
     /// </summary>
-    public sealed class AppDbContext : DbContext {
+    public sealed class AppDbContext : IdentityDbContext<AppUser, AppRole, int, AppUserLogin, AppUserRole, AppUserClaim> {
         /// <summary>
         /// Constructs a new context instance using conventions to create the name of the database to
         ///             which a connection will be made.  The by-convention name is the full name (namespace + class name)
@@ -48,6 +50,8 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
+            // categories
+            modelBuilder.Entity<Category>();
         }
     }
 }
