@@ -10,6 +10,19 @@
 module FinancialApp.DTO {
 
         
+    export interface ICategory {
+        
+            id : number;
+
+        
+            name : string;
+
+        
+            description : string;
+
+            }
+
+        
     export interface ISheetListing {
         
             month : number;
@@ -35,19 +48,6 @@ module FinancialApp.DTO {
 
         
             canBeDeleted : boolean;
-
-            }
-
-        
-    export interface ICategory {
-        
-            id : number;
-
-        
-            name : string;
-
-        
-            description : string;
 
             }
 

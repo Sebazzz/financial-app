@@ -1,4 +1,4 @@
-﻿namespace App.Models {
+﻿namespace App.Models.Domain {
     using System.Runtime.Serialization;
 
     [DataContract]

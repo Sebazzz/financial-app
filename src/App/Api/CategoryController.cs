@@ -5,6 +5,7 @@
     using System.Web.Http;
     using Extensions;
     using Models;
+    using Models.Domain;
     using Models.DTO;
 
     public class CategoryController : ApiController {
