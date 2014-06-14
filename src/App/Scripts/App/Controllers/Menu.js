@@ -1,9 +1,10 @@
-﻿/// <init-options exclude="route"/>
+/// <init-options exclude="route"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
+/// <reference path="../Services/AuthenticationService.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     var MenuController = (function () {
-        function MenuController($scope, $location) {
+        function MenuController($scope, $location, authentication) {
             $scope.currentPath = $location.path();
             $scope.nowPath = FinancialApp.Program.createNowRoute();
             $scope.extendMenuVisible = false;
@@ -19,8 +20,13 @@ var FinancialApp;
             $scope.toggleNavBar = function () {
                 return $scope.extendMenuVisible = !$scope.extendMenuVisible;
             };
+            $scope.showUserControls = authentication.isAuthenticated();
+
+            authentication.addAuthenticationChange(function () {
+                return $scope.showUserControls = authentication.isAuthenticated();
+            });
         }
-        MenuController.$inject = ["$scope", "$location"];
+        MenuController.$inject = ["$scope", "$location", "authentication"];
         return MenuController;
     })();
     FinancialApp.MenuController = MenuController;

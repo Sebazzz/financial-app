@@ -6,11 +6,12 @@ module FinancialApp.Services {
     export class AuthenticationService {
         static $inject = ["$document"];
 
-        private isAuthenticated: boolean;
+        private isAuthenticatedBit: boolean;
         private authenticationChangedEvent: Delegate<IAction>;
 
         constructor($document : ng.IDocumentService) {
             this.authenticationChangedEvent = new Delegate<IAction>();
+            this.isAuthenticatedBit = AuthenticationService.checkDomAuthentication($document);
         }
 
         public addAuthenticationChange(invokable: IAction) {
@@ -19,6 +20,14 @@ module FinancialApp.Services {
 
         public removeAuthenticationChange(invokable: IAction) {
             this.authenticationChangedEvent.removeListener(invokable);
+        }
+
+        public isAuthenticated() : boolean {
+            return this.isAuthenticatedBit;
+        }
+
+        private static checkDomAuthentication($document: ng.IDocumentService): boolean {
+            return true; // TODO/STUB
         }
     }
 

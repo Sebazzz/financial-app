@@ -48,6 +48,9 @@ var FinancialApp;
             // factories
             app.factory("categoryResource", FinancialApp.Factories.ResourceFactory("/api/category/:id"));
 
+            // services
+            app.service("authentication", FinancialApp.Services.AuthenticationService);
+
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
 

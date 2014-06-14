@@ -49,6 +49,9 @@ module FinancialApp {
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
 
+            // services
+            app.service("authentication", Services.AuthenticationService);
+
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
 

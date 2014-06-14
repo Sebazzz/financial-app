@@ -11,13 +11,13 @@
         </div>
         <div class="collapse navbar-collapse" collapse="extendMenuVisible">
             <ul class="nav navbar-nav">
-                <li ng-class="{ 'active': hasPath('/') }"><a href="#">Dashboard</a></li>
-                <li ng-class="{ 'active': hasPath(nowPath) }"><a href="/now">Huidige maand</a></li>
-                <li ng-class="{ 'active': hasPath('/archive') }"><a href="/archive">Archief</a></li>
+                <li ng-class="{ 'active': hasPath('/') }" ng-show="showUserControls"><a href="#">Dashboard</a></li>
+                <li ng-class="{ 'active': hasPath(nowPath) }" ng-show="showUserControls"><a href="/now">Huidige maand</a></li>
+                <li ng-class="{ 'active': hasPath('/archive') }" ng-show="showUserControls"><a href="/archive">Archief</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
+                <li class="dropdown" ng-show="showUserControls">
                     <a href="javascript:void(0)"
                        ng-class="{ 'active': hasPath('/manage') }"
                        class="dropdown-toggle"
@@ -25,6 +25,9 @@
                     <ul class="dropdown-menu">
                         <li ng-class="{ 'active': hasPath('/manage/category') }"><a href="/manage/category">Categorieëen</a></li>
                     </ul>
+                </li>
+                <li>
+                    <a href="/auth/logoff" ng-show="showUserControls">Uitloggen</a>
                 </li>
             </ul>
         </div>
