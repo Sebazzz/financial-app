@@ -11,6 +11,10 @@ var FinancialApp;
             this.$scope = $scope;
             this.$location = $location;
             this.authentication = authentication;
+            if (authentication.isAuthenticated()) {
+                this.$location.path("/");
+            }
+
             $scope.login = function () {
                 return _this.onLogin();
             };

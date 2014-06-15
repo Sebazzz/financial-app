@@ -22,6 +22,10 @@ module FinancialApp {
         constructor(private $scope: IAuthLoginScope,
                     private $location: ng.ILocationService,
                     private authentication: Services.AuthenticationService) {
+            if (authentication.isAuthenticated()) {
+                this.$location.path("/");
+            }
+
             $scope.login = () => this.onLogin();
             $scope.isBusy = false;
         }
