@@ -4,10 +4,7 @@
       ng-app="main"
       ng-strict-di="true"
       manifest="/application.appcache"
-      ng-controller="MasterController"
-      data-auth="@(User.Identity.IsAuthenticated ? 1 : 0)"
-      data-auth-username="@User.Identity.GetUserName()"
-      data-auth-userid="@User.Identity.GetUserId()">
+      ng-controller="MasterController">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
