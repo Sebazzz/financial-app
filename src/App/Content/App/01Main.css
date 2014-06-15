@@ -1,12 +1,6 @@
-﻿body {
-    padding-top: 50px;
-}
-
-.ng-hide {
+﻿.ng-hide {
     /* Shut up intellisense / R# */
 }
-
-
 
 /**** Rotation animation */
 @keyframes rotate {

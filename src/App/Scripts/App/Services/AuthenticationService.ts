@@ -4,12 +4,12 @@
 module FinancialApp.Services {
     
     export class AuthenticationService {
-        static $inject = ["$document", "$rootScope"];
+        static $inject = ["$document", "$rootScope", "$location"];
 
         private isAuthenticatedBit: boolean;
         private authenticationChangedEvent: Delegate<IAction>;
 
-        constructor($document: ng.IDocumentService, $rootScope : ng.IRootScopeService) {
+        constructor($document: ng.IDocumentService, $rootScope : ng.IRootScopeService, $location : ng.ILocationService) {
             this.authenticationChangedEvent = new Delegate<IAction>();
             this.isAuthenticatedBit = AuthenticationService.checkDomAuthentication($document);
 
@@ -18,6 +18,10 @@ module FinancialApp.Services {
                     ev.preventDefault();
                 }
             });
+
+            if (!this.isAuthenticatedBit) {
+                //$location.path("/auth/login");
+            }
         }
 
         public addAuthenticationChange(invokable: IAction) {
@@ -33,7 +37,7 @@ module FinancialApp.Services {
         }
 
         private static checkDomAuthentication($document: ng.IDocumentService): boolean {
-            return true; // TODO/STUB
+            return false; // TODO/STUB
         }
     }
 

@@ -19,6 +19,7 @@ var FinancialApp;
                     $app.controller('CategoryEditController', FinancialApp.CategoryEditController);
                     $app.controller('CategoryListController', FinancialApp.CategoryListController);
                     $app.controller('DefaultController', FinancialApp.DefaultController);
+                    $app.controller('MasterController', FinancialApp.MasterController);
                     $app.controller('MenuController', FinancialApp.MenuController);
                     $app.controller('SheetController', FinancialApp.SheetController);
             },

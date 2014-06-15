@@ -1,10 +1,10 @@
-﻿/// <reference path="../Common.ts"/>
+/// <reference path="../Common.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     (function (Services) {
         var AuthenticationService = (function () {
-            function AuthenticationService($document, $rootScope) {
+            function AuthenticationService($document, $rootScope, $location) {
                 var _this = this;
                 this.authenticationChangedEvent = new FinancialApp.Delegate();
                 this.isAuthenticatedBit = AuthenticationService.checkDomAuthentication($document);
@@ -14,6 +14,10 @@ var FinancialApp;
                         ev.preventDefault();
                     }
                 });
+
+                if (!this.isAuthenticatedBit) {
+                    //$location.path("/auth/login");
+                }
             }
             AuthenticationService.prototype.addAuthenticationChange = function (invokable) {
                 this.authenticationChangedEvent.addListener(invokable);
@@ -28,9 +32,9 @@ var FinancialApp;
             };
 
             AuthenticationService.checkDomAuthentication = function ($document) {
-                return true;
+                return false;
             };
-            AuthenticationService.$inject = ["$document", "$rootScope"];
+            AuthenticationService.$inject = ["$document", "$rootScope", "$location"];
             return AuthenticationService;
         })();
         Services.AuthenticationService = AuthenticationService;

@@ -158,6 +158,8 @@
       <DependentUpon>Animate.css</DependentUpon>
     </Content>
     <Content Include="Content\App\01Main.css" />
+    <Content Include="Content\App\02Anonymous.css" />
+    <Content Include="Content\App\03Authenticated.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
@@ -236,6 +238,9 @@
     <Content Include="Scripts\App\Controllers\Default.js">
       <DependentUpon>Default.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\App\Controllers\Master.js">
+      <DependentUpon>Master.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\App\Controllers\Menu.js">
       <DependentUpon>Menu.ts</DependentUpon>
     </Content>
@@ -289,6 +294,9 @@
     </Content>
     <Content Include="Scripts\App\Services\AuthenticationService.js.map">
       <DependentUpon>AuthenticationService.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\Master.js.map">
+      <DependentUpon>Master.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
@@ -396,6 +404,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\ControllerInit.d.ts">
       <DependentUpon>ControllerInit.tt</DependentUpon>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\App\Controllers\Master.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Menu.ts" />
     <TypeScriptCompile Include="Scripts\App\DTO.generated.d.ts">
       <AutoGen>True</AutoGen>
