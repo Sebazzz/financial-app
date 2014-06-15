@@ -15,20 +15,18 @@ var FinancialApp;
                 this.userId = userId;
                 this.userName = userName;
             }
-            AuthenticationInfo.create = function ($document) {
-                var html = $document.find("html");
-
-                return new AuthenticationInfo(html.data("auth") === "1", parseInt(html.data("auth-userid"), 10), html.data("auth-username") || null);
-            };
             return AuthenticationInfo;
         })();
 
         var AuthenticationService = (function () {
-            function AuthenticationService($document, $http, $q, $rootScope, $location) {
+            function AuthenticationService($http, $q, $rootScope, $location) {
                 var _this = this;
+                this.$q = $q;
+                this.$http = $http;
+
                 this.authenticationChangedEvent = new FinancialApp.Delegate();
 
-                this.authInfo = AuthenticationInfo.create($document);
+                this.authInfo = this.checkAuthentication();
 
                 $rootScope.$on("$locationChangeStart", function (ev, newLocation) {
                     if (!_this.authInfo.isAuthenticated && newLocation.indexOf('/auth/login') === -1) {
@@ -39,9 +37,6 @@ var FinancialApp;
                 if (!this.authInfo.isAuthenticated) {
                     $location.path("/auth/login");
                 }
-
-                this.$q = $q;
-                this.$http = $http;
             }
             AuthenticationService.prototype.addAuthenticationChange = function (invokable) {
                 this.authenticationChangedEvent.addListener(invokable);
@@ -83,7 +78,19 @@ var FinancialApp;
 
                 return ret.promise;
             };
-            AuthenticationService.$inject = ["$document", "$http", "$q", "$rootScope", "$location"];
+
+            AuthenticationService.prototype.checkAuthentication = function () {
+                var _this = this;
+                this.$http.get("/api/authentication/check").success(function (info) {
+                    _this.authInfo = info;
+                    _this.isCheckingAuthentication = false;
+                    _this.raiseAuthenticationEvent();
+                });
+
+                this.isCheckingAuthentication = true;
+                return new AuthenticationInfo(false, 0, "");
+            };
+            AuthenticationService.$inject = ["$http", "$q", "$rootScope", "$location"];
             return AuthenticationService;
         })();
         Services.AuthenticationService = AuthenticationService;

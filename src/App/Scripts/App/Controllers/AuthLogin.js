@@ -19,6 +19,13 @@ var FinancialApp;
                 return _this.onLogin();
             };
             $scope.isBusy = false;
+
+            $scope.isBusy = authentication.isCheckingAuthentication;
+            authentication.addAuthenticationChange(function () {
+                if (authentication.isAuthenticated()) {
+                    _this.$location.path("/");
+                }
+            });
         }
         AuthLoginController.prototype.onLogin = function () {
             var _this = this;
@@ -26,7 +33,7 @@ var FinancialApp;
             this.$scope.errorMessage = null;
 
             this.authentication.authenticate(this.$scope.userName, this.$scope.password, this.$scope.rememberMe).then(function () {
-                _this.$location.path("/");
+                // handled by
             }, function () {
                 _this.$scope.errorMessage = "Inloggen mislukt. Controleer je gebruikersnaam of wachtwoord.";
             }).finally(function () {

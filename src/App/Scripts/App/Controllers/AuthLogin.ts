@@ -28,6 +28,13 @@ module FinancialApp {
 
             $scope.login = () => this.onLogin();
             $scope.isBusy = false;
+
+            $scope.isBusy = authentication.isCheckingAuthentication;
+            authentication.addAuthenticationChange(() => {
+                if (authentication.isAuthenticated()) {
+                    this.$location.path("/");
+                }
+            });
         }
 
         private onLogin() {
@@ -39,7 +46,7 @@ module FinancialApp {
                     this.$scope.password,
                     this.$scope.rememberMe)
                 .then(() => {
-                    this.$location.path("/");
+                    // handled by 
                 }, () => {
                     this.$scope.errorMessage = "Inloggen mislukt. Controleer je gebruikersnaam of wachtwoord.";
                 })

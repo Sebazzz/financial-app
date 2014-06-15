@@ -9,19 +9,10 @@ module FinancialApp.Services {
         constructor(public isAuthenticated: boolean = false, public userId: number = 0, public userName: string = null) {
             
         }
-
-        public static create($document: ng.IDocumentService): DTO.IAuthenticationInfo {
-            var html = $document.find("html");
-
-            return new AuthenticationInfo(
-                html.data("auth") === "1",
-                parseInt(html.data("auth-userid"), 10),
-                html.data("auth-username") || null);
-        }
     }
 
     export class AuthenticationService {
-        static $inject = ["$document", "$http", "$q", "$rootScope", "$location"];
+        static $inject = ["$http", "$q", "$rootScope", "$location"];
 
         private authenticationChangedEvent: Delegate<IAction>;
         private authInfo: DTO.IAuthenticationInfo;
@@ -29,10 +20,15 @@ module FinancialApp.Services {
         private $q: ng.IQService;
         private $http: ng.IHttpService;
 
-        constructor($document: ng.IDocumentService, $http: ng.IHttpService, $q: ng.IQService, $rootScope : ng.IRootScopeService, $location : ng.ILocationService) {
+        isCheckingAuthentication:boolean;
+
+        constructor($http: ng.IHttpService, $q: ng.IQService, $rootScope : ng.IRootScopeService, $location : ng.ILocationService) {
+            this.$q = $q;
+            this.$http = $http;
+
             this.authenticationChangedEvent = new Delegate<IAction>();
 
-            this.authInfo = AuthenticationInfo.create($document);
+            this.authInfo = this.checkAuthentication();
 
             $rootScope.$on("$locationChangeStart", (ev, newLocation : string) => {
                 if (!this.authInfo.isAuthenticated && newLocation.indexOf('/auth/login') === -1) {
@@ -43,9 +39,6 @@ module FinancialApp.Services {
             if (!this.authInfo.isAuthenticated) {
                 $location.path("/auth/login");
             }
-
-            this.$q = $q;
-            this.$http = $http;
         }
 
         public addAuthenticationChange(invokable: IAction) {
@@ -82,6 +75,18 @@ module FinancialApp.Services {
                 .error((data, status) => ret.reject(data));
 
             return ret.promise;
+        }
+
+        private checkAuthentication() : DTO.IAuthenticationInfo {
+            this.$http.get<DTO.IAuthenticationInfo>("/api/authentication/check")
+                .success((info) => {
+                    this.authInfo = info;
+                    this.isCheckingAuthentication = false;
+                    this.raiseAuthenticationEvent();
+                });
+
+            this.isCheckingAuthentication = true;
+            return new AuthenticationInfo(false, 0, "");
         }
     }
 
