@@ -6,14 +6,10 @@
     {
         protected void Application_Start()
         {
+            ContainerConfig.Configure();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             MvcConfig.Register();
             BundleConfig.Register();
-        }
-
-
-        protected void Application_Error() {
-            
         }
     }
 }
