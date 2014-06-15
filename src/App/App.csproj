@@ -254,10 +254,10 @@
     <Content Include="Scripts\App\Factories\ResourceFactory.js">
       <DependentUpon>ResourceFactory.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\Moment\MomentJs.js">
+    <Content Include="Scripts\App\Directives\MomentJs.js">
       <DependentUpon>MomentJs.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\Moment\MomentJs.js.map">
+    <Content Include="Scripts\App\Directives\MomentJs.js.map">
       <DependentUpon>MomentJs.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\angular-progress.min.js.map">
@@ -420,7 +420,7 @@
       <DependentUpon>DTO.tt</DependentUpon>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\App\Factories\ResourceFactory.ts" />
-    <TypeScriptCompile Include="Scripts\App\Moment\MomentJs.ts" />
+    <TypeScriptCompile Include="Scripts\App\Directives\MomentJs.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Sheet.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Default.ts" />
     <TypeScriptCompile Include="Scripts\App\Services\AuthenticationService.ts" />

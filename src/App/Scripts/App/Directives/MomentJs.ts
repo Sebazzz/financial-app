@@ -1,7 +1,7 @@
 /// <reference path="../../typings/angularjs/angular.d.ts" /> 
 /// <reference path="../../typings/moment/moment.d.ts" />
 
-module ng.Moment {
+module FinancialApp.Directives {
     'use strict';
 
     angular.module('ngMoment', [])
