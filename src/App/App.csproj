@@ -142,6 +142,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Angular\AuthLogin.html" />
     <Content Include="Angular\CategoryEdit.html" />
     <Content Include="Angular\CategoryList.html" />
     <Content Include="Angular\Default.html" />
@@ -216,6 +217,9 @@
     </Content>
     <Content Include="Scripts\App\Controllers\Archive.js">
       <DependentUpon>Archive.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\AuthLogin.js">
+      <DependentUpon>AuthLogin.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\Controllers\CategoryCreate.js">
       <DependentUpon>CategoryCreate.ts</DependentUpon>
@@ -297,6 +301,9 @@
     </Content>
     <Content Include="Scripts\App\Controllers\Master.js.map">
       <DependentUpon>Master.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\App\Controllers\AuthLogin.js.map">
+      <DependentUpon>AuthLogin.ts</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
@@ -398,6 +405,7 @@
     <TypeScriptCompile Include="Scripts\App\AppInit.ts" />
     <TypeScriptCompile Include="Scripts\App\Common.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Archive.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\AuthLogin.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryEdit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryList.ts" />

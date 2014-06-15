@@ -3,6 +3,8 @@
 var FinancialApp;
 (function (FinancialApp) {
     (function (Services) {
+        'use strict';
+
         var AuthenticationService = (function () {
             function AuthenticationService($document, $rootScope, $location) {
                 var _this = this;
@@ -10,13 +12,13 @@ var FinancialApp;
                 this.isAuthenticatedBit = AuthenticationService.checkDomAuthentication($document);
 
                 $rootScope.$on("$locationChangeStart", function (ev, newLocation) {
-                    if (!_this.isAuthenticatedBit && newLocation.indexOf('/auth/login') !== -1) {
+                    if (!_this.isAuthenticatedBit && newLocation.indexOf('/auth/login') === -1) {
                         ev.preventDefault();
                     }
                 });
 
                 if (!this.isAuthenticatedBit) {
-                    //$location.path("/auth/login");
+                    $location.path("/auth/login");
                 }
             }
             AuthenticationService.prototype.addAuthenticationChange = function (invokable) {

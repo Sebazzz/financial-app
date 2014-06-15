@@ -1,0 +1,10 @@
+﻿<form class="form-signin" role="form" novalidate>
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input type="email" class="form-control" placeholder="Email address" required autofocus ng-model="userName">
+    <input type="password" class="form-control" placeholder="Password" required ng-model="password">
+    <label class="checkbox">
+        <input type="checkbox" value="remember-me" ng-model="rememberMe"> Remember me
+    </label>
+    <button class="btn btn-lg btn-primary btn-block" 
+            ng-click="login()">Sign in</button>
+</form>
