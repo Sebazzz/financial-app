@@ -21,12 +21,15 @@ module FinancialApp.Services {
     }
 
     export class AuthenticationService {
-        static $inject = ["$document", "$rootScope", "$location"];
+        static $inject = ["$document", "$http", "$q", "$rootScope", "$location"];
 
         private authenticationChangedEvent: Delegate<IAction>;
         private authInfo: DTO.IAuthenticationInfo;
 
-        constructor($document: ng.IDocumentService, $rootScope : ng.IRootScopeService, $location : ng.ILocationService) {
+        private $q: ng.IQService;
+        private $http: ng.IHttpService;
+
+        constructor($document: ng.IDocumentService, $http: ng.IHttpService, $q: ng.IQService, $rootScope : ng.IRootScopeService, $location : ng.ILocationService) {
             this.authenticationChangedEvent = new Delegate<IAction>();
 
             this.authInfo = AuthenticationInfo.create($document);
@@ -40,6 +43,9 @@ module FinancialApp.Services {
             if (!this.authInfo.isAuthenticated) {
                 $location.path("/auth/login");
             }
+
+            this.$q = $q;
+            this.$http = $http;
         }
 
         public addAuthenticationChange(invokable: IAction) {
@@ -52,6 +58,30 @@ module FinancialApp.Services {
 
         public isAuthenticated() : boolean {
             return this.authInfo.isAuthenticated;
+        }
+
+        private raiseAuthenticationEvent() {
+            this.authenticationChangedEvent.invoke((f) => { f(); return false; });
+        }
+
+        public authenticate(userName: string, password: string, persistent: boolean): ng.IPromise<DTO.IAuthenticationInfo> {
+            var ret = this.$q.defer();
+
+            var postData = {
+                userName: userName,
+                password: password,
+                persistent: persistent
+            };
+
+            this.$http.post<DTO.IAuthenticationInfo>("/api/authentication/login", postData).success((data) => {
+                    this.authInfo = data;
+                    this.raiseAuthenticationEvent();
+
+                    ret.resolve(null);
+                })
+                .error((data, status) => ret.reject(data));
+
+            return ret.promise;
         }
     }
 

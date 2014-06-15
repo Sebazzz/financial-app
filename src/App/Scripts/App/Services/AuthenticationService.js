@@ -24,7 +24,7 @@ var FinancialApp;
         })();
 
         var AuthenticationService = (function () {
-            function AuthenticationService($document, $rootScope, $location) {
+            function AuthenticationService($document, $http, $q, $rootScope, $location) {
                 var _this = this;
                 this.authenticationChangedEvent = new FinancialApp.Delegate();
 
@@ -39,6 +39,9 @@ var FinancialApp;
                 if (!this.authInfo.isAuthenticated) {
                     $location.path("/auth/login");
                 }
+
+                this.$q = $q;
+                this.$http = $http;
             }
             AuthenticationService.prototype.addAuthenticationChange = function (invokable) {
                 this.authenticationChangedEvent.addListener(invokable);
@@ -51,7 +54,36 @@ var FinancialApp;
             AuthenticationService.prototype.isAuthenticated = function () {
                 return this.authInfo.isAuthenticated;
             };
-            AuthenticationService.$inject = ["$document", "$rootScope", "$location"];
+
+            AuthenticationService.prototype.raiseAuthenticationEvent = function () {
+                this.authenticationChangedEvent.invoke(function (f) {
+                    f();
+                    return false;
+                });
+            };
+
+            AuthenticationService.prototype.authenticate = function (userName, password, persistent) {
+                var _this = this;
+                var ret = this.$q.defer();
+
+                var postData = {
+                    userName: userName,
+                    password: password,
+                    persistent: persistent
+                };
+
+                this.$http.post("/api/authentication/login", postData).success(function (data) {
+                    _this.authInfo = data;
+                    _this.raiseAuthenticationEvent();
+
+                    ret.resolve(null);
+                }).error(function (data, status) {
+                    return ret.reject(data);
+                });
+
+                return ret.promise;
+            };
+            AuthenticationService.$inject = ["$document", "$http", "$q", "$rootScope", "$location"];
             return AuthenticationService;
         })();
         Services.AuthenticationService = AuthenticationService;

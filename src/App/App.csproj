@@ -359,7 +359,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Authentication.cs" />
+    <Compile Include="Api\AuthenticationController.cs" />
     <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\Extensions\Annotations.cs" />
     <Compile Include="Api\Extensions\ApiExtensions.cs" />

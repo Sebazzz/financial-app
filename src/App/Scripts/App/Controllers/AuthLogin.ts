@@ -11,13 +11,37 @@ module FinancialApp {
         rememberMe: boolean;
 
         login: IAction;
+        isBusy: boolean;
+
+        errorMessage: string;
     }
 
     export class AuthLoginController {
-        static $inject = ["$scope", "authentication"];
+        static $inject = ["$scope", "$location", "authentication"];
 
-        constructor($scope: IAuthLoginScope, authentication : Services.AuthenticationService) {
-            $scope.login = () => alert('Dikke pech');
+        constructor(private $scope: IAuthLoginScope,
+                    private $location: ng.ILocationService,
+                    private authentication: Services.AuthenticationService) {
+            $scope.login = () => this.onLogin();
+            $scope.isBusy = false;
+        }
+
+        private onLogin() {
+            this.$scope.isBusy = true;
+            this.$scope.errorMessage = null;
+
+            this.authentication.authenticate(
+                    this.$scope.userName,
+                    this.$scope.password,
+                    this.$scope.rememberMe)
+                .then(() => {
+                    this.$location.path("/");
+                }, () => {
+                    this.$scope.errorMessage = "Inloggen mislukt. Controleer je gebruikersnaam of wachtwoord.";
+                })
+                .finally(() => {
+                    this.$scope.isBusy = false;
+                });
         }
     }
 

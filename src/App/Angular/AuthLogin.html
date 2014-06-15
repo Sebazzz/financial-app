@@ -1,10 +1,27 @@
 ﻿<form class="form-signin" role="form" novalidate>
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <input type="email" class="form-control" placeholder="Email address" required autofocus ng-model="userName">
-    <input type="password" class="form-control" placeholder="Password" required ng-model="password">
+    <h2 class="form-signin-heading">Inloggen</h2>
+    
+    <strong class="text-danger" ng-show="!!errorMessage">{{errorMessage}}</strong>
+
+    <input type="email" class="form-control" placeholder="Gebruikersnaam"
+           ng-disabled="isBusy" 
+           ng-model="userName" 
+           required autofocus>
+
+    <input type="password" class="form-control" placeholder="Wachtwoord" 
+           ng-disabled="isBusy" ng-model="password" 
+           required>
+
     <label class="checkbox">
-        <input type="checkbox" value="remember-me" ng-model="rememberMe"> Remember me
+        <input type="checkbox" value="remember-me" 
+               ng-disabled="isBusy" ng-model="rememberMe"> Login onthouden
     </label>
+
     <button class="btn btn-lg btn-primary btn-block" 
-            ng-click="login()">Sign in</button>
+            ng-disabled="isBusy"
+            ng-click="login()">
+        Inloggen
+    </button>
+    
+    <small ng-show="isBusy">Bezig met inloggen...</small>
 </form>
