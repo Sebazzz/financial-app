@@ -13,14 +13,12 @@ module FinancialApp {
 
         extendMenuVisible: boolean;
         toggleNavBar: IAction;
-
-        showUserControls: boolean;
     }
 
     export class MenuController {
-        static $inject = ["$scope", "$location", "authentication"];
+        static $inject = ["$scope", "$location"];
 
-        constructor($scope: IMenuControllerScope, $location: ng.ILocationService, authentication : Services.AuthenticationService) {
+        constructor($scope: IMenuControllerScope, $location: ng.ILocationService) {
             $scope.currentPath = $location.path();
             $scope.nowPath = Program.createNowRoute();
             $scope.extendMenuVisible = false;
@@ -34,9 +32,6 @@ module FinancialApp {
             });
 
             $scope.toggleNavBar = () => $scope.extendMenuVisible = !$scope.extendMenuVisible;
-            $scope.showUserControls = authentication.isAuthenticated();
-
-            authentication.addAuthenticationChange(() => $scope.showUserControls = authentication.isAuthenticated());
         }
     }
 
