@@ -1,8 +1,8 @@
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../typings/moment/moment.d.ts" />
-var ng;
-(function (ng) {
-    (function (Moment) {
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
         'use strict';
 
         angular.module('ngMoment', []).filter("moment", function () {
@@ -10,7 +10,7 @@ var ng;
                 return moment(input).format(format);
             };
         });
-    })(ng.Moment || (ng.Moment = {}));
-    var Moment = ng.Moment;
-})(ng || (ng = {}));
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
+})(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=MomentJs.js.map
