@@ -6,7 +6,7 @@ var FinancialApp;
     'use strict';
 
     var MenuController = (function () {
-        function MenuController($scope, $location, authentication) {
+        function MenuController($scope, $location) {
             $scope.currentPath = $location.path();
             $scope.nowPath = FinancialApp.Program.createNowRoute();
             $scope.extendMenuVisible = false;
@@ -22,13 +22,8 @@ var FinancialApp;
             $scope.toggleNavBar = function () {
                 return $scope.extendMenuVisible = !$scope.extendMenuVisible;
             };
-            $scope.showUserControls = authentication.isAuthenticated();
-
-            authentication.addAuthenticationChange(function () {
-                return $scope.showUserControls = authentication.isAuthenticated();
-            });
         }
-        MenuController.$inject = ["$scope", "$location", "authentication"];
+        MenuController.$inject = ["$scope", "$location"];
         return MenuController;
     })();
     FinancialApp.MenuController = MenuController;

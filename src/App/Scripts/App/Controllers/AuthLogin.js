@@ -12,7 +12,7 @@ var FinancialApp;
             this.$location = $location;
             this.authentication = authentication;
             if (authentication.isAuthenticated()) {
-                this.$location.path("/");
+                this.$location.path("/auth/success");
             }
 
             $scope.login = function () {
@@ -23,7 +23,7 @@ var FinancialApp;
             $scope.isBusy = authentication.isCheckingAuthentication;
             authentication.addAuthenticationChange(function () {
                 if (authentication.isAuthenticated()) {
-                    _this.$location.path("/");
+                    _this.$location.path("/auth/success");
                 }
             });
         }

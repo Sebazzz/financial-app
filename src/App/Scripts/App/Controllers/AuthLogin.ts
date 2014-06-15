@@ -23,7 +23,7 @@ module FinancialApp {
                     private $location: ng.ILocationService,
                     private authentication: Services.AuthenticationService) {
             if (authentication.isAuthenticated()) {
-                this.$location.path("/");
+                this.$location.path("/auth/success");
             }
 
             $scope.login = () => this.onLogin();
@@ -32,7 +32,7 @@ module FinancialApp {
             $scope.isBusy = authentication.isCheckingAuthentication;
             authentication.addAuthenticationChange(() => {
                 if (authentication.isAuthenticated()) {
-                    this.$location.path("/");
+                    this.$location.path("/auth/success");
                 }
             });
         }
