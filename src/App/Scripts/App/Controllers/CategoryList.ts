@@ -4,6 +4,7 @@
 /// <reference path="../Common.ts"/>
 
 module FinancialApp {
+    'use strict';
 
     export interface ICategoryListControllerScope extends ng.IScope {
         categories: DTO.ICategoryListing[];

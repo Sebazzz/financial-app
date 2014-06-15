@@ -3,6 +3,8 @@
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
+    'use strict';
+
     var MasterController = (function () {
         function MasterController($scope, authentication) {
             var _this = this;

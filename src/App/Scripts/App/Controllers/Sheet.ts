@@ -1,6 +1,8 @@
 ﻿/// <init-options route="/sheet/:year/:month"/>
 
 module FinancialApp {
+    'use strict';
+
     export interface ISheetScope {
         date: Moment;
     }

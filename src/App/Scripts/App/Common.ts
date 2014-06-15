@@ -1,4 +1,6 @@
 module FinancialApp {
+    'use strict';
+
     export interface IIdRouteParams extends ng.route.IRouteParamsService {
         id: string;
     }

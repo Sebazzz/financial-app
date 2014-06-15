@@ -2,6 +2,8 @@
 /// <reference path="../DTO.generated.d.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
+    'use strict';
+
     var ArchiveController = (function () {
         function ArchiveController($scope, $resource) {
             this.api = $resource("/api/sheet/:id");

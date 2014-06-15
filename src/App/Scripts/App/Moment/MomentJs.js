@@ -3,6 +3,8 @@
 var ng;
 (function (ng) {
     (function (Moment) {
+        'use strict';
+
         angular.module('ngMoment', []).filter("moment", function () {
             return function (input, format) {
                 return moment(input).format(format);

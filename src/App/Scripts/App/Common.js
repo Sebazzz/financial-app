@@ -1,5 +1,7 @@
 var FinancialApp;
 (function (FinancialApp) {
+    'use strict';
+
     Function.prototype.withInject = function () {
         var $inject = [];
         for (var _i = 0; _i < (arguments.length - 0); _i++) {

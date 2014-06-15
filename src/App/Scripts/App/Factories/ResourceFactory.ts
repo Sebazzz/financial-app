@@ -2,6 +2,8 @@
 /// <reference path="../Common.ts"/>
 
 module FinancialApp.Factories {
+    'use strict';
+
     export interface IResourceFactory<T> {
         ($resource: ng.resource.IResourceService): IWebResourceClass<T>;
     };

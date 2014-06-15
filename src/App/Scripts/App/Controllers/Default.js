@@ -1,6 +1,8 @@
 ﻿/// <init-options route="/"/>
 var FinancialApp;
 (function (FinancialApp) {
+    'use strict';
+
     var DefaultController = (function () {
         function DefaultController() {
         }

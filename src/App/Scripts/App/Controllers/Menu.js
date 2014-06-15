@@ -3,6 +3,8 @@
 /// <reference path="../Services/AuthenticationService.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
+    'use strict';
+
     var MenuController = (function () {
         function MenuController($scope, $location, authentication) {
             $scope.currentPath = $location.path();

@@ -1,6 +1,8 @@
 ﻿/// <init-options route="/sheet/:year/:month"/>
 var FinancialApp;
 (function (FinancialApp) {
+    'use strict';
+
     var SheetController = (function () {
         function SheetController($scope, $routeParams, $location) {
             $scope.date = moment([parseInt($routeParams.year, 10), parseInt($routeParams.month, 10) - 1]);

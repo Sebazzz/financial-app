@@ -3,6 +3,7 @@
 /// <reference path="../Services/AuthenticationService.ts"/>
 
 module FinancialApp {
+    'use strict';
 
     export interface IAuthLoginScope extends ng.IScope {
         userName: string;

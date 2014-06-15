@@ -3,6 +3,8 @@
 var FinancialApp;
 (function (FinancialApp) {
     (function (Factories) {
+        'use strict';
+
         ;
 
         // ReSharper disable once InconsistentNaming

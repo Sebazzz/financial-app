@@ -4,6 +4,8 @@
 /// <reference path="../Common.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
+    'use strict';
+
     var CategoryEditController = (function () {
         function CategoryEditController($scope, $routeParams, $location, categoryResource) {
             var _this = this;

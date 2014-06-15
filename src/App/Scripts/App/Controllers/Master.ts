@@ -3,6 +3,8 @@
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
 
 module FinancialApp {
+    'use strict';
+
     export interface IMasterControllerScope extends ng.IScope {
         isMenuVisible: boolean;
         isAuthenticated: boolean;

@@ -3,6 +3,8 @@
 /// <reference path="../Services/AuthenticationService.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
+    'use strict';
+
     var AuthLoginController = (function () {
         function AuthLoginController($scope, authentication) {
             $scope.login = function () {

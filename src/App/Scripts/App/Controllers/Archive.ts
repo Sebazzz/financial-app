@@ -2,6 +2,7 @@
 /// <reference path="../DTO.generated.d.ts"/>
 
 module FinancialApp {
+    'use strict';
 
     export interface IArchiveScope extends ng.IScope {
         
