@@ -169,6 +169,7 @@
     <Content Include="Content\hotkeys.min.css">
       <DependentUpon>hotkeys.css</DependentUpon>
     </Content>
+    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
