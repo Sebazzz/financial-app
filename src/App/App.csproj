@@ -358,12 +358,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Authentication.cs" />
     <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\Extensions\Annotations.cs" />
     <Compile Include="Api\Extensions\ApiExtensions.cs" />
     <Compile Include="Api\SheetController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\MvcConfig.cs" />
+    <Compile Include="App_Start\OwinStartup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
