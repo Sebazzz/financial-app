@@ -23,6 +23,19 @@ declare module FinancialApp.DTO {
             }
 
         
+    export interface IAuthenticationInfo {
+        
+            isAuthenticated : boolean;
+
+        
+            userId : number;
+
+        
+            userName : string;
+
+            }
+
+        
     export interface ISheetListing {
         
             month : number;

@@ -1,26 +1,43 @@
 /// <reference path="../Common.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
+/// <reference path="../DTO.generated.d.ts"/>
 
 module FinancialApp.Services {
     'use strict';
 
+    class AuthenticationInfo implements DTO.IAuthenticationInfo {
+        constructor(public isAuthenticated: boolean = false, public userId: number = 0, public userName: string = null) {
+            
+        }
+
+        public static create($document: ng.IDocumentService): DTO.IAuthenticationInfo {
+            var html = $document.find("html");
+
+            return new AuthenticationInfo(
+                html.data("auth") === "1",
+                parseInt(html.data("auth-userid"), 10),
+                html.data("auth-username") || null);
+        }
+    }
+
     export class AuthenticationService {
         static $inject = ["$document", "$rootScope", "$location"];
 
-        private isAuthenticatedBit: boolean;
         private authenticationChangedEvent: Delegate<IAction>;
+        private authInfo: DTO.IAuthenticationInfo;
 
         constructor($document: ng.IDocumentService, $rootScope : ng.IRootScopeService, $location : ng.ILocationService) {
             this.authenticationChangedEvent = new Delegate<IAction>();
-            this.isAuthenticatedBit = AuthenticationService.checkDomAuthentication($document);
+
+            this.authInfo = AuthenticationInfo.create($document);
 
             $rootScope.$on("$locationChangeStart", (ev, newLocation : string) => {
-                if (!this.isAuthenticatedBit && newLocation.indexOf('/auth/login') === -1) {
+                if (!this.authInfo.isAuthenticated && newLocation.indexOf('/auth/login') === -1) {
                     ev.preventDefault();
                 }
             });
 
-            if (!this.isAuthenticatedBit) {
+            if (!this.authInfo.isAuthenticated) {
                 $location.path("/auth/login");
             }
         }
@@ -34,11 +51,7 @@ module FinancialApp.Services {
         }
 
         public isAuthenticated() : boolean {
-            return this.isAuthenticatedBit;
-        }
-
-        private static checkDomAuthentication($document: ng.IDocumentService): boolean {
-            return false; // TODO/STUB
+            return this.authInfo.isAuthenticated;
         }
     }
 
