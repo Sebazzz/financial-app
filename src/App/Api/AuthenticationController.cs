@@ -4,7 +4,7 @@
     using System.Web;
     using System.Web.Http;
 
-    [RoutePrefix("authentication")]
+    [RoutePrefix("api/authentication")]
     public class AuthenticationController : ApiController {
         [HttpPost]
         [Route("login")]
