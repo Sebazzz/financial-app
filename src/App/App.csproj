@@ -169,6 +169,7 @@
     <Content Include="Content\hotkeys.min.css">
       <DependentUpon>hotkeys.css</DependentUpon>
     </Content>
+    <Content Include="Content\Icons\Money.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -306,6 +307,7 @@
     <Content Include="Scripts\App\Controllers\AuthLogin.js.map">
       <DependentUpon>AuthLogin.ts</DependentUpon>
     </Content>
+    <Content Include="Content\Icons\Money.url" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
