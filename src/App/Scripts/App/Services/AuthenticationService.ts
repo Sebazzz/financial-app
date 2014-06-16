@@ -53,6 +53,19 @@ module FinancialApp.Services {
             return this.authInfo.isAuthenticated;
         }
 
+        public logOff(): ng.IPromise<DTO.IAuthenticationInfo> {
+            var ret = this.$q.defer();
+
+            this.$http.post<DTO.IAuthenticationInfo>("/api/authentication/logoff", {}).success((data) => {
+                this.authInfo = data;
+                this.raiseAuthenticationEvent();
+
+                ret.resolve(null);
+            }).error((data, status) => ret.reject(data));
+
+            return ret.promise;
+        }
+
         private raiseAuthenticationEvent() {
             this.authenticationChangedEvent.invoke((f) => { f(); return true; });
         }

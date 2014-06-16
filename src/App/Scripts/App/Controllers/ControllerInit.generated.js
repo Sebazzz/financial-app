@@ -16,6 +16,7 @@ var FinancialApp;
         registerControllers: function($app) {
                     $app.controller('ArchiveController', FinancialApp.ArchiveController);
                     $app.controller('AuthLoginController', FinancialApp.AuthLoginController);
+                    $app.controller('AuthLogOffController', FinancialApp.AuthLogOffController);
                     $app.controller('CategoryCreateController', FinancialApp.CategoryCreateController);
                     $app.controller('CategoryEditController', FinancialApp.CategoryEditController);
                     $app.controller('CategoryListController', FinancialApp.CategoryListController);
@@ -35,6 +36,11 @@ var FinancialApp;
                 {
                     controller: 'AuthLoginController',
                     templateUrl: '/Angular/AuthLogin.html'
+                });
+                $routeProvider.when('/auth/logoff', 
+                {
+                    controller: 'AuthLogOffController',
+                    templateUrl: '/Angular/AuthLogOff.html'
                 });
                 $routeProvider.when('/manage/category/add', 
                 {

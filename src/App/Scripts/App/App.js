@@ -245,6 +245,22 @@ var FinancialApp;
                 return this.authInfo.isAuthenticated;
             };
 
+            AuthenticationService.prototype.logOff = function () {
+                var _this = this;
+                var ret = this.$q.defer();
+
+                this.$http.post("/api/authentication/logoff", {}).success(function (data) {
+                    _this.authInfo = data;
+                    _this.raiseAuthenticationEvent();
+
+                    ret.resolve(null);
+                }).error(function (data, status) {
+                    return ret.reject(data);
+                });
+
+                return ret.promise;
+            };
+
             AuthenticationService.prototype.raiseAuthenticationEvent = function () {
                 this.authenticationChangedEvent.invoke(function (f) {
                     f();
@@ -348,6 +364,44 @@ var FinancialApp;
     })();
     FinancialApp.AuthLoginController = AuthLoginController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/auth/logoff"/>
+/// <reference path="../.../typings/angularjs/angular.d.ts" />
+/// <reference path="../Services/AuthenticationService.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    var AuthLogOffController = (function () {
+        function AuthLogOffController($scope, $location, authentication) {
+            var _this = this;
+            this.$scope = $scope;
+            this.$location = $location;
+            this.authentication = authentication;
+            if (!authentication.isAuthenticated()) {
+                this.redirect();
+                return;
+            }
+
+            $scope.confirm = function () {
+                return _this.confirmLogOff();
+            };
+        }
+        AuthLogOffController.prototype.confirmLogOff = function () {
+            var _this = this;
+            this.$scope.isBusy = true;
+            this.authentication.logOff().then(function () {
+                return _this.redirect();
+            }, function () {
+                return alert('Kon niet uitloggen.');
+            });
+        };
+
+        AuthLogOffController.prototype.redirect = function () {
+            this.$location.path("/auth/login");
+        };
+        AuthLogOffController.$inject = ["$scope", "$location", "authentication"];
+        return AuthLogOffController;
+    })();
+    FinancialApp.AuthLogOffController = AuthLogOffController;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/manage/category/add" viewName="CategoryEdit" />
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../DTO.generated.d.ts"/>
@@ -431,6 +485,19 @@ var FinancialApp;
     })();
     FinancialApp.CategoryListController = CategoryListController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var DefaultController = (function () {
+        function DefaultController() {
+        }
+        DefaultController.$inject = [];
+        return DefaultController;
+    })();
+    FinancialApp.DefaultController = DefaultController;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options exclude="route"/>
 /// <reference path="../Services/AuthenticationService.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
@@ -488,21 +555,6 @@ var FinancialApp;
     })();
     FinancialApp.MenuController = MenuController;
 })(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/moment/moment.d.ts" />
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Directives) {
-        'use strict';
-
-        angular.module('ngMoment', []).filter("moment", function () {
-            return function (input, format) {
-                return moment(input).format(format);
-            };
-        });
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/sheet/:year/:month"/>
 var FinancialApp;
 (function (FinancialApp) {
@@ -522,17 +574,19 @@ var FinancialApp;
     })();
     FinancialApp.SheetController = SheetController;
 })(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/"/>
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
 var FinancialApp;
 (function (FinancialApp) {
-    'use strict';
+    (function (Directives) {
+        'use strict';
 
-    var DefaultController = (function () {
-        function DefaultController() {
-        }
-        DefaultController.$inject = [];
-        return DefaultController;
-    })();
-    FinancialApp.DefaultController = DefaultController;
+        angular.module('ngMoment', []).filter("moment", function () {
+            return function (input, format) {
+                return moment(input).format(format);
+            };
+        });
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=App.js.map

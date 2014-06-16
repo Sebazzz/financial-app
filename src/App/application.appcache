@@ -19,3 +19,4 @@ FALLBACK:
 /bundles/script-lib?v=* /bundles/script-lib
 /bundles/script-app?v=* /bundles/script-app
 /Angular/AuthLogin.html /Angular/Offline.html
+/Angular/AuthLogOff.html /Angular/Offline.html

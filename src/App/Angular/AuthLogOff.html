@@ -1,0 +1,15 @@
+﻿<h1>Uitloggen</h1>
+
+<div ng-hide="isBusy">
+    <p>
+        Weet je zeker dat je wenst uit te loggen? Klik op 'Uitloggen' om uit te loggen of 
+        klik op 'Annuleren' om niet uit te loggen.
+    </p> 
+    
+    <p>
+        <button class="btn btn-warning" ng-click="confirm()">Uitloggen</button>
+        <a class="btn btn-default" href="/">Annuleren</a>
+    </p>
+</div>
+
+<div ng-show="isBusy" ng-include="'/Angular/Widgets/Loader.html'"></div>
