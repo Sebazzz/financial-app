@@ -17,14 +17,13 @@ module FinancialApp.Services {
         private authenticationChangedEvent: Delegate<IAction>;
         private authInfo: DTO.IAuthenticationInfo;
 
-        private $q: ng.IQService;
-        private $http: ng.IHttpService;
-
         isCheckingAuthentication:boolean;
 
-        constructor($http: ng.IHttpService, $q: ng.IQService, $rootScope : ng.IRootScopeService, $location : ng.ILocationService) {
-            this.$q = $q;
-            this.$http = $http;
+        constructor(private $http: ng.IHttpService,
+                    private $q: ng.IQService,
+                    $rootScope: ng.IRootScopeService,
+                    $location: ng.ILocationService,
+                    private localStorage: Storage) {
 
             this.authenticationChangedEvent = new Delegate<IAction>();
 
@@ -97,13 +96,34 @@ module FinancialApp.Services {
                 .success((info) => {
                     console.log("AuthenticationService: Authentication information received");
 
-                    this.authInfo = info;
+                    this.setAuthInfo(info);
                     this.isCheckingAuthentication = false;
                     this.raiseAuthenticationEvent();
                 });
 
             this.isCheckingAuthentication = true;
-            return new AuthenticationInfo(false, 0, "");
+
+            return this.getAuthInfo();
+        }
+
+        private setAuthInfo(obj : DTO.IAuthenticationInfo) {
+            if (obj) {
+                this.localStorage.setItem("AuthenticationInfo", angular.toJson(obj));
+            } else {
+                this.localStorage.removeItem("AuthenticationInfo");
+            }
+
+            this.authInfo = obj;
+        }
+
+        private getAuthInfo(): DTO.IAuthenticationInfo {
+            var authInfo = this.localStorage.getItem("AuthenticationInfo");
+
+            if (!authInfo) {
+                return new AuthenticationInfo(false, 0, "");
+            }
+
+            return angular.fromJson(authInfo);
         }
     }
 

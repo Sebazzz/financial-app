@@ -215,11 +215,11 @@ var FinancialApp;
         })();
 
         var AuthenticationService = (function () {
-            function AuthenticationService($http, $q, $rootScope, $location) {
+            function AuthenticationService($http, $q, $rootScope, $location, localStorage) {
                 var _this = this;
-                this.$q = $q;
                 this.$http = $http;
-
+                this.$q = $q;
+                this.localStorage = localStorage;
                 this.authenticationChangedEvent = new FinancialApp.Delegate();
 
                 this.authInfo = this.checkAuthentication();
@@ -298,13 +298,34 @@ var FinancialApp;
                 this.$http.get("/api/authentication/check").success(function (info) {
                     console.log("AuthenticationService: Authentication information received");
 
-                    _this.authInfo = info;
+                    _this.setAuthInfo(info);
                     _this.isCheckingAuthentication = false;
                     _this.raiseAuthenticationEvent();
                 });
 
                 this.isCheckingAuthentication = true;
-                return new AuthenticationInfo(false, 0, "");
+
+                return this.getAuthInfo();
+            };
+
+            AuthenticationService.prototype.setAuthInfo = function (obj) {
+                if (obj) {
+                    this.localStorage.setItem("AuthenticationInfo", angular.toJson(obj));
+                } else {
+                    this.localStorage.removeItem("AuthenticationInfo");
+                }
+
+                this.authInfo = obj;
+            };
+
+            AuthenticationService.prototype.getAuthInfo = function () {
+                var authInfo = this.localStorage.getItem("AuthenticationInfo");
+
+                if (!authInfo) {
+                    return new AuthenticationInfo(false, 0, "");
+                }
+
+                return angular.fromJson(authInfo);
             };
             AuthenticationService.$inject = ["$http", "$q", "$rootScope", "$location"];
             return AuthenticationService;
