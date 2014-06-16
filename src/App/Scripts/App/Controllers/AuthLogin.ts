@@ -23,7 +23,9 @@ module FinancialApp {
                     private $location: ng.ILocationService,
                     private authentication: Services.AuthenticationService) {
             if (authentication.isAuthenticated()) {
+                console.info("AuthLoginController: Already authenticated. Redirecting.");
                 this.$location.path("/auth/success");
+                return;
             }
 
             $scope.login = () => this.onLogin();
@@ -31,7 +33,10 @@ module FinancialApp {
 
             $scope.isBusy = authentication.isCheckingAuthentication;
             authentication.addAuthenticationChange(() => {
+                $scope.isBusy = false;
+
                 if (authentication.isAuthenticated()) {
+                    console.info("AuthLoginController: Has authenticated. Redirecting.");
                     this.$location.path("/auth/success");
                 }
             });

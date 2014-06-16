@@ -12,7 +12,9 @@ var FinancialApp;
             this.$location = $location;
             this.authentication = authentication;
             if (authentication.isAuthenticated()) {
+                console.info("AuthLoginController: Already authenticated. Redirecting.");
                 this.$location.path("/auth/success");
+                return;
             }
 
             $scope.login = function () {
@@ -22,7 +24,10 @@ var FinancialApp;
 
             $scope.isBusy = authentication.isCheckingAuthentication;
             authentication.addAuthenticationChange(function () {
+                $scope.isBusy = false;
+
                 if (authentication.isAuthenticated()) {
+                    console.info("AuthLoginController: Has authenticated. Redirecting.");
                     _this.$location.path("/auth/success");
                 }
             });

@@ -1,4 +1,4 @@
-/// <reference path="../Common.ts"/>
+﻿/// <reference path="../Common.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
 /// <reference path="../DTO.generated.d.ts"/>
 var FinancialApp;
@@ -53,7 +53,7 @@ var FinancialApp;
             AuthenticationService.prototype.raiseAuthenticationEvent = function () {
                 this.authenticationChangedEvent.invoke(function (f) {
                     f();
-                    return false;
+                    return true;
                 });
             };
 
@@ -81,7 +81,11 @@ var FinancialApp;
 
             AuthenticationService.prototype.checkAuthentication = function () {
                 var _this = this;
+                console.info("AuthenticationService: Checking authentication");
+
                 this.$http.get("/api/authentication/check").success(function (info) {
+                    console.log("AuthenticationService: Authentication information received");
+
                     _this.authInfo = info;
                     _this.isCheckingAuthentication = false;
                     _this.raiseAuthenticationEvent();

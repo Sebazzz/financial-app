@@ -54,7 +54,7 @@ module FinancialApp.Services {
         }
 
         private raiseAuthenticationEvent() {
-            this.authenticationChangedEvent.invoke((f) => { f(); return false; });
+            this.authenticationChangedEvent.invoke((f) => { f(); return true; });
         }
 
         public authenticate(userName: string, password: string, persistent: boolean): ng.IPromise<DTO.IAuthenticationInfo> {
@@ -77,9 +77,13 @@ module FinancialApp.Services {
             return ret.promise;
         }
 
-        private checkAuthentication() : DTO.IAuthenticationInfo {
+        private checkAuthentication(): DTO.IAuthenticationInfo {
+            console.info("AuthenticationService: Checking authentication");
+
             this.$http.get<DTO.IAuthenticationInfo>("/api/authentication/check")
                 .success((info) => {
+                    console.log("AuthenticationService: Authentication information received");
+
                     this.authInfo = info;
                     this.isCheckingAuthentication = false;
                     this.raiseAuthenticationEvent();
