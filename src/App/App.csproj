@@ -372,6 +372,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DTO.tt</DependentUpon>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\App\Factories\LocalStorageFactory.ts" />
     <TypeScriptCompile Include="Scripts\App\Factories\ResourceFactory.ts" />
     <TypeScriptCompile Include="Scripts\App\Directives\MomentJs.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Sheet.ts" />

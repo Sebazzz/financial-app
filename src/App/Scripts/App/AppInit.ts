@@ -53,6 +53,7 @@ module FinancialApp {
 
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
+            app.factory("localStorage", Factories.LocalStorageFactory());
 
             // services
             app.service("authentication", Services.AuthenticationService);
