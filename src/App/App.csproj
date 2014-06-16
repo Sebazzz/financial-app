@@ -235,103 +235,28 @@
     <Content Include="Scripts\angular-resource.min.js.map">
       <DependentUpon>angular-resource.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\App\AppInit.js.map">
-      <DependentUpon>AppInit.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Common.js">
-      <DependentUpon>Common.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Archive.js">
-      <DependentUpon>Archive.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\AuthLogin.js">
-      <DependentUpon>AuthLogin.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\CategoryCreate.js">
-      <DependentUpon>CategoryCreate.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\CategoryEdit.js">
-      <DependentUpon>CategoryEdit.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\CategoryList.js">
-      <DependentUpon>CategoryList.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\ControllerInit.js">
+    <Content Include="Scripts\App\Controllers\ControllerInit.generated.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ControllerInit.tt</DependentUpon>
     </Content>
     <Content Include="Scripts\App\Controllers\ControllerInit.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ControllerInit.js</LastGenOutput>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Default.js">
-      <DependentUpon>Default.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Master.js">
-      <DependentUpon>Master.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Menu.js">
-      <DependentUpon>Menu.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Sheet.js">
-      <DependentUpon>Sheet.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Factories\ResourceFactory.js">
-      <DependentUpon>ResourceFactory.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Directives\MomentJs.js">
-      <DependentUpon>MomentJs.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Directives\MomentJs.js.map">
-      <DependentUpon>MomentJs.ts</DependentUpon>
+      <LastGenOutput>ControllerInit.generated.js</LastGenOutput>
     </Content>
     <Content Include="Scripts\angular-progress.min.js.map">
       <DependentUpon>angular-progress.min.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Archive.js.map">
-      <DependentUpon>Archive.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\CategoryList.js.map">
-      <DependentUpon>CategoryList.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Default.js.map">
-      <DependentUpon>Default.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Menu.js.map">
-      <DependentUpon>Menu.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Sheet.js.map">
-      <DependentUpon>Sheet.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\App\DTO.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <CustomToolNamespace>FinancialApp.DTO</CustomToolNamespace>
       <LastGenOutput>DTO.generated.d.ts</LastGenOutput>
     </Content>
-    <Content Include="Scripts\App\Controllers\CategoryEdit.js.map">
-      <DependentUpon>CategoryEdit.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\CategoryCreate.js.map">
-      <DependentUpon>CategoryCreate.ts</DependentUpon>
-    </Content>
     <Content Include="application.appcache" />
-    <Content Include="Scripts\App\Factories\ResourceFactory.js.map">
-      <DependentUpon>ResourceFactory.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Common.js.map">
-      <DependentUpon>Common.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Services\AuthenticationService.js.map">
-      <DependentUpon>AuthenticationService.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\Master.js.map">
-      <DependentUpon>Master.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Controllers\AuthLogin.js.map">
-      <DependentUpon>AuthLogin.ts</DependentUpon>
-    </Content>
     <Content Include="Content\Icons\Money.url" />
+    <Content Include="Scripts\App\App.js.map">
+      <DependentUpon>App.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
@@ -340,12 +265,6 @@
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
-    <Content Include="Scripts\App\AppInit.js">
-      <DependentUpon>AppInit.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\App\Services\AuthenticationService.js">
-      <DependentUpon>AuthenticationService.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
@@ -484,6 +403,12 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptOutDir>Scripts\App\Compiled</TypeScriptOutDir>
+    <TypeScriptOutFile>Scripts\App\App.js</TypeScriptOutFile>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
