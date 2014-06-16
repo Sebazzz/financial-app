@@ -9,9 +9,9 @@ module FinancialApp.Factories {
     };
 
     export interface IWebResourceClass<T> extends ng.resource.IResourceClass<T> {
-        update(params: Object, data: T);
-        update(params: Object, data: T, successCallback: IAction);
-        update(params: Object, data: T, successCallback: IAction, failureCallback: IAction);
+        update(params: Object, data: T) : void;
+        update(params: Object, data: T, successCallback: IAction): void;
+        update(params: Object, data: T, successCallback: IAction, failureCallback: IAction): void;
     }
 
     // ReSharper disable once InconsistentNaming

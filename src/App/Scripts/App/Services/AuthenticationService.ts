@@ -30,7 +30,7 @@ module FinancialApp.Services {
 
             this.authInfo = this.checkAuthentication();
 
-            $rootScope.$on("$locationChangeStart", (ev, newLocation : string) => {
+            $rootScope.$on("$locationChangeStart", (ev : ng.IAngularEvent, newLocation : string) => {
                 if (!this.authInfo.isAuthenticated && newLocation.indexOf('/auth/login') === -1) {
                     ev.preventDefault();
                 }

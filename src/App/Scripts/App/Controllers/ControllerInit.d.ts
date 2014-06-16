@@ -4,7 +4,7 @@
 
 declare module FinancialApp {
     export class ControllerInitializer {
-        static registerControllers($app : ng.IModule);
-        static registerControllerRoutes($routeProvider : ng.route.IRouteProvider);
+        static registerControllers($app : ng.IModule) : void;
+        static registerControllerRoutes($routeProvider : ng.route.IRouteProvider) : void;
     }
 }
