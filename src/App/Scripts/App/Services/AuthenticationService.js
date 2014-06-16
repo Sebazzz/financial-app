@@ -1,4 +1,4 @@
-﻿/// <reference path="../Common.ts"/>
+/// <reference path="../Common.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
 /// <reference path="../DTO.generated.d.ts"/>
 var FinancialApp;

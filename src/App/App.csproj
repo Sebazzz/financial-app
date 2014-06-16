@@ -170,6 +170,7 @@
     <Content Include="Angular\CategoryList.html" />
     <Content Include="Angular\Default.html" />
     <Content Include="Angular\Archive.html" />
+    <Content Include="Angular\Offline.html" />
     <Content Include="Angular\Sheet.html" />
     <Content Include="Angular\Widgets\Loader.html" />
     <Content Include="Angular\Widgets\Menu.html" />

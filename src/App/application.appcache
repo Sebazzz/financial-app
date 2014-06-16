@@ -12,3 +12,10 @@ CACHE:
 NETWORK:
 /api
 *
+
+FALLBACK:
+/bundles/style-app?v=* /bundles/style-app
+/bundles/style-lib?v=* /bundles/style-lib
+/bundles/script-lib?v=* /bundles/script-lib
+/bundles/script-app?v=* /bundles/script-app
+/Angular/AuthLogin.html /Angular/Offline.html
