@@ -365,7 +365,7 @@ var FinancialApp;
     FinancialApp.AuthLoginController = AuthLoginController;
 })(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/auth/logoff"/>
-/// <reference path="../.../typings/angularjs/angular.d.ts" />
+/// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../Services/AuthenticationService.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
@@ -485,19 +485,6 @@ var FinancialApp;
     })();
     FinancialApp.CategoryListController = CategoryListController;
 })(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var DefaultController = (function () {
-        function DefaultController() {
-        }
-        DefaultController.$inject = [];
-        return DefaultController;
-    })();
-    FinancialApp.DefaultController = DefaultController;
-})(FinancialApp || (FinancialApp = {}));
 /// <init-options exclude="route"/>
 /// <reference path="../Services/AuthenticationService.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
@@ -555,6 +542,21 @@ var FinancialApp;
     })();
     FinancialApp.MenuController = MenuController;
 })(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        'use strict';
+
+        angular.module('ngMoment', []).filter("moment", function () {
+            return function (input, format) {
+                return moment(input).format(format);
+            };
+        });
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/sheet/:year/:month"/>
 var FinancialApp;
 (function (FinancialApp) {
@@ -574,19 +576,17 @@ var FinancialApp;
     })();
     FinancialApp.SheetController = SheetController;
 })(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/moment/moment.d.ts" />
+/// <init-options route="/"/>
 var FinancialApp;
 (function (FinancialApp) {
-    (function (Directives) {
-        'use strict';
+    'use strict';
 
-        angular.module('ngMoment', []).filter("moment", function () {
-            return function (input, format) {
-                return moment(input).format(format);
-            };
-        });
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
+    var DefaultController = (function () {
+        function DefaultController() {
+        }
+        DefaultController.$inject = [];
+        return DefaultController;
+    })();
+    FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=App.js.map

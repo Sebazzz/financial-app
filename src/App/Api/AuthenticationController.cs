@@ -45,6 +45,13 @@
                                                 UserId = user.Id,
                                                 UserName = user.UserName
                                             };
-        } 
+        }
+
+        [HttpPost]
+        [Route("logoff")]
+        public AuthenticationInfo LogOff() {
+            this._authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return new AuthenticationInfo();
+        }
     }
 }
