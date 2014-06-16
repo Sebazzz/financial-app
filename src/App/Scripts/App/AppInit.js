@@ -15,12 +15,17 @@ var FinancialApp;
         Program.init = function () {
             /// <summary>Initializes the application</summary>
             if (Program.isInitialized === true) {
-                throw new Error("App is initialized");
+                throw new Error("App is already initialized");
+            }
+
+            if (!window.localStorage) {
+                alert('Sorry, your browser does not support local storage and can therefore not run this app.');
+                throw new Error("Local Storage (HTML5) support required, but was not present");
             }
 
             Program.isInitialized = true;
 
-            // moment language
+            // moment language (hardcoded dutch for now)
             moment.lang('nl');
 
             // define module
