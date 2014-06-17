@@ -148,6 +148,10 @@ var FinancialApp;
         };
 
         Program.initAppCache = function () {
+            if (!window.addEventListener) {
+                return;
+            }
+
             // Check if a new cache is available on page load.
             window.addEventListener('load', function (e) {
                 if (!window.applicationCache) {
@@ -394,10 +398,10 @@ var FinancialApp;
             this.$scope.errorMessage = null;
 
             this.authentication.authenticate(this.$scope.userName, this.$scope.password, this.$scope.rememberMe).then(function () {
-                // handled by
+                // handled by authorization control
             }, function () {
                 _this.$scope.errorMessage = "Inloggen mislukt. Controleer je gebruikersnaam of wachtwoord.";
-            }).finally(function () {
+            })['finally'](function () {
                 _this.$scope.isBusy = false;
             });
         };
@@ -515,7 +519,7 @@ var FinancialApp;
             $scope.deleteCategory = function (cat) {
                 if (cat.canBeDeleted === true) {
                     $scope.isLoaded = false;
-                    _this.api.delete({ id: cat.id }, function () {
+                    _this.api['delete']({ id: cat.id }, function () {
                         $scope.isLoaded = true;
                         $scope.categories.remove(cat);
                     });
@@ -526,6 +530,19 @@ var FinancialApp;
         return CategoryListController;
     })();
     FinancialApp.CategoryListController = CategoryListController;
+})(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var DefaultController = (function () {
+        function DefaultController() {
+        }
+        DefaultController.$inject = [];
+        return DefaultController;
+    })();
+    FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 /// <init-options exclude="route"/>
 /// <reference path="../Services/AuthenticationService.ts"/>
@@ -584,37 +601,6 @@ var FinancialApp;
     })();
     FinancialApp.MenuController = MenuController;
 })(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../Common.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Factories) {
-        // ReSharper disable once InconsistentNaming
-        function LocalStorageFactory() {
-            var fact = function ($window) {
-                return $window.localStorage;
-            };
-            return fact.withInject("$window");
-        }
-        Factories.LocalStorageFactory = LocalStorageFactory;
-    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
-    var Factories = FinancialApp.Factories;
-})(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/moment/moment.d.ts" />
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Directives) {
-        'use strict';
-
-        angular.module('ngMoment', []).filter("moment", function () {
-            return function (input, format) {
-                return moment(input).format(format);
-            };
-        });
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/sheet/:year/:month"/>
 var FinancialApp;
 (function (FinancialApp) {
@@ -634,17 +620,35 @@ var FinancialApp;
     })();
     FinancialApp.SheetController = SheetController;
 })(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/"/>
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
 var FinancialApp;
 (function (FinancialApp) {
-    'use strict';
+    (function (Directives) {
+        'use strict';
 
-    var DefaultController = (function () {
-        function DefaultController() {
+        angular.module('ngMoment', []).filter("moment", function () {
+            return function (input, format) {
+                return moment(input).format(format);
+            };
+        });
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
+})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Factories) {
+        // ReSharper disable once InconsistentNaming
+        function LocalStorageFactory() {
+            var fact = function ($window) {
+                return $window.localStorage;
+            };
+            return fact.withInject("$window");
         }
-        DefaultController.$inject = [];
-        return DefaultController;
-    })();
-    FinancialApp.DefaultController = DefaultController;
+        Factories.LocalStorageFactory = LocalStorageFactory;
+    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
+    var Factories = FinancialApp.Factories;
 })(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=App.js.map

@@ -71,6 +71,10 @@ module FinancialApp {
         }
 
         private static initAppCache() {
+            if (!window.addEventListener) {
+                return;
+            }
+
             // Check if a new cache is available on page load.
             window.addEventListener('load', e => {
                 if (!window.applicationCache) {

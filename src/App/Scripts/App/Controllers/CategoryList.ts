@@ -27,7 +27,7 @@ module FinancialApp {
             $scope.deleteCategory = (cat: DTO.ICategoryListing) => {
                 if (cat.canBeDeleted === true) {
                     $scope.isLoaded = false;
-                    this.api.delete({ id: cat.id }, () => {
+                    this.api['delete']({ id: cat.id }, () => {
                         $scope.isLoaded = true;
                         $scope.categories.remove(cat);
                     });

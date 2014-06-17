@@ -51,11 +51,10 @@ module FinancialApp {
                     this.$scope.password,
                     this.$scope.rememberMe)
                 .then(() => {
-                    // handled by 
+                    // handled by authorization control
                 }, () => {
                     this.$scope.errorMessage = "Inloggen mislukt. Controleer je gebruikersnaam of wachtwoord.";
-                })
-                .finally(() => {
+                })['finally'](() => {
                     this.$scope.isBusy = false;
                 });
         }
