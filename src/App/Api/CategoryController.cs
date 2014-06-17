@@ -6,31 +6,44 @@
     using Extensions;
     using Models;
     using Models.Domain;
+    using Models.Domain.Repositories;
+    using Models.Domain.Services;
     using Models.DTO;
 
-    public class CategoryController : ApiController {
-        private static readonly List<Category> Categories = new List<Category>{};
+    public class CategoryController : BaseEntityController {
+        private readonly CategoryRepository _categoryRepository;
+
+        public CategoryController(EntityOwnerService entityOwnerService, 
+                                  CategoryRepository categoryRepository) : base(entityOwnerService) {
+            this._categoryRepository = categoryRepository;
+        }
 
         // GET: api/Category
         public IEnumerable<CategoryListing> Get() {
-            return Categories.Select(x => new CategoryListing() {
-                                                                    Description = x.Description,
-                                                                    Name = x.Name,
-                                                                    Id = x.Id,
-                                                                    CanBeDeleted = true
-                                                                });
+            var q = this._categoryRepository.GetByOwner(this.OwnerId);
+
+            return q.Select(x => new CategoryListing() {
+                Description = x.Description,
+                Name = x.Name,
+                Id = x.Id,
+                CanBeDeleted = true
+            });
         }
+
+
 
         // GET: api/Category/5
         public Category Get(int id) {
-            return Categories.FirstOrDefault(x => x.Id == id).EnsureNotNull();
+            return this._categoryRepository.GetByOwner(this.OwnerId).FirstOrDefault(x=>x.Id ==id).EnsureNotNull();
         }
 
         // POST: api/Category
         public void Post([FromBody] Category value) {
             value.EnsureNotNull(HttpStatusCode.BadRequest);
 
-            Categories.Add(value);
+            this.EntityOwnerService.AssignOwner(value, this.OwnerId);
+            this._categoryRepository.Add(value);
+            this._categoryRepository.SaveChanges();
         }
 
         // PUT: api/Category/5
@@ -38,13 +51,19 @@
             value.EnsureNotNull(HttpStatusCode.BadRequest);
 
             Category c = this.Get(id);
-            Categories[Categories.IndexOf(c)] = value;
+            this.EntityOwnerService.EnsureOwner(c, this.OwnerId);
+
+            // TODO: edit
+            this._categoryRepository.SaveChanges();
         }
 
         // DELETE: api/Category/5
         public void Delete(int id) {
             Category c = this.Get(id);
-            Categories.Remove(c);
+            this.EntityOwnerService.EnsureOwner(c, this.OwnerId);
+
+            this._categoryRepository.Delete(c);
+            this._categoryRepository.SaveChanges();
         }
 
 
