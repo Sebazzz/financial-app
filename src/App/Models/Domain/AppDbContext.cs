@@ -55,6 +55,13 @@
 
             // owner groups
             modelBuilder.Entity<AppOwner>();
+
+            // sheet
+            modelBuilder.Entity<Sheet>();
+            modelBuilder.Entity<SheetEntry>()
+                        .HasRequired(x => x.Category)
+                        .WithMany(x => x.SheetEntries)
+                        .WillCascadeOnDelete(false);
         }
     }
 }

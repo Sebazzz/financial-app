@@ -1,4 +1,5 @@
 ﻿namespace App.Models.Domain {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
     using Repositories;
@@ -19,6 +20,9 @@
         [GenerateRepositoryQuery(IsMultiple = true)]
         public virtual AppOwner Owner { get; set; }
 
+        [IgnoreDataMember]
+        public virtual ICollection<SheetEntry> SheetEntries { get; set; }
+            
         [DataMember(Name = "description")]
         public string Description { get; set; }
     }

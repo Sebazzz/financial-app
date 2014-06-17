@@ -343,7 +343,12 @@
     <Compile Include="Migrations\201406141925482_InitialCreate.Designer.cs">
       <DependentUpon>201406141925482_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201406171910456_AddedSheetEntities.cs" />
+    <Compile Include="Migrations\201406171910456_AddedSheetEntities.Designer.cs">
+      <DependentUpon>201406171910456_AddedSheetEntities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Domain\AccountType.cs" />
     <Compile Include="Models\Domain\AppDbContext.cs" />
     <Compile Include="Models\Domain\AppOwner.cs" />
     <Compile Include="Models\Domain\Category.cs" />
@@ -358,6 +363,8 @@
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Domain\Services\EntityOwnerService.cs" />
+    <Compile Include="Models\Domain\Sheet.cs" />
+    <Compile Include="Models\Domain\SheetEntry.cs" />
     <Compile Include="Models\DTO\AuthenticationInfo.cs" />
     <Compile Include="Models\DTO\CategoryListing.cs" />
     <Compile Include="Models\DTO\LoginModel.cs" />
@@ -427,6 +434,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201406141925482_InitialCreate.resx">
       <DependentUpon>201406141925482_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406171910456_AddedSheetEntities.resx">
+      <DependentUpon>201406171910456_AddedSheetEntities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
