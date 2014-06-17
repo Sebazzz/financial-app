@@ -39,6 +39,17 @@ namespace App.Models.Domain.Repositories {
         }
 
         
+        [NotNull]
+        public IQueryable<App.Models.Domain.Sheet> GetByOwner(App.Models.Domain.AppOwner owner) {
+            return this._entitySet.Where(x => x.Owner.Id == owner.Id);
+        }
+
+        [NotNull]
+        public IQueryable<App.Models.Domain.Sheet> GetByOwner(int ownerId) {
+            return this._entitySet.Where(x => x.Owner.Id == ownerId);
+        }
+
+                
 
         public void Add(App.Models.Domain.Sheet item) {
             this._entitySet.Add(item);

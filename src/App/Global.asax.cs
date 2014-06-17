@@ -9,8 +9,8 @@
     {
         protected void Application_Start()
         {
-            AutoMapperConfig.Configure();
             ContainerConfig.Configure();
+            AutoMapperConfig.Configure();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             MvcConfig.Register();
             BundleConfig.Register();

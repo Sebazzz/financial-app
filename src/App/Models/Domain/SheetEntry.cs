@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using Identity;
 
-    public class SheetEntry {
+    public class SheetEntry : IHasId {
         public int Id { get; set; }
 
         [Required]

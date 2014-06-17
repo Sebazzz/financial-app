@@ -6,7 +6,7 @@
 
     [DataContract]
     [GenerateRepository]
-    public class Category : IAppOwnerEntity {
+    public class Category : IAppOwnerEntity, IHasId {
         [DataMember(Name="id")]
         public int Id { get; set; }
 
