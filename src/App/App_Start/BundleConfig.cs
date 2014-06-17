@@ -38,8 +38,6 @@
             appStyleBundle.Transforms.Add(new CssMinify());
 
             bundles.Add(appStyleBundle);
-
-            BundleTable.EnableOptimizations = true;
         }
     }
 }
