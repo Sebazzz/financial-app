@@ -81,11 +81,22 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
     }
 
     private string ConvertType(CodeProperty2 prop) {
-        if (this._dataTypeObjects.Contains(prop.Type.CodeType as CodeClass)) {
-            return "I" + prop.Type.CodeType.Name;
+        CodeType targetType;
+        bool isArray = false;
+
+        if (isArray = (prop.Type.TypeKind == vsCMTypeRef.vsCMTypeRefArray)) {
+            CodeTypeRef arr = prop.Type.ElementType;
+
+            targetType = arr.CodeType;
+        } else {
+            targetType = prop.Type.CodeType;
         }
 
-        switch (prop.Type.AsFullName) {
+        if (this._dataTypeObjects.Contains(targetType as CodeClass)) {
+            return "I" + targetType.Name + (isArray ? "[]" : String.Empty);
+        }
+
+        switch (targetType.FullName) {
             case "System.Int32":
             case "System.Int64":
             case "System.Int16":

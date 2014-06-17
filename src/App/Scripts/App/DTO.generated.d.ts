@@ -23,6 +23,53 @@ declare module FinancialApp.DTO {
             }
 
         
+    export interface ISheetEntry {
+        
+            id : number;
+
+        
+            categoryId : number;
+
+        
+            delta : any;
+
+        
+            source : string;
+
+        
+            remark : string;
+
+        
+            updateTimestamp : any;
+
+        
+            createTimestamp : any;
+
+        
+            account : any;
+
+            }
+
+        
+    export interface ISheet {
+        
+            id : number;
+
+        
+            subject : any;
+
+        
+            updateTimestamp : any;
+
+        
+            createTimestamp : any;
+
+        
+            entries : ISheetEntry[];
+
+            }
+
+        
     export interface IAuthenticationInfo {
         
             isAuthenticated : boolean;
