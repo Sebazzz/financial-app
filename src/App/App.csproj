@@ -201,6 +201,10 @@
       <DependentUpon>hotkeys.css</DependentUpon>
     </Content>
     <Content Include="Content\Icons\Money.png" />
+    <Content Include="Content\MSTileConfig.xml" />
+    <Content Include="Content\Tiles\largetile.png" />
+    <Content Include="Content\Tiles\mediumtile.png" />
+    <Content Include="Content\Tiles\smalltile.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
