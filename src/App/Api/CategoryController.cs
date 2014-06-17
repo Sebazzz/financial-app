@@ -53,7 +53,7 @@
             Category c = this.Get(id);
             this.EntityOwnerService.EnsureOwner(c, this.OwnerId);
 
-            // TODO: edit
+            AutoMapper.Mapper.Map(value, c);
             this._categoryRepository.SaveChanges();
         }
 
