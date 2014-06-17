@@ -369,6 +369,7 @@
     </Compile>
     <Compile Include="Models\Domain\Repositories\SheetRepository.cs" />
     <Compile Include="Models\Domain\Services\EntityOwnerService.cs" />
+    <Compile Include="Models\Domain\Services\SheetRetrievalService.cs" />
     <Compile Include="Models\Domain\Sheet.cs" />
     <Compile Include="Models\Domain\SheetEntry.cs" />
     <Compile Include="Models\DTO\AuthenticationInfo.cs" />
