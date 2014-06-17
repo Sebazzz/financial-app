@@ -194,14 +194,15 @@ var FinancialApp;
         }
         ArchiveController.prototype.postProcess = function (sheets) {
             var now = moment();
+            var m = now.month() + 1, y = now.year();
 
             if (!Enumerable.From(sheets).Any(function (x) {
-                return now.month() === x.month && now.year() === x.year;
+                return m === x.month && y === x.year;
             })) {
                 // add dummy
                 sheets.push({
-                    month: now.month(),
-                    year: now.year(),
+                    month: m,
+                    year: y,
                     updateTimestamp: now.toISOString(),
                     createTimestamp: now.toISOString(),
                     name: null

@@ -27,12 +27,13 @@ module FinancialApp {
 
         postProcess(sheets: DTO.ISheetListing[]) {
             var now = moment();
+            var m = now.month() + 1, y = now.year();
 
-            if (!Enumerable.From(sheets).Any(x => now.month() === x.month && now.year() === x.year)) {
+            if (!Enumerable.From(sheets).Any(x => m === x.month && y === x.year)) {
                 // add dummy
                 sheets.push({
-                    month: now.month(),
-                    year: now.year(),
+                    month: m,
+                    year: y,
                     updateTimestamp: now.toISOString(),
                     createTimestamp: now.toISOString(),
                     name: null
