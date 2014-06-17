@@ -432,7 +432,6 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-scenario.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\linq\linq.3.0.3-Beta4.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\linq\linq.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\linq\linq.jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />

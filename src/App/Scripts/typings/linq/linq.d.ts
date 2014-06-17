@@ -219,4 +219,4 @@ declare module linq {
     }
 }
 
-declare var Enumerable: linqjs.EnumerableStatic;
+declare var Enumerable: linq.EnumerableStatic;
