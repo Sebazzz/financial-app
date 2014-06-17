@@ -12,6 +12,7 @@
             bundles.Add(
                 new ScriptBundle("~/bundles/script-lib")
                     .Include("~/Scripts/moment-with-langs.js",
+                             "~/Scripts/linq.js",
                              "~/Scripts/angular.js",
                              "~/Scripts/angular-resource.js",
                              "~/Scripts/angular-route.js",

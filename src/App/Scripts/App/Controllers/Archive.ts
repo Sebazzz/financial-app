@@ -1,4 +1,5 @@
 ﻿/// <reference path="../../typings/angularjs/angular.d.ts"/>
+/// <reference path="../../typings/linq/linq.d.ts"/>
 /// <reference path="../DTO.generated.d.ts"/>
 
 module FinancialApp {
@@ -18,10 +19,25 @@ module FinancialApp {
         constructor($scope : IArchiveScope, $resource : ng.resource.IResourceService) {
             this.api = $resource<DTO.ISheetListing>("/api/sheet/:id");
 
-
             $scope.sheets = this.api.query(() => {
                 $scope.isLoaded = true;
+                this.postProcess($scope.sheets);
             });
+        }
+
+        postProcess(sheets: DTO.ISheetListing[]) {
+            var now = moment();
+
+            if (!Enumerable.from(sheets).any(x => now.month() === x.month && now.year() === x.year)) {
+                // add dummy
+                sheets.push({
+                    month: now.month(),
+                    year: now.year(),
+                    updateTimestamp: now.toISOString(),
+                    createTimestamp: now.toISOString(),
+                    name: null
+                });
+            }
         }
     }
  }

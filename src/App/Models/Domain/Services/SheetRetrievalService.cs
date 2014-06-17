@@ -36,7 +36,8 @@
         private IEnumerable<SheetListing> GetAllCore(int ownerId) {
             IQueryable<Sheet> allSheets = this._sheetRepository.GetByOwner(ownerId);
 
-            return allSheets.Project()
+            return allSheets.OrderByDescending(x => x.Subject)
+                            .Project()
                             .To<SheetListing>();
         }
 
