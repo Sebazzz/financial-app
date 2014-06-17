@@ -36,6 +36,19 @@ declare module FinancialApp.DTO {
             }
 
         
+    export interface ILoginModel {
+        
+            userName : string;
+
+        
+            password : string;
+
+        
+            persistent : boolean;
+
+            }
+
+        
     export interface ISheetListing {
         
             month : number;
@@ -45,6 +58,12 @@ declare module FinancialApp.DTO {
 
         
             name : string;
+
+        
+            updateTimestamp : any;
+
+        
+            createTimestamp : any;
 
             }
 
