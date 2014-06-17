@@ -28,10 +28,12 @@
 
             AutoMapper.Mapper.CreateMap<Models.DTO.Sheet, Sheet>(MemberList.Source);
 
-            AutoMapper.Mapper.CreateMap<SheetEntry, Models.DTO.SheetEntry>(MemberList.Destination);
+            AutoMapper.Mapper.CreateMap<SheetEntry, Models.DTO.SheetEntry>(MemberList.Destination)
+                .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id));
 
             AutoMapper.Mapper.CreateMap<Models.DTO.SheetEntry, SheetEntry>(MemberList.Source)
-                .ForMember(x => x.Category, m => m.ResolveUsing(typeof(EntityResolver<Category>)));
+                .ForMember(x => x.Category, m => m.ResolveUsing(typeof(EntityResolver<Category>)).FromMember(x=>x.CategoryId))
+                .ForSourceMember(x => x.CategoryId, m =>m.Ignore()); // TODO: ignore shouldn't be necessary here
 
             AutoMapper.Mapper.AssertConfigurationIsValid();
         }
