@@ -1,9 +1,11 @@
 ﻿namespace App.Models.Domain {
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
+    using Repositories;
 
     [DataContract]
-    public class Category {
+    [GenerateRepository]
+    public class Category : IAppOwnerEntity {
         [DataMember(Name="id")]
         public int Id { get; set; }
 
@@ -14,6 +16,7 @@
 
         [IgnoreDataMember]
         [Required]
+        [GenerateRepositoryQuery(IsMultiple = true)]
         public virtual AppOwner Owner { get; set; }
 
         [DataMember(Name = "description")]

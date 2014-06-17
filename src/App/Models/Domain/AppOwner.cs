@@ -3,10 +3,12 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using Identity;
+    using Repositories;
 
     /// <summary>
     /// Represents a group of owners
     /// </summary>
+    [GenerateRepository]
     public class AppOwner {
         private ICollection<AppUser> _users;
 

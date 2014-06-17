@@ -259,6 +259,11 @@
     <Content Include="Scripts\App\App.js.map">
       <DependentUpon>App.js</DependentUpon>
     </Content>
+    <Content Include="Models\Domain\Repositories\Repositories.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <CustomToolNamespace>App.Models.Domain.Repositories</CustomToolNamespace>
+      <LastGenOutput>Repositories.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
@@ -307,9 +312,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\AuthenticationController.cs" />
+    <Compile Include="Api\BaseEntityController.cs" />
     <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\Extensions\Annotations.cs" />
     <Compile Include="Api\Extensions\ApiExtensions.cs" />
+    <Compile Include="Api\Extensions\PrincipalExtensions.cs" />
+    <Compile Include="Api\Extensions\ValidationExceptionFilter.cs" />
     <Compile Include="Api\SheetController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\ContainerConfig.cs" />
@@ -328,9 +336,17 @@
     <Compile Include="Models\Domain\AppDbContext.cs" />
     <Compile Include="Models\Domain\AppOwner.cs" />
     <Compile Include="Models\Domain\Category.cs" />
+    <Compile Include="Models\Domain\IAppOwnerEntity.cs" />
+    <Compile Include="Models\Domain\Repositories\GenerateRepositoryAttribute.cs" />
     <Compile Include="Models\Domain\Identity\AppUser.cs" />
     <Compile Include="Models\Domain\Identity\AppUserManager.cs" />
     <Compile Include="Models\Domain\Identity\AppUserStore.cs" />
+    <Compile Include="Models\Domain\Repositories\Repositories.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Domain\Services\EntityOwnerService.cs" />
     <Compile Include="Models\DTO\AuthenticationInfo.cs" />
     <Compile Include="Models\DTO\CategoryListing.cs" />
     <Compile Include="Models\DTO\LoginModel.cs" />
