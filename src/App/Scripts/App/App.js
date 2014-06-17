@@ -255,7 +255,7 @@ var FinancialApp;
                     _this.raiseAuthenticationEvent();
 
                     ret.resolve(null);
-                }).error(function (data, status) {
+                }).error(function (data) {
                     return ret.reject(data);
                 });
 
@@ -327,7 +327,7 @@ var FinancialApp;
 
                 return angular.fromJson(authInfo);
             };
-            AuthenticationService.$inject = ["$http", "$q", "$rootScope", "$location"];
+            AuthenticationService.$inject = ["$http", "$q", "$rootScope", "$location", "localStorage"];
             return AuthenticationService;
         })();
         Services.AuthenticationService = AuthenticationService;

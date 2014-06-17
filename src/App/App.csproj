@@ -236,6 +236,7 @@
     <Content Include="Scripts\angular-resource.min.js.map">
       <DependentUpon>angular-resource.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\App\App.js" />
     <Content Include="Scripts\App\Controllers\ControllerInit.generated.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

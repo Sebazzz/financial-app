@@ -12,7 +12,7 @@ module FinancialApp.Services {
     }
 
     export class AuthenticationService {
-        static $inject = ["$http", "$q", "$rootScope", "$location"];
+        static $inject = ["$http", "$q", "$rootScope", "$location", "localStorage"];
 
         private authenticationChangedEvent: Delegate<IAction>;
         private authInfo: DTO.IAuthenticationInfo;
@@ -60,7 +60,7 @@ module FinancialApp.Services {
                 this.raiseAuthenticationEvent();
 
                 ret.resolve(null);
-            }).error((data, status) => ret.reject(data));
+            }).error((data) => ret.reject(data));
 
             return ret.promise;
         }
