@@ -133,5 +133,19 @@ declare module FinancialApp.DTO {
 
             }
 
+    
+    
+    export enum AccountType {
+        
+            Invalid  = 0,
+
+        
+            BankAccount ,
+
+        
+            SavingsAccount ,
+
+            }
+
     }
 

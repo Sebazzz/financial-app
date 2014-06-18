@@ -33,7 +33,7 @@
 	EnvDTE.ProjectItem templateProjectItem = dte.Solution.FindProjectItem(Host.TemplateFile);
 	EnvDTE.Project currentProject = templateProjectItem.ContainingProject;
     
-ProcessRecursive(currentProject.CodeModel);
+    ProcessRecursive(currentProject.CodeModel);
 #>
 
 declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
@@ -49,6 +49,18 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
     }
 
     <#}#>
+
+<#foreach (CodeEnum e in this._enumObjects){#>
+    
+    export enum <#=e.Name#> {
+        <# foreach (CodeVariable item in e.Members) { #>
+
+            <#=item.Name#> <#=item.InitExpression != null ? " = " + item.InitExpression : ""#>,
+
+        <#}#>
+    }
+
+    <#}#>
 }
 
 <#+
@@ -58,6 +70,7 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
     static readonly string DataMemberAttributeFullName = typeof(System.Runtime.Serialization.DataMemberAttribute).FullName;
 
     private readonly List<CodeClass> _dataTypeObjects = new List<CodeClass>();
+    private readonly List<CodeEnum> _enumObjects = new List<CodeEnum>();
 
     private IEnumerable<KeyValuePair<string, string>> GetConvertableProperties(CodeClass cls) {
         foreach (CodeProperty2 prop in cls.Members.OfType<CodeProperty2>()) {
@@ -118,7 +131,6 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
 	    if (codeModel == null) {
 	        return;
 	    }
-		 
 
 		foreach(EnvDTE.CodeElement element in codeModel.CodeElements)
 		{
@@ -127,6 +139,12 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
     }
 
     private void ProcessRecursive(CodeElement codeElement) {
+        // process enum
+        if (codeElement.Kind == EnvDTE.vsCMElement.vsCMElementEnum) {
+			var myEnum = (EnvDTE.CodeEnum)codeElement;
+			ProcessEnum(myEnum);
+		}
+        // process class
         if (codeElement.Kind == EnvDTE.vsCMElement.vsCMElementClass) {
 			var myClass = (EnvDTE.CodeClass)codeElement;
 			ProcessClass(myClass);
@@ -151,7 +169,15 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
 		this._dataTypeObjects.Add(cls);
     }
 
-    
+    private void ProcessEnum(CodeEnum e) {
+		// process only 'IEncryptable' classes
+        if (!e.Attributes.OfType<CodeAttribute>().Any(x=>x.FullName == DataContractAttributeFullName)) {
+            return;
+        }
+
+		this._enumObjects.Add(e);
+    }
+
 
     private string GetSuggestedNamespace(ProjectItem item) {
         string ns = item.Properties.Item("CustomToolNamespace").Value.ToString();
