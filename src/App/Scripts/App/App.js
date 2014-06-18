@@ -635,22 +635,34 @@ var FinancialApp;
 })(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/sheet/:year/:month"/>
 /// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../Factories/ResourceFactory.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     'use strict';
 
     var SheetController = (function () {
-        function SheetController($scope, $routeParams, $location) {
+        function SheetController($scope, $routeParams, $location, sheetResource) {
             this.$scope = $scope;
-            $scope.date = moment([parseInt($routeParams.year, 10), parseInt($routeParams.month, 10) - 1]);
+            this.$location = $location;
+            this.sheetResource = sheetResource;
+            var year = parseInt($routeParams.year, 10);
+            var month = parseInt($routeParams.month, 10);
 
-            // bail out if invalid date is provided
+            $scope.date = moment([year, month - 1]);
+
+            // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
                 $location.path("/archive");
                 return;
             }
+
+            // get data
+            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, function () {
+            }, function () {
+                return $location.path("/archive");
+            });
         }
-        SheetController.$inject = ["$scope", "$routeParams", "$location"];
+        SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource"];
         return SheetController;
     })();
     FinancialApp.SheetController = SheetController;

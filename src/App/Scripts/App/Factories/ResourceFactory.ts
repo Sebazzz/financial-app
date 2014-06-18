@@ -19,9 +19,9 @@ module FinancialApp.Factories {
         year: number;
     }
 
-    export interface ISheetWebResourceClass<T> extends IWebResourceClass<T> {
-        getByDate(params: ISheetDate);
-        getByDate(params: ISheetDate, success: Function, error?: Function);
+    export interface ISheetWebResourceClass extends IWebResourceClass<DTO.ISheet> {
+        getByDate(params: ISheetDate) : DTO.ISheet;
+        getByDate(params: ISheetDate, success: Function, error?: Function): DTO.ISheet;
     }
 
     // ReSharper disable InconsistentNaming
