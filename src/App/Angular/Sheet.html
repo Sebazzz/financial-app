@@ -2,6 +2,10 @@
     Financiën
     <small>{{ date | moment: 'MMMM YYYY'}}</small>
 </h1>
+<small>
+    Aangemaakt: {{ sheet.createTimestamp | moment: 'DD MMMM [om] HH:mm'}} | 
+    Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
+</small>
 
 <p>
     TODO
