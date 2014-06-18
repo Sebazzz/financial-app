@@ -9,8 +9,8 @@
         Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
     </small>
 
-    <div>
-        <table>
+    <div class="table-responsive">
+        <table class="table">
             <!-- Header -->
             <thead>
                 <tr>
@@ -36,8 +36,34 @@
             </thead>
             
             <!-- Body -->
-            <tbody>
-                
+            <tbody ng-repeat="entry in sheet.entries">
+                <tr>
+                    <td>
+                        {{ entry.source }}
+                    </td>
+                    
+                    <td>
+                        {{ entry.categoryId }}
+                    </td>
+                    
+                    <td>
+                        <div ng-show="entry.account === AccountType.BankAccount">
+                            {{ entry.delta }}
+                        </div>
+                    </td>
+                    
+                    <td>
+                        <div ng-show="entry.account === AccountType.SavingsAccount">
+                            {{ entry.delta }}
+                        </div>
+                    </td>
+                    
+                    <td>
+                        <button class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

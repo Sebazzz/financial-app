@@ -1,5 +1,6 @@
 ﻿/// <init-options route="/sheet/:year/:month"/>
 /// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../DTOEnum.generated.ts"/>
 /// <reference path="../Factories/ResourceFactory.ts"/>
 
 module FinancialApp {
@@ -9,6 +10,10 @@ module FinancialApp {
         date: Moment;
         isLoaded: boolean;
         sheet: DTO.ISheet;
+
+        // copy enum
+            // ReSharper disable once InconsistentNaming
+        AccountType: DTO.AccountType;
     }
 
     export interface ISheetRouteParams extends ng.route.IRouteParamsService {
@@ -29,6 +34,7 @@ module FinancialApp {
 
             $scope.date = moment([year, month - 1 /* zero offset */]);
             $scope.isLoaded = false;
+            $scope.AccountType = <any> DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
 
             // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
