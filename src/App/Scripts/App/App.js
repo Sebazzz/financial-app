@@ -62,12 +62,16 @@ var FinancialApp;
 
         ;
 
-        // ReSharper disable once InconsistentNaming
-        function ResourceFactory(spec) {
+        // ReSharper disable InconsistentNaming
+        function ResourceFactory(spec, extraMethods) {
+            var extraParams = {
+                'update': { method: 'PUT' }
+            };
+
+            angular.extend(extraParams, extraMethods);
+
             var fact = function ($resource) {
-                return $resource(spec, undefined, {
-                    'update': { method: 'PUT' }
-                });
+                return $resource(spec, undefined, extraParams);
             };
 
             return fact.withInject("$resource");
@@ -132,6 +136,13 @@ var FinancialApp;
 
             // factories
             app.factory("categoryResource", FinancialApp.Factories.ResourceFactory("/api/category/:id"));
+            app.factory("sheetResource", FinancialApp.Factories.ResourceFactory("/api/sheet/:id", {
+                'getByDate': {
+                    method: 'GET',
+                    url: '/api/sheet/:year/:month'
+                }
+            }));
+
             app.factory("localStorage", FinancialApp.Factories.LocalStorageFactory());
 
             // error handling

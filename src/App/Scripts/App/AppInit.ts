@@ -56,6 +56,13 @@ module FinancialApp {
 
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
+            app.factory("sheetResource", Factories.ResourceFactory<DTO.ISheet>("/api/sheet/:id", {
+                'getByDate': {
+                    method: 'GET',
+                    url: '/api/sheet/:year/:month'
+                }
+            }));
+
             app.factory("localStorage", Factories.LocalStorageFactory());
 
             // error handling
