@@ -29,6 +29,7 @@ module FinancialApp {
 
             $scope.$on("$locationChangeSuccess", () => {
                 $scope.currentPath = $location.path();
+                $scope.extendMenuVisible = false;
             });
 
             $scope.toggleNavBar = () => $scope.extendMenuVisible = !$scope.extendMenuVisible;
