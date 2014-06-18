@@ -9,7 +9,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ output extension=".generated.d.ts" #>
+<#@ output extension=".generated.ts" #>
 
 <#@ import namespace="Microsoft.VisualStudio.Shell.Interop" #>
 <#@ import namespace="EnvDTE" #>
@@ -36,21 +36,22 @@
     ProcessRecursive(currentProject.CodeModel);
 #>
 
-declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
+module <#= GetSuggestedNamespace(templateProjectItem) #> {
 
-    <#foreach (CodeClass cls in this._dataTypeObjects){#>
+
+
+<#foreach (CodeEnum e in this._enumObjects){#>
     
-    export interface I<#=cls.Name#> {
-        <# foreach (var item in GetConvertableProperties(cls)) { #>
+    export enum <#=e.Name#> {
+        <# foreach (CodeVariable item in e.Members) { #>
 
-            <#=item.Key#> : <#=item.Value#>;
+            <#=item.Name#> <#=item.InitExpression != null ? " = " + item.InitExpression : ""#>,
 
         <#}#>
     }
 
     <#}#>
 }
-
 
 <#+
     static readonly string DataContractAttributeFullName = typeof(System.Runtime.Serialization.DataContractAttribute).FullName;

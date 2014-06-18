@@ -274,6 +274,11 @@
       <CustomToolNamespace>App.Models.Domain.Repositories</CustomToolNamespace>
       <LastGenOutput>Repositories.generated.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\App\DTOEnum.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <CustomToolNamespace>FinancialApp.DTO</CustomToolNamespace>
+      <LastGenOutput>DTOEnum.generated.ts</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
@@ -416,6 +421,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DTO.tt</DependentUpon>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\App\DTOEnum.generated.ts">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DTOEnum.tt</DependentUpon>
     </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\App\Factories\LocalStorageFactory.ts" />
     <TypeScriptCompile Include="Scripts\App\Factories\ResourceFactory.ts" />
