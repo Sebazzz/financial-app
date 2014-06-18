@@ -623,17 +623,20 @@ var FinancialApp;
     FinancialApp.MenuController = MenuController;
 })(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/sheet/:year/:month"/>
+/// <reference path="../DTO.generated.d.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     'use strict';
 
     var SheetController = (function () {
         function SheetController($scope, $routeParams, $location) {
+            this.$scope = $scope;
             $scope.date = moment([parseInt($routeParams.year, 10), parseInt($routeParams.month, 10) - 1]);
 
             // bail out if invalid date is provided
             if (!$scope.date.isValid()) {
                 $location.path("/archive");
+                return;
             }
         }
         SheetController.$inject = ["$scope", "$routeParams", "$location"];
