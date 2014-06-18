@@ -48,13 +48,13 @@
 
                     <td>
                         <div ng-show="entry.account === AccountType.BankAccount">
-                            {{ entry.delta }}
+                            <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta }}</span>
                         </div>
                     </td>
 
                     <td>
                         <div ng-show="entry.account === AccountType.SavingsAccount">
-                            {{ entry.delta }}
+                            <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta }}</span>
                         </div>
                     </td>
 
@@ -65,6 +65,27 @@
                     </td>
                 </tr>
             </tbody>
+            
+            <!-- Footer -->
+            <tfoot>
+                <tr>
+                    <td colspan="2">
+                        &nbsp;
+                    </td>
+                    
+                    <td>
+                        
+                    </td>
+                    
+                    <td>
+                        
+                    </td>
+
+                    <td>
+                        
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

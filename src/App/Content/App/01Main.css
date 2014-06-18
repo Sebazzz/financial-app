@@ -62,3 +62,7 @@
 #app tr.row-middle td {
     vertical-align: middle;
 }
+
+span.negative {
+    color: red;
+}

@@ -214,6 +214,7 @@
     <Content Include="Content\bootstrap.css.map">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\angular-locale-nl_NL.js" />
     <Content Include="Scripts\angular-progress.js" />
     <Content Include="Scripts\angular-progress.min.js">
       <DependentUpon>angular-progress.js</DependentUpon>

@@ -14,6 +14,7 @@
                     .Include("~/Scripts/moment-with-langs.js",
                              "~/Scripts/linq.js",
                              "~/Scripts/angular.js",
+                             "~/Scripts/angular-locale-nl_NL.js",
                              "~/Scripts/angular-resource.js",
                              "~/Scripts/angular-route.js",
                              "~/Scripts/angular-progress.js",
