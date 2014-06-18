@@ -9,9 +9,38 @@
         Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
     </small>
 
-    <p>
-        TODO
-    </p>
+    <div>
+        <table>
+            <!-- Header -->
+            <thead>
+                <tr>
+                    <th>
+                        Bron
+                    </th>
+                    <th>
+                        Categorie
+                    </th>
+                
+                    <th>
+                        Betaalrekening
+                    </th>
+                
+                    <th>
+                        Spaarrekening
+                    </th>
+                    
+                    <th>
+                        &nbsp; <!-- Column for action buttons-->
+                    </th>
+                </tr>
+            </thead>
+            
+            <!-- Body -->
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>
