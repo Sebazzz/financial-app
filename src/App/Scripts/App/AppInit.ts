@@ -19,6 +19,9 @@ module FinancialApp {
                 throw new Error("App is already initialized");
             }
 
+            window.onerror = <ErrorEventHandler>Program.handleWindowError;
+            
+
             if (!window.localStorage) {
                 alert('Sorry, your browser does not support local storage and can therefore not run this app.');
                 throw new Error("Local Storage (HTML5) support required, but was not present");
@@ -54,6 +57,12 @@ module FinancialApp {
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
             app.factory("localStorage", Factories.LocalStorageFactory());
+
+            // error handling
+            app.factory('$exceptionHandler', () => (exception, cause) => {
+                alert(exception.message);
+                alert(cause);
+            });
 
             // services
             app.service("authentication", Services.AuthenticationService);
@@ -98,6 +107,17 @@ module FinancialApp {
         static createNowRoute(): string {
             var now: Date = new Date();
             return '/sheet/' + now.getFullYear() + "/" + (now.getMonth() + 1);
+        }
+
+        static handleWindowError(errMsg: string, url: string, lineNumber: number, column: number = 0, errType : Error = new Error("(no details)")) {
+            var n = "\n";
+            alert("Error in Application" + n +
+                  "'"+errMsg+"' at:"+n+
+                  " Line #"+lineNumber+" col #"+column + n +
+                  " At: "+url);
+
+            alert("Error Type: " + errType.toString() + n +
+                  "Name: "+ errType.name);
         }
     }
 }
