@@ -37,29 +37,29 @@
             
             <!-- Body -->
             <tbody ng-repeat="entry in sheet.entries">
-                <tr>
+                <tr class="row-middle">
                     <td>
                         {{ entry.source }}
                     </td>
-                    
+
                     <td>
                         {{ entry.categoryId }}
                     </td>
-                    
+
                     <td>
                         <div ng-show="entry.account === AccountType.BankAccount">
                             {{ entry.delta }}
                         </div>
                     </td>
-                    
+
                     <td>
                         <div ng-show="entry.account === AccountType.SavingsAccount">
                             {{ entry.delta }}
                         </div>
                     </td>
-                    
+
                     <td>
-                        <button class="btn btn-default">
+                        <button class="btn btn-default btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
                     </td>

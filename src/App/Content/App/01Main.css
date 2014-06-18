@@ -58,3 +58,7 @@
     text-align: right;
     font-size: 9pt;
 }
+
+#app tr.row-middle td {
+    vertical-align: middle;
+}
