@@ -7,7 +7,7 @@ module FinancialApp {
 
     export interface ISheetScope {
         date: Moment;
-
+        isLoaded: boolean;
         sheet: DTO.ISheet;
     }
 
@@ -28,7 +28,8 @@ module FinancialApp {
             var month = parseInt($routeParams.month, 10);
 
             $scope.date = moment([year, month - 1 /* zero offset */]);
-            
+            $scope.isLoaded = false;
+
             // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
                 $location.path("/archive");
@@ -36,7 +37,7 @@ module FinancialApp {
             }
 
             // get data
-            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, () => {}, () => $location.path("/archive"));
+            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, () => { $scope.isLoaded = true;  }, () => $location.path("/archive"));
         }
     }
 }

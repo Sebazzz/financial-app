@@ -649,6 +649,7 @@ var FinancialApp;
             var month = parseInt($routeParams.month, 10);
 
             $scope.date = moment([year, month - 1]);
+            $scope.isLoaded = false;
 
             // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
@@ -658,6 +659,7 @@ var FinancialApp;
 
             // get data
             $scope.sheet = sheetResource.getByDate({ year: year, month: month }, function () {
+                $scope.isLoaded = true;
             }, function () {
                 return $location.path("/archive");
             });
