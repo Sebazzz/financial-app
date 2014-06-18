@@ -18,7 +18,8 @@
                                              x.AddGlobalIgnore("Owner");
                                          });
 
-            AutoMapper.Mapper.CreateMap<Category,Category>();
+            AutoMapper.Mapper.CreateMap<Category,Category>()
+                             .ForMember(x => x.Owner, m=> m.Ignore());
 
             AutoMapper.Mapper.CreateMap<Sheet, Models.DTO.SheetListing>(MemberList.Destination)
                              .ForMember(x => x.Month, x=>x.MapFrom(z=>z.Subject.Month))
