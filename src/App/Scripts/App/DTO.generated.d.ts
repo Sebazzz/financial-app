@@ -81,7 +81,7 @@ declare module FinancialApp.DTO {
             createTimestamp : any;
 
         
-            account : any;
+            account : AccountType;
 
             }
 

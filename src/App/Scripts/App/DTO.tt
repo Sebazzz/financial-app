@@ -109,6 +109,10 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
             return "I" + targetType.Name + (isArray ? "[]" : String.Empty);
         }
 
+		if (this._enumObjects.Contains(targetType as CodeEnum)) {
+			return targetType.Name;
+		}
+
         switch (targetType.FullName) {
             case "System.Int32":
             case "System.Int64":
