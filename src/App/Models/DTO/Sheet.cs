@@ -10,6 +10,9 @@
         [DataMember(Name = "subject")]
         public DateTime Subject { get; set; }
 
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+
         [DataMember(Name = "updateTimestamp")]
         public DateTime UpdateTimestamp { get; set; }
 
