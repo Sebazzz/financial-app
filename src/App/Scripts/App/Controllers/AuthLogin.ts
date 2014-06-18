@@ -17,13 +17,14 @@ module FinancialApp {
     }
 
     export class AuthLoginController {
-        static $inject = ["$scope", "$location", "authentication"];
+        static $inject = ["$scope", "$location", "$log", "authentication"];
 
         constructor(private $scope: IAuthLoginScope,
                     private $location: ng.ILocationService,
+                            $log: ng.ILogService,
                     private authentication: Services.AuthenticationService) {
             if (authentication.isAuthenticated()) {
-                console.info("AuthLoginController: Already authenticated. Redirecting.");
+                $log.info("AuthLoginController: Already authenticated. Redirecting.");
                 this.$location.path("/auth/success");
                 return;
             }
@@ -36,7 +37,7 @@ module FinancialApp {
                 $scope.isBusy = false;
 
                 if (authentication.isAuthenticated()) {
-                    console.info("AuthLoginController: Has authenticated. Redirecting.");
+                    $log.info("AuthLoginController: Has authenticated. Redirecting.");
                     this.$location.path("/auth/success");
                 }
             });

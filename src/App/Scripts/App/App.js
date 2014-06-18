@@ -258,10 +258,11 @@ var FinancialApp;
         })();
 
         var AuthenticationService = (function () {
-            function AuthenticationService($http, $q, $rootScope, $location, localStorage) {
+            function AuthenticationService($http, $q, $log, $rootScope, $location, localStorage) {
                 var _this = this;
                 this.$http = $http;
                 this.$q = $q;
+                this.$log = $log;
                 this.localStorage = localStorage;
                 this.authenticationChangedEvent = new FinancialApp.Delegate();
 
@@ -336,10 +337,10 @@ var FinancialApp;
 
             AuthenticationService.prototype.checkAuthentication = function () {
                 var _this = this;
-                console.info("AuthenticationService: Checking authentication");
+                this.$log.info("AuthenticationService: Checking authentication");
 
                 this.$http.get("/api/authentication/check").success(function (info) {
-                    console.log("AuthenticationService: Authentication information received");
+                    _this.$log.log("AuthenticationService: Authentication information received");
 
                     _this.setAuthInfo(info);
                     _this.isCheckingAuthentication = false;
@@ -370,7 +371,7 @@ var FinancialApp;
 
                 return angular.fromJson(authInfo);
             };
-            AuthenticationService.$inject = ["$http", "$q", "$rootScope", "$location", "localStorage"];
+            AuthenticationService.$inject = ["$http", "$q", "$log", "$rootScope", "$location", "localStorage"];
             return AuthenticationService;
         })();
         Services.AuthenticationService = AuthenticationService;
@@ -385,13 +386,13 @@ var FinancialApp;
     'use strict';
 
     var AuthLoginController = (function () {
-        function AuthLoginController($scope, $location, authentication) {
+        function AuthLoginController($scope, $location, $log, authentication) {
             var _this = this;
             this.$scope = $scope;
             this.$location = $location;
             this.authentication = authentication;
             if (authentication.isAuthenticated()) {
-                console.info("AuthLoginController: Already authenticated. Redirecting.");
+                $log.info("AuthLoginController: Already authenticated. Redirecting.");
                 this.$location.path("/auth/success");
                 return;
             }
@@ -406,7 +407,7 @@ var FinancialApp;
                 $scope.isBusy = false;
 
                 if (authentication.isAuthenticated()) {
-                    console.info("AuthLoginController: Has authenticated. Redirecting.");
+                    $log.info("AuthLoginController: Has authenticated. Redirecting.");
                     _this.$location.path("/auth/success");
                 }
             });
@@ -424,7 +425,7 @@ var FinancialApp;
                 _this.$scope.isBusy = false;
             });
         };
-        AuthLoginController.$inject = ["$scope", "$location", "authentication"];
+        AuthLoginController.$inject = ["$scope", "$location", "$log", "authentication"];
         return AuthLoginController;
     })();
     FinancialApp.AuthLoginController = AuthLoginController;

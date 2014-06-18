@@ -12,7 +12,7 @@ module FinancialApp.Services {
     }
 
     export class AuthenticationService {
-        static $inject = ["$http", "$q", "$rootScope", "$location", "localStorage"];
+        static $inject = ["$http", "$q", "$log", "$rootScope", "$location", "localStorage"];
 
         private authenticationChangedEvent: Delegate<IAction>;
         private authInfo: DTO.IAuthenticationInfo;
@@ -21,6 +21,7 @@ module FinancialApp.Services {
 
         constructor(private $http: ng.IHttpService,
                     private $q: ng.IQService,
+                    private $log : ng.ILogService,
                     $rootScope: ng.IRootScopeService,
                     $location: ng.ILocationService,
                     private localStorage: Storage) {
@@ -90,11 +91,11 @@ module FinancialApp.Services {
         }
 
         private checkAuthentication(): DTO.IAuthenticationInfo {
-            console.info("AuthenticationService: Checking authentication");
+            this.$log.info("AuthenticationService: Checking authentication");
 
             this.$http.get<DTO.IAuthenticationInfo>("/api/authentication/check")
                 .success((info) => {
-                    console.log("AuthenticationService: Authentication information received");
+                    this.$log.log("AuthenticationService: Authentication information received");
 
                     this.setAuthInfo(info);
                     this.isCheckingAuthentication = false;
