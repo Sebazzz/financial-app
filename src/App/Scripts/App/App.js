@@ -155,6 +155,7 @@ var FinancialApp;
 
             // services
             app.service("authentication", FinancialApp.Services.AuthenticationService);
+            app.service("calculation", FinancialApp.Services.CalculationService);
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
@@ -651,21 +652,45 @@ var FinancialApp;
     })(FinancialApp.DTO || (FinancialApp.DTO = {}));
     var DTO = FinancialApp.DTO;
 })(FinancialApp || (FinancialApp = {}));
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../DTOEnum.generated.ts"/>
+/// <reference path="../../typings/linq/linq.d.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Services) {
+        var CalculationService = (function () {
+            function CalculationService() {
+            }
+            CalculationService.prototype.calculateTotal = function (sheet, accountType) {
+                return Enumerable.From(sheet.entries).Where(function (e) {
+                    return e.account === accountType;
+                }).Sum(function (e) {
+                    return e.delta;
+                });
+            };
+            return CalculationService;
+        })();
+        Services.CalculationService = CalculationService;
+    })(FinancialApp.Services || (FinancialApp.Services = {}));
+    var Services = FinancialApp.Services;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/sheet/:year/:month"/>
 /// <reference path="../../typings/linq/linq.d.ts"/>
 /// <reference path="../DTO.generated.d.ts"/>
 /// <reference path="../DTOEnum.generated.ts"/>
 /// <reference path="../Factories/ResourceFactory.ts"/>
+/// <reference path="../Services/CalculationService.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     'use strict';
 
     var SheetController = (function () {
-        function SheetController($scope, $routeParams, $location, sheetResource, categoryResource) {
+        function SheetController($scope, $routeParams, $location, sheetResource, categoryResource, calculation) {
             var _this = this;
             this.$scope = $scope;
             this.$location = $location;
             this.sheetResource = sheetResource;
+            this.calculation = calculation;
             this.isCategoriesLoaded = false;
             this.isSheetLoaded = false;
             var year = parseInt($routeParams.year, 10);
@@ -702,9 +727,18 @@ var FinancialApp;
                 return _this.addEntry();
             };
         }
-        SheetController.prototype.signalSheetsLoaded = function (data) {
+        SheetController.prototype.signalSheetsLoaded = function (sheet) {
+            var _this = this;
             this.isSheetLoaded = true;
-            this.setLoadedBit(data);
+
+            sheet.totalSavings = function () {
+                return _this.calculation.calculateTotal(sheet, 2 /* SavingsAccount */);
+            };
+            sheet.totalBank = function () {
+                return _this.calculation.calculateTotal(sheet, 1 /* BankAccount */);
+            };
+
+            this.setLoadedBit(sheet);
         };
 
         SheetController.prototype.signalCategoriesLoaded = function () {
@@ -761,7 +795,7 @@ var FinancialApp;
 
             this.$scope.sheet.entries.push(newEntry);
         };
-        SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource"];
+        SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource", "calculation"];
         return SheetController;
     })();
     FinancialApp.SheetController = SheetController;

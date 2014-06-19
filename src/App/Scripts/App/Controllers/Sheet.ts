@@ -3,6 +3,7 @@
 /// <reference path="../DTO.generated.d.ts"/>
 /// <reference path="../DTOEnum.generated.ts"/>
 /// <reference path="../Factories/ResourceFactory.ts"/>
+/// <reference path="../Services/CalculationService.ts"/>
 
 module FinancialApp {
     'use strict';
@@ -12,6 +13,11 @@ module FinancialApp {
             category: ICategory;   
             editMode: boolean;
             isBusy: boolean;
+        }
+
+        export interface ISheet {
+            totalSavings: () => number;
+            totalBank: () => number;
         }
     }
 
@@ -35,7 +41,7 @@ module FinancialApp {
     }
 
     export class SheetController {
-        static $inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource"];
+        static $inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource", "calculation"];
 
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
@@ -44,7 +50,8 @@ module FinancialApp {
                             $routeParams: ISheetRouteParams,
                     private $location: ng.ILocationService,
                     private sheetResource: Factories.ISheetWebResourceClass,
-                    categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>) {
+                    categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
+                    private calculation : Services.CalculationService) {
 
             var year = parseInt($routeParams.year, 10);
             var month = parseInt($routeParams.month, 10);
@@ -73,9 +80,13 @@ module FinancialApp {
             $scope.addEntry = () => this.addEntry();
         }
 
-        private signalSheetsLoaded(data) {
+        private signalSheetsLoaded(sheet : DTO.ISheet) {
             this.isSheetLoaded = true;
-            this.setLoadedBit(data);
+
+            sheet.totalSavings = () => this.calculation.calculateTotal(sheet, FinancialApp.DTO.AccountType.SavingsAccount);
+            sheet.totalBank = () => this.calculation.calculateTotal(sheet, FinancialApp.DTO.AccountType.BankAccount);
+
+            this.setLoadedBit(sheet);
         }
 
         private signalCategoriesLoaded() {

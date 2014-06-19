@@ -74,6 +74,7 @@ module FinancialApp {
 
             // services
             app.service("authentication", Services.AuthenticationService);
+            app.service("calculation", Services.CalculationService);
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);

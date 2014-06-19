@@ -141,9 +141,13 @@
                             &nbsp;
                         </td>
 
-                        <td></td>
+                        <td>
+                            <span ng-class="{ 'negative': sheet.totalBank() < 0 }">{{ sheet.totalBank() | currency }}</span>
+                        </td>
 
-                        <td></td>
+                        <td>
+                            <span ng-class="{ 'negative': sheet.totalSavings() < 0 }">{{ sheet.totalSavings() | currency }}</span>
+                        </td>
 
                         <td>
                             <button class="btn btn-primary btn-sm" ng-click="addEntry()">
