@@ -38,16 +38,18 @@
         }
 
         // POST: api/Category
-        public void Post([FromBody] Category value) {
+        public InsertId Post([FromBody] Category value) {
             value.EnsureNotNull(HttpStatusCode.BadRequest);
 
             this.EntityOwnerService.AssignOwner(value, this.OwnerId);
             this._categoryRepository.Add(value);
             this._categoryRepository.SaveChanges();
+
+            return value.Id;
         }
 
         // PUT: api/Category/5
-        public void Put(int id, [FromBody] Category value) {
+        public InsertId Put(int id, [FromBody] Category value) {
             value.EnsureNotNull(HttpStatusCode.BadRequest);
 
             Category c = this.Get(id);
@@ -55,6 +57,8 @@
 
             AutoMapper.Mapper.Map(value, c);
             this._categoryRepository.SaveChanges();
+
+            return id;
         }
 
         // DELETE: api/Category/5

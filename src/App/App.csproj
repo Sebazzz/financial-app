@@ -381,6 +381,7 @@
     <Compile Include="Models\Domain\SheetEntry.cs" />
     <Compile Include="Models\DTO\AuthenticationInfo.cs" />
     <Compile Include="Models\DTO\CategoryListing.cs" />
+    <Compile Include="Models\DTO\InsertId.cs" />
     <Compile Include="Models\DTO\LoginModel.cs" />
     <Compile Include="Models\DTO\Sheet.cs" />
     <Compile Include="Models\DTO\SheetEntry.cs" />

@@ -18,7 +18,11 @@ module FinancialApp {
 
         constructor($scope: ICategoryCreateScope, $location: ng.ILocationService, categoryResource: ng.resource.IResourceClass<DTO.ICategory>) {
             this.api = categoryResource;
-            $scope.save = () => this.api.save($scope.category, () => $location.path("/manage/category"));
+            $scope.save = () => this.api.save($scope.category, (data) => {
+                $scope.category.id = <number>data.id;
+
+                $location.path("/manage/category");
+            });
         }
     }
 
