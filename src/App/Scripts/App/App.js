@@ -695,6 +695,9 @@ var FinancialApp;
             $scope.saveEntry = function (entry) {
                 return _this.saveEntry(entry);
             };
+            $scope.addEntry = function () {
+                return _this.addEntry();
+            };
         }
         SheetController.prototype.signalSheetsLoaded = function (data) {
             this.isSheetLoaded = true;
@@ -723,6 +726,23 @@ var FinancialApp;
 
         SheetController.prototype.saveEntry = function (entry) {
             entry.editMode = false;
+        };
+
+        SheetController.prototype.addEntry = function () {
+            var newEntry = {
+                id: 0,
+                account: 1 /* BankAccount */,
+                categoryId: null,
+                category: null,
+                createTimestamp: moment(),
+                delta: 0,
+                remark: null,
+                source: null,
+                editMode: true,
+                updateTimestamp: moment()
+            };
+
+            this.$scope.sheet.entries.push(newEntry);
         };
         SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource"];
         return SheetController;

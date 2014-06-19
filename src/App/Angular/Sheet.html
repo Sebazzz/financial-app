@@ -9,7 +9,7 @@
         Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
     </small>
     
-    <form name="sheetForm">
+    <form name="sheetForm" novalidate>
         <div class="table-responsive">
             <table class="table">
                 <!-- Header -->
@@ -38,23 +38,29 @@
 
                 <!-- Body -->
                 <tbody ng-repeat="entry in sheet.entries">
-                    <tr class="row-middle" ng-show="entry.editMode" ng-init="entry.editMode = false" ng-form="entryForm">
+                    <tr class="row-middle" ng-show="entry.editMode" ng-form="entryForm">
                         <td>
-                            <input type="text" class="form-control input-sm" ng-model="entry.source"
+                            <input type="text" 
+                                   placeholder="(winkel, vaste lasten, etc)"
+                                   class="form-control input-sm" ng-model="entry.source"
                                    required maxlength="250"  />
                         </td>
 
                         <td>
                             <select ng-options="category.name for category in categories"
                                     ng-model="entry.category"
-                                    class="form-control input-sm"></select>
+                                    class="form-control input-sm"
+                                    required>
+                                <option value="">-- maak een keuze --</option>
+                            </select>
                         </td>
 
                         <td>
                             <div ng-show="entry.account === AccountType.BankAccount">
                                 <div class="input-group input-group-sm" ng-class="{ 'negative': entry.delta < 0 }">
                                     <span class="input-group-addon">€</span>
-                                    <input type="number" class="form-control input-sm" ng-model="entry.delta" required maxlength="5" />
+                                    <input type="number" class="form-control input-sm" placeholder="(voer bedrag in, met punten)"
+                                           ng-model="entry.delta" required maxlength="5" />
                                 </div>
                             </div>
                             <div ng-hide="entry.account === AccountType.BankAccount">
@@ -69,7 +75,8 @@
                             <div ng-show="entry.account === AccountType.SavingsAccount">
                                 <div class="input-group input-group-sm" ng-class="{ 'negative': entry.delta < 0 }">
                                     <span class="input-group-addon">€</span>
-                                    <input type="number" class="form-control" ng-model="entry.delta" required maxlength="5" />
+                                    <input type="number" class="form-control" placeholder="(voer bedrag in, met punten)"
+                                           ng-model="entry.delta" required maxlength="5" />
                                 </div>
                             </div>
                             <div ng-hide="entry.account === AccountType.SavingsAccount">
@@ -128,7 +135,7 @@
                         <td></td>
 
                         <td>
-                            <button class="btn btn-primary btn-sm">
+                            <button class="btn btn-primary btn-sm" ng-click="addEntry()">
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                             </button>
                         </td>

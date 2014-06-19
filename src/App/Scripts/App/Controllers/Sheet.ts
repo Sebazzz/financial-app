@@ -23,7 +23,8 @@ module FinancialApp {
         // copy enum
             // ReSharper disable once InconsistentNaming
         AccountType: DTO.AccountType;
-        saveEntry: (entry : DTO.ISheetEntry) => void
+        saveEntry: (entry: DTO.ISheetEntry) => void
+        addEntry: () => void;
     }
 
     export interface ISheetRouteParams extends ng.route.IRouteParamsService {
@@ -66,6 +67,7 @@ module FinancialApp {
             });
 
             $scope.saveEntry = (entry) => this.saveEntry(entry);
+            $scope.addEntry = () => this.addEntry();
         }
 
         private signalSheetsLoaded(data) {
@@ -93,6 +95,23 @@ module FinancialApp {
 
         private saveEntry(entry: DTO.ISheetEntry) {
             entry.editMode = false;
+        }
+
+        private addEntry(): void {
+            var newEntry: DTO.ISheetEntry = {
+                id: 0,
+                account: FinancialApp.DTO.AccountType.BankAccount,
+                categoryId: null,
+                category: null,
+                createTimestamp: moment(),
+                delta: 0,
+                remark: null,
+                source: null,
+                editMode: true,
+                updateTimestamp: moment()
+            };
+
+            this.$scope.sheet.entries.push(newEntry);
         }
     }
 }
