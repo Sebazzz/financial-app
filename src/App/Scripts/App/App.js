@@ -672,11 +672,13 @@ var FinancialApp;
             function CalculationService() {
             }
             CalculationService.prototype.calculateTotal = function (sheet, accountType) {
-                return Enumerable.From(sheet.entries).Where(function (e) {
+                var sum = Enumerable.From(sheet.entries).Where(function (e) {
                     return e.account === accountType;
                 }).Sum(function (e) {
                     return e.delta;
                 });
+
+                return sum || 0.00;
             };
             return CalculationService;
         })();
