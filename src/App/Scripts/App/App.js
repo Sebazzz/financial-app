@@ -562,6 +562,19 @@ var FinancialApp;
     })();
     FinancialApp.CategoryListController = CategoryListController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var DefaultController = (function () {
+        function DefaultController() {
+        }
+        DefaultController.$inject = [];
+        return DefaultController;
+    })();
+    FinancialApp.DefaultController = DefaultController;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options exclude="route"/>
 /// <reference path="../Services/AuthenticationService.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
@@ -638,21 +651,59 @@ var FinancialApp;
     })(FinancialApp.DTO || (FinancialApp.DTO = {}));
     var DTO = FinancialApp.DTO;
 })(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../Common.ts"/>
+/// <init-options route="/sheet/:year/:month"/>
+/// <reference path="../../typings/linq/linq.d.ts"/>
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../DTOEnum.generated.ts"/>
+/// <reference path="../Factories/ResourceFactory.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
-    (function (Factories) {
-        // ReSharper disable once InconsistentNaming
-        function LocalStorageFactory() {
-            var fact = function ($window) {
-                return $window.localStorage;
+    'use strict';
+
+    var SheetController = (function () {
+        function SheetController($scope, $routeParams, $location, sheetResource, categoryResource) {
+            this.$scope = $scope;
+            this.$location = $location;
+            this.sheetResource = sheetResource;
+            var year = parseInt($routeParams.year, 10);
+            var month = parseInt($routeParams.month, 10);
+
+            var isCategoriesLoaded = false;
+            var isSheetLoaded = false;
+
+            $scope.date = moment([year, month - 1]);
+            $scope.isLoaded = false;
+            $scope.AccountType = FinancialApp.DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
+
+            // bail out if invalid date is provided (we can do this without checking with the server)
+            if (!$scope.date.isValid()) {
+                $location.path("/archive");
+                return;
+            }
+
+            // get data
+            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, function () {
+                isSheetLoaded = true;
+                $scope.isLoaded = isSheetLoaded && isCategoriesLoaded;
+            }, function () {
+                return $location.path("/archive");
+            });
+
+            $scope.categories = categoryResource.query(function () {
+                isCategoriesLoaded = true;
+                $scope.isLoaded = isSheetLoaded && isCategoriesLoaded;
+            });
+
+            $scope.getCategory = function (id) {
+                return Enumerable.From($scope.categories).FirstOrDefault(function (c) {
+                    return c.id == id;
+                });
             };
-            return fact.withInject("$window");
         }
-        Factories.LocalStorageFactory = LocalStorageFactory;
-    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
-    var Factories = FinancialApp.Factories;
+        SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource"];
+        return SheetController;
+    })();
+    FinancialApp.SheetController = SheetController;
 })(FinancialApp || (FinancialApp = {}));
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../typings/moment/moment.d.ts" />
@@ -682,55 +733,20 @@ var FinancialApp;
     })(FinancialApp.Directives || (FinancialApp.Directives = {}));
     var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/sheet/:year/:month"/>
-/// <reference path="../DTO.generated.d.ts"/>
-/// <reference path="../DTOEnum.generated.ts"/>
-/// <reference path="../Factories/ResourceFactory.ts"/>
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../Common.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
-    'use strict';
-
-    var SheetController = (function () {
-        function SheetController($scope, $routeParams, $location, sheetResource) {
-            this.$scope = $scope;
-            this.$location = $location;
-            this.sheetResource = sheetResource;
-            var year = parseInt($routeParams.year, 10);
-            var month = parseInt($routeParams.month, 10);
-
-            $scope.date = moment([year, month - 1]);
-            $scope.isLoaded = false;
-            $scope.AccountType = FinancialApp.DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
-
-            // bail out if invalid date is provided (we can do this without checking with the server)
-            if (!$scope.date.isValid()) {
-                $location.path("/archive");
-                return;
-            }
-
-            // get data
-            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, function () {
-                $scope.isLoaded = true;
-            }, function () {
-                return $location.path("/archive");
-            });
+    (function (Factories) {
+        // ReSharper disable once InconsistentNaming
+        function LocalStorageFactory() {
+            var fact = function ($window) {
+                return $window.localStorage;
+            };
+            return fact.withInject("$window");
         }
-        SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource"];
-        return SheetController;
-    })();
-    FinancialApp.SheetController = SheetController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var DefaultController = (function () {
-        function DefaultController() {
-        }
-        DefaultController.$inject = [];
-        return DefaultController;
-    })();
-    FinancialApp.DefaultController = DefaultController;
+        Factories.LocalStorageFactory = LocalStorageFactory;
+    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
+    var Factories = FinancialApp.Factories;
 })(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=App.js.map
