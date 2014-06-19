@@ -9,9 +9,11 @@ module FinancialApp.Services {
         }
 
         public calculateTotal(sheet: DTO.ISheet, accountType: DTO.AccountType) {
-            return Enumerable.From(sheet.entries)
+            var sum = Enumerable.From(sheet.entries)
                              .Where((e : DTO.ISheetEntry) => e.account === accountType)
-                             .Sum((e : DTO.ISheetEntry) => e.delta);
+                             .Sum((e: DTO.ISheetEntry) => e.delta);
+
+            return sum || 0.00;
         }
     }    
 }
