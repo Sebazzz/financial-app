@@ -3,6 +3,7 @@
       id="app"
       ng-app="main"
       ng-strict-di="true"
+      data-is-mobile="@Request.Browser.IsMobileDevice"
       manifest="/application.appcache"
       ng-controller="MasterController">
 <head>

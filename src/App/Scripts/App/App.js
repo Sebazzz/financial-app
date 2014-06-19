@@ -100,7 +100,9 @@ var FinancialApp;
                 throw new Error("App is already initialized");
             }
 
-            window.onerror = Program.handleWindowError;
+            if (Program.enableDebug()) {
+                window.onerror = Program.handleWindowError;
+            }
 
             if (!window.localStorage) {
                 alert('Sorry, your browser does not support local storage and can therefore not run this app.');
@@ -146,12 +148,14 @@ var FinancialApp;
             app.factory("localStorage", FinancialApp.Factories.LocalStorageFactory());
 
             // error handling
-            app.factory('$exceptionHandler', function () {
-                return function (exception, cause) {
-                    alert(exception.message);
-                    alert(cause);
-                };
-            });
+            if (Program.enableDebug()) {
+                app.factory('$exceptionHandler', function () {
+                    return function (exception, cause) {
+                        alert(exception.message);
+                        alert(cause);
+                    };
+                });
+            }
 
             // services
             app.service("authentication", FinancialApp.Services.AuthenticationService);
@@ -191,6 +195,12 @@ var FinancialApp;
                     }
                 }, false);
             }, false);
+        };
+
+        Program.enableDebug = function () {
+            var htmlElement = document.getElementsByName("html")[0];
+            var isMobileDebug = htmlElement.getAttribute("data-is-mobile").toLowerCase() === "true";
+            return isMobileDebug;
         };
 
         Program.createNowRoute = function () {
