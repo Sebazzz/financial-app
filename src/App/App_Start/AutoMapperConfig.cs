@@ -33,13 +33,16 @@
                 .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id));
 
             AutoMapper.Mapper.CreateMap<Models.DTO.SheetEntry, SheetEntry>(MemberList.Source)
-                .ForMember(x => x.Category, m => m.ResolveUsing(typeof(EntityResolver<Category>)).FromMember(x=>x.CategoryId))
+                .ForMember(x => x.Category, m => m.MapFrom(s => s.CategoryId))
                 .ForSourceMember(x => x.CategoryId, m =>m.Ignore()); // TODO: ignore shouldn't be necessary here
+
+            AutoMapper.Mapper.CreateMap<int, Category>().ConvertUsing<EntityResolver<Category>>();
 
             AutoMapper.Mapper.AssertConfigurationIsValid();
         }
 
-        private sealed class EntityResolver<TEntity> : IValueResolver where TEntity : class, IHasId {
+        // ReSharper disable once ClassNeverInstantiated.Local -- It is instantiated, but using DI
+        private sealed class EntityResolver<TEntity> : IValueResolver, ITypeConverter<int, TEntity> where TEntity : class, IHasId {
             private readonly IOwinContext _owinContext;
             private readonly EntityOwnerService _entityOwnerService;
 
@@ -65,10 +68,14 @@
             /// Result, typically build from the source resolution result
             /// </returns>
             public ResolutionResult Resolve(ResolutionResult source) {
-                int primaryKey = GetPrimaryKey(source.Value);
-                TEntity result = FindEntity(primaryKey);
+                TEntity entry = ResolveCore(source.Value);
+                return source.New(entry, typeof(TEntity));
+            }
 
-                return source.New(result);
+            private TEntity ResolveCore(object sourceValue) {
+                int primaryKey = GetPrimaryKey(sourceValue);
+                TEntity result = FindEntityWithPermissionCheck(primaryKey);
+                return result;
             }
 
             private TEntity FindEntityWithPermissionCheck(int key) {
@@ -103,10 +110,21 @@
                 }
 
                 try {
-                    return Convert.ToInt32(value, CultureInfo.InvariantCulture);
+                    return System.Convert.ToInt32(value, CultureInfo.InvariantCulture);
                 }catch (InvalidCastException ex) {
                     throw new NotSupportedException("Cannot find PK", ex);
                 }
+            }
+
+            /// <summary>
+            /// Performs conversion from source to destination type
+            /// </summary>
+            /// <param name="context">Resolution context</param>
+            /// <returns>
+            /// Destination object
+            /// </returns>
+            public TEntity Convert(ResolutionContext context) {
+                return ResolveCore(context.SourceValue);
             }
         }
     }

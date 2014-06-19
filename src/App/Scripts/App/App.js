@@ -299,8 +299,7 @@ var FinancialApp;
                 });
 
                 if (!this.authInfo.isAuthenticated) {
-                    $location.path("/auth/login");
-                    $location.replace();
+                    window.location.pathname = "/auth/login";
                 }
             }
             AuthenticationService.prototype.addAuthenticationChange = function (invokable) {
