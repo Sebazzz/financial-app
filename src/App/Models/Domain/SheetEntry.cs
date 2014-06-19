@@ -1,8 +1,9 @@
 ﻿namespace App.Models.Domain {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Identity;
+    using Repositories;
 
+    [GenerateRepository]
     public class SheetEntry : IHasId {
         public int Id { get; set; }
 

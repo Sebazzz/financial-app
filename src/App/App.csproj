@@ -336,6 +336,7 @@
     <Compile Include="Api\Extensions\PrincipalExtensions.cs" />
     <Compile Include="Api\Extensions\ValidationExceptionFilter.cs" />
     <Compile Include="Api\SheetController.cs" />
+    <Compile Include="Api\SheetEntryController.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\ContainerConfig.cs" />

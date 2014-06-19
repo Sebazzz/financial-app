@@ -3,7 +3,7 @@
 
     [DataContract]
     public sealed class InsertId {
-        [DataMember(name="id")]
+        [DataMember(Name= "id")]
         public int Id { get; set; }
 
         /// <summary>
