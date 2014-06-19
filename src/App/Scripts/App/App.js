@@ -729,12 +729,12 @@ var FinancialApp;
 
         SheetController.prototype.saveEntry = function (entry) {
             entry.editMode = false;
-            entry.isSaving = true;
+            entry.isBusy = true;
             // TODO: save!
         };
 
         SheetController.prototype.deleteEntry = function (entry) {
-            entry.isSaving = true;
+            entry.isBusy = true;
             entry.editMode = false;
 
             // if the entry has not been saved, we can delete it right away
@@ -756,7 +756,7 @@ var FinancialApp;
                 source: null,
                 editMode: true,
                 updateTimestamp: moment(),
-                isSaving: false
+                isBusy: false
             };
 
             this.$scope.sheet.entries.push(newEntry);

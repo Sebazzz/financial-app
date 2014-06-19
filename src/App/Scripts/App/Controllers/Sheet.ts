@@ -11,7 +11,7 @@ module FinancialApp {
         export interface ISheetEntry {
             category: ICategory;   
             editMode: boolean;
-            isSaving: boolean;
+            isBusy: boolean;
         }
     }
 
@@ -98,13 +98,13 @@ module FinancialApp {
 
         private saveEntry(entry: DTO.ISheetEntry) {
             entry.editMode = false;
-            entry.isSaving = true;
+            entry.isBusy = true;
 
             // TODO: save!
         }
 
         private deleteEntry(entry: DTO.ISheetEntry) {
-            entry.isSaving = true;
+            entry.isBusy = true;
             entry.editMode = false;
 
             // if the entry has not been saved, we can delete it right away
@@ -126,7 +126,7 @@ module FinancialApp {
                 source: null,
                 editMode: true,
                 updateTimestamp: moment(),
-                isSaving: false
+                isBusy: false
             };
 
             this.$scope.sheet.entries.push(newEntry);

@@ -38,16 +38,15 @@
 
                 <!-- Body -->
                 <tbody ng-repeat="entry in sheet.entries">
-                    <tr class="row-middle" 
-                        ng-show="entry.editMode" 
-                        ng-form="entryForm" 
-                        ng-disabled="entry.isSaving"
-                        ng-class="{ 'saving': entry.isSaving }">
+                    <tr class="row-middle"
+                        ng-show="entry.editMode"
+                        ng-form="entryForm"
+                        ng-class="{ 'saving': entry.isBusy }">
                         <td>
-                            <input type="text" 
+                            <input type="text"
                                    placeholder="(winkel, vaste lasten, etc)"
                                    class="form-control input-sm" ng-model="entry.source"
-                                   required maxlength="250"  />
+                                   required maxlength="250" />
                         </td>
 
                         <td>
@@ -84,7 +83,7 @@
                                 </div>
                             </div>
                             <div ng-hide="entry.account === AccountType.SavingsAccount">
-                                <button class="btn btn-link" 
+                                <button class="btn btn-link"
                                         ng-click="entry.account = AccountType.SavingsAccount">
                                     Spaarrekening?
                                 </button>
@@ -103,7 +102,7 @@
 
                     <tr class="row-middle"
                         ng-hide="entry.editMode"
-                        ng-class="{ 'saving': entry.isSaving }">
+                        ng-class="{ 'saving': entry.isBusy }">
                         <td>
                             {{ entry.source }}
                         </td>
@@ -125,10 +124,10 @@
                         </td>
 
                         <td style="width: 6em">
-                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = true" ng-disabled="entry.isSaving">
+                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = true" ng-disabled="entry.isBusy">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
-                            <button class="btn btn-danger btn-sm" ng-click="deleteEntry(entry)" ng-disabled="entry.isSaving">
+                            <button class="btn btn-danger btn-sm" ng-click="deleteEntry(entry)" ng-disabled="entry.isBusy">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </td>
