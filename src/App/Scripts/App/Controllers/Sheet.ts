@@ -10,7 +10,8 @@ module FinancialApp {
     export module DTO {
         export interface ISheetEntry {
             category: ICategory;   
-            editMode:boolean;
+            editMode: boolean;
+            isSaving: boolean;
         }
     }
 
@@ -24,6 +25,7 @@ module FinancialApp {
             // ReSharper disable once InconsistentNaming
         AccountType: DTO.AccountType;
         saveEntry: (entry: DTO.ISheetEntry) => void
+        deleteEntry: (entry: DTO.ISheetEntry) => void
         addEntry: () => void;
     }
 
@@ -67,6 +69,7 @@ module FinancialApp {
             });
 
             $scope.saveEntry = (entry) => this.saveEntry(entry);
+            $scope.deleteEntry = (entry) => this.deleteEntry(entry);
             $scope.addEntry = () => this.addEntry();
         }
 
@@ -95,6 +98,15 @@ module FinancialApp {
 
         private saveEntry(entry: DTO.ISheetEntry) {
             entry.editMode = false;
+            entry.isSaving = true;
+
+            // TODO: save!
+        }
+
+        private deleteEntry(entry: DTO.ISheetEntry) {
+            entry.isSaving = true;
+            entry.editMode = false;
+
         }
 
         private addEntry(): void {
@@ -108,7 +120,8 @@ module FinancialApp {
                 remark: null,
                 source: null,
                 editMode: true,
-                updateTimestamp: moment()
+                updateTimestamp: moment(),
+                isSaving: false
             };
 
             this.$scope.sheet.entries.push(newEntry);

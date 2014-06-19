@@ -38,7 +38,11 @@
 
                 <!-- Body -->
                 <tbody ng-repeat="entry in sheet.entries">
-                    <tr class="row-middle" ng-show="entry.editMode" ng-form="entryForm">
+                    <tr class="row-middle" 
+                        ng-show="entry.editMode" 
+                        ng-form="entryForm" 
+                        ng-disabled="entry.isSaving"
+                        ng-class="{ 'saving': entry.isSaving }">
                         <td>
                             <input type="text" 
                                    placeholder="(winkel, vaste lasten, etc)"
@@ -91,6 +95,9 @@
                             <button class="btn btn-default btn-sm" ng-click="saveEntry(entry)" ng-disabled="entryForm.$invalid">
                                 <span class="glyphicon glyphicon-floppy-disk"></span>
                             </button>
+                            <button class="btn btn-danger btn-sm" ng-click="deleteEntry(entry)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
                         </td>
                     </tr>
 
@@ -118,6 +125,9 @@
                         <td style="width: 2em">
                             <button class="btn btn-default btn-sm" ng-click="entry.editMode = true">
                                 <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            <button class="btn btn-danger btn-sm" ng-click="deleteEntry(entry)">
+                                <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </td>
                     </tr>

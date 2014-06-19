@@ -695,6 +695,9 @@ var FinancialApp;
             $scope.saveEntry = function (entry) {
                 return _this.saveEntry(entry);
             };
+            $scope.deleteEntry = function (entry) {
+                return _this.deleteEntry(entry);
+            };
             $scope.addEntry = function () {
                 return _this.addEntry();
             };
@@ -726,6 +729,13 @@ var FinancialApp;
 
         SheetController.prototype.saveEntry = function (entry) {
             entry.editMode = false;
+            entry.isSaving = true;
+            // TODO: save!
+        };
+
+        SheetController.prototype.deleteEntry = function (entry) {
+            entry.isSaving = true;
+            entry.editMode = false;
         };
 
         SheetController.prototype.addEntry = function () {
@@ -739,7 +749,8 @@ var FinancialApp;
                 remark: null,
                 source: null,
                 editMode: true,
-                updateTimestamp: moment()
+                updateTimestamp: moment(),
+                isSaving: false
             };
 
             this.$scope.sheet.entries.push(newEntry);

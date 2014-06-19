@@ -66,3 +66,13 @@
 span.negative, div.input-group.negative .form-control {
     color: red;
 }
+
+tr.saving {
+    -ms-opacity: 0.8;
+    opacity: 0.8;
+
+    background-color: #CCC;
+
+    color: #909090;
+    color: rgba(000, 000, 000, 0.5);
+}
