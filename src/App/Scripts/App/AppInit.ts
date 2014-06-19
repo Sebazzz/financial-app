@@ -65,6 +65,8 @@ module FinancialApp {
                 }
             }));
 
+            app.factory("sheetEntryResource", Factories.ResourceFactory<DTO.ISheetEntry>("/api/sheet/:sheetId/entries/:id"));
+
             app.factory("localStorage", Factories.LocalStorageFactory());
 
             // error handling

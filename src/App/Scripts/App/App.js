@@ -145,6 +145,8 @@ var FinancialApp;
                 }
             }));
 
+            app.factory("sheetEntryResource", FinancialApp.Factories.ResourceFactory("/api/sheet/:sheetId/entries/:id"));
+
             app.factory("localStorage", FinancialApp.Factories.LocalStorageFactory());
 
             // error handling
@@ -298,6 +300,7 @@ var FinancialApp;
 
                 if (!this.authInfo.isAuthenticated) {
                     $location.path("/auth/login");
+                    $location.replace();
                 }
             }
             AuthenticationService.prototype.addAuthenticationChange = function (invokable) {
@@ -730,11 +733,12 @@ var FinancialApp;
     'use strict';
 
     var SheetController = (function () {
-        function SheetController($scope, $routeParams, $location, sheetResource, categoryResource, calculation) {
+        function SheetController($scope, $routeParams, $location, sheetResource, sheetEntryResource, categoryResource, calculation) {
             var _this = this;
             this.$scope = $scope;
             this.$location = $location;
             this.sheetResource = sheetResource;
+            this.sheetEntryResource = sheetEntryResource;
             this.calculation = calculation;
             this.isCategoriesLoaded = false;
             this.isSheetLoaded = false;
@@ -813,6 +817,7 @@ var FinancialApp;
         };
 
         SheetController.prototype.deleteEntry = function (entry) {
+            var _this = this;
             entry.isBusy = true;
             entry.editMode = false;
 
@@ -821,6 +826,16 @@ var FinancialApp;
                 this.$scope.sheet.entries.remove(entry);
                 return;
             }
+
+            // server-side delete
+            this.sheetEntryResource.delete({
+                sheetId: this.$scope.sheet.id,
+                id: entry.id
+            }, function () {
+                _this.$scope.sheet.entries.remove(entry);
+            }, function () {
+                return entry.isBusy = false;
+            });
         };
 
         SheetController.prototype.addEntry = function () {
@@ -840,7 +855,7 @@ var FinancialApp;
 
             this.$scope.sheet.entries.push(newEntry);
         };
-        SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource", "calculation"];
+        SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
         return SheetController;
     })();
     FinancialApp.SheetController = SheetController;

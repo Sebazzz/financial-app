@@ -38,6 +38,7 @@ module FinancialApp.Services {
 
             if (!this.authInfo.isAuthenticated) {
                 $location.path("/auth/login");
+                $location.replace();
             }
         }
 

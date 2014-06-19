@@ -41,7 +41,7 @@ module FinancialApp {
     }
 
     export class SheetController {
-        static $inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource", "calculation"];
+        static $inject = ["$scope", "$routeParams", "$location", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
 
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
@@ -50,6 +50,7 @@ module FinancialApp {
                             $routeParams: ISheetRouteParams,
                     private $location: ng.ILocationService,
                     private sheetResource: Factories.ISheetWebResourceClass,
+                    private sheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
                     private calculation : Services.CalculationService) {
 
@@ -123,6 +124,14 @@ module FinancialApp {
                 this.$scope.sheet.entries.remove(entry);
                 return;
             }
+
+            // server-side delete
+            this.sheetEntryResource.delete({
+                sheetId: this.$scope.sheet.id,
+                id: entry.id
+            }, () => {
+                this.$scope.sheet.entries.remove(entry);
+            }, () => entry.isBusy = false);
         }
 
         private addEntry(): void {
