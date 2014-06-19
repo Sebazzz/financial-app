@@ -63,6 +63,6 @@
     vertical-align: middle;
 }
 
-span.negative {
+span.negative, div.input-group.negative .form-control {
     color: red;
 }
