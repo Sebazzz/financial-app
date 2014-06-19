@@ -7,6 +7,7 @@
     using Microsoft.Owin.Security;
     using Models.Domain;
     using Models.Domain.Identity;
+    using Models.Domain.Repositories;
     using SimpleInjector;
     using SimpleInjector.Integration.WebApi;
 
@@ -21,6 +22,10 @@
             Container.RegisterPerWebRequest(() => AppUserManager.Create(new IdentityFactoryOptions<AppUserManager>(), Container.GetInstance<IOwinContext>()));
             Container.RegisterPerWebRequest(AppDbContext.Create);
             Container.RegisterPerWebRequest<DbContext>(() => Container.GetInstance<AppDbContext>());
+
+            RepositoryRegistry.InsertIn(Container);
+
+
 
             SetUpIntegration();
         }

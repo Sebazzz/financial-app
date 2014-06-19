@@ -125,6 +125,14 @@ namespace <#= GetSuggestedNamespace(templateProjectItem) #> {
     }
 
     <#}#>
+
+	internal static class RepositoryRegistry {
+		internal static void InsertIn(SimpleInjector.Container c) {
+			<#foreach (CodeClass cls in this._dataTypeObjects){#>
+				c.Register<<#=cls.Name#>Repository>();
+			<#}#>
+		}
+	}
 }
 
 <#+

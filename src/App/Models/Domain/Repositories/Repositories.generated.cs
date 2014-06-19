@@ -247,5 +247,14 @@ namespace App.Models.Domain.Repositories {
         }
     }
 
-    }
+    
+	internal static class RepositoryRegistry {
+		internal static void InsertIn(SimpleInjector.Container c) {
+							c.Register<SheetEntryRepository>();
+							c.Register<CategoryRepository>();
+							c.Register<SheetRepository>();
+							c.Register<AppOwnerRepository>();
+					}
+	}
+}
 
