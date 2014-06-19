@@ -198,8 +198,8 @@ var FinancialApp;
         };
 
         Program.enableDebug = function () {
-            var htmlElement = document.getElementsByName("html")[0];
-            var isMobileDebug = htmlElement.getAttribute("data-is-mobile").toLowerCase() === "true";
+            var htmlElement = document.getElementsByTagName("html")[0];
+            var isMobileDebug = htmlElement.getAttribute("data-is-mobile") === "true";
             return isMobileDebug;
         };
 

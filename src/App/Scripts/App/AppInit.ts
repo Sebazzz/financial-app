@@ -117,8 +117,8 @@ module FinancialApp {
         }
 
         private static enableDebug(): boolean {
-            var htmlElement = <HTMLHtmlElement> document.getElementsByName("html")[0];
-            var isMobileDebug = htmlElement.getAttribute("data-is-mobile").toLowerCase() === "true";
+            var htmlElement = <HTMLHtmlElement> document.getElementsByTagName("html")[0];
+            var isMobileDebug = htmlElement.getAttribute("data-is-mobile") === "true";
             return isMobileDebug;
         }
 
