@@ -107,6 +107,11 @@ module FinancialApp {
             entry.isSaving = true;
             entry.editMode = false;
 
+            // if the entry has not been saved, we can delete it right away
+            if (entry.id == 0) {
+                this.$scope.sheet.entries.remove(entry);
+                return;
+            }
         }
 
         private addEntry(): void {
