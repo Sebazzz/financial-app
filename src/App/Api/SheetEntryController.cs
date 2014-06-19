@@ -24,6 +24,7 @@
 
         // POST: api/sheet/1/entries
         [HttpPost]
+        [Route("")]
         public InsertId Post(int sheetId, [FromBody] SheetEntryDTO value) {
             Sheet targetSheet = this._sheetRepository.FindById(sheetId).EnsureNotNull();
             this.EntityOwnerService.EnsureOwner(targetSheet, this.OwnerId);
