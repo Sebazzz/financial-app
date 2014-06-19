@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                             <div ng-hide="entry.account === AccountType.SavingsAccount">
-                                <button class="btn btn-link"
+                                <button class="btn btn-link" 
                                         ng-click="entry.account = AccountType.SavingsAccount">
                                     Spaarrekening?
                                 </button>
@@ -101,7 +101,9 @@
                         </td>
                     </tr>
 
-                    <tr class="row-middle" ng-hide="entry.editMode">
+                    <tr class="row-middle"
+                        ng-hide="entry.editMode"
+                        ng-class="{ 'saving': entry.isSaving }">
                         <td>
                             {{ entry.source }}
                         </td>
@@ -123,10 +125,10 @@
                         </td>
 
                         <td style="width: 6em">
-                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = true">
+                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = true" ng-disabled="entry.isSaving">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
-                            <button class="btn btn-danger btn-sm" ng-click="deleteEntry(entry)">
+                            <button class="btn btn-danger btn-sm" ng-click="deleteEntry(entry)" ng-disabled="entry.isSaving">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </td>

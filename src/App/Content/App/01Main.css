@@ -68,10 +68,10 @@ span.negative, div.input-group.negative .form-control {
 }
 
 tr.saving {
-    -ms-opacity: 0.8;
-    opacity: 0.8;
+    -ms-opacity: 0.6;
+    opacity: 0.6;
 
-    background-color: #CCC;
+    background-color: #EEE;
 
     color: #909090;
     color: rgba(000, 000, 000, 0.5);
