@@ -10,6 +10,7 @@ module FinancialApp {
     export module DTO {
         export interface ISheetEntry {
             category: ICategory;   
+            editMode:boolean;
         }
     }
 
@@ -22,6 +23,7 @@ module FinancialApp {
         // copy enum
             // ReSharper disable once InconsistentNaming
         AccountType: DTO.AccountType;
+        saveEntry: (entry : DTO.ISheetEntry) => void
     }
 
     export interface ISheetRouteParams extends ng.route.IRouteParamsService {
@@ -62,6 +64,8 @@ module FinancialApp {
             $scope.categories = categoryResource.query(() => {
                 this.signalCategoriesLoaded();
             });
+
+            $scope.saveEntry = (entry) => this.saveEntry(entry);
         }
 
         private signalSheetsLoaded(data) {
@@ -85,6 +89,10 @@ module FinancialApp {
                 var entry = sheetData.entries[i];
                 entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(c => entry.categoryId === c.id);
             }
+        }
+
+        private saveEntry(entry: DTO.ISheetEntry) {
+            entry.editMode = false;
         }
     }
 }

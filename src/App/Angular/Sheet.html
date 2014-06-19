@@ -38,7 +38,7 @@
 
                 <!-- Body -->
                 <tbody ng-repeat="entry in sheet.entries">
-                    <tr class="row-middle" ng-show="entry.editMode" ng-init="entry.editMode = false" ng-form>
+                    <tr class="row-middle" ng-show="entry.editMode" ng-init="entry.editMode = false" ng-form="entryForm">
                         <td>
                             <input type="text" class="form-control input-sm" ng-model="entry.source"
                                    required maxlength="250"  />
@@ -81,7 +81,7 @@
                         </td>
 
                         <td style="width: 2em">
-                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = false" ng-disabled="cForm.$invalid">
+                            <button class="btn btn-default btn-sm" ng-click="saveEntry(entry)" ng-disabled="entryForm.$invalid">
                                 <span class="glyphicon glyphicon-floppy-disk"></span>
                             </button>
                         </td>
@@ -109,7 +109,7 @@
                         </td>
 
                         <td style="width: 2em">
-                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = true;">
+                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = true">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>
                         </td>

@@ -691,6 +691,10 @@ var FinancialApp;
             $scope.categories = categoryResource.query(function () {
                 _this.signalCategoriesLoaded();
             });
+
+            $scope.saveEntry = function (entry) {
+                return _this.saveEntry(entry);
+            };
         }
         SheetController.prototype.signalSheetsLoaded = function (data) {
             this.isSheetLoaded = true;
@@ -715,6 +719,10 @@ var FinancialApp;
                     return entry.categoryId === c.id;
                 });
             }
+        };
+
+        SheetController.prototype.saveEntry = function (entry) {
+            entry.editMode = false;
         };
         SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource"];
         return SheetController;
