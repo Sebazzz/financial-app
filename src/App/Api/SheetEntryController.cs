@@ -23,9 +23,8 @@
         }
 
         // POST: api/sheet/1/entries
-        [Route("{id:int}")]
         [HttpPost]
-        public InsertId Post(int sheetId, int id, [FromBody] SheetEntryDTO value) {
+        public InsertId Post(int sheetId, [FromBody] SheetEntryDTO value) {
             Sheet targetSheet = this._sheetRepository.FindById(sheetId).EnsureNotNull();
             this.EntityOwnerService.EnsureOwner(targetSheet, this.OwnerId);
 

@@ -578,19 +578,6 @@ var FinancialApp;
     })();
     FinancialApp.CategoryListController = CategoryListController;
 })(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var DefaultController = (function () {
-        function DefaultController() {
-        }
-        DefaultController.$inject = [];
-        return DefaultController;
-    })();
-    FinancialApp.DefaultController = DefaultController;
-})(FinancialApp || (FinancialApp = {}));
 /// <init-options exclude="route"/>
 /// <reference path="../Services/AuthenticationService.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
@@ -666,6 +653,50 @@ var FinancialApp;
         var AccountType = DTO.AccountType;
     })(FinancialApp.DTO || (FinancialApp.DTO = {}));
     var DTO = FinancialApp.DTO;
+})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Factories) {
+        // ReSharper disable once InconsistentNaming
+        function LocalStorageFactory() {
+            var fact = function ($window) {
+                return $window.localStorage;
+            };
+            return fact.withInject("$window");
+        }
+        Factories.LocalStorageFactory = LocalStorageFactory;
+    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
+    var Factories = FinancialApp.Factories;
+})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        'use strict';
+
+        angular.module('ngMoment', []).filter("moment", function () {
+            return function (input, arg) {
+                var m = moment(input);
+                var fn, args;
+
+                if (typeof arg === "string") {
+                    return m.format(arg);
+                } else if (Array.isArray(arg)) {
+                    fn = arg[0];
+                    args = arg.splice(1);
+                } else {
+                    fn = arg['func'];
+                    args = arg.arguments || [];
+                }
+
+                return m[fn].apply(m, args);
+            };
+        });
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
 /// <reference path="../DTO.generated.d.ts"/>
 /// <reference path="../DTOEnum.generated.ts"/>
@@ -782,7 +813,44 @@ var FinancialApp;
         SheetController.prototype.saveEntry = function (entry) {
             entry.editMode = false;
             entry.isBusy = true;
-            // TODO: save!
+
+            // santize
+            entry.categoryId = entry.category.id;
+
+            if (!(entry.id > 0)) {
+                this.saveAsNewEntry(entry);
+                return;
+            }
+
+            var params = {
+                sheetId: this.$scope.sheet.id,
+                id: entry.id
+            };
+
+            var res = this.sheetEntryResource.update(params, entry);
+            res.$promise.then(function () {
+                entry.isBusy = false;
+            });
+            res.$promise['catch'](function () {
+                entry.isBusy = false;
+                entry.editMode = true;
+            });
+        };
+
+        SheetController.prototype.saveAsNewEntry = function (entry) {
+            var params = {
+                sheetId: this.$scope.sheet.id
+            };
+
+            var res = this.sheetEntryResource.save(params, entry);
+            res.$promise.then(function (data) {
+                entry.id = data.id;
+                entry.isBusy = false;
+            });
+            res.$promise['catch'](function () {
+                entry.isBusy = false;
+                entry.editMode = true;
+            });
         };
 
         SheetController.prototype.deleteEntry = function (entry) {
@@ -831,48 +899,17 @@ var FinancialApp;
     })();
     FinancialApp.SheetController = SheetController;
 })(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/moment/moment.d.ts" />
+/// <init-options route="/"/>
 var FinancialApp;
 (function (FinancialApp) {
-    (function (Directives) {
-        'use strict';
+    'use strict';
 
-        angular.module('ngMoment', []).filter("moment", function () {
-            return function (input, arg) {
-                var m = moment(input);
-                var fn, args;
-
-                if (typeof arg === "string") {
-                    return m.format(arg);
-                } else if (Array.isArray(arg)) {
-                    fn = arg[0];
-                    args = arg.splice(1);
-                } else {
-                    fn = arg['func'];
-                    args = arg.arguments || [];
-                }
-
-                return m[fn].apply(m, args);
-            };
-        });
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../Common.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Factories) {
-        // ReSharper disable once InconsistentNaming
-        function LocalStorageFactory() {
-            var fact = function ($window) {
-                return $window.localStorage;
-            };
-            return fact.withInject("$window");
+    var DefaultController = (function () {
+        function DefaultController() {
         }
-        Factories.LocalStorageFactory = LocalStorageFactory;
-    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
-    var Factories = FinancialApp.Factories;
+        DefaultController.$inject = [];
+        return DefaultController;
+    })();
+    FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=App.js.map

@@ -112,7 +112,43 @@ module FinancialApp {
             entry.editMode = false;
             entry.isBusy = true;
 
-            // TODO: save!
+            // santize
+            entry.categoryId = entry.category.id;
+
+            if (!(entry.id > 0)) {
+                this.saveAsNewEntry(entry);
+                return;
+            }
+
+            var params = {
+                sheetId: this.$scope.sheet.id,
+                id: entry.id
+            };
+
+            var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.update(params, entry);
+            res.$promise.then(() => {
+                entry.isBusy = false;
+            });
+            res.$promise['catch'](() => {
+                entry.isBusy = false;
+                entry.editMode = true;
+            });
+        }
+
+        private saveAsNewEntry(entry: DTO.ISheetEntry) {
+            var params = {
+                sheetId: this.$scope.sheet.id,
+            };
+
+            var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.save(params, entry);
+            res.$promise.then((data) => {
+                entry.id = data.id;
+                entry.isBusy = false;
+            });
+            res.$promise['catch'](() => {
+                entry.isBusy = false;
+                entry.editMode = true;
+            });
         }
 
         private deleteEntry(entry: DTO.ISheetEntry) {
