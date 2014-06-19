@@ -12,7 +12,7 @@
     using SheetEntry = Models.Domain.SheetEntry;
     using SheetEntryDTO=Models.DTO.SheetEntry;
 
-    [RoutePrefix("api/sheet/{sheetId:int:min(1)}/entries")]
+    [RoutePrefix("api/sheet/{sheetId:int}/entries")]
     public class SheetEntryController : BaseEntityController {
         private readonly SheetEntryRepository _sheetEntryRepository;
         private readonly SheetRepository _sheetRepository;
@@ -23,6 +23,8 @@
         }
 
         // POST: api/sheet/1/entries
+        [Route("{id:int}")]
+        [HttpPost]
         public InsertId Post(int sheetId, int id, [FromBody] SheetEntryDTO value) {
             Sheet targetSheet = this._sheetRepository.FindById(sheetId).EnsureNotNull();
             this.EntityOwnerService.EnsureOwner(targetSheet, this.OwnerId);
@@ -39,6 +41,8 @@
         }
 
         // PUT: api/sheet/1/entries
+        [Route("{id:int}")]
+        [HttpPut]
         public InsertId Put(int sheetId, int id, [FromBody] SheetEntryDTO value) {
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
             EnsureCorrectSheet(entry, sheetId);
@@ -53,6 +57,8 @@
         }
 
         // DELETE: api/sheet/1/entries
+        [Route("{id:int}")]
+        [HttpDelete]
         public void Delete(int sheetId, int id) {
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
             EnsureCorrectSheet(entry, sheetId);
