@@ -25,8 +25,6 @@
 
             RepositoryRegistry.InsertIn(Container);
 
-
-
             SetUpIntegration();
         }
 
