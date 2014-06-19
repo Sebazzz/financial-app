@@ -8,88 +8,136 @@
         Aangemaakt: {{ sheet.createTimestamp | moment: 'DD MMMM [om] HH:mm'}} |
         Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
     </small>
+    
+    <form name="sheetForm">
+        <div class="table-responsive">
+            <table class="table">
+                <!-- Header -->
+                <thead>
+                    <tr>
+                        <th>
+                            Bron
+                        </th>
+                        <th>
+                            Categorie
+                        </th>
 
-    <div class="table-responsive">
-        <table class="table">
-            <!-- Header -->
-            <thead>
-                <tr>
-                    <th>
-                        Bron
-                    </th>
-                    <th>
-                        Categorie
-                    </th>
-                
-                    <th>
-                        Betaalrekening
-                    </th>
-                
-                    <th>
-                        Spaarrekening
-                    </th>
-                    
-                    <th>
-                        &nbsp; <!-- Column for action buttons-->
-                    </th>
-                </tr>
-            </thead>
-            
-            <!-- Body -->
-            <tbody ng-repeat="entry in sheet.entries">
-                <tr class="row-middle">
-                    <td>
-                        {{ entry.source }}
-                    </td>
+                        <th>
+                            Betaalrekening
+                        </th>
 
-                    <td>
-                        {{ getCategory(entry.categoryId).name }}
-                    </td>
+                        <th>
+                            Spaarrekening
+                        </th>
 
-                    <td>
-                        <div ng-show="entry.account === AccountType.BankAccount">
-                            <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta | currency }}</span>
-                        </div>
-                    </td>
+                        <th>
+                            &nbsp; <!-- Column for action buttons-->
+                        </th>
+                    </tr>
+                </thead>
 
-                    <td>
-                        <div ng-show="entry.account === AccountType.SavingsAccount">
-                            <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta | currency }}</span>
-                        </div>
-                    </td>
+                <!-- Body -->
+                <tbody ng-repeat="entry in sheet.entries">
+                    <tr class="row-middle" ng-show="entry.editMode" ng-init="entry.editMode = false">
+                        <td>
+                            <input type="text" class="form-control" ng-model="entry.source"
+                                   required maxlength="250"  />
+                        </td>
 
-                    <td>
-                        <button class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-            
-            <!-- Footer -->
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        &nbsp;
-                    </td>
-                    
-                    <td>
-                        
-                    </td>
-                    
-                    <td>
-                        
-                    </td>
+                        <td>
+                            <select ng-options="category.name for category in categories"
+                                    ng-model="entry.category"
+                                    class="form-control">
+                            </select>
+                        </td>
 
-                    <td>
-                        <button class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-plus-sign"></span>
-                        </button>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+                        <td>
+                            <div ng-show="entry.account === AccountType.BankAccount">
+                                <div class="input-group" ng-class="{ 'negative': entry.delta < 0 }">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="number" class="form-control" ng-model="entry.delta" required maxlength="5" />
+                                </div>
+                            </div>
+                            <div ng-hide="entry.account === AccountType.BankAccount">
+                                <button class="btn btn-link"
+                                        ng-click="entry.account = AccountType.BankAccount">
+                                    Bankrekening?
+                                </button>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div ng-show="entry.account === AccountType.SavingsAccount">
+                                <div class="input-group" ng-class="{ 'negative': entry.delta < 0 }">
+                                    <span class="input-group-addon">€</span>
+                                    <input type="number" class="form-control" ng-model="entry.delta" required maxlength="5" />
+                                </div>
+                            </div>
+                            <div ng-hide="entry.account === AccountType.SavingsAccount">
+                                <button class="btn btn-link"
+                                        ng-click="entry.account = AccountType.SavingsAccount">
+                                    Spaarrekening?
+                                </button>
+                            </div>
+                        </td>
+
+                        <td>
+                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = false">
+                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="row-middle" ng-hide="entry.editMode">
+                        <td>
+                            {{ entry.source }}
+                        </td>
+
+                        <td>
+                            {{ entry.category.name }}
+                        </td>
+
+                        <td>
+                            <div ng-show="entry.account === AccountType.BankAccount">
+                                <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta | currency }}</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div ng-show="entry.account === AccountType.SavingsAccount">
+                                <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta | currency }}</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = true">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <!-- Footer -->
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            &nbsp;
+                        </td>
+
+                        <td></td>
+
+                        <td></td>
+
+                        <td>
+                            <button class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-plus-sign"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
 </div>
 
 <div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

@@ -662,14 +662,14 @@ var FinancialApp;
 
     var SheetController = (function () {
         function SheetController($scope, $routeParams, $location, sheetResource, categoryResource) {
+            var _this = this;
             this.$scope = $scope;
             this.$location = $location;
             this.sheetResource = sheetResource;
+            this.isCategoriesLoaded = false;
+            this.isSheetLoaded = false;
             var year = parseInt($routeParams.year, 10);
             var month = parseInt($routeParams.month, 10);
-
-            var isCategoriesLoaded = false;
-            var isSheetLoaded = false;
 
             $scope.date = moment([year, month - 1]);
             $scope.isLoaded = false;
@@ -682,24 +682,40 @@ var FinancialApp;
             }
 
             // get data
-            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, function () {
-                isSheetLoaded = true;
-                $scope.isLoaded = isSheetLoaded && isCategoriesLoaded;
+            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, function (data) {
+                _this.signalSheetsLoaded(data);
             }, function () {
                 return $location.path("/archive");
             });
 
             $scope.categories = categoryResource.query(function () {
-                isCategoriesLoaded = true;
-                $scope.isLoaded = isSheetLoaded && isCategoriesLoaded;
+                _this.signalCategoriesLoaded();
             });
-
-            $scope.getCategory = function (id) {
-                return Enumerable.From($scope.categories).FirstOrDefault(function (c) {
-                    return c.id == id;
-                });
-            };
         }
+        SheetController.prototype.signalSheetsLoaded = function (data) {
+            this.isSheetLoaded = true;
+            this.setLoadedBit(data);
+        };
+
+        SheetController.prototype.signalCategoriesLoaded = function () {
+            this.isCategoriesLoaded = true;
+            this.setLoadedBit(this.$scope.sheet);
+        };
+
+        SheetController.prototype.setLoadedBit = function (sheetData) {
+            this.$scope.isLoaded = this.isCategoriesLoaded && this.isSheetLoaded;
+
+            if (!sheetData || !sheetData.entries) {
+                return;
+            }
+
+            for (var i = 0; i < sheetData.entries.length; i++) {
+                var entry = sheetData.entries[i];
+                entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(function (c) {
+                    return entry.categoryId === c.id;
+                });
+            }
+        };
         SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource"];
         return SheetController;
     })();

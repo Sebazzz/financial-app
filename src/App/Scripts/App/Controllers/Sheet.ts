@@ -7,6 +7,12 @@
 module FinancialApp {
     'use strict';
 
+    export module DTO {
+        export interface ISheetEntry {
+            category: ICategory;   
+        }
+    }
+
     export interface ISheetScope {
         date: Moment;
         isLoaded: boolean;
@@ -16,8 +22,6 @@ module FinancialApp {
         // copy enum
             // ReSharper disable once InconsistentNaming
         AccountType: DTO.AccountType;
-
-        getCategory: (id:number) => DTO.ICategory;
     }
 
     export interface ISheetRouteParams extends ng.route.IRouteParamsService {
@@ -28,6 +32,9 @@ module FinancialApp {
     export class SheetController {
         static $inject = ["$scope", "$routeParams", "$location", "sheetResource", "categoryResource"];
 
+        private isCategoriesLoaded = false;
+        private isSheetLoaded = false;
+
         constructor(private $scope: ISheetScope,
                             $routeParams: ISheetRouteParams,
                     private $location: ng.ILocationService,
@@ -36,9 +43,6 @@ module FinancialApp {
 
             var year = parseInt($routeParams.year, 10);
             var month = parseInt($routeParams.month, 10);
-
-            var isCategoriesLoaded = false;
-            var isSheetLoaded = false;
 
             $scope.date = moment([year, month - 1 /* zero offset */]);
             $scope.isLoaded = false;
@@ -51,17 +55,36 @@ module FinancialApp {
             }
 
             // get data
-            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, () => {
-                isSheetLoaded = true;
-                $scope.isLoaded = isSheetLoaded && isCategoriesLoaded;
+            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, (data) => {
+                this.signalSheetsLoaded(data);
             }, () => $location.path("/archive"));
 
             $scope.categories = categoryResource.query(() => {
-                isCategoriesLoaded = true;
-                $scope.isLoaded = isSheetLoaded && isCategoriesLoaded;
+                this.signalCategoriesLoaded();
             });
+        }
 
-            $scope.getCategory = id => Enumerable.From($scope.categories).FirstOrDefault(c => c.id == id);
+        private signalSheetsLoaded(data) {
+            this.isSheetLoaded = true;
+            this.setLoadedBit(data);
+        }
+
+        private signalCategoriesLoaded() {
+            this.isCategoriesLoaded = true;
+            this.setLoadedBit(this.$scope.sheet);
+        }
+
+        private setLoadedBit(sheetData: DTO.ISheet) {
+            this.$scope.isLoaded = this.isCategoriesLoaded && this.isSheetLoaded;
+
+            if (!sheetData || !sheetData.entries) {
+                return;
+            }
+
+            for (var i = 0; i < sheetData.entries.length; i++) {
+                var entry = sheetData.entries[i];
+                entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(c => entry.categoryId === c.id);
+            }
         }
     }
 }
