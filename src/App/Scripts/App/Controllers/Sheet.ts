@@ -126,12 +126,14 @@ module FinancialApp {
             }
 
             // server-side delete
-            this.sheetEntryResource.delete({
+            var params = {
                 sheetId: this.$scope.sheet.id,
                 id: entry.id
-            }, () => {
-                this.$scope.sheet.entries.remove(entry);
-            }, () => entry.isBusy = false);
+            };
+
+            this.sheetEntryResource['delete'](params,
+                () => { this.$scope.sheet.entries.remove(entry); },
+                () => entry.isBusy = false);
         }
 
         private addEntry(): void {
