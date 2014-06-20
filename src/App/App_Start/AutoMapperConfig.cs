@@ -8,7 +8,11 @@
     using AutoMapper;
     using Microsoft.Owin;
     using Models.Domain;
+    using Models.Domain.Identity;
     using Models.Domain.Services;
+    using Models.DTO;
+    using Sheet = Models.Domain.Sheet;
+    using SheetEntry = Models.Domain.SheetEntry;
 
     public static class AutoMapperConfig {
 
@@ -28,6 +32,8 @@
             AutoMapper.Mapper.CreateMap<Sheet, Models.DTO.Sheet>(MemberList.Destination);
 
             AutoMapper.Mapper.CreateMap<Models.DTO.Sheet, Sheet>(MemberList.Source);
+
+            AutoMapper.Mapper.CreateMap<AppUser, AppUserListing>(MemberList.Destination);
 
             AutoMapper.Mapper.CreateMap<SheetEntry, Models.DTO.SheetEntry>(MemberList.Destination)
                 .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id));
