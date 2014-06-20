@@ -9,8 +9,12 @@
 
 declare module FinancialApp.DTO {
 
+    export interface IObject {
+        // just an empty interface which makes programming the *.tt easier
+    }
+
         
-    export interface ICategory {
+    export interface ICategory extends IObject {
         
             id : number;
 
@@ -23,7 +27,27 @@ declare module FinancialApp.DTO {
             }
 
         
-    export interface ISheet {
+    export interface IAppUserMutate extends IAppUserListing {
+        
+            password : string;
+
+            }
+
+        
+    export interface IAppUserListing extends IObject {
+        
+            email : string;
+
+        
+            userName : string;
+
+        
+            id : number;
+
+            }
+
+        
+    export interface ISheet extends IObject {
         
             id : number;
 
@@ -45,7 +69,7 @@ declare module FinancialApp.DTO {
             }
 
         
-    export interface IAuthenticationInfo {
+    export interface IAuthenticationInfo extends IObject {
         
             isAuthenticated : boolean;
 
@@ -58,7 +82,7 @@ declare module FinancialApp.DTO {
             }
 
         
-    export interface ISheetEntry {
+    export interface ISheetEntry extends IObject {
         
             id : number;
 
@@ -86,7 +110,14 @@ declare module FinancialApp.DTO {
             }
 
         
-    export interface ILoginModel {
+    export interface IInsertId extends IObject {
+        
+            id : number;
+
+            }
+
+        
+    export interface ILoginModel extends IObject {
         
             userName : string;
 
@@ -99,7 +130,7 @@ declare module FinancialApp.DTO {
             }
 
         
-    export interface ISheetListing {
+    export interface ISheetListing extends IObject {
         
             month : number;
 
@@ -118,7 +149,7 @@ declare module FinancialApp.DTO {
             }
 
         
-    export interface ICategoryListing {
+    export interface ICategoryListing extends IObject {
         
             id : number;
 

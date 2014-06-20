@@ -38,9 +38,13 @@
 
 declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
 
+    export interface IObject {
+        // just an empty interface which makes programming the *.tt easier
+    }
+
     <#foreach (CodeClass cls in this._dataTypeObjects){#>
     
-    export interface I<#=cls.Name#> {
+    export interface I<#=cls.Name#> extends <#=GetExtension(cls)#> {
         <# foreach (var item in GetConvertableProperties(cls)) { #>
 
             <#=item.Key#> : <#=item.Value#>;
@@ -58,6 +62,16 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
 
     private readonly List<CodeClass> _dataTypeObjects = new List<CodeClass>();
     private readonly List<CodeEnum> _enumObjects = new List<CodeEnum>();
+
+    private static string GetExtension(CodeClass cls) {
+        var baseCls = cls.Bases.OfType<CodeClass>().FirstOrDefault();
+
+        if (baseCls != null) {
+            return "I" + baseCls.Name;
+        }
+
+        return "IObject";
+    }
 
     private IEnumerable<KeyValuePair<string, string>> GetConvertableProperties(CodeClass cls) {
         foreach (CodeProperty2 prop in cls.Members.OfType<CodeProperty2>()) {
