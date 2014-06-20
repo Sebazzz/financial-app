@@ -29,7 +29,10 @@ declare module FinancialApp.DTO {
         
     export interface IAppUserMutate extends IAppUserListing {
         
-            password : string;
+            newPassword : string;
+
+        
+            currentPassword : string;
 
             }
 

@@ -15,7 +15,10 @@
 
     [DataContract]
     public class AppUserMutate : AppUserListing {
-        [DataMember(Name = "password")]
-        public string Password { get; set; }
+        [DataMember(Name = "newPassword")]
+        public string NewPassword { get; set; }
+
+        [DataMember(Name = "currentPassword")]
+        public string CurrentPassword { get; set; }
     }
 }
