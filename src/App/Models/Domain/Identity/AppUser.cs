@@ -16,7 +16,6 @@
         /// </summary>
         public AppUser() {}
 
-
         public static AppUser Create(string name, string email, AppOwner group) {
             return new AppUser {
                                    UserName = name,

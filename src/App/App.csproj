@@ -338,6 +338,7 @@
     <Compile Include="Api\Extensions\ValidationExceptionFilter.cs" />
     <Compile Include="Api\SheetController.cs" />
     <Compile Include="Api\SheetEntryController.cs" />
+    <Compile Include="Api\UserController.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\ContainerConfig.cs" />
@@ -381,6 +382,7 @@
     <Compile Include="Models\Domain\Services\SheetRetrievalService.cs" />
     <Compile Include="Models\Domain\Sheet.cs" />
     <Compile Include="Models\Domain\SheetEntry.cs" />
+    <Compile Include="Models\DTO\AppUserListing.cs" />
     <Compile Include="Models\DTO\AuthenticationInfo.cs" />
     <Compile Include="Models\DTO\CategoryListing.cs" />
     <Compile Include="Models\DTO\InsertId.cs" />
