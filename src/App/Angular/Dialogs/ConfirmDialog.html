@@ -1,0 +1,20 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">{{options.title}}</h3>
+</div>
+<div class="modal-body">
+    {{options.bodyText}}
+</div>
+<div class="modal-footer">
+    <button class="btn"
+            ng-class="{
+                        'btn-primary': options.dialogType === DialogType.Info,
+                        'btn-warning': options.dialogType === DialogType.Warning,
+                        'btn-danger': options.dialogType === DialogType.Danger,
+             }"
+            ng-click="ok()"
+        >
+        {{ (options.okButtonText || 'Ja') }}
+    </button>
+    <button class="btn btn-default" 
+            ng-click="cancel()">{{ (options.cancelButtonText || 'Nee') }}</button>
+</div>

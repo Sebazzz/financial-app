@@ -177,6 +177,7 @@
     <Content Include="Angular\CategoryList.html" />
     <Content Include="Angular\Default.html" />
     <Content Include="Angular\Archive.html" />
+    <Content Include="Angular\Dialogs\ConfirmDialog.html" />
     <Content Include="Angular\Offline.html" />
     <Content Include="Angular\Sheet.html" />
     <Content Include="Angular\Widgets\Loader.html" />
@@ -418,6 +419,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\ControllerInit.d.ts">
       <DependentUpon>ControllerInit.tt</DependentUpon>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\App\Controllers\Dialog\ConfirmDialog.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Master.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Menu.ts" />
     <TypeScriptCompile Include="Scripts\App\DTO.generated.d.ts">

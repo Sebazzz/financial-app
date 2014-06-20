@@ -168,6 +168,16 @@ module FinancialApp {
         }
 
         private deleteEntry(entry: DTO.ISheetEntry) {
+            var res = ConfirmDialogController.create(this.$modal, {
+                title: 'Regel verwijderen',
+                bodyText: 'Weet je zeker dat je de regel "' + entry.source + "' wilt verwijderen?",
+                dialogType: DialogType.Danger
+            });
+
+            res.result.then(() => this.deleteEntryCore(entry));
+        }
+
+        private deleteEntryCore(entry: DTO.ISheetEntry) {
             entry.isBusy = true;
             entry.editMode = false;
 

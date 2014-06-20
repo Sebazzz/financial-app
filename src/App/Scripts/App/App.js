@@ -592,6 +592,48 @@ var FinancialApp;
     FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 /// <init-options exclude="route"/>
+/// <reference path="../../../typings/angularjs/angular.d.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    (function (DialogType) {
+        DialogType[DialogType["Info"] = 0] = "Info";
+        DialogType[DialogType["Danger"] = 1] = "Danger";
+        DialogType[DialogType["Warning"] = 2] = "Warning";
+    })(FinancialApp.DialogType || (FinancialApp.DialogType = {}));
+    var DialogType = FinancialApp.DialogType;
+
+    var ConfirmDialogController = (function () {
+        function ConfirmDialogController($scope, $modalInstance, options) {
+            $scope.DialogType = DialogType;
+            $scope.options = options;
+
+            $scope.ok = function () {
+                return $modalInstance.close(options.okResult);
+            };
+            $scope.cancel = function () {
+                return $modalInstance.dismiss(options.cancelResult);
+            };
+        }
+        ConfirmDialogController.create = function ($modal, options) {
+            return $modal.open({
+                templateUrl: ConfirmDialogController.templateUrl,
+                controller: ConfirmDialogController,
+                resolve: {
+                    options: function () {
+                        return options;
+                    }
+                }
+            });
+        };
+        ConfirmDialogController.$inject = ["$scope", "$modalInstance", "options"];
+        ConfirmDialogController.templateUrl = "/Angular/Dialogs/ConfirmDialog.html";
+        return ConfirmDialogController;
+    })();
+    FinancialApp.ConfirmDialogController = ConfirmDialogController;
+})(FinancialApp || (FinancialApp = {}));
+/// <init-options exclude="route"/>
 /// <reference path="../Services/AuthenticationService.ts"/>
 /// <reference path="../../typings/angularjs/angular.d.ts"/>
 var FinancialApp;
@@ -844,6 +886,19 @@ var FinancialApp;
         };
 
         SheetController.prototype.deleteEntry = function (entry) {
+            var _this = this;
+            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
+                title: 'Regel verwijderen',
+                bodyText: 'Weet je zeker dat je de regel "' + entry.source + "' wilt verwijderen?",
+                dialogType: 1 /* Danger */
+            });
+
+            res.result.then(function () {
+                return _this.deleteEntryCore(entry);
+            });
+        };
+
+        SheetController.prototype.deleteEntryCore = function (entry) {
             var _this = this;
             entry.isBusy = true;
             entry.editMode = false;

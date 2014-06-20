@@ -76,3 +76,7 @@ tr.saving {
     color: #909090;
     color: rgba(000, 000, 000, 0.5);
 }
+
+.preserve-whitespace {
+    white-space: pre-wrap;
+}
