@@ -33,6 +33,7 @@
             entry.Sheet = targetSheet;
             entry.CreateTimestamp = DateTime.Now;
             entry.UpdateTimestamp = entry.CreateTimestamp;
+            entry.Sheet.UpdateTimestamp = DateTime.Now;
 
             this._sheetEntryRepository.Add(entry);
             this._sheetEntryRepository.SaveChanges();
@@ -50,6 +51,7 @@
 
             AutoMapper.Mapper.Map(value, entry);
             entry.UpdateTimestamp = DateTime.Now;
+            entry.Sheet.UpdateTimestamp = DateTime.Now;
 
             this._sheetEntryRepository.SaveChanges();
 
@@ -63,6 +65,7 @@
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
             EnsureCorrectSheet(entry, sheetId);
             this.EntityOwnerService.EnsureOwner(entry.Sheet, this.OwnerId);
+            entry.Sheet.UpdateTimestamp = DateTime.Now;
 
             this._sheetEntryRepository.Delete(entry);
             this._sheetEntryRepository.SaveChanges();
