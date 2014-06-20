@@ -58,6 +58,7 @@ module FinancialApp {
 
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
+            app.factory("userResource", Factories.ResourceFactory<DTO.IAppUserListing>("/api/user/:id"));
             app.factory("sheetResource", Factories.ResourceFactory<DTO.ISheet>("/api/sheet/:id", {
                 'getByDate': {
                     method: 'GET',

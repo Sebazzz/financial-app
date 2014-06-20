@@ -24,6 +24,8 @@ var FinancialApp;
                     $app.controller('MasterController', FinancialApp.MasterController);
                     $app.controller('MenuController', FinancialApp.MenuController);
                     $app.controller('SheetController', FinancialApp.SheetController);
+                    $app.controller('UserCreateController', FinancialApp.UserCreateController);
+                    $app.controller('UserListController', FinancialApp.UserListController);
             },
 
         registerControllerRoutes: function($routeProvider) {
@@ -66,6 +68,16 @@ var FinancialApp;
                 {
                     controller: 'SheetController',
                     templateUrl: '/Angular/Sheet.html'
+                });
+                $routeProvider.when('/manage/user/add', 
+                {
+                    controller: 'UserCreateController',
+                    templateUrl: '/Angular/UserEdit.html'
+                });
+                $routeProvider.when('/manage/user', 
+                {
+                    controller: 'UserListController',
+                    templateUrl: '/Angular/UserList.html'
                 });
             },
     };

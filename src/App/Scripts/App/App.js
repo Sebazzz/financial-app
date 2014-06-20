@@ -138,6 +138,7 @@ var FinancialApp;
 
             // factories
             app.factory("categoryResource", FinancialApp.Factories.ResourceFactory("/api/category/:id"));
+            app.factory("userResource", FinancialApp.Factories.ResourceFactory("/api/user/:id"));
             app.factory("sheetResource", FinancialApp.Factories.ResourceFactory("/api/sheet/:id", {
                 'getByDate': {
                     method: 'GET',
@@ -162,6 +163,9 @@ var FinancialApp;
             // services
             app.service("authentication", FinancialApp.Services.AuthenticationService);
             app.service("calculation", FinancialApp.Services.CalculationService);
+
+            // directives
+            app.directive("faRequiredIf", FinancialApp.Directives.RequiredIf.directive());
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
@@ -546,6 +550,55 @@ var FinancialApp;
     })();
     FinancialApp.CategoryEditController = CategoryEditController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/manage/user"/>
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var AppUserListController = (function () {
+        function AppUserListController($scope, $modal, userResource) {
+            var _this = this;
+            this.$scope = $scope;
+            this.$modal = $modal;
+            this.api = userResource;
+
+            $scope.users = this.api.query(function () {
+                $scope.isLoaded = true;
+            });
+
+            $scope.deleteUser = function (user) {
+                _this.deleteUser(user);
+            };
+        }
+        AppUserListController.prototype.deleteUser = function (user) {
+            var _this = this;
+            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
+                title: 'Gebruiker verwijderen',
+                bodyText: 'Weet je zeker dat je de gebruiker "' + user.userName + "' wilt verwijderen?",
+                dialogType: 1 /* Danger */
+            });
+
+            res.result.then(function () {
+                return _this.deleteUserCore(user);
+            });
+        };
+
+        AppUserListController.prototype.deleteUserCore = function (user) {
+            var _this = this;
+            this.$scope.isLoaded = false;
+            this.api['delete']({ id: user.id }, function () {
+                _this.$scope.isLoaded = true;
+                _this.$scope.users.remove(user);
+            });
+        };
+        AppUserListController.$inject = ["$scope", "$modal", "userResource"];
+        return AppUserListController;
+    })();
+    FinancialApp.AppUserListController = AppUserListController;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/manage/category"/>
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../DTO.generated.d.ts"/>
@@ -598,19 +651,6 @@ var FinancialApp;
         return CategoryListController;
     })();
     FinancialApp.CategoryListController = CategoryListController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var DefaultController = (function () {
-        function DefaultController() {
-        }
-        DefaultController.$inject = [];
-        return DefaultController;
-    })();
-    FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 /// <init-options exclude="route"/>
 /// <reference path="../../../typings/angularjs/angular.d.ts"/>
@@ -712,6 +752,60 @@ var FinancialApp;
     })();
     FinancialApp.MenuController = MenuController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/manage/user/add" viewName="UserEdit" />
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var UserCreateController = (function () {
+        function UserCreateController($scope, $location, userResource) {
+            var _this = this;
+            this.api = userResource;
+            $scope.save = function () {
+                return _this.api.save($scope.user, function (data) {
+                    $scope.user.id = data.id;
+
+                    $location.path("/manage/user");
+                }, function (data) {
+                    $scope.errorMessage = data.join("; ");
+                });
+            };
+        }
+        UserCreateController.$inject = ["$scope", "$location", "userResource"];
+        return UserCreateController;
+    })();
+    FinancialApp.UserCreateController = UserCreateController;
+})(FinancialApp || (FinancialApp = {}));
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        var RequiredIf = (function () {
+            function RequiredIf() {
+            }
+            RequiredIf.directive = function () {
+                var fn = function (scope, element, attr) {
+                    var expr = attr.faRequiredIf;
+
+                    scope.$watch(expr, function (val) {
+                        if (val) {
+                            element.attr("required", "required");
+                        } else {
+                            element.removeAttr("required");
+                        }
+                    });
+                };
+
+                return fn.withInject("scope", "element", "attr");
+            };
+            return RequiredIf;
+        })();
+        Directives.RequiredIf = RequiredIf;
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
+})(FinancialApp || (FinancialApp = {}));
 // <autogenerated>
 //   This file was generated using DTOEnum.tt.
 //   Any changes made manually will be lost next time the file is regenerated.
@@ -729,6 +823,50 @@ var FinancialApp;
         var AccountType = DTO.AccountType;
     })(FinancialApp.DTO || (FinancialApp.DTO = {}));
     var DTO = FinancialApp.DTO;
+})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Factories) {
+        // ReSharper disable once InconsistentNaming
+        function LocalStorageFactory() {
+            var fact = function ($window) {
+                return $window.localStorage;
+            };
+            return fact.withInject("$window");
+        }
+        Factories.LocalStorageFactory = LocalStorageFactory;
+    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
+    var Factories = FinancialApp.Factories;
+})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        'use strict';
+
+        angular.module('ngMoment', []).filter("moment", function () {
+            return function (input, arg) {
+                var m = moment(input);
+                var fn, args;
+
+                if (typeof arg === "string") {
+                    return m.format(arg);
+                } else if (Array.isArray(arg)) {
+                    fn = arg[0];
+                    args = arg.splice(1);
+                } else {
+                    fn = arg['func'];
+                    args = arg.arguments || [];
+                }
+
+                return m[fn].apply(m, args);
+            };
+        });
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
 /// <reference path="../DTO.generated.d.ts"/>
 /// <reference path="../DTOEnum.generated.ts"/>
@@ -985,75 +1123,17 @@ var FinancialApp;
         return RemarksDialogController;
     })();
 })(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/moment/moment.d.ts" />
+/// <init-options route="/"/>
 var FinancialApp;
 (function (FinancialApp) {
-    (function (Directives) {
-        'use strict';
+    'use strict';
 
-        angular.module('ngMoment', []).filter("moment", function () {
-            return function (input, arg) {
-                var m = moment(input);
-                var fn, args;
-
-                if (typeof arg === "string") {
-                    return m.format(arg);
-                } else if (Array.isArray(arg)) {
-                    fn = arg[0];
-                    args = arg.splice(1);
-                } else {
-                    fn = arg['func'];
-                    args = arg.arguments || [];
-                }
-
-                return m[fn].apply(m, args);
-            };
-        });
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Directives) {
-        var RequiredIf = (function () {
-            function RequiredIf() {
-            }
-            RequiredIf.directive = function () {
-                var fn = function (scope, element, attr) {
-                    var expr = attr.faRequiredIf;
-
-                    scope.$watch(expr, function (val) {
-                        if (val) {
-                            element.attr("required", "required");
-                        } else {
-                            element.removeAttr("required");
-                        }
-                    });
-                };
-
-                return fn.withInject("scope", "element", "attr");
-            };
-            return RequiredIf;
-        })();
-        Directives.RequiredIf = RequiredIf;
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../Common.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Factories) {
-        // ReSharper disable once InconsistentNaming
-        function LocalStorageFactory() {
-            var fact = function ($window) {
-                return $window.localStorage;
-            };
-            return fact.withInject("$window");
+    var DefaultController = (function () {
+        function DefaultController() {
         }
-        Factories.LocalStorageFactory = LocalStorageFactory;
-    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
-    var Factories = FinancialApp.Factories;
+        DefaultController.$inject = [];
+        return DefaultController;
+    })();
+    FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=App.js.map

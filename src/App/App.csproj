@@ -419,6 +419,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\AuthLogOff.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryEdit.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\UserList.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryList.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\ControllerInit.d.ts">
       <DependentUpon>ControllerInit.tt</DependentUpon>
@@ -426,6 +427,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\Dialog\ConfirmDialog.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Master.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Menu.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\UserCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Directives\RequiredIf.ts" />
     <TypeScriptCompile Include="Scripts\App\DTO.generated.d.ts">
       <AutoGen>True</AutoGen>
