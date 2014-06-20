@@ -12,7 +12,7 @@ module FinancialApp {
         deleteUser: IAction1<DTO.IAppUserListing>;
     }
 
-    export class AppUserListController {
+    export class UserListController {
         static $inject = ["$scope", "$modal", "userResource"];
 
         private api: ng.resource.IResourceClass<DTO.IAppUserListing>;
