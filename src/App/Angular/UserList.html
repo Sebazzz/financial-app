@@ -1,0 +1,37 @@
+﻿<h1>Gebruikers</h1>
+
+<div ng-show="isLoaded">
+    <p>
+        Beheer met dit scherm de medegebruikers (en jezelf) in je account.
+    </p>
+
+    <ul ng-repeat="user in users" class="list-unstyled">
+        <li>
+            <div class="pull-right">
+                <a class="btn btn-default btn-sm" ng-href="/manage/user/edit/{{user.id}}" tooltip="Bewerken">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+
+                <span class="inline-block" tooltip="Gebruiker verwijderen">
+                    <a class="btn btn-danger btn-sm"
+                       ng-click="deleteUser(user)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </span>
+            </div>
+
+            <strong>
+                <a href="#"
+                   ng-href="/manage/user/edit/{{category.id}}">{{user.userName}}</a>
+            </strong> 
+
+            <small>({{user.email}})</small>
+        </li>
+    </ul>
+    
+    <p>
+        <a href="/manage/user/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Nieuwe gebruiker</a>
+    </p>
+</div>
+
+<div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

@@ -81,6 +81,9 @@ module FinancialApp {
             app.service("authentication", Services.AuthenticationService);
             app.service("calculation", Services.CalculationService);
 
+            // directives
+            app.directive("faRequiredIf", Directives.RequiredIf.directive());
+
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
 

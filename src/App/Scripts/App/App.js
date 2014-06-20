@@ -1013,6 +1013,33 @@ var FinancialApp;
     })(FinancialApp.Directives || (FinancialApp.Directives = {}));
     var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        var RequiredIf = (function () {
+            function RequiredIf() {
+            }
+            RequiredIf.directive = function () {
+                var fn = function (scope, element, attr) {
+                    var expr = attr.faRequiredIf;
+
+                    scope.$watch(expr, function (val) {
+                        if (val) {
+                            element.attr("required", "required");
+                        } else {
+                            element.removeAttr("required");
+                        }
+                    });
+                };
+
+                return fn.withInject("scope", "element", "attr");
+            };
+            return RequiredIf;
+        })();
+        Directives.RequiredIf = RequiredIf;
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
+})(FinancialApp || (FinancialApp = {}));
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../Common.ts"/>
 var FinancialApp;

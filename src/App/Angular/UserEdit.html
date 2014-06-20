@@ -1,0 +1,49 @@
+﻿<h1>Gebruiker {{ user.id > 0 ? 'bewerken' : 'aanmaken'}}</h1>
+
+<div alert ng-show="errorMessage" type="danger">
+    <strong>Oeps!</strong> {{errorMessage}}
+</div>
+
+<form novalidate name="cForm" role="form">
+    <div class="form-group" ng-class="{'has-error': cForm.userName.$invalid && !cForm.userName.$pristine}">
+        <label for="userName">Gebruikersnaam:</label>
+        <input id="userName" name="userName" 
+               ng-disabled="isCurrentUser"
+               type="text" class="form-control" ng-model="user.userName" maxlength="100" required />
+
+        <span ng-show="cForm.userName.$dirty && cForm.userName.$error.required"
+              class="text-danger validation-block">Verplicht: voer een naam in voor de gebruik.er</span>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': cForm.email.$invalid && !cForm.email.$pristine}">
+        <label for="email">E-mail adres:</label>
+        <input id="email" name="email" type="email" class="form-control" ng-model="user.email" maxlength="150" required />
+
+        <span ng-show="cForm.email.$dirty && cForm.email.$error.required"
+              class="text-danger validation-block">Verplicht: voer een e-mail adres in voor de gebruik.er</span>
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': cForm.newPassword.$invalid && !cForm.newPassword.$pristine}">
+        <label for="newPassword">Nieuw wachtwoord:</label>
+        <input id="newPassword" name="newPassword" type="password" class="form-control" ng-model="user.newPassword" maxlength="150"
+               fa-required-if="!(user.id > 0)" />
+
+        <span ng-show="cForm.newPassword.$dirty && cForm.newPassword.$error.required"
+              class="text-danger validation-block">Verplicht: voer een wachtwoord in voor de gebruiker</span>
+    </div>
+    
+    <div class="form-group" ng-class="{'has-error': cForm.currentPassword.$invalid && !cForm.currentPassword.$pristine}">
+        <label for="currentPassword" ng-hide="user.id > 0">Wachtwoord (herhalen):</label>
+        <label for="currentPassword" ng-show="user.id > 0">Huidig wachtwoord:</label>
+        <input id="currentPassword" name="currentPassword" type="password" class="form-control" ng-model="user.currentPassword" maxlength="150" 
+               fa-required-if="user.newPassword || !(user.id > 0)" />
+
+        <span ng-show="cForm.currentPassword.$dirty && cForm.currentPassword.$error.required"
+              class="text-danger validation-block">Verplicht: voer een wachtwoord in voor de gebruiker</span>
+    </div>
+
+    <p class="clearfix">
+        <button class="btn btn-primary" ng-click="save()" ng-disabled="cForm.$invalid">Opslaan</button>
+        <a href="/manage/users" class="btn btn-link">Annuleren</a>
+    </p>
+</form>
