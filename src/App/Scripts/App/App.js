@@ -555,8 +555,10 @@ var FinancialApp;
     'use strict';
 
     var CategoryListController = (function () {
-        function CategoryListController($scope, categoryResource) {
+        function CategoryListController($scope, $modal, categoryResource) {
             var _this = this;
+            this.$scope = $scope;
+            this.$modal = $modal;
             this.api = categoryResource;
 
             $scope.categories = this.api.query(function () {
@@ -564,16 +566,35 @@ var FinancialApp;
             });
 
             $scope.deleteCategory = function (cat) {
-                if (cat.canBeDeleted === true) {
-                    $scope.isLoaded = false;
-                    _this.api['delete']({ id: cat.id }, function () {
-                        $scope.isLoaded = true;
-                        $scope.categories.remove(cat);
-                    });
-                }
+                _this.deleteCategory(cat);
             };
         }
-        CategoryListController.$inject = ["$scope", "categoryResource"];
+        CategoryListController.prototype.deleteCategory = function (cat) {
+            var _this = this;
+            if (cat.canBeDeleted !== true) {
+                return;
+            }
+
+            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
+                title: 'Categorie verwijderen',
+                bodyText: 'Weet je zeker dat je de categorie "' + cat.name + "' wilt verwijderen?",
+                dialogType: 1 /* Danger */
+            });
+
+            res.result.then(function () {
+                return _this.deleteCategoryCore(cat);
+            });
+        };
+
+        CategoryListController.prototype.deleteCategoryCore = function (cat) {
+            var _this = this;
+            this.$scope.isLoaded = false;
+            this.api['delete']({ id: cat.id }, function () {
+                _this.$scope.isLoaded = true;
+                _this.$scope.categories.remove(cat);
+            });
+        };
+        CategoryListController.$inject = ["$scope", "$modal", "categoryResource"];
         return CategoryListController;
     })();
     FinancialApp.CategoryListController = CategoryListController;
