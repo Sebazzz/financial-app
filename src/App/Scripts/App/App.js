@@ -551,6 +551,55 @@ var FinancialApp;
     })();
     FinancialApp.CategoryEditController = CategoryEditController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/manage/user"/>
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var UserListController = (function () {
+        function UserListController($scope, $modal, userResource) {
+            var _this = this;
+            this.$scope = $scope;
+            this.$modal = $modal;
+            this.api = userResource;
+
+            $scope.users = this.api.query(function () {
+                $scope.isLoaded = true;
+            });
+
+            $scope.deleteUser = function (user) {
+                _this.deleteUser(user);
+            };
+        }
+        UserListController.prototype.deleteUser = function (user) {
+            var _this = this;
+            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
+                title: 'Gebruiker verwijderen',
+                bodyText: 'Weet je zeker dat je de gebruiker "' + user.userName + "' wilt verwijderen?",
+                dialogType: 1 /* Danger */
+            });
+
+            res.result.then(function () {
+                return _this.deleteUserCore(user);
+            });
+        };
+
+        UserListController.prototype.deleteUserCore = function (user) {
+            var _this = this;
+            this.$scope.isLoaded = false;
+            this.api['delete']({ id: user.id }, function () {
+                _this.$scope.isLoaded = true;
+                _this.$scope.users.remove(user);
+            });
+        };
+        UserListController.$inject = ["$scope", "$modal", "userResource"];
+        return UserListController;
+    })();
+    FinancialApp.UserListController = UserListController;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/manage/category"/>
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../DTO.generated.d.ts"/>
@@ -603,19 +652,6 @@ var FinancialApp;
         return CategoryListController;
     })();
     FinancialApp.CategoryListController = CategoryListController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var DefaultController = (function () {
-        function DefaultController() {
-        }
-        DefaultController.$inject = [];
-        return DefaultController;
-    })();
-    FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 /// <init-options exclude="route"/>
 /// <reference path="../../../typings/angularjs/angular.d.ts"/>
@@ -717,6 +753,99 @@ var FinancialApp;
     })();
     FinancialApp.MenuController = MenuController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/manage/user/add" viewName="UserEdit" />
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var UserCreateController = (function () {
+        function UserCreateController($scope, $location, userResource) {
+            var _this = this;
+            this.api = userResource;
+            $scope.save = function () {
+                return _this.api.save($scope.user, function (data) {
+                    $scope.user.id = data.id;
+
+                    $location.path("/manage/user");
+                }, function (data) {
+                    $scope.errorMessage = data.join("; ");
+                });
+            };
+        }
+        UserCreateController.$inject = ["$scope", "$location", "userResource"];
+        return UserCreateController;
+    })();
+    FinancialApp.UserCreateController = UserCreateController;
+})(FinancialApp || (FinancialApp = {}));
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        "use strict";
+
+        var SameValue = (function () {
+            function SameValue() {
+                this.restrict = "A";
+                return this;
+            }
+            SameValue.factory = function () {
+                return new SameValue();
+            };
+
+            SameValue.prototype.link = function (scope, instanceElement, instanceAttributes, controller, transclude) {
+                var expr = instanceAttributes["faSameValue"];
+                /*
+                controller.$parsers.unshift(viewValue => {
+                var otherValue = <boolean>scope.$eval(expr);
+                var isSame = viewValue === otherValue;
+                
+                controller.$setValidity('faSameValue', isSame);
+                return isSame ? viewValue : undefined;
+                });*/
+            };
+            SameValue.$inject = [];
+            return SameValue;
+        })();
+        Directives.SameValue = SameValue;
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
+})(FinancialApp || (FinancialApp = {}));
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        "use strict";
+
+        var RequiredIf = (function () {
+            function RequiredIf() {
+                this.restrict = "A";
+                return this;
+            }
+            RequiredIf.factory = function () {
+                return new RequiredIf();
+            };
+
+            RequiredIf.prototype.link = function (scope, instanceElement, instanceAttributes, controller, transclude) {
+                var expr = instanceAttributes["faRequiredIf"];
+
+                console.log("fa-required-if expr: %s", expr);
+                scope.$watch(expr, function (val) {
+                    console.log("fa-required-if: %s", val);
+                    if (val) {
+                        instanceElement.attr("required", "required");
+                    } else {
+                        instanceElement.removeAttr("required");
+                    }
+                });
+            };
+            RequiredIf.$inject = [];
+            return RequiredIf;
+        })();
+        Directives.RequiredIf = RequiredIf;
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
+})(FinancialApp || (FinancialApp = {}));
 // <autogenerated>
 //   This file was generated using DTOEnum.tt.
 //   Any changes made manually will be lost next time the file is regenerated.
@@ -734,6 +863,50 @@ var FinancialApp;
         var AccountType = DTO.AccountType;
     })(FinancialApp.DTO || (FinancialApp.DTO = {}));
     var DTO = FinancialApp.DTO;
+})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Factories) {
+        // ReSharper disable once InconsistentNaming
+        function LocalStorageFactory() {
+            var fact = function ($window) {
+                return $window.localStorage;
+            };
+            return fact.withInject("$window");
+        }
+        Factories.LocalStorageFactory = LocalStorageFactory;
+    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
+    var Factories = FinancialApp.Factories;
+})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../../typings/moment/moment.d.ts" />
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        'use strict';
+
+        angular.module('ngMoment', []).filter("moment", function () {
+            return function (input, arg) {
+                var m = moment(input);
+                var fn, args;
+
+                if (typeof arg === "string") {
+                    return m.format(arg);
+                } else if (Array.isArray(arg)) {
+                    fn = arg[0];
+                    args = arg.splice(1);
+                } else {
+                    fn = arg['func'];
+                    args = arg.arguments || [];
+                }
+
+                return m[fn].apply(m, args);
+            };
+        });
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
 /// <reference path="../DTO.generated.d.ts"/>
 /// <reference path="../DTOEnum.generated.ts"/>
@@ -990,190 +1163,17 @@ var FinancialApp;
         return RemarksDialogController;
     })();
 })(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/manage/user/add" viewName="UserEdit" />
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../DTO.generated.d.ts"/>
-/// <reference path="../Common.ts"/>
+/// <init-options route="/"/>
 var FinancialApp;
 (function (FinancialApp) {
     'use strict';
 
-    var UserCreateController = (function () {
-        function UserCreateController($scope, $location, userResource) {
-            var _this = this;
-            this.api = userResource;
-            $scope.save = function () {
-                return _this.api.save($scope.user, function (data) {
-                    $scope.user.id = data.id;
-
-                    $location.path("/manage/user");
-                }, function (data) {
-                    $scope.errorMessage = data.join("; ");
-                });
-            };
+    var DefaultController = (function () {
+        function DefaultController() {
         }
-        UserCreateController.$inject = ["$scope", "$location", "userResource"];
-        return UserCreateController;
+        DefaultController.$inject = [];
+        return DefaultController;
     })();
-    FinancialApp.UserCreateController = UserCreateController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/manage/user"/>
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../DTO.generated.d.ts"/>
-/// <reference path="../Common.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var UserListController = (function () {
-        function UserListController($scope, $modal, userResource) {
-            var _this = this;
-            this.$scope = $scope;
-            this.$modal = $modal;
-            this.api = userResource;
-
-            $scope.users = this.api.query(function () {
-                $scope.isLoaded = true;
-            });
-
-            $scope.deleteUser = function (user) {
-                _this.deleteUser(user);
-            };
-        }
-        UserListController.prototype.deleteUser = function (user) {
-            var _this = this;
-            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
-                title: 'Gebruiker verwijderen',
-                bodyText: 'Weet je zeker dat je de gebruiker "' + user.userName + "' wilt verwijderen?",
-                dialogType: 1 /* Danger */
-            });
-
-            res.result.then(function () {
-                return _this.deleteUserCore(user);
-            });
-        };
-
-        UserListController.prototype.deleteUserCore = function (user) {
-            var _this = this;
-            this.$scope.isLoaded = false;
-            this.api['delete']({ id: user.id }, function () {
-                _this.$scope.isLoaded = true;
-                _this.$scope.users.remove(user);
-            });
-        };
-        UserListController.$inject = ["$scope", "$modal", "userResource"];
-        return UserListController;
-    })();
-    FinancialApp.UserListController = UserListController;
-})(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/moment/moment.d.ts" />
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Directives) {
-        'use strict';
-
-        angular.module('ngMoment', []).filter("moment", function () {
-            return function (input, arg) {
-                var m = moment(input);
-                var fn, args;
-
-                if (typeof arg === "string") {
-                    return m.format(arg);
-                } else if (Array.isArray(arg)) {
-                    fn = arg[0];
-                    args = arg.splice(1);
-                } else {
-                    fn = arg['func'];
-                    args = arg.arguments || [];
-                }
-
-                return m[fn].apply(m, args);
-            };
-        });
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Directives) {
-        "use strict";
-
-        var RequiredIf = (function () {
-            function RequiredIf() {
-                this.restrict = "A";
-                return this;
-            }
-            RequiredIf.factory = function () {
-                return new RequiredIf();
-            };
-
-            RequiredIf.prototype.link = function (scope, instanceElement, instanceAttributes, controller, transclude) {
-                var expr = instanceAttributes["faRequiredIf"];
-
-                console.log("fa-required-if expr: %s", expr);
-                scope.$watch(expr, function (val) {
-                    console.log("fa-required-if: %s", val);
-                    if (val) {
-                        instanceElement.attr("required", "required");
-                    } else {
-                        instanceElement.removeAttr("required");
-                    }
-                });
-            };
-            RequiredIf.$inject = [];
-            return RequiredIf;
-        })();
-        Directives.RequiredIf = RequiredIf;
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Directives) {
-        "use strict";
-
-        var SameValue = (function () {
-            function SameValue() {
-                this.restrict = "A";
-                return this;
-            }
-            SameValue.factory = function () {
-                return new SameValue();
-            };
-
-            SameValue.prototype.link = function (scope, instanceElement, instanceAttributes, controller, transclude) {
-                var expr = instanceAttributes["faSameValue"];
-                /*
-                controller.$parsers.unshift(viewValue => {
-                var otherValue = <boolean>scope.$eval(expr);
-                var isSame = viewValue === otherValue;
-                
-                controller.$setValidity('faSameValue', isSame);
-                return isSame ? viewValue : undefined;
-                });*/
-            };
-            SameValue.$inject = [];
-            return SameValue;
-        })();
-        Directives.SameValue = SameValue;
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../Common.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Factories) {
-        // ReSharper disable once InconsistentNaming
-        function LocalStorageFactory() {
-            var fact = function ($window) {
-                return $window.localStorage;
-            };
-            return fact.withInject("$window");
-        }
-        Factories.LocalStorageFactory = LocalStorageFactory;
-    })(FinancialApp.Factories || (FinancialApp.Factories = {}));
-    var Factories = FinancialApp.Factories;
+    FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=App.js.map
