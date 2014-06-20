@@ -166,6 +166,7 @@ var FinancialApp;
 
             // directives
             app.directive("faRequiredIf", FinancialApp.Directives.RequiredIf.factory);
+            app.directive("faSameValue", FinancialApp.Directives.SameValue.factory);
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
@@ -1124,6 +1125,38 @@ var FinancialApp;
             return RequiredIf;
         })();
         Directives.RequiredIf = RequiredIf;
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
+})(FinancialApp || (FinancialApp = {}));
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Directives) {
+        "use strict";
+
+        var SameValue = (function () {
+            function SameValue() {
+                this.restrict = "A";
+                return this;
+            }
+            SameValue.factory = function () {
+                return new SameValue();
+            };
+
+            SameValue.prototype.link = function (scope, instanceElement, instanceAttributes, controller, transclude) {
+                var expr = instanceAttributes["faSameValue"];
+                /*
+                controller.$parsers.unshift(viewValue => {
+                var otherValue = <boolean>scope.$eval(expr);
+                var isSame = viewValue === otherValue;
+                
+                controller.$setValidity('faSameValue', isSame);
+                return isSame ? viewValue : undefined;
+                });*/
+            };
+            SameValue.$inject = [];
+            return SameValue;
+        })();
+        Directives.SameValue = SameValue;
     })(FinancialApp.Directives || (FinancialApp.Directives = {}));
     var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));

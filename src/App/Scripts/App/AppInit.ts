@@ -84,6 +84,7 @@ module FinancialApp {
 
             // directives
             app.directive("faRequiredIf", Directives.RequiredIf.factory);
+            app.directive("faSameValue", Directives.SameValue.factory);
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);

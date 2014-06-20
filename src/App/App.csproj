@@ -428,6 +428,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\Master.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Menu.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\UserCreate.ts" />
+    <TypeScriptCompile Include="Scripts\App\Directives\SameValue.ts" />
     <TypeScriptCompile Include="Scripts\App\Directives\RequiredIf.ts" />
     <TypeScriptCompile Include="Scripts\App\DTO.generated.d.ts">
       <AutoGen>True</AutoGen>

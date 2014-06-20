@@ -36,8 +36,12 @@
         <label for="currentPassword" ng-hide="user.id > 0">Wachtwoord (herhalen):</label>
         <label for="currentPassword" ng-show="user.id > 0">Huidig wachtwoord:</label>
         <input id="currentPassword" name="currentPassword" type="password" class="form-control" ng-model="user.currentPassword" maxlength="150" 
-               fa-required-if="user.newPassword || !(user.id > 0)" />
+               fa-required-if="user.newPassword || !(user.id > 0)" 
+               fa-same-value="user.newPassword"/>
 
+        <span ng-show="cForm.currentPassword.$dirty && cForm.currentPassword.$error.faSameValue"
+              class="text-danger validation-block">Verplicht: herhaal het wachtwoord om fouten te voorkomen</span>
+        
         <span ng-show="cForm.currentPassword.$dirty && cForm.currentPassword.$error.required"
               class="text-danger validation-block">Verplicht: voer een wachtwoord in voor de gebruiker</span>
     </div>
