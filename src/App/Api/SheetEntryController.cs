@@ -12,6 +12,7 @@
     using SheetEntry = Models.Domain.SheetEntry;
     using SheetEntryDTO=Models.DTO.SheetEntry;
 
+    [Authorize]
     [RoutePrefix("api/sheet/{sheetId:int}/entries")]
     public class SheetEntryController : BaseEntityController {
         private readonly SheetEntryRepository _sheetEntryRepository;
