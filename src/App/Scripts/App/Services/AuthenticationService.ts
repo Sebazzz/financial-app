@@ -23,7 +23,7 @@ module FinancialApp.Services {
                     private $q: ng.IQService,
                     private $log : ng.ILogService,
                     $rootScope: ng.IRootScopeService,
-                    $location: ng.ILocationService,
+                    private $location: ng.ILocationService,
                     private localStorage: Storage) {
 
             this.authenticationChangedEvent = new Delegate<IAction>();
@@ -64,6 +64,10 @@ module FinancialApp.Services {
 
         private raiseAuthenticationEvent() {
             this.authenticationChangedEvent.invoke((f) => { f(); return true; });
+
+            if (!this.isAuthenticated()) {
+                this.$location.path("/auth/login");
+            }
         }
 
         public authenticate(userName: string, password: string, persistent: boolean): ng.IPromise<DTO.IAuthenticationInfo> {
