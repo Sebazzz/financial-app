@@ -128,6 +128,7 @@ module FinancialApp {
             var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.update(params, entry);
             res.$promise.then(() => {
                 entry.isBusy = false;
+                this.$scope.sheet.updateTimestamp = moment();
             });
             res.$promise['catch'](() => {
                 entry.isBusy = false;
@@ -144,6 +145,7 @@ module FinancialApp {
             res.$promise.then((data) => {
                 entry.id = data.id;
                 entry.isBusy = false;
+                this.$scope.sheet.updateTimestamp = moment();
             });
             res.$promise['catch'](() => {
                 entry.isBusy = false;
@@ -168,7 +170,10 @@ module FinancialApp {
             };
 
             this.sheetEntryResource['delete'](params,
-                () => { this.$scope.sheet.entries.remove(entry); },
+                () => {
+                    this.$scope.sheet.entries.remove(entry);
+                    this.$scope.sheet.updateTimestamp = moment();
+                },
                 () => entry.isBusy = false);
         }
 

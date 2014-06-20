@@ -810,6 +810,7 @@ var FinancialApp;
         };
 
         SheetController.prototype.saveEntry = function (entry) {
+            var _this = this;
             entry.editMode = false;
             entry.isBusy = true;
 
@@ -829,6 +830,7 @@ var FinancialApp;
             var res = this.sheetEntryResource.update(params, entry);
             res.$promise.then(function () {
                 entry.isBusy = false;
+                _this.$scope.sheet.updateTimestamp = moment();
             });
             res.$promise['catch'](function () {
                 entry.isBusy = false;
@@ -837,6 +839,7 @@ var FinancialApp;
         };
 
         SheetController.prototype.saveAsNewEntry = function (entry) {
+            var _this = this;
             var params = {
                 sheetId: this.$scope.sheet.id
             };
@@ -845,6 +848,7 @@ var FinancialApp;
             res.$promise.then(function (data) {
                 entry.id = data.id;
                 entry.isBusy = false;
+                _this.$scope.sheet.updateTimestamp = moment();
             });
             res.$promise['catch'](function () {
                 entry.isBusy = false;
@@ -871,6 +875,7 @@ var FinancialApp;
 
             this.sheetEntryResource['delete'](params, function () {
                 _this.$scope.sheet.entries.remove(entry);
+                _this.$scope.sheet.updateTimestamp = moment();
             }, function () {
                 return entry.isBusy = false;
             });
