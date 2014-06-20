@@ -35,10 +35,6 @@ module FinancialApp.Services {
                     ev.preventDefault();
                 }
             });
-
-            if (!this.authInfo.isAuthenticated) {
-                window.location.pathname = "/auth/login"; 
-            }
         }
 
         public addAuthenticationChange(invokable: IAction) {
