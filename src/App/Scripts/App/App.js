@@ -697,15 +697,17 @@ var FinancialApp;
 /// <reference path="../DTOEnum.generated.ts"/>
 /// <reference path="../Factories/ResourceFactory.ts"/>
 /// <reference path="../Services/CalculationService.ts"/>
+/// <reference path="../../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts"/>
 var FinancialApp;
 (function (FinancialApp) {
     'use strict';
 
     var SheetController = (function () {
-        function SheetController($scope, $routeParams, $location, sheetResource, sheetEntryResource, categoryResource, calculation) {
+        function SheetController($scope, $routeParams, $location, $modal, sheetResource, sheetEntryResource, categoryResource, calculation) {
             var _this = this;
             this.$scope = $scope;
             this.$location = $location;
+            this.$modal = $modal;
             this.sheetResource = sheetResource;
             this.sheetEntryResource = sheetEntryResource;
             this.calculation = calculation;
@@ -744,6 +746,9 @@ var FinancialApp;
             $scope.addEntry = function () {
                 return _this.addEntry();
             };
+            $scope.editRemarks = function (entry) {
+                return _this.editRemarks(entry);
+            };
         }
         SheetController.prototype.signalSheetsLoaded = function (sheet) {
             var _this = this;
@@ -777,6 +782,18 @@ var FinancialApp;
                     return entry.categoryId === c.id;
                 });
             }
+        };
+
+        SheetController.prototype.editRemarks = function (entry) {
+            this.$modal.open({
+                templateUrl: '/Angular/Widgets/Sheet-EditRemarks.html',
+                controller: RemarksDialogController,
+                resolve: {
+                    entry: function () {
+                        return entry;
+                    }
+                }
+            });
         };
 
         SheetController.prototype.saveEntry = function (entry) {
@@ -868,10 +885,29 @@ var FinancialApp;
 
             this.$scope.sheet.entries.push(newEntry);
         };
-        SheetController.$inject = ["$scope", "$routeParams", "$location", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
+        SheetController.$inject = ["$scope", "$routeParams", "$location", "$modal", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
         return SheetController;
     })();
     FinancialApp.SheetController = SheetController;
+
+    var RemarksDialogController = (function () {
+        function RemarksDialogController($scope, $modalInstance, entry) {
+            this.$scope = $scope;
+            $scope.entry = entry;
+            $scope.originalRemarks = entry.remark;
+
+            $scope.saveChanges = function () {
+                return $modalInstance.close();
+            };
+
+            $scope.cancel = function () {
+                $scope.entry.remark = $scope.originalRemarks;
+                $modalInstance.dismiss();
+            };
+        }
+        RemarksDialogController.$inject = ["$scope", "$modalInstance", "entry"];
+        return RemarksDialogController;
+    })();
 })(FinancialApp || (FinancialApp = {}));
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../typings/moment/moment.d.ts" />

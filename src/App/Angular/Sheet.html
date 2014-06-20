@@ -43,10 +43,20 @@
                         ng-form="entryForm"
                         ng-class="{ 'saving': entry.isBusy }">
                         <td>
-                            <input type="text"
-                                   placeholder="(winkel, vaste lasten, etc)"
-                                   class="form-control input-sm" ng-model="entry.source"
-                                   required maxlength="250" />
+                            <div class="input-group input-group-sm" ng-class="{ 'negative': entry.delta < 0 }">
+                                <input type="text"
+                                       placeholder="(winkel, vaste lasten, etc)"
+                                       class="form-control input-sm" ng-model="entry.source"
+                                       required maxlength="250" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm"
+                                            tooltip="Extra notities of opmerkingen bewerken"
+                                            tooltip-append-to-body="true"
+                                            ng-click="editRemarks(entry)">
+                                        <span class="glyphicon glyphicon-th"></span>
+                                    </button>
+                                </span>
+                            </div> 
                         </td>
 
                         <td>
@@ -105,6 +115,13 @@
                         ng-class="{ 'saving': entry.isBusy }">
                         <td>
                             {{ entry.source }}
+                            
+                            <button class="pull-right btn btn-link"
+                                    tooltip="Extra notities of opmerkingen bekijken"
+                                    ng-show="entry.remark"
+                                    ng-click="editRemarks(entry)">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </button>
                         </td>
 
                         <td>
@@ -162,3 +179,21 @@
 </div>
 
 <div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>
+
+<script type="text/ng-template" id="/Angular/Widgets/Sheet-EditRemarks.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Opmerkingen bewerken</h3>
+    </div>
+    <div class="modal-body">
+       <p ng-hide="entry.editMode">{{ (entry.remark || 'Geen opmerkingen ingevuld.') }}</p>
+        <textarea class="form-control"
+                  ng-show="entry.editMode"
+                  ng-model="entry.remark"
+                  rows="4"
+                  placeholder="(eventuele extra opmerkingen, notities, etc)"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="saveChanges()">OK</button>
+        <button class="btn btn-link" ng-click="cancel()">Annuleren</button>
+    </div>
+</script>

@@ -4,6 +4,7 @@
 /// <reference path="../DTOEnum.generated.ts"/>
 /// <reference path="../Factories/ResourceFactory.ts"/>
 /// <reference path="../Services/CalculationService.ts"/>
+/// <reference path="../../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts"/>
 
 module FinancialApp {
     'use strict';
@@ -32,6 +33,7 @@ module FinancialApp {
         AccountType: DTO.AccountType;
         saveEntry: (entry: DTO.ISheetEntry) => void
         deleteEntry: (entry: DTO.ISheetEntry) => void
+        editRemarks: (entry: DTO.ISheetEntry) => void
         addEntry: () => void;
     }
 
@@ -41,7 +43,7 @@ module FinancialApp {
     }
 
     export class SheetController {
-        static $inject = ["$scope", "$routeParams", "$location", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
+        static $inject = ["$scope", "$routeParams", "$location", "$modal", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
 
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
@@ -49,6 +51,7 @@ module FinancialApp {
         constructor(private $scope: ISheetScope,
                             $routeParams: ISheetRouteParams,
                     private $location: ng.ILocationService,
+                    private $modal : ng.ui.bootstrap.IModalService,
                     private sheetResource: Factories.ISheetWebResourceClass,
                     private sheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
@@ -79,6 +82,7 @@ module FinancialApp {
             $scope.saveEntry = (entry) => this.saveEntry(entry);
             $scope.deleteEntry = (entry) => this.deleteEntry(entry);
             $scope.addEntry = () => this.addEntry();
+            $scope.editRemarks = (entry) => this.editRemarks(entry);
         }
 
         private signalSheetsLoaded(sheet : DTO.ISheet) {
@@ -106,6 +110,16 @@ module FinancialApp {
                 var entry = sheetData.entries[i];
                 entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(c => entry.categoryId === c.id);
             }
+        }
+
+        private editRemarks(entry: DTO.ISheetEntry) {
+            this.$modal.open({
+                templateUrl: '/Angular/Widgets/Sheet-EditRemarks.html',
+                controller: RemarksDialogController,
+                resolve: {
+                    entry: () => entry
+                }
+            });
         }
 
         private saveEntry(entry: DTO.ISheetEntry) {
@@ -193,6 +207,30 @@ module FinancialApp {
             };
 
             this.$scope.sheet.entries.push(newEntry);
+        }
+    }
+
+    interface IRemarksDialogControllerScope extends ng.IScope {
+        entry: DTO.ISheetEntry;
+        originalRemarks: string;
+
+        saveChanges: IAction;
+        cancel: IAction;
+    }
+
+    class RemarksDialogController {
+        static $inject = ["$scope", "$modalInstance", "entry"];
+
+        constructor(private $scope: IRemarksDialogControllerScope, $modalInstance : ng.ui.bootstrap.IModalServiceInstance, entry : DTO.ISheetEntry) {
+            $scope.entry = entry;
+            $scope.originalRemarks = entry.remark;
+
+            $scope.saveChanges = () => $modalInstance.close();
+
+            $scope.cancel = () => {
+                $scope.entry.remark = $scope.originalRemarks;
+                $modalInstance.dismiss();
+            };
         }
     }
 }
