@@ -83,7 +83,7 @@ module FinancialApp {
             app.service("calculation", Services.CalculationService);
 
             // directives
-            app.directive("faRequiredIf", Directives.RequiredIf.directive());
+            app.directive("faRequiredIf", Directives.RequiredIf.factory);
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);

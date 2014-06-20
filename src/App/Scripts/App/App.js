@@ -165,7 +165,7 @@ var FinancialApp;
             app.service("calculation", FinancialApp.Services.CalculationService);
 
             // directives
-            app.directive("faRequiredIf", FinancialApp.Directives.RequiredIf.directive());
+            app.directive("faRequiredIf", FinancialApp.Directives.RequiredIf.factory);
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
@@ -1096,24 +1096,31 @@ var FinancialApp;
 var FinancialApp;
 (function (FinancialApp) {
     (function (Directives) {
+        "use strict";
+
         var RequiredIf = (function () {
             function RequiredIf() {
+                this.restrict = "A";
+                return this;
             }
-            RequiredIf.directive = function () {
-                var fn = function (scope, element, attr) {
-                    var expr = attr.faRequiredIf;
-
-                    scope.$watch(expr, function (val) {
-                        if (val) {
-                            element.attr("required", "required");
-                        } else {
-                            element.removeAttr("required");
-                        }
-                    });
-                };
-
-                return fn.withInject("scope", "element", "attr");
+            RequiredIf.factory = function () {
+                return new RequiredIf();
             };
+
+            RequiredIf.prototype.link = function (scope, instanceElement, instanceAttributes, controller, transclude) {
+                var expr = instanceAttributes["faRequiredIf"];
+
+                console.log("fa-required-if expr: %s", expr);
+                scope.$watch(expr, function (val) {
+                    console.log("fa-required-if: %s", val);
+                    if (val) {
+                        instanceElement.attr("required", "required");
+                    } else {
+                        instanceElement.removeAttr("required");
+                    }
+                });
+            };
+            RequiredIf.$inject = [];
             return RequiredIf;
         })();
         Directives.RequiredIf = RequiredIf;
