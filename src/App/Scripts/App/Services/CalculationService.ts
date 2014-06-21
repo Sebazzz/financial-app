@@ -13,6 +13,14 @@ module FinancialApp.Services {
                              .Where((e : DTO.ISheetEntry) => e.account === accountType)
                              .Sum((e: DTO.ISheetEntry) => e.delta);
 
+            if (accountType == DTO.AccountType.BankAccount) {
+                sum += sheet.offset.bankAccountOffset;
+            }
+
+            if (accountType == DTO.AccountType.SavingsAccount) {
+                sum += sheet.offset.savingsAccountOffset;
+            }
+
             return sum || 0.00;
         }
     }    
