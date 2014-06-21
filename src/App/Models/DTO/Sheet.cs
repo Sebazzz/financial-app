@@ -1,6 +1,7 @@
 ﻿namespace App.Models.DTO {
     using System;
     using System.Runtime.Serialization;
+    using Domain;
 
     [DataContract]
     public class Sheet {
@@ -21,5 +22,10 @@
 
         [DataMember(Name = "entries")]
         public SheetEntry[] Entries { get; set; }
+
+        [DataMember(Name = "offset")]
+        public CalculationOptions Offset { get; set; }
     }
+
+ 
 }

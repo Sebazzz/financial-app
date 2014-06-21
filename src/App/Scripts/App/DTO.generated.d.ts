@@ -14,6 +14,16 @@ declare module FinancialApp.DTO {
     }
 
         
+    export interface ICalculationOptions extends IObject {
+        
+            savingsAccountOffset : any;
+
+        
+            bankAccountOffset : any;
+
+            }
+
+        
     export interface ICategory extends IObject {
         
             id : number;
@@ -23,29 +33,6 @@ declare module FinancialApp.DTO {
 
         
             description : string;
-
-            }
-
-        
-    export interface IAppUserMutate extends IAppUserListing {
-        
-            newPassword : string;
-
-        
-            currentPassword : string;
-
-            }
-
-        
-    export interface IAppUserListing extends IObject {
-        
-            email : string;
-
-        
-            userName : string;
-
-        
-            id : number;
 
             }
 
@@ -68,6 +55,9 @@ declare module FinancialApp.DTO {
 
         
             entries : ISheetEntry[];
+
+        
+            offset : ICalculationOptions;
 
             }
 
@@ -114,6 +104,29 @@ declare module FinancialApp.DTO {
 
         
     export interface IInsertId extends IObject {
+        
+            id : number;
+
+            }
+
+        
+    export interface IAppUserMutate extends IAppUserListing {
+        
+            newPassword : string;
+
+        
+            currentPassword : string;
+
+            }
+
+        
+    export interface IAppUserListing extends IObject {
+        
+            email : string;
+
+        
+            userName : string;
+
         
             id : number;
 

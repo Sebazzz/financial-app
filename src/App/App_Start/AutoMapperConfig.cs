@@ -29,9 +29,11 @@
                              .ForMember(x => x.Month, x=>x.MapFrom(z=>z.Subject.Month))
                              .ForMember(x => x.Year, x => x.MapFrom(z => z.Subject.Year));
 
-            AutoMapper.Mapper.CreateMap<Sheet, Models.DTO.Sheet>(MemberList.Destination);
+            AutoMapper.Mapper.CreateMap<Sheet, Models.DTO.Sheet>(MemberList.Destination)
+                             .ForMember(x => x.Offset, m => m.ResolveUsing<SheetOffsetCalculationResolver>());
 
-            AutoMapper.Mapper.CreateMap<Models.DTO.Sheet, Sheet>(MemberList.Source);
+            AutoMapper.Mapper.CreateMap<Models.DTO.Sheet, Sheet>(MemberList.Source)
+                             .ForSourceMember(x => x.Offset, m=>m.Ignore());
 
             AutoMapper.Mapper.CreateMap<AppUser, AppUserListing>(MemberList.Destination);
 
@@ -131,6 +133,26 @@
             /// </returns>
             public TEntity Convert(ResolutionContext context) {
                 return ResolveCore(context.SourceValue);
+            }
+        }
+
+        // ReSharper disable once ClassNeverInstantiated.Local -- It is instantiated, but using DI
+        private sealed class SheetOffsetCalculationResolver : ValueResolver<Sheet, CalculationOptions> {
+            private readonly SheetOffsetCalculationService _offsetCalculationService;
+
+            public SheetOffsetCalculationResolver(SheetOffsetCalculationService offsetCalculationService) {
+                this._offsetCalculationService = offsetCalculationService;
+            }
+
+            /// <summary>
+            /// Implementors override this method to resolve the destination value based on the provided source value
+            /// </summary>
+            /// <param name="source">Source value</param>
+            /// <returns>
+            /// Destination
+            /// </returns>
+            protected override CalculationOptions ResolveCore(Sheet source) {
+                return this._offsetCalculationService.CalculateOffset(source);
             }
         }
     }
