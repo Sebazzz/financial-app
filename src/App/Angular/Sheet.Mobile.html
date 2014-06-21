@@ -8,10 +8,56 @@
         Aangemaakt: {{ sheet.createTimestamp | moment: 'DD MMMM [om] HH:mm'}} |
         Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
     </small>
-    
-    <form name="sheetForm" novalidate>
-            MOBILE       
-    </form>
+
+
+    <div ng-repeat="entry in sheet.entries">
+        <table class="table table-condensed sheet-mobile-table" ng-init="entry.showRemarks = false">
+            <tr>
+                <th colspan="2">
+                    <button class="pull-right btn btn-link"
+                            tooltip="Extra notities of opmerkingen bekijken"
+                            ng-show="entry.remark && !entry.showRemarks"
+                            ng-click="entry.showRemarks = true">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </button>
+
+                    <div>{{ entry.source }}</div>
+                </th>
+            </tr>
+            <tr ng-show="entry.showRemarks">
+                <td>
+                    Opmerkingen
+                </td>
+                <td>
+                    <p class="preserve-whitespace">{{ entry.remark }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Categorie
+                </td>
+                <td>
+                    {{ entry.category.name }}
+                </td>
+            </tr>
+            <tr ng-show="entry.account === AccountType.BankAccount">
+                <td>
+                    Betaalrekening
+                </td>
+                <td>
+                    <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta | currency }}</span>
+                </td>
+            </tr>
+            <tr ng-show="entry.account === AccountType.SavingsAccount">
+                <td>
+                    Spaarrekening
+                </td>
+                <td>
+                    <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta | currency }}</span>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

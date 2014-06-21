@@ -80,3 +80,24 @@ tr.saving {
 .preserve-whitespace {
     white-space: pre-wrap;
 }
+
+.sheet-mobile-table tr td:first-child {
+    width: 30%;
+    padding-right: 2em
+}
+
+.sheet-mobile-table tr td:last-child {
+    padding-left: 2em;
+    text-align: right;
+}
+
+.sheet-mobile-table {
+    border-top: 2px solid #000;
+    margin-bottom: 1em;
+}
+
+.sheet-mobile-table th div {
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 1em;
+}
