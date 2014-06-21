@@ -33,7 +33,7 @@
         }
 
         [HttpGet]
-        [Route("{year:int:max(2100):min(2000)}/{month:int:max(12):min(1)}")]
+        [Route("{year:int:max(2100):min(2000)}-{month:int:max(12):min(1)}")]
         public SheetDTO GetBySubject(int month, int year) {
             Sheet theSheet = this._sheetRetrievalService.GetBySubject(month, year, this.OwnerId);
 

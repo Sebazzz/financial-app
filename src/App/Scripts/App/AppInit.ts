@@ -62,7 +62,7 @@ module FinancialApp {
             app.factory("sheetResource", Factories.ResourceFactory<DTO.ISheet>("/api/sheet/:id", {
                 'getByDate': {
                     method: 'GET',
-                    url: '/api/sheet/:year/:month'
+                    url: '/api/sheet/:year-:month'
                 }
             }));
 
