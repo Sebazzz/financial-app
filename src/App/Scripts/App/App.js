@@ -1017,6 +1017,34 @@ var FinancialApp;
     })();
     FinancialApp.UserCreateController = UserCreateController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/manage/user/edit/:id" />
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts" />
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var UserEditController = (function () {
+        function UserEditController($scope, $routeParams, $location, userResource) {
+            var _this = this;
+            this.api = userResource;
+
+            $scope.user = this.api.get({ id: $routeParams.id }, function () {
+            }, function () {
+                return $location.path("/manage/user");
+            });
+            $scope.save = function () {
+                return _this.api.update({ id: $routeParams.id }, $scope.user, function () {
+                    return $location.path("/manage/user");
+                });
+            };
+        }
+        UserEditController.$inject = ["$scope", "$routeParams", "$location", "userResource"];
+        return UserEditController;
+    })();
+    FinancialApp.UserEditController = UserEditController;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/manage/user"/>
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../DTO.generated.d.ts"/>
