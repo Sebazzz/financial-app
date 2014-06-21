@@ -48,6 +48,9 @@ module FinancialApp {
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
 
+        private year: number;
+        private month : number;
+
         constructor(private $scope: ISheetScope,
                             $routeParams: ISheetRouteParams,
                     private $location: ng.ILocationService,
@@ -57,10 +60,10 @@ module FinancialApp {
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
                     private calculation : Services.CalculationService) {
 
-            var year = parseInt($routeParams.year, 10);
-            var month = parseInt($routeParams.month, 10);
+            this.year = parseInt($routeParams.year, 10);
+            this.month = parseInt($routeParams.month, 10);
 
-            $scope.date = moment([year, month - 1 /* zero offset */]);
+            $scope.date = moment([this.year, this.month - 1 /* zero offset */]);
             $scope.isLoaded = false;
             $scope.AccountType = <any> DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
 
@@ -71,7 +74,7 @@ module FinancialApp {
             }
 
             // get data
-            $scope.sheet = sheetResource.getByDate({ year: year, month: month }, (data) => {
+            $scope.sheet = sheetResource.getByDate({ year: this.year, month: this.month }, (data) => {
                 this.signalSheetsLoaded(data);
             }, () => $location.path("/archive"));
 
@@ -135,7 +138,8 @@ module FinancialApp {
             }
 
             var params = {
-                sheetId: this.$scope.sheet.id,
+                sheetMonth: this.year,
+                sheetYear: this.month,
                 id: entry.id
             };
 
@@ -152,7 +156,8 @@ module FinancialApp {
 
         private saveAsNewEntry(entry: DTO.ISheetEntry) {
             var params = {
-                sheetId: this.$scope.sheet.id,
+                sheetMonth: this.year,
+                sheetYear: this.month
             };
 
             var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.save(params, entry);
@@ -189,7 +194,8 @@ module FinancialApp {
 
             // server-side delete
             var params = {
-                sheetId: this.$scope.sheet.id,
+                sheetMonth: this.year,
+                sheetYear: this.month,
                 id: entry.id
             };
 
