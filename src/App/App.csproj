@@ -205,9 +205,7 @@
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="Content\hotkeys.css" />
-    <Content Include="Content\hotkeys.min.css">
-      <DependentUpon>hotkeys.css</DependentUpon>
-    </Content>
+    <Content Include="Content\hotkeys.min.css" />
     <Content Include="Content\Icons\Money.png" />
     <Content Include="Content\MSTileConfig.xml" />
     <Content Include="Content\Tiles\largetile.png" />
@@ -223,38 +221,19 @@
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="Scripts\angular-locale-nl_NL.js" />
+    <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-progress.js" />
     <Content Include="Scripts\angular-progress.min.js">
       <DependentUpon>angular-progress.js</DependentUpon>
     </Content>
     <Content Include="Scripts\angular-resource.js" />
-    <Content Include="Scripts\angular-resource.min.js">
-      <DependentUpon>angular-resource.js</DependentUpon>
-    </Content>
+    <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular-route.js" />
-    <Content Include="Scripts\angular-route.min.js">
-      <DependentUpon>angular-route.js</DependentUpon>
-    </Content>
+    <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular-touch.js" />
-    <Content Include="Scripts\angular-touch.min.js">
-      <DependentUpon>angular-touch.js</DependentUpon>
-    </Content>
+    <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\angular.min.js">
-      <DependentUpon>angular.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\angular.min.js.map">
-      <DependentUpon>angular.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\angular-route.min.js.map">
-      <DependentUpon>angular-route.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\angular-touch.min.js.map">
-      <DependentUpon>angular-touch.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\angular-resource.min.js.map">
-      <DependentUpon>angular-resource.js</DependentUpon>
-    </Content>
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\App\App.js" />
     <Content Include="Scripts\App\Controllers\ControllerInit.generated.js">
       <AutoGen>True</AutoGen>
@@ -288,10 +267,13 @@
       <CustomToolNamespace>FinancialApp.DTO</CustomToolNamespace>
       <LastGenOutput>DTOEnum.generated.ts</LastGenOutput>
     </Content>
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\angular-touch.min.js.map" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </None>
-    <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
@@ -302,9 +284,7 @@
       <DependentUpon>bootstrap.js</DependentUpon>
     </Content>
     <Content Include="Scripts\hotkeys.js" />
-    <Content Include="Scripts\hotkeys.min.js">
-      <DependentUpon>hotkeys.js</DependentUpon>
-    </Content>
+    <Content Include="Scripts\hotkeys.min.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
@@ -394,7 +374,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\jquery-2.1.1.min.map">
       <DependentUpon>jquery-2.1.1.js</DependentUpon>
     </Content>
