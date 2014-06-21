@@ -157,7 +157,7 @@
   },
   "TypeScript": {
     "LintOnBuild": false,
-    "LintOnSave": true,
+    "LintOnSave": false,
     "LintResultLocation": "Message",
     "ShowPreviewPane": false
   }
