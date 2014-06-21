@@ -6,7 +6,7 @@
     using Repositories;
 
     /// <summary>
-    /// Represents a group of owners
+    /// Represents a group of owners - this allows defining shared objects
     /// </summary>
     [GenerateRepository]
     public class AppOwner {
