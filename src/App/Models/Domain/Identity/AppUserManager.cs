@@ -1,4 +1,5 @@
 ﻿namespace App.Models.Domain.Identity {
+    using System;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
@@ -33,6 +34,22 @@
                 manager.UserTokenProvider = new DataProtectorTokenProvider<AppUser,int>(dataProtectionProvider.Create("FinancialApp"));
             }
             return manager;
+        }
+
+        internal async System.Threading.Tasks.Task<IdentityResult> ChangePasswordAsync(int userId, string newPassword) {
+            AppUser user = await this.FindByIdAsync(userId).ConfigureAwait(false);
+            if (user == null) {
+                throw new InvalidOperationException("user not found");
+            }
+
+            IdentityResult result = await this.PasswordValidator.ValidateAsync(newPassword).ConfigureAwait(false);
+            
+            IUserPasswordStore<AppUser, int> pwdStore = (IUserPasswordStore<AppUser, int>) this.Store;
+            if (result.Succeeded) await pwdStore.SetPasswordHashAsync(user, newPassword).ConfigureAwait(false);
+            if (result.Succeeded) result = await this.UpdateSecurityStampAsync(user.Id);
+            if (result.Succeeded) result = await this.UpdateAsync(user);
+
+            return result;
         }
     }
 }

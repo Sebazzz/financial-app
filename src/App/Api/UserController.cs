@@ -80,7 +80,15 @@
             this.EnsureSucceeded(result);
 
             if (value.NewPassword != null) {
-                result = await this._appUserManager.ChangePasswordAsync(currentUser.Id, value.CurrentPassword, value.NewPassword);
+                if (this.User.Identity.GetUserId() == id.ToString(CultureInfo.CurrentCulture)) {
+                    if (value.CurrentPassword == null) throw new HttpResponseException(HttpStatusCode.BadRequest);
+
+                    result =
+                        await this._appUserManager.ChangePasswordAsync(currentUser.Id, value.CurrentPassword, value.NewPassword);
+                }
+                else {
+                    result = await this._appUserManager.ChangePasswordAsync(currentUser.Id, value.NewPassword);
+                }
                 this.EnsureSucceeded(result);
             }
 
