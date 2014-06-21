@@ -3,9 +3,11 @@
 
     partial class SheetRepository {
         public IQueryable<Sheet> GetByDatePart(int month, int year, int appOwnerId) {
-            return this._entitySet.Where(x => x.Subject.Month == month &&
+            var q = this._entitySet.Where(x => x.Subject.Month == month &&
                                                        x.Subject.Year == year &&
                                                        x.Owner.Id == appOwnerId);
+
+            return q;
         }
 
         public IQueryable<Sheet> FindByIdInclude(int id) {

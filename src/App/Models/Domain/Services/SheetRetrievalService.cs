@@ -56,9 +56,13 @@
         }
 
         private Sheet CreateCurrentMonthSheet(int ownerId) {
+            return CreateSheet(DateTime.Now.Month, DateTime.Now.Year, ownerId);
+        }
+
+        private Sheet CreateSheet(int month, int year, int ownerId) {
             Sheet sheet = new Sheet();
-            
-            sheet.Subject = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+            sheet.Subject = new DateTime(year, month, 1);
             sheet.Owner = this._appOwnerRepository.FindById(ownerId).EnsureNotNull(HttpStatusCode.BadRequest);
 
             return sheet;
