@@ -349,6 +349,7 @@
     <Compile Include="Models\Domain\AccountType.cs" />
     <Compile Include="Models\Domain\AppDbContext.cs" />
     <Compile Include="Models\Domain\AppOwner.cs" />
+    <Compile Include="Models\Domain\CalculationOptions.cs" />
     <Compile Include="Models\Domain\Category.cs" />
     <Compile Include="Models\Domain\IAppOwnerEntity.cs" />
     <Compile Include="Models\Domain\IHasId.cs" />

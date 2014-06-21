@@ -25,6 +25,8 @@
 
         public DateTime CreateTimestamp { get; set; }
 
+        public CalculationOptions CalculationOptions { get; set; }
+
         [Required]
         [GenerateRepositoryQuery(IsMultiple = true)]
         public virtual AppOwner Owner { get; set; }
@@ -41,5 +43,6 @@
             this.CreateTimestamp = DateTime.Now;
             this.UpdateTimestamp = DateTime.Now;
         }
+
     }
 }
