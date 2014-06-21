@@ -34,6 +34,7 @@
         public IEnumerable<AppUserListing> Get() {
             return this._appUserManager.Users
                                        .Where(x => x.Group.Id == this.OwnerId)
+                                       .OrderBy(x => x.UserName)
                                        .Project().To<AppUserListing>();
         }
 

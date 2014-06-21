@@ -27,7 +27,7 @@
                 Name = x.Name,
                 Id = x.Id,
                 CanBeDeleted = !x.SheetEntries.Any()
-            });
+            }).OrderBy(x => x.Name);
         }
 
 
