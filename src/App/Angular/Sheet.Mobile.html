@@ -63,14 +63,16 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td colspan="2" style="padding-left:0;padding-right: 0;text-align: center;">
                     <a href="#"
                        ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/{{entry.id}}"
-                       class="btn btn-default">
+                       class="btn btn-default"
+                       style="width:49%">
                         <span class="glyphicon glyphicon-pencil"></span> Bewerken
                     </a>
                     <button class="btn btn-danger"
-                            ng-click="deleteEntry(entry)">
+                            ng-click="deleteEntry(entry)"
+                            style="width:49%">
                         <span class="glyphicon glyphicon-trash"> Verwijderen</span>
                     </button>
                 </td>
@@ -78,7 +80,7 @@
         </table>
     </div>
     <p>
-        <a class="btn btn-lg btn-default" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
+        <a class="btn btn-lg btn-default" style="width: 100%" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
             <span class="glyphicon glyphicon-plus"></span>
             Nieuwe regel toevoegen
         </a>
