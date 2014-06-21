@@ -527,6 +527,485 @@ var FinancialApp;
     })();
     FinancialApp.CategoryCreateController = CategoryCreateController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/manage/category/edit/:id" />
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts" />
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var CategoryEditController = (function () {
+        function CategoryEditController($scope, $routeParams, $location, categoryResource) {
+            var _this = this;
+            this.api = categoryResource;
+
+            $scope.category = this.api.get({ id: $routeParams.id }, function () {
+            }, function () {
+                return $location.path("/manage/category");
+            });
+            $scope.save = function () {
+                return _this.api.update({ id: $routeParams.id }, $scope.category, function () {
+                    return $location.path("/manage/category");
+                });
+            };
+        }
+        CategoryEditController.$inject = ["$scope", "$routeParams", "$location", "categoryResource"];
+        return CategoryEditController;
+    })();
+    FinancialApp.CategoryEditController = CategoryEditController;
+})(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/manage/category"/>
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var CategoryListController = (function () {
+        function CategoryListController($scope, $modal, categoryResource) {
+            var _this = this;
+            this.$scope = $scope;
+            this.$modal = $modal;
+            this.api = categoryResource;
+
+            $scope.categories = this.api.query(function () {
+                $scope.isLoaded = true;
+            });
+
+            $scope.deleteCategory = function (cat) {
+                _this.deleteCategory(cat);
+            };
+        }
+        CategoryListController.prototype.deleteCategory = function (cat) {
+            var _this = this;
+            if (cat.canBeDeleted !== true) {
+                return;
+            }
+
+            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
+                title: 'Categorie verwijderen',
+                bodyText: 'Weet je zeker dat je de categorie "' + cat.name + "' wilt verwijderen?",
+                dialogType: 1 /* Danger */
+            });
+
+            res.result.then(function () {
+                return _this.deleteCategoryCore(cat);
+            });
+        };
+
+        CategoryListController.prototype.deleteCategoryCore = function (cat) {
+            var _this = this;
+            this.$scope.isLoaded = false;
+            this.api['delete']({ id: cat.id }, function () {
+                _this.$scope.isLoaded = true;
+                _this.$scope.categories.remove(cat);
+            });
+        };
+        CategoryListController.$inject = ["$scope", "$modal", "categoryResource"];
+        return CategoryListController;
+    })();
+    FinancialApp.CategoryListController = CategoryListController;
+})(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var DefaultController = (function () {
+        function DefaultController() {
+        }
+        DefaultController.$inject = [];
+        return DefaultController;
+    })();
+    FinancialApp.DefaultController = DefaultController;
+})(FinancialApp || (FinancialApp = {}));
+/// <init-options exclude="route"/>
+/// <reference path="../../../typings/angularjs/angular.d.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    (function (DialogType) {
+        DialogType[DialogType["Info"] = 0] = "Info";
+        DialogType[DialogType["Danger"] = 1] = "Danger";
+        DialogType[DialogType["Warning"] = 2] = "Warning";
+    })(FinancialApp.DialogType || (FinancialApp.DialogType = {}));
+    var DialogType = FinancialApp.DialogType;
+
+    var ConfirmDialogController = (function () {
+        function ConfirmDialogController($scope, $modalInstance, options) {
+            $scope.DialogType = DialogType;
+            $scope.options = options;
+
+            $scope.ok = function () {
+                return $modalInstance.close(options.okResult);
+            };
+            $scope.cancel = function () {
+                return $modalInstance.dismiss(options.cancelResult);
+            };
+        }
+        ConfirmDialogController.create = function ($modal, options) {
+            return $modal.open({
+                templateUrl: ConfirmDialogController.templateUrl,
+                controller: ConfirmDialogController,
+                resolve: {
+                    options: function () {
+                        return options;
+                    }
+                }
+            });
+        };
+        ConfirmDialogController.$inject = ["$scope", "$modalInstance", "options"];
+        ConfirmDialogController.templateUrl = "/Angular/Dialogs/ConfirmDialog.html";
+        return ConfirmDialogController;
+    })();
+    FinancialApp.ConfirmDialogController = ConfirmDialogController;
+})(FinancialApp || (FinancialApp = {}));
+/// <init-options exclude="route"/>
+/// <reference path="../Services/AuthenticationService.ts"/>
+/// <reference path="../../typings/angularjs/angular.d.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var MasterController = (function () {
+        function MasterController($scope, authentication) {
+            var _this = this;
+            this.authentication = authentication;
+
+            MasterController.setAuthenticationInfo($scope, this.authentication.isAuthenticated());
+
+            this.authentication.addAuthenticationChange(function () {
+                return MasterController.setAuthenticationInfo($scope, _this.authentication.isAuthenticated());
+            });
+        }
+        MasterController.setAuthenticationInfo = function ($scope, isAuthenticated) {
+            $scope.isMenuVisible = isAuthenticated;
+            $scope.isAuthenticated = isAuthenticated;
+        };
+        MasterController.$inject = ["$scope", "authentication"];
+        return MasterController;
+    })();
+    FinancialApp.MasterController = MasterController;
+})(FinancialApp || (FinancialApp = {}));
+/// <init-options exclude="route"/>
+/// <reference path="../../typings/angularjs/angular.d.ts"/>
+/// <reference path="../Services/AuthenticationService.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var MenuController = (function () {
+        function MenuController($scope, $location) {
+            $scope.currentPath = $location.path();
+            $scope.nowPath = FinancialApp.Program.createNowRoute();
+            $scope.extendMenuVisible = false;
+
+            $scope.hasPath = function (str) {
+                return str == this.currentPath;
+            };
+
+            $scope.$on("$locationChangeSuccess", function () {
+                $scope.currentPath = $location.path();
+                $scope.extendMenuVisible = false;
+            });
+
+            $scope.toggleNavBar = function () {
+                return $scope.extendMenuVisible = !$scope.extendMenuVisible;
+            };
+        }
+        MenuController.$inject = ["$scope", "$location"];
+        return MenuController;
+    })();
+    FinancialApp.MenuController = MenuController;
+})(FinancialApp || (FinancialApp = {}));
+// <autogenerated>
+//   This file was generated using DTOEnum.tt.
+//   Any changes made manually will be lost next time the file is regenerated.
+// </autogenerated>
+var FinancialApp;
+(function (FinancialApp) {
+    (function (DTO) {
+        (function (AccountType) {
+            AccountType[AccountType["Invalid"] = 0] = "Invalid";
+
+            AccountType[AccountType["BankAccount"] = 1] = "BankAccount";
+
+            AccountType[AccountType["SavingsAccount"] = 2] = "SavingsAccount";
+        })(DTO.AccountType || (DTO.AccountType = {}));
+        var AccountType = DTO.AccountType;
+    })(FinancialApp.DTO || (FinancialApp.DTO = {}));
+    var DTO = FinancialApp.DTO;
+})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../DTOEnum.generated.ts"/>
+/// <reference path="../../typings/linq/linq.d.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    (function (Services) {
+        var CalculationService = (function () {
+            function CalculationService() {
+            }
+            CalculationService.prototype.calculateTotal = function (sheet, accountType) {
+                var sum = Enumerable.From(sheet.entries).Where(function (e) {
+                    return e.account === accountType;
+                }).Sum(function (e) {
+                    return e.delta;
+                });
+
+                if (accountType == 1 /* BankAccount */) {
+                    sum += sheet.offset.bankAccountOffset;
+                }
+
+                if (accountType == 2 /* SavingsAccount */) {
+                    sum += sheet.offset.savingsAccountOffset;
+                }
+
+                return sum || 0.00;
+            };
+            return CalculationService;
+        })();
+        Services.CalculationService = CalculationService;
+    })(FinancialApp.Services || (FinancialApp.Services = {}));
+    var Services = FinancialApp.Services;
+})(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/sheet/:year/:month"/>
+/// <reference path="../../typings/linq/linq.d.ts"/>
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../DTOEnum.generated.ts"/>
+/// <reference path="../Factories/ResourceFactory.ts"/>
+/// <reference path="../Services/CalculationService.ts"/>
+/// <reference path="../../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var SheetController = (function () {
+        function SheetController($scope, $routeParams, $location, $modal, sheetResource, sheetEntryResource, categoryResource, calculation) {
+            var _this = this;
+            this.$scope = $scope;
+            this.$location = $location;
+            this.$modal = $modal;
+            this.sheetResource = sheetResource;
+            this.sheetEntryResource = sheetEntryResource;
+            this.calculation = calculation;
+            this.isCategoriesLoaded = false;
+            this.isSheetLoaded = false;
+            this.year = parseInt($routeParams.year, 10);
+            this.month = parseInt($routeParams.month, 10);
+
+            $scope.date = moment([this.year, this.month - 1]);
+            $scope.previousDate = moment($scope.date).subtract('month', 1);
+            $scope.isLoaded = false;
+            $scope.AccountType = FinancialApp.DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
+
+            // bail out if invalid date is provided (we can do this without checking with the server)
+            if (!$scope.date.isValid()) {
+                $location.path("/archive");
+                return;
+            }
+
+            // get data
+            $scope.sheet = sheetResource.getByDate({ year: this.year, month: this.month }, function (data) {
+                _this.signalSheetsLoaded(data);
+            }, function () {
+                return $location.path("/archive");
+            });
+
+            $scope.categories = categoryResource.query(function () {
+                _this.signalCategoriesLoaded();
+            });
+
+            $scope.saveEntry = function (entry) {
+                return _this.saveEntry(entry);
+            };
+            $scope.deleteEntry = function (entry) {
+                return _this.deleteEntry(entry);
+            };
+            $scope.addEntry = function () {
+                return _this.addEntry();
+            };
+            $scope.editRemarks = function (entry) {
+                return _this.editRemarks(entry);
+            };
+        }
+        SheetController.prototype.signalSheetsLoaded = function (sheet) {
+            var _this = this;
+            this.isSheetLoaded = true;
+
+            sheet.totalSavings = function () {
+                return _this.calculation.calculateTotal(sheet, 2 /* SavingsAccount */);
+            };
+            sheet.totalBank = function () {
+                return _this.calculation.calculateTotal(sheet, 1 /* BankAccount */);
+            };
+
+            this.setLoadedBit(sheet);
+        };
+
+        SheetController.prototype.signalCategoriesLoaded = function () {
+            this.isCategoriesLoaded = true;
+            this.setLoadedBit(this.$scope.sheet);
+        };
+
+        SheetController.prototype.setLoadedBit = function (sheetData) {
+            this.$scope.isLoaded = this.isCategoriesLoaded && this.isSheetLoaded;
+
+            if (!sheetData || !sheetData.entries) {
+                return;
+            }
+
+            for (var i = 0; i < sheetData.entries.length; i++) {
+                var entry = sheetData.entries[i];
+                entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(function (c) {
+                    return entry.categoryId === c.id;
+                });
+            }
+        };
+
+        SheetController.prototype.editRemarks = function (entry) {
+            this.$modal.open({
+                templateUrl: '/Angular/Widgets/Sheet-EditRemarks.html',
+                controller: RemarksDialogController,
+                resolve: {
+                    entry: function () {
+                        return entry;
+                    }
+                }
+            });
+        };
+
+        SheetController.prototype.saveEntry = function (entry) {
+            var _this = this;
+            entry.editMode = false;
+            entry.isBusy = true;
+
+            // santize
+            entry.categoryId = entry.category.id;
+
+            if (!(entry.id > 0)) {
+                this.saveAsNewEntry(entry);
+                return;
+            }
+
+            var params = {
+                sheetMonth: this.month,
+                sheetYear: this.year,
+                id: entry.id
+            };
+
+            var res = this.sheetEntryResource.update(params, entry);
+            res.$promise.then(function () {
+                entry.isBusy = false;
+                _this.$scope.sheet.updateTimestamp = moment();
+            });
+            res.$promise['catch'](function () {
+                entry.isBusy = false;
+                entry.editMode = true;
+            });
+        };
+
+        SheetController.prototype.saveAsNewEntry = function (entry) {
+            var _this = this;
+            var params = {
+                sheetMonth: this.month,
+                sheetYear: this.year
+            };
+
+            var res = this.sheetEntryResource.save(params, entry);
+            res.$promise.then(function (data) {
+                entry.id = data.id;
+                entry.isBusy = false;
+                _this.$scope.sheet.updateTimestamp = moment();
+            });
+            res.$promise['catch'](function () {
+                entry.isBusy = false;
+                entry.editMode = true;
+            });
+        };
+
+        SheetController.prototype.deleteEntry = function (entry) {
+            var _this = this;
+            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
+                title: 'Regel verwijderen',
+                bodyText: 'Weet je zeker dat je de regel "' + entry.source + "' wilt verwijderen?",
+                dialogType: 1 /* Danger */
+            });
+
+            res.result.then(function () {
+                return _this.deleteEntryCore(entry);
+            });
+        };
+
+        SheetController.prototype.deleteEntryCore = function (entry) {
+            var _this = this;
+            entry.isBusy = true;
+            entry.editMode = false;
+
+            // if the entry has not been saved, we can delete it right away
+            if (entry.id == 0) {
+                this.$scope.sheet.entries.remove(entry);
+                return;
+            }
+
+            // server-side delete
+            var params = {
+                sheetMonth: this.month,
+                sheetYear: this.year,
+                id: entry.id
+            };
+
+            this.sheetEntryResource['delete'](params, function () {
+                _this.$scope.sheet.entries.remove(entry);
+                _this.$scope.sheet.updateTimestamp = moment();
+            }, function () {
+                return entry.isBusy = false;
+            });
+        };
+
+        SheetController.prototype.addEntry = function () {
+            var newEntry = {
+                id: 0,
+                account: 1 /* BankAccount */,
+                categoryId: null,
+                category: null,
+                createTimestamp: moment(),
+                delta: 0,
+                remark: null,
+                source: null,
+                editMode: true,
+                updateTimestamp: moment(),
+                isBusy: false
+            };
+
+            this.$scope.sheet.entries.push(newEntry);
+        };
+        SheetController.$inject = ["$scope", "$routeParams", "$location", "$modal", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
+        return SheetController;
+    })();
+    FinancialApp.SheetController = SheetController;
+
+    var RemarksDialogController = (function () {
+        function RemarksDialogController($scope, $modalInstance, entry) {
+            this.$scope = $scope;
+            $scope.entry = entry;
+            $scope.originalRemarks = entry.remark;
+
+            $scope.saveChanges = function () {
+                return $modalInstance.close();
+            };
+
+            $scope.cancel = function () {
+                $scope.entry.remark = $scope.originalRemarks;
+                $modalInstance.dismiss();
+            };
+        }
+        RemarksDialogController.$inject = ["$scope", "$modalInstance", "entry"];
+        return RemarksDialogController;
+    })();
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/sheet/:year/:month/entries/add" viewName="SheetEntryEdit"/>
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../DTO.generated.d.ts" />
@@ -701,6 +1180,34 @@ var FinancialApp;
     })();
     FinancialApp.SheetEntryEditController = SheetEntryEditController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/manage/user/add" viewName="UserEdit" />
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts"/>
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var UserCreateController = (function () {
+        function UserCreateController($scope, $location, userResource) {
+            var _this = this;
+            this.api = userResource;
+
+            $scope.save = function () {
+                return _this.api.save($scope.user, function (data) {
+                    $scope.user.id = data.id;
+
+                    $location.path("/manage/user");
+                }, function (data) {
+                    $scope.errorMessage = data.join("; ");
+                });
+            };
+        }
+        UserCreateController.$inject = ["$scope", "$location", "userResource"];
+        return UserCreateController;
+    })();
+    FinancialApp.UserCreateController = UserCreateController;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/manage/user/edit/:id" />
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../DTO.generated.d.ts" />
@@ -730,34 +1237,6 @@ var FinancialApp;
         return UserEditController;
     })();
     FinancialApp.UserEditController = UserEditController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/manage/category/edit/:id" />
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../DTO.generated.d.ts" />
-/// <reference path="../Common.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var CategoryEditController = (function () {
-        function CategoryEditController($scope, $routeParams, $location, categoryResource) {
-            var _this = this;
-            this.api = categoryResource;
-
-            $scope.category = this.api.get({ id: $routeParams.id }, function () {
-            }, function () {
-                return $location.path("/manage/category");
-            });
-            $scope.save = function () {
-                return _this.api.update({ id: $routeParams.id }, $scope.category, function () {
-                    return $location.path("/manage/category");
-                });
-            };
-        }
-        CategoryEditController.$inject = ["$scope", "$routeParams", "$location", "categoryResource"];
-        return CategoryEditController;
-    })();
-    FinancialApp.CategoryEditController = CategoryEditController;
 })(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/manage/user"/>
 /// <reference path="../../typings/angularjs/angular.d.ts" />
@@ -808,217 +1287,31 @@ var FinancialApp;
     })();
     FinancialApp.UserListController = UserListController;
 })(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/manage/category"/>
 /// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../DTO.generated.d.ts"/>
-/// <reference path="../Common.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var CategoryListController = (function () {
-        function CategoryListController($scope, $modal, categoryResource) {
-            var _this = this;
-            this.$scope = $scope;
-            this.$modal = $modal;
-            this.api = categoryResource;
-
-            $scope.categories = this.api.query(function () {
-                $scope.isLoaded = true;
-            });
-
-            $scope.deleteCategory = function (cat) {
-                _this.deleteCategory(cat);
-            };
-        }
-        CategoryListController.prototype.deleteCategory = function (cat) {
-            var _this = this;
-            if (cat.canBeDeleted !== true) {
-                return;
-            }
-
-            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
-                title: 'Categorie verwijderen',
-                bodyText: 'Weet je zeker dat je de categorie "' + cat.name + "' wilt verwijderen?",
-                dialogType: 1 /* Danger */
-            });
-
-            res.result.then(function () {
-                return _this.deleteCategoryCore(cat);
-            });
-        };
-
-        CategoryListController.prototype.deleteCategoryCore = function (cat) {
-            var _this = this;
-            this.$scope.isLoaded = false;
-            this.api['delete']({ id: cat.id }, function () {
-                _this.$scope.isLoaded = true;
-                _this.$scope.categories.remove(cat);
-            });
-        };
-        CategoryListController.$inject = ["$scope", "$modal", "categoryResource"];
-        return CategoryListController;
-    })();
-    FinancialApp.CategoryListController = CategoryListController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options exclude="route"/>
-/// <reference path="../../../typings/angularjs/angular.d.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    (function (DialogType) {
-        DialogType[DialogType["Info"] = 0] = "Info";
-        DialogType[DialogType["Danger"] = 1] = "Danger";
-        DialogType[DialogType["Warning"] = 2] = "Warning";
-    })(FinancialApp.DialogType || (FinancialApp.DialogType = {}));
-    var DialogType = FinancialApp.DialogType;
-
-    var ConfirmDialogController = (function () {
-        function ConfirmDialogController($scope, $modalInstance, options) {
-            $scope.DialogType = DialogType;
-            $scope.options = options;
-
-            $scope.ok = function () {
-                return $modalInstance.close(options.okResult);
-            };
-            $scope.cancel = function () {
-                return $modalInstance.dismiss(options.cancelResult);
-            };
-        }
-        ConfirmDialogController.create = function ($modal, options) {
-            return $modal.open({
-                templateUrl: ConfirmDialogController.templateUrl,
-                controller: ConfirmDialogController,
-                resolve: {
-                    options: function () {
-                        return options;
-                    }
-                }
-            });
-        };
-        ConfirmDialogController.$inject = ["$scope", "$modalInstance", "options"];
-        ConfirmDialogController.templateUrl = "/Angular/Dialogs/ConfirmDialog.html";
-        return ConfirmDialogController;
-    })();
-    FinancialApp.ConfirmDialogController = ConfirmDialogController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options exclude="route"/>
-/// <reference path="../Services/AuthenticationService.ts"/>
-/// <reference path="../../typings/angularjs/angular.d.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var MasterController = (function () {
-        function MasterController($scope, authentication) {
-            var _this = this;
-            this.authentication = authentication;
-
-            MasterController.setAuthenticationInfo($scope, this.authentication.isAuthenticated());
-
-            this.authentication.addAuthenticationChange(function () {
-                return MasterController.setAuthenticationInfo($scope, _this.authentication.isAuthenticated());
-            });
-        }
-        MasterController.setAuthenticationInfo = function ($scope, isAuthenticated) {
-            $scope.isMenuVisible = isAuthenticated;
-            $scope.isAuthenticated = isAuthenticated;
-        };
-        MasterController.$inject = ["$scope", "authentication"];
-        return MasterController;
-    })();
-    FinancialApp.MasterController = MasterController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options exclude="route"/>
-/// <reference path="../../typings/angularjs/angular.d.ts"/>
-/// <reference path="../Services/AuthenticationService.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var MenuController = (function () {
-        function MenuController($scope, $location) {
-            $scope.currentPath = $location.path();
-            $scope.nowPath = FinancialApp.Program.createNowRoute();
-            $scope.extendMenuVisible = false;
-
-            $scope.hasPath = function (str) {
-                return str == this.currentPath;
-            };
-
-            $scope.$on("$locationChangeSuccess", function () {
-                $scope.currentPath = $location.path();
-                $scope.extendMenuVisible = false;
-            });
-
-            $scope.toggleNavBar = function () {
-                return $scope.extendMenuVisible = !$scope.extendMenuVisible;
-            };
-        }
-        MenuController.$inject = ["$scope", "$location"];
-        return MenuController;
-    })();
-    FinancialApp.MenuController = MenuController;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/manage/user/add" viewName="UserEdit" />
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../DTO.generated.d.ts"/>
-/// <reference path="../Common.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var UserCreateController = (function () {
-        function UserCreateController($scope, $location, userResource) {
-            var _this = this;
-            this.api = userResource;
-
-            $scope.save = function () {
-                return _this.api.save($scope.user, function (data) {
-                    $scope.user.id = data.id;
-
-                    $location.path("/manage/user");
-                }, function (data) {
-                    $scope.errorMessage = data.join("; ");
-                });
-            };
-        }
-        UserCreateController.$inject = ["$scope", "$location", "userResource"];
-        return UserCreateController;
-    })();
-    FinancialApp.UserCreateController = UserCreateController;
-})(FinancialApp || (FinancialApp = {}));
+/// <reference path="../../typings/moment/moment.d.ts" />
 var FinancialApp;
 (function (FinancialApp) {
     (function (Directives) {
-        "use strict";
+        'use strict';
 
-        var SameValue = (function () {
-            function SameValue() {
-                this.restrict = "A";
-                this.require = "ngModel";
-                return this;
-            }
-            SameValue.factory = function () {
-                return new SameValue();
+        angular.module('ngMoment', []).filter("moment", function () {
+            return function (input, arg) {
+                var m = moment(input);
+                var fn, args;
+
+                if (typeof arg === "string") {
+                    return m.format(arg);
+                } else if (Array.isArray(arg)) {
+                    fn = arg[0];
+                    args = arg.splice(1);
+                } else {
+                    fn = arg['func'];
+                    args = arg.arguments || [];
+                }
+
+                return m[fn].apply(m, args);
             };
-
-            SameValue.prototype.link = function (scope, instanceElement, instanceAttributes, ctrl, transclude) {
-                var expr = instanceAttributes["faSameValue"];
-
-                ctrl.$parsers.unshift(function (viewValue) {
-                    var otherValue = scope.$eval(expr);
-                    var isSame = viewValue === otherValue;
-
-                    ctrl.$setValidity('faSameValue', isSame);
-                    return isSame ? viewValue : undefined;
-                });
-            };
-            SameValue.$inject = [];
-            return SameValue;
-        })();
-        Directives.SameValue = SameValue;
+        });
     })(FinancialApp.Directives || (FinancialApp.Directives = {}));
     var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
@@ -1056,23 +1349,38 @@ var FinancialApp;
     })(FinancialApp.Directives || (FinancialApp.Directives = {}));
     var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
-// <autogenerated>
-//   This file was generated using DTOEnum.tt.
-//   Any changes made manually will be lost next time the file is regenerated.
-// </autogenerated>
 var FinancialApp;
 (function (FinancialApp) {
-    (function (DTO) {
-        (function (AccountType) {
-            AccountType[AccountType["Invalid"] = 0] = "Invalid";
+    (function (Directives) {
+        "use strict";
 
-            AccountType[AccountType["BankAccount"] = 1] = "BankAccount";
+        var SameValue = (function () {
+            function SameValue() {
+                this.restrict = "A";
+                this.require = "ngModel";
+                return this;
+            }
+            SameValue.factory = function () {
+                return new SameValue();
+            };
 
-            AccountType[AccountType["SavingsAccount"] = 2] = "SavingsAccount";
-        })(DTO.AccountType || (DTO.AccountType = {}));
-        var AccountType = DTO.AccountType;
-    })(FinancialApp.DTO || (FinancialApp.DTO = {}));
-    var DTO = FinancialApp.DTO;
+            SameValue.prototype.link = function (scope, instanceElement, instanceAttributes, ctrl, transclude) {
+                var expr = instanceAttributes["faSameValue"];
+
+                ctrl.$parsers.unshift(function (viewValue) {
+                    var otherValue = scope.$eval(expr);
+                    var isSame = viewValue === otherValue;
+
+                    ctrl.$setValidity('faSameValue', isSame);
+                    return isSame ? viewValue : undefined;
+                });
+            };
+            SameValue.$inject = [];
+            return SameValue;
+        })();
+        Directives.SameValue = SameValue;
+    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
+    var Directives = FinancialApp.Directives;
 })(FinancialApp || (FinancialApp = {}));
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../Common.ts"/>
@@ -1089,313 +1397,5 @@ var FinancialApp;
         Factories.LocalStorageFactory = LocalStorageFactory;
     })(FinancialApp.Factories || (FinancialApp.Factories = {}));
     var Factories = FinancialApp.Factories;
-})(FinancialApp || (FinancialApp = {}));
-/// <reference path="../../typings/angularjs/angular.d.ts" />
-/// <reference path="../../typings/moment/moment.d.ts" />
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Directives) {
-        'use strict';
-
-        angular.module('ngMoment', []).filter("moment", function () {
-            return function (input, arg) {
-                var m = moment(input);
-                var fn, args;
-
-                if (typeof arg === "string") {
-                    return m.format(arg);
-                } else if (Array.isArray(arg)) {
-                    fn = arg[0];
-                    args = arg.splice(1);
-                } else {
-                    fn = arg['func'];
-                    args = arg.arguments || [];
-                }
-
-                return m[fn].apply(m, args);
-            };
-        });
-    })(FinancialApp.Directives || (FinancialApp.Directives = {}));
-    var Directives = FinancialApp.Directives;
-})(FinancialApp || (FinancialApp = {}));
-/// <reference path="../DTO.generated.d.ts"/>
-/// <reference path="../DTOEnum.generated.ts"/>
-/// <reference path="../../typings/linq/linq.d.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    (function (Services) {
-        var CalculationService = (function () {
-            function CalculationService() {
-            }
-            CalculationService.prototype.calculateTotal = function (sheet, accountType) {
-                var sum = Enumerable.From(sheet.entries).Where(function (e) {
-                    return e.account === accountType;
-                }).Sum(function (e) {
-                    return e.delta;
-                });
-
-                if (accountType == 1 /* BankAccount */) {
-                    sum += sheet.offset.bankAccountOffset;
-                }
-
-                if (accountType == 2 /* SavingsAccount */) {
-                    sum += sheet.offset.savingsAccountOffset;
-                }
-
-                return sum || 0.00;
-            };
-            return CalculationService;
-        })();
-        Services.CalculationService = CalculationService;
-    })(FinancialApp.Services || (FinancialApp.Services = {}));
-    var Services = FinancialApp.Services;
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/sheet/:year/:month"/>
-/// <reference path="../../typings/linq/linq.d.ts"/>
-/// <reference path="../DTO.generated.d.ts"/>
-/// <reference path="../DTOEnum.generated.ts"/>
-/// <reference path="../Factories/ResourceFactory.ts"/>
-/// <reference path="../Services/CalculationService.ts"/>
-/// <reference path="../../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var SheetController = (function () {
-        function SheetController($scope, $routeParams, $location, $modal, sheetResource, sheetEntryResource, categoryResource, calculation) {
-            var _this = this;
-            this.$scope = $scope;
-            this.$location = $location;
-            this.$modal = $modal;
-            this.sheetResource = sheetResource;
-            this.sheetEntryResource = sheetEntryResource;
-            this.calculation = calculation;
-            this.isCategoriesLoaded = false;
-            this.isSheetLoaded = false;
-            this.year = parseInt($routeParams.year, 10);
-            this.month = parseInt($routeParams.month, 10);
-
-            $scope.date = moment([this.year, this.month - 1]);
-            $scope.previousDate = moment($scope.date).subtract('month', 1);
-            $scope.isLoaded = false;
-            $scope.AccountType = FinancialApp.DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
-
-            // bail out if invalid date is provided (we can do this without checking with the server)
-            if (!$scope.date.isValid()) {
-                $location.path("/archive");
-                return;
-            }
-
-            // get data
-            $scope.sheet = sheetResource.getByDate({ year: this.year, month: this.month }, function (data) {
-                _this.signalSheetsLoaded(data);
-            }, function () {
-                return $location.path("/archive");
-            });
-
-            $scope.categories = categoryResource.query(function () {
-                _this.signalCategoriesLoaded();
-            });
-
-            $scope.saveEntry = function (entry) {
-                return _this.saveEntry(entry);
-            };
-            $scope.deleteEntry = function (entry) {
-                return _this.deleteEntry(entry);
-            };
-            $scope.addEntry = function () {
-                return _this.addEntry();
-            };
-            $scope.editRemarks = function (entry) {
-                return _this.editRemarks(entry);
-            };
-        }
-        SheetController.prototype.signalSheetsLoaded = function (sheet) {
-            var _this = this;
-            this.isSheetLoaded = true;
-
-            sheet.totalSavings = function () {
-                return _this.calculation.calculateTotal(sheet, 2 /* SavingsAccount */);
-            };
-            sheet.totalBank = function () {
-                return _this.calculation.calculateTotal(sheet, 1 /* BankAccount */);
-            };
-
-            this.setLoadedBit(sheet);
-        };
-
-        SheetController.prototype.signalCategoriesLoaded = function () {
-            this.isCategoriesLoaded = true;
-            this.setLoadedBit(this.$scope.sheet);
-        };
-
-        SheetController.prototype.setLoadedBit = function (sheetData) {
-            this.$scope.isLoaded = this.isCategoriesLoaded && this.isSheetLoaded;
-
-            if (!sheetData || !sheetData.entries) {
-                return;
-            }
-
-            for (var i = 0; i < sheetData.entries.length; i++) {
-                var entry = sheetData.entries[i];
-                entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(function (c) {
-                    return entry.categoryId === c.id;
-                });
-            }
-        };
-
-        SheetController.prototype.editRemarks = function (entry) {
-            this.$modal.open({
-                templateUrl: '/Angular/Widgets/Sheet-EditRemarks.html',
-                controller: RemarksDialogController,
-                resolve: {
-                    entry: function () {
-                        return entry;
-                    }
-                }
-            });
-        };
-
-        SheetController.prototype.saveEntry = function (entry) {
-            var _this = this;
-            entry.editMode = false;
-            entry.isBusy = true;
-
-            // santize
-            entry.categoryId = entry.category.id;
-
-            if (!(entry.id > 0)) {
-                this.saveAsNewEntry(entry);
-                return;
-            }
-
-            var params = {
-                sheetMonth: this.year,
-                sheetYear: this.month,
-                id: entry.id
-            };
-
-            var res = this.sheetEntryResource.update(params, entry);
-            res.$promise.then(function () {
-                entry.isBusy = false;
-                _this.$scope.sheet.updateTimestamp = moment();
-            });
-            res.$promise['catch'](function () {
-                entry.isBusy = false;
-                entry.editMode = true;
-            });
-        };
-
-        SheetController.prototype.saveAsNewEntry = function (entry) {
-            var _this = this;
-            var params = {
-                sheetMonth: this.year,
-                sheetYear: this.month
-            };
-
-            var res = this.sheetEntryResource.save(params, entry);
-            res.$promise.then(function (data) {
-                entry.id = data.id;
-                entry.isBusy = false;
-                _this.$scope.sheet.updateTimestamp = moment();
-            });
-            res.$promise['catch'](function () {
-                entry.isBusy = false;
-                entry.editMode = true;
-            });
-        };
-
-        SheetController.prototype.deleteEntry = function (entry) {
-            var _this = this;
-            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
-                title: 'Regel verwijderen',
-                bodyText: 'Weet je zeker dat je de regel "' + entry.source + "' wilt verwijderen?",
-                dialogType: 1 /* Danger */
-            });
-
-            res.result.then(function () {
-                return _this.deleteEntryCore(entry);
-            });
-        };
-
-        SheetController.prototype.deleteEntryCore = function (entry) {
-            var _this = this;
-            entry.isBusy = true;
-            entry.editMode = false;
-
-            // if the entry has not been saved, we can delete it right away
-            if (entry.id == 0) {
-                this.$scope.sheet.entries.remove(entry);
-                return;
-            }
-
-            // server-side delete
-            var params = {
-                sheetMonth: this.year,
-                sheetYear: this.month,
-                id: entry.id
-            };
-
-            this.sheetEntryResource['delete'](params, function () {
-                _this.$scope.sheet.entries.remove(entry);
-                _this.$scope.sheet.updateTimestamp = moment();
-            }, function () {
-                return entry.isBusy = false;
-            });
-        };
-
-        SheetController.prototype.addEntry = function () {
-            var newEntry = {
-                id: 0,
-                account: 1 /* BankAccount */,
-                categoryId: null,
-                category: null,
-                createTimestamp: moment(),
-                delta: 0,
-                remark: null,
-                source: null,
-                editMode: true,
-                updateTimestamp: moment(),
-                isBusy: false
-            };
-
-            this.$scope.sheet.entries.push(newEntry);
-        };
-        SheetController.$inject = ["$scope", "$routeParams", "$location", "$modal", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
-        return SheetController;
-    })();
-    FinancialApp.SheetController = SheetController;
-
-    var RemarksDialogController = (function () {
-        function RemarksDialogController($scope, $modalInstance, entry) {
-            this.$scope = $scope;
-            $scope.entry = entry;
-            $scope.originalRemarks = entry.remark;
-
-            $scope.saveChanges = function () {
-                return $modalInstance.close();
-            };
-
-            $scope.cancel = function () {
-                $scope.entry.remark = $scope.originalRemarks;
-                $modalInstance.dismiss();
-            };
-        }
-        RemarksDialogController.$inject = ["$scope", "$modalInstance", "entry"];
-        return RemarksDialogController;
-    })();
-})(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/"/>
-var FinancialApp;
-(function (FinancialApp) {
-    'use strict';
-
-    var DefaultController = (function () {
-        function DefaultController() {
-        }
-        DefaultController.$inject = [];
-        return DefaultController;
-    })();
-    FinancialApp.DefaultController = DefaultController;
 })(FinancialApp || (FinancialApp = {}));
 //# sourceMappingURL=App.js.map

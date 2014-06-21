@@ -140,8 +140,8 @@ module FinancialApp {
             }
 
             var params = {
-                sheetMonth: this.year,
-                sheetYear: this.month,
+                sheetMonth: this.month,
+                sheetYear: this.year,
                 id: entry.id
             };
 
@@ -158,8 +158,8 @@ module FinancialApp {
 
         private saveAsNewEntry(entry: DTO.ISheetEntry) {
             var params = {
-                sheetMonth: this.year,
-                sheetYear: this.month
+                sheetMonth: this.month,
+                sheetYear: this.year
             };
 
             var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.save(params, entry);
@@ -196,8 +196,8 @@ module FinancialApp {
 
             // server-side delete
             var params = {
-                sheetMonth: this.year,
-                sheetYear: this.month,
+                sheetMonth: this.month,
+                sheetYear: this.year,
                 id: entry.id
             };
 
