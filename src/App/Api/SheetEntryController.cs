@@ -13,21 +13,28 @@
     using SheetEntryDTO=Models.DTO.SheetEntry;
 
     [Authorize]
-    [RoutePrefix("api/sheet/{sheetId:int}/entries")]
+    [RoutePrefix("api/sheet/{sheetYear:int}-{sheetMonth:int}/entries")]
     public class SheetEntryController : BaseEntityController {
         private readonly SheetEntryRepository _sheetEntryRepository;
-        private readonly SheetRepository _sheetRepository;
+        private readonly SheetRetrievalService _sheetRetrievalService;
 
-        public SheetEntryController(EntityOwnerService entityOwnerService, SheetEntryRepository sheetEntryRepository, SheetRepository sheetRepository) : base(entityOwnerService) {
+        public SheetEntryController(EntityOwnerService entityOwnerService, SheetEntryRepository sheetEntryRepository, SheetRetrievalService sheetRetrievalService) : base(entityOwnerService) {
             this._sheetEntryRepository = sheetEntryRepository;
-            this._sheetRepository = sheetRepository;
+            this._sheetRetrievalService = sheetRetrievalService;
         }
 
-        // POST: api/sheet/1/entries
+        // GET: api/sheet/1/entries/1
+        [HttpGet]
+        [Route("{id}")]
+        public SheetEntry Get(int id) {
+            
+        }
+
+        // POST: api/sheet/2014-10/entries
         [HttpPost]
         [Route("")]
-        public InsertId Post(int sheetId, [FromBody] SheetEntryDTO value) {
-            Sheet targetSheet = this._sheetRepository.FindById(sheetId).EnsureNotNull();
+        public InsertId Post(int sheetYear, int sheetMonth, [FromBody] SheetEntryDTO value) {
+            Sheet targetSheet = this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId).EnsureNotNull();
             this.EntityOwnerService.EnsureOwner(targetSheet, this.OwnerId);
 
             SheetEntry entry = AutoMapper.Mapper.Map<SheetEntryDTO, SheetEntry>(value);
@@ -42,12 +49,12 @@
             return entry.Id;
         }
 
-        // PUT: api/sheet/1/entries
+        // PUT: api/sheet/2014-10/entries
         [Route("{id:int}")]
         [HttpPut]
-        public InsertId Put(int sheetId, int id, [FromBody] SheetEntryDTO value) {
+        public InsertId Put(int id, [FromBody] SheetEntryDTO value) {
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
-            EnsureCorrectSheet(entry, sheetId);
+            EnsureCorrectSheet(entry);
             this.EntityOwnerService.EnsureOwner(entry.Sheet, this.OwnerId);
 
             AutoMapper.Mapper.Map(value, entry);
@@ -59,12 +66,12 @@
             return entry.Id;
         }
 
-        // DELETE: api/sheet/1/entries
+        // DELETE: api/sheet/2014-11/entries
         [Route("{id:int}")]
         [HttpDelete]
-        public void Delete(int sheetId, int id) {
+        public void Delete(int id) {
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
-            EnsureCorrectSheet(entry, sheetId);
+            EnsureCorrectSheet(entry);
             this.EntityOwnerService.EnsureOwner(entry.Sheet, this.OwnerId);
             entry.Sheet.UpdateTimestamp = DateTime.Now;
 
@@ -73,8 +80,12 @@
         }
 
 
-        private static void EnsureCorrectSheet(SheetEntry sheetEntry, int sheetId) {
-            if (sheetEntry.Sheet.Id != sheetId) {
+        private void EnsureCorrectSheet(SheetEntry sheetEntry) {
+            var routeData = this.RequestContext.RouteData;
+            int sheetMonth = Convert.ToInt32(routeData.Values["sheetMonth"]);
+            int sheetYear = Convert.ToInt32(routeData.Values["sheetYear"]);
+
+            if (sheetEntry.Sheet.Subject.Month != sheetMonth || sheetEntry.Sheet.Subject.Year != sheetYear) {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
         }
