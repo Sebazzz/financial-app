@@ -46,7 +46,7 @@
             Sheet theSheet = this._sheetRepository.GetByDatePart(month, year, ownerId).FirstOrDefault();
 
             if (theSheet == null) {
-                theSheet = CreateCurrentMonthSheet(ownerId);
+                theSheet = CreateSheet(month, year, ownerId);
             
                 this._sheetRepository.Add(theSheet);
                 this._sheetRepository.SaveChanges();
