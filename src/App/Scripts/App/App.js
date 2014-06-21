@@ -527,6 +527,65 @@ var FinancialApp;
     })();
     FinancialApp.CategoryCreateController = CategoryCreateController;
 })(FinancialApp || (FinancialApp = {}));
+/// <init-options route="/sheet/:year/:month/entries/add" viewName="SheetEntryEdit"/>
+/// <reference path="../../typings/angularjs/angular.d.ts" />
+/// <reference path="../DTO.generated.d.ts" />
+/// <reference path="../Common.ts"/>
+var FinancialApp;
+(function (FinancialApp) {
+    'use strict';
+
+    var SheetEntryCreateController = (function () {
+        function SheetEntryCreateController($scope, $location, $routeParams, sheetEntryResource, categoryResource) {
+            var _this = this;
+            this.$scope = $scope;
+            this.$location = $location;
+            this.$routeParams = $routeParams;
+            this.sheetEntryResource = sheetEntryResource;
+            $scope.cancel = function () {
+                return _this.redirectToSheet();
+            };
+            $scope.isLoaded = false;
+            $scope.AccountType = FinancialApp.DTO.AccountType;
+
+            $scope.entry = {};
+            $scope.entry.account = 1 /* BankAccount */;
+
+            $scope.categories = categoryResource.query(function () {
+                $scope.isLoaded = true;
+            });
+
+            $scope.saveEntry = function () {
+                return _this.saveEntry();
+            };
+        }
+        SheetEntryCreateController.prototype.redirectToSheet = function () {
+            this.$location.path("/sheet/" + this.$routeParams.year + "/" + this.$routeParams.month);
+        };
+
+        SheetEntryCreateController.prototype.saveEntry = function () {
+            var _this = this;
+            var params = {
+                sheetMonth: this.$routeParams.month,
+                sheetYear: this.$routeParams.year
+            };
+
+            this.$scope.entry.categoryId = this.$scope.entry.category.id;
+            this.$scope.isLoaded = false;
+
+            var res = this.sheetEntryResource.save(params, this.$scope.entry);
+            res.$promise.then(function () {
+                _this.redirectToSheet();
+            });
+            res.$promise['catch'](function () {
+                _this.$scope.isLoaded = true;
+            });
+        };
+        SheetEntryCreateController.$inject = ["$scope", "$location", "$routeParams", "sheetEntryResource", "categoryResource"];
+        return SheetEntryCreateController;
+    })();
+    FinancialApp.SheetEntryCreateController = SheetEntryCreateController;
+})(FinancialApp || (FinancialApp = {}));
 /// <init-options route="/sheet/:year/:month/entries/:id" />
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../DTO.generated.d.ts" />
@@ -547,6 +606,7 @@ var FinancialApp;
                 return _this.redirectToSheet();
             };
             $scope.isLoaded = false;
+            $scope.AccountType = FinancialApp.DTO.AccountType;
 
             $scope.categories = categoryResource.query(function () {
                 _this.signalCategoriesLoaded();
@@ -606,6 +666,7 @@ var FinancialApp;
                 id: this.$routeParams.id
             };
 
+            this.$scope.entry.categoryId = this.$scope.entry.category.id;
             this.$scope.isLoaded = false;
             var res = this.sheetEntryResource.update(params, this.$scope.entry);
             res.$promise.then(function () {

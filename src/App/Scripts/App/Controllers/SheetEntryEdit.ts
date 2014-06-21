@@ -12,7 +12,7 @@ module FinancialApp {
         month: string;
     }
 
-    export interface ISheetEntryCreateScope extends ng.IScope {
+    export interface ISheetEntryEditScope extends ng.IScope {
         entry: DTO.ISheetEntry;
         categories: ng.resource.IResourceArray<DTO.ICategoryListing>;
 
@@ -31,7 +31,7 @@ module FinancialApp {
 
         private api: ng.resource.IResourceClass<DTO.IAppUserMutate>;
 
-        constructor(private $scope: ISheetEntryCreateScope,
+        constructor(private $scope: ISheetEntryEditScope,
                     private $location: ng.ILocationService,
                     private $routeParams: ISheetEntryEditRouteParams,
                     private $modal: ng.ui.bootstrap.IModalService,
@@ -39,6 +39,7 @@ module FinancialApp {
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>) {
             $scope.cancel = () => this.redirectToSheet();
             $scope.isLoaded = false;
+            $scope.AccountType = DTO.AccountType;
 
             $scope.categories = categoryResource.query(() => {
                 this.signalCategoriesLoaded();
@@ -86,6 +87,7 @@ module FinancialApp {
                 id: this.$routeParams.id
             };
 
+            this.$scope.entry.categoryId = this.$scope.entry.category.id;
             this.$scope.isLoaded = false;
             var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.update(params, this.$scope.entry);
             res.$promise.then(() => {
