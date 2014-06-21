@@ -1006,12 +1006,98 @@ var FinancialApp;
     'use strict';
 
     var SheetEntryEditController = (function () {
-        function SheetEntryEditController($scope, $location, $routeParams) {
+        function SheetEntryEditController($scope, $location, $routeParams, $modal, sheetEntryResource, categoryResource) {
+            var _this = this;
+            this.$scope = $scope;
+            this.$location = $location;
+            this.$routeParams = $routeParams;
+            this.$modal = $modal;
+            this.sheetEntryResource = sheetEntryResource;
             $scope.cancel = function () {
-                return $location.path("/sheet/" + $routeParams.year + "/" + $routeParams.month);
+                return _this.redirectToSheet();
+            };
+            $scope.isLoaded = false;
+
+            $scope.categories = categoryResource.query(function () {
+                _this.signalCategoriesLoaded();
+            });
+
+            $scope.entry = sheetEntryResource.get({
+                year: $routeParams.year,
+                month: $routeParams.month,
+                id: $routeParams.id
+            }, function () {
+                return _this.signalEntryLoaded();
+            });
+
+            $scope.deleteEntry = function () {
+                return _this.deleteEntry();
+            };
+            $scope.saveEntry = function () {
+                return _this.saveEntry();
             };
         }
-        SheetEntryEditController.$inject = ["$scope", "$location", "$routeParams", "sheetEntryResource", "categoryResource"];
+        SheetEntryEditController.prototype.redirectToSheet = function () {
+            this.$location.path("/sheet/" + this.$routeParams.year + "/" + this.$routeParams.month);
+        };
+
+        SheetEntryEditController.prototype.deleteEntry = function () {
+            var _this = this;
+            var res = FinancialApp.ConfirmDialogController.create(this.$modal, {
+                title: 'Regel verwijderen',
+                bodyText: 'Weet je zeker dat je de regel wilt verwijderen?',
+                dialogType: 1 /* Danger */
+            });
+
+            res.result.then(function () {
+                return _this.deleteEntryCore();
+            });
+        };
+
+        SheetEntryEditController.prototype.deleteEntryCore = function () {
+            var _this = this;
+            // server-side delete
+            var params = {
+                sheetMonth: this.$routeParams.year,
+                sheetYear: this.$routeParams.month,
+                id: this.$routeParams.id
+            };
+
+            this.sheetEntryResource['delete'](params, function () {
+                return _this.redirectToSheet();
+            });
+        };
+
+        SheetEntryEditController.prototype.saveEntry = function () {
+            var _this = this;
+            var params = {
+                sheetMonth: this.$routeParams.year,
+                sheetYear: this.$routeParams.month,
+                id: this.$routeParams.id
+            };
+
+            this.$scope.isLoaded = false;
+            var res = this.sheetEntryResource.update(params, this.$scope.entry);
+            res.$promise.then(function () {
+                _this.redirectToSheet();
+            });
+            res.$promise['catch'](function () {
+                _this.$scope.isLoaded = true;
+            });
+        };
+
+        SheetEntryEditController.prototype.signalCategoriesLoaded = function () {
+            if (this.$scope.entry.id) {
+                this.$scope.isLoaded = true;
+            }
+        };
+
+        SheetEntryEditController.prototype.signalEntryLoaded = function () {
+            if (this.$scope.categories.$resolved) {
+                this.$scope.isLoaded = true;
+            }
+        };
+        SheetEntryEditController.$inject = ["$scope", "$location", "$routeParams", "$modal", "sheetEntryResource", "categoryResource"];
         return SheetEntryEditController;
     })();
     FinancialApp.SheetEntryEditController = SheetEntryEditController;

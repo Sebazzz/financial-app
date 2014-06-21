@@ -402,6 +402,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\AuthLogin.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\AuthLogOff.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryCreate.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\SheetEntryEdit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\UserEdit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryEdit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\UserList.ts" />

@@ -30,7 +30,7 @@ module FinancialApp {
 
         // copy enum
             // ReSharper disable once InconsistentNaming
-        AccountType: DTO.AccountType;
+        AccountType: typeof DTO.AccountType;
         saveEntry: (entry: DTO.ISheetEntry) => void
         deleteEntry: (entry: DTO.ISheetEntry) => void
         editRemarks: (entry: DTO.ISheetEntry) => void
@@ -65,7 +65,7 @@ module FinancialApp {
 
             $scope.date = moment([this.year, this.month - 1 /* zero offset */]);
             $scope.isLoaded = false;
-            $scope.AccountType = <any> DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
+            $scope.AccountType = DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
 
             // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
