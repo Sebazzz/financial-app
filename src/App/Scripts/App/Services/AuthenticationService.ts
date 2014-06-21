@@ -126,6 +126,10 @@ module FinancialApp.Services {
 
             return angular.fromJson(authInfo);
         }
+
+        public getUserId(): number {
+            return this.authInfo.userId;
+        }
     }
 
 

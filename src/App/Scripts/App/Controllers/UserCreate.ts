@@ -17,8 +17,11 @@ module FinancialApp {
 
         private api: ng.resource.IResourceClass<DTO.IAppUserMutate>;
 
-        constructor($scope: IUserCreateScope, $location: ng.ILocationService, userResource: ng.resource.IResourceClass<DTO.IAppUserMutate>) {
+        constructor($scope: IUserCreateScope,
+                    $location: ng.ILocationService,
+                    userResource: ng.resource.IResourceClass<DTO.IAppUserMutate>) {
             this.api = userResource;
+
             $scope.save = () => this.api.save($scope.user, (data) => {
                 $scope.user.id = <number>data.id;
 
