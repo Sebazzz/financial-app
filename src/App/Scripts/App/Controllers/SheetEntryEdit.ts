@@ -71,8 +71,8 @@ module FinancialApp {
         private deleteEntryCore() {
             // server-side delete
             var params = {
-                sheetMonth: this.$routeParams.year,
-                sheetYear: this.$routeParams.month,
+                sheetMonth: this.$routeParams.month,
+                sheetYear: this.$routeParams.year,
                 id: this.$routeParams.id
             };
 
@@ -81,8 +81,8 @@ module FinancialApp {
 
         private saveEntry() {
             var params = {
-                sheetMonth: this.$routeParams.year,
-                sheetYear: this.$routeParams.month,
+                sheetMonth: this.$routeParams.month,
+                sheetYear: this.$routeParams.year,
                 id: this.$routeParams.id
             };
 

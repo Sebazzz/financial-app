@@ -1058,8 +1058,8 @@ var FinancialApp;
             var _this = this;
             // server-side delete
             var params = {
-                sheetMonth: this.$routeParams.year,
-                sheetYear: this.$routeParams.month,
+                sheetMonth: this.$routeParams.month,
+                sheetYear: this.$routeParams.year,
                 id: this.$routeParams.id
             };
 
@@ -1071,8 +1071,8 @@ var FinancialApp;
         SheetEntryEditController.prototype.saveEntry = function () {
             var _this = this;
             var params = {
-                sheetMonth: this.$routeParams.year,
-                sheetYear: this.$routeParams.month,
+                sheetMonth: this.$routeParams.month,
+                sheetYear: this.$routeParams.year,
                 id: this.$routeParams.id
             };
 
