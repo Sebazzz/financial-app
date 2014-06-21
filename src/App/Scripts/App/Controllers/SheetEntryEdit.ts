@@ -1,4 +1,4 @@
-/// <init-options route="/sheet/:year/:month/edit/:id" />
+/// <init-options route="/sheet/:year/:month/entries/:id" />
 /// <reference path="../../typings/angularjs/angular.d.ts" /> 
 /// <reference path="../DTO.generated.d.ts" /> 
 /// <reference path="../Common.ts"/>
@@ -45,8 +45,8 @@ module FinancialApp {
             });
 
             $scope.entry = sheetEntryResource.get({
-                year: $routeParams.year,
-                month: $routeParams.month,
+                sheetYear: $routeParams.year,
+                sheetMonth: $routeParams.month,
                 id: $routeParams.id
             }, () => this.signalEntryLoaded());
 
@@ -99,12 +99,14 @@ module FinancialApp {
         private signalCategoriesLoaded() {
             if (this.$scope.entry.id) {
                 this.$scope.isLoaded = true;
+                this.$scope.entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(x => x.id == this.$scope.entry.categoryId);
             }
         }
 
         private signalEntryLoaded() {
             if (this.$scope.categories.$resolved) {
                 this.$scope.isLoaded = true;
+                this.$scope.entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(x => x.id == this.$scope.entry.categoryId);
             }
         }
     }

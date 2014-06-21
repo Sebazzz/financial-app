@@ -997,7 +997,7 @@ var FinancialApp;
         return RemarksDialogController;
     })();
 })(FinancialApp || (FinancialApp = {}));
-/// <init-options route="/sheet/:year/:month/edit/:id" />
+/// <init-options route="/sheet/:year/:month/entries/:id" />
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../DTO.generated.d.ts" />
 /// <reference path="../Common.ts"/>
@@ -1023,8 +1023,8 @@ var FinancialApp;
             });
 
             $scope.entry = sheetEntryResource.get({
-                year: $routeParams.year,
-                month: $routeParams.month,
+                sheetYear: $routeParams.year,
+                sheetMonth: $routeParams.month,
                 id: $routeParams.id
             }, function () {
                 return _this.signalEntryLoaded();
@@ -1087,14 +1087,22 @@ var FinancialApp;
         };
 
         SheetEntryEditController.prototype.signalCategoriesLoaded = function () {
+            var _this = this;
             if (this.$scope.entry.id) {
                 this.$scope.isLoaded = true;
+                this.$scope.entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(function (x) {
+                    return x.id == _this.$scope.entry.categoryId;
+                });
             }
         };
 
         SheetEntryEditController.prototype.signalEntryLoaded = function () {
+            var _this = this;
             if (this.$scope.categories.$resolved) {
                 this.$scope.isLoaded = true;
+                this.$scope.entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(function (x) {
+                    return x.id == _this.$scope.entry.categoryId;
+                });
             }
         };
         SheetEntryEditController.$inject = ["$scope", "$location", "$routeParams", "$modal", "sheetEntryResource", "categoryResource"];

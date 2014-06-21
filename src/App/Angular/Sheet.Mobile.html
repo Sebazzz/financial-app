@@ -56,6 +56,19 @@
                     <span ng-class="{ 'negative': entry.delta < 0 }">{{ entry.delta | currency }}</span>
                 </td>
             </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="#"
+                       ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/{{entry.id}}"
+                       class="btn btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span> Bewerken
+                    </a>
+                    <button class="btn btn-danger"
+                            ng-click="deleteEntry(entry)">
+                        <span class="glyphicon glyphicon-trash"> Verwijderen</span>
+                    </button>
+                </td>
+            </tr>
         </table>
     </div>
 </div>

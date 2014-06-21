@@ -26,8 +26,11 @@
         // GET: api/sheet/1/entries/1
         [HttpGet]
         [Route("{id}")]
-        public SheetEntry Get(int id) {
-            
+        public SheetEntryDTO Get(int id) {
+            SheetEntry entry = this._sheetEntryRepository.FindById(id);
+            EnsureCorrectSheet(entry);
+
+            return AutoMapper.Mapper.Map<SheetEntryDTO>(entry);
         }
 
         // POST: api/sheet/2014-10/entries
