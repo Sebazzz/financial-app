@@ -21,6 +21,9 @@
                     </button>
                 </span>
             </div>
+            
+            <span ng-show="entryForm.source.$dirty && entryForm.source.$error.required"
+                  class="text-danger validation-block">Verplicht: voer een bron of reden in.</span>
         </div>
         <div class="form-group" ng-show="entry.showRemarksEditor">
             <label for="remark">Extra notities of opmerkingen</label>
@@ -36,6 +39,9 @@
                     required>
                 <option value="">-- maak een keuze --</option>
             </select>
+            
+            <span ng-show="entryForm.categoryId.$dirty && entryForm.categoryId.$error.required"
+                  class="text-danger validation-block">Verplicht: selecteer een categorie.</span>
         </div>
 
         <div class="form-group">
@@ -61,6 +67,9 @@
                 <input type="number" name="delta" class="form-control input-sm" placeholder="(voer bedrag in, met punten)"
                        ng-model="entry.delta" required maxlength="5" />
             </div>
+            
+            <span ng-show="entryForm.delta.$dirty && entryForm.delta.$error.required"
+                  class="text-danger validation-block">Verplicht: voer een bedrag in.</span>
         </div>
         
         <p class="clearfix">
