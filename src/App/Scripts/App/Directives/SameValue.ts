@@ -4,6 +4,7 @@ module FinancialApp.Directives {
     export class SameValue implements ng.IDirective {
         public static $inject = [];
         public restrict = "A";
+        public require = "ngModel";
 
         public static factory(): ng.IDirective {
             return new SameValue();
@@ -13,16 +14,16 @@ module FinancialApp.Directives {
             return this;
         }
 
-        public link (scope: ng.IScope, instanceElement: ng.IAugmentedJQuery, instanceAttributes: ng.IAttributes, controller: any, transclude: ng.ITranscludeFunction) : void {
+        public link (scope: ng.IScope, instanceElement: ng.IAugmentedJQuery, instanceAttributes: ng.IAttributes, ctrl: any, transclude: ng.ITranscludeFunction) : void {
             var expr = instanceAttributes["faSameValue"]; // fa-same-value
-            /*
-            controller.$parsers.unshift(viewValue => {
+            
+            ctrl.$parsers.unshift(viewValue => {
                 var otherValue = <boolean>scope.$eval(expr);
                 var isSame = viewValue === otherValue;
 
-                controller.$setValidity('faSameValue', isSame);
+                ctrl.$setValidity('faSameValue', isSame);
                 return isSame ? viewValue : undefined;
-            });*/
+            });
         }
     }
 }
