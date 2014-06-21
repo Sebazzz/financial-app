@@ -66,7 +66,11 @@ module FinancialApp.Services {
             this.authenticationChangedEvent.invoke((f) => { f(); return true; });
 
             if (!this.isAuthenticated()) {
+                var currentPath = this.$location.path();
                 this.$location.path("/auth/login");
+                this.$location.search({
+                    uri: currentPath != "/auth/login" ? currentPath : "/"
+                });
             }
         }
 
