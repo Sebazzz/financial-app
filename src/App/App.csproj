@@ -210,6 +210,7 @@
     <Content Include="Content\hotkeys.min.css" />
     <Content Include="Content\Icons\Money.png" />
     <Content Include="Content\MSTileConfig.xml" />
+    <Content Include="Content\Tiles\apple-tile.png" />
     <Content Include="Content\Tiles\largetile.png" />
     <Content Include="Content\Tiles\mediumtile.png" />
     <Content Include="Content\Tiles\smalltile.png" />
