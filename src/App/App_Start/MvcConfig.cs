@@ -12,8 +12,6 @@
 
             routes.IgnoreRoute("api/{*pathInfo}");
             
-            routes.MapMvcAttributeRoutes();
-
             routes.MapRoute(
                 "Error",
                 "{*catchall}",

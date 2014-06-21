@@ -327,6 +327,7 @@
     <Compile Include="App_Start\MvcConfig.cs" />
     <Compile Include="App_Start\OwinStartup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\MobileAngularViewRewriteModule.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -392,6 +393,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Misc\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\App\AppInit.ts" />
