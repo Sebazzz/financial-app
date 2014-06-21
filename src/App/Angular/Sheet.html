@@ -87,7 +87,7 @@
                                 <div class="input-group input-group-sm" ng-class="{ 'negative': entry.delta < 0 }">
                                     <span class="input-group-addon">€</span>
                                     <input type="number" class="form-control input-sm" placeholder="(voer bedrag in, met punten)"
-                                           ng-model="entry.delta" required maxlength="5" />
+                                           ng-model="entry.delta" required maxlength="10" />
                                 </div>
                             </div>
                             <div ng-hide="entry.account === AccountType.BankAccount">
@@ -103,7 +103,7 @@
                                 <div class="input-group input-group-sm" ng-class="{ 'negative': entry.delta < 0 }">
                                     <span class="input-group-addon">€</span>
                                     <input type="number" class="form-control" placeholder="(voer bedrag in, met punten)"
-                                           ng-model="entry.delta" required maxlength="5" />
+                                           ng-model="entry.delta" required maxlength="10" />
                                 </div>
                             </div>
                             <div ng-hide="entry.account === AccountType.SavingsAccount">
