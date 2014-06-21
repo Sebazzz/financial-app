@@ -9,6 +9,10 @@
         Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
     </small>
 
+    <p class="mobile-sheet-summary">
+        Bankrekening: <span ng-class="{ 'negative': sheet.totalBank() < 0 }">{{ sheet.totalBank() | currency }}</span> |
+        Spaarrekening: <span ng-class="{ 'negative': sheet.totalSavings() < 0 }">{{ sheet.totalSavings() | currency }}</span>
+    </p>
 
     <div ng-repeat="entry in sheet.entries">
         <table class="table table-condensed sheet-mobile-table" ng-init="entry.showRemarks = false">
@@ -71,6 +75,18 @@
             </tr>
         </table>
     </div>
+    <p>
+        <a class="btn btn-lg btn-default" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
+            <span class="glyphicon glyphicon-plus"></span>
+            Nieuwe regel toevoegen
+        </a>
+    </p>
+
+    <h2>Totalen</h2>
+    <p>
+        Bankrekening: <span ng-class="{ 'negative': sheet.totalBank() < 0 }">{{ sheet.totalBank() | currency }}</span> |
+        Spaarrekening: <span ng-class="{ 'negative': sheet.totalSavings() < 0 }">{{ sheet.totalSavings() | currency }}</span>
+    </p>
 </div>
 
 <div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

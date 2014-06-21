@@ -101,3 +101,9 @@ tr.saving {
     vertical-align: middle;
     margin-right: 1em;
 }
+
+.mobile-sheet-summary {
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
