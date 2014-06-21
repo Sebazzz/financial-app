@@ -30,6 +30,7 @@ module FinancialApp {
 
         private redirect() {
             this.$location.path("/auth/login");
+            this.$location.search({ uri: "/" });
         }
     }
 

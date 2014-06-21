@@ -17,15 +17,20 @@ module FinancialApp {
     }
 
     export class AuthLoginController {
-        static $inject = ["$scope", "$location", "$log", "authentication"];
+        static $inject = ["$scope", "$location", "$timeout", "$log", "authentication"];
+
+        private targetPath: string;
 
         constructor(private $scope: IAuthLoginScope,
                     private $location: ng.ILocationService,
+                    private $timeout: ng.ITimeoutService,
                             $log: ng.ILogService,
                     private authentication: Services.AuthenticationService) {
+            this.targetPath = (this.$location.search() || {}).uri || "/";
+
             if (authentication.isAuthenticated()) {
                 $log.info("AuthLoginController: Already authenticated. Redirecting.");
-                this.$location.path("/auth/success");
+                this.postLoginRedirect();
                 return;
             }
 
@@ -38,7 +43,7 @@ module FinancialApp {
 
                 if (authentication.isAuthenticated()) {
                     $log.info("AuthLoginController: Has authenticated. Redirecting.");
-                    this.$location.path("/auth/success");
+                    this.postLoginRedirect();
                 }
             });
         }
@@ -58,6 +63,13 @@ module FinancialApp {
                 })['finally'](() => {
                     this.$scope.isBusy = false;
                 });
+        }
+
+        private postLoginRedirect() {
+            this.$timeout(() => {
+                this.$location.search({});
+                this.$location.path(this.targetPath);
+            }, 250, false);
         }
     }
 

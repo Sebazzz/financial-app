@@ -424,14 +424,17 @@ var FinancialApp;
     'use strict';
 
     var AuthLoginController = (function () {
-        function AuthLoginController($scope, $location, $log, authentication) {
+        function AuthLoginController($scope, $location, $timeout, $log, authentication) {
             var _this = this;
             this.$scope = $scope;
             this.$location = $location;
+            this.$timeout = $timeout;
             this.authentication = authentication;
+            this.targetPath = (this.$location.search() || {}).uri || "/";
+
             if (authentication.isAuthenticated()) {
                 $log.info("AuthLoginController: Already authenticated. Redirecting.");
-                this.$location.path("/auth/success");
+                this.postLoginRedirect();
                 return;
             }
 
@@ -446,7 +449,7 @@ var FinancialApp;
 
                 if (authentication.isAuthenticated()) {
                     $log.info("AuthLoginController: Has authenticated. Redirecting.");
-                    _this.$location.path("/auth/success");
+                    _this.postLoginRedirect();
                 }
             });
         }
@@ -463,7 +466,15 @@ var FinancialApp;
                 _this.$scope.isBusy = false;
             });
         };
-        AuthLoginController.$inject = ["$scope", "$location", "$log", "authentication"];
+
+        AuthLoginController.prototype.postLoginRedirect = function () {
+            var _this = this;
+            this.$timeout(function () {
+                _this.$location.search({});
+                _this.$location.path(_this.targetPath);
+            }, 250, false);
+        };
+        AuthLoginController.$inject = ["$scope", "$location", "$timeout", "$log", "authentication"];
         return AuthLoginController;
     })();
     FinancialApp.AuthLoginController = AuthLoginController;
@@ -500,6 +511,7 @@ var FinancialApp;
 
         AuthLogOffController.prototype.redirect = function () {
             this.$location.path("/auth/login");
+            this.$location.search({ uri: "/" });
         };
         AuthLogOffController.$inject = ["$scope", "$location", "authentication"];
         return AuthLogOffController;
