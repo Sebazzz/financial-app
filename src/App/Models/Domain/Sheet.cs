@@ -42,6 +42,8 @@
         public Sheet() {
             this.CreateTimestamp = DateTime.Now;
             this.UpdateTimestamp = DateTime.Now;
+
+            this.CalculationOptions = new CalculationOptions();
         }
 
     }
