@@ -345,6 +345,10 @@
     <Compile Include="Migrations\201406172002250_SheetCustomName.Designer.cs">
       <DependentUpon>201406172002250_SheetCustomName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201406211504539_SheetCalculationOffset.cs" />
+    <Compile Include="Migrations\201406211504539_SheetCalculationOffset.Designer.cs">
+      <DependentUpon>201406211504539_SheetCalculationOffset.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain\AccountType.cs" />
     <Compile Include="Models\Domain\AppDbContext.cs" />
@@ -462,6 +466,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201406172002250_SheetCustomName.resx">
       <DependentUpon>201406172002250_SheetCustomName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406211504539_SheetCalculationOffset.resx">
+      <DependentUpon>201406211504539_SheetCalculationOffset.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -3,7 +3,5 @@
         public decimal? SavingsAccountOffset { get; set; }
 
         public decimal? BankAccountOffset { get; set; }
-
-        public bool AutoCalculate { get; set; }
     }
 }
