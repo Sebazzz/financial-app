@@ -179,6 +179,7 @@
     <Content Include="Angular\AuthLogin.html" />
     <Content Include="Angular\AuthLogOff.html" />
     <Content Include="Angular\Sheet.Mobile.html" />
+    <Content Include="Angular\SheetEntryEdit.html" />
     <Content Include="Angular\UserList.html" />
     <Content Include="Angular\UserEdit.html" />
     <Content Include="Angular\CategoryEdit.html" />

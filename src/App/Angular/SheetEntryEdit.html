@@ -1,0 +1,76 @@
+﻿<h1>
+    Regel {{ (entry.id > 0 ? 'bewerken' : 'aanmaken')}}
+</h1>
+
+<div ng-if="isLoaded">
+    <form novalidate name="entryForm" role="form">
+        <div class="form-group" ng-init="showRemarksEditor = false">
+            <label for="source">Bron / reden</label>
+            <div class="input-group input-group-sm">
+                <input type="text"
+                       name="source" id="source"
+                       placeholder="(winkel, vaste lasten, etc)"
+                       class="form-control input-sm" ng-model="entry.source"
+                       required maxlength="250" />
+                <span class="input-group-btn" ng-hide="showRemarksEditor">
+                    <button class="btn btn-default btn-sm"
+                            tooltip="Extra notities of opmerkingen bewerken"
+                            tooltip-append-to-body="true"
+                            ng-click="showRemarksEditor = true">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="remark">Extra notities of opmerkingen</label>
+            <textarea ng-model="entry.remark" name="remark" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="categoryId">Categorie</label>
+            <select id="categoryId" name="categoryId"
+                    ng-options="category.name for category in categories"
+                    ng-model="entry.category"
+                    class="form-control input-sm"
+                    required>
+                <option value="">-- maak een keuze --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="accountType">Type mutatie</label>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="accountType" ng-model="entry.accountType" ng-value="AccountType.BankAccount" required />
+                    Bankrekening
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="accountType" ng-model="entry.accountType" ng-value="AccountType.SavingsAccount" required />
+                    Spaarrekening
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="delta">Bedrag</label>
+            <div class="input-group input-group-sm" ng-class="{ 'negative': entry.delta < 0 }">
+                <span class="input-group-addon">€</span>
+                <input type="number" name="delta" class="form-control input-sm" placeholder="(voer bedrag in, met punten)"
+                       ng-model="entry.delta" required maxlength="5" />
+            </div>
+        </div>
+        
+        <p class="clearfix">
+            <button class="btn btn-primary" ng-click="saveEntry()" ng-disabled="entryForm.$invalid">Opslaan</button>
+            <button class="btn btn-danger" ng-click="deleteEntry()" ng-show="entry.id > 0">Verwijderen</button>
+            <button class="btn btn-link" ng-click="cancel()">Annuleren</button>
+        </p>
+    </form>
+
+</div>
+
+<div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

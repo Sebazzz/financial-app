@@ -43,7 +43,7 @@
                         ng-form="entryForm"
                         ng-class="{ 'saving': entry.isBusy }">
                         <td>
-                            <div class="input-group input-group-sm" ng-class="{ 'negative': entry.delta < 0 }">
+                            <div class="input-group input-group-sm">
                                 <input type="text"
                                        placeholder="(winkel, vaste lasten, etc)"
                                        class="form-control input-sm" ng-model="entry.source"
