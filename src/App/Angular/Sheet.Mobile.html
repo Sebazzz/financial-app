@@ -4,10 +4,12 @@
 </h1>
 
 <div ng-if="isLoaded">
-    <small>
-        Aangemaakt: {{ sheet.createTimestamp | moment: 'DD MMMM [om] HH:mm'}} |
-        Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
-    </small>
+    <p style="text-align: center;">
+        <small>
+            Aangemaakt: {{ sheet.createTimestamp | moment: 'DD MMMM [om] HH:mm'}} |
+            Laatst bijgewerkt: {{ sheet.updateTimestamp | moment: [ 'fromNow' ]}}
+        </small>
+    </p>
 
     <p class="mobile-sheet-summary">
         Bankrekening: <span ng-class="{ 'negative': sheet.totalBank() < 0 }">{{ sheet.totalBank() | currency }}</span> 

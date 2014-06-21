@@ -117,3 +117,9 @@ tr#sheet-offset td {
 tr#sheet-offset td + td{
     border-top: 1px dashed gray;
 }
+
+@media screen and (max-width: 600px) {
+    h1 {
+        text-align: center;
+    }
+}
