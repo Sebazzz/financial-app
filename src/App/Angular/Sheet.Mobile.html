@@ -10,8 +10,10 @@
     </small>
 
     <p class="mobile-sheet-summary">
-        Bankrekening: <span ng-class="{ 'negative': sheet.totalBank() < 0 }">{{ sheet.totalBank() | currency }}</span> |
+        Bankrekening: <span ng-class="{ 'negative': sheet.totalBank() < 0 }">{{ sheet.totalBank() | currency }}</span> 
+        <small>(vorige maand: {{ sheet.offset.bankAccountOffset | currency}})</small> <br/>
         Spaarrekening: <span ng-class="{ 'negative': sheet.totalSavings() < 0 }">{{ sheet.totalSavings() | currency }}</span>
+        <small>(vorige maand: {{ sheet.offset.savingsAccountOffset | currency}})</small>
     </p>
 
     <div ng-repeat="entry in sheet.entries">

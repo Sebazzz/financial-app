@@ -34,6 +34,20 @@
                             &nbsp; <!-- Column for action buttons-->
                         </th>
                     </tr>
+                    
+                    <tr id="sheet-offset">
+                        <td>Startbedrag</td>
+                        <td>
+                            <a href="#"
+                               ng-href="/sheet/{{previousDate.year()}}/{{previousDate.month()+1}}">{{ previousDate | moment: 'MMMM YYYY'}}</a>
+                        </td>
+                        <td>
+                            {{ sheet.offset.bankAccountOffset | currency}}
+                        </td>
+                        <td>
+                            {{ sheet.offset.savingsAccountOffset | currency}}
+                        </td>
+                    </tr>
                 </thead>
 
                 <!-- Body -->

@@ -797,6 +797,7 @@ var FinancialApp;
             this.month = parseInt($routeParams.month, 10);
 
             $scope.date = moment([this.year, this.month - 1]);
+            $scope.previousDate = moment($scope.date).subtract('month', 1);
             $scope.isLoaded = false;
             $scope.AccountType = FinancialApp.DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
 

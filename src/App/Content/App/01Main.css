@@ -107,3 +107,12 @@ tr.saving {
     margin-top: 1em;
     margin-bottom: 1em;
 }
+
+tr#sheet-offset td {
+    font-size: 8pt;
+    padding-bottom: 0.5em;
+}
+
+tr#sheet-offset td + td{
+    border-top: 1px dashed gray;
+}
