@@ -26,7 +26,7 @@
                 Description = x.Description,
                 Name = x.Name,
                 Id = x.Id,
-                CanBeDeleted = true
+                CanBeDeleted = !x.SheetEntries.Any()
             });
         }
 
