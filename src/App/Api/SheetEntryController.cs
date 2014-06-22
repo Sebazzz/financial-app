@@ -1,6 +1,7 @@
 ﻿namespace App.Api {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Runtime.Serialization;
@@ -42,6 +43,7 @@
 
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
             EnsureCorrectSheet(entry);
+            Trace.Assert(entry.Category != null);
 
             entry.SortOrder += delta;
             this._sheetEntryRepository.SaveChanges();

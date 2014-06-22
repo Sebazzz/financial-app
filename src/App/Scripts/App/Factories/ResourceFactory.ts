@@ -38,8 +38,8 @@ module FinancialApp.Factories {
     }
 
     export interface ISheetEntryWebResourceClass extends IWebResourceClass<DTO.ISheetEntry> {
-        mutateOrder(params: ISheetSortOrderMutation);
-        mutateOrder(params: ISheetSortOrderMutation, success: Function, error?: Function);
+        mutateOrder(params: ISheetSortOrderMutation, data: Object);
+        mutateOrder(params: ISheetSortOrderMutation, data: Object, success: Function, error?: Function);
     }
 
 

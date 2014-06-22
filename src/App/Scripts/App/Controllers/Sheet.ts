@@ -110,7 +110,7 @@ module FinancialApp {
                 sheetYear: this.year,
                 id: entry.id,
                 mutation: Factories.SortOrderMutation[mutation]
-            }, () => {
+            }, {}, () => {
                 entries[index] = entries[newIndex];
                 entries[newIndex] = entry;
                 entry.sortOrder += mutation;
