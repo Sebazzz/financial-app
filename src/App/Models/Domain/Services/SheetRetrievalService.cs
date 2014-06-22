@@ -1,6 +1,7 @@
 ﻿namespace App.Models.Domain.Services {
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
     using System.Net;
     using Api.Extensions;
@@ -43,7 +44,9 @@
 
         [NotNull]
         public Sheet GetBySubject(int month, int year, int ownerId) {
-            Sheet theSheet = this._sheetRepository.GetByDatePart(month, year, ownerId).FirstOrDefault();
+            Sheet theSheet = this._sheetRepository.GetByDatePart(month, year, ownerId)
+                                                  .Include(x => x.Entries)
+                                                  .FirstOrDefault();
 
             if (theSheet == null) {
                 theSheet = CreateSheet(month, year, ownerId);
