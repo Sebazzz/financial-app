@@ -19,6 +19,8 @@
         public string Source { get; set; }
         public string Remark { get; set; }
 
+        public int SortOrder { get; set; }
+
         public DateTime UpdateTimestamp { get; set; }
 
         public DateTime CreateTimestamp { get; set; }

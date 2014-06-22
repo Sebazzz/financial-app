@@ -20,6 +20,9 @@
         [DataMember(Name = "remark")]
         public string Remark { get; set; }
 
+        [DataMember(Name = "sortOrder")]
+        public int SortOrder { get; set; }
+
         [DataMember(Name = "updateTimestamp")]
         public DateTime UpdateTimestamp { get; set; }
 

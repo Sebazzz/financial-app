@@ -327,6 +327,10 @@
     <Compile Include="App_Start\MvcConfig.cs" />
     <Compile Include="App_Start\OwinStartup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Migrations\201406221653291_SheetEntrySortOrder.cs" />
+    <Compile Include="Migrations\201406221653291_SheetEntrySortOrder.Designer.cs">
+      <DependentUpon>201406221653291_SheetEntrySortOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Support\AppCacheGenerator.cs" />
     <Compile Include="Support\MobileAngularViewRewriteModule.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -470,6 +474,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201406211504539_SheetCalculationOffset.resx">
       <DependentUpon>201406211504539_SheetCalculationOffset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201406221653291_SheetEntrySortOrder.resx">
+      <DependentUpon>201406221653291_SheetEntrySortOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

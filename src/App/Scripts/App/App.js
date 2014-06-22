@@ -1372,7 +1372,10 @@ var FinancialApp;
                 source: null,
                 editMode: true,
                 updateTimestamp: moment(),
-                isBusy: false
+                isBusy: false,
+                sortOrder: Enumerable.From(this.$scope.sheet.entries).Max(function (x) {
+                    return x.sortOrder;
+                }) + 1
             };
 
             this.$scope.sheet.entries.push(newEntry);

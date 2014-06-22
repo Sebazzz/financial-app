@@ -92,6 +92,9 @@ declare module FinancialApp.DTO {
             remark : string;
 
         
+            sortOrder : number;
+
+        
             updateTimestamp : any;
 
         
