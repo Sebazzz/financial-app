@@ -1,6 +1,7 @@
 ﻿namespace App.Api {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Web.Http;
     using Extensions;
@@ -45,6 +46,7 @@
             entry.CreateTimestamp = DateTime.Now;
             entry.UpdateTimestamp = entry.CreateTimestamp;
             entry.Sheet.UpdateTimestamp = DateTime.Now;
+            entry.SortOrder = targetSheet.Entries.Max(x => (int?) x.SortOrder).GetValueOrDefault();
 
             this._sheetEntryRepository.Add(entry);
             this._sheetEntryRepository.SaveChanges();
