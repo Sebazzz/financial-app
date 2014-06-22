@@ -24,6 +24,25 @@ module FinancialApp.Factories {
         getByDate(params: ISheetDate, success: Function, error?: Function): DTO.ISheet;
     }
 
+
+    export enum SortOrderMutation {
+        Increase = 1,
+        Decrease = -1
+    }
+
+    export interface ISheetSortOrderMutation {
+        mutation: SortOrderMutation;
+        id: number;
+        sheetYear: number;
+        sheetMonth:number;
+    }
+
+    export interface ISheetEntryWebResourceClass extends IWebResourceClass<DTO.ISheet> {
+        mutateOrder(params: ISheetSortOrderMutation);
+        mutateOrder(params: ISheetSortOrderMutation, success: Function, error?: Function);
+    }
+
+
     // ReSharper disable InconsistentNaming
     export function ResourceFactory<T>(spec: string, extraMethods?: Object): IResourceFactory<T> {
         var extraParams = {

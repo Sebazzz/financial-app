@@ -66,7 +66,12 @@ module FinancialApp {
                 }
             }));
 
-            app.factory("sheetEntryResource", Factories.ResourceFactory<DTO.ISheetEntry>("/api/sheet/:sheetYear-:sheetMonth/entries/:id"));
+            app.factory("sheetEntryResource", Factories.ResourceFactory<DTO.ISheetEntry>("/api/sheet/:sheetYear-:sheetMonth/entries/:id", {
+                'mutateOrder': {
+                    method: 'PUT',
+                    url: '/api/sheet/:sheetYear-:sheetMonth/entries/order/:mutation/:id'
+                }
+            }));
 
             app.factory("localStorage", Factories.LocalStorageFactory());
 
