@@ -11,7 +11,7 @@
     
     <form name="sheetForm" novalidate>
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-condensed">
                 <!-- Header -->
                 <thead>
                     <tr>
@@ -34,7 +34,7 @@
                             &nbsp; <!-- Column for action buttons-->
                         </th>
                     </tr>
-                    
+
                     <tr id="sheet-offset">
                         <td>Startbedrag</td>
                         <td>
@@ -70,7 +70,7 @@
                                         <span class="glyphicon glyphicon-th"></span>
                                     </button>
                                 </span>
-                            </div> 
+                            </div>
                         </td>
 
                         <td>
@@ -129,7 +129,7 @@
                         ng-class="{ 'saving': entry.isBusy }">
                         <td>
                             {{ entry.source }}
-                            
+
                             <button class="pull-right btn btn-link"
                                     tooltip="Extra notities of opmerkingen bekijken"
                                     ng-show="entry.remark"
