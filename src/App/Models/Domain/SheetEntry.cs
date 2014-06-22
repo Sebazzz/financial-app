@@ -2,9 +2,10 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using Repositories;
+    using Services;
 
     [GenerateRepository]
-    public class SheetEntry : IHasId {
+    public class SheetEntry : IHasId, IHasSortOrder {
         public int Id { get; set; }
 
         [Required]

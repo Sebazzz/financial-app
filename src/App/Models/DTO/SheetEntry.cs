@@ -2,9 +2,10 @@
     using System;
     using System.Runtime.Serialization;
     using Domain;
+    using Domain.Services;
 
     [DataContract]
-    public class SheetEntry {
+    public class SheetEntry : IHasSortOrder {
         [DataMember(Name = "id")]
         public int Id { get; set; }
 

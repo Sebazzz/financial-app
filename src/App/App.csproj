@@ -331,6 +331,7 @@
     <Compile Include="Migrations\201406221653291_SheetEntrySortOrder.Designer.cs">
       <DependentUpon>201406221653291_SheetEntrySortOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Domain\Services\SortOrderComparer.cs" />
     <Compile Include="Support\AppCacheGenerator.cs" />
     <Compile Include="Support\MobileAngularViewRewriteModule.cs" />
     <Compile Include="Controllers\HomeController.cs" />
