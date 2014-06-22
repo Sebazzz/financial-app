@@ -115,12 +115,20 @@
                         </td>
 
                         <td style="width: 6em">
-                            <button class="btn btn-default btn-sm" ng-click="saveEntry(entry)" ng-disabled="entryForm.$invalid">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>
-                            </button>
-                            <button class="btn btn-danger btn-sm" ng-click="deleteEntry(entry)">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-default" ng-click="saveEntry(entry)" ng-disabled="entryForm.$invalid">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                </button>
+                                <button class="btn btn-danger" ng-click="deleteEntry(entry)">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" disabled="disabled">
+                                    <span class="glyphicon glyphicon-arrow-up"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" disabled="disabled">
+                                    <span class="glyphicon glyphicon-arrow-down"></span>
+                                </button>
+                            </div>
                         </td>
                     </tr>
 
@@ -154,13 +162,21 @@
                             </div>
                         </td>
 
-                        <td style="width: 6em">
-                            <button class="btn btn-default btn-sm" ng-click="entry.editMode = true" ng-disabled="entry.isBusy">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </button>
-                            <button class="btn btn-danger btn-sm" ng-click="deleteEntry(entry)" ng-disabled="entry.isBusy">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
+                        <td style="width: 9.5em;">
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-default" ng-click="entry.editMode = true" ng-disabled="entry.isBusy">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+                                <button class="btn btn-danger" ng-click="deleteEntry(entry)" ng-disabled="entry.isBusy">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="mutateSortOrder(entry, SortOrderMutation.Decrease)">
+                                    <span class="glyphicon glyphicon-arrow-up"></span>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="mutateSortOrder(entry, SortOrderMutation.Increase)">
+                                    <span class="glyphicon glyphicon-arrow-down"></span>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -181,8 +197,10 @@
                         </td>
 
                         <td>
-                            <button class="btn btn-primary btn-sm" ng-click="addEntry()">
+                            <button class="btn btn-primary btn-sm" style="width: 100%" ng-click="addEntry()">
                                 <span class="glyphicon glyphicon-plus-sign"></span>
+                                
+                                Toevoegen
                             </button>
                         </td>
                     </tr>
