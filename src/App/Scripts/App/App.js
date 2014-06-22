@@ -869,13 +869,13 @@ var FinancialApp;
         SheetController.prototype.setLoadedBit = function (sheetData) {
             this.$scope.isLoaded = this.isCategoriesLoaded && this.isSheetLoaded;
 
-            if (!sheetData || !sheetData.entries) {
+            if (!sheetData || !sheetData.entries || !this.$scope.isLoaded) {
                 return;
             }
 
             for (var i = 0; i < sheetData.entries.length; i++) {
                 var entry = sheetData.entries[i];
-                entry.category = Enumerable.From(this.$scope.categories).FirstOrDefault(function (c) {
+                entry.category = Enumerable.From(this.$scope.categories).First(function (c) {
                     return entry.categoryId === c.id;
                 });
             }
