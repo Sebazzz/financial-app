@@ -49,11 +49,8 @@
             this._sheetEntryRepository.SaveChanges();
         }
 
-        [DataContract]
         public enum SortOrderMutationType {
-            [DataMember(Name = "increase")]
             Increase = 1,
-            [DataMember(Name = "decrease")]
             Decrease = -1
         }
 
