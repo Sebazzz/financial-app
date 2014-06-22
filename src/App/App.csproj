@@ -310,7 +310,9 @@
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\AuthenticationController.cs" />
@@ -329,6 +331,7 @@
     <Compile Include="App_Start\MvcConfig.cs" />
     <Compile Include="App_Start\OwinStartup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Support\AppCacheGenerator.cs" />
     <Compile Include="Support\MobileAngularViewRewriteModule.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
