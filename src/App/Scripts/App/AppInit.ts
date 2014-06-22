@@ -35,7 +35,7 @@ module FinancialApp {
 
             // define module
             var app: ng.IModule = angular.module('main',
-                ['ngRoute', 'ngMoment', 'ngLocale', 'ngResource', 'angular-loading-bar', 'ui.bootstrap']);
+                ['ngRoute', 'ngMoment', 'ngLocale', 'ngResource', 'angular-loading-bar', 'ui.bootstrap', 'cfp.hotkeys']);
 
             app.config((($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider) => {
                 // generated routes

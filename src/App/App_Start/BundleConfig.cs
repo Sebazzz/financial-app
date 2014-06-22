@@ -18,7 +18,8 @@
                              "~/Scripts/angular-resource.js",
                              "~/Scripts/angular-route.js",
                              "~/Scripts/angular-progress.js",
-                             "~/Scripts/angular-ui/ui-bootstrap-tpls.js"
+                             "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
+                             "~/Scripts/hotkeys.js"
                              ));
 
             bundles.Add(
