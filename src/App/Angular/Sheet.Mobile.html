@@ -66,27 +66,29 @@
             </tr>
             <tr>
                 <td colspan="2" style="padding-left:0;padding-right: 0;text-align: center;">
-                    <button class="btn btn-default"
-                            style="width: 5%"
-                            ng-click="mutateSortOrder(entry, SortOrderMutation.Decrease)">
-                        <span class="glyphicon glyphicon-arrow-up"></span>
-                    </button>
-                    <button class="btn btn-default"
-                            style="width: 5%"
-                            ng-click="mutateSortOrder(entry, SortOrderMutation.Increase)">
-                        <span class="glyphicon glyphicon-arrow-down"></span>
-                    </button>
-                    <a href="#"
-                       ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/{{entry.id}}"
-                       class="btn btn-default"
-                       style="width:35%">
-                        <span class="glyphicon glyphicon-pencil"></span> Bewerken
-                    </a>
-                    <button class="btn btn-danger"
-                            ng-click="deleteEntry(entry)"
-                            style="width:35%">
-                        <span class="glyphicon glyphicon-trash"> Verwijderen</span>
-                    </button>
+                    <div class="btn-group btn-group-justified">
+                        <button class="btn btn-default"
+                                style="width: 5%"
+                                ng-click="mutateSortOrder(entry, SortOrderMutation.Decrease)">
+                            <span class="glyphicon glyphicon-arrow-up"></span>
+                        </button>
+                        <button class="btn btn-default"
+                                style="width: 5%"
+                                ng-click="mutateSortOrder(entry, SortOrderMutation.Increase)">
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        </button>
+                        <a href="#"
+                           ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/{{entry.id}}"
+                           class="btn btn-default"
+                           style="width:35%">
+                            <span class="glyphicon glyphicon-pencil"></span> Bewerken
+                        </a>
+                        <button class="btn btn-danger"
+                                ng-click="deleteEntry(entry)"
+                                style="width:35%">
+                            <span class="glyphicon glyphicon-trash"> Verwijderen</span>
+                        </button>
+                    </div>
                 </td>
             </tr>
         </table>
