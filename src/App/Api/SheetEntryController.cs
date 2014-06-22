@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Runtime.Serialization;
     using System.Web.Http;
     using Extensions;
     using Models.Domain.Repositories;
@@ -28,10 +29,30 @@
         [HttpGet]
         [Route("{id}")]
         public SheetEntryDTO Get(int id) {
-            SheetEntry entry = this._sheetEntryRepository.FindById(id);
+            SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
             EnsureCorrectSheet(entry);
 
             return AutoMapper.Mapper.Map<SheetEntryDTO>(entry);
+        }
+
+        [Route("order/{mutation}/{id}")]
+        [HttpPut]
+        public void MutateOrder(int id, SortOrderMutationType mutation) {
+            int delta = (int) mutation;
+
+            SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
+            EnsureCorrectSheet(entry);
+
+            entry.SortOrder += delta;
+            this._sheetEntryRepository.SaveChanges();
+        }
+
+        [DataContract]
+        public enum SortOrderMutationType {
+            [DataMember(Name = "increase")]
+            Increase = 1,
+            [DataMember(Name = "decrease")]
+            Decrease = -1
         }
 
         // POST: api/sheet/2014-10/entries
