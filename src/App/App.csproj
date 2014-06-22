@@ -237,7 +237,6 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\App\App.js" />
     <Content Include="Scripts\App\Controllers\ControllerInit.generated.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -257,9 +256,6 @@
     </Content>
     <Content Include="application.appcache" />
     <Content Include="Content\Icons\Money.url" />
-    <Content Include="Scripts\App\App.js.map">
-      <DependentUpon>App.js</DependentUpon>
-    </Content>
     <Content Include="Models\Domain\Repositories\Repositories.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <CustomToolNamespace>App.Models.Domain.Repositories</CustomToolNamespace>
