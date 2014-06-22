@@ -31,13 +31,13 @@ module FinancialApp.Factories {
     }
 
     export interface ISheetSortOrderMutation {
-        mutation: SortOrderMutation;
+        mutation: string;
         id: number;
         sheetYear: number;
         sheetMonth:number;
     }
 
-    export interface ISheetEntryWebResourceClass extends IWebResourceClass<DTO.ISheet> {
+    export interface ISheetEntryWebResourceClass extends IWebResourceClass<DTO.ISheetEntry> {
         mutateOrder(params: ISheetSortOrderMutation);
         mutateOrder(params: ISheetSortOrderMutation, success: Function, error?: Function);
     }

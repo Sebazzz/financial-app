@@ -32,10 +32,14 @@ module FinancialApp {
         // copy enum
             // ReSharper disable once InconsistentNaming
         AccountType: typeof DTO.AccountType;
+            // ReSharper disable once InconsistentNaming
+        SortOrderMutation: typeof Factories.SortOrderMutation;
+
         saveEntry: (entry: DTO.ISheetEntry) => void
         deleteEntry: (entry: DTO.ISheetEntry) => void
         editRemarks: (entry: DTO.ISheetEntry) => void
         addEntry: () => void;
+        mutateSortOrder: (entry:DTO.ISheetEntry, mutation: Factories.SortOrderMutation) => void;
     }
 
     export interface ISheetRouteParams extends ng.route.IRouteParamsService {
@@ -57,7 +61,7 @@ module FinancialApp {
                     private $location: ng.ILocationService,
                     private $modal : ng.ui.bootstrap.IModalService,
                     private sheetResource: Factories.ISheetWebResourceClass,
-                    private sheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
+                    private sheetEntryResource: Factories.ISheetEntryWebResourceClass,
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
                     private calculation : Services.CalculationService) {
 
@@ -68,6 +72,7 @@ module FinancialApp {
             $scope.previousDate = moment($scope.date).subtract('month', 1);
             $scope.isLoaded = false;
             $scope.AccountType = DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
+            $scope.SortOrderMutation = Factories.SortOrderMutation; // we need to copy the enum itself, or we won't be able to refer to it in the view
 
             // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
@@ -88,6 +93,29 @@ module FinancialApp {
             $scope.deleteEntry = (entry) => this.deleteEntry(entry);
             $scope.addEntry = () => this.addEntry();
             $scope.editRemarks = (entry) => this.editRemarks(entry);
+            $scope.mutateSortOrder = (entry, mutation) => this.mutateSortOrder(entry, mutation);
+        }
+
+        private mutateSortOrder(entry: DTO.ISheetEntry, mutation: Factories.SortOrderMutation) {
+            var entries = this.$scope.sheet.entries;
+            var index = entries.indexOf(entry);
+            var newIndex: number = index + mutation;
+            if (newIndex < 0 || newIndex >= entries.length) {
+                return;
+            }
+
+            entry.isBusy = true;
+            this.sheetEntryResource.mutateOrder({
+                sheetMonth: this.month,
+                sheetYear: this.year,
+                id: entry.id,
+                mutation: Factories.SortOrderMutation[mutation]
+            }, () => {
+                entries[index] = entries[newIndex];
+                entries[newIndex] = entry;
+                entry.sortOrder += mutation;
+                entry.isBusy = false;
+            }, () => entry.isBusy = false);
         }
 
         private signalSheetsLoaded(sheet : DTO.ISheet) {
