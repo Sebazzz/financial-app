@@ -1,17 +1,17 @@
 module FinancialApp.Factories {
     // ReSharper disable InconsistentNaming
     export function AuthenticationErrorHttpInterceptor() {
-        var func = (authentication : Services.AuthenticationService) => {
+        var func = ($location : ng.ILocationService) => {
             return {
                 responseError: (response) => {
                     if (response.status === 403) {
                         // unauthorized, cookie expired
-                        authentication.logOff();
+                        $location.path("/auth/login");
                     }
                 }
             }
         };
 
-        return func.withInject("authentication");
+        return func.withInject("$location");
     }
 }

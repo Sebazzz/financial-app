@@ -5,7 +5,7 @@ module FinancialApp.Factories {
             return {
                 request: cfg => {
                     var url: string = cfg.url;
-                    if (url.toLowerCase().indexOf("/Angular/") === -1) {
+                    if (url.toLowerCase().indexOf("/angular/") === -1) {
                         return cfg; // return config unmodified
                     }
 
