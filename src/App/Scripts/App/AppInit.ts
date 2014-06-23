@@ -56,6 +56,7 @@ module FinancialApp {
                 $locationProvider.html5Mode(true);
 
                 // configure HTTP interceptor
+                $httpProvider.interceptors.push('authenticationCheckInterceptor');
                 $httpProvider.interceptors.push('viewFingerPrintInterceptor');
             }).withInject("$routeProvider", "$locationProvider", "$httpProvider"));
 
