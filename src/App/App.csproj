@@ -179,6 +179,7 @@
   <ItemGroup>
     <Content Include="Angular\AuthLogin.html" />
     <Content Include="Angular\AuthLogOff.html" />
+    <Content Include="Angular\Report.html" />
     <Content Include="Angular\Sheet.Mobile.html" />
     <Content Include="Angular\SheetEntryEdit.html" />
     <Content Include="Angular\SheetStats.html" />
@@ -421,6 +422,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\AuthLogin.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\AuthLogOff.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryCreate.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\Report.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\SheetEntryCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\SheetEntryEdit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\SheetStats.ts" />
