@@ -75,6 +75,10 @@ module FinancialApp {
                     url: '/api/sheet/:sheetYear-:sheetMonth/entries/order/:mutation/:id'
                 }
             }));
+
+            // ... $http interceptors
+            app.factory("authenticationCheckInterceptor", Factories.AuthenticationErrorHttpInterceptor());
+
             app.factory("viewFingerPrintInterceptor", () => {
                 var interceptor = {
                     request: function (cfg) {
