@@ -336,6 +336,7 @@
     <Compile Include="Migrations\201406221653291_SheetEntrySortOrder.Designer.cs">
       <DependentUpon>201406221653291_SheetEntrySortOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Domain\Repositories\SheetEntryRepository.cs" />
     <Compile Include="Models\Domain\Services\SheetStatisticsService.cs" />
     <Compile Include="Models\Domain\Services\SortOrderComparer.cs" />
     <Compile Include="Support\AppCacheGenerator.cs" />

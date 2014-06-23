@@ -47,6 +47,8 @@
 
             entry.Sheet.UpdateTimestamp = DateTime.Now;
             entry.SortOrder += delta;
+
+            this._sheetEntryRepository.ReplaceSortOrder(entry.Sheet, entry.SortOrder, entry.SortOrder - delta);
             this._sheetEntryRepository.SaveChanges();
         }
 
