@@ -180,6 +180,7 @@
     <Content Include="Angular\AuthLogOff.html" />
     <Content Include="Angular\Sheet.Mobile.html" />
     <Content Include="Angular\SheetEntryEdit.html" />
+    <Content Include="Angular\SheetStats.html" />
     <Content Include="Angular\UserList.html" />
     <Content Include="Angular\UserEdit.html" />
     <Content Include="Angular\CategoryEdit.html" />
@@ -416,6 +417,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\SheetEntryCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\SheetEntryEdit.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\SheetStats.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\UserEdit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryEdit.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\UserList.ts" />

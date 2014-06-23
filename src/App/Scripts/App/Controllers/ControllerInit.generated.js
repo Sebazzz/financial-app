@@ -26,6 +26,7 @@ var FinancialApp;
                     $app.controller('SheetController', FinancialApp.SheetController);
                     $app.controller('SheetEntryCreateController', FinancialApp.SheetEntryCreateController);
                     $app.controller('SheetEntryEditController', FinancialApp.SheetEntryEditController);
+                    $app.controller('SheetStatsController', FinancialApp.SheetStatsController);
                     $app.controller('UserCreateController', FinancialApp.UserCreateController);
                     $app.controller('UserEditController', FinancialApp.UserEditController);
                     $app.controller('UserListController', FinancialApp.UserListController);
@@ -81,6 +82,11 @@ var FinancialApp;
                 {
                     controller: 'SheetEntryEditController',
                     templateUrl: '/Angular/SheetEntryEdit.html'
+                });
+                $routeProvider.when('/sheet/:year/:month/stats', 
+                {
+                    controller: 'SheetStatsController',
+                    templateUrl: '/Angular/SheetStats.html'
                 });
                 $routeProvider.when('/manage/user/add', 
                 {
