@@ -445,6 +445,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DTOEnum.tt</DependentUpon>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\App\Factories\ViewFingerPrintInterceptor.ts" />
     <TypeScriptCompile Include="Scripts\App\Factories\AuthenticationCheckInterceptor.ts" />
     <TypeScriptCompile Include="Scripts\App\Factories\LocalStorageFactory.ts" />
     <TypeScriptCompile Include="Scripts\App\Factories\ResourceFactory.ts" />

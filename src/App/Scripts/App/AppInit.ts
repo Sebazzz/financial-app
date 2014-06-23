@@ -78,22 +78,7 @@ module FinancialApp {
 
             // ... $http interceptors
             app.factory("authenticationCheckInterceptor", Factories.AuthenticationErrorHttpInterceptor());
-
-            app.factory("viewFingerPrintInterceptor", () => {
-                var interceptor = {
-                    request: function (cfg) {
-                        var url: string = cfg.url;
-                        if (url.toLowerCase().indexOf("/Angular/") === -1) {
-                            return cfg; // return config unmodified
-                        }
-
-                        // TODO: add fingerprint
-                        return cfg;
-                    }
-                }
-
-                return interceptor;
-            });
+            app.factory("viewFingerPrintInterceptor", Factories.ViewFingerPrintInterceptor());
 
             app.factory("localStorage", Factories.LocalStorageFactory());
 
