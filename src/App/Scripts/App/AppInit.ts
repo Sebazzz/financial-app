@@ -35,7 +35,7 @@ module FinancialApp {
 
             // define module
             var app: ng.IModule = angular.module('main',
-                ['ngRoute', 'ngMoment', 'ngLocale', 'ngResource', 'angular-loading-bar', 'ui.bootstrap', 'cfp.hotkeys']);
+                ['ngRoute', 'ngMoment', 'ngLocale', 'ngResource', 'angular-loading-bar', 'ui.bootstrap', 'cfp.hotkeys', 'googlechart']);
 
             app.config((($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider) => {
                 // generated routes
@@ -90,6 +90,7 @@ module FinancialApp {
             // directives
             app.directive("faRequiredIf", Directives.RequiredIf.factory);
             app.directive("faSameValue", Directives.SameValue.factory);
+            app.directive("faSmartFloat", Directives.SmartFloatDirective.factory);
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);

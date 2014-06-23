@@ -434,6 +434,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\UserCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Directives\SameValue.ts" />
     <TypeScriptCompile Include="Scripts\App\Directives\RequiredIf.ts" />
+    <TypeScriptCompile Include="Scripts\App\Directives\SmartFloat.ts" />
     <TypeScriptCompile Include="Scripts\App\DTO.generated.d.ts">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

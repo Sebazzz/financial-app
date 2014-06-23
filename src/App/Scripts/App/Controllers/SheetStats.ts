@@ -12,7 +12,10 @@ module FinancialApp {
         previousDate: Moment;
         nextDate: Moment;
         isLoaded: boolean;
+
         stats: DTO.ISheetGlobalStatistics;
+        incomeChartData: any;
+        expenseChartData: any;
     }
 
     export class SheetStatsController {
@@ -55,8 +58,69 @@ module FinancialApp {
 
             stats.success((data) => {
                 this.$scope.stats = data;
+                this.buildChartData();
                 this.$scope.isLoaded = true;
             });
+        }
+
+        private buildChartData() {
+            var stats = this.$scope.stats;
+
+            this.$scope.expenseChartData = SheetStatsController.generateChart();
+            this.$scope.expenseChartData.options.title = "Uitgaven per categorie";
+            this.$scope.expenseChartData.data.rows = this.generateExpenseCharRows(x => x.delta < 0, -1);
+
+            this.$scope.incomeChartData = SheetStatsController.generateChart();
+            this.$scope.incomeChartData.options.title = "Inkomen per categorie";
+            this.$scope.incomeChartData.data.rows = this.generateExpenseCharRows(x => x.delta >= 0);
+        }
+
+        private generateExpenseCharRows(filter: (item: DTO.ISheetCategoryStatistics) => boolean, modifier: number = 1) {
+            return Enumerable.From(this.$scope.stats.categoryStatistics)
+                .Where(filter)
+                .Select(x => {
+                    return {
+                        "c": [
+                            {
+                                "v": x.categoryName
+                            },
+                            {
+                                "v": x.delta * modifier
+                            }
+                        ]
+                    }
+                }).ToArray();
+        }
+
+        private static generateChart(): Object {
+            return {
+                "type": "PieChart",
+                "displayed": true,
+                "data": {
+                    "cols": [
+                        {
+                            "id": "category",
+                            "label": "Categorie",
+                            "type": "string"
+                        },
+                        {
+                            "id": "amount",
+                            "label": "Hoeveelheid",
+                            "type": "number"
+                        }
+                    ],
+                    "rows": []
+                },
+                "options": {
+                    "title": "",
+                    "isStacked": "true",
+                    "fill": 20,
+                    "displayExactValues": true
+                },
+                "formatters": {},
+                "view": {}
+
+            };
         }
     }
 }
