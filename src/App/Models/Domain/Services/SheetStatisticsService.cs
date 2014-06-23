@@ -1,4 +1,5 @@
 ﻿namespace App.Models.Domain.Services {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -26,6 +27,7 @@
             var q = from Sheet s in sheets
                     let entries = s.Entries
                     select new SheetGlobalStatistics {
+                        SheetSubject = s.Subject,
                         TotalExpenses = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta < 0).Sum(x => (decimal?)x.Delta * -1) ?? 0,
                         TotalIncome = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
                         TotalSavings = entries.Where(x => x.Account == AccountType.SavingsAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
@@ -51,6 +53,9 @@
 
         [DataMember(Name = "totalIncome")]
         public decimal TotalIncome { get; set; }
+
+        [DataMember(Name = "sheetSubject")]
+        public DateTime SheetSubject { get; set; }
 
         [DataMember(Name = "categoryStatistics")]
         public IEnumerable<SheetCategoryStatistics> CategoryStatistics { get; set; }
