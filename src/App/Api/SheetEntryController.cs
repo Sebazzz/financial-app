@@ -45,6 +45,7 @@
             EnsureCorrectSheet(entry);
             Trace.Assert(entry.Category != null);
 
+            entry.Sheet.UpdateTimestamp = DateTime.Now;
             entry.SortOrder += delta;
             this._sheetEntryRepository.SaveChanges();
         }
