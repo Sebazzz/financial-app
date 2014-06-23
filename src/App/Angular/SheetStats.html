@@ -4,3 +4,53 @@
 </h1>
 
 <h2>Statistieken</h2>
+
+<div ng-if="isLoaded">
+    <p class="lead">
+        In {{ date | moment: 'MMMM YYYY'}} is in totaal {{stats.totalExpenses | currency}} uitgegeven.
+        {{stats.totalIncome | currency}} aan inkomsten zijn verkregen, waarvan
+        <span ng-class="{ 'negative': stats.totalSavings < 0 }">{{stats.totalSavings | currency}}</span> is gespaard.
+    </p>
+
+    <p>
+        Onderstaand een overzicht van uitgaven en inkomsten per categorie.
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Categorie</th>
+                <th>Bedrag</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="catStats in stats.categoryStatistics">
+            <tr>
+                <td>
+                    {{catStats.categoryName}}
+                </td>
+                <td>
+                    <span ng-class="{ 'negative': catStats.delta < 0 }">
+                        {{catStats.delta | currency}}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>
+
+<p class="btn-group" style="margin-top: 2em">
+    <a href="#"
+       ng-href="/sheet/{{previousDate.year()}}/{{previousDate.month()+1}}/stats"
+       class="btn btn-default">Vorige maand</a>
+
+    <a href="#"
+       ng-href="/sheet/{{date.year()}}/{{date.month()+1}}"
+       class="btn btn-primary">Terug naar lijst</a>
+
+    <a href="#"
+       ng-disabled="nextDate === null"
+       ng-href="/sheet/{{nextDate.year()}}/{{nextDate.month()+1}}/stats"
+       class="btn btn-default">Volgende maand</a>
+</p>

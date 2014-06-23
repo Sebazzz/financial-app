@@ -21,7 +21,7 @@
             var q = from Sheet s in this._sheetRepository.FindByIdInclude(targetId)
                 let entries = s.Entries 
                 select new SheetGlobalStatistics{
-                    TotalExpenses = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta < 0).Sum(x => (decimal?)x.Delta) ?? 0,
+                    TotalExpenses = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta < 0).Sum(x => (decimal?)x.Delta * -1) ?? 0,
                     TotalIncome = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
                     TotalSavings = entries.Where(x => x.Account == AccountType.SavingsAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
                     CategoryStatistics = from entry in entries

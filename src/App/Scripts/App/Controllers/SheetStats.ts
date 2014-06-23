@@ -11,7 +11,7 @@ module FinancialApp {
         date: Moment;
         previousDate: Moment;
         nextDate: Moment;
-        isLoading: boolean;
+        isLoaded: boolean;
         stats: DTO.ISheetGlobalStatistics;
     }
 
@@ -32,7 +32,7 @@ module FinancialApp {
             this.month = parseInt($routeParams.month, 10);
 
             $scope.date = moment([this.year, this.month - 1 /* zero offset */]);
-            $scope.isLoading = true;
+            $scope.isLoaded = false;
 
             $scope.previousDate = moment($scope.date).subtract('month', 1);
             $scope.nextDate = moment($scope.date).add('month', 1);
@@ -55,7 +55,7 @@ module FinancialApp {
 
             stats.success((data) => {
                 this.$scope.stats = data;
-                this.$scope.isLoading = false;
+                this.$scope.isLoaded = true;
             });
         }
     }
