@@ -5,7 +5,8 @@
       ng-strict-di="true"
       data-is-mobile="@Request.Browser.IsMobileDevice.ToString().ToLowerInvariant()"
       manifest="/application.appcache"
-      ng-controller="MasterController">
+      ng-controller="MasterController"
+      data-app-version="@ViewBag.AppVersion">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

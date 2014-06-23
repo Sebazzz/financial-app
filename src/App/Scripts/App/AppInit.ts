@@ -60,6 +60,9 @@ module FinancialApp {
                 $httpProvider.interceptors.push('viewFingerPrintInterceptor');
             }).withInject("$routeProvider", "$locationProvider", "$httpProvider"));
 
+            // constants
+            app.constant("appVersion", Program.getAppVersion());
+
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
             app.factory("userResource", Factories.ResourceFactory<DTO.IAppUserListing>("/api/user/:id"));
@@ -141,6 +144,12 @@ module FinancialApp {
             var htmlElement = <HTMLHtmlElement> document.getElementsByTagName("html")[0];
             var isMobileDebug = htmlElement.getAttribute("data-is-mobile") === "true";
             return isMobileDebug;
+        }
+
+        private static getAppVersion(): string {
+            var htmlElement = <HTMLHtmlElement> document.getElementsByTagName("html")[0];
+            var appVersion = htmlElement.getAttribute("data-app-version");
+            return appVersion;
         }
 
         static createNowRoute(): string {

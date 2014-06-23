@@ -1,7 +1,7 @@
 module FinancialApp.Factories {
     // ReSharper disable InconsistentNaming
     export function ViewFingerPrintInterceptor() {
-        var func = () => {
+        var func = (appVersion) => {
             return {
                 request: cfg => {
                     var url: string = cfg.url;
@@ -9,12 +9,15 @@ module FinancialApp.Factories {
                         return cfg; // return config unmodified
                     }
 
-                    // TODO: add fingerprint
+                    // add fingerprint
+                    url += "?v=" + appVersion;
+
+                    cfg.url = url;
                     return cfg;
                 }
             };
         };
 
-        return func;
+        return func.withInject("appVersion");
     }
 }
