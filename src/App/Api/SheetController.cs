@@ -16,6 +16,7 @@
     public class SheetController : BaseEntityController {
         private readonly SheetRepository _sheetRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
+        private readonly SheetStatisticsService _sheetStatisticsService;
 
         public SheetController(EntityOwnerService entityOwnerService, SheetRepository sheetRepository, SheetRetrievalService sheetRetrievalService) : base(entityOwnerService) {
             this._sheetRepository = sheetRepository;
@@ -32,6 +33,12 @@
             var dto = AutoMapper.Mapper.Map<Sheet, SheetDTO>(sheet);
             Array.Sort(dto.Entries, SortOrderComparer<SheetEntry>.Instance);
             return dto;
+        }
+
+        [HttpGet]
+        [Route("statistics")]
+        public IEnumerable<SheetGlobalStatistics> GetAllStatistics() {
+            return this._sheetStatisticsService.CalculateExpensesForAll(this.OwnerId);
         }
 
         [HttpGet]
