@@ -104,6 +104,11 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
             targetType = arr.CodeType;
         } else {
             targetType = prop.Type.CodeType;
+
+            if (targetType.FullName.IndexOf("IEnumerable") != -1) {
+                return System.Text.RegularExpressions.Regex.Replace(targetType.FullName,
+                    @"System.Collections.Generic.IEnumerable<([A-z0-9.]+)\.([A-z0-9]+)>", "I$2[]");
+            }
         }
 
         if (this._dataTypeObjects.Contains(targetType as CodeClass)) {

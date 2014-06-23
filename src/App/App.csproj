@@ -321,6 +321,7 @@
     <Compile Include="Api\Extensions\ValidationExceptionFilter.cs" />
     <Compile Include="Api\SheetController.cs" />
     <Compile Include="Api\SheetEntryController.cs" />
+    <Compile Include="Api\SheetStatisticsController.cs" />
     <Compile Include="Api\UserController.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -332,6 +333,7 @@
     <Compile Include="Migrations\201406221653291_SheetEntrySortOrder.Designer.cs">
       <DependentUpon>201406221653291_SheetEntrySortOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Domain\Services\SheetStatisticsService.cs" />
     <Compile Include="Models\Domain\Services\SortOrderComparer.cs" />
     <Compile Include="Support\AppCacheGenerator.cs" />
     <Compile Include="Support\MobileAngularViewRewriteModule.cs" />

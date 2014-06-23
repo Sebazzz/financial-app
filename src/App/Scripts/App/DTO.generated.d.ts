@@ -14,6 +14,32 @@ declare module FinancialApp.DTO {
     }
 
         
+    export interface ISheetGlobalStatistics extends IObject {
+        
+            totalExpenses : any;
+
+        
+            totalSavings : any;
+
+        
+            totalIncome : any;
+
+        
+            categoryStatistics : ISheetCategoryStatistics[];
+
+            }
+
+        
+    export interface ISheetCategoryStatistics extends IObject {
+        
+            categoryName : string;
+
+        
+            delta : any;
+
+            }
+
+        
     export interface ICalculationOptions extends IObject {
         
             savingsAccountOffset : any;
