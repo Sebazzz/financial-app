@@ -19,7 +19,8 @@
                              "~/Scripts/angular-route.js",
                              "~/Scripts/angular-progress.js",
                              "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
-                             "~/Scripts/hotkeys.js"
+                             "~/Scripts/hotkeys.js",
+                             "~/Scripts/angular-ng-google-chart.js"
                              ));
 
             bundles.Add(

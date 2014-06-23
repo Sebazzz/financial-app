@@ -226,6 +226,7 @@
     </Content>
     <Content Include="Scripts\angular-locale-nl_NL.js" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-ng-google-chart.js" />
     <Content Include="Scripts\angular-progress.js" />
     <Content Include="Scripts\angular-progress.min.js">
       <DependentUpon>angular-progress.js</DependentUpon>
