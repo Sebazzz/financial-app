@@ -64,8 +64,6 @@ module FinancialApp {
         }
 
         private buildChartData() {
-            var stats = this.$scope.stats;
-
             this.$scope.expenseChartData = SheetStatsController.generateChart();
             this.$scope.expenseChartData.options.title = "Uitgaven per categorie";
             this.$scope.expenseChartData.data.rows = this.generateExpenseCharRows(x => x.delta < 0, -1);
