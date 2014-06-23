@@ -67,7 +67,7 @@
             entry.CreateTimestamp = DateTime.Now;
             entry.UpdateTimestamp = entry.CreateTimestamp;
             entry.Sheet.UpdateTimestamp = DateTime.Now;
-            entry.SortOrder = targetSheet.Entries.Max(x => (int?) x.SortOrder).GetValueOrDefault();
+            entry.SortOrder = targetSheet.Entries.Max(x => (int?) x.SortOrder).GetValueOrDefault() + 1;
 
             this._sheetEntryRepository.Add(entry);
             this._sheetEntryRepository.SaveChanges();
