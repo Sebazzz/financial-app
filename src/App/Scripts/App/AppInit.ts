@@ -37,7 +37,7 @@ module FinancialApp {
             var app: ng.IModule = angular.module('main',
                 ['ngRoute', 'ngMoment', 'ngLocale', 'ngResource', 'angular-loading-bar', 'ui.bootstrap', 'cfp.hotkeys', 'googlechart']);
 
-            app.config((($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider) => {
+            app.config((($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider, $httpProvider : ng.IHttpProvider) => {
                 // generated routes
                 FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
 
@@ -54,7 +54,10 @@ module FinancialApp {
 
                 // use the HTML5 History API (with automatic fallback)
                 $locationProvider.html5Mode(true);
-            }).withInject("$routeProvider", "$locationProvider"));
+
+                // configure HTTP interceptor
+                $httpProvider.interceptors.push('viewFingerPrintInterceptor');
+            }).withInject("$routeProvider", "$locationProvider", "$httpProvider"));
 
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
@@ -72,6 +75,21 @@ module FinancialApp {
                     url: '/api/sheet/:sheetYear-:sheetMonth/entries/order/:mutation/:id'
                 }
             }));
+            app.factory("viewFingerPrintInterceptor", () => {
+                var interceptor = {
+                    request: function (cfg) {
+                        var url: string = cfg.url;
+                        if (url.toLowerCase().indexOf("/Angular/") === -1) {
+                            return cfg; // return config unmodified
+                        }
+
+                        // TODO: add fingerprint
+                        return cfg;
+                    }
+                }
+
+                return interceptor;
+            });
 
             app.factory("localStorage", Factories.LocalStorageFactory());
 
