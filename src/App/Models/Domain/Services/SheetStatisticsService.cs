@@ -17,23 +17,28 @@
 
         public SheetGlobalStatistics CalculateExpensesPerCategory(Sheet sheet) {
             int targetId = sheet.Id;
+            IQueryable<Sheet> sheets = this._sheetRepository.FindByIdInclude(targetId);
 
-            var q = from Sheet s in this._sheetRepository.FindByIdInclude(targetId)
-                let entries = s.Entries 
-                select new SheetGlobalStatistics{
-                    TotalExpenses = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta < 0).Sum(x => (decimal?)x.Delta * -1) ?? 0,
-                    TotalIncome = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
-                    TotalSavings = entries.Where(x => x.Account == AccountType.SavingsAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
-                    CategoryStatistics = from entry in entries
-                                         group entry by entry.Category into g
-                                         select new SheetCategoryStatistics {
-                                                                                  CategoryName = g.Key.Name,
-                                                                                  Delta = g.Sum(x => x.Delta)
-                                                                            }
-                };
-
-            return q.FirstOrDefault();
+            return QueryStatistics(sheets).FirstOrDefault();
         }
+
+        private static IQueryable<SheetGlobalStatistics> QueryStatistics(IQueryable<Sheet> sheets) {
+            var q = from Sheet s in sheets
+                    let entries = s.Entries
+                    select new SheetGlobalStatistics {
+                        TotalExpenses = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta < 0).Sum(x => (decimal?)x.Delta * -1) ?? 0,
+                        TotalIncome = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
+                        TotalSavings = entries.Where(x => x.Account == AccountType.SavingsAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
+                        CategoryStatistics = from entry in entries
+                                             group entry by entry.Category into g
+                                             select new SheetCategoryStatistics {
+                                                 CategoryName = g.Key.Name,
+                                                 Delta = g.Sum(x => x.Delta)
+                                             }
+                    };
+
+            return q;
+        } 
     }
 
     [DataContract]
