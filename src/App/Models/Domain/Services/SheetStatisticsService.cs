@@ -23,6 +23,11 @@
             return QueryStatistics(sheets).FirstOrDefault();
         }
 
+
+        public IEnumerable<SheetGlobalStatistics> CalculateExpensesForAll(int ownerId) {
+            return QueryStatistics(this._sheetRepository.GetByOwner(ownerId));
+        } 
+
         private static IQueryable<SheetGlobalStatistics> QueryStatistics(IQueryable<Sheet> sheets) {
             var q = from Sheet s in sheets
                     let entries = s.Entries
