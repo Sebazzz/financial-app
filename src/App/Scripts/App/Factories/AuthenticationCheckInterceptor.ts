@@ -8,6 +8,8 @@ module FinancialApp.Factories {
                         // unauthorized, cookie expired
                         $location.path("/auth/login");
                     }
+
+                    return response;
                 }
             }
         };
