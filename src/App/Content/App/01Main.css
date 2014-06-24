@@ -129,3 +129,9 @@ tr#sheet-offset td + td{
         text-align: center;
     }
 }
+
+@media all and (min-width:768px) {
+    .container {
+        width: 100%;
+    }
+}
