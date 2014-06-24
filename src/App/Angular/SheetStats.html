@@ -38,13 +38,13 @@
     </table>
     
     <h3>Grafisch</h3>
-    <div google-chart chart="expenseChartData" style="{{style}}"></div>
-    <div google-chart chart="incomeChartData" style="{{style}}"></div>
+    <div google-chart chart="expenseChartData" ng-style="style"></div>
+    <div google-chart chart="incomeChartData" ng-style="style"></div>
 </div>
 
 <div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>
 
-<p class="btn-group" style="margin-top: 2em">
+<p class="btn-group mobile-center" style="margin-top: 2em">
     <a href="#"
        ng-href="/sheet/{{previousDate.year()}}/{{previousDate.month()+1}}/stats"
        class="btn btn-default">Vorige maand</a>
