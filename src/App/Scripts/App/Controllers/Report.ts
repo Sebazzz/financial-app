@@ -41,7 +41,7 @@ module FinancialApp {
 
         private removeAllZeroCategories(chartData: any) {
             var numberOfCategories = chartData.data.rows[0].c.length - 1;
-            for (var catNum = 1; catNum < numberOfCategories; catNum++) {
+            for (var catNum = 1; catNum < numberOfCategories + 1; catNum++) {
                 var isAllZero = true;
 
                 for (var i = 0; i < chartData.data.rows.length; i++) {
