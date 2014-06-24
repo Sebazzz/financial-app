@@ -19,7 +19,7 @@ module FinancialApp {
         return this;
     };
 
-    Array.prototype.remove = function(object: any) {
+    Array.prototype['remove'] = function(object: any) {
         var cnt = this.length;
         for (var i = 0; i < cnt; i++) {
             if (object === this[i]) {
@@ -31,7 +31,7 @@ module FinancialApp {
         return false;
     };
 
-    Array.prototype.removeAt = function (index:number) {
+    Array.prototype['removeAt'] = function (index:number) {
         var cnt = this.length;
         for (var i = 0; i < cnt; i++) {
             if (i === index) {
