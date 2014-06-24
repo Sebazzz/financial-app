@@ -8,6 +8,7 @@ CACHE:
 /bundles/script-app
 /Angular/Widgets/Menu.html
 /Angular/Widgets/Loader.html
+/Content/Icons/navbar.png
 
 NETWORK:
 /api
