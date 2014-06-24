@@ -250,7 +250,7 @@ module FinancialApp {
                 editMode: true,
                 updateTimestamp: moment(),
                 isBusy: false,
-                sortOrder: Enumerable.From(this.$scope.sheet.entries).Max(x => x.sortOrder) + 1
+                sortOrder: Enumerable.From(this.$scope.sheet.entries).DefaultIfEmpty({sortOrder: 0}).Max(x => x.sortOrder) + 1
             };
 
             this.$scope.sheet.entries.push(newEntry);
