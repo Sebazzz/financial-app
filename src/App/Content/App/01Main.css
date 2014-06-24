@@ -118,6 +118,12 @@ tr#sheet-offset td + td{
     border-top: 1px dashed gray;
 }
 
+.navbar-brand img {
+    float: left;
+    position: relative;
+    top: -10px;
+}
+
 @media screen and (max-width: 600px) {
     h1 {
         text-align: center;
