@@ -125,6 +125,7 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
             case "System.Int16":
             case "System.Double":
             case "System.Single":
+            case "System.Decimal":
                 return "number";
 
             case "System.String":

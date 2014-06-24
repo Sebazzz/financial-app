@@ -18,9 +18,10 @@
         private readonly SheetRetrievalService _sheetRetrievalService;
         private readonly SheetStatisticsService _sheetStatisticsService;
 
-        public SheetController(EntityOwnerService entityOwnerService, SheetRepository sheetRepository, SheetRetrievalService sheetRetrievalService) : base(entityOwnerService) {
+        public SheetController(EntityOwnerService entityOwnerService, SheetRepository sheetRepository, SheetRetrievalService sheetRetrievalService, SheetStatisticsService sheetStatisticsService) : base(entityOwnerService) {
             this._sheetRepository = sheetRepository;
             this._sheetRetrievalService = sheetRetrievalService;
+            this._sheetStatisticsService = sheetStatisticsService;
         }
 
         public SheetDTO GetById(int id) {
@@ -38,7 +39,7 @@
         [HttpGet]
         [Route("statistics")]
         public IEnumerable<SheetGlobalStatistics> GetAllStatistics() {
-            return this._sheetStatisticsService.CalculateExpensesForAll(this.OwnerId);
+            return this._sheetStatisticsService.CalculateExpensesForAll(this.OwnerId).OrderBy(x => x.SheetSubject);
         }
 
         [HttpGet]

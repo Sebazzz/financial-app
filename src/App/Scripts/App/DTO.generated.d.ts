@@ -19,20 +19,20 @@ declare module FinancialApp.DTO {
             categoryName : string;
 
         
-            delta : any;
+            delta : number;
 
             }
 
         
     export interface ISheetGlobalStatistics extends IObject {
         
-            totalExpenses : any;
+            totalExpenses : number;
 
         
-            totalSavings : any;
+            totalSavings : number;
 
         
-            totalIncome : any;
+            totalIncome : number;
 
         
             sheetSubject : any;
@@ -112,7 +112,7 @@ declare module FinancialApp.DTO {
             categoryId : number;
 
         
-            delta : any;
+            delta : number;
 
         
             source : string;

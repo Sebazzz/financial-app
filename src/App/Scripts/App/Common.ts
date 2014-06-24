@@ -31,6 +31,18 @@ module FinancialApp {
         return false;
     };
 
+    Array.prototype.removeAt = function (index:number) {
+        var cnt = this.length;
+        for (var i = 0; i < cnt; i++) {
+            if (i === index) {
+                this.splice(i, 1);
+                return true;
+            }
+        }
+
+        return false;
+    };
+
 
     export class Delegate<T extends Function> {
         private functors: T[];
