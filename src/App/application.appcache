@@ -10,6 +10,7 @@ CACHE:
 /Angular/Widgets/Loader.html
 /Angular/Default.html
 /Content/Icons/navbar.png
+/Angular/Offline.html
 
 NETWORK:
 /api

@@ -2,11 +2,14 @@
     using System;
     using System.IO;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.Optimization;
 
     public class AppCacheGenerator : IHttpHandler {
-        private static readonly string Version = typeof (AppCacheGenerator).Assembly.GetName().Version.ToString();
+        private static readonly Regex AppViewDirective = new Regex(
+            @"^\/Angular\/(?<first>[A-z/]+)\.html(\s\/Angular\/(?<second>[A-z/]+)\.html)?$",
+            RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
 
         /// <summary>
         /// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
@@ -39,19 +42,31 @@
 
                 while ((line = reader.ReadLine()) != null) {
                     int index;
+                    Match match;
                     if ((index = line.IndexOf("{version}", StringComparison.OrdinalIgnoreCase)) != -1) {
-                        line = line.Substring(0, index) + Version + line.Substring(index + "{version}".Length);
+                        line = line.Substring(0, index) + AppVersion.Informational + line.Substring(index + "{version}".Length);
                     } else if ((line.IndexOf("/bundles", StringComparison.OrdinalIgnoreCase)) != -1) {
                         string bundleAddress = "~" + line;
                         bool isScript = line.IndexOf("script", StringComparison.OrdinalIgnoreCase) != -1;
                         line = (isScript ? Scripts.Url(bundleAddress) : Styles.Url(bundleAddress)).ToHtmlString();
                         line = context.Server.HtmlDecode(line);
+                    } else if ((match = AppViewDirective.Match(line)).Success) {
+                        line = MakeViewUrl(match.Groups["first"].Value);
+
+                        Group secondGroup;
+                        if ((secondGroup = match.Groups["second"]) != null && secondGroup.Success) {
+                            line += " " + MakeViewUrl(secondGroup.Value);
+                        }
                     }
 
                     context.Response.Write(line);
                     context.Response.Write(Environment.NewLine);
                 }
             }
+        }
+
+        private static string MakeViewUrl(string relativeFilePathWithoutExtension) {
+            return "/Angular/" + relativeFilePathWithoutExtension + ".html?v=" + AppVersion.Informational;
         }
 
         /// <summary>
