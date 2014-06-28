@@ -1,6 +1,9 @@
 ﻿namespace App
 {
+    using System.Net.Http.Formatting;
     using System.Web.Http;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
 
     public static class WebApiConfig
     {
@@ -17,8 +20,10 @@
                 defaults: new { id = RouteParameter.Optional }
             );
 
-          
-
+            // DTO formatting
+            JsonMediaTypeFormatter formatter = config.Formatters.JsonFormatter;
+            JsonSerializerSettings serializerSettings = formatter.SerializerSettings;
+            serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }

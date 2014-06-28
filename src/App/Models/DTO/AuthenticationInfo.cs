@@ -3,13 +3,13 @@
 
     [DataContract]
     public sealed class AuthenticationInfo {
-        [DataMember(Name = "isAuthenticated")]
+        [DataMember]
         public bool IsAuthenticated { get; set; }
 
-        [DataMember(Name = "userId")]
+        [DataMember]
         public int UserId { get; set; }
 
-        [DataMember(Name = "userName")]
+        [DataMember]
         public string UserName { get; set; }
     }
 }

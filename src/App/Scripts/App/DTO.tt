@@ -90,7 +90,7 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
                 name = name.Trim('"');
             }
 
-            yield return new KeyValuePair<string, string>(name ?? prop.Name, ConvertType(prop));
+            yield return new KeyValuePair<string, string>(name ?? ToCamelCase(prop.Name), ConvertType(prop));
         }
     }
 
@@ -202,4 +202,36 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
     private static bool IsDirectTransformationSupported(CodeProperty property) {
         return property.Type.AsFullName == "System.String";
     }
+
+    private static string ToCamelCase(string s) {
+            if (string.IsNullOrEmpty(s))
+                return s;
+
+            if (!char.IsUpper(s[0]))
+                return s;
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < s.Length; i++)
+            {
+                bool hasNext = (i + 1 < s.Length);
+                if ((i == 0 || !hasNext) || char.IsUpper(s[i + 1]))
+                {
+                    char lowerCase;
+#if !(NETFX_CORE || PORTABLE)
+                    lowerCase = char.ToLower(s[i], System.Globalization.CultureInfo.InvariantCulture);
+#else
+                    lowerCase = char.ToLower(s[i]);
+#endif
+
+                    sb.Append(lowerCase);
+                }
+                else
+                {
+                    sb.Append(s.Substring(i));
+                    break;
+                }
+            }
+
+            return sb.ToString();
+        }
 #>
