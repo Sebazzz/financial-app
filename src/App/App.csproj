@@ -343,7 +343,7 @@
     <Compile Include="Models\Domain\Services\SortOrderComparer.cs" />
     <Compile Include="Support\AppCacheGenerator.cs" />
     <Compile Include="Support\AppVersion.cs" />
-    <Compile Include="Support\MobileAngularViewRewriteModule.cs" />
+    <Compile Include="Support\AngularViewRewriteModule.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

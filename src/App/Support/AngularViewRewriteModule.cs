@@ -6,7 +6,7 @@
     /// <summary>
     /// Rewrites requests to angular views to mobile versions if they are available
     /// </summary>
-    public class MobileAngularViewRewriteModule : IHttpModule {
+    public class AngularViewRewriteModule : IHttpModule {
         public void Dispose() {
             // -- nothing to dispose of
         }
