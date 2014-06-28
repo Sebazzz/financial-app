@@ -7,6 +7,17 @@
 
     <ul ng-repeat="sheet in sheets">
         <li>
+            <div class="pull-right">
+                <a class="btn btn-default btn-sm" ng-href="/sheet/{{sheet.year}}/{{sheet.month}}" tooltip="Bewerken">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a class="btn btn-default btn-sm" ng-href="/sheet/{{sheet.year}}/{{sheet.month}}/stats" tooltip="Rapportage">
+                    <span class="glyphicon glyphicon-stats"></span>
+                </a>
+
+                <a class=""></a>
+            </div>
+
             <a href="#"
                ng-href="/sheet/{{sheet.year}}/{{sheet.month}}">
                 {{ [sheet.year, sheet.month - 1] | moment: 'MMMM YYYY' }} {{sheet.name ? '('+sheet.name+')' : ''}}
