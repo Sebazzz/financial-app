@@ -194,6 +194,7 @@
     <Content Include="Angular\Sheet.html" />
     <Content Include="Angular\Widgets\Loader.html" />
     <Content Include="Angular\Widgets\Menu.html" />
+    <Content Include="Angular\Widgets\Sheet-EditRemarks.html" />
     <Content Include="Content\angular-progress.css" />
     <Content Include="Content\angular-progress.min.css">
       <DependentUpon>angular-progress.css</DependentUpon>

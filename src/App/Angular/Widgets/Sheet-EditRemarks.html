@@ -1,0 +1,15 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">Opmerkingen bewerken</h3>
+</div>
+<div class="modal-body">
+    <p ng-hide="entry.editMode" class="preserve-whitespace">{{ (entry.remark || 'Geen opmerkingen ingevuld.') }}</p>
+    <textarea class="form-control"
+              ng-show="entry.editMode"
+              ng-model="entry.remark"
+              rows="4"
+              placeholder="(eventuele extra opmerkingen, notities, etc)"></textarea>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="saveChanges()">OK</button>
+    <button class="btn btn-link" ng-click="cancel()">Annuleren</button>
+</div>
