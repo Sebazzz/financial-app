@@ -3,22 +3,22 @@
 
     [DataContract]
     public class AppUserListing {
-        [DataMember(Name = "email")]
+        [DataMember]
         public string Email { get; set; }
 
-        [DataMember(Name = "userName")]
+        [DataMember]
         public string UserName { get; set; }
 
-        [DataMember(Name = "id")]
+        [DataMember]
         public int Id { get; set; }
     }
 
     [DataContract]
     public class AppUserMutate : AppUserListing {
-        [DataMember(Name = "newPassword")]
+        [DataMember]
         public string NewPassword { get; set; }
 
-        [DataMember(Name = "currentPassword")]
+        [DataMember]
         public string CurrentPassword { get; set; }
     }
 }

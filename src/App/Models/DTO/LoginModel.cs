@@ -3,11 +3,11 @@
 
     [DataContract]
     public sealed class LoginModel {
-        [DataMember(Name = "userName")]
+        [DataMember]
         public string UserName { get; set; }
-        [DataMember(Name = "password")]
+        [DataMember]
         public string Password { get; set; }
-        [DataMember(Name = "persistent")]
+        [DataMember]
         public bool Persistent { get; set; }
     }
 }

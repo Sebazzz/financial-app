@@ -4,22 +4,22 @@
 
     [DataContract]
     public class SheetListing {
-        [DataMember(Name = "month")]
+        [DataMember]
         public int Month { get; set; }
 
-        [DataMember(Name = "year")]
+        [DataMember]
         public int Year { get; set; }
 
         /// <summary>
         /// Custom name, if set
         /// </summary>
-        [DataMember(Name = "name")]
+        [DataMember]
         public string Name { get; set; }
 
-        [DataMember(Name = "updateTimestamp")]
+        [DataMember]
         public DateTime UpdateTimestamp { get; set; }
 
-        [DataMember(Name = "createTimestamp")]
+        [DataMember]
         public DateTime CreateTimestamp { get; set; }
     }
 }

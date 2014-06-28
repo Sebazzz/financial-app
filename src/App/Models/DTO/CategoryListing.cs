@@ -3,16 +3,16 @@
 
     [DataContract]
     public class CategoryListing {
-        [DataMember(Name = "id")]
+        [DataMember]
         public int Id { get; set; }
 
-        [DataMember(Name = "name")]
+        [DataMember]
         public string Name { get; set; }
 
-        [DataMember(Name = "description")]
+        [DataMember]
         public string Description { get; set; }
 
-        [DataMember(Name = "canBeDeleted")]
+        [DataMember]
         public bool CanBeDeleted { get; set; }
     }
 }

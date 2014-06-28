@@ -50,28 +50,28 @@
 
     [DataContract]
     public class SheetGlobalStatistics {
-        [DataMember(Name = "totalExpenses")]
+        [DataMember]
         public decimal TotalExpenses { get; set; }
 
-        [DataMember(Name = "totalSavings")]
+        [DataMember]
         public decimal TotalSavings { get; set; }
 
-        [DataMember(Name = "totalIncome")]
+        [DataMember]
         public decimal TotalIncome { get; set; }
 
-        [DataMember(Name = "sheetSubject")]
+        [DataMember]
         public DateTime SheetSubject { get; set; }
 
-        [DataMember(Name = "categoryStatistics")]
+        [DataMember]
         public IEnumerable<SheetCategoryStatistics> CategoryStatistics { get; set; }
     }
 
     [DataContract]
     public class SheetCategoryStatistics {
-        [DataMember(Name = "categoryName")]
+        [DataMember]
         public string CategoryName { get; set; }
 
-        [DataMember(Name = "delta")]
+        [DataMember]
         public decimal Delta { get; set; }
     }
 }

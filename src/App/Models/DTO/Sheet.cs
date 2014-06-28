@@ -5,25 +5,25 @@
 
     [DataContract]
     public class Sheet {
-        [DataMember(Name = "id")]
+        [DataMember]
         public int Id { get; set; }
 
-        [DataMember(Name = "subject")]
+        [DataMember]
         public DateTime Subject { get; set; }
 
-        [DataMember(Name = "name")]
+        [DataMember]
         public string Name { get; set; }
 
-        [DataMember(Name = "updateTimestamp")]
+        [DataMember]
         public DateTime UpdateTimestamp { get; set; }
 
-        [DataMember(Name = "createTimestamp")]
+        [DataMember]
         public DateTime CreateTimestamp { get; set; }
 
-        [DataMember(Name = "entries")]
+        [DataMember]
         public SheetEntry[] Entries { get; set; }
 
-        [DataMember(Name = "offset")]
+        [DataMember]
         public CalculationOptions Offset { get; set; }
     }
 

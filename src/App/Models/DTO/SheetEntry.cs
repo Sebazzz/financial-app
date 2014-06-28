@@ -6,31 +6,31 @@
 
     [DataContract]
     public class SheetEntry : IHasSortOrder {
-        [DataMember(Name = "id")]
+        [DataMember]
         public int Id { get; set; }
 
-        [DataMember(Name = "categoryId")]
+        [DataMember]
         public int CategoryId { get; set; }
 
-        [DataMember(Name = "delta")]
+        [DataMember]
         public decimal Delta { get; set; }
 
-        [DataMember(Name = "source")]
+        [DataMember]
         public string Source { get; set; }
 
-        [DataMember(Name = "remark")]
+        [DataMember]
         public string Remark { get; set; }
 
-        [DataMember(Name = "sortOrder")]
+        [DataMember]
         public int SortOrder { get; set; }
 
-        [DataMember(Name = "updateTimestamp")]
+        [DataMember]
         public DateTime UpdateTimestamp { get; set; }
 
-        [DataMember(Name = "createTimestamp")]
+        [DataMember]
         public DateTime CreateTimestamp { get; set; }
 
-        [DataMember(Name = "account")]
+        [DataMember]
         public AccountType Account { get; set; }
     }
 }

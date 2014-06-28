@@ -3,10 +3,10 @@
 
     [DataContract]
     public sealed class CalculationOptions {
-        [DataMember(Name = "savingsAccountOffset")]
+        [DataMember]
         public decimal? SavingsAccountOffset { get; set; }
 
-        [DataMember(Name = "bankAccountOffset")]
+        [DataMember]
         public decimal? BankAccountOffset { get; set; }
     }
 }

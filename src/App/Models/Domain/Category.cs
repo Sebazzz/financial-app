@@ -7,10 +7,10 @@
     [DataContract]
     [GenerateRepository]
     public class Category : IAppOwnerEntity, IHasId {
-        [DataMember(Name="id")]
+        [DataMember]
         public int Id { get; set; }
 
-        [DataMember(Name = "name")]
+        [DataMember]
         [Required]
         [StringLength(250, MinimumLength = 2)]
         public string Name { get; set; }
@@ -23,7 +23,7 @@
         [IgnoreDataMember]
         public virtual ICollection<SheetEntry> SheetEntries { get; set; }
             
-        [DataMember(Name = "description")]
+        [DataMember]
         public string Description { get; set; }
     }
 }
