@@ -5,9 +5,9 @@ Financial management SPA app created using ASP.NET Web Api, AngularJS and Entity
 
 **Features:**
 
-  * Manage your financial data on month-by-month basis (*to be refined*)
-  * Split your financial data in different categories (*to be refined*)
-  * Statistics and analysis (*to be done*)
+  * Manage your financial data on month-by-month basis
+  * Split your financial data in different categories
+  * Statistics and analysis (*to be refined*)
 
 **Browser Support:**
 Currently being tested on:
