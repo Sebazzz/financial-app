@@ -68,6 +68,7 @@ module FinancialApp.Services {
             if (!this.isAuthenticated()) {
                 var currentPath = this.$location.path();
                 this.$location.path("/auth/login");
+                this.$location.replace();
                 this.$location.search({
                     uri: currentPath != "/auth/login" ? currentPath : "/"
                 });

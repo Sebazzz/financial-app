@@ -7,6 +7,7 @@ module FinancialApp.Factories {
                     if (response.status === 403 || response.status === 401) {
                         // unauthorized, cookie expired
                         $location.path("/auth/login");
+                        $location.replace();
                     }
 
                     return response;

@@ -69,6 +69,7 @@ module FinancialApp {
             this.$timeout(() => {
                 this.$location.search({});
                 this.$location.path(this.targetPath);
+                this.$location.replace();
             }, 250, false);
         }
     }

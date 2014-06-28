@@ -22,6 +22,7 @@ module FinancialApp {
                 $scope.category.id = <number>data.id;
 
                 $location.path("/manage/category");
+                $location.replace();
             });
         }
     }
