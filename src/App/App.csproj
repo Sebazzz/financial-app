@@ -354,6 +354,10 @@
     <Compile Include="Migrations\201406221653291_SheetEntrySortOrder.Designer.cs">
       <DependentUpon>201406221653291_SheetEntrySortOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410181102568_TrustedAppUsers.cs" />
+    <Compile Include="Migrations\201410181102568_TrustedAppUsers.Designer.cs">
+      <DependentUpon>201410181102568_TrustedAppUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Domain\Repositories\SheetEntryRepository.cs" />
     <Compile Include="Models\Domain\Services\SheetStatisticsService.cs" />
     <Compile Include="Models\Domain\Services\SortOrderComparer.cs" />
@@ -511,6 +515,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201406221653291_SheetEntrySortOrder.resx">
       <DependentUpon>201406221653291_SheetEntrySortOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410181102568_TrustedAppUsers.resx">
+      <DependentUpon>201410181102568_TrustedAppUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

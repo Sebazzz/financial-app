@@ -56,6 +56,12 @@
             // owner groups
             modelBuilder.Entity<AppOwner>();
 
+            // impersonation
+            modelBuilder.Entity<AppUser>()
+                        .HasMany(x => x.TrustedUsers)
+                        .WithMany()
+                        .Map(m => m.ToTable("AppUserTrustedUsers").MapLeftKey("SourceUser").MapRightKey("TargetUser"));
+
             // sheet
             modelBuilder.Entity<Sheet>();
             modelBuilder.Entity<SheetEntry>()
