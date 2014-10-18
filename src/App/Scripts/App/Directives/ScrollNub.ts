@@ -23,6 +23,7 @@ module FinancialApp.Directives {
                 return;
             }
 
+            console.log("Initialize scroll nub");
             this.linkCalled = true;
             this.currentpageYOffset = this.getPageYOffset();
             this.createScrollNub();

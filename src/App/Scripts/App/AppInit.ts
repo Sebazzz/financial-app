@@ -31,7 +31,7 @@ module FinancialApp {
             Program.isInitialized = true;
 
             // moment language (hardcoded dutch for now)
-            moment.lang('nl');
+            moment.locale('nl');
 
             // define module
             var app: ng.IModule = angular.module('main',
@@ -102,6 +102,7 @@ module FinancialApp {
             app.directive("faRequiredIf", Directives.RequiredIf.factory);
             app.directive("faSameValue", Directives.SameValue.factory);
             app.directive("faSmartFloat", Directives.SmartFloatDirective.factory);
+            app.directive("faScrollNub", Directives.ScrollNub.factory);
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
