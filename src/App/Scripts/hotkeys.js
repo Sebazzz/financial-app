@@ -1,5 +1,5 @@
 /*! 
- * angular-hotkeys v1.3.1
+ * angular-hotkeys v1.4.5
  * https://chieffancypants.github.io/angular-hotkeys
  * Copyright (c) 2014 Wes Cruver
  * License: MIT
@@ -26,10 +26,17 @@
     this.includeCheatSheet = true;
 
     /**
+     * Configurable setting for the cheat sheet title
+     * @type {String}
+     */
+
+    this.templateTitle = 'Keyboard Shortcuts:';
+
+    /**
      * Cheat sheet template in the event you want to totally customize it.
      * @type {String}
      */
-    this.template = '<div class="cfp-hotkeys-container fade" ng-class="{in: helpVisible}"><div class="cfp-hotkeys">' +
+    this.template = '<div class="cfp-hotkeys-container fade" ng-class="{in: helpVisible}" style="display: none;"><div class="cfp-hotkeys">' +
                       '<h4 class="cfp-hotkeys-title">{{ title }}</h4>' +
                       '<table><tbody>' +
                         '<tr ng-repeat="hotkey in hotkeys | filter:{ description: \'!$$undefined$$\' }">' +
@@ -39,7 +46,7 @@
                           '<td class="cfp-hotkeys-text">{{ hotkey.description }}</td>' +
                         '</tr>' +
                       '</tbody></table>' +
-                      '<div class="cfp-hotkeys-close" ng-click="helpVisible = false">×</div>' +
+                      '<div class="cfp-hotkeys-close" ng-click="toggleCheatSheet()">×</div>' +
                     '</div></div>';
 
     /**
@@ -105,7 +112,7 @@
       /**
        * Hotkey object used internally for consistency
        *
-       * @param {String}   combo       The keycombo
+       * @param {array}    combo       The keycombo. it's an array to support multiple combos
        * @param {String}   description Description for the keycombo
        * @param {Function} callback    function to execute when keycombo pressed
        * @param {string}   action      the type of event to listen for (for mousetrap)
@@ -116,7 +123,8 @@
         // TODO: Check that the values are sane because we could
         // be trying to instantiate a new Hotkey with outside dev's
         // supplied values
-        this.combo = combo;
+
+        this.combo = combo instanceof Array ? combo : [combo];
         this.description = description;
         this.callback = callback;
         this.action = action;
@@ -134,15 +142,9 @@
        */
       Hotkey.prototype.format = function() {
 
-        var combo = this.combo;
-
-        // if the combo is an array, it means the there are multiple bindings to
-        // the same callback. Don't show all the possible key combos, just the
-        // first one.  Not sure of usecase here, so open a ticket if my
-        // assumptions are wrong
-        if (combo instanceof Array) {
-          combo = combo[0];
-        }
+        // Don't show all the possible key combos, just the first one.  Not sure
+        // of usecase here, so open a ticket if my assumptions are wrong
+        var combo = this.combo[0];
 
         var sequence = combo.split(/[\s]/);
         for (var i = 0; i < sequence.length; i++) {
@@ -174,13 +176,30 @@
        * Holds the title string for the help menu
        * @type {String}
        */
-      scope.title = 'Keyboard Shortcuts:';
+      scope.title = this.templateTitle;
+
+      /**
+       * Expose toggleCheatSheet to hotkeys scope so we can call it using
+       * ng-click from the template
+       * @type {function}
+       */
+      scope.toggleCheatSheet = toggleCheatSheet;
+
+
+      /**
+       * Holds references to the different scopes that have bound hotkeys
+       * attached.  This is useful to catch when the scopes are `$destroy`d and
+       * then automatically unbind the hotkey.
+       *
+       * @type {Array}
+       */
+      var boundScopes = [];
 
 
       $rootScope.$on('$routeChangeSuccess', function (event, route) {
         purgeHotkeys();
 
-        if (route.hotkeys) {
+        if (route && route.hotkeys) {
           angular.forEach(route.hotkeys, function (hotkey) {
             // a string was given, which implies this is a function that is to be
             // $eval()'d within that controller's scope
@@ -361,7 +380,9 @@
           Mousetrap.bind(combo, wrapApply(callback));
         }
 
-        scope.hotkeys.push(new Hotkey(combo, description, callback, action, allowIn, persistent));
+        var hotkey = new Hotkey(combo, description, callback, action, allowIn, persistent);
+        scope.hotkeys.push(hotkey);
+        return hotkey;
       }
 
       /**
@@ -375,11 +396,29 @@
 
         Mousetrap.unbind(combo);
 
-        for (var i = 0; i < scope.hotkeys.length; i++) {
-          if (scope.hotkeys[i].combo === combo) {
-            scope.hotkeys.splice(i, 1);
+        if (angular.isArray(combo)) {
+          var retStatus = true;
+          var i = combo.length;
+          while (i--) {
+            retStatus = _del(combo[i]) && retStatus;
+          }
+          return retStatus;
+        } else {
+          var index = scope.hotkeys.indexOf(_get(combo));
+
+          if (index > -1) {
+            // if the combo has other combos bound, don't unbind the whole thing, just the one combo:
+            if (scope.hotkeys[index].combo.length > 1) {
+              scope.hotkeys[index].combo.splice(scope.hotkeys[index].combo.indexOf(combo), 1);
+            } else {
+              scope.hotkeys.splice(index, 1);
+            }
+            return true;
           }
         }
+
+        return false;
+
       }
 
       /**
@@ -389,12 +428,57 @@
        * @return {Hotkey}          The Hotkey object
        */
       function _get (combo) {
+
+        var hotkey;
+
         for (var i = 0; i < scope.hotkeys.length; i++) {
-          if (scope.hotkeys[i].combo === combo) {
-            return scope.hotkeys[i];
+          hotkey = scope.hotkeys[i];
+
+          if (hotkey.combo.indexOf(combo) > -1) {
+            return hotkey;
           }
         }
+
         return false;
+      }
+
+      /**
+       * Binds the hotkey to a particular scope.  Useful if the scope is
+       * destroyed, we can automatically destroy the hotkey binding.
+       *
+       * @param  {Object} scope The scope to bind to
+       */
+      function bindTo (scope) {
+        // Only initialize once to allow multiple calls for same scope.
+        if (!(scope.$id in boundScopes)) {
+
+          // Add the scope to the list of bound scopes
+          boundScopes[scope.$id] = [];
+
+          scope.$on('$destroy', function () {
+            var i = boundScopes[scope.$id].length;
+            while (i--) {
+              _del(boundScopes[scope.$id][i]);
+              delete boundScopes[scope.$id][i];
+            }
+          });
+        }
+        // return an object with an add function so we can keep track of the
+        // hotkeys and their scope that we added via this chaining method
+        return {
+          add: function (args) {
+            var hotkey;
+
+            if (arguments.length > 1) {
+              hotkey = _add.apply(this, arguments);
+            } else {
+              hotkey = _add(args);
+            }
+
+            boundScopes[scope.$id].push(hotkey);
+            return this;
+          }
+        };
       }
 
       /**
@@ -433,12 +517,14 @@
         add                   : _add,
         del                   : _del,
         get                   : _get,
+        bindTo                : bindTo,
         template              : this.template,
         toggleCheatSheet      : toggleCheatSheet,
-        includeCheatSheat     : this.includeCheatSheat,
+        includeCheatSheet     : this.includeCheatSheet,
         cheatSheetHotkey      : this.cheatSheetHotkey,
         cheatSheetDescription : this.cheatSheetDescription,
-        purgeHotkeys          : purgeHotkeys
+        purgeHotkeys          : purgeHotkeys,
+        templateTitle         : this.templateTitle
       };
 
       return publicApi;
@@ -446,15 +532,25 @@
     }];
   })
 
-  .directive('hotkey', function (hotkeys) {
+  .directive('hotkey', ['hotkeys', function (hotkeys) {
     return {
       restrict: 'A',
       link: function (scope, el, attrs) {
-        var key;
+        var key, allowIn;
 
         angular.forEach(scope.$eval(attrs.hotkey), function (func, hotkey) {
+          // split and trim the hotkeys string into array
+          allowIn = typeof attrs.hotkeyAllowIn === "string" ? attrs.hotkeyAllowIn.split(/[\s,]+/) : [];
+
           key = hotkey;
-          hotkeys.add(hotkey, attrs.hotkeyDescription, func, attrs.hotkeyAction);
+
+          hotkeys.add({
+            combo: hotkey,
+            description: attrs.hotkeyDescription,
+            callback: func,
+            action: attrs.hotkeyAction,
+            allowIn: allowIn
+          });
         });
 
         // remove the hotkey if the directive is destroyed:
@@ -463,12 +559,12 @@
         });
       }
     };
-  })
+  }])
 
-  .run(function(hotkeys) {
+  .run(['hotkeys', function(hotkeys) {
     // force hotkeys to run by injecting it. Without this, hotkeys only runs
     // when a controller or something else asks for it via DI.
-  });
+  }]);
 
 })();
 
