@@ -21,10 +21,12 @@
     @Styles.Render("~/bundles/style-lib")
     @Styles.Render("~/bundles/style-app")
 </head>
-<body ng-class="{ 'anonymous': !isAuthenticated, 'authenticated': isAuthenticated }">
+<body ng-class="{ 'anonymous': !isAuthenticated, 'authenticated': isAuthenticated }" scroll-nub>
     <div ng-include="'/Angular/Widgets/Menu.html'" ng-show="isMenuVisible"></div>
 
     <div class="container" ng-view></div>
+    
+    <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
 
     @Scripts.Render("~/bundles/script-lib")
     @Scripts.Render("~/bundles/script-app")
