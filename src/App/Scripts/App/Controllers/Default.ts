@@ -3,11 +3,16 @@
 module FinancialApp {
     'use strict';
 
+    export interface IDefaultControllerScope extends ng.IScope {
+        userName: string;
+    }
+
     export class DefaultController {
-        static $inject = [];
+        static $inject = ["$scope", "authentication"];
 
-        constructor() {
-
+        constructor(private $scope: IDefaultControllerScope,
+                    private authentication : Services.AuthenticationService) {
+            $scope.userName = authentication.getUserName();
         }
     } 
 

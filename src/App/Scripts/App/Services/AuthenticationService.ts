@@ -148,6 +148,10 @@ module FinancialApp.Services {
         public getUserId(): number {
             return this.authInfo.userId;
         }
+
+        public getUserName(): string {
+            return this.authInfo.userName;
+        }
     }
 
 
