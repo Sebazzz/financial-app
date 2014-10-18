@@ -17,6 +17,13 @@
         Spaarrekening: <span ng-class="{ 'negative': sheet.totalSavings() < 0 }">{{ sheet.totalSavings() | currency }}</span>
         <small>(vorige maand: {{ sheet.offset.savingsAccountOffset | currency}})</small>
     </p>
+    
+    <p>
+        <a class="btn btn-sm btn-primary" style="width: 100%" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
+            <span class="glyphicon glyphicon-plus"></span>
+            Nieuwe regel toevoegen
+        </a>
+    </p>
 
     <div ng-repeat="entry in sheet.entries">
         <table class="table table-condensed sheet-mobile-table" ng-init="entry.showRemarks = false">
