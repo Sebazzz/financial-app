@@ -2,14 +2,10 @@ module FinancialApp.Directives {
     "use strict";
 
     export class ScrollNub implements ng.IDirective {
-        public static $inject = ["$window", "$document"];
+        public static $inject = ["$window"];
         public restrict = "A";
 
-        private linkCalled : boolean;
-        private scrollNub: ng.IAugmentedJQuery;
-        private currentpageYOffset : number;
-
-        public static factory($window, $document): ng.IDirective {
+        public static factory($window): ng.IDirective {
             return new ScrollNub($window);
         }
 
@@ -18,16 +14,19 @@ module FinancialApp.Directives {
         }
 
         public link(): void {
-            if (this.linkCalled) {
-                console.error("Unexpected: link called again");
-                return;
-            }
+            var impl = new ScrollNubImpl(<ng.IWindowService>window); // TODO: improve this
+        }
+    }
 
-            console.log("Initialize scroll nub");
-            this.linkCalled = true;
+    class ScrollNubImpl {
+        private currentpageYOffset: number;
+        private scrollNub: HTMLDivElement;
+
+        constructor(private $window: ng.IWindowService) {
             this.currentpageYOffset = this.getPageYOffset();
             this.createScrollNub();
             this.checkScroll();
+            this.registerEvent();
         }
 
         private getPageYOffset() {
@@ -35,60 +34,60 @@ module FinancialApp.Directives {
         }
 
         private registerEvent(): void {
-            this.$window.addEventListener("scroll", () => this.checkScroll);
+            this.$window.addEventListener("scroll", () => this.checkScroll());
         }
 
         private checkScroll(): void {
+            if (!document.querySelector('body > div > .navbar')) {
+                // wait
+                this.$window.setTimeout(() => this.checkScroll(), 800);
+                return;
+            }
+
             var pageYOffset = this.getPageYOffset(),
-                minTopPosition = angular.element('body > .navbar').get(0).offsetHeight,
-                maxBottomPosition = angular.element('body > #scrollBottom').get(0).offsetTop - document.documentElement.clientHeight;
+                minTopPosition = (<HTMLElement>document.querySelector('body > div > .navbar')).offsetHeight,
+                maxBottomPosition = (<HTMLElement>document.querySelector('body > #scrollBottom')).offsetTop - document.documentElement.clientHeight;
 
             if (pageYOffset > minTopPosition && pageYOffset < maxBottomPosition) {
                 if (this.currentpageYOffset > pageYOffset) {
-                    this.scrollNub.addClass('top');
+                    this.scrollNub.classList.add('invert');
                 }
                 else if (this.currentpageYOffset < pageYOffset) {
-                    this.scrollNub.removeClass('top');
+                    this.scrollNub.classList.remove('invert');
                 }
 
-                this.scrollNub.css("display", "block");
+                this.scrollNub.style.display = "block";
             }
             else {
-                this.scrollNub.css("display", "none");
+                this.scrollNub.style.display = "none";
             }
 
             this.currentpageYOffset = pageYOffset;
         }
 
         private createScrollNub(): void {
-            // remove existing nub
-            if (this.scrollNub) {
-                this.scrollNub.remove();
-                this.scrollNub = null;
-            }
-
             // create nub
             var domElement = document.createElement("div");
             domElement.className = "scrollTo";
+            domElement.addEventListener('mousedown', (ev) => this.onScrollNubClick(ev));
 
-            this.scrollNub = angular.element(domElement);
-            this.scrollNub.appendTo("body");
+            this.$window.document.body.appendChild(domElement);
 
-            this.scrollNub.mousedown((ev) => this.onScrollNubClick(ev));
+            this.scrollNub = domElement;
         }
 
-        private onScrollNubClick(ev : any) {
+        private onScrollNubClick(ev: any) {
             // prevent to click anything under
             ev.preventDefault();
 
             // scroll to top or bottom
-            var scrollToTop = this.scrollNub.hasClass('top');
+            var scrollToTop = this.scrollNub.classList.contains('top');
 
-            var scrollElement = scrollToTop ? angular.element('body > .navbar') : angular.element('body > #scrollBottom');
-            scrollElement.get(0).scrollIntoView();
+            var scrollElement = <HTMLElement>(scrollToTop ? document.querySelector('body > div > .navbar') : document.querySelector('body > #scrollBottom'));
+            scrollElement.scrollIntoView();
 
             // check scrolling
-            this.$window.setTimeout(() => this.checkScroll, 200);
+            this.$window.setTimeout(() => this.checkScroll(), 200);
         }
     }
 }

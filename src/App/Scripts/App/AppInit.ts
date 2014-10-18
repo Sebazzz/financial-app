@@ -102,7 +102,7 @@ module FinancialApp {
             app.directive("faRequiredIf", Directives.RequiredIf.factory);
             app.directive("faSameValue", Directives.SameValue.factory);
             app.directive("faSmartFloat", Directives.SmartFloatDirective.factory);
-            app.directive("faScrollNub", Directives.ScrollNub.factory);
+            app.directive("faScrollNub", Directives.ScrollNub.factory.withInject("$window"));
 
             // controllers
             FinancialApp.ControllerInitializer.registerControllers(app);
