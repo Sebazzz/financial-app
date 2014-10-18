@@ -66,6 +66,12 @@ module FinancialApp {
             // factories
             app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
             app.factory("userResource", Factories.ResourceFactory<DTO.IAppUserListing>("/api/user/:id"));
+            app.factory("impersonateResource", Factories.ResourceFactory<DTO.IAppUserListing>("/api/user/impersonate/:id", {
+                'impersonate': {
+                    method: 'POST',
+                    url: '/api/user/impersonate/:id'
+                }
+            }));
             app.factory("sheetResource", Factories.ResourceFactory<DTO.ISheet>("/api/sheet/:id", {
                 'getByDate': {
                     method: 'GET',

@@ -21,6 +21,7 @@ var FinancialApp;
                     $app.controller('CategoryEditController', FinancialApp.CategoryEditController);
                     $app.controller('CategoryListController', FinancialApp.CategoryListController);
                     $app.controller('DefaultController', FinancialApp.DefaultController);
+                    $app.controller('ImpersonateController', FinancialApp.ImpersonateController);
                     $app.controller('MasterController', FinancialApp.MasterController);
                     $app.controller('MenuController', FinancialApp.MenuController);
                     $app.controller('ReportController', FinancialApp.ReportController);
@@ -68,6 +69,11 @@ var FinancialApp;
                 {
                     controller: 'DefaultController',
                     templateUrl: '/Angular/Default.html'
+                });
+                $routeProvider.when('/manage/impersonate', 
+                {
+                    controller: 'ImpersonateController',
+                    templateUrl: '/Angular/Impersonate.html'
                 });
                 $routeProvider.when('/report', 
                 {

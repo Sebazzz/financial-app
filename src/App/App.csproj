@@ -196,6 +196,7 @@
     <Content Include="Angular\Sheet.Mobile.html" />
     <Content Include="Angular\SheetEntryEdit.html" />
     <Content Include="Angular\SheetStats.html" />
+    <Content Include="Angular\Impersonate.html" />
     <Content Include="Angular\UserList.html" />
     <Content Include="Angular\UserEdit.html" />
     <Content Include="Angular\CategoryEdit.html" />
@@ -343,6 +344,7 @@
     <Compile Include="Api\SheetController.cs" />
     <Compile Include="Api\SheetEntryController.cs" />
     <Compile Include="Api\SheetStatisticsController.cs" />
+    <Compile Include="Api\ImpersonateUserController.cs" />
     <Compile Include="Api\UserController.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -444,6 +446,7 @@
     <TypeScriptCompile Include="Scripts\App\Controllers\AuthLogin.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\AuthLogOff.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\CategoryCreate.ts" />
+    <TypeScriptCompile Include="Scripts\App\Controllers\Impersonate.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\Report.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\SheetEntryCreate.ts" />
     <TypeScriptCompile Include="Scripts\App\Controllers\SheetEntryEdit.ts" />

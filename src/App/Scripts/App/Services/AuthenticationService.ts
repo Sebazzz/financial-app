@@ -95,6 +95,19 @@ module FinancialApp.Services {
             return ret.promise;
         }
 
+        public impersonate(userId: number): ng.IPromise<DTO.IAuthenticationInfo>  {
+            var ret = this.$q.defer();
+
+            this.$http.post<DTO.IAuthenticationInfo>("/api/user/impersonate/" + userId, {}).success((data) => {
+                this.authInfo = data;
+                this.raiseAuthenticationEvent();
+
+                ret.resolve(null);
+            }).error((data, status) => ret.reject(data));
+
+            return ret.promise;
+        }
+
         private checkAuthentication(): DTO.IAuthenticationInfo {
             this.$log.info("AuthenticationService: Checking authentication");
 
