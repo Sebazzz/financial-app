@@ -38,7 +38,9 @@
             bundles.Add(appScriptBundle);
 
             StyleBundle appStyleBundle = new StyleBundle("~/bundles/style-app");
-            appStyleBundle.IncludeDirectory("~/Content/App", "*.css");
+            appStyleBundle.Include("~/Content/App/01Main.css", new CssRewriteUrlTransform());
+            appStyleBundle.Include("~/Content/App/02Anonymous.css", new CssRewriteUrlTransform());
+            appStyleBundle.Include("~/Content/App/03Authenticated.css", new CssRewriteUrlTransform());
             appStyleBundle.Transforms.Add(new CssMinify());
 
             bundles.Add(appStyleBundle);
