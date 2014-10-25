@@ -26,6 +26,8 @@ namespace App {
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
+                ExpireTimeSpan = TimeSpan.FromDays(30),
+                SlidingExpiration = true,
                 Provider = new CookieAuthenticationProvider {
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<AppUserManager, AppUser, int>(
                         validateInterval: TimeSpan.FromMinutes(20),
@@ -33,8 +35,6 @@ namespace App {
                         getUserIdCallback: id => Int32.Parse(id.GetUserId() ?? "0"))
                 }
             });
-            // Use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ApplicationCookie);
         }
     }
 }
