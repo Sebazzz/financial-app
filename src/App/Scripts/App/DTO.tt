@@ -30,11 +30,12 @@
 	}
 
 
-	EnvDTE.ProjectItem templateProjectItem = dte.Solution.FindProjectItem(Host.TemplateFile);
-	EnvDTE.Project currentProject = templateProjectItem.ContainingProject;
-    
-    ProcessRecursive(currentProject.CodeModel);
+    EnvDTE.ProjectItem templateProjectItem = dte.Solution.FindProjectItem(this.Host.TemplateFile);
+    foreach (EnvDTE.Project currentProject in dte.Solution.OfType<EnvDTE.Project>()) {
+        this.ProcessRecursive(currentProject.CodeModel);
+    }
 #>
+    
 
 declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
 
@@ -96,9 +97,9 @@ declare module <#= GetSuggestedNamespace(templateProjectItem) #> {
 
     private string ConvertType(CodeProperty2 prop) {
         CodeType targetType;
-        bool isArray = false;
+        bool isArray = (prop.Type.TypeKind == vsCMTypeRef.vsCMTypeRefArray);
 
-        if (isArray = (prop.Type.TypeKind == vsCMTypeRef.vsCMTypeRefArray)) {
+        if (isArray) {
             CodeTypeRef arr = prop.Type.ElementType;
 
             targetType = arr.CodeType;
