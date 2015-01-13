@@ -45,15 +45,19 @@ declare module <#=
         // just an empty interface which makes programming the *.tt easier
     }
 
-    <#foreach (CodeClass cls in this._dataTypeObjects){#>
-    
-    export interface I<#=cls.Name#> extends <#=GetExtension(cls)#> {
-        <# foreach (var item in this.GetConvertableProperties(cls)) { #>
+    <#foreach (ClassWithNamespace cls in this._dataTypeObjects){#>
+
+    <#=GenerateModuleDeclr(cls)#>
+
+    export interface I<#=cls.ClassObject.Name#> extends <#=GetExtension(cls.ClassObject)#> {
+        <# foreach (var item in this.GetConvertableProperties(cls.ClassObject)) { #>
 
             <#=item.Key#> : <#=item.Value#>;
 
         <#}#>
     }
+    
+    <#=GenerateEndModuleDeclr(cls)#>
 
     <#}#>
 }
@@ -63,7 +67,7 @@ declare module <#=
     static readonly string DataContractAttributeFullName = typeof(System.Runtime.Serialization.DataContractAttribute).FullName;
     static readonly string DataMemberAttributeFullName = typeof(System.Runtime.Serialization.DataMemberAttribute).FullName;
 
-    private readonly List<CodeClass> _dataTypeObjects = new List<CodeClass>();
+    private readonly List<ClassWithNamespace> _dataTypeObjects = new List<ClassWithNamespace>();
     private readonly List<CodeEnum> _enumObjects = new List<CodeEnum>();
 
     private static string GetExtension(CodeClass cls) {
@@ -74,6 +78,22 @@ declare module <#=
         }
 
         return "IObject";
+    }
+
+    private static string GenerateModuleDeclr(ClassWithNamespace cls) {
+        if (String.IsNullOrEmpty(cls.Namespace)) {
+            return "";
+        }
+
+        return "module " + cls.Namespace + " {";
+    }
+
+    private static string GenerateEndModuleDeclr(ClassWithNamespace cls) {
+        if (String.IsNullOrEmpty(cls.Namespace)) {
+            return "";
+        }
+
+        return "}";
     }
 
     private IEnumerable<KeyValuePair<string, string>> GetConvertableProperties(CodeClass cls) {
@@ -115,7 +135,7 @@ declare module <#=
             }
         }
 
-        if (this._dataTypeObjects.Contains(targetType as CodeClass)) {
+        if (this._dataTypeObjects.Any(x => x.ClassObject == (targetType as CodeClass))) {
             return "I" + targetType.Name + (isArray ? "[]" : String.Empty) + " /* " + targetType.FullName + "*/ ";
         }
 
@@ -184,16 +204,28 @@ declare module <#=
     }
 
     private void ProcessClass(CodeClass cls) {
-		// process only 'IEncryptable' classes
-        if (cls.Attributes.OfType<CodeAttribute>().All(x => x.FullName != DataContractAttributeFullName)) {
+		// process only 'DataContract' classes
+        var dataContractAttribute =
+            cls.Attributes.OfType<CodeAttribute2>().FirstOrDefault(x => x.FullName == DataContractAttributeFullName);
+        if (dataContractAttribute == null) {
             return;
         }
 
-		this._dataTypeObjects.Add(cls);
+        // get namespace 
+        string ns = dataContractAttribute.Arguments.OfType<CodeAttributeArgument>()
+                                                    .Where(x=>x.Name == "Namespace")
+                                                    .Select(x=>x.Value)
+                                                    .FirstOrDefault();
+
+        if (ns != null) {
+            ns = ns.Trim('"');
+        }
+
+		this._dataTypeObjects.Add(new ClassWithNamespace() { ClassObject = cls, Namespace = ns});
     }
 
     private void ProcessEnum(CodeEnum e) {
-		// process only 'IEncryptable' classes
+		// process only 'DataContract' classes
         if (e.Attributes.OfType<CodeAttribute>().All(x => x.FullName != DataContractAttributeFullName)) {
             return;
         }
@@ -209,10 +241,6 @@ declare module <#=
         }
 
         return ns;
-    }
-
-    private static bool IsDirectTransformationSupported(CodeProperty property) {
-        return property.Type.AsFullName == "System.String";
     }
 
     private static string ToCamelCase(string s) {
@@ -246,4 +274,12 @@ declare module <#=
 
             return sb.ToString();
         }
+
+    private struct ClassWithNamespace {
+
+        public CodeClass ClassObject;
+        public string Namespace;
+
+
+    }
 #>

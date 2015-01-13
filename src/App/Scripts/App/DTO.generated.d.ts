@@ -14,7 +14,9 @@ declare module FinancialApp.DTO {
         // just an empty interface which makes programming the *.tt easier
     }
 
-        
+    
+    
+
     export interface ISheetCategoryStatistics extends IObject {
         
             categoryName : string;
@@ -23,8 +25,12 @@ declare module FinancialApp.DTO {
             delta : number;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface ISheetGlobalStatistics extends IObject {
         
             totalExpenses : number;
@@ -42,8 +48,12 @@ declare module FinancialApp.DTO {
             categoryStatistics : ISheetCategoryStatistics[] /*System.Collections.Generic.IEnumerable<App.Models.Domain.Services.SheetCategoryStatistics>*/ ;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface ICalculationOptions extends IObject {
         
             savingsAccountOffset : any;
@@ -52,8 +62,12 @@ declare module FinancialApp.DTO {
             bankAccountOffset : any;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface ICategory extends IObject {
         
             id : number;
@@ -65,8 +79,12 @@ declare module FinancialApp.DTO {
             description : string;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface ISheet extends IObject {
         
             id : number;
@@ -90,8 +108,12 @@ declare module FinancialApp.DTO {
             offset : ICalculationOptions /* App.Models.Domain.CalculationOptions*/ ;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface IAuthenticationInfo extends IObject {
         
             isAuthenticated : boolean;
@@ -103,8 +125,12 @@ declare module FinancialApp.DTO {
             userName : string;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface ISheetEntry extends IObject {
         
             id : number;
@@ -134,15 +160,23 @@ declare module FinancialApp.DTO {
             account : AccountType;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface IInsertId extends IObject {
         
             id : number;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface IAppUserMutate extends IAppUserListing {
         
             newPassword : string;
@@ -151,8 +185,12 @@ declare module FinancialApp.DTO {
             currentPassword : string;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface IAppUserListing extends IObject {
         
             email : string;
@@ -164,8 +202,12 @@ declare module FinancialApp.DTO {
             id : number;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface ILoginModel extends IObject {
         
             userName : string;
@@ -177,8 +219,12 @@ declare module FinancialApp.DTO {
             persistent : boolean;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface ISheetListing extends IObject {
         
             month : number;
@@ -196,8 +242,12 @@ declare module FinancialApp.DTO {
             createTimestamp : any;
 
             }
+    
+    
 
-        
+    
+    
+
     export interface ICategoryListing extends IObject {
         
             id : number;
@@ -212,6 +262,8 @@ declare module FinancialApp.DTO {
             canBeDeleted : boolean;
 
             }
+    
+    
 
     }
 
