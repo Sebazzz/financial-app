@@ -39,7 +39,7 @@ declare module FinancialApp.DTO {
             sheetSubject : any;
 
         
-            categoryStatistics : ISheetCategoryStatistics[];
+            categoryStatistics : ISheetCategoryStatistics[] /*System.Collections.Generic.IEnumerable<App.Models.Domain.Services.SheetCategoryStatistics>*/ ;
 
             }
 
@@ -84,10 +84,10 @@ declare module FinancialApp.DTO {
             createTimestamp : any;
 
         
-            entries : ISheetEntry[];
+            entries : ISheetEntry[] /* App.Models.DTO.SheetEntry*/ ;
 
         
-            offset : ICalculationOptions;
+            offset : ICalculationOptions /* App.Models.Domain.CalculationOptions*/ ;
 
             }
 
