@@ -17,11 +17,21 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.Domain.Services.SheetCategoryStatistics
+*/
+
     export interface ISheetCategoryStatistics extends IObject {
-        
+                    /** 
+* App.Models.Domain.Services.SheetCategoryStatistics.CategoryName
+*/
+
             categoryName : string;
 
-        
+                    /** 
+* App.Models.Domain.Services.SheetCategoryStatistics.Delta
+*/
+
             delta : number;
 
             }
@@ -31,20 +41,39 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.Domain.Services.SheetGlobalStatistics
+*/
+
     export interface ISheetGlobalStatistics extends IObject {
-        
+                    /** 
+* App.Models.Domain.Services.SheetGlobalStatistics.TotalExpenses
+*/
+
             totalExpenses : number;
 
-        
+                    /** 
+* App.Models.Domain.Services.SheetGlobalStatistics.TotalSavings
+*/
+
             totalSavings : number;
 
-        
+                    /** 
+* App.Models.Domain.Services.SheetGlobalStatistics.TotalIncome
+*/
+
             totalIncome : number;
 
-        
+                    /** 
+* App.Models.Domain.Services.SheetGlobalStatistics.SheetSubject
+*/
+
             sheetSubject : any;
 
-        
+                    /** 
+* App.Models.Domain.Services.SheetGlobalStatistics.CategoryStatistics
+*/
+
             categoryStatistics : ISheetCategoryStatistics[] /*System.Collections.Generic.IEnumerable<App.Models.Domain.Services.SheetCategoryStatistics>*/ ;
 
             }
@@ -54,11 +83,21 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.Domain.CalculationOptions
+*/
+
     export interface ICalculationOptions extends IObject {
-        
+                    /** 
+* App.Models.Domain.CalculationOptions.SavingsAccountOffset
+*/
+
             savingsAccountOffset : any;
 
-        
+                    /** 
+* App.Models.Domain.CalculationOptions.BankAccountOffset
+*/
+
             bankAccountOffset : any;
 
             }
@@ -68,14 +107,27 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.Domain.Category
+*/
+
     export interface ICategory extends IObject {
-        
+                    /** 
+* App.Models.Domain.Category.Id
+*/
+
             id : number;
 
-        
+                    /** 
+* App.Models.Domain.Category.Name
+*/
+
             name : string;
 
-        
+                    /** 
+* App.Models.Domain.Category.Description
+*/
+
             description : string;
 
             }
@@ -85,26 +137,51 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.Sheet
+*/
+
     export interface ISheet extends IObject {
-        
+                    /** 
+* App.Models.DTO.Sheet.Id
+*/
+
             id : number;
 
-        
+                    /** 
+* App.Models.DTO.Sheet.Subject
+*/
+
             subject : any;
 
-        
+                    /** 
+* App.Models.DTO.Sheet.Name
+*/
+
             name : string;
 
-        
+                    /** 
+* App.Models.DTO.Sheet.UpdateTimestamp
+*/
+
             updateTimestamp : any;
 
-        
+                    /** 
+* App.Models.DTO.Sheet.CreateTimestamp
+*/
+
             createTimestamp : any;
 
-        
+                    /** 
+* App.Models.DTO.Sheet.Entries
+*/
+
             entries : ISheetEntry[] /* App.Models.DTO.SheetEntry*/ ;
 
-        
+                    /** 
+* App.Models.DTO.Sheet.Offset
+*/
+
             offset : ICalculationOptions /* App.Models.Domain.CalculationOptions*/ ;
 
             }
@@ -114,14 +191,27 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.AuthenticationInfo
+*/
+
     export interface IAuthenticationInfo extends IObject {
-        
+                    /** 
+* App.Models.DTO.AuthenticationInfo.IsAuthenticated
+*/
+
             isAuthenticated : boolean;
 
-        
+                    /** 
+* App.Models.DTO.AuthenticationInfo.UserId
+*/
+
             userId : number;
 
-        
+                    /** 
+* App.Models.DTO.AuthenticationInfo.UserName
+*/
+
             userName : string;
 
             }
@@ -131,32 +221,63 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.SheetEntry
+*/
+
     export interface ISheetEntry extends IObject {
-        
+                    /** 
+* App.Models.DTO.SheetEntry.Id
+*/
+
             id : number;
 
-        
+                    /** 
+* App.Models.DTO.SheetEntry.CategoryId
+*/
+
             categoryId : number;
 
-        
+                    /** 
+* App.Models.DTO.SheetEntry.Delta
+*/
+
             delta : number;
 
-        
+                    /** 
+* App.Models.DTO.SheetEntry.Source
+*/
+
             source : string;
 
-        
+                    /** 
+* App.Models.DTO.SheetEntry.Remark
+*/
+
             remark : string;
 
-        
+                    /** 
+* App.Models.DTO.SheetEntry.SortOrder
+*/
+
             sortOrder : number;
 
-        
+                    /** 
+* App.Models.DTO.SheetEntry.UpdateTimestamp
+*/
+
             updateTimestamp : any;
 
-        
+                    /** 
+* App.Models.DTO.SheetEntry.CreateTimestamp
+*/
+
             createTimestamp : any;
 
-        
+                    /** 
+* App.Models.DTO.SheetEntry.Account
+*/
+
             account : AccountType;
 
             }
@@ -166,8 +287,15 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.InsertId
+*/
+
     export interface IInsertId extends IObject {
-        
+                    /** 
+* App.Models.DTO.InsertId.Id
+*/
+
             id : number;
 
             }
@@ -177,11 +305,21 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.AppUserMutate
+*/
+
     export interface IAppUserMutate extends IAppUserListing {
-        
+                    /** 
+* App.Models.DTO.AppUserMutate.NewPassword
+*/
+
             newPassword : string;
 
-        
+                    /** 
+* App.Models.DTO.AppUserMutate.CurrentPassword
+*/
+
             currentPassword : string;
 
             }
@@ -191,14 +329,27 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.AppUserListing
+*/
+
     export interface IAppUserListing extends IObject {
-        
+                    /** 
+* App.Models.DTO.AppUserListing.Email
+*/
+
             email : string;
 
-        
+                    /** 
+* App.Models.DTO.AppUserListing.UserName
+*/
+
             userName : string;
 
-        
+                    /** 
+* App.Models.DTO.AppUserListing.Id
+*/
+
             id : number;
 
             }
@@ -208,14 +359,27 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.LoginModel
+*/
+
     export interface ILoginModel extends IObject {
-        
+                    /** 
+* App.Models.DTO.LoginModel.UserName
+*/
+
             userName : string;
 
-        
+                    /** 
+* App.Models.DTO.LoginModel.Password
+*/
+
             password : string;
 
-        
+                    /** 
+* App.Models.DTO.LoginModel.Persistent
+*/
+
             persistent : boolean;
 
             }
@@ -225,20 +389,42 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.SheetListing
+*/
+
     export interface ISheetListing extends IObject {
-        
+                    /** 
+* App.Models.DTO.SheetListing.Month
+*/
+
             month : number;
 
-        
+                    /** 
+* App.Models.DTO.SheetListing.Year
+*/
+
             year : number;
 
-        
+                    /** 
+* 
+Custom name, if set
+
+* 
+*/
+
             name : string;
 
-        
+                    /** 
+* App.Models.DTO.SheetListing.UpdateTimestamp
+*/
+
             updateTimestamp : any;
 
-        
+                    /** 
+* App.Models.DTO.SheetListing.CreateTimestamp
+*/
+
             createTimestamp : any;
 
             }
@@ -248,17 +434,33 @@ declare module FinancialApp.DTO {
     
     
 
+    /** 
+* App.Models.DTO.CategoryListing
+*/
+
     export interface ICategoryListing extends IObject {
-        
+                    /** 
+* App.Models.DTO.CategoryListing.Id
+*/
+
             id : number;
 
-        
+                    /** 
+* App.Models.DTO.CategoryListing.Name
+*/
+
             name : string;
 
-        
+                    /** 
+* App.Models.DTO.CategoryListing.Description
+*/
+
             description : string;
 
-        
+                    /** 
+* App.Models.DTO.CategoryListing.CanBeDeleted
+*/
+
             canBeDeleted : boolean;
 
             }

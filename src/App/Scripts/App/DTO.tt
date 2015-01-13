@@ -5,8 +5,13 @@
 <#@ assembly name="Microsoft.VisualStudio.Shell.Interop.8.0" #>
 <#@ assembly name="EnvDTE" #>
 <#@ assembly name="EnvDTE80" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
 
+<#@ import namespace="System.Configuration" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".generated.d.ts" #>
@@ -49,10 +54,11 @@ declare module <#=
 
     <#=GenerateModuleDeclr(cls)#>
 
+    <#=GenerateDocumentation(cls.ClassObject)#>
     export interface I<#=cls.ClassObject.Name#> extends <#=GetExtension(cls.ClassObject)#> {
         <# foreach (var item in this.GetConvertableProperties(cls.ClassObject)) { #>
-
-            <#=item.Key#> : <#=item.Value#>;
+            <#=GenerateDocumentation(item.PropertyObject)#>
+            <#=item.Identifier#> : <#=item.Type#>;
 
         <#}#>
     }
@@ -85,7 +91,7 @@ declare module <#=
             return "";
         }
 
-        return "module " + cls.Namespace + " {";
+        return "export module " + cls.Namespace + " {";
     }
 
     private static string GenerateEndModuleDeclr(ClassWithNamespace cls) {
@@ -96,7 +102,7 @@ declare module <#=
         return "}";
     }
 
-    private IEnumerable<KeyValuePair<string, string>> GetConvertableProperties(CodeClass cls) {
+    private IEnumerable<ConvertedProperty> GetConvertableProperties(CodeClass cls) {
         foreach (CodeProperty2 prop in cls.Members.OfType<CodeProperty2>()) {
             CodeAttribute2 dataMemberAttribute = prop.Attributes.OfType<CodeAttribute2>().FirstOrDefault(x=>x.FullName == DataMemberAttributeFullName);
             if (dataMemberAttribute == null) {
@@ -113,7 +119,11 @@ declare module <#=
                 name = name.Trim('"');
             }
 
-            yield return new KeyValuePair<string, string>(name ?? ToCamelCase(prop.Name), this.ConvertType(prop));
+            yield return new ConvertedProperty() {
+                Identifier = name ?? ToCamelCase(prop.Name),
+                Type = this.ConvertType(prop),
+                PropertyObject = prop
+            };
         }
     }
 
@@ -275,11 +285,122 @@ declare module <#=
             return sb.ToString();
         }
 
-    private struct ClassWithNamespace {
+    private static string GenerateDocumentation(CodeProperty2 codeProperty) {
+        string doc = GenerateJsDocFromXmlComment(codeProperty.DocComment);
 
+        if (String.IsNullOrEmpty(doc)) {
+            doc = codeProperty.Comment;
+
+            if (String.IsNullOrEmpty(doc)) {
+                doc = codeProperty.FullName;
+            }
+
+            doc = GenerateJsDocFromGenericString(doc);
+        }
+
+        return doc;
+    }
+
+    private static string GenerateDocumentation(CodeClass codeClass) {
+        string doc = GenerateJsDocFromXmlComment(codeClass.DocComment);
+
+        if (String.IsNullOrEmpty(doc)) {
+            doc = codeClass.Comment;
+
+            if (String.IsNullOrEmpty(doc)) {
+                doc = codeClass.FullName;
+            }
+
+            doc = GenerateJsDocFromGenericString(doc);
+        }
+
+        return doc;
+    }
+
+    private static string GenerateJsDocFromGenericString(string str) {
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("/** ");
+
+        AppendJsDoc(str, sb);
+
+        sb.AppendLine("*/");
+
+        return sb.ToString();
+    }
+
+    private static string GenerateJsDocFromXmlComment(XElement root) {
+        ReplaceTransientTags(root);
+
+        if (root == null || !root.HasElements) {
+            return null;
+        }
+
+        string summary = (string) root.Element("summary");
+        string remarks = (string) root.Element("remarks");
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("/** ");
+
+        if (!String.IsNullOrEmpty(summary)) {
+            AppendJsDoc(summary, sb);
+            sb.AppendLine("* ");
+        }
+
+        if (!String.IsNullOrEmpty(remarks)) {
+            AppendJsDoc(remarks, sb);
+        }
+
+        sb.AppendLine("*/");
+        return sb.ToString();
+    }
+
+    private static void ReplaceTransientTags(XElement element) {
+        foreach (XElement tag in element.Elements().ToList()) {
+            if (tag.Name == "seealso") {
+                tag.Remove();
+                continue;
+            }
+
+            if (tag.Name == "see") {
+                tag.AddBeforeSelf(new XText((string) tag.Attribute("cref")));
+                tag.Remove();
+                continue;
+            }
+
+            ReplaceTransientTags(tag);
+        }
+    }
+
+    private static string GenerateJsDocFromXmlComment(string root) {
+        if (root == null) {
+            return null;
+        }
+
+        try {
+            return GenerateJsDocFromXmlComment(XDocument.Parse(root).Root);
+        }
+        catch (XmlException) {
+            return null;
+        }
+    }
+
+    private static void AppendJsDoc(string text, StringBuilder sb) {
+        string[] parts = text.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+        foreach (string part in parts) {
+            sb.Append("* ");
+            sb.Append(part);
+            sb.AppendLine();
+        }
+    }
+
+    private struct ClassWithNamespace {
         public CodeClass ClassObject;
         public string Namespace;
+    }
 
-
+    private struct ConvertedProperty {
+        public string Identifier;
+        public string Type;
+        public CodeProperty2 PropertyObject;
     }
 #>
