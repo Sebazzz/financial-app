@@ -47,6 +47,11 @@ module FinancialApp {
                     redirectTo: Program.createNowRoute()
                 });
 
+                // ... special 'now' add route
+                $routeProvider.when("/now", {
+                    redirectTo: Program.createNowRoute("entries/add")
+                });
+
                 // fallback
                 $routeProvider.otherwise({
                     redirectTo: '/'
@@ -159,9 +164,13 @@ module FinancialApp {
             return appVersion;
         }
 
-        static createNowRoute(): string {
+        static createNowRoute(subPath = ""): string {
+            if (subPath) {
+                subPath = "/" + subPath;
+            }
+
             var now: Date = new Date();
-            return '/sheet/' + now.getFullYear() + "/" + (now.getMonth() + 1);
+            return '/sheet/' + now.getFullYear() + "/" + (now.getMonth() + 1) + subPath;
         }
 
         static handleWindowError(errMsg: string, url: string, lineNumber: number, column: number = 0, errType : Error = new Error("(no details)")) {
