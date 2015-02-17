@@ -145,6 +145,33 @@ declare module FinancialApp.DTO {
     
 
     /** 
+* 
+Not actually used by our API but let our T4 generate the interface :)
+
+* 
+*/
+
+    export interface IAuthTokenInfo extends IObject {
+                    /** 
+* App.Models.DTO.AuthTokenInfo.AccessToken
+*/
+
+            access_token : string;
+
+                    /** 
+* App.Models.DTO.AuthTokenInfo.UserName
+*/
+
+            userName : string;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
 * App.Models.DTO.Sheet
 */
 

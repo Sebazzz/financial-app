@@ -1,7 +1,7 @@
 module FinancialApp.Factories {
     // ReSharper disable InconsistentNaming
     export function AuthenticationErrorHttpInterceptor() {
-        var func = ($location : ng.ILocationService) => {
+        var func = ($location : ng.ILocationService, $q : ng.IDeferred<any>) => {
             return {
                 responseError: (response) => {
                     if (response.status === 403 || response.status === 401) {
@@ -15,6 +15,6 @@ module FinancialApp.Factories {
             }
         };
 
-        return func.withInject("$location");
+        return func.withInject("$location", "$q");
     }
 }

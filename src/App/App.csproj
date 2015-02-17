@@ -396,6 +396,7 @@
     <Compile Include="Models\Domain\Repositories\SheetEntryRepository.cs" />
     <Compile Include="Models\Domain\Services\SheetStatisticsService.cs" />
     <Compile Include="Models\Domain\Services\SortOrderComparer.cs" />
+    <Compile Include="Models\DTO\AuthTokenInfo.cs" />
     <Compile Include="Support\AppCacheGenerator.cs" />
     <Compile Include="Support\AppVersion.cs" />
     <Compile Include="Support\AngularViewRewriteModule.cs" />
@@ -506,6 +507,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DTOEnum.tt</DependentUpon>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\App\Factories\AuthenticationTokenInterceptor.ts" />
     <TypeScriptCompile Include="Scripts\App\Factories\ViewFingerPrintInterceptor.ts" />
     <TypeScriptCompile Include="Scripts\App\Factories\AuthenticationCheckInterceptor.ts" />
     <TypeScriptCompile Include="Scripts\App\Factories\LocalStorageFactory.ts" />

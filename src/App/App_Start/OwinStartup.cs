@@ -50,6 +50,7 @@ namespace App {
  
             // Token Generation
             app.UseOAuthAuthorizationServer(authServerOptions);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }
 
         public void ConfigureAuth(IAppBuilder app) {
@@ -57,7 +58,7 @@ namespace App {
             app.CreatePerOwinContext(() => ContainerConfig.Container.GetInstance<AppDbContext>());
             app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
 
-            // Enable the application to use a cookie to store information for the signed in user
+            /*// Enable the application to use a cookie to store information for the signed in user
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
@@ -69,7 +70,7 @@ namespace App {
                         regenerateIdentityCallback: (manager, user) => user.GenerateUserIdentityAsync(manager, DefaultAuthenticationTypes.ApplicationCookie),
                         getUserIdCallback: id => Int32.Parse(id.GetUserId() ?? "0"))
                 }
-            });
+            });*/
         }
     }
 
@@ -91,7 +92,6 @@ namespace App {
                 }
 
                 ClaimsIdentity identity = await user.GenerateUserIdentityAsync(repo, context.Options.AuthenticationType);
-
                 context.Validated(identity);
             }
         }

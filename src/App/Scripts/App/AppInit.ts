@@ -48,7 +48,7 @@ module FinancialApp {
                 });
 
                 // ... special 'now' add route
-                $routeProvider.when("/now", {
+                $routeProvider.when("/now/entries/add", {
                     redirectTo: Program.createNowRoute("entries/add")
                 });
 
@@ -61,6 +61,7 @@ module FinancialApp {
                 $locationProvider.html5Mode(true);
 
                 // configure HTTP interceptor
+                $httpProvider.interceptors.push('authenticationTokenInterceptor');
                 $httpProvider.interceptors.push('authenticationCheckInterceptor');
                 $httpProvider.interceptors.push('viewFingerPrintInterceptor');
             }).withInject("$routeProvider", "$locationProvider", "$httpProvider"));
@@ -92,6 +93,7 @@ module FinancialApp {
             }));
 
             // ... $http interceptors
+            app.factory("authenticationTokenInterceptor", Factories.AuthenticationTokenInterceptor());
             app.factory("authenticationCheckInterceptor", Factories.AuthenticationErrorHttpInterceptor());
             app.factory("viewFingerPrintInterceptor", Factories.ViewFingerPrintInterceptor());
 
