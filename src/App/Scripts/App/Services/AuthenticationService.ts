@@ -169,7 +169,7 @@ module FinancialApp.Services {
         }
 
         public getUserName(): string {
-            return this.authInfo.userName;
+            return this.authInfo.userName || "???";
         }
     }
 
