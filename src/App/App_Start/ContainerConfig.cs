@@ -24,12 +24,10 @@
             Container.RegisterPerWebRequest<DbContext>(() => Container.GetInstance<AppDbContext>());
 
             RepositoryRegistry.InsertIn(Container);
-
-            SetUpIntegration();
         }
 
-        private static void SetUpIntegration() {
-            GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(Container);
+        public static void SetUpIntegration(HttpConfiguration configuration) {
+            configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(Container);
         }
     }
 }

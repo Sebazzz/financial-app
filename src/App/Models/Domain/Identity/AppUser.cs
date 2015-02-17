@@ -36,9 +36,9 @@
                                };
         }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppUser, int> manager) {
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppUser, int> manager, string authType) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            var userIdentity = await manager.CreateIdentityAsync(this, authType);
             
             // Custom user claims
             userIdentity.AddClaim(

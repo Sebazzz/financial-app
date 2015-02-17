@@ -38,7 +38,7 @@
             this._authenticationManager.SignIn(
                 new AuthenticationProperties() {
                                                    IsPersistent = parameters.Persistent
-                                               }, await user.GenerateUserIdentityAsync(this._appUserManager));
+                                               }, await user.GenerateUserIdentityAsync(this._appUserManager, DefaultAuthenticationTypes.ApplicationCookie));
 
             return new AuthenticationInfo {
                                                 IsAuthenticated = true,

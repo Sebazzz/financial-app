@@ -54,7 +54,7 @@ namespace App.Api
             }
 
             this._authenticationManager.SignIn(
-                new AuthenticationProperties { IsPersistent = true}, await user.GenerateUserIdentityAsync(this._appUserManager));
+                new AuthenticationProperties { IsPersistent = true}, await user.GenerateUserIdentityAsync(this._appUserManager, DefaultAuthenticationTypes.ApplicationCookie));
 
             return new AuthenticationInfo {
                                                 IsAuthenticated = true,
