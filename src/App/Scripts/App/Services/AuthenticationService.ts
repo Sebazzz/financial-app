@@ -65,7 +65,7 @@ module FinancialApp.Services {
             var ret = this.$q.defer();
 
             this.$http.post<DTO.IAuthTokenInfo>("/api/authentication/logoff", {}).success((data) => {
-                this.authInfo = AuthenticationInfo.create(data);
+                this.setAuthInfo(null);
                 this.raiseAuthenticationEvent();
 
                 ret.resolve(null);
