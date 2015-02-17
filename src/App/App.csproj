@@ -226,7 +226,9 @@
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <Content Include="Content\hotkeys.css" />
-    <Content Include="Content\hotkeys.min.css" />
+    <Content Include="Content\hotkeys.min.css">
+      <DependentUpon>hotkeys.css</DependentUpon>
+    </Content>
     <Content Include="Content\Icons\Money.png" />
     <Content Include="Content\Icons\navbar.png" />
     <Content Include="Content\Icons\scroll_arrow_down.png" />
