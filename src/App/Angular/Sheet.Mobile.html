@@ -18,7 +18,7 @@
         <small>(vorige maand: {{ sheet.offset.savingsAccountOffset | currency}})</small>
     </p>
     
-    <p>
+    <p ng-show="sheet.entries.length > 0">
         <a class="btn btn-sm btn-primary" style="width: 100%" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
             <span class="glyphicon glyphicon-plus"></span>
             Nieuwe regel toevoegen
