@@ -13,6 +13,8 @@ module FinancialApp {
         login: IAction;
         isBusy: boolean;
 
+        wasLoggedOff:boolean;
+
         errorMessage: string;
     }
 
@@ -26,7 +28,16 @@ module FinancialApp {
                     private $timeout: ng.ITimeoutService,
                             $log: ng.ILogService,
                     private authentication: Services.AuthenticationService) {
-            this.targetPath = (this.$location.search() || {}).uri || "/";
+            var uriArgs = (this.$location.search() || {});
+
+            this.targetPath = uriArgs.uri || "/";
+            var doLogOff = !!uriArgs.logOff;
+            $scope.wasLoggedOff = !!uriArgs.wasLoggedOff;
+
+            if (doLogOff) {
+                authentication.logOff();
+                return;
+            }
 
             if (authentication.isAuthenticated()) {
                 $log.info("AuthLoginController: Already authenticated. Redirecting.");

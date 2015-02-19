@@ -1,16 +1,17 @@
 module FinancialApp.Factories {
     // ReSharper disable InconsistentNaming
     export function AuthenticationErrorHttpInterceptor() {
-        var func = ($q: ng.IDeferred<any>, $location: ng.ILocationService) => {
+        var func = ($q: ng.IDeferred<any>, $location: ng.ILocationService, localStorage: Storage) => {
             return {
                 responseError: (response: ng.IHttpPromiseCallbackArg<any>) => {
                     var isUnauthorizedResponse = response.status === 403 || response.status === 401;
-                    var isLoginPage = this.$location.path().indexOf("/auth/login") !== -1;
+                    var isLoginPage = $location.path().indexOf("/auth/login") !== -1;
 
                     if (!isLoginPage && isUnauthorizedResponse) {
                         // unauthorized, cookie expired
                         $location.search({
-                            uri: $location.path()
+                            uri: $location.path(),
+                            logOff: true
                         });
                         $location.path("/auth/login");
                         $location.replace();
@@ -21,6 +22,6 @@ module FinancialApp.Factories {
             }
         };
 
-        return func.withInject("$q", "$location");
+        return func.withInject("$q", "$location", "localStorage");
     }
 }

@@ -17,6 +17,10 @@ module FinancialApp.Services {
 
         static createFromJson(json: string) {
             var raw = angular.fromJson(json);
+            if (!raw) {
+                return new AuthenticationInfo();
+            }
+
             return new AuthenticationInfo(raw.token, raw.userName);
         }
 
@@ -92,11 +96,21 @@ module FinancialApp.Services {
 
             if (!this.isAuthenticated()) {
                 var currentPath = this.$location.path();
+                var wasLoggedOff = false;
+                if (currentPath === "/auth/login") {
+                    currentPath = (this.$location.search() || {}).uri || "/";
+                    wasLoggedOff = true;
+                }
+
                 this.$location.path("/auth/login");
                 this.$location.replace();
-                this.$location.search({
-                    uri: currentPath !== "/auth/login" ? currentPath : "/"
-                });
+
+                var loginArgs : any = {
+                    uri: currentPath
+                };
+                if (wasLoggedOff) loginArgs.wasLoggedOff = true;
+
+                this.$location.search(loginArgs);
             }
         }
 

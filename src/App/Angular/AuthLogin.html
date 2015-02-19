@@ -1,7 +1,9 @@
 ﻿<form class="form-signin" role="form" novalidate>
     <h2 class="form-signin-heading">Inloggen</h2>
-    
+
     <strong class="text-danger" ng-show="!!errorMessage">{{errorMessage}}</strong>
+
+    <strong class="text-info" ng-show="!!wasLoggedOff">Je sessie is verlopen en je was uitgelogd. Log opnieuw hieronder in.</strong>
 
     <input type="text" class="form-control" placeholder="Gebruikersnaam"
            ng-disabled="isBusy" 
