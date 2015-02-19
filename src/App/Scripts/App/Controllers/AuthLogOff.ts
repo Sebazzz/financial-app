@@ -23,9 +23,8 @@ module FinancialApp {
 
         private confirmLogOff() {
             this.$scope.isBusy = true;
-            this.authentication.logOff()
-                .then(() => this.redirect(),
-                      () => alert('Kon niet uitloggen.'));
+            this.authentication.logOff();
+            this.redirect();
         }
 
         private redirect() {

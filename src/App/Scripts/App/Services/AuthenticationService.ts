@@ -43,10 +43,31 @@ module FinancialApp.Services {
             this.authInfo = this.checkAuthentication();
 
             $rootScope.$on("$locationChangeStart", (ev : ng.IAngularEvent, newLocation : string) => {
-                if (!this.authInfo.isAuthenticated() && newLocation.indexOf('/auth/login') === -1) {
+                var isAuthorized = this.checkPathAuthorization(newLocation);
+                if (!isAuthorized) {
                     ev.preventDefault();
                 }
             });
+
+            this.checkPathAuthorization();
+        }
+
+        private checkPathAuthorization(newLocation?: string): boolean {
+            var location = newLocation || this.$location.path();
+            var isLoginPage = location.indexOf("/auth/log") !== -1;
+
+            if (!isLoginPage && !this.isAuthenticated()) {
+                console.warn("Not logged in for path %s, redirecting...", location);
+
+                this.$location.search({
+                    uri: location
+                });
+                this.$location.path("/auth/login");
+                this.$location.replace();
+                return false;
+            }
+
+            return true;
         }
 
         public addAuthenticationChange(invokable: IAction) {
@@ -61,16 +82,9 @@ module FinancialApp.Services {
             return this.authInfo.isAuthenticated();
         }
 
-        public logOff(): ng.IPromise<DTO.IAuthenticationInfo> {
-            var ret = this.$q.defer();
-
-            window.setTimeout(100, () => {
-                this.setAuthInfo(null);
-                this.raiseAuthenticationEvent();
-                ret.resolve(null);
-            });
-
-            return ret.promise;
+        public logOff(): void {
+            this.setAuthInfo(null);
+            this.raiseAuthenticationEvent();
         }
 
         private raiseAuthenticationEvent() {

@@ -11,34 +11,17 @@ module FinancialApp {
     }
 
     export class MasterController {
-        static $inject = ["$scope", "$location", "authentication"];
+        static $inject = ["$scope", "authentication"];
 
-        constructor($scope: IMasterControllerScope, private $location : ng.ILocationService, private authentication: Services.AuthenticationService) {
-            $scope.$on("$locationChangeSuccess", (ev) => this.checkLocationAuthorization())
-
+        constructor($scope: IMasterControllerScope, private authentication: Services.AuthenticationService) {
             MasterController.setAuthenticationInfo($scope, this.authentication.isAuthenticated());
 
             this.authentication.addAuthenticationChange(() => MasterController.setAuthenticationInfo($scope, this.authentication.isAuthenticated()));
-            this.checkLocationAuthorization();
         }
 
         private static setAuthenticationInfo($scope: IMasterControllerScope, isAuthenticated : boolean): void {
             $scope.isMenuVisible = isAuthenticated;
             $scope.isAuthenticated = isAuthenticated;
-        }
-
-        private checkLocationAuthorization() {
-            var isLoginPage = this.$location.path().indexOf("/auth/login") !== -1;
-
-            if (!isLoginPage && !this.authentication.isAuthenticated()) {
-                console.warn("Not logged in for path %s, redirecting...", this.$location.path());
-                
-                this.$location.search({
-                    uri: this.$location.path()
-                });
-                this.$location.path("/auth/login");
-                this.$location.replace();
-            }
         }
     }    
 }
