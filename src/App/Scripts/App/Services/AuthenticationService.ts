@@ -82,7 +82,7 @@ module FinancialApp.Services {
                 this.$location.path("/auth/login");
                 this.$location.replace();
                 this.$location.search({
-                    uri: currentPath != "/auth/login" ? currentPath : "/"
+                    uri: currentPath !== "/auth/login" ? currentPath : "/"
                 });
             }
         }
@@ -99,6 +99,8 @@ module FinancialApp.Services {
             };
 
             this.$http.post<DTO.IAuthTokenInfo>("/api/token", data, opt).success((data) => {
+                    data.userName = userName;
+
                     this.setAuthInfo(data);
                     this.raiseAuthenticationEvent();
 
@@ -112,7 +114,7 @@ module FinancialApp.Services {
             return ret.promise;
         }
 
-        public impersonate(userId: number): ng.IPromise<DTO.IAuthenticationInfo>  {
+        public impersonate(userId: number, userName:string): ng.IPromise<DTO.IAuthenticationInfo>  {
             var ret = this.$q.defer();
 
             var data = "grant_type=impersonate&userid=" + userId + "&ticket=" + encodeURIComponent(this.authInfo.token);
@@ -124,6 +126,8 @@ module FinancialApp.Services {
             };
 
             this.$http.post<DTO.IAuthTokenInfo>("/api/token", data, opt).success((data) => {
+                data.userName = userName;
+
                 this.setAuthInfo(data);
                 this.raiseAuthenticationEvent();
 
