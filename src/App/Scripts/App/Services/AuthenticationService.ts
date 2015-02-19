@@ -115,7 +115,15 @@ module FinancialApp.Services {
         public impersonate(userId: number): ng.IPromise<DTO.IAuthenticationInfo>  {
             var ret = this.$q.defer();
 
-            this.$http.post<DTO.IAuthTokenInfo>("/api/user/impersonate/" + userId, {}).success((data) => {
+            var data = "grant_type=impersonate&userid=" + userId + "&ticket=" + encodeURIComponent(this.authInfo.token);
+
+            var opt: ng.IRequestShortcutConfig = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            };
+
+            this.$http.post<DTO.IAuthTokenInfo>("/api/token", data, opt).success((data) => {
                 this.setAuthInfo(data);
                 this.raiseAuthenticationEvent();
 
