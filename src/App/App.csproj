@@ -370,6 +370,7 @@
     <Compile Include="Api\AuthenticationController.cs" />
     <Compile Include="Api\BaseEntityController.cs" />
     <Compile Include="Api\CategoryController.cs" />
+    <Compile Include="Api\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Api\Extensions\Annotations.cs" />
     <Compile Include="Api\Extensions\ApiExtensions.cs" />
     <Compile Include="Api\Extensions\PrincipalExtensions.cs" />
