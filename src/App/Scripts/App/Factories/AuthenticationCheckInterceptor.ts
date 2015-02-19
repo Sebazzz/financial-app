@@ -4,8 +4,13 @@ module FinancialApp.Factories {
         var func = ($location : ng.ILocationService, $q : ng.IDeferred<any>) => {
             return {
                 responseError: (response) => {
-                    if (response.status === 403 || response.status === 401) {
+                    var isUnauthorizedResponse = response.status === 403 || response.status === 401;
+                    var isLoginPage = this.$location.path().indexOf("/auth/login") !== -1;
+                    if (!isLoginPage && isUnauthorizedResponse) {
                         // unauthorized, cookie expired
+                        $location.search({
+                            uri: $location.path()
+                        });
                         $location.path("/auth/login");
                         $location.replace();
                     }
