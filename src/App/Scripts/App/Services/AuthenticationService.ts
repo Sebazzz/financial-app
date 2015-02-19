@@ -64,12 +64,11 @@ module FinancialApp.Services {
         public logOff(): ng.IPromise<DTO.IAuthenticationInfo> {
             var ret = this.$q.defer();
 
-            this.$http.post<DTO.IAuthTokenInfo>("/api/authentication/logoff", {}).success((data) => {
+            window.setTimeout(100, () => {
                 this.setAuthInfo(null);
                 this.raiseAuthenticationEvent();
-
                 ret.resolve(null);
-            }).error((data) => ret.reject(data));
+            });
 
             return ret.promise;
         }
@@ -138,18 +137,7 @@ module FinancialApp.Services {
         }
 
         private checkAuthentication(): AuthenticationInfo {
-            /*this.$log.info("AuthenticationService: Checking authentication");
-
-            this.$http.get<DTO.IAuthenticationInfo>("/api/authentication/check")
-                .success((info) => {
-                    this.$log.log("AuthenticationService: Authentication information received");
-
-                    this.setAuthInfo(info);
-                    this.isCheckingAuthentication = false;
-                    this.raiseAuthenticationEvent();
-                });
-
-            this.isCheckingAuthentication = true;*/
+            // TODO: do an asynchronous real check here
 
             return this.getAuthInfo();
         }
@@ -177,7 +165,7 @@ module FinancialApp.Services {
         }
 
         public getUserId(): number {
-            return -1337;//this.authInfo.userId;
+            return -1337;//this.authInfo.userId; // TODO: get user id
         }
 
         public getUserName(): string {

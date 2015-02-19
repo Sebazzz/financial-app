@@ -367,7 +367,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\AuthenticationController.cs" />
     <Compile Include="Api\BaseEntityController.cs" />
     <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\SimpleAuthorizationServerProvider.cs" />

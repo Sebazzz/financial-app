@@ -18,11 +18,9 @@ namespace App.Api
     [Authorize]
     [RoutePrefix("api/user/impersonate")]
     public class ImpersonateUserController : ApiController {
-        private readonly IAuthenticationManager _authenticationManager;
         private readonly AppUserManager _appUserManager;
-        public ImpersonateUserController(AppUserManager appUserManager, IAuthenticationManager authenticationManager) {
+        public ImpersonateUserController(AppUserManager appUserManager) {
             this._appUserManager = appUserManager;
-            this._authenticationManager = authenticationManager;
         }
 
         // GET: api/user/impersonate
@@ -36,31 +34,5 @@ namespace App.Api
                                        .Project()
                                        .To<AppUserListing>();
         }
-
-        // POST: api/user/impersonate/3
-        [HttpPost]
-        [Route("{id}")]
-        public async Task<AuthenticationInfo> Impersonate(int id) {
-            int currentUserId = this.User.Identity.GetUserId<int>();
-
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(currentUserId);
-            currentUser.EnsureNotNull(HttpStatusCode.Forbidden);
-
-            AppUser user = await this._appUserManager.FindByIdAsync(id);
-            user.EnsureNotNull(HttpStatusCode.Forbidden);
-
-            if (!user.TrustedUsers.Contains(currentUser)) {
-                throw new HttpResponseException(HttpStatusCode.Forbidden);
-            }
-
-            this._authenticationManager.SignIn(
-                new AuthenticationProperties { IsPersistent = true}, await user.GenerateUserIdentityAsync(this._appUserManager, DefaultAuthenticationTypes.ApplicationCookie));
-
-            return new AuthenticationInfo {
-                                                IsAuthenticated = true,
-                                                UserId = user.Id,
-                                                UserName = user.UserName
-                                            };
-        } 
     }
 }
