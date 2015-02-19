@@ -158,7 +158,7 @@ module FinancialApp.Services {
             if (obj) {
                 this.authInfo = AuthenticationInfo.create(obj);
 
-                this.localStorage.setItem("AuthenticationInfo2", angular.toJson(this.authInfo));
+                this.localStorage.setItem("AuthenticationInfo3", angular.toJson(this.authInfo));
             } else {
                 this.authInfo = new AuthenticationInfo();
 

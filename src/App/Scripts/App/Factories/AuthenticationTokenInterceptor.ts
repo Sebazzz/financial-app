@@ -6,7 +6,7 @@ module FinancialApp.Factories {
                 request: (config : ng.IRequestConfig) => {
                     config.headers = config.headers || {};
                     
-                    var rawAuthInfo = localStorage.getItem("AuthenticationInfo2");
+                    var rawAuthInfo = localStorage.getItem("AuthenticationInfo3");
                     var authInfo : Services.AuthenticationInfo;
                     if (rawAuthInfo && (authInfo = angular.fromJson(rawAuthInfo))) {
                         config.headers.Authorization = "Bearer " + authInfo.token;
