@@ -160,16 +160,16 @@ module FinancialApp.Services {
             if (obj) {
                 this.authInfo = AuthenticationInfo.create(obj);
 
-                this.localStorage.setItem("AuthenticationInfo3", angular.toJson(this.authInfo));
+                this.localStorage.setItem(AuthenticationService.localStorageLocation, angular.toJson(this.authInfo));
             } else {
                 this.authInfo = new AuthenticationInfo();
 
-                this.localStorage.removeItem("AuthenticationInfo2");
+                this.localStorage.removeItem(AuthenticationService.localStorageLocation);
             }
         }
 
         private getAuthInfo(): AuthenticationInfo {
-            var authInfo = this.localStorage.getItem("AuthenticationInfo2");
+            var authInfo = this.localStorage.getItem(AuthenticationService.localStorageLocation);
 
             if (!authInfo) {
                 return new AuthenticationInfo();
@@ -185,6 +185,8 @@ module FinancialApp.Services {
         public getUserName(): string {
             return this.authInfo.userName || "???";
         }
+
+        public static localStorageLocation = "AuthenticationToken";
     }
 
 }
