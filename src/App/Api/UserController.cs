@@ -71,7 +71,7 @@
         public async Task<InsertId> Put(int id, [FromBody] AppUserMutate value) {
             AppUser currentUser = await this.GetUser(id);
 
-            if (value.UserName != null) EnsureNotCurrentUser(id);
+            if (value.UserName != null) this.EnsureNotCurrentUser(id);
 
             currentUser.UserName = value.UserName ?? currentUser.UserName;
             currentUser.Email = value.Email ?? currentUser.Email;

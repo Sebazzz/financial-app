@@ -7,7 +7,7 @@ namespace App.Migrations
     {
         public override void Up()
         {
-            CreateTable(
+            this.CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -16,8 +16,8 @@ namespace App.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUserRoles",
                 c => new
                     {
@@ -29,8 +29,8 @@ namespace App.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
@@ -52,8 +52,8 @@ namespace App.Migrations
                 .ForeignKey("dbo.AppOwners", t => t.Group_Id, cascadeDelete: true)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex")
                 .Index(t => t.Group_Id);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUserClaims",
                 c => new
                     {
@@ -65,8 +65,8 @@ namespace App.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AppOwners",
                 c => new
                     {
@@ -74,8 +74,8 @@ namespace App.Migrations
                         Name = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUserLogins",
                 c => new
                     {
@@ -86,8 +86,8 @@ namespace App.Migrations
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Categories",
                 c => new
                     {
@@ -104,27 +104,27 @@ namespace App.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Categories", "Owner_Id", "dbo.AppOwners");
-            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", "Group_Id", "dbo.AppOwners");
-            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropIndex("dbo.Categories", new[] { "Owner_Id" });
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", new[] { "Group_Id" });
-            DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropTable("dbo.Categories");
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.AppOwners");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetRoles");
+            this.DropForeignKey("dbo.Categories", "Owner_Id", "dbo.AppOwners");
+            this.DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.AspNetUsers", "Group_Id", "dbo.AppOwners");
+            this.DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            this.DropIndex("dbo.Categories", new[] { "Owner_Id" });
+            this.DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            this.DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            this.DropIndex("dbo.AspNetUsers", new[] { "Group_Id" });
+            this.DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            this.DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            this.DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            this.DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            this.DropTable("dbo.Categories");
+            this.DropTable("dbo.AspNetUserLogins");
+            this.DropTable("dbo.AppOwners");
+            this.DropTable("dbo.AspNetUserClaims");
+            this.DropTable("dbo.AspNetUsers");
+            this.DropTable("dbo.AspNetUserRoles");
+            this.DropTable("dbo.AspNetRoles");
         }
     }
 }

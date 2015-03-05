@@ -7,12 +7,12 @@ namespace App.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.Sheets", "Name", c => c.String(maxLength: 250));
+            this.AddColumn("dbo.Sheets", "Name", c => c.String(maxLength: 250));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Sheets", "Name");
+            this.DropColumn("dbo.Sheets", "Name");
         }
     }
 }

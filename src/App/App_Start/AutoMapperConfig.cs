@@ -76,20 +76,20 @@
             /// Result, typically build from the source resolution result
             /// </returns>
             public ResolutionResult Resolve(ResolutionResult source) {
-                TEntity entry = ResolveCore(source.Value);
+                TEntity entry = this.ResolveCore(source.Value);
                 return source.New(entry, typeof(TEntity));
             }
 
             private TEntity ResolveCore(object sourceValue) {
                 int primaryKey = GetPrimaryKey(sourceValue);
-                TEntity result = FindEntityWithPermissionCheck(primaryKey);
+                TEntity result = this.FindEntityWithPermissionCheck(primaryKey);
                 return result;
             }
 
             private TEntity FindEntityWithPermissionCheck(int key) {
                 TEntity entity = this.FindEntity(key);
 
-                VerifyOwnership(entity as IAppOwnerEntity);
+                this.VerifyOwnership(entity as IAppOwnerEntity);
 
                 return entity;
             }
@@ -132,7 +132,7 @@
             /// Destination object
             /// </returns>
             public TEntity Convert(ResolutionContext context) {
-                return ResolveCore(context.SourceValue);
+                return this.ResolveCore(context.SourceValue);
             }
         }
 

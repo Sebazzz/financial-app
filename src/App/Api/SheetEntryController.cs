@@ -31,7 +31,7 @@
         [Route("{id}")]
         public SheetEntryDTO Get(int id) {
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
-            EnsureCorrectSheet(entry);
+            this.EnsureCorrectSheet(entry);
 
             return AutoMapper.Mapper.Map<SheetEntryDTO>(entry);
         }
@@ -42,7 +42,7 @@
             int delta = (int) mutation;
 
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
-            EnsureCorrectSheet(entry);
+            this.EnsureCorrectSheet(entry);
             Trace.Assert(entry.Category != null);
 
             entry.Sheet.UpdateTimestamp = DateTime.Now;
@@ -82,7 +82,7 @@
         [HttpPut]
         public InsertId Put(int id, [FromBody] SheetEntryDTO value) {
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
-            EnsureCorrectSheet(entry);
+            this.EnsureCorrectSheet(entry);
             this.EntityOwnerService.EnsureOwner(entry.Sheet, this.OwnerId);
 
             AutoMapper.Mapper.Map(value, entry);
@@ -99,7 +99,7 @@
         [HttpDelete]
         public void Delete(int id) {
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
-            EnsureCorrectSheet(entry);
+            this.EnsureCorrectSheet(entry);
             this.EntityOwnerService.EnsureOwner(entry.Sheet, this.OwnerId);
             entry.Sheet.UpdateTimestamp = DateTime.Now;
 

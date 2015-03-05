@@ -24,14 +24,13 @@
 
         [NotNull]
         public IEnumerable<SheetListing> GetAll(int ownerId) {
-            var sheets = GetAllCore(ownerId);
+            var sheets = this.GetAllCore(ownerId);
             
             // generate a fake sheet entry if none are available
             // when the sheet will be requested initially, the 'real'
             // sheet entry will be created
             return sheets.DefaultIfEmpty(
-                        AutoMapper.Mapper.Map<Sheet, SheetListing>(
-                            CreateCurrentMonthSheet(ownerId)));
+                        AutoMapper.Mapper.Map<Sheet, SheetListing>(this.CreateCurrentMonthSheet(ownerId)));
         }
 
         private IEnumerable<SheetListing> GetAllCore(int ownerId) {
@@ -49,7 +48,7 @@
                                                   .FirstOrDefault();
 
             if (theSheet == null) {
-                theSheet = CreateSheet(month, year, ownerId);
+                theSheet = this.CreateSheet(month, year, ownerId);
             
                 this._sheetRepository.Add(theSheet);
                 this._sheetRepository.SaveChanges();
@@ -59,7 +58,7 @@
         }
 
         private Sheet CreateCurrentMonthSheet(int ownerId) {
-            return CreateSheet(DateTime.Now.Month, DateTime.Now.Year, ownerId);
+            return this.CreateSheet(DateTime.Now.Month, DateTime.Now.Year, ownerId);
         }
 
         private Sheet CreateSheet(int month, int year, int ownerId) {

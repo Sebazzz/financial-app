@@ -7,7 +7,7 @@ namespace App.Migrations
     {
         public override void Up()
         {
-            CreateTable(
+            this.CreateTable(
                 "dbo.AppUserTrustedUsers",
                 c => new
                     {
@@ -24,11 +24,11 @@ namespace App.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.AppUserTrustedUsers", "TargetUser", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AppUserTrustedUsers", "SourceUser", "dbo.AspNetUsers");
-            DropIndex("dbo.AppUserTrustedUsers", new[] { "TargetUser" });
-            DropIndex("dbo.AppUserTrustedUsers", new[] { "SourceUser" });
-            DropTable("dbo.AppUserTrustedUsers");
+            this.DropForeignKey("dbo.AppUserTrustedUsers", "TargetUser", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.AppUserTrustedUsers", "SourceUser", "dbo.AspNetUsers");
+            this.DropIndex("dbo.AppUserTrustedUsers", new[] { "TargetUser" });
+            this.DropIndex("dbo.AppUserTrustedUsers", new[] { "SourceUser" });
+            this.DropTable("dbo.AppUserTrustedUsers");
         }
     }
 }

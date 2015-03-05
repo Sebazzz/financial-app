@@ -6,13 +6,13 @@ namespace App.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.SheetEntries", "SortOrder", c => c.Int(nullable: false, defaultValue:0));
-            Sql("UPDATE dbo.SheetEntries SET SortOrder = Id");
+            this.AddColumn("dbo.SheetEntries", "SortOrder", c => c.Int(nullable: false, defaultValue:0));
+            this.Sql("UPDATE dbo.SheetEntries SET SortOrder = Id");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.SheetEntries", "SortOrder");
+            this.DropColumn("dbo.SheetEntries", "SortOrder");
         }
     }
 }

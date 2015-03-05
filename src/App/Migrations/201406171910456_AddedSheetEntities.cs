@@ -7,7 +7,7 @@ namespace App.Migrations
     {
         public override void Up()
         {
-            CreateTable(
+            this.CreateTable(
                 "dbo.SheetEntries",
                 c => new
                     {
@@ -26,8 +26,8 @@ namespace App.Migrations
                 .ForeignKey("dbo.Sheets", t => t.Sheet_Id, cascadeDelete: true)
                 .Index(t => t.Category_Id)
                 .Index(t => t.Sheet_Id);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Sheets",
                 c => new
                     {
@@ -45,14 +45,14 @@ namespace App.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.SheetEntries", "Sheet_Id", "dbo.Sheets");
-            DropForeignKey("dbo.Sheets", "Owner_Id", "dbo.AppOwners");
-            DropForeignKey("dbo.SheetEntries", "Category_Id", "dbo.Categories");
-            DropIndex("dbo.Sheets", new[] { "Owner_Id" });
-            DropIndex("dbo.SheetEntries", new[] { "Sheet_Id" });
-            DropIndex("dbo.SheetEntries", new[] { "Category_Id" });
-            DropTable("dbo.Sheets");
-            DropTable("dbo.SheetEntries");
+            this.DropForeignKey("dbo.SheetEntries", "Sheet_Id", "dbo.Sheets");
+            this.DropForeignKey("dbo.Sheets", "Owner_Id", "dbo.AppOwners");
+            this.DropForeignKey("dbo.SheetEntries", "Category_Id", "dbo.Categories");
+            this.DropIndex("dbo.Sheets", new[] { "Owner_Id" });
+            this.DropIndex("dbo.SheetEntries", new[] { "Sheet_Id" });
+            this.DropIndex("dbo.SheetEntries", new[] { "Category_Id" });
+            this.DropTable("dbo.Sheets");
+            this.DropTable("dbo.SheetEntries");
         }
     }
 }
