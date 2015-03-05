@@ -75,8 +75,6 @@
         /// <returns>
         /// true if the <see cref="T:System.Web.IHttpHandler"/> instance is reusable; otherwise, false.
         /// </returns>
-        public bool IsReusable {
-            get { return true; }
-        }
+        public bool IsReusable => true;
     }
 }
