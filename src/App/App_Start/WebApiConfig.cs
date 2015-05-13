@@ -4,6 +4,7 @@
     using System.Web.Http;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using Support;
 
     public static class WebApiConfig
     {
@@ -19,6 +20,8 @@
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Filters.Add(new CacheDisableFilter());
 
             // DTO formatting
             JsonMediaTypeFormatter formatter = config.Formatters.JsonFormatter;

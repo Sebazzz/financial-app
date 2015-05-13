@@ -26,7 +26,10 @@
             this._appOwnerRepository = appOwnerRepository;
         }
 
-        protected int OwnerId => this.User.Identity.GetOwnerGroupId();
+        protected int OwnerId
+        {
+            get { return this.User.Identity.GetOwnerGroupId(); }
+        }
 
         // GET: api/User
         public IEnumerable<AppUserListing> Get() {

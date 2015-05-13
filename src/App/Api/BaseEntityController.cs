@@ -12,6 +12,9 @@
             this.EntityOwnerService = entityOwnerService;
         }
 
-        protected int OwnerId => this.User.Identity.GetOwnerGroupId();
+        protected int OwnerId
+        {
+            get { return this.User.Identity.GetOwnerGroupId(); }
+        }
     }
 }

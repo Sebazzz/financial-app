@@ -175,15 +175,15 @@ module FinancialApp {
             return '/sheet/' + now.getFullYear() + "/" + (now.getMonth() + 1) + subPath;
         }
 
-        static handleWindowError(errMsg: string, url: string, lineNumber: number, column: number = 0, errType : Error = new Error("(no details)")) {
+        static handleWindowError(event: Event, source: string, fileno: number, columnNumber: number) {
             var n = "\n";
             alert("Error in Application" + n +
-                  "'"+errMsg+"' at:"+n+
-                  " Line #"+lineNumber+" col #"+column + n +
-                  " At: "+url);
+                "'" + source+"' at:"+n+
+                " Line #" + fileno + " col #" + columnNumber + n +
+                " At: " + fileno);
 
-            alert("Error Type: " + errType.toString() + n +
-                  "Name: "+ errType.name);
+            alert("Error Type: " + event.toString() + n +
+                "Name: " + event.srcElement);
         }
     }
 }
