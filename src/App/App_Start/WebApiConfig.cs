@@ -21,8 +21,6 @@
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Filters.Add(new CacheDisableFilter());
-
             // DTO formatting
             JsonMediaTypeFormatter formatter = config.Formatters.JsonFormatter;
             JsonSerializerSettings serializerSettings = formatter.SerializerSettings;

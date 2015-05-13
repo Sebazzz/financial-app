@@ -449,7 +449,6 @@
     <Compile Include="Models\DTO\SheetEntry.cs" />
     <Compile Include="Models\DTO\SheetListing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Support\CacheDisableFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
