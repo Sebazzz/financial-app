@@ -145,24 +145,21 @@ declare module FinancialApp.DTO {
     
 
     /** 
-* 
-Not actually used by our API but let our T4 generate the interface :)
-
-* 
+* App.Models.DTO.SheetTotals
 */
 
-    export interface IAuthTokenInfo extends IObject {
+    export interface ISheetTotals extends IObject {
                     /** 
-* App.Models.DTO.AuthTokenInfo.AccessToken
+* App.Models.DTO.SheetTotals.SavingsAccount
 */
 
-            access_token : string;
+            savingsAccount : any;
 
                     /** 
-* App.Models.DTO.AuthTokenInfo.UserName
+* App.Models.DTO.SheetTotals.BankAccount
 */
 
-            userName : string;
+            bankAccount : any;
 
             }
     
@@ -340,6 +337,33 @@ Not actually used by our API but let our T4 generate the interface :)
     
 
     /** 
+* 
+Not actually used by our API but let our T4 generate the interface :)
+
+* 
+*/
+
+    export interface IAuthTokenInfo extends IObject {
+                    /** 
+* App.Models.DTO.AuthTokenInfo.AccessToken
+*/
+
+            access_token : string;
+
+                    /** 
+* App.Models.DTO.AuthTokenInfo.UserName
+*/
+
+            userName : string;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
 * App.Models.DTO.AppUserMutate
 */
 
@@ -460,6 +484,12 @@ Custom name, if set
 */
 
             createTimestamp : any;
+
+                    /** 
+* App.Models.DTO.SheetListing.Totals
+*/
+
+            totals : ISheetTotals /* App.Models.DTO.SheetTotals*/ ;
 
             }
     

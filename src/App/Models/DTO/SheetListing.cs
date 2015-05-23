@@ -1,6 +1,7 @@
 ﻿namespace App.Models.DTO {
     using System;
     using System.Runtime.Serialization;
+    using Domain;
 
     [DataContract]
     public class SheetListing {
@@ -21,5 +22,16 @@
 
         [DataMember]
         public DateTime CreateTimestamp { get; set; }
+
+        [DataMember]
+        public SheetTotals Totals { get; set; }
+    }
+
+    [DataContract]
+    public class SheetTotals {
+        [DataMember]
+        public decimal? SavingsAccount { get; set; }
+        [DataMember]
+        public decimal? BankAccount { get; set; }
     }
 }

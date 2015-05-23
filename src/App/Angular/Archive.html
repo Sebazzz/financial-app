@@ -5,9 +5,19 @@
         Hier zie je het lijst van opgeslagen maanden in je archief.
     </p>
 
-    <ul ng-repeat="sheet in sheets">
-        <li>
-            <div class="pull-right">
+    <table class="table table-condensed table-responsive">
+        <tr ng-repeat="sheet in sheets">
+            <td>
+
+                <a href="#"
+                   ng-href="/sheet/{{sheet.year}}/{{sheet.month}}">
+                    {{ [sheet.year, sheet.month - 1] | moment: 'MMMM YYYY' }} {{sheet.name ? '('+sheet.name+')' : ''}}
+                </a>
+            </td>
+
+            <td>{{ sheet.totals.bankAccount | currency }}</td>
+            <td>{{ sheet.totals.savingsAccount | currency }}</td>
+            <td class="pull-right">
                 <a class="btn btn-default btn-sm" ng-href="/sheet/{{sheet.year}}/{{sheet.month}}" tooltip="Bewerken">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
@@ -16,14 +26,9 @@
                 </a>
 
                 <a class=""></a>
-            </div>
-
-            <a href="#"
-               ng-href="/sheet/{{sheet.year}}/{{sheet.month}}">
-                {{ [sheet.year, sheet.month - 1] | moment: 'MMMM YYYY' }} {{sheet.name ? '('+sheet.name+')' : ''}}
-            </a>
-        </li>
-    </ul>
+            </td>
+        </tr>
+    </table>
 </div>
 
 <div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

@@ -36,7 +36,11 @@ module FinancialApp {
                     year: y,
                     updateTimestamp: now.toISOString(),
                     createTimestamp: now.toISOString(),
-                    name: null
+                    name: null,
+                    totals: {
+                        bankAccount: 0,
+                        savingsAccount: 0
+                    }
                 });
             }
         }

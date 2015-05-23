@@ -24,19 +24,30 @@
 
         [NotNull]
         public IEnumerable<SheetListing> GetAll(int ownerId) {
-            var sheets = this.GetAllCore(ownerId);
+            IEnumerable<SheetListing> sheets = this.GetAllCore(ownerId);
             
             // generate a fake sheet entry if none are available
             // when the sheet will be requested initially, the 'real'
             // sheet entry will be created
-            return sheets.DefaultIfEmpty(
+            var all = sheets.DefaultIfEmpty(
                         AutoMapper.Mapper.Map<Sheet, SheetListing>(this.CreateCurrentMonthSheet(ownerId)));
+
+            SheetTotals totals = new SheetTotals{BankAccount = 0, SavingsAccount = 0};
+            foreach (SheetListing listing in all) {
+                totals.BankAccount += listing.Totals.BankAccount ?? 0;
+                totals.SavingsAccount += listing.Totals.SavingsAccount ?? 0;
+
+                listing.Totals.BankAccount = totals.BankAccount;
+                listing.Totals.SavingsAccount = totals.SavingsAccount;
+
+                yield return listing;
+            }
         }
 
         private IEnumerable<SheetListing> GetAllCore(int ownerId) {
             IQueryable<Sheet> allSheets = this._sheetRepository.GetByOwner(ownerId);
 
-            return allSheets.OrderByDescending(x => x.Subject)
+            return allSheets.OrderBy(x => x.Subject)
                             .Project()
                             .To<SheetListing>();
         }

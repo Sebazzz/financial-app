@@ -54,7 +54,7 @@
 
         public IEnumerable<SheetListing> GetAll() {
             IEnumerable<SheetListing> allSheets = this._sheetRetrievalService.GetAll(this.OwnerId);
-            return allSheets;
+            return allSheets.OrderByDescending(x => new DateTime(x.Year, x.Month, 1));
         }
     }
 }

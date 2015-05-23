@@ -27,7 +27,11 @@
 
             AutoMapper.Mapper.CreateMap<Sheet, Models.DTO.SheetListing>(MemberList.Destination)
                              .ForMember(x => x.Month, x=>x.MapFrom(z=>z.Subject.Month))
-                             .ForMember(x => x.Year, x => x.MapFrom(z => z.Subject.Year));
+                             .ForMember(x => x.Year, x => x.MapFrom(z => z.Subject.Year))
+                             .ForMember(x => x.Totals, x => x.MapFrom(z => new SheetTotals {
+                                                                                               BankAccount = z.CalculationOptions.BankAccountOffset ?? 0 + z.Entries.Where(e => e.Account == AccountType.BankAccount).Sum(e => e.Delta),
+                                                                                               SavingsAccount = z.CalculationOptions.SavingsAccountOffset ?? 0 + z.Entries.Where(e => e.Account == AccountType.SavingsAccount).Sum(e => e.Delta)
+                                                                                           }));
 
             AutoMapper.Mapper.CreateMap<Sheet, Models.DTO.Sheet>(MemberList.Destination)
                              .ForMember(x => x.Offset, m => m.ResolveUsing<SheetOffsetCalculationResolver>());
