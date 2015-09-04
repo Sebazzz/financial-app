@@ -16,7 +16,7 @@ module FinancialApp {
             /// <summary>Initializes the application</summary>
 
             if (Program.isInitialized === true) {
-                throw new Error("App is already initialized");
+                throw new Error("App is already initialized!");
             }
 
             if (Program.enableDebug()) {
