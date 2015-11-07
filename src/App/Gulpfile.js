@@ -13,6 +13,7 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     size = require('gulp-size'),
     clean = require('gulp-clean'),
+    less = require('gulp-less'),
     rename = require('gulp-rename');
 
 var filePath = {
@@ -24,6 +25,8 @@ var filePath = {
     libsjsminify: {
         src: [
             './Scripts/linq.js',
+            './Scripts/jquery-2.1.1.js',
+            './Scripts/jquery.fabric.js',
             './Scripts/angular.js',
             './Scripts/angular-locale-nl_NL.js',
             './Scripts/angular-resource.js',
@@ -42,12 +45,12 @@ var filePath = {
     },
 
     minifylibcss: {
-        src: ['./Content/animate.css', './Content/bootstrap.css', './Content/angular-progress.css'],
+        src: ['./Content/animate.less', './Content/Fabric/less/Fabric.less', './Content/Fabric/less/Fabric.Components.less', './Content/angular-progress.less'],
         dest: './build/'
     },
 
     minifyappcss: {
-        src: ['./Content/App/**/*.css', '!./*.min.css', '!./**/*.min.css'],
+        src: ['./Content/App/**/*.less', '!./*.min.css', '!./**/*.min.css'],
         dest: './build/'
     },
 
@@ -86,6 +89,7 @@ gulp.task('jshint', function () {
 
 gulp.task('lib-minify-css', function () {
     gulp.src(filePath.minifylibcss.src)
+        .pipe(less())
         .pipe(concat('libcss.css'))
         .pipe(gulp.dest(filePath.minifylibcss.dest))
         .pipe(minifycss())
@@ -95,6 +99,7 @@ gulp.task('lib-minify-css', function () {
 
 gulp.task('app-minify-css', function () {
     gulp.src(filePath.minifyappcss.src)
+        .pipe(less())
         .pipe(concat('appcss.css'))
         .pipe(gulp.dest(filePath.minifyappcss.dest))
         .pipe(minifycss())
