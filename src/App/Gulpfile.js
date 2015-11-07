@@ -23,7 +23,6 @@ var filePath = {
 
     libsjsminify: {
         src: [
-            './Scripts/moment-with-locales.js',
             './Scripts/linq.js',
             './Scripts/angular.js',
             './Scripts/angular-locale-nl_NL.js',
@@ -32,8 +31,9 @@ var filePath = {
             './Scripts/angular-progress.js',
             './Scripts/angular-ui/ui-bootstrap-tpls.js',
             './Scripts/hotkeys.js',
-            './Scripts/angular-ng-google-chart.js'
-        ],
+            './Scripts/angular-ng-google-chart.js',
+            './Scripts/moment-with-locales.js'
+    ],
         dest: './build/'
     },
 
