@@ -25,7 +25,6 @@ namespace App {
 
             AutoMapperConfig.Configure();
             MvcConfig.Register();
-            BundleConfig.Register();
 
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);

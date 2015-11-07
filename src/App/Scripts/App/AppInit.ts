@@ -187,12 +187,12 @@ module FinancialApp {
             return '/sheet/' + now.getFullYear() + "/" + (now.getMonth() + 1) + subPath;
         }
 
-        static handleWindowError(event: Event, source: string, fileno: number, columnNumber: number) {
+        static handleWindowError(message: string, filename?: string, lineno?: number, colno?: number, error?: Error) {
             var n = "\n";
             alert("Error in Application" + n +
-                "'" + source+"' at:"+n+
-                " Line #" + fileno + " col #" + columnNumber + n +
-                " At: " + fileno);
+                "'" + filename+"' at:"+n+
+                " Line #" + lineno + " col #" + colno + n +
+                " At: " + filename);
 
             alert("Error Type: " + event.toString() + n +
                 "Name: " + event.srcElement);

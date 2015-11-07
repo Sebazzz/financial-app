@@ -18,8 +18,8 @@
     <meta name="msapplication-config" content="/Content/MSTileConfig.xml" />
     <link rel="apple-touch-icon" href="/Content/Tiles/apple-tile.png" />
 
-    @Styles.Render("~/bundles/style-lib")
-    @Styles.Render("~/bundles/style-app")
+    <link href="@StaticUrl("/build/libcss.css")" rel="stylesheet" />
+    <link href="@StaticUrl("/build/appcss.css")" rel="stylesheet"/>
 </head>
 <body ng-class="{ 'anonymous': !isAuthenticated, 'authenticated': isAuthenticated }" fa-scroll-nub>
     <div ng-include="'/Angular/Widgets/Menu.html'" ng-show="isMenuVisible"></div>
@@ -28,9 +28,8 @@
     
     <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
 
-    @Scripts.Render("~/bundles/script-lib")
-    @Scripts.Render("~/bundles/script-app")
-
+    <script src="@StaticUrl("/build/libscripts.js")"></script>
+    <script src="@StaticUrl("/build/appscripts.js")"></script>
     <script>FinancialApp.Program.init();</script>
 
     <noscript>
@@ -40,3 +39,14 @@
     </noscript>
 </body>
 </html>
+
+@functions {
+    private string StaticUrl(string path) {
+        if (!this.ViewContext.HttpContext.IsDebuggingEnabled) {
+            int lastIndex = path.LastIndexOf(".", StringComparison.Ordinal);
+            path = path.Substring(0, lastIndex) + ".min" + path.Substring(lastIndex);
+        }
+
+        return CacheBusting.FingerPrint.WithFileDate(path);
+    }
+}
