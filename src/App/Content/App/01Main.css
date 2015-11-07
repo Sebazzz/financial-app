@@ -123,9 +123,10 @@ tr#sheet-offset td + td{
     border-top: 1px dashed gray;
 }
 
-img.app-icon {
+.navbar-brand img {
     float: left;
     position: relative;
+    top: -10px;
 }
 
 .scrollTo {

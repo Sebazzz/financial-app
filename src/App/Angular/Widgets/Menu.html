@@ -1,36 +1,43 @@
-﻿<div class="ms-NavBar-wrapper" ng-controller="MenuController">
-    <div class="ms-NavBar" role="navigation" msfa-navbar="msfa-navbar">
-        <div class="ms-NavBar-openMenu js-openMenu">
-            <i class="ms-Icon ms-Icon--menu"></i>
+﻿<div class="navbar navbar-inverse navbar-static-top" role="navigation" ng-controller="MenuController">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-click="toggleNavBar()">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand"
+               href="/">
+                <img src="/Content/Icons/navbar.png" alt=""/>
+
+                Financial App
+            </a>
         </div>
-        <ul class="ms-NavBar-items">
-            <li class="ms-NavBar-item">
-                <a class="ms-NavBar-link" href="/">
-                    <img src="/Content/Icons/navbar.png" class="app-icon" alt=""/>
+        <div class="collapse navbar-collapse" collapse="!extendMenuVisible">
+            <ul class="nav navbar-nav">
+                <li ng-class="{ 'active': hasPath('/') }"><a href="/">Dashboard</a></li>
+                <li ng-class="{ 'active': hasPath(nowPath) }"><a href="/now">Huidige maand</a></li>
+                <li ng-class="{ 'active': hasPath('/report') }"><a href="/report">Rapportage</a></li>
+                <li ng-class="{ 'active': hasPath('/archive') }"><a href="/archive">Archief</a></li>
+            </ul>
 
-                    Financial App
-                </a>
-            </li>
-
-            <li class="ms-NavBar-item" ng-class="{ 'active': hasPath('/') }"><a class="ms-NavBar-link" href="/">Dashboard</a></li>
-            <li class="ms-NavBar-item" ng-class="{ 'active': hasPath(nowPath) }"><a class="ms-NavBar-link" href="/now">Huidige maand</a></li>
-            <li class="ms-NavBar-item" ng-class="{ 'active': hasPath('/report') }"><a class="ms-NavBar-link" href="/report">Rapportage</a></li>
-            <li class="ms-NavBar-item" ng-class="{ 'active': hasPath('/archive') }"><a class="ms-NavBar-link" href="/archive">Archief</a></li>
-
-            <li class="ms-NavBar-item ms-NavBar-item--hasMenu ms-NavBar-item--right">
-                <a href="javascript:void(0)"
-                   ng-class="{ 'active': hasPath('/manage') }"
-                   class="ms-NavBar-link">Beheer</a>
-                <i class="ms-NavBar-chevronDown ms-Icon ms-Icon--chevronDown"></i>
-
-                <ul class="ms-ContextualMenu">
-                    <li class="ms-ContextualMenu-item" ng-class="{ 'active': hasPath('/manage/category') }"><a class="ms-ContextualMenu-link" href="/manage/category">Categorieëen</a></li>
-                    <li class="ms-ContextualMenu-item" ng-class="{ 'active': hasPath('/manage/user') }"><a class="ms-ContextualMenu-link" href="/manage/user">Gebruikers</a></li>
-                    <li class="ms-ContextualMenu-item" ng-class="{ 'active': hasPath('/manage/impersonate') }"><a class="ms-ContextualMenu-link" href="/manage/impersonate">Account wisselen</a></li>
-                </ul>
-            </li>
-        </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="javascript:void(0)"
+                       ng-class="{ 'active': hasPath('/manage') }"
+                       class="dropdown-toggle"
+                       data-toggle="dropdown">Beheer<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li ng-class="{ 'active': hasPath('/manage/category') }"><a href="/manage/category">Categorieëen</a></li>
+                        <li ng-class="{ 'active': hasPath('/manage/user') }"><a href="/manage/user">Gebruikers</a></li>
+                        <li ng-class="{ 'active': hasPath('/manage/impersonate') }"><a href="/manage/impersonate">Account wisselen</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/auth/logoff">Uitloggen</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
-
-<helloWorld></helloWorld>
