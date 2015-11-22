@@ -1,0 +1,46 @@
+﻿@using System
+@using System.Threading.Tasks
+@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNet.Hosting
+@using Microsoft.AspNet.Mvc.Rendering
+@inject IHostingEnvironment HostingEnvironment
+
+<!DOCTYPE html>
+<html lang="nl"
+      id="app"
+      ng-app="main"
+      ng-strict-di="true"
+      manifest="/application.appcache"
+      ng-controller="MasterController"
+      data-app-version="@ViewBag.AppVersion">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>FinancialApp</title>
+
+    <base href="/">
+
+    <meta name="msapplication-config" content="/Content/MSTileConfig.xml" />
+    <link rel="apple-touch-icon" href="/Content/Tiles/apple-tile.png" />
+
+    <link href="@StaticUrl("/build/libcss.css")" rel="stylesheet" />
+    <link href="@StaticUrl("/build/appcss.css")" rel="stylesheet" />
+
+    @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
+</head>
+<body ng-class="{ 'anonymous': !isAuthenticated, 'authenticated': isAuthenticated }" fa-scroll-nub>
+    @RenderBody()
+</body>
+</html>
+
+@functions {
+    private string StaticUrl(string path) {
+        if (HostingEnvironment.IsProduction()) {
+            int lastIndex = path.LastIndexOf(".", StringComparison.Ordinal);
+            path = path.Substring(0, lastIndex) + ".min" + path.Substring(lastIndex);
+        }
+
+        return path;
+    }
+}

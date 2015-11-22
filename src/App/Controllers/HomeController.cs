@@ -1,16 +1,13 @@
 ﻿namespace App.Controllers {
-    using System.Web;
-    using System.Web.Mvc;
+    using Microsoft.AspNet.Mvc;
     using Support;
+    using Support.Filters;
 
+    [DefaultResponseCacheFilter]
     public sealed class HomeController : Controller {
-        // GET: Home
-        public ActionResult Index() {
+        public IActionResult Index() {
             this.ViewBag.AppVersion = AppVersion.Informational;
-
-            this.Response.Cache.SetAllowResponseInBrowserHistory(true);
-            this.Response.Cache.SetRevalidation(HttpCacheRevalidation.AllCaches);
-
+            
             return this.View();
         }
     }

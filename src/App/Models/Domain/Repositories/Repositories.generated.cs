@@ -8,12 +8,11 @@
 
 
 namespace App.Models.Domain.Repositories {
-    using System.Data.Entity;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.Data.Entity;
+    using Microsoft.Extensions.DependencyInjection;
 
-        
     public sealed partial class SheetEntryRepository {
         private readonly DbContext _dbContext;
         private readonly DbSet<App.Models.Domain.SheetEntry> _entitySet;
@@ -249,11 +248,11 @@ namespace App.Models.Domain.Repositories {
 
     
 	internal static class RepositoryRegistry {
-		internal static void InsertIn(SimpleInjector.Container c) {
-							c.Register<SheetEntryRepository>();
-							c.Register<CategoryRepository>();
-							c.Register<SheetRepository>();
-							c.Register<AppOwnerRepository>();
+		internal static void InsertIn(IServiceCollection c) {
+							c.AddTransient<SheetEntryRepository>();
+							c.AddTransient<CategoryRepository>();
+							c.AddTransient<SheetRepository>();
+							c.AddTransient<AppOwnerRepository>();
 					}
 	}
 }

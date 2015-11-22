@@ -1,10 +1,12 @@
 ﻿namespace App.Api {
     using System.Web.Http;
+    using Microsoft.AspNet.Authorization;
+    using Microsoft.AspNet.Mvc;
     using Models.Domain;
     using Models.Domain.Services;
 
     [Authorize]
-    [RoutePrefix("api/sheet/{sheetYear:int}-{sheetMonth:int}/statistics")]
+    [Route("api/sheet/{sheetYear:int}-{sheetMonth:int}/statistics")]
     public class SheetStatisticsController : BaseEntityController {
         private readonly SheetRetrievalService _sheetRetrievalService;
         private readonly SheetStatisticsService _sheetStatisticsService;

@@ -17,38 +17,38 @@ var gulp = require('gulp'),
 
 var filePath = {
     appjsminify: {
-        src: './Scripts/App/**/*.js',
-        dest: './build/'
+        src: './wwwroot/js/App/**/*.js',
+        dest: './wwwroot/build/'
     },
 
     libsjsminify: {
         src: [
-            './Scripts/linq.js',
-            './Scripts/angular.js',
-            './Scripts/angular-locale-nl_NL.js',
-            './Scripts/angular-resource.js',
-            './Scripts/angular-route.js',
-            './Scripts/angular-progress.js',
-            './Scripts/angular-ui/ui-bootstrap-tpls.js',
-            './Scripts/hotkeys.js',
-            './Scripts/angular-ng-google-chart.js',
-            './Scripts/moment-with-locales.js'
+            './wwwroot/js/linq.js',
+            './wwwroot/js/angular.js',
+            './wwwroot/js/angular-locale-nl_NL.js',
+            './wwwroot/js/angular-resource.js',
+            './wwwroot/js/angular-route.js',
+            './wwwroot/js/angular-progress.js',
+            './wwwroot/js/angular-ui/ui-bootstrap-tpls.js',
+            './wwwroot/js/hotkeys.js',
+            './wwwroot/js/angular-ng-google-chart.js',
+            './wwwroot/js/moment-with-locales.js'
     ],
-        dest: './build/'
+        dest: './wwwroot/build/'
     },
 
     jshint: {
-        src: './Scripts/App/**/*.js'
+        src: './wwwroot/js/App/**/*.js'
     },
 
     minifylibcss: {
-        src: ['./Content/animate.css', './Content/bootstrap.css', './Content/angular-progress.css'],
-        dest: './build/'
+        src: ['./wwwroot/css/animate.css', './wwwroot/css/bootstrap.css', './Content/angular-progress.css'],
+        dest: './wwwroot/build/'
     },
 
     minifyappcss: {
-        src: ['./Content/App/**/*.css', '!./*.min.css', '!./**/*.min.css'],
-        dest: './build/'
+        src: ['./wwwroot/css/App/**/*.css', '!./*.min.css', '!./**/*.min.css'],
+        dest: './wwwroot/build/'
     },
 
     uglifyOptions: {
@@ -105,14 +105,14 @@ gulp.task('app-minify-css', function () {
 gulp.task('clean', function () {
     gulp.src(
         [
-            'build/appscripts.js',
-            'build/appscripts.min.js',
-            'build/libscripts.js',
-            'build/libscripts.min.js',
-            'build/appcss.css',
-            'build/appcss.min.css',
-            'build/libcss.css',
-            'build/libcss.min.css'
+            'wwwroot/build/appscripts.js',
+            'wwwroot/build/appscripts.min.js',
+            'wwwroot/build/libscripts.js',
+            'wwwroot/build/libscripts.min.js',
+            'wwwroot/build/appcss.css',
+            'wwwroot/build/appcss.min.css',
+            'wwwroot/build/libcss.css',
+            'wwwroot/build/libcss.min.css'
     ], { read: false })
     .pipe(clean({force:true}));
 });

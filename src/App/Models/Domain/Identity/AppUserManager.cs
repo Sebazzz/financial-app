@@ -1,55 +1,55 @@
 ﻿namespace App.Models.Domain.Identity {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Microsoft.AspNet.Identity.Owin;
-    using Microsoft.Owin;
+    using Microsoft.Data.Entity;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.OptionsModel;
 
-    public sealed class AppUserManager : UserManager<AppUser, int> {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="store">The IUserStore is responsible for commiting changes via the UpdateAsync/CreateAsync methods</param>
-        public AppUserManager(IUserStore<AppUser, int> store) : base(store) {
+    public sealed class AppUserValidator : UserValidator<AppUser> {
+        public AppUserValidator(IdentityErrorDescriber errors = null) : base(errors) {
+        }
+    }
+
+
+    public sealed class AppPasswordValidator : PasswordValidator<AppUser> {
+        public AppPasswordValidator(IdentityErrorDescriber errors = null) : base(errors) {
             
         }
+    }
 
-        public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options, IOwinContext context) {
-            var manager = new AppUserManager(new AppUserStore(context.Get<AppDbContext>()));
-            // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<AppUser,int>(manager) {
-                AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
-            };
-            // Configure validation logic for passwords
-            manager.PasswordValidator = new PasswordValidator {
-                RequiredLength = 8,
-                RequireNonLetterOrDigit = false,
-                RequireDigit = false,
-                RequireLowercase = false,
-                RequireUppercase = false,
-            };
-            var dataProtectionProvider = options.DataProtectionProvider;
-            if (dataProtectionProvider != null) {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<AppUser,int>(dataProtectionProvider.Create("FinancialApp"));
-            }
-            return manager;
+    public sealed class AppUserManager : UserManager<AppUser> {
+        public AppUserManager(IUserStore<AppUser> store, IOptions<IdentityOptions> optionsAccessor,IPasswordHasher<AppUser> passwordHasher, IEnumerable<IUserValidator<AppUser>> userValidators,IEnumerable<IPasswordValidator<AppUser>> passwordValidators, ILookupNormalizer keyNormalizer,IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<AppUser>> logger,IHttpContextAccessor contextAccessor)
+            : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors,services, logger, contextAccessor) {
         }
 
-        internal async System.Threading.Tasks.Task<IdentityResult> ChangePasswordAsync(int userId, string newPassword) {
-            AppUser user = await this.FindByIdAsync(userId).ConfigureAwait(false);
-            if (user == null) {
-                throw new InvalidOperationException("user not found");
+        public override async Task<IList<Claim>> GetClaimsAsync(AppUser user) {
+            IList<Claim> claims = await base.GetClaimsAsync(user);
+
+            claims.Add(new Claim("AppOwnerGroup", user.Group.Id.ToString(CultureInfo.InvariantCulture), typeof(Int32).FullName));
+
+            return claims;
+        }
+
+        public Task<AppUser> FindByIdAsync(int id) {
+            return this.FindByIdAsync(id.ToString(CultureInfo.InvariantCulture));
+        }
+
+        public override Task<IList<AppUser>> GetUsersForClaimAsync(Claim claim) {
+            if (claim.Type == "AppOwnerGroup") {
+                return this.GetUsersForAppOwnerGroup(Int32.Parse(claim.Value));
             }
 
-            IdentityResult result = await this.PasswordValidator.ValidateAsync(newPassword).ConfigureAwait(false);
-            
-            IUserPasswordStore<AppUser, int> pwdStore = (IUserPasswordStore<AppUser, int>) this.Store;
-            if (result.Succeeded) await pwdStore.SetPasswordHashAsync(user, newPassword).ConfigureAwait(false);
-            if (result.Succeeded) result = await this.UpdateSecurityStampAsync(user.Id);
-            if (result.Succeeded) result = await this.UpdateAsync(user);
+            return base.GetUsersForClaimAsync(claim);
+        }
 
-            return result;
+        private async Task<IList<AppUser>> GetUsersForAppOwnerGroup(int id) {
+            return await this.Users.Where(x => x.Group.Id == id).ToListAsync();
         }
     }
 }

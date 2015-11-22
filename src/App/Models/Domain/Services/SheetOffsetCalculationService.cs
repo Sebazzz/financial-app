@@ -23,7 +23,7 @@
                     where s.Subject < targetSheet.Subject
                     from SheetEntry entry in s.Entries
                     select new {entry.Account, entry.Delta}).ToArray(); 
-
+            
             var result = new CalculationOptions() {
                 BankAccountOffset = targetSheet.CalculationOptions.BankAccountOffset ?? q.Where(x => x.Account == AccountType.BankAccount).Sum(x=>(decimal?)x.Delta).GetValueOrDefault(0),
                 SavingsAccountOffset = targetSheet.CalculationOptions.SavingsAccountOffset ?? q.Where(x => x.Account == AccountType.SavingsAccount).Sum(x=>(decimal?)x.Delta).GetValueOrDefault(0)

@@ -8,12 +8,13 @@
     /// </summary>
     public static class AppVersion {
         public static readonly string Informational = InitVersion();
-        private static string InitVersion()
-        {
-            var versionAttr =
-                typeof(HomeController).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+        private static string InitVersion() {
+            Assembly assembly = typeof (HomeController).GetTypeInfo().Assembly;
+
+            AssemblyFileVersionAttribute versionAttr =
+                assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
             Debug.Assert(versionAttr != null, "This should not be null. Was the assembly properly built?");
-            return versionAttr.InformationalVersion;
+            return versionAttr.Version;
         }
     }
 }

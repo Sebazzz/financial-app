@@ -1,18 +1,19 @@
 ﻿namespace App.Api {
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Linq;
     using System.Web.Http;
     using AutoMapper.QueryableExtensions;
     using Extensions;
+    using Microsoft.AspNet.Mvc;
     using Models.DTO;
-    using SheetDTO=Models.DTO.Sheet;
+    using SheetDTO = Models.DTO.Sheet;
     using Sheet = Models.Domain.Sheet;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
+    using Microsoft.Data.Entity;
 
-    [RoutePrefix("api/sheet")]
+    [Route("api/sheet")]
     public class SheetController : BaseEntityController {
         private readonly SheetRepository _sheetRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;

@@ -10,7 +10,9 @@
     using System.Web.Http;
     using AutoMapper.QueryableExtensions;
     using Extensions;
+    using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Mvc;
     using Models.Domain;
     using Models.Domain.Identity;
     using Models.Domain.Repositories;
@@ -36,7 +38,7 @@
             return this._appUserManager.Users
                                        .Where(x => x.Group.Id == this.OwnerId)
                                        .OrderBy(x => x.UserName)
-                                       .Project().To<AppUserListing>();
+                                       .ProjectTo<AppUserListing>();
         }
 
         // GET: api/User/5
@@ -82,14 +84,15 @@
             this.EnsureSucceeded(result);
 
             if (value.NewPassword != null) {
-                if (this.User.Identity.GetUserId() == id.ToString(CultureInfo.CurrentCulture)) {
+                if (this.User.Identity.GetUserId() == id) {
                     if (value.CurrentPassword == null) throw new HttpResponseException(HttpStatusCode.BadRequest);
 
                     result =
-                        await this._appUserManager.ChangePasswordAsync(currentUser.Id, value.CurrentPassword, value.NewPassword);
+                        await this._appUserManager.ChangePasswordAsync(currentUser, value.CurrentPassword, value.NewPassword);
                 }
                 else {
-                    result = await this._appUserManager.ChangePasswordAsync(currentUser.Id, value.NewPassword);
+                    throw new NotImplementedException();
+                    //result = await this._appUserManager.ChangePasswordAsync(currentUser, value.NewPassword);
                 }
                 this.EnsureSucceeded(result);
             }
@@ -118,7 +121,7 @@
         }
 
         private void EnsureNotCurrentUser(int targetUserId) {
-            if (targetUserId.ToString(CultureInfo.InvariantCulture) == this.User.Identity.GetUserId()) {
+            if (targetUserId == this.User.Identity.GetUserId()) {
                 throw new HttpResponseException(
                     this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You cannot edit your own details."));
             }

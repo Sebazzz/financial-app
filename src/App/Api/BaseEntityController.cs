@@ -1,6 +1,7 @@
 ﻿namespace App.Api {
     using System.Web.Http;
     using Extensions;
+    using Microsoft.AspNet.Authorization;
     using Models.Domain.Services;
 
     [Authorize]
@@ -12,9 +13,6 @@
             this.EntityOwnerService = entityOwnerService;
         }
 
-        protected int OwnerId
-        {
-            get { return this.User.Identity.GetOwnerGroupId(); }
-        }
+        protected int OwnerId => this.User.Identity.GetOwnerGroupId();
     }
 }

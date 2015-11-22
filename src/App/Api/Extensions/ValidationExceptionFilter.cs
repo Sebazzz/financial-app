@@ -2,53 +2,36 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Data.Entity.Validation;
-    using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using System.Net.Http.Formatting;
     using System.Web.Http;
-    using System.Web.Http.ExceptionHandling;
-    using System.Web.Http.Filters;
+    using Microsoft.AspNet.Http;
+    using Microsoft.AspNet.Mvc.Filters;
 
     public class ValidationExceptionFilterAttribute : ExceptionFilterAttribute {
         /// <summary>
         /// Raises the exception event.
         /// </summary>
-        /// <param name="actionExecutedContext">The context for the action.</param>
-        public override void OnException(HttpActionExecutedContext actionExecutedContext) {
-            if (actionExecutedContext.Exception is ValidationException ||
-                actionExecutedContext.Exception is DbEntityValidationException) {
-                throw new HttpResponseException(
-                    CreateResponseMessage(actionExecutedContext.Request, actionExecutedContext.Exception));
+        /// <param name="exceptionContext">The context for the action.</param>
+        public override void OnException(ExceptionContext exceptionContext) {
+            if (exceptionContext.Exception is ValidationException) {
+                throw new HttpResponseException(CreateResponseMessage(exceptionContext.Exception));
             }
         }
 
-        private static HttpResponseMessage CreateResponseMessage(HttpRequestMessage request, Exception ex) {
+        private static HttpResponseMessage CreateResponseMessage(Exception ex) {
             if (ex is ValidationException) {
-                return CreateResponseMessage(request, (ValidationException) ex);
+                return CreateResponseMessage((ValidationException) ex);
             }
 
-            return CreateResponseMessage(request, (DbEntityValidationException) ex);
+            throw new NotImplementedException();
         }
 
-        private static HttpResponseMessage CreateResponseMessage(HttpRequestMessage request, DbEntityValidationException dbEntityValidationException) {
-            List<object> validationErrors = new List<object>();
-            
-            foreach (DbEntityValidationResult error in dbEntityValidationException.EntityValidationErrors) {
-                validationErrors.Add(new {
-                                             entityType = error.Entry.Entity.GetType(),
-                                             errors = error.ValidationErrors
-                                         });
-            }
-
-            return request.CreateResponse(HttpStatusCode.BadRequest, validationErrors);
-        }
-
-        private static HttpResponseMessage CreateResponseMessage(HttpRequestMessage request, ValidationException validationException) {
-            return request.CreateResponse(HttpStatusCode.BadRequest, validationException.ValidationResult);
+        private static HttpResponseMessage CreateResponseMessage(ValidationException validationException) {
+            return new HttpResponseMessage(HttpStatusCode.BadRequest) {
+                Content = new ObjectContent(validationException.ValidationResult.GetType(), validationException.ValidationResult, new JsonMediaTypeFormatter())
+            };
         }
     }
 }

@@ -10,13 +10,14 @@ namespace App.Api
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
     using Extensions;
+    using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Identity;
-    using Microsoft.Owin.Security;
+    using Microsoft.AspNet.Mvc;
     using Models.Domain.Identity;
     using Models.DTO;
 
     [Authorize]
-    [RoutePrefix("api/user/impersonate")]
+    [Route("api/user/impersonate")]
     public class ImpersonateUserController : ApiController {
         private readonly AppUserManager _appUserManager;
         public ImpersonateUserController(AppUserManager appUserManager) {
@@ -27,12 +28,11 @@ namespace App.Api
         [HttpGet]
         [Route("")]
         public IEnumerable<AppUserListing> Get() {
-            int userId = this.User.Identity.GetUserId<int>();
+            int userId = this.User.Identity.GetUserId();
             return this._appUserManager.Users
-                                       .Where(x => x.TrustedUsers.Any(u => u.Id == userId))
+                                       .Where(x => x.TrustedUsers.Any(u => u.TargetUser.Id == userId))
                                        .OrderBy(x => x.UserName)
-                                       .Project()
-                                       .To<AppUserListing>();
+                                       .ProjectTo<AppUserListing>();
         }
     }
 }

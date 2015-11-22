@@ -1,0 +1,109 @@
+﻿namespace App {
+    using System.Linq;
+    using App.Models.Domain;
+    using App.Models.Domain.Identity;
+    using App.Support.Integration;
+    using Microsoft.AspNet.Builder;
+    using Microsoft.AspNet.Hosting;
+    using Microsoft.AspNet.Mvc.Formatters;
+    using Microsoft.Data.Entity;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json.Serialization;
+
+    public class Startup
+    {
+        public Startup(IHostingEnvironment env)
+        {
+            // Set up configuration sources.
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddUserSecrets()
+                .AddApplicationInsightsSettings(developerMode:env.IsDevelopment())
+                .AddEnvironmentVariables();
+
+            this.Configuration = builder.Build();
+        }
+
+        public IConfigurationRoot Configuration { get; set; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services) {
+            services.AddApplicationInsightsTelemetry(this.Configuration);
+            services.AddMvc(options => {
+                JsonOutputFormatter jsonFormatter = options.OutputFormatters.OfType<JsonOutputFormatter>().First();
+                jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
+
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders()
+                .AddUserValidator<AppUserValidator>()
+                .AddPasswordValidator<AppPasswordValidator>()
+                .AddUserManager<AppUserManager>()
+                .AddUserStore<AppUserStore>();
+
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["AppDbConnection"]));
+
+
+
+            // DI
+            services.AddScoped<AppDbContext>();
+            services.AddScoped<AppUserManager>();
+            services.AddScoped<AppUserStore>();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
+            app.UseApplicationInsightsRequestTelemetry();
+            app.MapApplicationCacheManifest();
+            app.MapAngularViewPath();
+
+            if (env.IsDevelopment()) {
+                app.UseBrowserLink();
+                app.UseDeveloperExceptionPage();
+                app.UseRuntimeInfoPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+
+            app.UseStaticFiles();
+
+            app.UseMvc(routes => {
+                routes.MapRoute(
+                    name: "DefaultApi",
+                    template: "api/{controller}/{id?}");
+
+                // We only match one controller since we will want
+                // all requests to go to the controller which renders
+                // the initial view.
+
+                routes.MapRoute(
+                    name: "default",
+                    template: "",
+                    defaults: new {
+                        controller = "Home",
+                        action = "Index"
+                    });
+            });
+
+            app.UseApplicationInsightsExceptionTelemetry();
+
+        }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+    }
+}

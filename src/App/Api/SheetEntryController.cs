@@ -7,6 +7,8 @@
     using System.Runtime.Serialization;
     using System.Web.Http;
     using Extensions;
+    using Microsoft.AspNet.Authorization;
+    using Microsoft.AspNet.Mvc;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
     using Models.DTO;
@@ -16,7 +18,7 @@
     using SheetEntryDTO=Models.DTO.SheetEntry;
 
     [Authorize]
-    [RoutePrefix("api/sheet/{sheetYear:int}-{sheetMonth:int}/entries")]
+    [Route("api/sheet/{sheetYear:int}-{sheetMonth:int}/entries")]
     public class SheetEntryController : BaseEntityController {
         private readonly SheetEntryRepository _sheetEntryRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
@@ -109,7 +111,7 @@
 
 
         private void EnsureCorrectSheet(SheetEntry sheetEntry) {
-            var routeData = this.RequestContext.RouteData;
+            var routeData = this.ActionContext.RouteData;
             int sheetMonth = Convert.ToInt32(routeData.Values["sheetMonth"]);
             int sheetYear = Convert.ToInt32(routeData.Values["sheetYear"]);
 

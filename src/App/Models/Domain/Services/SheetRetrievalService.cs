@@ -1,12 +1,12 @@
 ﻿namespace App.Models.Domain.Services {
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Linq;
     using System.Net;
     using Api.Extensions;
     using AutoMapper.QueryableExtensions;
     using DTO;
+    using Microsoft.Data.Entity;
     using Repositories;
     using Sheet = Domain.Sheet;
 
@@ -48,8 +48,7 @@
             IQueryable<Sheet> allSheets = this._sheetRepository.GetByOwner(ownerId);
 
             return allSheets.OrderBy(x => x.Subject)
-                            .Project()
-                            .To<SheetListing>();
+                            .ProjectTo<SheetListing>();
         }
 
         [NotNull]

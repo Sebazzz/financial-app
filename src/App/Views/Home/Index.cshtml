@@ -1,52 +1,30 @@
-﻿<!DOCTYPE html>
-<html lang="nl"
-      id="app"
-      ng-app="main"
-      ng-strict-di="true"
-      data-is-mobile="@Request.Browser.IsMobileDevice.ToString().ToLowerInvariant()"
-      manifest="/application.appcache"
-      ng-controller="MasterController"
-      data-app-version="@ViewBag.AppVersion">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+﻿@using System.Threading.Tasks
+@using Microsoft.AspNet.Hosting
+@inject IHostingEnvironment HostingEnvironment
 
-    <title>Financial App</title>
+<div ng-include="'/Angular/Widgets/Menu.html'" ng-show="isMenuVisible"></div>
 
-    <base href="/">
-    
-    <meta name="msapplication-config" content="/Content/MSTileConfig.xml" />
-    <link rel="apple-touch-icon" href="/Content/Tiles/apple-tile.png" />
+<div class="container" ng-view></div>
 
-    <link href="@StaticUrl("/build/libcss.css")" rel="stylesheet" />
-    <link href="@StaticUrl("/build/appcss.css")" rel="stylesheet"/>
-</head>
-<body ng-class="{ 'anonymous': !isAuthenticated, 'authenticated': isAuthenticated }" fa-scroll-nub>
-    <div ng-include="'/Angular/Widgets/Menu.html'" ng-show="isMenuVisible"></div>
+<span style="color:#FFF" id="scrollBottom">&nbsp;</span>
 
-    <div class="container" ng-view></div>
-    
-    <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
+<script src="@StaticUrl("/build/libscripts.js")"></script>
+<script src="@StaticUrl("/build/appscripts.js")"></script>
+<script>FinancialApp.Program.init();</script>
 
-    <script src="@StaticUrl("/build/libscripts.js")"></script>
-    <script src="@StaticUrl("/build/appscripts.js")"></script>
-    <script>FinancialApp.Program.init();</script>
-
-    <noscript>
-        <p>
-            Sorry, om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
-        </p>
-    </noscript>
-</body>
-</html>
+<noscript>
+    <p>
+        Sorry, om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
+    </p>
+</noscript>
 
 @functions {
     private string StaticUrl(string path) {
-        if (!this.ViewContext.HttpContext.IsDebuggingEnabled) {
+        if (HostingEnvironment.IsProduction()) {
             int lastIndex = path.LastIndexOf(".", StringComparison.Ordinal);
             path = path.Substring(0, lastIndex) + ".min" + path.Substring(lastIndex);
         }
 
-        return CacheBusting.FingerPrint.WithFileDate(path);
+        return path;
     }
 }
