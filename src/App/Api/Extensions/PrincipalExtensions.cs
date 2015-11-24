@@ -12,7 +12,7 @@
             }
 
             ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
-            if (claimsIdentity == null) {
+            if (claimsIdentity == null || !identity.IsAuthenticated) {
                 return 0;
             }
 
@@ -38,7 +38,7 @@
             }
 
             ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
-            if (claimsIdentity == null) {
+            if (claimsIdentity == null || !identity.IsAuthenticated) {
                 return 0;
             }
 
@@ -52,7 +52,7 @@
 
             Claim foundClaim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             if (foundClaim == null) {
-                throw new InvalidDataException("Expected 'AppOwnerGroup' claim to be present");
+                throw new InvalidDataException("Expected 'NameIdentifier' claim to be present");
             }
 
             return Int32.Parse(foundClaim.Value, CultureInfo.InvariantCulture);
