@@ -42,7 +42,7 @@
 
 
             services.AddIdentity<AppUser, AppRole>()
-                .AddEntityFrameworkStores<AppDbContext>()
+                .AddEntityFrameworkStores<AppDbContext, int>()
                 .AddDefaultTokenProviders()
                 .AddUserValidator<AppUserValidator>()
                 .AddPasswordValidator<AppPasswordValidator>()
