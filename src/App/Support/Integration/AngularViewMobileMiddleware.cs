@@ -10,9 +10,9 @@ namespace App.Support.Integration {
         private readonly RequestDelegate _next;
         private readonly IFileProvider _fileProvider;
 
-        public AngularViewMobileMiddleware(RequestDelegate next, IFileProvider fileProvider) {
+        public AngularViewMobileMiddleware(RequestDelegate next) {
             this._next = next;
-            this._fileProvider = fileProvider;
+            this._fileProvider = new PhysicalFileProvider("/");
         }
 
         public async Task Invoke(HttpContext context) {

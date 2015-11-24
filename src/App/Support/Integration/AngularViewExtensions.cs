@@ -3,7 +3,7 @@ namespace App.Support.Integration {
 
     public static class AngularViewExtensions {
         public static void MapAngularViewPath(this IApplicationBuilder app) {
-            app.Map("application.appcache", a => a.UseAngularMobileViews().UseAngularViewCaching().UseStaticFiles());
+            app.Map("/Angular/*", a => a.UseAngularMobileViews().UseAngularViewCaching().UseStaticFiles());
         }
 
         public static IApplicationBuilder UseAngularViewCaching(this IApplicationBuilder app) {

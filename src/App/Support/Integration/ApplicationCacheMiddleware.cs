@@ -25,9 +25,9 @@
         private string _eTag;
         private DateTime _lastModifiedTime;
 
-        public ApplicationCacheMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IFileProvider fileProvider) {
+        public ApplicationCacheMiddleware(RequestDelegate next, ILoggerFactory loggerFactory) {
             this._next = next;
-            this._fileProvider = fileProvider;
+            this._fileProvider = new PhysicalFileProvider("/");
             this._logger = loggerFactory.CreateLogger<ApplicationCacheMiddleware>();
         }
 
@@ -117,7 +117,7 @@
         }
 
         private void UpdateCacheInfo(string path, ref string etag, ref DateTime lastModified) {
-            IFileInfo fileInfo = this._fileProvider.GetFileInfo("~" + path);
+            IFileInfo fileInfo = this._fileProvider.GetFileInfo(path);
 
             this._logger.LogDebug("Updating cache info via path {0}", path);
             if (!fileInfo.Exists) {

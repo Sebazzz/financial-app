@@ -6,6 +6,7 @@
     using App.Support.Integration;
     using Microsoft.AspNet.Authentication.Cookies;
     using Microsoft.AspNet.Builder;
+    using Microsoft.AspNet.FileProviders;
     using Microsoft.AspNet.Hosting;
     using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Identity;
