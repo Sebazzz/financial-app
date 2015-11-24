@@ -22,19 +22,19 @@
                 var response = context.Response;
                 var contentType = response.ContentType;
                 var headers = response.GetTypedHeaders();
-                var cache = headers.CacheControl;
+                var cache = headers.CacheControl ?? (headers.CacheControl = new CacheControlHeaderValue());
 
                 response.Headers.Clear();
 
                 response.ContentType = contentType;
 
-                                            cache.Private = true;
-                                            cache.MaxAge = TimeSpan.FromDays(365);
-                                            cache.MustRevalidate = false;
+                cache.Private = true;
+                cache.MaxAge = TimeSpan.FromDays(365);
+                cache.MustRevalidate = false;
 
-                                            if (response.StatusCode == 200 || response.StatusCode == 304) {
+                if (response.StatusCode == 200 || response.StatusCode == 304) {
                     cache.Extensions.Add(new NameValueHeaderValue("Vary", "*"));
-                                            }
+                }
 
                 return Task.FromResult(0);
             });

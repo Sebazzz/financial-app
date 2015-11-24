@@ -47,7 +47,7 @@
             // ... set cache
             ResponseHeaders headers = response.GetTypedHeaders();
 
-            CacheControlHeaderValue cache = headers.CacheControl;
+            CacheControlHeaderValue cache = headers.CacheControl ?? (headers.CacheControl = new CacheControlHeaderValue());
             cache.Private = true;
             
             headers.ETag = new EntityTagHeaderValue(this._eTag);
