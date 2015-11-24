@@ -33,7 +33,12 @@
                         .WithMany();
 
             // sheet
-            modelBuilder.Entity<Sheet>();
+            modelBuilder.Entity<Sheet>()
+                .HasOne(x => x.CalculationOptions)
+                .WithOne();
+
+            modelBuilder.Entity<CalculationOptions>();
+            
             modelBuilder.Entity<SheetEntry>()
                         .HasOne(x => x.Category)
                         .WithMany(x => x.SheetEntries)

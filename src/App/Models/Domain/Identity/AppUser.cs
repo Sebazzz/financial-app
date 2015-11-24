@@ -12,6 +12,8 @@
     public class AppUserTrustedUser {
         public virtual AppUser TargetUser { get; set; }
         public virtual AppUser SourceUser { get; set; }
+
+        public virtual int Id { get; set; }
     }
 
     public class AppUser : IdentityUser<int> {
