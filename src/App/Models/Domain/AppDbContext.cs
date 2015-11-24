@@ -2,12 +2,15 @@
     using Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.Data.Entity;
+    using Microsoft.Data.Entity.Infrastructure;
     using Microsoft.Data.Entity.Metadata;
 
     /// <summary>
     /// Represents the database context for the application
     /// </summary>
     public sealed class AppDbContext : IdentityDbContext<AppUser, AppRole, int> {
+        public AppDbContext(DbContextOptions options) : base(options) {}
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
