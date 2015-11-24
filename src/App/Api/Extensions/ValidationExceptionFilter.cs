@@ -1,12 +1,10 @@
 ﻿namespace App.Api.Extensions {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Formatting;
     using System.Web.Http;
-    using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Mvc.Filters;
 
     public class ValidationExceptionFilterAttribute : ExceptionFilterAttribute {

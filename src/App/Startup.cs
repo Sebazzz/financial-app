@@ -1,10 +1,14 @@
 ﻿namespace App {
+    using System;
     using System.Linq;
     using App.Models.Domain;
     using App.Models.Domain.Identity;
     using App.Support.Integration;
+    using Microsoft.AspNet.Authentication.Cookies;
     using Microsoft.AspNet.Builder;
     using Microsoft.AspNet.Hosting;
+    using Microsoft.AspNet.Http;
+    using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Mvc.Formatters;
     using Microsoft.Data.Entity;
     using Microsoft.Extensions.Configuration;
@@ -66,6 +70,12 @@
             app.UseApplicationInsightsRequestTelemetry();
             app.MapApplicationCacheManifest();
             app.MapAngularViewPath();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions {
+                LoginPath = new PathString("/Account/Login"),
+                ExpireTimeSpan = TimeSpan.FromDays(30),
+                SlidingExpiration = true
+            });
 
             if (env.IsDevelopment()) {
                 app.UseBrowserLink();

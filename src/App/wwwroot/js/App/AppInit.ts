@@ -61,7 +61,6 @@ module FinancialApp {
                 $locationProvider.html5Mode(true);
 
                 // configure HTTP interceptor
-                $httpProvider.interceptors.push('authenticationTokenInterceptor');
                 $httpProvider.interceptors.push('authenticationCheckInterceptor');
                 $httpProvider.interceptors.push('viewFingerPrintInterceptor');
 
@@ -105,7 +104,6 @@ module FinancialApp {
             }));
 
             // ... $http interceptors
-            app.factory("authenticationTokenInterceptor", Factories.AuthenticationTokenInterceptor());
             app.factory("authenticationCheckInterceptor", Factories.AuthenticationErrorHttpInterceptor());
             app.factory("viewFingerPrintInterceptor", Factories.ViewFingerPrintInterceptor());
 

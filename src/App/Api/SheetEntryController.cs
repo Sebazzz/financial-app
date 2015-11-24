@@ -1,10 +1,8 @@
 ﻿namespace App.Api {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Net;
-    using System.Runtime.Serialization;
     using System.Web.Http;
     using Extensions;
     using Microsoft.AspNet.Authorization;
@@ -12,7 +10,6 @@
     using Models.Domain.Repositories;
     using Models.Domain.Services;
     using Models.DTO;
-    using Models.Domain;
     using Sheet = Models.Domain.Sheet;
     using SheetEntry = Models.Domain.SheetEntry;
     using SheetEntryDTO=Models.DTO.SheetEntry;

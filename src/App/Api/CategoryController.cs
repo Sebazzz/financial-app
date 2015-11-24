@@ -2,10 +2,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
-    using System.Web.Http;
     using Extensions;
     using Microsoft.AspNet.Mvc;
-    using Models;
     using Models.Domain;
     using Models.Domain.Repositories;
     using Models.Domain.Services;

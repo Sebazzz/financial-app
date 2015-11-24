@@ -1,5 +1,4 @@
 ﻿namespace App.Api {
-    using System.Web.Http;
     using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Mvc;
     using Models.Domain;

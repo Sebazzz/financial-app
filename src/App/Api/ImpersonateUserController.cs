@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace App.Api
@@ -15,13 +13,16 @@ namespace App.Api
     using Microsoft.AspNet.Mvc;
     using Models.Domain.Identity;
     using Models.DTO;
+    using App.Models.Domain.Services;
 
     [Authorize]
     [Route("api/user/impersonate")]
     public class ImpersonateUserController : ApiController {
+        private readonly SignInManager<AppUser> _authenticationManager;
         private readonly AppUserManager _appUserManager;
-        public ImpersonateUserController(AppUserManager appUserManager) {
+        public ImpersonateUserController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager) {
             this._appUserManager = appUserManager;
+            this._authenticationManager = authenticationManager;
         }
 
         // GET: api/user/impersonate
@@ -34,5 +35,30 @@ namespace App.Api
                                        .OrderBy(x => x.UserName)
                                        .ProjectTo<AppUserListing>();
         }
+
+                // POST: api/user/impersonate/3
+        [HttpPost]
+        [Route("{id}")]
+        public async Task<AuthenticationInfo> Impersonate(int id) {
+            int currentUserId = this.User.Identity.GetUserId();
+
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(currentUserId);
+            currentUser.EnsureNotNull(HttpStatusCode.Forbidden);
+
+            AppUser user = await this._appUserManager.FindByIdAsync(id);
+            user.EnsureNotNull(HttpStatusCode.Forbidden);
+
+            if (!user.TrustedUsers.Contains(currentUser)) {
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+            }
+
+            await this._authenticationManager.SignInAsync(currentUser, true);
+
+            return new AuthenticationInfo {
+                                                IsAuthenticated = true,
+                                                UserId = user.Id,
+                                                UserName = user.UserName
+                                            };
+        } 
     }
 }
