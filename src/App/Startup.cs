@@ -12,6 +12,7 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Mvc.Formatters;
     using Microsoft.Data.Entity;
+    using Microsoft.Data.Entity.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -41,7 +42,6 @@
                 jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<AppDbContext, int>()
                 .AddDefaultTokenProviders()
@@ -53,8 +53,6 @@
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["AppDbConnection"]));
-
-
 
             // DI
             services.AddScoped<AppDbContext>();
