@@ -35,7 +35,8 @@
             // sheet
             modelBuilder.Entity<Sheet>()
                 .HasOne(x => x.CalculationOptions)
-                .WithOne();
+                .WithOne()
+                .HasForeignKey<CalculationOptions>(x => x.SheetId);
 
             modelBuilder.Entity<CalculationOptions>();
             
