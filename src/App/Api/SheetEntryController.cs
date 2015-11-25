@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Net;
     using System.Web.Http;
+    using AutoMapper;
     using Extensions;
     using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Mvc;
@@ -19,10 +20,12 @@
     public class SheetEntryController : BaseEntityController {
         private readonly SheetEntryRepository _sheetEntryRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
+        private readonly IMappingEngine _mappingEngine;
 
-        public SheetEntryController(EntityOwnerService entityOwnerService, SheetEntryRepository sheetEntryRepository, SheetRetrievalService sheetRetrievalService) : base(entityOwnerService) {
+        public SheetEntryController(EntityOwnerService entityOwnerService, SheetEntryRepository sheetEntryRepository, SheetRetrievalService sheetRetrievalService, IMappingEngine mappingEngine) : base(entityOwnerService) {
             this._sheetEntryRepository = sheetEntryRepository;
             this._sheetRetrievalService = sheetRetrievalService;
+            this._mappingEngine = mappingEngine;
         }
 
         // GET: api/sheet/1/entries/1
@@ -32,7 +35,7 @@
             SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
             this.EnsureCorrectSheet(entry);
 
-            return AutoMapper.Mapper.Map<SheetEntryDTO>(entry);
+            return this._mappingEngine.Map<SheetEntryDTO>(entry);
         }
 
         [Route("order/{mutation}/{id}")]
@@ -63,7 +66,7 @@
             Sheet targetSheet = this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId).EnsureNotNull();
             this.EntityOwnerService.EnsureOwner(targetSheet, this.OwnerId);
 
-            SheetEntry entry = AutoMapper.Mapper.Map<SheetEntryDTO, SheetEntry>(value);
+            SheetEntry entry = this._mappingEngine.Map<SheetEntryDTO, SheetEntry>(value);
             entry.Sheet = targetSheet;
             entry.CreateTimestamp = DateTime.Now;
             entry.UpdateTimestamp = entry.CreateTimestamp;
@@ -84,7 +87,7 @@
             this.EnsureCorrectSheet(entry);
             this.EntityOwnerService.EnsureOwner(entry.Sheet, this.OwnerId);
 
-            AutoMapper.Mapper.Map(value, entry);
+            this._mappingEngine.Map(value, entry);
             entry.UpdateTimestamp = DateTime.Now;
             entry.Sheet.UpdateTimestamp = DateTime.Now;
 

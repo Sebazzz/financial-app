@@ -4,6 +4,7 @@
     using App.Models.Domain;
     using App.Models.Domain.Identity;
     using App.Support.Integration;
+    using AutoMapper;
     using Microsoft.AspNet.Authentication.Cookies;
     using Microsoft.AspNet.Builder;
     using Microsoft.AspNet.FileProviders;
@@ -16,6 +17,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Models.Domain.Repositories;
+    using Models.Domain.Services;
     using Newtonsoft.Json.Serialization;
 
     public class Startup
@@ -56,15 +59,26 @@
 
             // DI
             services.AddScoped<AppDbContext>();
+            services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContext>());
             services.AddScoped<AppUserManager>();
             services.AddScoped<AppUserStore>();
+
+            services.AddTransient<AppOwnerRepository>();
+            RepositoryRegistry.InsertIn(services);
+
+            services.AddScoped<SheetRetrievalService>();
+            services.AddScoped<EntityOwnerService>();
+            services.AddScoped<SheetOffsetCalculationService>();
+            services.AddScoped<SheetStatisticsService>();
+
+            services.AddSingleton<IMappingEngine>(AutoMapperEngineFactory.Create);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            if (env.IsDevelopment()) loggerFactory.AddDebug(LogLevel.Debug);
 
             app.UseApplicationInsightsRequestTelemetry();
             app.MapApplicationCacheManifest();
@@ -73,7 +87,11 @@
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
                 LoginPath = new PathString("/Account/Login"),
                 ExpireTimeSpan = TimeSpan.FromDays(30),
-                SlidingExpiration = true
+                SlidingExpiration = true,
+
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                AuthenticationScheme = "Microsoft.AspNet.Identity.Application"
             });
 
             if (env.IsDevelopment()) {
@@ -101,7 +119,7 @@
 
                 routes.MapRoute(
                     name: "default",
-                    template: "",
+                    template: "{*.}",
                     defaults: new {
                         controller = "Home",
                         action = "Index"

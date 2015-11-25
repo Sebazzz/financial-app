@@ -2,6 +2,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using AutoMapper;
     using Extensions;
     using Microsoft.AspNet.Mvc;
     using Models.Domain;
@@ -11,10 +12,13 @@
 
     public class CategoryController : BaseEntityController {
         private readonly CategoryRepository _categoryRepository;
+        private readonly IMappingEngine _mapper;
 
         public CategoryController(EntityOwnerService entityOwnerService, 
-                                  CategoryRepository categoryRepository) : base(entityOwnerService) {
+                                  CategoryRepository categoryRepository, 
+                                  IMappingEngine mapper) : base(entityOwnerService) {
             this._categoryRepository = categoryRepository;
+            this._mapper = mapper;
         }
 
         // GET: api/Category
@@ -54,7 +58,7 @@
             Category c = this.Get(id);
             this.EntityOwnerService.EnsureOwner(c, this.OwnerId);
 
-            AutoMapper.Mapper.Map(value, c);
+            this._mapper.Map(value, c);
             this._categoryRepository.SaveChanges();
 
             return id;

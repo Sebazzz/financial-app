@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Net;
     using Api.Extensions;
+    using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using DTO;
     using Microsoft.Data.Entity;
@@ -13,13 +14,15 @@
     public class SheetRetrievalService {
         private readonly SheetRepository _sheetRepository;
         private readonly AppOwnerRepository _appOwnerRepository;
+        private readonly IMappingEngine _mappingEngine;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
-        public SheetRetrievalService(SheetRepository sheetRepository, AppOwnerRepository appOwnerRepository) {
+        public SheetRetrievalService(SheetRepository sheetRepository, AppOwnerRepository appOwnerRepository, IMappingEngine mappingEngine) {
             this._sheetRepository = sheetRepository;
             this._appOwnerRepository = appOwnerRepository;
+            this._mappingEngine = mappingEngine;
         }
 
         [NotNull]
@@ -29,8 +32,7 @@
             // generate a fake sheet entry if none are available
             // when the sheet will be requested initially, the 'real'
             // sheet entry will be created
-            var all = sheets.DefaultIfEmpty(
-                        AutoMapper.Mapper.Map<Sheet, SheetListing>(this.CreateCurrentMonthSheet(ownerId)));
+            var all = sheets.DefaultIfEmpty(this._mappingEngine.Map<Sheet, SheetListing>(this.CreateCurrentMonthSheet(ownerId)));
 
             SheetTotals totals = new SheetTotals{BankAccount = 0, SavingsAccount = 0};
             foreach (SheetListing listing in all) {

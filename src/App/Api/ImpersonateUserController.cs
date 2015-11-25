@@ -14,15 +14,19 @@ namespace App.Api
     using Models.Domain.Identity;
     using Models.DTO;
     using App.Models.Domain.Services;
+    using AutoMapper;
 
     [Authorize]
     [Route("api/user/impersonate")]
     public class ImpersonateUserController : ApiController {
         private readonly SignInManager<AppUser> _authenticationManager;
         private readonly AppUserManager _appUserManager;
-        public ImpersonateUserController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager) {
+        private readonly IMappingEngine _mappingEngine;
+
+        public ImpersonateUserController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, IMappingEngine mappingEngine) {
             this._appUserManager = appUserManager;
             this._authenticationManager = authenticationManager;
+            this._mappingEngine = mappingEngine;
         }
 
         // GET: api/user/impersonate
@@ -33,7 +37,7 @@ namespace App.Api
             return this._appUserManager.Users
                                        .Where(x => x.TrustedUsers.Any(u => u.TargetUser.Id == userId))
                                        .OrderBy(x => x.UserName)
-                                       .ProjectTo<AppUserListing>();
+                                       .ProjectTo<AppUserListing>(null, this._mappingEngine);
         }
 
                 // POST: api/user/impersonate/3

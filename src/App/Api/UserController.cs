@@ -7,6 +7,7 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Extensions;
     using Microsoft.AspNet.Authorization;
@@ -21,10 +22,12 @@
     public class UserController : ApiController {
         private readonly AppUserManager _appUserManager;
         private readonly AppOwnerRepository _appOwnerRepository;
+        private readonly IMappingEngine _mappingEngine;
 
-        public UserController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository) {
+        public UserController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository, IMappingEngine mappingEngine) {
             this._appUserManager = appUserManager;
             this._appOwnerRepository = appOwnerRepository;
+            this._mappingEngine = mappingEngine;
         }
 
         protected int OwnerId
@@ -37,14 +40,14 @@
             return this._appUserManager.Users
                                        .Where(x => x.Group.Id == this.OwnerId)
                                        .OrderBy(x => x.UserName)
-                                       .ProjectTo<AppUserListing>();
+                                       .ProjectTo<AppUserListing>(null, this._mappingEngine);
         }
 
         // GET: api/User/5
         public async Task<AppUserListing> Get(int id) {
             AppUser user = await this.GetUser(id);
 
-            return AutoMapper.Mapper.Map<AppUserListing>(user);
+            return this._mappingEngine.Map<AppUserListing>(user);
         }
 
         private async Task<AppUser> GetUser(int id) {
