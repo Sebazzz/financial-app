@@ -57,6 +57,7 @@
         public Sheet GetBySubject(int month, int year, int ownerId) {
             Sheet theSheet = this._sheetRepository.GetByDatePart(month, year, ownerId)
                                                   .Include(x => x.Entries)
+                                                  .Include(x => x.Owner)
                                                   .FirstOrDefault();
 
             if (theSheet == null) {
