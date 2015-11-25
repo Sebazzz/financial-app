@@ -70,7 +70,9 @@
             services.AddScoped<EntityOwnerService>();
             services.AddScoped<SheetOffsetCalculationService>();
             services.AddScoped<SheetStatisticsService>();
-
+            services.AddScoped<AutoMapperEngineFactory.SheetOffsetCalculationResolver>();
+            services.AddScoped<AutoMapperEngineFactory.EntityResolver<Category>>();
+            
             services.AddSingleton<IMappingEngine>(AutoMapperEngineFactory.Create);
         }
 

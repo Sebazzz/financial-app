@@ -6,6 +6,7 @@
     using AutoMapper;
     using Microsoft.AspNet.Http;
     using Microsoft.Data.Entity;
+    using Microsoft.Extensions.DependencyInjection;
     using Models.Domain;
     using Models.Domain.Identity;
     using Models.Domain.Services;
@@ -16,7 +17,7 @@
     public static class AutoMapperEngineFactory {
         public static IMappingEngine Create(IServiceProvider serviceProvider) {
             Mapper.Initialize(x => {
-                x.ConstructServicesUsing(serviceProvider.GetService);
+                x.ConstructServicesUsing(serviceProvider.GetRequiredService);
                 x.AddGlobalIgnore("Owner");
             });
 
@@ -54,7 +55,7 @@
         }
 
         // ReSharper disable once ClassNeverInstantiated.Local -- It is instantiated, but using DI
-        private sealed class EntityResolver<TEntity> : IValueResolver, ITypeConverter<int, TEntity> where TEntity : class, IHasId {
+        public sealed class EntityResolver<TEntity> : IValueResolver, ITypeConverter<int, TEntity> where TEntity : class, IHasId {
             private readonly HttpContext _httpContext;
             private readonly EntityOwnerService _entityOwnerService;
 
@@ -141,7 +142,7 @@
         }
 
         // ReSharper disable once ClassNeverInstantiated.Local -- It is instantiated, but using DI
-        private sealed class SheetOffsetCalculationResolver : ValueResolver<Sheet, CalculationOptions> {
+        public sealed class SheetOffsetCalculationResolver : ValueResolver<Sheet, CalculationOptions> {
             private readonly SheetOffsetCalculationService _offsetCalculationService;
 
             public SheetOffsetCalculationResolver(SheetOffsetCalculationService offsetCalculationService) {
