@@ -35,7 +35,7 @@ module FinancialApp {
         }
 
         private impersonateUser(user: DTO.IAppUserListing) {
-            this.authentication.impersonate(user.id, user.userName).then(() => {
+            this.authentication.impersonate(user.id).then(() => {
                 this.$location.path("/");
                 this.$location.replace();
             });
