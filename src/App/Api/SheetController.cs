@@ -26,6 +26,8 @@
             this._mappingEngine = mappingEngine;
         }
 
+        [HttpGet]
+        [Route("{id}")]
         public SheetDTO GetById(int id) {
             Sheet sheet = this._sheetRepository.FindByIdInclude(id)
                                                .Include(x=>x.Entries)
@@ -54,6 +56,8 @@
             return dto;
         }
 
+        [HttpGet]
+        [Route("")]
         public IEnumerable<SheetListing> GetAll() {
             IEnumerable<SheetListing> allSheets = this._sheetRetrievalService.GetAll(this.OwnerId);
             return allSheets.OrderByDescending(x => new DateTime(x.Year, x.Month, 1));
