@@ -32,7 +32,7 @@
                 Description = x.Description,
                 Name = x.Name,
                 Id = x.Id,
-                CanBeDeleted = !x.SheetEntries.Any()
+             // CanBeDeleted = !x.SheetEntries.Any() // TODO: EF doesn't support this projection
             }).OrderBy(x => x.Name);
         }
 
