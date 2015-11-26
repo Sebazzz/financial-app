@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNet.Builder;
     using Microsoft.AspNet.FileProviders;
+    using Microsoft.AspNet.Hosting;
     using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Http.Headers;
     using Microsoft.Extensions.Logging;
@@ -22,21 +23,16 @@
             RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
 
         private string _appCacheManifest;
-        private string _eTag;
+        private EntityTagHeaderValue _eTag;
         private DateTime _lastModifiedTime;
 
-        public ApplicationCacheMiddleware(RequestDelegate next, ILoggerFactory loggerFactory) {
+        public ApplicationCacheMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnv) {
             this._next = next;
-            this._fileProvider = new PhysicalFileProvider("/");
+            this._fileProvider = hostingEnv.WebRootFileProvider;
             this._logger = loggerFactory.CreateLogger<ApplicationCacheMiddleware>();
         }
 
         public async Task Invoke(HttpContext context) {
-            if (context.Request.Path != "application.appcache") {
-                await this._next.Invoke(context);
-                return;
-            } 
-
             this._logger.LogInformation("Handling appcache request");
             this.InitAppCacheInfoIfRequired();
             
@@ -50,7 +46,7 @@
             CacheControlHeaderValue cache = headers.CacheControl ?? (headers.CacheControl = new CacheControlHeaderValue());
             cache.Private = true;
             
-            headers.ETag = new EntityTagHeaderValue(this._eTag);
+            headers.ETag = this._eTag;
             headers.LastModified = this._lastModifiedTime;
             
             // output app cache
@@ -106,13 +102,12 @@
                     }
 
                     appCacheManifestBuilder.AppendLine(line);
-                    appCacheManifestBuilder.AppendLine();
                 }
             }
 
             // set locals
             this._appCacheManifest = appCacheManifestBuilder.ToString();
-            this._eTag = etag;
+            this._eTag = new EntityTagHeaderValue('"' + etag + '"');
             this._lastModifiedTime = lastModified;
         }
 
@@ -126,7 +121,7 @@
             }
 
             etag = etag + fileInfo.LastModified.GetHashCode().ToString("x2");
-            lastModified = fileInfo.LastModified > lastModified ? fileInfo.LastModified.UtcDateTime : lastModified;
+            lastModified = lastModified == DateTime.MinValue || fileInfo.LastModified > lastModified ? fileInfo.LastModified.UtcDateTime : lastModified;
 
         }
 
@@ -135,7 +130,7 @@
         }
 
         private StreamReader CreateAppCacheManifestReader() {
-            Stream stream = this._fileProvider.GetFileInfo("~/application.appcache")?.CreateReadStream();
+            Stream stream = this._fileProvider.GetFileInfo("application.appcache")?.CreateReadStream();
 
             if (stream == null) {
                 this._logger.LogError("Unable to find application file cache file.");
