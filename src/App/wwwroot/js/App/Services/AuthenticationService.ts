@@ -90,7 +90,7 @@ module FinancialApp.Services {
 
                 ret.resolve(null);
             })
-                .error((data, status) => ret.reject(data));
+            .error((data, status) => ret.reject(data));
 
             return ret.promise;
         }
