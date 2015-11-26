@@ -19,7 +19,7 @@
     public static class AutoMapperEngineFactory {
         public static IMappingEngine Create(IServiceProvider serviceProvider) {
             Mapper.Initialize(x => {
-                x.ConstructServicesUsing(serviceProvider.GetRequiredService);
+                x.ConstructServicesUsing(t => serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext.RequestServices.GetService(t));
                 x.AddGlobalIgnore("Owner");
             });
 
