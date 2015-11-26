@@ -10,7 +10,8 @@
     using Models.Domain.Services;
     using Models.DTO;
 
-    public class CategoryController : BaseEntityController {
+    [Route("api/category")]
+    public sealed class CategoryController : BaseEntityController {
         private readonly CategoryRepository _categoryRepository;
         private readonly IMappingEngine _mapper;
 
@@ -22,6 +23,8 @@
         }
 
         // GET: api/Category
+        [HttpGet]
+        [Route("")]
         public IEnumerable<CategoryListing> Get() {
             var q = this._categoryRepository.GetByOwner(this.OwnerId);
 
@@ -36,11 +39,15 @@
 
 
         // GET: api/Category/5
+        [HttpGet]
+        [Route("{id}")]
         public Category Get(int id) {
             return this._categoryRepository.GetByOwner(this.OwnerId).FirstOrDefault(x=>x.Id ==id).EnsureNotNull();
         }
 
         // POST: api/Category
+        [HttpPost]
+        [Route("")]
         public InsertId Post([FromBody] Category value) {
             value.EnsureNotNull(HttpStatusCode.BadRequest);
 
@@ -52,6 +59,8 @@
         }
 
         // PUT: api/Category/5
+        [HttpPut]
+        [Route("{id}")]
         public InsertId Put(int id, [FromBody] Category value) {
             value.EnsureNotNull(HttpStatusCode.BadRequest);
 
@@ -65,6 +74,8 @@
         }
 
         // DELETE: api/Category/5
+        [HttpDelete]
+        [Route("{id}")]
         public void Delete(int id) {
             Category c = this.Get(id);
             this.EntityOwnerService.EnsureOwner(c, this.OwnerId);

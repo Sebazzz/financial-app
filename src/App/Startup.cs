@@ -111,10 +111,6 @@
             app.UseStaticFiles();
 
             app.UseMvc(routes => {
-                routes.MapRoute(
-                    name: "DefaultApi",
-                    template: "api/{controller}/{id?}");
-
                 // We only match one controller since we will want
                 // all requests to go to the controller which renders
                 // the initial view.

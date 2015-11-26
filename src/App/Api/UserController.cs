@@ -19,6 +19,7 @@
     using Models.DTO;
 
     [Authorize]
+    [Route("api/user")]
     public class UserController : ApiController {
         private readonly AppUserManager _appUserManager;
         private readonly AppOwnerRepository _appOwnerRepository;
@@ -36,6 +37,8 @@
         }
 
         // GET: api/User
+        [HttpGet]
+        [Route("")]
         public IEnumerable<AppUserListing> Get() {
             return this._appUserManager.Users
                                        .Where(x => x.Group.Id == this.OwnerId)
@@ -44,6 +47,8 @@
         }
 
         // GET: api/User/5
+        [HttpGet]
+        [Route("{id}")]
         public async Task<AppUserListing> Get(int id) {
             AppUser user = await this.GetUser(id);
 
@@ -59,6 +64,8 @@
         }
 
         // POST: api/User
+        [HttpPost]
+        [Route("")]
         public async Task<InsertId> Post([FromBody] AppUserMutate value) {
             AppUser newUser = AppUser.Create(value.UserName, value.Email, this.GetCurrentGroup());
             IdentityResult result = await this._appUserManager.CreateAsync(newUser, value.NewPassword);
@@ -75,6 +82,8 @@
         }
 
         // PUT: api/User/5
+        [HttpPut]
+        [Route("{id}")]
         public async Task<InsertId> Put(int id, [FromBody] AppUserMutate value) {
             AppUser currentUser = await this.GetUser(id);
 
@@ -103,6 +112,8 @@
         }
 
         // DELETE: api/User/5
+        [HttpDelete]
+        [Route("{id}")]
         public async Task Delete(int id) {
             this.EnsureNotCurrentUser(id);
 
