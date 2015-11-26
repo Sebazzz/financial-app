@@ -13,11 +13,6 @@
         }
 
         public async Task Invoke(HttpContext context) {
-            if (!context.Request.Path.StartsWithSegments("Angular")) {
-                await this._next(context);
-                return;
-            }
-
             context.Response.OnStarting(delegate {
                 var response = context.Response;
                 var contentType = response.ContentType;

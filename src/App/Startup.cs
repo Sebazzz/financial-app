@@ -84,7 +84,7 @@
 
             app.UseApplicationInsightsRequestTelemetry();
             app.MapApplicationCacheManifest();
-            app.MapAngularViewPath();
+            app.MapAngularViewPath(env);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
                 LoginPath = new PathString("/Account/Login"),
