@@ -1,6 +1,7 @@
 ﻿namespace App.Models.Domain.Services {
     using System.Diagnostics;
     using System.Net;
+    using System.Security;
     using System.Web.Http;
     using Repositories;
 
@@ -33,7 +34,7 @@
         /// <param name="ownerId"></param>
         public void EnsureOwner(IAppOwnerEntity entity, int ownerId) {
             if (entity.Owner.Id != ownerId) {
-                throw new HttpResponseException(HttpStatusCode.Forbidden);
+                throw new SecurityException($"Owner Id {entity.Owner.Id} <-> {ownerId} doesn't match");
             }
         }
     }
