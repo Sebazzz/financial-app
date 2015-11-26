@@ -24,7 +24,7 @@ namespace App.Models.Domain.Repositories {
 
         [CanBeNull]
         public App.Models.Domain.SheetEntry FindById(int id) {
-            return this._entitySet.FirstOrDefault(x => x.Id == id);
+            return this._entitySet.Where(x => x.Id == id).Include(x => x.Sheet).Include(x => x.Sheet.Owner).Include(x => x.Category).FirstOrDefault();
         }
 
         [CanBeNull]
@@ -34,7 +34,7 @@ namespace App.Models.Domain.Repositories {
 
         [NotNull]
         public IQueryable<App.Models.Domain.SheetEntry> GetAll() {
-            return this._entitySet;
+            return this._entitySet.Include(x => x.Sheet).Include(x => x.Category);
         }
 
         
@@ -87,7 +87,7 @@ namespace App.Models.Domain.Repositories {
 
         [NotNull]
         public IQueryable<App.Models.Domain.Category> GetAll() {
-            return this._entitySet;
+            return this._entitySet.Include(x => x.Owner);
         }
 
         
@@ -151,7 +151,7 @@ namespace App.Models.Domain.Repositories {
 
         [NotNull]
         public IQueryable<App.Models.Domain.Sheet> GetAll() {
-            return this._entitySet;
+            return this._entitySet.Include(x => x.Owner).Include(x => x.CalculationOptions);
         }
 
         

@@ -30,9 +30,10 @@
         [Route("{id}")]
         public SheetDTO GetById(int id) {
             Sheet sheet = this._sheetRepository.FindByIdInclude(id)
-                                               .Include(x=>x.Entries)
                                                .FirstOrDefault();
             sheet.EnsureNotNull();
+
+            sheet.Entries = new List<Models.Domain.SheetEntry>(this._sheetRepository.GetOfSheet(sheet));
 
             this.EntityOwnerService.EnsureOwner(sheet, this.OwnerId);
             var dto = this._mappingEngine.Map<Sheet, SheetDTO>(sheet);

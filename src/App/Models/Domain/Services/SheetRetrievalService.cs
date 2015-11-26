@@ -56,15 +56,17 @@
         [NotNull]
         public Sheet GetBySubject(int month, int year, int ownerId) {
             Sheet theSheet = this._sheetRepository.GetByDatePart(month, year, ownerId)
-                                                  .Include(x => x.Entries)
                                                   .Include(x => x.Owner)
                                                   .FirstOrDefault();
 
             if (theSheet == null) {
                 theSheet = this.CreateSheet(month, year, ownerId);
-            
+
                 this._sheetRepository.Add(theSheet);
                 this._sheetRepository.SaveChanges();
+            }
+            else {
+                theSheet.Entries = new List<Domain.SheetEntry>(this._sheetRepository.GetOfSheet(theSheet));
             }
 
             return theSheet;

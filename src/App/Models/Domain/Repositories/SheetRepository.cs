@@ -1,5 +1,6 @@
 ﻿namespace App.Models.Domain.Repositories {
     using System;
+    using System.Collections.Generic;
     using Microsoft.Data.Entity;
     using System.Linq;
 
@@ -20,6 +21,12 @@
             return this._dbContext.Set<SheetEntry>()
                                   .Where(x => x.Sheet.Subject < threshold)
                                   .Where(x => x.Sheet.Owner.Id == ownerId);
+        }
+
+        public IQueryable<SheetEntry> GetOfSheet(Sheet sheet) {
+            return this._dbContext.Set<SheetEntry>()
+                                  .Where(x => x.Sheet.Id == sheet.Id)
+                                  .Include(x => x.Category);
         }
     }
 }
