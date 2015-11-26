@@ -42,7 +42,7 @@ var filePath = {
     },
 
     minifylibcss: {
-        src: ['./wwwroot/css/animate.css', './wwwroot/css/bootstrap.css', './Content/angular-progress.css'],
+        src: ['./wwwroot/css/animate.css', './wwwroot/css/bootstrap.css', './wwwroot/css/angular-progress.css'],
         dest: './wwwroot/build/'
     },
 
