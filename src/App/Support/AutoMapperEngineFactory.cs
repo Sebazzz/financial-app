@@ -66,7 +66,7 @@
             /// <summary>
             /// Initializes a new instance of the <see cref="T:System.Object"/> class.
             /// </summary>
-            public EntityResolver(AppDbContext dbContext, EntityOwnerService entityOwnerService, IHttpContextAccessor httpContextAccessor) {
+            public EntityResolver(DbContext dbContext, EntityOwnerService entityOwnerService, IHttpContextAccessor httpContextAccessor) {
                 this._entityOwnerService = entityOwnerService;
                 this._httpContext = httpContextAccessor.HttpContext;
 
