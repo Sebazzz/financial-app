@@ -22,7 +22,7 @@ namespace App.Support.Integration {
         }
 
         public async Task Invoke(HttpContext context) {
-            if (!this._browserDetector.IsMobileDevice(context)) {
+            if (!this._browserDetector.IsMobileDevice()) {
                 await this._next(context);
                 return;
             }

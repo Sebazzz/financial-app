@@ -10,7 +10,7 @@
       id="app"
       ng-app="main"
       ng-strict-di="true"
-      data-is-mobile="@BrowserDetector.IsMobileDevice(this.Context).ToString().ToLowerInvariant()"
+      data-is-mobile="@BrowserDetector.IsMobileDevice().ToString().ToLowerInvariant()"
       manifest="/application.appcache"
       ng-controller="MasterController"
       data-app-version="@ViewBag.AppVersion">
