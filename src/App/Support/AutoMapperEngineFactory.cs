@@ -2,6 +2,8 @@
     using System;
     using System.Globalization;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
     using Api.Extensions;
     using AutoMapper;
     using Microsoft.AspNet.Http;
@@ -113,7 +115,23 @@
             }
 
             private TEntity FindEntity(int key) {
-                return this._entities.FirstOrDefault(x => x.Id == key);
+                IQueryable<TEntity> query = this._entities;
+
+                this.EagerLoadOwner(ref query);
+
+                return query.FirstOrDefault(x => x.Id == key);
+            }
+
+            private void EagerLoadOwner(ref IQueryable<TEntity> query) {
+                if (!typeof (IAppOwnerEntity).IsAssignableFrom(typeof (TEntity))) {
+                    return;
+                }
+
+                ParameterExpression param = Expression.Parameter(typeof (TEntity), "e");
+                MemberExpression ownerPropAccess = Expression.Property(param, nameof(IAppOwnerEntity.Owner));
+                Expression<Func<TEntity, AppOwner>> propertyToEagerLoad = Expression.Lambda<Func<TEntity, AppOwner>>(ownerPropAccess, param);
+
+                query = query.Include(propertyToEagerLoad);
             }
 
             private static int GetPrimaryKey(object value) {
