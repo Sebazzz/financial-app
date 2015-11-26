@@ -1,4 +1,5 @@
 ﻿namespace App.Models.Domain.Repositories {
+    using System;
     using Microsoft.Data.Entity;
     using System.Linq;
 
@@ -13,6 +14,12 @@
 
         public IQueryable<Sheet> FindByIdInclude(int id) {
             return this._entitySet.Where(x => x.Id == id).Include(x => x.CalculationOptions).Include(x => x.Entries);
+        }
+
+        public IQueryable<SheetEntry> GetOfSheetBeforeThreshold(int ownerId, DateTime threshold) {
+            return this._dbContext.Set<SheetEntry>()
+                                  .Where(x => x.Sheet.Subject < threshold)
+                                  .Where(x => x.Sheet.Owner.Id == ownerId);
         }
     }
 }

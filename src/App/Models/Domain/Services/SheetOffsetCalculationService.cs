@@ -19,9 +19,8 @@
         public CalculationOptions CalculateOffset(Sheet targetSheet) {
             int ownerId = targetSheet.Owner.Id;
 
-            var q = (from Sheet s in this._sheetRepository.GetByOwner(ownerId)
-                    where s.Subject < targetSheet.Subject
-                    from SheetEntry entry in s.Entries
+            // TODO: When Entity Framework properly supports 'select many from many', revert this query
+            var q = (from entry in this._sheetRepository.GetOfSheetBeforeThreshold(ownerId, targetSheet.Subject)
                     select new {entry.Account, entry.Delta}).ToArray(); 
             
             var result = new CalculationOptions() {
