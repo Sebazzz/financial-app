@@ -20,6 +20,7 @@
     using Models.Domain.Repositories;
     using Models.Domain.Services;
     using Newtonsoft.Json.Serialization;
+    using Support;
 
     public class Startup
     {
@@ -74,6 +75,8 @@
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<Category>>();
             
             services.AddSingleton<IMappingEngine>(AutoMapperEngineFactory.Create);
+
+            services.AddTransient<IBrowserDetector, DefaultBrowserDetector>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
