@@ -50,7 +50,12 @@
         [HttpPost]
         [Route("logoff")]
         public async Task<AuthenticationInfo> LogOff() {
-            await this._authenticationManager.SignOutAsync();
+            // TODO: AuthenticationManager does a very rough sign out, signing out all three authentication schemes
+            //       of which there is only one handler. This causes exception. Need to find way to resolve this.
+            //await this._authenticationManager.SignOutAsync();
+
+            await this.Context.Authentication.SignOutAsync(IdentityCookieOptions.ApplicationCookieAuthenticationType);
+
             return new AuthenticationInfo();
         }
     }

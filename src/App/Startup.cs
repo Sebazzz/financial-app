@@ -96,7 +96,7 @@
 
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
-                AuthenticationScheme = "Microsoft.AspNet.Identity.Application"
+                AuthenticationScheme = IdentityCookieOptions.ApplicationCookieAuthenticationType
             });
 
             if (env.IsDevelopment()) {
