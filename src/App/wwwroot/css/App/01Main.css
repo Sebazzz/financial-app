@@ -8,47 +8,35 @@ html {
 }
 
 /**** Rotation animation */
-@keyframes rotate {
-  0% {
-    -webkit-transform-origin: center center;
-    -ms-transform-origin: center center;
-    transform-origin: center center;
-    -webkit-transform: rotate(-180deg);
-    -ms-transform: rotate(-180deg);
-    transform: rotate(-180deg);
-  }
-
-  50% {
-    -webkit-transform-origin: center center;
-    -ms-transform-origin: center center;
-    transform-origin: center center;
-    -webkit-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform-origin: center center;
-    -ms-transform-origin: center center;
-    transform-origin: center center;
-    -webkit-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    transform: rotate(180deg);
-  }
+@-webkit-keyframes loading-spinner {
+  0%   { -webkit-transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-moz-keyframes loading-spinner {
+  0%   { -moz-transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-o-keyframes loading-spinner {
+  0%   { -o-transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-ms-keyframes loading-spinner {
+  0%   { -ms-transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@keyframes loading-spinner {
+    0% {-ms-transform: rotate(0deg);transform: rotate(0deg);}
+  100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
 }
 
-.rotate {
-    -webkit-animation-name: rotate;
-    -moz-animation-name: rotate;
-    -ms-animation-name: rotate;
-    -o-animation-name: rotate;
-    animation-name: rotate;
 
-    -webkit-animation-timing-function:linear; 
-    -moz-animation-timing-function:linear;
-    -ms-animation-timing-function:linear;
-    -o-animation-timing-function:linear;
-    animation-timing-function:linear;
+
+.rotate {
+  -webkit-animation: loading-spinner 700ms linear infinite;
+  -moz-animation:    loading-spinner 700ms linear infinite;
+  -ms-animation:     loading-spinner 700ms linear infinite;
+  -o-animation:      loading-spinner 700ms linear infinite;
+  animation:         loading-spinner 700ms linear infinite;
 }
 
 /*** Required for AngularJS Bootstrap UI */
