@@ -1,0 +1,18 @@
+{
+  "name": "Financial-App",
+  "version": "2.0.0",
+  "homepage": "https://github.com/Sebazzz/financial-app",
+  "authors": [
+    "Sebazzz <triadsebas@gmail.com>"
+  ],
+  "description": "Financial management application using AngularJS and Typescript",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
