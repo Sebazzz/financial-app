@@ -13,7 +13,8 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     size = require('gulp-size'),
     clean = require('gulp-clean'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    sourcemaps = require('gulp-sourcemaps');
 
 var filePath = {
     appjsminify: {
@@ -60,7 +61,9 @@ var filePath = {
 
 gulp.task('app-js-minify', function () {
     gulp.src(filePath.appjsminify.src)
+        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(concat('appscripts.js'))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(filePath.appjsminify.dest))
         .pipe(uglify(filePath.uglifyOptions))
         .pipe(concat('appscripts.min.js'))
@@ -70,7 +73,9 @@ gulp.task('app-js-minify', function () {
 
 gulp.task('lib-js-minify', function () {
     gulp.src(filePath.libsjsminify.src)
+        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(concat('libscripts.js'))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(filePath.libsjsminify.dest))
         .pipe(uglify(filePath.uglifyOptions))
         .pipe(concat('libscripts.min.js'))
