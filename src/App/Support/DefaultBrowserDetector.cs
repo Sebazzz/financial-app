@@ -14,7 +14,7 @@
         }
 
         public bool IsMobileDevice() {
-            const string mobileDeviceUaPart = "Mobile Safari";
+            const string mobileDeviceUaPart = "Mobile";
 
             string userAgent = this._httpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString();
 
