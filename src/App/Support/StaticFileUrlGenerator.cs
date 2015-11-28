@@ -46,7 +46,7 @@
             string fileUrlSubst = GetFinalFileUrl(fileInformation.Name, fileUrl);
 
             IChangeToken token = this.WatchFile(fileUrl, fileUrlSubst);
-            string url = GetFingerPrintedUrl(fileUrlSubst, fileInformation);
+            string url = this.GetFingerPrintedUrl(fileUrlSubst, fileInformation);
 
             return new GeneratedFileInfo {
                 ChangeToken = token,
@@ -114,7 +114,7 @@
 
         private string FindMinifiedFile(string fullFilePath) {
             string extension = Path.GetExtension(fullFilePath);
-            string minFilePath = Path.ChangeExtension(fullFilePath, "min." + extension);
+            string minFilePath = Path.ChangeExtension(fullFilePath, "min" + extension);
 
             IFileInfo fileInfo = this._hostingEnvironment.WebRootFileProvider.GetFileInfo(minFilePath);
             if (!fileInfo.Exists) {
