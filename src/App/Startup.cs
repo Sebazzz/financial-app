@@ -75,6 +75,7 @@
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<Category>>();
             
             services.AddSingleton<IMappingEngine>(AutoMapperEngineFactory.Create);
+            services.AddSingleton<IETagGenerator, ETagGenerator>();
             services.AddSingleton<IStaticFileUrlGenerator, StaticFileUrlGenerator>();
 
             services.AddTransient<IBrowserDetector, DefaultBrowserDetector>();

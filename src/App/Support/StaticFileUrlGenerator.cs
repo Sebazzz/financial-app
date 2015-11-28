@@ -7,17 +7,20 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Primitives;
 
+
     /// <summary>
     /// Generates a static file finger printed url, possibility including "min.js" extension
     /// </summary>
     public sealed class StaticFileUrlGenerator : IStaticFileUrlGenerator {
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IETagGenerator _fingerPrintGenerator;
         private readonly ILogger _logger;
 
         private readonly ConcurrentDictionary<string, GeneratedFileInfo> _urlsByPath;
 
-        public StaticFileUrlGenerator(IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory) {
+        public StaticFileUrlGenerator(IHostingEnvironment hostingEnvironment, IETagGenerator fingerPrintGenerator, ILoggerFactory loggerFactory) {
             this._hostingEnvironment = hostingEnvironment;
+            this._fingerPrintGenerator = fingerPrintGenerator;
             this._logger = loggerFactory.CreateLogger<StaticFileUrlGenerator>();
 
             this._urlsByPath = new ConcurrentDictionary<string, GeneratedFileInfo>(StringComparer.OrdinalIgnoreCase);
@@ -51,8 +54,8 @@
             };
         }
 
-        private static string GetFingerPrintedUrl(string fileUrl, IFileInfo fileInformation) {
-            string fingerPrint = GenerateFingerPrint(fileInformation);
+        private string GetFingerPrintedUrl(string fileUrl, IFileInfo fileInformation) {
+            string fingerPrint = this.GenerateFingerPrint(fileInformation);
 
             return MakeUrl(fileUrl, fingerPrint);
         }
@@ -70,16 +73,8 @@
             return fileUrl.Substring(0, fileNameIndex + 1) + replaceName;
         }
 
-        private static string GenerateFingerPrint(IFileInfo fileInformation) {
-            long length = fileInformation.Length;
-
-            DateTimeOffset last = fileInformation.LastModified;
-
-            // truncat last modified time to seconds
-            DateTimeOffset lastModified = new DateTimeOffset(last.Year, last.Month, last.Day, last.Hour, last.Minute, last.Second,last.Offset);
-
-            long etagHash = lastModified.ToFileTime() ^ length;
-            return Convert.ToString(etagHash, 16);
+        private string GenerateFingerPrint(IFileInfo fileInformation) {
+            return this._fingerPrintGenerator.GenerateETag(fileInformation);
         }
 
         private IChangeToken WatchFile(string key, string fileUrl) {
