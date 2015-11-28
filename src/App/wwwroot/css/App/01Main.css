@@ -8,34 +8,12 @@ html {
 }
 
 /**** Rotation animation */
-@-webkit-keyframes loading-spinner {
-  0%   { -webkit-transform: rotate(0deg);   transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
-}
-@-moz-keyframes loading-spinner {
-  0%   { -moz-transform: rotate(0deg);   transform: rotate(0deg); }
-  100% { -moz-transform: rotate(360deg); transform: rotate(360deg); }
-}
-@-o-keyframes loading-spinner {
-  0%   { -o-transform: rotate(0deg);   transform: rotate(0deg); }
-  100% { -o-transform: rotate(360deg); transform: rotate(360deg); }
-}
-@-ms-keyframes loading-spinner {
-  0%   { -ms-transform: rotate(0deg);   transform: rotate(0deg); }
-  100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
-}
 @keyframes loading-spinner {
     0% {-ms-transform: rotate(0deg);transform: rotate(0deg);}
   100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
 }
 
-
-
 .rotate {
-  -webkit-animation: loading-spinner 700ms linear infinite;
-  -moz-animation:    loading-spinner 700ms linear infinite;
-  -ms-animation:     loading-spinner 700ms linear infinite;
-  -o-animation:      loading-spinner 700ms linear infinite;
   animation:         loading-spinner 700ms linear infinite;
 }
 
@@ -61,7 +39,6 @@ span.negative, div.input-group.negative .form-control {
 }
 
 tr.saving {
-    -ms-opacity: 0.6;
     opacity: 0.6;
 
     background-color: #EEE;

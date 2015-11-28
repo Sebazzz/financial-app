@@ -18,6 +18,8 @@
         "gulp-util": "^3.0.6",
         "gulp-sourcemaps": "^1.6.0",
         "gulp-sass": "^2.1.0",
-        "jshint-stylish": "^2.0.1"
+        "jshint-stylish": "^2.0.1",
+        "gulp-typescript": "^2.9.2",
+        "typescript": "1.6.2"
     }
 }

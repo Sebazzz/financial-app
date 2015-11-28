@@ -16,11 +16,17 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     sass = require('gulp-sass'),
     bower = require('gulp-bower'),
+    ts = require('gulp-typescript'),
     autoprefixer = require('gulp-autoprefixer');
 
 var filePath = {
+    tscompile: {
+        src: ["./Scripts/App/**/*.ts", "./Scripts/App/**/*.d.ts"],
+        dest: './wwwroot/build/ts/'
+    },
+
     appjsminify: {
-        src: './wwwroot/js/App/**/*.js',
+        src: ['./wwwroot/js/App/**/*.js', './wwwroot/build/ts/*.js'],
         dest: './wwwroot/build/'
     },
 
@@ -71,18 +77,33 @@ gulp.task('bower', function() {
           .pipe(gulp.dest(filePath.bowerDir));
 });
 
+// ------- COPY ASSETS
 gulp.task('copy-bootstrap', function () {
-    var basePath = './bower_components/bootstrap-sass-official/fonts';
+    var basePath = './bower_components/bootstrap-sass-official/assets/fonts/bootstrap';
 
     return gulp.src([basePath + '/*.*'])
-        .pipe(gulp.dest('./wwwroot/fonts'));
+        .pipe(gulp.dest('./wwwroot/fonts/bootstrap'));
 });
 
 gulp.task('copy-assets', ['copy-bootstrap']);
 
-gulp.task('app-js-minify', function () {
+// ------- JAVASCRIPT
+
+gulp.task('tscompile', function() {
+    return gulp.src(filePath.tscompile.src)
+        .pipe(sourcemaps.init())
+        .pipe(ts({
+            noImplicitAny: false,
+            outFile: 'App.js',
+            target: 'ES5'
+        }))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(filePath.tscompile.dest));
+});
+
+gulp.task('app-js-minify', ['tscompile'], function () {
     return gulp.src(filePath.appjsminify.src)
-        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(sourcemaps.init())
         .pipe(concat('appscripts.js'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(filePath.appjsminify.dest))
@@ -122,7 +143,7 @@ gulp.task('build-sass', function () {
 });
 
 gulp.task('minify-css', ['build-sass'], function () {
-    return gulp.src([].concat(filePath.css.src).concat([filePath.buildsass.dest + '/styling-sass.css']))
+    return gulp.src([].concat([filePath.buildsass.dest + '/styling-sass.css']).concat(filePath.css.src))
         .pipe(concat('styling.css'))
         .pipe(autoprefixer())
         .pipe(gulp.dest(filePath.css.dest))
@@ -134,13 +155,7 @@ gulp.task('minify-css', ['build-sass'], function () {
 gulp.task('clean', function () {
     return gulp.src(
         [
-            'wwwroot/build/appscripts.js',
-            'wwwroot/build/appscripts.min.js',
-            'wwwroot/build/libscripts.js',
-            'wwwroot/build/libscripts.min.js',
-            'wwwroot/build/styling-sass.css',
-            'wwwroot/build/styling.css',
-            'wwwroot/build/styling.min.css'
+            'wwwroot/build/**/*.*'
     ], { read: false })
     .pipe(clean({force:true}));
 });
@@ -153,6 +168,8 @@ gulp.task('watchdog', function () {
     var cssWatch = [].concat(filePath.buildsass.src).concat(filePath.css.src).concat(filePath.buildsass.watchPath);
 
     gulp.watch(cssWatch, ['minify-css']);
+
+    gulp.watch(filePath.tscompile.src, ['tscompile']);
 
     gulp.watch(filePath.appjsminify.src, ['app-js-minify']);
     gulp.watch(filePath.libsjsminify.src, ['lib-js-minify']);
