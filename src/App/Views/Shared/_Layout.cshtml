@@ -1,5 +1,6 @@
 ﻿@using System
 @using System.Threading.Tasks
+@using App.Support
 @using Microsoft.ApplicationInsights.Extensibility
 @using Microsoft.AspNet.Hosting
 @using Microsoft.AspNet.Mvc.Rendering
@@ -25,7 +26,7 @@
     <meta name="msapplication-config" content="/MSTileConfig.xml" />
     <link rel="apple-touch-icon" href="/images/tiles/apple-tile.png" />
 
-    <link href="@StaticUrl("/build/styling.css")" rel="stylesheet" />
+    <link href="@UrlGenerator.GenerateUrl("/build/styling.css")" rel="stylesheet" />
 
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
@@ -33,14 +34,3 @@
     @RenderBody()
 </body>
 </html>
-
-@functions {
-    private string StaticUrl(string path) {
-        if (HostingEnvironment.IsProduction()) {
-            int lastIndex = path.LastIndexOf(".", StringComparison.Ordinal);
-            path = path.Substring(0, lastIndex) + ".min" + path.Substring(lastIndex);
-        }
-
-        return path;
-    }
-}

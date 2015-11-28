@@ -8,8 +8,8 @@
 
 <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
 
-<script src="@StaticUrl("/build/libscripts.js")"></script>
-<script src="@StaticUrl("/build/appscripts.js")"></script>
+<script src="@UrlGenerator.GenerateUrl("/build/libscripts.js")"></script>
+<script src="@UrlGenerator.GenerateUrl("/build/appscripts.js")"></script>
 <script>FinancialApp.Program.init();</script>
 
 <noscript>
@@ -17,14 +17,3 @@
         Sorry, om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
     </p>
 </noscript>
-
-@functions {
-    private string StaticUrl(string path) {
-        if (HostingEnvironment.IsProduction()) {
-            int lastIndex = path.LastIndexOf(".", StringComparison.Ordinal);
-            path = path.Substring(0, lastIndex) + ".min" + path.Substring(lastIndex);
-        }
-
-        return path;
-    }
-}

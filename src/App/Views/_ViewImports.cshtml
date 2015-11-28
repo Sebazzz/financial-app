@@ -1,3 +1,6 @@
-﻿@addTagHelper "*, Microsoft.AspNet.Mvc.TagHelpers"
+﻿@using System.Threading.Tasks
+@using App.Support
+@addTagHelper "*, Microsoft.AspNet.Mvc.TagHelpers"
 @inject Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration TelemetryConfiguration 
 @inject App.Support.IBrowserDetector BrowserDetector
+@inject IStaticFileUrlGenerator UrlGenerator
