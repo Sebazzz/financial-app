@@ -69,7 +69,7 @@ module FinancialApp {
             this.month = parseInt($routeParams.month, 10);
 
             $scope.date = moment([this.year, this.month - 1 /* zero offset */]);
-            $scope.previousDate = moment($scope.date).subtract('month', 1);
+            $scope.previousDate = moment($scope.date).subtract(1, 'month');
             $scope.isLoaded = false;
             $scope.AccountType = DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
             $scope.SortOrderMutation = Factories.SortOrderMutation; // we need to copy the enum itself, or we won't be able to refer to it in the view

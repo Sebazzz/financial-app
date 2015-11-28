@@ -37,8 +37,8 @@ module FinancialApp {
             $scope.date = moment([this.year, this.month - 1 /* zero offset */]);
             $scope.isLoaded = false;
 
-            $scope.previousDate = moment($scope.date).subtract('month', 1);
-            $scope.nextDate = moment($scope.date).add('month', 1);
+            $scope.previousDate = moment($scope.date).subtract(1, 'month');
+            $scope.nextDate = moment($scope.date).add(1, 'month');
             if ($scope.nextDate.isAfter()) {
                 $scope.nextDate = null;
             }
