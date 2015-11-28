@@ -1,8 +1,7 @@
 ﻿/// <binding AfterBuild='build' Clean='clean' ProjectOpened='watchdog' />
-/*
-This file in the main entry point for defining Gulp tasks and using Gulp plugins.
-Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
-*/
+'use strict';
+
+require('es6-promise').polyfill();
 
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
@@ -14,7 +13,11 @@ var gulp = require('gulp'),
     size = require('gulp-size'),
     clean = require('gulp-clean'),
     rename = require('gulp-rename'),
-    sourcemaps = require('gulp-sourcemaps');
+    sourcemaps = require('gulp-sourcemaps'),
+    sass = require('gulp-sass'),
+    bower = require('gulp-bower'),
+    autoprefixer = require('gulp-autoprefixer'),
+    merge = require('merge-stream');
 
 var filePath = {
     appjsminify: {
@@ -24,6 +27,8 @@ var filePath = {
 
     libsjsminify: {
         src: [
+            './bower_components/jquery/dist/jquery.js',
+            './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
             './wwwroot/js/linq.js',
             './wwwroot/js/angular.js',
             './wwwroot/js/angular-locale-nl_NL.js',
@@ -42,13 +47,15 @@ var filePath = {
         src: './wwwroot/js/App/**/*.js'
     },
 
-    minifylibcss: {
-        src: ['./wwwroot/css/animate.css', './wwwroot/css/bootstrap.css', './wwwroot/css/angular-progress.css'],
-        dest: './wwwroot/build/'
+    buildsass: {
+        src: ['./wwwroot/css/App/App.scss'],
+        dest: './wwwroot/build/',
+        loadPath: ['./bower_components/bootstrap-sass-official/assets/stylesheets'],
+        watchPath: ['./bower_components/bootstrap-sass-official/assets/stylesheets' + '/**/*.scss']
     },
 
-    minifyappcss: {
-        src: ['./wwwroot/css/App/**/*.css', '!./*.min.css', '!./**/*.min.css'],
+    css: {
+        src: ['./wwwroot/css/animate.css', './wwwroot/css/angular-progress.css', './wwwroot/css/App/**/*.css', '!./*.min.css', '!./**/*.min.css'],
         dest: './wwwroot/build/'
     },
 
@@ -56,11 +63,26 @@ var filePath = {
         options: {
             ie_proof: false // IE11+
         }
-    }
+    },
+    bowerDir: './bower_components'
 };
 
+gulp.task('bower', function() {
+    return bower()
+          .pipe(gulp.dest(filePath.bowerDir));
+});
+
+gulp.task('copy-bootstrap', function () {
+    var basePath = './bower_components/bootstrap-sass-official/fonts';
+
+    return gulp.src([basePath + '/*.*'])
+        .pipe(gulp.dest('./wwwroot/fonts'));
+});
+
+gulp.task('copy-assets', ['copy-bootstrap']);
+
 gulp.task('app-js-minify', function () {
-    gulp.src(filePath.appjsminify.src)
+    return gulp.src(filePath.appjsminify.src)
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(concat('appscripts.js'))
         .pipe(sourcemaps.write())
@@ -72,7 +94,7 @@ gulp.task('app-js-minify', function () {
 });
 
 gulp.task('lib-js-minify', function () {
-    gulp.src(filePath.libsjsminify.src)
+    return gulp.src(filePath.libsjsminify.src)
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(concat('libscripts.js'))
         .pipe(sourcemaps.write())
@@ -84,54 +106,60 @@ gulp.task('lib-js-minify', function () {
 });
 
 gulp.task('jshint', function () {
-    gulp.src(filePath.jshint.src)
+    return gulp.src(filePath.jshint.src)
       .pipe(jshint())
       .pipe(jshint.reporter(jshintreporter));
 });
 
-gulp.task('lib-minify-css', function () {
-    gulp.src(filePath.minifylibcss.src)
-        .pipe(concat('libcss.css'))
-        .pipe(gulp.dest(filePath.minifylibcss.dest))
-        .pipe(minifycss())
-        .pipe(concat('libcss.min.css'))
-        .pipe(gulp.dest(filePath.minifylibcss.dest));
+gulp.task('build-sass', function () {
+    var sassConfig = {
+        includePaths: filePath.buildsass.loadPath
+    };
+
+    return gulp.src(filePath.buildsass.src)
+               .pipe(sass(sassConfig).on('error', sass.logError))
+               .pipe(concat('styling-sass.css'))
+               .pipe(gulp.dest(filePath.buildsass.dest));
 });
 
-gulp.task('app-minify-css', function () {
-    gulp.src(filePath.minifyappcss.src)
-        .pipe(concat('appcss.css'))
-        .pipe(gulp.dest(filePath.minifyappcss.dest))
+gulp.task('minify-css', ['build-sass'], function () {
+    var cssStr = gulp.src(filePath.css.src);
+    var sassStr = gulp.src(filePath.buildsass.dest + '/styling-sass.css');
+
+    return merge(cssStr, sassStr)
+        .pipe(concat('styling.css'))
+        .pipe(autoprefixer())
+        .pipe(gulp.dest(filePath.css.dest))
         .pipe(minifycss())
-        .pipe(concat('appcss.min.css'))
-        .pipe(gulp.dest(filePath.minifyappcss.dest));
+        .pipe(concat('styling.min.css'))
+        .pipe(gulp.dest(filePath.css.dest));
 });
 
 gulp.task('clean', function () {
-    gulp.src(
+    return gulp.src(
         [
             'wwwroot/build/appscripts.js',
             'wwwroot/build/appscripts.min.js',
             'wwwroot/build/libscripts.js',
             'wwwroot/build/libscripts.min.js',
-            'wwwroot/build/appcss.css',
-            'wwwroot/build/appcss.min.css',
-            'wwwroot/build/libcss.css',
-            'wwwroot/build/libcss.min.css'
+            'wwwroot/build/styling-sass.css',
+            'wwwroot/build/styling.css',
+            'wwwroot/build/styling.min.css'
     ], { read: false })
     .pipe(clean({force:true}));
 });
 
 
-gulp.task('build', ['app-js-minify', 'lib-js-minify', 'lib-minify-css', 'app-minify-css']);
+gulp.task('build', ['bower', 'build-sass', 'app-js-minify', 'lib-js-minify', 'minify-css', 'copy-assets']);
 gulp.task('cleanbuild', ['clean']);
 
 gulp.task('watchdog', function () {
+    gulp.watch([].concat(filePath.buildsass.src).concat(filePath.buildsass.watchPath), ['build-sass']);
+    gulp.watch(filePath.css.src, ['app-minify-css']);
+    //gulp.watch(filePath.buildsass.dest + '/styling-sass.css', ['app-minify-css']);
+
     gulp.watch(filePath.appjsminify.src, ['app-js-minify']);
     gulp.watch(filePath.libsjsminify.src, ['lib-js-minify']);
-
-    gulp.watch(filePath.minifylibcss.src, ['lib-minify-css']);
-    gulp.watch(filePath.minifyappcss.src, ['app-minify-css']);
 });
 
 
