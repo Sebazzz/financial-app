@@ -1,7 +1,7 @@
 ﻿body.anonymous {
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #eee; 
+  background-color: #000; 
 }
 
 .form-signin {
@@ -38,17 +38,14 @@
 }
 
 body.anonymous #loading-bar .bar {
-  background: #000;
+  background: #FFF;
 }
 
 body.anonymous #loading-bar .peg {
-  -moz-box-shadow:#000 1px 0 6px 1px;
-  -ms-box-shadow: #000 1px 0 6px 1px;
-  -webkit-box-shadow: #000 1px 0 6px 1px;
-  box-shadow: #000 1px 0 6px 1px;
+  box-shadow: #FFF 1px 0 6px 1px;
 }
 
 body.anonymous #loading-bar-spinner .spinner-icon {
-  border-top-color:  #000;
-  border-left-color: #000;
+  border-top-color:  #FFF;
+  border-left-color: #FFF;
 }
