@@ -2,7 +2,7 @@
 
 :: ----------------------
 :: KUDU Deployment Script
-:: Version: 0.2.2
+:: Version: 1.0.3
 :: ----------------------
 
 :: Prerequisites
@@ -57,9 +57,9 @@ IF DEFINED CLEAN_LOCAL_DEPLOYMENT_TEMP (
   mkdir "%DEPLOYMENT_TEMP%"
 )
 
-IF NOT DEFINED MSBUILD_PATH (
-  SET MSBUILD_PATH=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe
-)
+IF DEFINED MSBUILD_PATH goto MsbuildPathDefined
+SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
+:MsbuildPathDefined
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Deployment
 :: ----------
@@ -78,29 +78,31 @@ IF "%DEPLOYMENT_TARGET:~-1%"=="\" (
     SET DEPLOYMENT_TARGET=%DEPLOYMENT_TARGET:~0,-1%
 )
 
-:: 1. Install KRE
-call :ExecuteCmd PowerShell -NoProfile -NoLogo -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';& '%SCM_KVM_PS_PATH%' %*" install %SCM_KRE_VERSION% -%SCM_KRE_ARCH% -runtime %SCM_KRE_CLR% %SCM_KVM_INSTALL_OPTIONS%
+
+:: 1. Set DNX Path
+set DNVM_CMD_PATH_FILE="%USERPROFILE%\.dnx\temp-set-envvars.cmd"
+set DNX_RUNTIME="%USERPROFILE%\.dnx\runtimes\dnx-undefined-win-undefined.undefined"
+
+:: 2. Install DNX
+call :ExecuteCmd PowerShell -NoProfile -NoLogo -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';$CmdPathFile='%DNVM_CMD_PATH_FILE%';& '%SCM_DNVM_PS_PATH%' " install undefined -arch undefined -r undefined %SCM_DNVM_INSTALL_OPTIONS%
 IF !ERRORLEVEL! NEQ 0 goto error
 
-IF EXIST "%USERPROFILE%\.k\temp-set-envvars.cmd" (
-  CALL "%USERPROFILE%\.k\temp-set-envvars.cmd"
-  DEL "%USERPROFILE%\.k\temp-set-envvars.cmd"
-)
 
-:: 2. Run KPM Restore
-call kpm restore "%DEPLOYMENT_SOURCE%" %SCM_KPM_RESTORE_OPTIONS%
+:: 3. Run DNU Restore
+call %DNX_RUNTIME%\bin\dnu restore "%DEPLOYMENT_SOURCE%" %SCM_DNU_RESTORE_OPTIONS%
 IF !ERRORLEVEL! NEQ 0 goto error
 
-:: 3. Run KPM Bundle
-call kpm bundle "src\App\project.json" --runtime "%USERPROFILE%\.k\runtimes\KRE-%SCM_KRE_CLR%-win-%SCM_KRE_ARCH%.%SCM_KRE_VERSION%" --out "%DEPLOYMENT_TEMP%" %SCM_KPM_PACK_OPTIONS%
+:: 4. Run DNU Bundle
+call %DNX_RUNTIME%\bin\dnu publish "src\App\project.json" --runtime %DNX_RUNTIME% --out "%DEPLOYMENT_TEMP%" %SCM_DNU_PUBLISH_OPTIONS%
 IF !ERRORLEVEL! NEQ 0 goto error
 
-:: 4. KuduSync
+:: 5. KuduSync
 call %KUDU_SYNC_CMD% -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
 IF !ERRORLEVEL! NEQ 0 goto error
 )
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 :: Post deployment stub
 IF DEFINED POST_DEPLOYMENT_ACTION call "%POST_DEPLOYMENT_ACTION%"
 IF !ERRORLEVEL! NEQ 0 goto error
