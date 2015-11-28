@@ -57,7 +57,7 @@ var filePath = {
         src: ['./wwwroot/css/App/App.scss'],
         dest: './wwwroot/build/',
         loadPath: ['./bower_components/bootstrap-sass-official/assets/stylesheets'],
-        watchPath: ['./bower_components/bootstrap-sass-official/assets/stylesheets/**/*.scss']
+        watchPath: ['./wwwroot/css/App/**/*.scss', './bower_components/bootstrap-sass-official/assets/stylesheets/**/*.scss']
     },
 
     css: {
@@ -166,7 +166,7 @@ gulp.task('build', ['bower', 'build-sass', 'app-js-minify', 'lib-js-minify', 'mi
 gulp.task('cleanbuild', ['clean']);
 
 gulp.task('watchdog', function () {
-    var cssWatch = [].concat(filePath.buildsass.src).concat(filePath.css.src).concat(filePath.buildsass.watchPath);
+    var cssWatch = [].concat(filePath.css.src).concat(filePath.buildsass.watchPath);
 
     gulp.watch(cssWatch, ['minify-css']);
 
