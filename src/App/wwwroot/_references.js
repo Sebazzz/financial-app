@@ -12,6 +12,7 @@
 /// <reference path="../bower_components/moment/moment.js" />
 /// <reference path="../gulpfile.js" />
 /// <reference path="../scripts/app/appinit.js" />
+/// <reference path="../scripts/app/color.js" />
 /// <reference path="../scripts/app/common.js" />
 /// <reference path="../scripts/app/controllers/archive.js" />
 /// <reference path="../scripts/app/controllers/authlogin.js" />

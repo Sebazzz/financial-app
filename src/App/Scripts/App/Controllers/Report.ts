@@ -30,10 +30,13 @@ module FinancialApp {
             this.$scope.expenseChartData = ReportController.generateChart();
             this.$scope.expenseChartData.options.title = "Uitgaven per categorie";
             this.$scope.expenseChartData.data.rows = this.generateRows(this.$scope.expenseChartData, x => x.delta < 0, -1);
+            Colors.Chart.setColors(this.$scope.expenseChartData.options);
 
             this.$scope.incomeChartData = ReportController.generateChart();
             this.$scope.incomeChartData.options.title = "Inkomen per categorie";
+            this.$scope.incomeChartData.options.backgroundColor = "#000";
             this.$scope.incomeChartData.data.rows = this.generateRows(this.$scope.incomeChartData, x => x.delta >= 0);
+            Colors.Chart.setColors(this.$scope.incomeChartData.options);
 
             this.removeAllZeroCategories(this.$scope.expenseChartData);
             this.removeAllZeroCategories(this.$scope.incomeChartData);

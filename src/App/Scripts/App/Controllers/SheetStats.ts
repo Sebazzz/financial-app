@@ -67,10 +67,12 @@ module FinancialApp {
             this.$scope.expenseChartData = SheetStatsController.generateChart();
             this.$scope.expenseChartData.options.title = "Uitgaven per categorie";
             this.$scope.expenseChartData.data.rows = this.generateExpenseCharRows(x => x.delta < 0, -1);
+            Colors.Chart.setColors(this.$scope.expenseChartData.options);
 
             this.$scope.incomeChartData = SheetStatsController.generateChart();
             this.$scope.incomeChartData.options.title = "Inkomen per categorie";
             this.$scope.incomeChartData.data.rows = this.generateExpenseCharRows(x => x.delta >= 0);
+            Colors.Chart.setColors(this.$scope.incomeChartData.options);
         }
 
         private generateExpenseCharRows(filter: (item: DTO.ISheetCategoryStatistics) => boolean, modifier: number = 1) {
