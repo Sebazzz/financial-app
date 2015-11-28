@@ -15,6 +15,7 @@
 
     public sealed class ApplicationCacheMiddleware {
         private readonly RequestDelegate _next;
+        private readonly IStaticFileUrlGenerator _urlGenerator;
         private readonly ILogger _logger;
         private readonly IFileProvider _fileProvider;
 
@@ -26,8 +27,9 @@
         private EntityTagHeaderValue _eTag;
         private DateTime _lastModifiedTime;
 
-        public ApplicationCacheMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnv) {
+        public ApplicationCacheMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnv, IStaticFileUrlGenerator urlGenerator) {
             this._next = next;
+            this._urlGenerator = urlGenerator;
             this._fileProvider = hostingEnv.WebRootFileProvider;
             this._logger = loggerFactory.CreateLogger<ApplicationCacheMiddleware>();
         }
@@ -85,11 +87,8 @@
                     Match match;
                     if ((index = line.IndexOf("{version}", StringComparison.OrdinalIgnoreCase)) != -1) {
                         line = line.Substring(0, index) + AppVersion.Informational + line.Substring(index + "{version}".Length);
-                    //} else if ((line.IndexOf("/bundles", StringComparison.OrdinalIgnoreCase)) != -1) {
-                    //    string bundleAddress = "~" + line;
-                    //    bool isScript = line.IndexOf("script", StringComparison.OrdinalIgnoreCase) != -1;
-                    //    line = (isScript ? Scripts.Url(bundleAddress) : Styles.Url(bundleAddress)).ToHtmlString();
-                    //    line = context.Server.HtmlDecode(line);
+                    } else if ((line.IndexOf("/build", StringComparison.OrdinalIgnoreCase)) == 0) {
+                        line = this._urlGenerator.GenerateUrl(line);
                     } else if ((match = AppViewDirective.Match(line)).Success) {
                         this.UpdateCacheInfo(line, ref etag, ref lastModified);
 

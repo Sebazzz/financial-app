@@ -2,10 +2,9 @@
 # Version {version} - (2014)
 CACHE:
 /
-/bundles/style-app
-/bundles/style-lib
-/bundles/script-lib
-/bundles/script-app
+/build/libscripts.js
+/build/appscripts.js
+/build/styling.css
 /Angular/Widgets/Menu.html
 /Angular/Widgets/Loader.html
 /Angular/Default.html
