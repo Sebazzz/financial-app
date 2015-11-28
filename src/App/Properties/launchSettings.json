@@ -22,6 +22,22 @@
         "Hosting:Environment": "Development"
       },
       "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-final"
+    },
+    "web-x86": {
+      "commandName": "web",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "Hosting:Environment": "Development"
+      },
+      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-final"
+    },
+    "IIS Express x86": {
+      "commandName": "IISExpress",
+      "environmentVariables": {
+        "Hosting:Environment": "Development"
+      },
+      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-final"
     }
   }
 }
