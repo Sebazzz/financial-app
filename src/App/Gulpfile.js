@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     jshintreporter = require('jshint-stylish'),
     minifycss = require('gulp-minify-css'),
     size = require('gulp-size'),
-    clean = require('gulp-clean'),
+    del = require('del'),
     rename = require('gulp-rename'),
     sourcemaps = require('gulp-sourcemaps'),
     sass = require('gulp-sass'),
@@ -154,16 +154,12 @@ gulp.task('minify-css', ['build-sass'], function () {
 });
 
 gulp.task('clean', function () {
-    return gulp.src(
-        [
-            'wwwroot/build/**/*.*'
-    ], { read: false })
-    .pipe(clean({force:true}));
+    return del(['wwwroot/build/**/*.*']);
 });
 
 
 gulp.task('build', ['bower', 'build-sass', 'app-js-minify', 'lib-js-minify', 'minify-css', 'copy-assets']);
-gulp.task('cleanbuild', ['clean']);
+gulp.task('cleanbuild', ['clean', 'build']);
 
 gulp.task('watchdog', function () {
     var cssWatch = [].concat(filePath.css.src).concat(filePath.buildsass.watchPath);
