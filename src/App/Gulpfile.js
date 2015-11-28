@@ -16,8 +16,7 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     sass = require('gulp-sass'),
     bower = require('gulp-bower'),
-    autoprefixer = require('gulp-autoprefixer'),
-    merge = require('merge-stream');
+    autoprefixer = require('gulp-autoprefixer');
 
 var filePath = {
     appjsminify: {
@@ -51,7 +50,7 @@ var filePath = {
         src: ['./wwwroot/css/App/App.scss'],
         dest: './wwwroot/build/',
         loadPath: ['./bower_components/bootstrap-sass-official/assets/stylesheets'],
-        watchPath: ['./bower_components/bootstrap-sass-official/assets/stylesheets' + '/**/*.scss']
+        watchPath: ['./bower_components/bootstrap-sass-official/assets/stylesheets/**/*.scss']
     },
 
     css: {
@@ -123,10 +122,7 @@ gulp.task('build-sass', function () {
 });
 
 gulp.task('minify-css', ['build-sass'], function () {
-    var cssStr = gulp.src(filePath.css.src);
-    var sassStr = gulp.src(filePath.buildsass.dest + '/styling-sass.css');
-
-    return merge(cssStr, sassStr)
+    return gulp.src([].concat(filePath.css.src).concat([filePath.buildsass.dest + '/styling-sass.css']))
         .pipe(concat('styling.css'))
         .pipe(autoprefixer())
         .pipe(gulp.dest(filePath.css.dest))
@@ -154,9 +150,9 @@ gulp.task('build', ['bower', 'build-sass', 'app-js-minify', 'lib-js-minify', 'mi
 gulp.task('cleanbuild', ['clean']);
 
 gulp.task('watchdog', function () {
-    gulp.watch([].concat(filePath.buildsass.src).concat(filePath.buildsass.watchPath), ['build-sass']);
-    gulp.watch(filePath.css.src, ['app-minify-css']);
-    //gulp.watch(filePath.buildsass.dest + '/styling-sass.css', ['app-minify-css']);
+    var cssWatch = [].concat(filePath.buildsass.src).concat(filePath.css.src).concat(filePath.buildsass.watchPath);
+
+    gulp.watch(cssWatch, ['minify-css']);
 
     gulp.watch(filePath.appjsminify.src, ['app-js-minify']);
     gulp.watch(filePath.libsjsminify.src, ['lib-js-minify']);
