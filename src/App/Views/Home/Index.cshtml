@@ -43,8 +43,8 @@
 @functions {
     private string StaticUrl(string path) {
         if (!this.ViewContext.HttpContext.IsDebuggingEnabled) {
-            int lastIndex = path.LastIndexOf(".", StringComparison.Ordinal);
-            path = path.Substring(0, lastIndex) + ".min" + path.Substring(lastIndex);
+            //int lastIndex = path.LastIndexOf(".", StringComparison.Ordinal);
+            //path = path.Substring(0, lastIndex) + ".min" + path.Substring(lastIndex);
         }
 
         return CacheBusting.FingerPrint.WithFileDate(path);
