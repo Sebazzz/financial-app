@@ -1,5 +1,6 @@
 ﻿namespace App {
     using System;
+    using System.Diagnostics;
     using System.Linq;
     using App.Models.Domain;
     using App.Models.Domain.Identity;
@@ -87,7 +88,11 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            if (env.IsDevelopment()) loggerFactory.AddDebug(LogLevel.Debug);
+            if (env.IsDevelopment()) {
+                loggerFactory.AddDebug(LogLevel.Debug);
+            } else {
+                loggerFactory.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
+            }
 
             app.UseApplicationInsightsRequestTelemetry();
             app.MapApplicationCacheManifest();

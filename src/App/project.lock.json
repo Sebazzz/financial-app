@@ -1520,6 +1520,24 @@
           "lib/dotnet5.4/Microsoft.Extensions.Logging.Debug.dll": {}
         }
       },
+      "Microsoft.Extensions.Logging.TraceSource/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final",
+          "System.Collections": "4.0.11-beta-23516",
+          "System.Collections.Concurrent": "4.0.11-beta-23516",
+          "System.Diagnostics.TraceSource": "4.0.0-beta-23516",
+          "System.Globalization": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Threading": "4.0.11-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.Extensions.Logging.TraceSource.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.Extensions.Logging.TraceSource.dll": {}
+        }
+      },
       "Microsoft.Extensions.MemoryPool/1.0.0-rc1-final": {
         "type": "package",
         "dependencies": {
@@ -4396,6 +4414,24 @@
         },
         "runtime": {
           "lib/dotnet5.4/Microsoft.Extensions.Logging.Debug.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Logging.TraceSource/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final",
+          "System.Collections": "4.0.11-beta-23516",
+          "System.Collections.Concurrent": "4.0.11-beta-23516",
+          "System.Diagnostics.TraceSource": "4.0.0-beta-23516",
+          "System.Globalization": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Threading": "4.0.11-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.Extensions.Logging.TraceSource.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.Extensions.Logging.TraceSource.dll": {}
         }
       },
       "Microsoft.Extensions.MemoryPool/1.0.0-rc1-final": {
@@ -7744,6 +7780,24 @@
           "lib/dotnet5.4/Microsoft.Extensions.Logging.Debug.dll": {}
         }
       },
+      "Microsoft.Extensions.Logging.TraceSource/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final",
+          "System.Collections": "4.0.11-beta-23516",
+          "System.Collections.Concurrent": "4.0.11-beta-23516",
+          "System.Diagnostics.TraceSource": "4.0.0-beta-23516",
+          "System.Globalization": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Threading": "4.0.11-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.Extensions.Logging.TraceSource.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.Extensions.Logging.TraceSource.dll": {}
+        }
+      },
       "Microsoft.Extensions.MemoryPool/1.0.0-rc1-final": {
         "type": "package",
         "dependencies": {
@@ -11053,6 +11107,22 @@
         "Microsoft.Extensions.Logging.Debug.1.0.0-rc1-final.nupkg",
         "Microsoft.Extensions.Logging.Debug.1.0.0-rc1-final.nupkg.sha512",
         "Microsoft.Extensions.Logging.Debug.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Logging.TraceSource/1.0.0-rc1-final": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "wIxGpFxTKI+xvh/aVNCUh0tUEq24xmRW/OWpOJrE2c3QrIJJ6vSpvwGJ7cmgvMWK2Ul+HDd9Wxrcd0tUa8rHhg==",
+      "files": [
+        "lib/dotnet5.4/Microsoft.Extensions.Logging.TraceSource.dll",
+        "lib/dotnet5.4/Microsoft.Extensions.Logging.TraceSource.xml",
+        "lib/net451/Microsoft.Extensions.Logging.TraceSource.dll",
+        "lib/net451/Microsoft.Extensions.Logging.TraceSource.xml",
+        "lib/netcore50/Microsoft.Extensions.Logging.TraceSource.dll",
+        "lib/netcore50/Microsoft.Extensions.Logging.TraceSource.xml",
+        "Microsoft.Extensions.Logging.TraceSource.1.0.0-rc1-final.nupkg",
+        "Microsoft.Extensions.Logging.TraceSource.1.0.0-rc1-final.nupkg.sha512",
+        "Microsoft.Extensions.Logging.TraceSource.nuspec"
       ]
     },
     "Microsoft.Extensions.MemoryPool/1.0.0-rc1-final": {
@@ -15013,6 +15083,7 @@
       "Microsoft.Extensions.Logging >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Logging.Console >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Logging.Debug >= 1.0.0-rc1-final",
+      "Microsoft.Extensions.Logging.TraceSource >= 1.0.0-rc1-final",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-rc1-final",
       "linq.js >= 3.0.4-beta5"
     ],
