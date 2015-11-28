@@ -49,7 +49,7 @@ var filePath = {
     },
 
     jshint: {
-        src: './wwwroot/js/App/**/*.js'
+        src: './wwwroot/build/ts/*.js'
     },
 
     buildsass: {
@@ -60,7 +60,7 @@ var filePath = {
     },
 
     css: {
-        src: ['./wwwroot/css/animate.css', './wwwroot/css/angular-progress.css', './wwwroot/css/App/**/*.css', '!./*.min.css', '!./**/*.min.css'],
+        src: ['./wwwroot/css/animate.css', './wwwroot/css/angular-progress.css'],
         dest: './wwwroot/build/'
     },
 
@@ -143,7 +143,7 @@ gulp.task('build-sass', function () {
 });
 
 gulp.task('minify-css', ['build-sass'], function () {
-    return gulp.src([].concat([filePath.buildsass.dest + '/styling-sass.css']).concat(filePath.css.src))
+    return gulp.src([].concat(filePath.css.src).concat([filePath.buildsass.dest + '/styling-sass.css']))
         .pipe(concat('styling.css'))
         .pipe(autoprefixer())
         .pipe(gulp.dest(filePath.css.dest))
