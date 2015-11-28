@@ -5,33 +5,38 @@
     using System.Linq;
     using System.Runtime.Serialization;
     using Repositories;
+    using Microsoft.Data.Entity;
 
     public class SheetStatisticsService {
         private readonly SheetRepository _sheetRepository;
+        private readonly SheetEntryRepository _sheetEntryRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
-        public SheetStatisticsService(SheetRepository sheetRepository) {
+        public SheetStatisticsService(SheetRepository sheetRepository, SheetEntryRepository sheetEntryRepository) {
             this._sheetRepository = sheetRepository;
+            this._sheetEntryRepository = sheetEntryRepository;
         }
 
         public SheetGlobalStatistics CalculateExpensesPerCategory(Sheet sheet) {
             int targetId = sheet.Id;
             IQueryable<Sheet> sheets = this._sheetRepository.FindByIdInclude(targetId);
 
-            return QueryStatistics(sheets).FirstOrDefault();
+            return this.QueryStatistics(sheets).FirstOrDefault();
         }
 
 
         public IEnumerable<SheetGlobalStatistics> CalculateExpensesForAll(int ownerId) {
-            return QueryStatistics(this._sheetRepository.GetByOwner(ownerId));
+            return this.QueryStatistics(this._sheetRepository.GetByOwner(ownerId));
         } 
 
-        private static IQueryable<SheetGlobalStatistics> QueryStatistics(IQueryable<Sheet> sheets) {
-            var q = from Sheet s in sheets
+        private IQueryable<SheetGlobalStatistics> QueryStatistics(IQueryable<Sheet> sheets) {
+            // TODO: remove 'ToList()....' when EF properly supports this projection
+            var q = from Sheet s in sheets.ToList().AsQueryable()
                     let entries = s.Entries
                     select new SheetGlobalStatistics {
+                        Id = s.Id,
                         SheetSubject = s.Subject,
                         TotalExpenses = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta < 0).Sum(x => (decimal?)x.Delta * -1) ?? 0,
                         TotalIncome = entries.Where(x => x.Account == AccountType.BankAccount && x.Delta > 0).Sum(x => (decimal?)x.Delta) ?? 0,
@@ -44,8 +49,28 @@
                                              }
                     };
 
+            // TODO: remove below method & call when EF supports this projection
+            q = this.AddCategoryStatistics(q).AsQueryable();
+
             return q;
-        } 
+        }
+
+        private IEnumerable<SheetGlobalStatistics> AddCategoryStatistics(IQueryable<SheetGlobalStatistics> sheetGlobalStatisticses) {
+            var allEntries = this._sheetEntryRepository.GetAll().AsEnumerable().ToLookup(x => x.Sheet.Id, s => s);
+
+            foreach (SheetGlobalStatistics globalStatistics in sheetGlobalStatisticses) {
+                var entries = allEntries[globalStatistics.Id];
+
+                globalStatistics.CategoryStatistics = from entry in entries
+                                             group entry by entry.Category into g
+                                             select new SheetCategoryStatistics {
+                                                 CategoryName = g.Key.Name,
+                                                 Delta = g.Sum(x => x.Delta)
+                                             };
+
+                yield return globalStatistics;
+            }
+        }
     }
 
     [DataContract]
@@ -64,6 +89,9 @@
 
         [DataMember]
         public IEnumerable<SheetCategoryStatistics> CategoryStatistics { get; set; }
+
+        [IgnoreDataMember]
+        public int Id { get; set; }
     }
 
     [DataContract]
