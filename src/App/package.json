@@ -13,6 +13,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-jshint": "^1.11.2",
     "gulp-minify-css": "^1.2.1",
+    "gulp-bower": "^0.0.11",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.1.0",
     "gulp-size": "^2.0.0",
