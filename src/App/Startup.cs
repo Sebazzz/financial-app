@@ -17,6 +17,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.PlatformAbstractions;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
     using Newtonsoft.Json.Serialization;
@@ -24,7 +25,7 @@
 
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IApplicationEnvironment applicationEnvironment)
         {
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
@@ -56,7 +57,7 @@
 
             services.AddEntityFramework()
                 .AddSqlServer()
-                .AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["AppDbConnection"]));
+                .AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
 
             // DI
             services.AddScoped<AppDbContext>();
