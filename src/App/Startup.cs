@@ -77,6 +77,7 @@
             services.AddSingleton<IMappingEngine>(AutoMapperEngineFactory.Create);
             services.AddSingleton<IETagGenerator, ETagGenerator>();
             services.AddSingleton<IStaticFileUrlGenerator, StaticFileUrlGenerator>();
+            services.AddSingleton<IAppVersionService, AppVersionService>();
 
             services.AddTransient<IBrowserDetector, DefaultBrowserDetector>();
         }

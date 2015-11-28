@@ -18,6 +18,7 @@
         private readonly IStaticFileUrlGenerator _urlGenerator;
         private readonly ILogger _logger;
         private readonly IFileProvider _fileProvider;
+        private readonly IAppVersionService _appVersion;
 
         private static readonly Regex AppViewDirective = new Regex(
             @"^\/Angular\/(?<first>[A-z/]+)\.html(\s\/Angular\/(?<second>[A-z/]+)\.html)?$",
@@ -27,9 +28,10 @@
         private EntityTagHeaderValue _eTag;
         private DateTime _lastModifiedTime;
 
-        public ApplicationCacheMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnv, IStaticFileUrlGenerator urlGenerator) {
+        public ApplicationCacheMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnv, IStaticFileUrlGenerator urlGenerator, IAppVersionService appVersion) {
             this._next = next;
             this._urlGenerator = urlGenerator;
+            this._appVersion = appVersion;
             this._fileProvider = hostingEnv.WebRootFileProvider;
             this._logger = loggerFactory.CreateLogger<ApplicationCacheMiddleware>();
         }
@@ -86,7 +88,7 @@
                     int index;
                     Match match;
                     if ((index = line.IndexOf("{version}", StringComparison.OrdinalIgnoreCase)) != -1) {
-                        line = line.Substring(0, index) + AppVersion.Informational + line.Substring(index + "{version}".Length);
+                        line = line.Substring(0, index) + this._appVersion.GetVersion() + line.Substring(index + "{version}".Length);
                     } else if ((line.IndexOf("/build", StringComparison.OrdinalIgnoreCase)) == 0) {
                         line = this._urlGenerator.GenerateUrl(line);
                     } else if ((match = AppViewDirective.Match(line)).Success) {
@@ -124,8 +126,8 @@
 
         }
 
-        private static string MakeViewUrl(string relativeFilePathWithoutExtension) {
-            return "/Angular/" + relativeFilePathWithoutExtension + ".html?v=" + AppVersion.Informational;
+        private string MakeViewUrl(string relativeFilePathWithoutExtension) {
+            return "/Angular/" + relativeFilePathWithoutExtension + ".html?v=" + this._appVersion.GetVersionIdentifier();
         }
 
         private StreamReader CreateAppCacheManifestReader() {

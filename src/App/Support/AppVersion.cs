@@ -1,20 +1,61 @@
 ﻿namespace App.Support {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Reflection;
-    using Controllers;
+    using Microsoft.AspNet.FileProviders;
+    using Microsoft.AspNet.Hosting;
 
-    /// <summary>
-    /// Helper class for getting the app version
-    /// </summary>
-    public static class AppVersion {
-        public static readonly string Informational = InitVersion();
+    public interface IAppVersionService {
+        string GetVersionIdentifier();
+        string GetVersion();
+    }
+
+    public sealed class AppVersionService : IAppVersionService {
+        private readonly string _informational = InitVersion();
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private string _cachedAppVersion;
+
         private static string InitVersion() {
-            Assembly assembly = typeof (HomeController).GetTypeInfo().Assembly;
+            Assembly assembly = typeof (AppVersionService).GetTypeInfo().Assembly;
 
             AssemblyFileVersionAttribute versionAttr =
                 assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
             Debug.Assert(versionAttr != null, "This should not be null. Was the assembly properly built?");
             return versionAttr.Version;
+        }
+
+        public AppVersionService(IHostingEnvironment hostingEnvironment) {
+            this._hostingEnvironment = hostingEnvironment;
+        }
+
+        public string GetVersion() {
+            return this._informational;
+        }
+
+        public string GetVersionIdentifier() {
+            return this._cachedAppVersion ?? (this._cachedAppVersion = this.GetVersion() + '_' + this.GenerateVersionIdentifier());
+        }
+
+        [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery", Justification = "Clarity of code")]
+        private string GenerateVersionIdentifier() {
+            long fileLength = 0;
+
+            IDirectoryContents buildContents = this._hostingEnvironment.WebRootFileProvider.GetDirectoryContents("build");
+            IDirectoryContents viewContents = this._hostingEnvironment.WebRootFileProvider.GetDirectoryContents("Angular");
+            IEnumerable<IFileInfo> allFiles = Enumerable.Empty<IFileInfo>().Union(buildContents).Union(viewContents);
+
+            // we get a 'reasonably good' hash of the application
+            // currently we cannot use Fody to print in the git commit number so we'Il have to do it like this
+            int index = 0;
+            foreach (IFileInfo file in allFiles) {
+                fileLength = (file.Length << index++) ^ fileLength;
+                fileLength ^= file.LastModified.ToUnixTimeSeconds();
+            }
+
+            return Convert.ToString(fileLength, 16);
         }
     }
 }
