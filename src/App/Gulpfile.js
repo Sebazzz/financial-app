@@ -13,6 +13,7 @@ var autoprefixer = require('gulp-autoprefixer'),
     jshintreporter = require('jshint-stylish'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
+    merge = require('merge-stream'),
     minifycss = require('gulp-minify-css'),
     rename = require('gulp-rename'),
     sass = require('gulp-sass'),
@@ -22,13 +23,11 @@ var autoprefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify');
 
 var filePath = {
-    ts: {
-        src: ["./Scripts/App/**/*.ts", "./Scripts/App/**/*.d.ts"],
-        dest: './wwwroot/build/ts/'
-    },
-
     appjs: {
-        src: ['./wwwroot/js/App/**/*.js', './wwwroot/build/ts/*.js'],
+        src: {
+            js: ['./wwwroot/js/App/**/*.js'],
+            ts: ['./Scripts/App/**/*.ts', './Scripts/App/**/*.d.ts']
+        },
         dest: './wwwroot/build/'
     },
 
@@ -111,42 +110,42 @@ gulp.task('copy-assets', ['copy-bootstrap']);
 
 // ------- JAVASCRIPT
 
-gulp.task('ts', function() {
-    return gulp.src(filePath.ts.src)
-          .pipe(sourcemaps.init())
-          .pipe(ts({
-              noImplicitAny: false,
-              outFile: 'App.js',
-              target: 'ES5'
-           }))
-          .pipe(sourcemaps.write())
-          .pipe(size())
-          .pipe(gulp.dest(filePath.ts.dest));
-});
+gulp.task('app-js', function () {
+    return merge(
+            // TS compile
+            gulp.src(filePath.appjs.src.ts)
+              .pipe(sourcemaps.init())
+              .pipe(ts({
+                  noImplicitAny: false,
+                  outFile: 'App.js',
+                  target: 'ES5'
+              }))
+              .pipe(sourcemaps.write()),
 
-gulp.task('app-js', ['ts'], function () {
-    return gulp.src(filePath.appjs.src)
-          .pipe(sourcemaps.init())
-          .pipe(concat('appscripts.js'))
-          .pipe(sourcemaps.write())
-          .pipe(size())
-          .pipe(gulp.dest(filePath.appjs.dest))
-          .pipe(uglify(filePath.uglifyOptions))
-          .pipe(concat('appscripts.min.js'))
-          .pipe(size())
-          .pipe(gulp.dest(filePath.appjs.dest));
+            // JS compile
+            gulp.src(filePath.appjs.src.js)
+              .pipe(sourcemaps.init())
+              .pipe(concat('appscripts.js'))
+              .pipe(sourcemaps.write())
+        )
+        .pipe(size({ title: 'APPJS' }))
+        .pipe(gulp.dest(filePath.appjs.dest))
+        .pipe(uglify(filePath.uglifyOptions))
+        .pipe(concat('appscripts.min.js'))
+        .pipe(size({ title: 'APPJS minified' }))
+        .pipe(gulp.dest(filePath.appjs.dest));
 });
 
 gulp.task('lib-js', function () {
     return gulp.src(filePath.libjs.src)
           .pipe(sourcemaps.init({ loadMaps: true }))
           .pipe(concat('libscripts.js'))
-          .pipe(size())
+          .pipe(size({ title: 'LIBJS' }))
           .pipe(sourcemaps.write())
           .pipe(gulp.dest(filePath.libjs.dest))
           .pipe(uglify(filePath.uglifyOptions))
           .pipe(concat('libscripts.min.js'))
-          .pipe(size())
+          .pipe(size({ title: 'LIBJS minified' }))
           .pipe(gulp.dest(filePath.libjs.dest));
 });
 
@@ -173,10 +172,10 @@ gulp.task('css', ['sass'], function () {
     return gulp.src(source)
                .pipe(concat('styling.css'))
                .pipe(autoprefixer())
-               .pipe(size())
+               .pipe(size({title: 'CSS'}))
                .pipe(gulp.dest(filePath.css.dest))
                .pipe(minifycss())
-               .pipe(size())
+               .pipe(size({ title: 'CSS minified' }))
                .pipe(concat('styling.min.css'))
                .pipe(gulp.dest(filePath.css.dest));
 });

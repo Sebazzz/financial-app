@@ -45,6 +45,7 @@
 /// <reference path="../scripts/app/factories/viewfingerprintinterceptor.js" />
 /// <reference path="../scripts/app/services/authenticationservice.js" />
 /// <reference path="../scripts/app/services/calculationservice.js" />
+/// <reference path="build/app.js" />
 /// <reference path="build/appscripts.min.js" />
 /// <reference path="build/libscripts.min.js" />
 /// <reference path="build/ts/app.js" />
