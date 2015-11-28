@@ -133,8 +133,8 @@ packages/
 # This line needs to be after the ignore of the build folder (and the packages folder if the line above has been uncommented)
 !packages/build/
 
-# NPM
-node_modules
+# Bower
+bower_components/
 
 # Windows Azure Build Output
 csx/
