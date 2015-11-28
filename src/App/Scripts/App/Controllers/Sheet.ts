@@ -141,7 +141,7 @@ module FinancialApp {
 
             for (var i = 0; i < sheetData.entries.length; i++) {
                 var entry = sheetData.entries[i];
-                entry.category = Enumerable.From(this.$scope.categories).First(c => entry.categoryId === c.id);
+                entry.category = Enumerable.from(this.$scope.categories).first(c => entry.categoryId === c.id);
             }
         }
 
@@ -250,7 +250,7 @@ module FinancialApp {
                 editMode: true,
                 updateTimestamp: moment(),
                 isBusy: false,
-                sortOrder: Enumerable.From(this.$scope.sheet.entries).DefaultIfEmpty({sortOrder: 0}).Max(x => x.sortOrder) + 1
+                sortOrder: Enumerable.from(this.$scope.sheet.entries).defaultIfEmpty(<any>{sortOrder: 0}).max(x => x.sortOrder) + 1
             };
 
             this.$scope.sheet.entries.push(newEntry);

@@ -138,6 +138,9 @@
           "lib/portable-windows8+net45+wp8/System.Interactive.Async.dll": {}
         }
       },
+      "linq.js/3.0.4-beta5": {
+        "type": "package"
+      },
       "Microsoft.ApplicationInsights/1.1.1-beta": {
         "type": "package",
         "dependencies": {
@@ -3009,6 +3012,9 @@
         "runtime": {
           "lib/portable-windows8+net45+wp8/System.Interactive.Async.dll": {}
         }
+      },
+      "linq.js/3.0.4-beta5": {
+        "type": "package"
       },
       "Microsoft.ApplicationInsights/1.1.1-beta": {
         "type": "package",
@@ -6352,6 +6358,9 @@
         "runtime": {
           "lib/portable-windows8+net45+wp8/System.Interactive.Async.dll": {}
         }
+      },
+      "linq.js/3.0.4-beta5": {
+        "type": "package"
       },
       "Microsoft.ApplicationInsights/1.1.1-beta": {
         "type": "package",
@@ -9701,6 +9710,19 @@
         "lib/net45/System.Interactive.Async.XML",
         "lib/portable-windows8+net45+wp8/System.Interactive.Async.dll",
         "lib/portable-windows8+net45+wp8/System.Interactive.Async.XML"
+      ]
+    },
+    "linq.js/3.0.4-beta5": {
+      "type": "package",
+      "sha512": "AbQpNlE4IWQgy8fCJYJWpR3bhr5OgVLMUbnpnKvegvzlyyHEjW2/wktm9nn7xAljWooSq7RTr4kpxX2dLNQLyQ==",
+      "files": [
+        "Content/Scripts/linq.d.ts",
+        "Content/Scripts/linq.js",
+        "Content/Scripts/linq.min.js",
+        "Content/Scripts/linq-vsdoc.js",
+        "linq.js.3.0.4-beta5.nupkg",
+        "linq.js.3.0.4-beta5.nupkg.sha512",
+        "linq.js.nuspec"
       ]
     },
     "Microsoft.ApplicationInsights/1.1.1-beta": {
@@ -14991,7 +15013,8 @@
       "Microsoft.Extensions.Logging >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Logging.Console >= 1.0.0-rc1-final",
       "Microsoft.Extensions.Logging.Debug >= 1.0.0-rc1-final",
-      "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-rc1-final"
+      "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-rc1-final",
+      "linq.js >= 3.0.4-beta5"
     ],
     "DNXCore,Version=v5.0": []
   }

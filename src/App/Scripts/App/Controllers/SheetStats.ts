@@ -74,9 +74,9 @@ module FinancialApp {
         }
 
         private generateExpenseCharRows(filter: (item: DTO.ISheetCategoryStatistics) => boolean, modifier: number = 1) {
-            return Enumerable.From(this.$scope.stats.categoryStatistics)
-                .Where(filter)
-                .Select(x => {
+            return Enumerable.from(this.$scope.stats.categoryStatistics)
+                .where(filter)
+                .select(x => {
                     return {
                         "c": [
                             {
@@ -87,7 +87,7 @@ module FinancialApp {
                             }
                         ]
                     }
-                }).ToArray();
+                }).toArray();
         }
 
         private static generateChart(): Object {

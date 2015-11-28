@@ -101,14 +101,14 @@ module FinancialApp {
         private signalCategoriesLoaded() {
             if (this.$scope.entry.id) {
                 this.$scope.isLoaded = true;
-                this.$scope.entry.category = Enumerable.From(this.$scope.categories).First(x => x.id == this.$scope.entry.categoryId);
+                this.$scope.entry.category = Enumerable.from(this.$scope.categories).first(x => x.id == this.$scope.entry.categoryId);
             }
         }
 
         private signalEntryLoaded() {
             if (this.$scope.categories.$resolved) {
                 this.$scope.isLoaded = true;
-                this.$scope.entry.category = Enumerable.From(this.$scope.categories).First(x => x.id == this.$scope.entry.categoryId);
+                this.$scope.entry.category = Enumerable.from(this.$scope.categories).first(x => x.id == this.$scope.entry.categoryId);
             }
         }
     }

@@ -9,9 +9,9 @@ module FinancialApp.Services {
         }
 
         public calculateTotal(sheet: DTO.ISheet, accountType: DTO.AccountType) {
-            var sum = Enumerable.From(sheet.entries)
-                             .Where((e : DTO.ISheetEntry) => e.account === accountType)
-                             .Sum((e: DTO.ISheetEntry) => e.delta);
+            var sum = Enumerable.from(sheet.entries)
+                             .where((e : DTO.ISheetEntry) => e.account === accountType)
+                             .sum((e: DTO.ISheetEntry) => e.delta);
 
             if (accountType == DTO.AccountType.BankAccount) {
                 sum += sheet.offset.bankAccountOffset;

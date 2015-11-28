@@ -4,7 +4,7 @@ module FinancialApp {
     export interface IReportControllerScope extends ng.IScope {
         isLoaded: boolean;
 
-        stats: DTO.ISheetGlobalStatistics[]
+        stats: DTO.ISheetGlobalStatistics[];
         incomeChartData: any;
         expenseChartData: any;
     }
@@ -69,25 +69,25 @@ module FinancialApp {
         }
 
         private generateRows(chartData: any, filter: (item: DTO.ISheetCategoryStatistics) => boolean, modifier: number = 1) : any[] {
-            var categories = Enumerable.From(this.$scope.stats)
-                                       .SelectMany(x => x.categoryStatistics)
-                                       .Select(x => x.categoryName)
-                                       .Distinct();
+            var categories = Enumerable.from(this.$scope.stats)
+                                       .selectMany(x => x.categoryStatistics)
+                                       .select(x => x.categoryName)
+                                       .distinct();
+            
+            var catColumns = Enumerable.from(categories)
+                .select(x => <any> ReportController.generateColumn(x));
 
-            var catColumns = Enumerable.From(categories)
-                .Select(x => ReportController.generateColumn(x));
+            chartData.data.cols = Enumerable.from(chartData.data.cols).union(catColumns).toArray();
 
-            chartData.data.cols = Enumerable.From(chartData.data.cols).Union(catColumns).ToArray();
+            var categoryToIndex = categories.select((x, idx) => { return { item: x, index: idx + 1 }; }).toDictionary(x => x.item, x=>x.index);
 
-            var categoryToIndex = categories.Select((x, idx) => { return { item: x, index: idx + 1 }; }).ToDictionary(x => x.item, x=>x.index);
-
-            return Enumerable.From(this.$scope.stats)
-                             .Select(x => ReportController.generateSingleRow(x, categoryToIndex,filter, modifier))
-                             .ToArray();
+            return Enumerable.from(this.$scope.stats)
+                             .select(x => ReportController.generateSingleRow(x, categoryToIndex,filter, modifier))
+                             .toArray();
 
         }
 
-        private static generateSingleRow(data: DTO.ISheetGlobalStatistics, categoryToIndexMapping: linq.Dictionary, filter: (item: DTO.ISheetCategoryStatistics) => boolean, modifier) : Object {
+        private static generateSingleRow(data: DTO.ISheetGlobalStatistics, categoryToIndexMapping: linqjs.IDictionary<any,any>, filter: (item: DTO.ISheetCategoryStatistics) => boolean, modifier) : Object {
             var dataItems = [
                 {
                     v: <any>moment(data.sheetSubject).format('MMMM YYYY')
@@ -100,16 +100,16 @@ module FinancialApp {
                     continue;
                 }
 
-                var index = categoryToIndexMapping.Get(stat.categoryName);
+                var index = categoryToIndexMapping.get(stat.categoryName);
                 dataItems[index] = {
                     v: stat.delta * modifier
                 };
             }
 
             // set untouched items
-            var mapping = categoryToIndexMapping.ToEnumerable().ToArray();
+            var mapping = categoryToIndexMapping.toEnumerable().toArray();
             for (var j=0;j<mapping.length;j++) {
-                var idx = mapping[j].Value;
+                var idx = mapping[j].value;
                 if (!dataItems[idx]) {
                     dataItems[idx] = { v: 0 };
                 }
