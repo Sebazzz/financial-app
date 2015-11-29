@@ -6,7 +6,17 @@
         bool IsMobileDevice();
     }
 
+    /// <summary>
+    /// Temporary polyfill class for mobile device detection. Unfortunately .NET core doesn't have such detection, while MVC5 did.
+    /// </summary>
     public sealed class DefaultBrowserDetector : IBrowserDetector {
+        private static readonly string[] MobileDetectionStrings = {
+            "Windows Phone",
+            "Android",
+            "Mobile",
+            "IEMobile"  
+        };
+
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public DefaultBrowserDetector(IHttpContextAccessor httpContextAccessor) {
@@ -14,11 +24,18 @@
         }
 
         public bool IsMobileDevice() {
-            const string mobileDeviceUaPart = "Mobile";
+            string userAgent = String.Join(" ", this._httpContextAccessor.HttpContext.Request.Headers["User-Agent"]);
+            if (userAgent == null) {
+                return false;
+            }
 
-            string userAgent = this._httpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString();
+            foreach (string detectionString in MobileDetectionStrings) {
+                if (userAgent.IndexOf(detectionString, StringComparison.OrdinalIgnoreCase) != -1) {
+                    return true;
+                }
+            }
 
-            return userAgent?.IndexOf(mobileDeviceUaPart, StringComparison.OrdinalIgnoreCase) != -1;
+            return false;
         }
     }
 }
