@@ -48,7 +48,6 @@
 /// <reference path="build/app.js" />
 /// <reference path="build/appscripts.min.js" />
 /// <reference path="build/libscripts.min.js" />
-/// <reference path="build/ts/app.js" />
 /// <reference path="js/angular-locale-nl_nl.js" />
 /// <reference path="js/app/Controllers/ControllerInit.generated.js" />
 /// <reference path="js/app/Polyfills.js" />
