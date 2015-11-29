@@ -28,7 +28,7 @@ namespace App.Support.Integration {
             }
 
             // if we're already visiting the mobile view for some reason, skip it
-            const string mobileSuffix = "mobile.html";
+            const string mobileSuffix = "Mobile.html";
 
             string pathValue = context.Request.PathBase.Add(context.Request.Path);
             if (pathValue.EndsWith("." + mobileSuffix, StringComparison.OrdinalIgnoreCase)) {
