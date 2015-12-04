@@ -56,8 +56,7 @@ namespace App.Api
                 throw new HttpResponseException(HttpStatusCode.Forbidden);
             }
 
-            await this.Context.Authentication.SignOutAsync(IdentityCookieOptions.ApplicationCookieAuthenticationType);
-            await this._authenticationManager.SignInAsync(currentUser, true);
+            await this._authenticationManager.SignInAsync(user, true);
 
             return new AuthenticationInfo {
                                                 IsAuthenticated = true,
