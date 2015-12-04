@@ -22,6 +22,11 @@ var autoprefixer = require('gulp-autoprefixer'),
     ts = require('gulp-typescript'),
     uglify = require('gulp-uglify');
 
+var tsProject = ts.createProject({
+    noImplicitAny: false,
+    target: 'ES5'
+});
+
 var filePath = {
     appjs: {
         src: {
@@ -121,10 +126,7 @@ gulp.task('app-js', ['copy-ts-source'], function () {
             // TS compile
             gulp.src(filePath.appjs.src.ts, filePath.appjs.src.base)
               .pipe(sourcemaps.init())
-              .pipe(ts({
-                  noImplicitAny: false,
-                  target: 'ES5'
-              }))
+              .pipe(ts(tsProject))
               .pipe(sourcemaps.write()),
 
             // JS compile
