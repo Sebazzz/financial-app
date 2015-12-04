@@ -89,12 +89,11 @@ gulp.task('build', ['bower', 'lib-js', 'app-js', 'css', 'copy-assets']);
 
 gulp.task('watchdog', function () {
     var cssWatch = [].concat(filePath.css.src).concat(filePath.sass.watchPath);
+    var jsWatch = [].concat(filePath.appjs.src.ts).concat(filePath.appjs.src.ts);
 
     gulp.watch(cssWatch, ['css']);
 
-    gulp.watch(filePath.ts.src, ['ts']);
-
-    gulp.watch(filePath.appjs.src, ['app-js']);
+    gulp.watch(jsWatch, ['app-js']);
     gulp.watch(filePath.libjs.src, ['lib-js']);
 });
 
@@ -110,25 +109,31 @@ gulp.task('copy-assets', ['copy-bootstrap']);
 
 // ------- JAVASCRIPT
 
-gulp.task('app-js', function () {
+// -- Copies TS source files over for source mapping only
+gulp.task('copy-ts-source', function() {
+    return gulp.src(filePath.appjs.src.ts)
+               .pipe(gulp.dest(filePath.appjs.dest));
+});
+
+// -- Compile typescript, merge with app javascript and emit
+gulp.task('app-js', ['copy-ts-source'], function () {
     return merge(
             // TS compile
-            gulp.src(filePath.appjs.src.ts)
+            gulp.src(filePath.appjs.src.ts, filePath.appjs.src.base)
               .pipe(sourcemaps.init())
               .pipe(ts({
                   noImplicitAny: false,
-                  outFile: 'App.js',
                   target: 'ES5'
               }))
               .pipe(sourcemaps.write()),
 
             // JS compile
-            gulp.src(filePath.appjs.src.js)
-              .pipe(sourcemaps.init())
-              .pipe(concat('appscripts.js'))
-              .pipe(sourcemaps.write())
+            gulp.src(filePath.appjs.src.js, filePath.appjs.src.base)
         )
+        //.pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(concat('appscripts.js'))
         .pipe(size({ title: 'APPJS' }))
+       // .pipe(sourcemaps.write())
         .pipe(gulp.dest(filePath.appjs.dest))
         .pipe(uglify(filePath.uglifyOptions))
         .pipe(concat('appscripts.min.js'))

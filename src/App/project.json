@@ -44,10 +44,13 @@
         "wwwroot",
         "node_modules"
     ],
+
     "publishExclude": [
         "**.user",
+        "**/*.ts", 
         "**.vspscc"
     ],
+
     "scripts": {
         "prepublish": [ "npm install", "bower install", "gulp clean", "gulp build" ]
     },
