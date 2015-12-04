@@ -13,7 +13,7 @@
       "environmentVariables": {
         "Hosting:Environment": "Development"
       },
-      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-final"
+      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-update1"
     },
     "web": {
       "commandName": "web",
@@ -21,7 +21,7 @@
       "environmentVariables": {
         "Hosting:Environment": "Development"
       },
-      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-final"
+      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-update1"
     },
     "web-x86": {
       "commandName": "web",
@@ -30,14 +30,14 @@
       "environmentVariables": {
         "Hosting:Environment": "Development"
       },
-      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-final"
+      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-update1"
     },
     "IIS Express x86": {
       "commandName": "IISExpress",
       "environmentVariables": {
         "Hosting:Environment": "Development"
       },
-      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-final"
+      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-update1"
     }
   }
 }
