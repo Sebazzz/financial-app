@@ -137,11 +137,13 @@ module FinancialApp.Factories {
                             connectionFailureCount: (connectionFailureCount || 0) + 1
                         });
 
+                        $('#connection-failure-retry-dialog').find('.progress-bar').width('50%');
                         (<any>$('#connection-failure-retry-dialog')).modal('show');
 
                         piper.setActiveConnection(response.config);
 
                         return deferred.promise.then(() => {
+                            $('#connection-failure-retry-dialog').find('.progress-bar').width('100%');
                             console.log('ConnectionFailureRetryInterceptor: Continue retrying connection...');
                             return $http(config);
                         });
