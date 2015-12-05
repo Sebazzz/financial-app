@@ -1,4 +1,4 @@
-﻿/// <binding AfterBuild='build' Clean='clean' ProjectOpened='watchdog' />
+﻿/// <binding BeforeBuild='tslint' AfterBuild='build' Clean='clean' ProjectOpened='watchdog' />
 // ReSharper disable UndeclaredGlobalVariableUsing
 
 'use strict';
@@ -9,8 +9,7 @@ var autoprefixer = require('gulp-autoprefixer'),
     bower = require('gulp-bower'),
     concat = require('gulp-concat'),
     del = require('del'),
-    jshint = require('gulp-jshint'),
-    jshintreporter = require('jshint-stylish'),
+    //jshintreporter = require('jshint-stylish'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
     merge = require('merge-stream'),
@@ -20,6 +19,7 @@ var autoprefixer = require('gulp-autoprefixer'),
     size = require('gulp-size'),
     sourcemaps = require('gulp-sourcemaps'),
     ts = require('gulp-typescript'),
+    tslint = require('gulp-tslint'),
     uglify = require('gulp-uglify');
 
 var tsProject = ts.createProject({
@@ -54,8 +54,8 @@ var filePath = {
         dest: './wwwroot/build/'
     },
 
-    jshint: {
-        src: './wwwroot/build/ts/*.js'
+    tslint: {
+        src: ['./Scripts/App/**/*.ts']
     },
 
     sass: {
@@ -156,10 +156,19 @@ gulp.task('lib-js', function () {
           .pipe(gulp.dest(filePath.libjs.dest));
 });
 
-gulp.task('jshint', function () {
-    return gulp.src(filePath.jshint.src)
-               .pipe(jshint())
-               .pipe(jshint.reporter(jshintreporter));
+gulp.task('tslint', function () {
+    var options = {
+        configuration: {
+            "rules": {
+                "variable-name": true,
+                "quotemark": [true, "single"]
+            }
+        }
+    };
+
+    return gulp.src(filePath.tslint.src)
+               .pipe(tslint(options))
+               .pipe(tslint.report('prose'));
 });
 
 gulp.task('sass', function () {
