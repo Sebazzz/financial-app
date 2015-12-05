@@ -98,7 +98,7 @@ namespace App.Models.Domain.Repositories {
 
         [NotNull]
         public IQueryable<App.Models.Domain.Category> GetByOwner(int ownerId) {
-            return this._entitySet.Where(x => x.Owner.Id == ownerId);
+            return this._entitySet.Where(x => x.Owner.Id == ownerId).Include(x => x.Owner);
         }
 
                 
