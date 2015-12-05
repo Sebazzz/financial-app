@@ -10,6 +10,7 @@ CACHE:
 /Angular/Default.html
 /images/icons/navbar.png
 /Angular/Offline.html
+/Angular/ConnectionFailure.html
 
 NETWORK:
 /api

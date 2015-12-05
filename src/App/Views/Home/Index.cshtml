@@ -13,7 +13,9 @@
 <script>FinancialApp.Program.init();</script>
 
 <noscript>
-    <p>
-        Sorry, om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
-    </p>
+    <div class="alert alert-danger">
+        <strong>Sorry!</strong> Om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
+    </div>
 </noscript>
+
+<div ng-include="'/Angular/ConnectionFailure.html'"></div>

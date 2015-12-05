@@ -14,7 +14,7 @@ module FinancialApp {
     }
 
     Function.prototype.withInject = function(...$inject : string[]) {
-        this.$inject = $inject;
+        this.$inject = $inject || [];
 
         return this;
     };

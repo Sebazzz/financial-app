@@ -15,7 +15,7 @@ module FinancialApp {
         static init() {
             /// <summary>Initializes the application</summary>
 
-            if (Program.isInitialized === true) {
+            if (Program.isInitialized) {
                 throw new Error("App is already initialized!");
             }
 
@@ -61,20 +61,11 @@ module FinancialApp {
                 $locationProvider.html5Mode(true);
 
                 // configure HTTP interceptor
+                $httpProvider.interceptors.push('apiCachingPreventionInterceptor');
                 $httpProvider.interceptors.push('authenticationCheckInterceptor');
                 $httpProvider.interceptors.push('viewFingerPrintInterceptor');
-
-                //initialize get if not there
-                if (!$httpProvider.defaults.headers.get) {
-                    $httpProvider.defaults.headers.get = {};
-                }    
-
-                //disable IE ajax request caching
-                $httpProvider.defaults.headers.get['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
-
-                // extra
-                $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
-                $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+                $httpProvider.interceptors.push('connectionFailureInterceptor');
+                $httpProvider.interceptors.push('connectionFailureRetryInterceptor');
             }).withInject("$routeProvider", "$locationProvider", "$httpProvider"));
 
             // constants
@@ -104,9 +95,12 @@ module FinancialApp {
             }));
 
             // ... $http interceptors
+            app.factory("apiCachingPreventionInterceptor", Factories.ApiCachingPreventionInterceptor());
             app.factory("authenticationCheckInterceptor", Factories.AuthenticationErrorHttpInterceptor());
             app.factory("viewFingerPrintInterceptor", Factories.ViewFingerPrintInterceptor());
-
+            app.factory('connectionFailureRetryInterceptor', Factories.ConnectionFailureRetryInterceptor());
+            app.factory("connectionFailureInterceptor", Factories.ConnectionFailureInterceptor());
+             
             app.factory("localStorage", Factories.LocalStorageFactory());
 
             // error handling
