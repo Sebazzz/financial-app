@@ -87,6 +87,9 @@ module FinancialApp.Factories {
         // and the statusText is empty on connection failure
         var isConnectionFailure = response.status === 0 || !response.statusText;
 
+        // Handle time-outs
+        isConnectionFailure = isConnectionFailure || response.statusText === 'timeout';
+
         // Also offer to retry server errors
         isConnectionFailure = isConnectionFailure || response.status === 500;
 
