@@ -1,5 +1,5 @@
 module FinancialApp.Factories {
-    var maxRetryCount = 1;
+    var maxRetryCount = 4;
     var piper: ConnectionPiper;
 
     /**
@@ -137,7 +137,7 @@ module FinancialApp.Factories {
                             connectionFailureCount: (connectionFailureCount || 0) + 1
                         });
 
-                        $('#connection-failure-retry-dialog').find('.progress-bar').width('50%');
+                        $('#connection-failure-retry-dialog').find('.progress-bar').width(((connectionFailureCount + 1 / maxRetryCount) * 100) + '%');
                         (<any>$('#connection-failure-retry-dialog')).modal('show');
 
                         piper.setActiveConnection(response.config);
