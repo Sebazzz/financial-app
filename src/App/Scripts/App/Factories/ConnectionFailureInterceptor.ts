@@ -2,6 +2,11 @@ module FinancialApp.Factories {
     var maxRetryCount = 1;
     var piper: ConnectionPiper;
 
+    /**
+     * Once connection failures occurs we want to deal with connection failures one at a time. The rest of the connection failures
+     * will be queued and later resolved. This simplifies the code a great deal, especially considering user input can be requested
+     * for once connection at a time.
+     */
     class ConnectionPiper {
         private static nextId = 0;
 
