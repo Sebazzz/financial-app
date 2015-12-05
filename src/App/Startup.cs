@@ -112,10 +112,9 @@
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseRuntimeInfoPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
+            } else {
+                app.UseApplicationInsightsExceptionTelemetry();
+                app.UseExceptionHandler("/");
             }
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
