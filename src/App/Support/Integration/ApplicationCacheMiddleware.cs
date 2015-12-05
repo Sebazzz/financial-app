@@ -92,13 +92,13 @@
                     } else if ((line.IndexOf("/build", StringComparison.OrdinalIgnoreCase)) == 0) {
                         line = this._urlGenerator.GenerateUrl(line);
                     } else if ((match = AppViewDirective.Match(line)).Success) {
-                        this.UpdateCacheInfo(line, ref etag, ref lastModified);
-
                         line = MakeViewUrl(match.Groups["first"].Value);
+                        this.UpdateCacheInfo(Path.Combine("Angular/", match.Groups["first"].Value), ref etag, ref lastModified);
 
                         Group secondGroup;
                         if ((secondGroup = match.Groups["second"]) != null && secondGroup.Success) {
                             line += " " + MakeViewUrl(secondGroup.Value);
+                            this.UpdateCacheInfo(Path.Combine("Angular/", match.Groups["second"].Value), ref etag, ref lastModified);
                         }
                     }
 
