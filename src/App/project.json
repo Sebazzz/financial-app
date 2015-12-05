@@ -48,7 +48,8 @@
 
     "publishExclude": [
         "**.user",
-        "**/*.ts", 
+        "./wwwroot/build/**/*.ts",
+        "**/*.ts",
         "**.vspscc"
     ],
 

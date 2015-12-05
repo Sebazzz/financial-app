@@ -121,7 +121,7 @@ gulp.task('copy-ts-source', function() {
 });
 
 // -- Compile typescript, merge with app javascript and emit
-gulp.task('app-js', ['copy-ts-source'], function () {
+gulp.task('app-js', /*['copy-ts-source'], */ function () {
     return merge(
             // TS compile
             gulp.src(filePath.appjs.src.ts, filePath.appjs.src.base)

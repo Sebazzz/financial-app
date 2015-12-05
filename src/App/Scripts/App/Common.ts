@@ -60,7 +60,7 @@ module FinancialApp {
         }
 
         invoke(invoker: (func: T) => boolean) {
-            var invokables = [].concat(this.functors);
+            var invokables = this.functors.concat([]);
 
             for (var i = 0; i < invokables.length; i++) {
                 var retVal: boolean = invoker(invokables[i]);
