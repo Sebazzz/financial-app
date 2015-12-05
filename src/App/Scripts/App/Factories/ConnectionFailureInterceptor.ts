@@ -121,9 +121,20 @@ module FinancialApp.Factories {
                         return $q.reject(response);
                     }
                     
+                    // Never retry POST/PUT/DELETE
+                    if (response.config.method !== 'GET') {
+                        // This will prevent us from retrying
+                        connectionFailureCount = response.config['connectionFailureCount'] = maxRetryCount;
+                    }
+                    
                     if (!piper.isActiveConnection(response.config) && piper.hasActiveConnection()) {
                         console.log("ConnectionFailureRetryInterceptor: Queuing failed connection for later processing...");
                         return piper.pipeConnection(response);
+                    }
+                    
+                    // Never retry POST/PUT/DELETE
+                    if (response.config.method !== 'GET') {
+                        return $q.reject(response); // This will allow us to skip to the ConnectionFailureInterceptor
                     }
 
                     if (connectionFailureCount < maxRetryCount) {
