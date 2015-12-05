@@ -147,9 +147,8 @@ module FinancialApp {
                 window.applicationCache.addEventListener('updateready', () => {
                     if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
                         // Browser downloaded a new app cache.
-                        if (confirm('Een nieuwe versie is beschikbaar. Wens je te herladen?')) {
-                            window.location.reload();
-                        }
+                        alert('Een nieuwe versie is beschikbaar. De pagina wordt herladen.')
+                        window.location.reload();
                     } else {
                         // Manifest didn't changed. Nothing new to server.
                     }
