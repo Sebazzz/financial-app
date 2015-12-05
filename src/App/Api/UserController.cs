@@ -13,6 +13,7 @@
     using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNet.Mvc.WebApiCompatShim;
     using Models.Domain;
     using Models.Domain.Identity;
     using Models.Domain.Repositories;

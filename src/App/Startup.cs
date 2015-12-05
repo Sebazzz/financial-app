@@ -13,6 +13,7 @@
     using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Mvc.Formatters;
+    using Microsoft.AspNet.Mvc.WebApiCompatShim;
     using Microsoft.Data.Entity;
     using Microsoft.Data.Entity.Infrastructure;
     using Microsoft.Extensions.Configuration;
@@ -47,6 +48,8 @@
             services.AddMvc(options => {
                 JsonOutputFormatter jsonFormatter = options.OutputFormatters.OfType<JsonOutputFormatter>().First();
                 jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                options.Filters.Add(typeof(HttpResponseExceptionActionFilter));
             });
 
             services.AddIdentity<AppUser, AppRole>()
