@@ -5,8 +5,8 @@
         Beheer met dit scherm de medegebruikers (en jezelf) in je account.
     </p>
 
-    <ul ng-repeat="user in users" class="list-unstyled">
-        <li>
+    <ul class="list-unstyled actionable-list">
+        <li ng-repeat="user in users">
             <div class="pull-right">
                 <a class="btn btn-default btn-sm" ng-href="/manage/user/edit/{{user.id}}" tooltip="Bewerken">
                     <span class="glyphicon glyphicon-pencil"></span>
