@@ -143,18 +143,18 @@ module FinancialApp.Factories {
                         var $http = $injector.get('$http');
                         var deferred = $q.defer();
 
-                        window.setTimeout(() => deferred.resolve(), 500);
+                        window.setTimeout(() => deferred.resolve(), (connectionFailureCount + 1) * 500);
                         var config = $.extend(response.config, {
-                            connectionFailureCount: (connectionFailureCount || 0) + 1
+                            connectionFailureCount: (connectionFailureCount || 0)
                         });
+                        config['connectionFailureCount'] = config['connectionFailureCount'] + 1;
 
-                        $('#connection-failure-retry-dialog').find('.progress-bar').width(((connectionFailureCount + 1 / maxRetryCount) * 100) + '%');
+                        $('#connection-failure-retry-dialog').find('.progress-bar').width((((connectionFailureCount + 1) / maxRetryCount) * 100) + '%');
                         (<any>$('#connection-failure-retry-dialog')).modal('show');
 
                         piper.setActiveConnection(response.config);
 
                         return deferred.promise.then(() => {
-                            $('#connection-failure-retry-dialog').find('.progress-bar').width('100%');
                             console.log('ConnectionFailureRetryInterceptor: Continue retrying connection...');
                             return $http(config);
                         });
