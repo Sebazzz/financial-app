@@ -113,8 +113,8 @@
                 app.UseDeveloperExceptionPage();
                 app.UseRuntimeInfoPage();
             } else {
-                app.UseApplicationInsightsExceptionTelemetry();
                 app.UseExceptionHandler("/");
+                app.UseApplicationInsightsExceptionTelemetry();
             }
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
