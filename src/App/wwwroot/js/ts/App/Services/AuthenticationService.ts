@@ -12,12 +12,12 @@ module FinancialApp.Services {
     }
 
     export class AuthenticationService {
-        static $inject = ["$http", "$q", "$log", "$rootScope", "$location", "localStorage"];
+        public static $inject = ['$http', '$q', '$log', '$rootScope', '$location', 'localStorage'];
 
         private authenticationChangedEvent: Delegate<IAction>;
         private authInfo: DTO.IAuthenticationInfo;
 
-        isCheckingAuthentication: boolean;
+        public isCheckingAuthentication: boolean;
 
         constructor(private $http: ng.IHttpService,
             private $q: ng.IQService,
@@ -30,7 +30,7 @@ module FinancialApp.Services {
 
             this.authInfo = this.checkAuthentication();
 
-            $rootScope.$on("$locationChangeStart", (ev: ng.IAngularEvent, newLocation: string) => {
+            $rootScope.$on('$locationChangeStart', (ev: ng.IAngularEvent, newLocation: string) => {
                 if (!this.authInfo.isAuthenticated && newLocation.indexOf('/auth/login') === -1) {
                     ev.preventDefault();
                 }
@@ -52,7 +52,7 @@ module FinancialApp.Services {
         public logOff(): ng.IPromise<DTO.IAuthenticationInfo> {
             var ret = this.$q.defer();
 
-            this.$http.post<DTO.IAuthenticationInfo>("/api/authentication/logoff", {}).success((data) => {
+            this.$http.post<DTO.IAuthenticationInfo>('/api/authentication/logoff', {}).success((data) => {
                 this.authInfo = data;
                 this.raiseAuthenticationEvent();
 
@@ -67,10 +67,10 @@ module FinancialApp.Services {
 
             if (!this.isAuthenticated()) {
                 var currentPath = this.$location.path();
-                this.$location.path("/auth/login");
+                this.$location.path('/auth/login');
                 this.$location.replace();
                 this.$location.search({
-                    uri: currentPath != "/auth/login" ? currentPath : "/"
+                    uri: currentPath != '/auth/login' ? currentPath : '/'
                 });
             }
         }
@@ -84,7 +84,7 @@ module FinancialApp.Services {
                 persistent: persistent
             };
 
-            this.$http.post<DTO.IAuthenticationInfo>("/api/authentication/login", postData).success((data) => {
+            this.$http.post<DTO.IAuthenticationInfo>('/api/authentication/login', postData).success((data) => {
                 this.authInfo = data;
                 this.raiseAuthenticationEvent();
 
@@ -98,7 +98,7 @@ module FinancialApp.Services {
         public impersonate(userId: number): ng.IPromise<DTO.IAuthenticationInfo> {
             var ret = this.$q.defer();
 
-            this.$http.post<DTO.IAuthenticationInfo>("/api/user/impersonate/" + userId, {}).success((data) => {
+            this.$http.post<DTO.IAuthenticationInfo>('/api/user/impersonate/' + userId, {}).success((data) => {
                 this.authInfo = data;
                 this.raiseAuthenticationEvent();
 
@@ -109,11 +109,11 @@ module FinancialApp.Services {
         }
 
         private checkAuthentication(): DTO.IAuthenticationInfo {
-            this.$log.info("AuthenticationService: Checking authentication");
+            this.$log.info('AuthenticationService: Checking authentication');
 
-            this.$http.get<DTO.IAuthenticationInfo>("/api/authentication/check")
+            this.$http.get<DTO.IAuthenticationInfo>('/api/authentication/check')
                 .success((info) => {
-                    this.$log.log("AuthenticationService: Authentication information received");
+                    this.$log.log('AuthenticationService: Authentication information received');
 
                     this.setAuthInfo(info);
                     this.isCheckingAuthentication = false;
@@ -127,19 +127,19 @@ module FinancialApp.Services {
 
         private setAuthInfo(obj: DTO.IAuthenticationInfo) {
             if (obj) {
-                this.localStorage.setItem("AuthenticationInfo", angular.toJson(obj));
+                this.localStorage.setItem('AuthenticationInfo', angular.toJson(obj));
             } else {
-                this.localStorage.removeItem("AuthenticationInfo");
+                this.localStorage.removeItem('AuthenticationInfo');
             }
 
             this.authInfo = obj;
         }
 
         private getAuthInfo(): DTO.IAuthenticationInfo {
-            var authInfo = this.localStorage.getItem("AuthenticationInfo");
+            var authInfo = this.localStorage.getItem('AuthenticationInfo');
 
             if (!authInfo) {
-                return new AuthenticationInfo(false, 0, "");
+                return new AuthenticationInfo(false, 0, '');
             }
 
             return angular.fromJson(authInfo);

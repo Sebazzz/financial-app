@@ -16,7 +16,7 @@ module FinancialApp {
     }
 
     export class MenuController {
-        static $inject = ["$scope", "$location"];
+        public static $inject = ['$scope', '$location'];
 
         constructor($scope: IMenuControllerScope, $location: ng.ILocationService) {
             $scope.currentPath = $location.path();
@@ -27,7 +27,7 @@ module FinancialApp {
                 return str == this.currentPath;
             };
 
-            $scope.$on("$locationChangeSuccess", () => {
+            $scope.$on('$locationChangeSuccess', () => {
                 $scope.currentPath = $location.path();
                 $scope.extendMenuVisible = false;
             });

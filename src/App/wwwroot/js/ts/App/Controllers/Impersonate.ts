@@ -13,7 +13,7 @@ module FinancialApp {
     }
 
     export class ImpersonateController {
-        static $inject = ["$scope", "$modal", "$location", "impersonateResource", "authentication"];
+        public static $inject = ['$scope', '$modal', '$location', 'impersonateResource', 'authentication'];
 
         private api: ng.resource.IResourceClass<DTO.IAppUserListing>;
 
@@ -36,7 +36,7 @@ module FinancialApp {
 
         private impersonateUser(user: DTO.IAppUserListing) {
             this.authentication.impersonate(user.id).then(() => {
-                this.$location.path("/");
+                this.$location.path('/');
                 this.$location.replace();
             });
         }

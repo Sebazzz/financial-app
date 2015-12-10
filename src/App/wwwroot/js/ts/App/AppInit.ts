@@ -10,22 +10,22 @@ module FinancialApp {
     'use strict';
 
     export class Program {
-        static isInitialized: boolean;
+        public static isInitialized: boolean;
 
-        static init() {
+        public static init() {
             /// <summary>Initializes the application</summary>
 
             if (Program.isInitialized) {
-                throw new Error("App is already initialized!");
+                throw new Error('App is already initialized!');
             }
 
             if (Program.enableDebug()) {
-                window.onerror = <ErrorEventHandler>Program.handleWindowError;
+                window.onerror = Program.handleWindowError;
             }
 
             if (!window.localStorage) {
                 alert('Sorry, your browser does not support local storage and can therefore not run this app.');
-                throw new Error("Local Storage (HTML5) support required, but was not present");
+                throw new Error('Local Storage (HTML5) support required, but was not present');
             }
 
             Program.isInitialized = true;
@@ -43,13 +43,13 @@ module FinancialApp {
 
                 // custom routes
                 // ... special 'now' route
-                $routeProvider.when("/now", {
+                $routeProvider.when('/now', {
                     redirectTo: Program.createNowRoute()
                 });
 
                 // ... special 'now' add route
-                $routeProvider.when("/now/entries/add", {
-                    redirectTo: Program.createNowRoute("entries/add")
+                $routeProvider.when('/now/entries/add', {
+                    redirectTo: Program.createNowRoute('entries/add')
                 });
 
                 // fallback
@@ -66,28 +66,28 @@ module FinancialApp {
                 $httpProvider.interceptors.push('viewFingerPrintInterceptor');
                 $httpProvider.interceptors.push('connectionFailureInterceptor');
                 $httpProvider.interceptors.push('connectionFailureRetryInterceptor');
-            }).withInject("$routeProvider", "$locationProvider", "$httpProvider"));
+            }).withInject('$routeProvider', '$locationProvider', '$httpProvider'));
 
             // constants
-            app.constant("appVersion", Program.getAppVersion());
+            app.constant('appVersion', Program.getAppVersion());
 
             // factories
-            app.factory("categoryResource", Factories.ResourceFactory<DTO.ICategory>("/api/category/:id"));
-            app.factory("userResource", Factories.ResourceFactory<DTO.IAppUserListing>("/api/user/:id"));
-            app.factory("impersonateResource", Factories.ResourceFactory<DTO.IAppUserListing>("/api/user/impersonate/:id", {
+            app.factory('categoryResource', Factories.ResourceFactory<DTO.ICategory>('/api/category/:id'));
+            app.factory('userResource', Factories.ResourceFactory<DTO.IAppUserListing>('/api/user/:id'));
+            app.factory('impersonateResource', Factories.ResourceFactory<DTO.IAppUserListing>('/api/user/impersonate/:id', {
                 'impersonate': {
                     method: 'POST',
                     url: '/api/user/impersonate/:id'
                 }
             }));
-            app.factory("sheetResource", Factories.ResourceFactory<DTO.ISheet>("/api/sheet/:id", {
+            app.factory('sheetResource', Factories.ResourceFactory<DTO.ISheet>('/api/sheet/:id', {
                 'getByDate': {
                     method: 'GET',
                     url: '/api/sheet/:year-:month'
                 }
             }));
 
-            app.factory("sheetEntryResource", Factories.ResourceFactory<DTO.ISheetEntry>("/api/sheet/:sheetYear-:sheetMonth/entries/:id", {
+            app.factory('sheetEntryResource', Factories.ResourceFactory<DTO.ISheetEntry>('/api/sheet/:sheetYear-:sheetMonth/entries/:id', {
                 'mutateOrder': {
                     method: 'PUT',
                     url: '/api/sheet/:sheetYear-:sheetMonth/entries/order/:mutation/:id'
@@ -95,13 +95,13 @@ module FinancialApp {
             }));
 
             // ... $http interceptors
-            app.factory("apiCachingPreventionInterceptor", Factories.ApiCachingPreventionInterceptor());
-            app.factory("authenticationCheckInterceptor", Factories.AuthenticationErrorHttpInterceptor());
-            app.factory("viewFingerPrintInterceptor", Factories.ViewFingerPrintInterceptor());
+            app.factory('apiCachingPreventionInterceptor', Factories.ApiCachingPreventionInterceptor());
+            app.factory('authenticationCheckInterceptor', Factories.AuthenticationErrorHttpInterceptor());
+            app.factory('viewFingerPrintInterceptor', Factories.ViewFingerPrintInterceptor());
             app.factory('connectionFailureRetryInterceptor', Factories.ConnectionFailureRetryInterceptor());
-            app.factory("connectionFailureInterceptor", Factories.ConnectionFailureInterceptor());
+            app.factory('connectionFailureInterceptor', Factories.ConnectionFailureInterceptor());
              
-            app.factory("localStorage", Factories.LocalStorageFactory());
+            app.factory('localStorage', Factories.LocalStorageFactory());
 
             // error handling
             if (Program.enableDebug()) {
@@ -112,22 +112,22 @@ module FinancialApp {
             }
 
             // services
-            app.service("authentication", Services.AuthenticationService);
-            app.service("calculation", Services.CalculationService);
+            app.service('authentication', Services.AuthenticationService);
+            app.service('calculation', Services.CalculationService);
 
             // directives
-            app.directive("faRequiredIf", Directives.RequiredIf.factory);
-            app.directive("faSameValue", Directives.SameValue.factory);
-            app.directive("faSmartFloat", Directives.SmartFloatDirective.factory);
-            app.directive("faScrollNub", Directives.ScrollNub.factory.withInject("$window"));
+            app.directive('faRequiredIf', Directives.RequiredIf.factory);
+            app.directive('faSameValue', Directives.SameValue.factory);
+            app.directive('faSmartFloat', Directives.SmartFloatDirective.factory);
+            app.directive('faScrollNub', Directives.ScrollNub.factory.withInject('$window'));
 
             // controllers
-            FinancialApp.ControllerInitializer.registerControllers(app);
+            ControllerInitializer.registerControllers(app);
 
             // run
             app.run((($templateCache: ng.ITemplateCacheService, $http: ng.IHttpService) => {
                 $http.get('/Angular/Widgets/Loader.html', { cache: $templateCache });
-            }).withInject("$templateCache", "$http")); 
+            }).withInject('$templateCache', '$http')); 
 
             // application cache (HTML5)
             Program.initAppCache();
@@ -145,9 +145,9 @@ module FinancialApp {
                 }
 
                 window.applicationCache.addEventListener('updateready', () => {
-                    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+                    if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
                         // Browser downloaded a new app cache.
-                        alert('Een nieuwe versie is beschikbaar. De pagina wordt herladen.')
+                        alert('Een nieuwe versie is beschikbaar. De pagina wordt herladen.');
                         window.location.reload();
                     } else {
                         // Manifest didn't changed. Nothing new to server.
@@ -158,35 +158,31 @@ module FinancialApp {
         }
 
         private static enableDebug(): boolean {
-            var htmlElement = <HTMLHtmlElement> document.getElementsByTagName("html")[0];
-            var isMobileDebug = htmlElement.getAttribute("data-is-mobile") === "true";
+            var htmlElement = document.getElementsByTagName('html')[0];
+            var isMobileDebug = htmlElement.getAttribute('data-is-mobile') === 'true';
             return isMobileDebug;
         }
 
         private static getAppVersion(): string {
-            var htmlElement = <HTMLHtmlElement> document.getElementsByTagName("html")[0];
-            var appVersion = htmlElement.getAttribute("data-app-version");
+            var htmlElement = document.getElementsByTagName('html')[0];
+            var appVersion = htmlElement.getAttribute('data-app-version');
             return appVersion;
         }
 
-        static createNowRoute(subPath = ""): string {
+        public static createNowRoute(subPath = ''): string {
             if (subPath) {
-                subPath = "/" + subPath;
+                subPath = '/' + subPath;
             }
 
             var now: Date = new Date();
-            return '/sheet/' + now.getFullYear() + "/" + (now.getMonth() + 1) + subPath;
+            return '/sheet/' + now.getFullYear() + '/' + (now.getMonth() + 1) + subPath;
         }
 
-        static handleWindowError(message: string, filename?: string, lineno?: number, colno?: number, error?: Error) {
-            var n = "\n";
-            alert("Error in Application" + n +
-                "'" + filename+"' at:"+n+
-                " Line #" + lineno + " col #" + colno + n +
-                " At: " + filename);
+        public static handleWindowError(message: string, filename?: string, lineno?: number, colno?: number, error?: Error) {
+            var n = '\n';
 
-            alert("Error Type: " + event.toString() + n +
-                "Name: " + event.srcElement);
+            alert(`Error in Application${n}'${filename}' at:${n} Line #${lineno} col #${colno}${n} At: ${filename}`);
+            alert(`Error Type: ${event.toString()}${n}Name: ${event.srcElement}`);
         }
     }
 }

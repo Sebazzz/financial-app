@@ -48,7 +48,7 @@ module FinancialApp {
     }
 
     export class SheetController {
-        static $inject = ["$scope", "$routeParams", "$location", "$modal", "sheetResource", "sheetEntryResource", "categoryResource", "calculation"];
+        public static $inject = ['$scope', '$routeParams', '$location', '$modal', 'sheetResource', 'sheetEntryResource', 'categoryResource', 'calculation'];
 
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
@@ -76,14 +76,14 @@ module FinancialApp {
 
             // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
-                $location.path("/archive");
+                $location.path('/archive');
                 return;
             }
 
             // get data
             $scope.sheet = sheetResource.getByDate({ year: this.year, month: this.month }, (data) => {
                 this.signalSheetsLoaded(data);
-            }, () => $location.path("/archive"));
+            }, () => $location.path('/archive'));
 
             $scope.categories = categoryResource.query(() => {
                 this.signalCategoriesLoaded();
@@ -205,7 +205,7 @@ module FinancialApp {
         private deleteEntry(entry: DTO.ISheetEntry) {
             var res = ConfirmDialogController.create(this.$modal, {
                 title: 'Regel verwijderen',
-                bodyText: 'Weet je zeker dat je de regel "' + entry.source + "' wilt verwijderen?",
+                bodyText: `Weet je zeker dat je de regel '${entry.source}' wilt verwijderen?`,
                 dialogType: DialogType.Danger
             });
 
@@ -266,7 +266,7 @@ module FinancialApp {
     }
 
     class RemarksDialogController {
-        static $inject = ["$scope", "$modalInstance", "entry"];
+        public static $inject = ['$scope', '$modalInstance', 'entry'];
 
         constructor(private $scope: IRemarksDialogControllerScope, $modalInstance : ng.ui.bootstrap.IModalServiceInstance, entry : DTO.ISheetEntry) {
             $scope.entry = entry;

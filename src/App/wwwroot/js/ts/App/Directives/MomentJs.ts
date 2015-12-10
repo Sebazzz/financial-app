@@ -5,11 +5,11 @@ module FinancialApp.Directives {
     'use strict';
 
     angular.module('ngMoment', [])
-        .filter("moment", () => function (input: any, arg: any) {
+        .filter('moment', () => function (input: any, arg: any) {
             var m = moment(input);
             var fn, args;
 
-            if (typeof arg === "string") {
+            if (typeof arg === 'string') {
                 return m.format(arg);
             } else if (Array.isArray(arg)) {
                 fn = arg[0];

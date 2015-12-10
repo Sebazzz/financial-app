@@ -32,12 +32,12 @@ module FinancialApp.Factories {
                 throw new Error(`ConnectionPiper ID mismatch: ${this.currentConnectionId} vs ${ConnectionPiper.getId(requestConfig)}`);
             }
 
-            console.log("ConnectionPiper: Finalizing active connection#%d with url '%s'", this.currentConnectionId, requestConfig.url);
+            console.log('ConnectionPiper: Finalizing active connection#%d with url \'%s\'', this.currentConnectionId, requestConfig.url);
             this.currentConnectionId = null;
 
             var nextConnection = this.connectionQueue.dequeue();
             if (nextConnection) {
-                console.log("ConnectionPiper: Dequeuing new connection#%d with url '%s'", ConnectionPiper.getId(nextConnection.requestConfig), nextConnection.requestConfig.url);
+                console.log('ConnectionPiper: Dequeuing new connection#%d with url \'%s\'', ConnectionPiper.getId(nextConnection.requestConfig), nextConnection.requestConfig.url);
                 
                 nextConnection.deferred.resolve(nextConnection.requestConfig);
             }
@@ -51,7 +51,7 @@ module FinancialApp.Factories {
             var deferred = this.$q.defer<ng.IRequestConfig>(),
                 config = httpPromiseCallbackArg.config;
 
-            console.log("ConnectionPiper: Enqueuing new connection with url '%s'", config.url);
+            console.log('ConnectionPiper: Enqueuing new connection with url \'%s\'', config.url);
             this.connectionQueue.enqueue({
                 deferred: deferred,
                 requestConfig: config
@@ -59,7 +59,7 @@ module FinancialApp.Factories {
             ConnectionPiper.getId(config);
 
             return deferred.promise.then((conf) => {
-                console.log("ConnectionPiper: Completing new connection with url '%s'", conf.url);
+                console.log('ConnectionPiper: Completing new connection with url \'%s\'', conf.url);
                 var $http = this.$injector.get('$http');
 
                 this.setActiveConnection(conf);
@@ -73,7 +73,7 @@ module FinancialApp.Factories {
                 throw new Error(`ConnectionPiper: Connection with ID ${this.currentConnectionId} still active.`);
             }
 
-            console.log("ConnectionPiper: Setting active connection with url '%s'", requestConfig.url);
+            console.log('ConnectionPiper: Setting active connection with url \'%s\'', requestConfig.url);
             this.currentConnectionId = ConnectionPiper.getId(requestConfig);
         }
 
@@ -131,7 +131,7 @@ module FinancialApp.Factories {
                     }
                     
                     if (!piper.isActiveConnection(response.config) && piper.hasActiveConnection()) {
-                        console.log("ConnectionFailureRetryInterceptor: Queuing failed connection for later processing...");
+                        console.log('ConnectionFailureRetryInterceptor: Queuing failed connection for later processing...');
                         return piper.pipeConnection(response);
                     }
                     
@@ -141,7 +141,7 @@ module FinancialApp.Factories {
                     }
 
                     if (connectionFailureCount < maxRetryCount) {
-                        console.log("ConnectionFailureRetryInterceptor: Retrying failed connection...");
+                        console.log('ConnectionFailureRetryInterceptor: Retrying failed connection...');
 
                         var $http = $injector.get('$http');
                         var deferred = $q.defer();
@@ -185,7 +185,7 @@ module FinancialApp.Factories {
             }
         };
 
-        return func.withInject("$q", "$injector");
+        return func.withInject('$q', '$injector');
     }
 
     export function ConnectionFailureInterceptor() {
@@ -247,6 +247,6 @@ module FinancialApp.Factories {
             }
         };
 
-        return func.withInject("$q", "$injector");
+        return func.withInject('$q', '$injector');
     }
 }

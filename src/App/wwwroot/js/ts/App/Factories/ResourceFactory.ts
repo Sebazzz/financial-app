@@ -54,7 +54,7 @@ module FinancialApp.Factories {
         var fact = ($resource: ng.resource.IResourceService) =>
             $resource<T>(spec, undefined, extraParams);
 
-        return fact.withInject("$resource");
+        return fact.withInject('$resource');
     }
 
     

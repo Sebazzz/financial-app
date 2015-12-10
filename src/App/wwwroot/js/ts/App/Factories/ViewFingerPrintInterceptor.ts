@@ -5,12 +5,12 @@ module FinancialApp.Factories {
             return {
                 request: cfg => {
                     var url: string = cfg.url;
-                    if (url.toLowerCase().indexOf("/angular/") === -1) {
+                    if (url.toLowerCase().indexOf('/angular/') === -1) {
                         return cfg; // return config unmodified
                     }
 
                     // add fingerprint
-                    url += "?v=" + appVersion;
+                    url += '?v=' + appVersion;
 
                     cfg.url = url;
                     return cfg;
@@ -18,6 +18,6 @@ module FinancialApp.Factories {
             };
         };
 
-        return func.withInject("appVersion");
+        return func.withInject('appVersion');
     }
 }

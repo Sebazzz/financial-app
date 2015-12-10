@@ -10,7 +10,7 @@ module FinancialApp {
     }
 
     export class AuthLogOffController {
-        static $inject = ["$scope", "$location", "authentication"];
+        public static $inject = ['$scope', '$location', 'authentication'];
 
         constructor(private $scope: IAuthLogOffScope, private $location: ng.ILocationService, private authentication : Services.AuthenticationService) {
             if (!authentication.isAuthenticated()) {
@@ -28,8 +28,8 @@ module FinancialApp {
         }
 
         private redirect() {
-            this.$location.path("/auth/login");
-            this.$location.search({ uri: "/" });
+            this.$location.path('/auth/login');
+            this.$location.search({ uri: '/' });
             this.$location.replace();
         }
     }

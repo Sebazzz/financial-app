@@ -1,9 +1,9 @@
 module FinancialApp.Directives {
-    "use strict";
+    'use strict';
 
     export class ScrollNub implements ng.IDirective {
-        public static $inject = ["$window"];
-        public restrict = "A";
+        public static $inject = ['$window'];
+        public restrict = 'A';
 
         public static factory($window): ng.IDirective {
             return new ScrollNub($window);
@@ -34,7 +34,7 @@ module FinancialApp.Directives {
         }
 
         private registerEvent(): void {
-            this.$window.addEventListener("scroll", () => this.checkScroll());
+            this.$window.addEventListener('scroll', () => this.checkScroll());
         }
 
         private checkScroll(): void {
@@ -56,10 +56,10 @@ module FinancialApp.Directives {
                     this.scrollNub.classList.remove('invert');
                 }
 
-                this.scrollNub.style.display = "block";
+                this.scrollNub.style.display = 'block';
             }
             else {
-                this.scrollNub.style.display = "none";
+                this.scrollNub.style.display = 'none';
             }
 
             this.currentpageYOffset = pageYOffset;
@@ -67,8 +67,8 @@ module FinancialApp.Directives {
 
         private createScrollNub(): void {
             // create nub
-            var domElement = document.createElement("div");
-            domElement.className = "scrollTo";
+            var domElement = document.createElement('div');
+            domElement.className = 'scrollTo';
             domElement.addEventListener('mousedown', (ev) => this.onScrollNubClick(ev));
 
             this.$window.document.body.appendChild(domElement);

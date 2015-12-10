@@ -1,10 +1,10 @@
 module FinancialApp.Directives {
-    "use strict";
+    'use strict';
 
     export class SameValue implements ng.IDirective {
         public static $inject = [];
-        public restrict = "A";
-        public require = "ngModel";
+        public restrict = 'A';
+        public require = 'ngModel';
 
         public static factory(): ng.IDirective {
             return new SameValue();
@@ -15,7 +15,7 @@ module FinancialApp.Directives {
         }
 
         public link (scope: ng.IScope, instanceElement: ng.IAugmentedJQuery, instanceAttributes: ng.IAttributes, ctrl: any, transclude: ng.ITranscludeFunction) : void {
-            var expr = instanceAttributes["faSameValue"]; // fa-same-value
+            var expr = instanceAttributes['faSameValue']; // fa-same-value
             
             ctrl.$parsers.unshift(viewValue => {
                 var otherValue = <boolean>scope.$eval(expr);

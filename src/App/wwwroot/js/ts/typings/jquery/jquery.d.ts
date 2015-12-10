@@ -1265,7 +1265,7 @@ interface JQuery {
      *
      * @param handler The function to be invoked.
      */
-    ajaxComplete(handler: (event: JQueryEventObject, XMLHttpRequest: XMLHttpRequest, ajaxOptions: any) => any): JQuery;
+    ajaxComplete(handler: (event: JQueryEventObject, request: XMLHttpRequest, ajaxOptions: any) => any): JQuery;
     /**
      * Register a handler to be called when Ajax requests complete with an error. This is an Ajax Event.
      *
@@ -1295,7 +1295,7 @@ interface JQuery {
      *
      * @param handler The function to be invoked.
      */
-    ajaxSuccess(handler: (event: JQueryEventObject, XMLHttpRequest: XMLHttpRequest, ajaxOptions: JQueryAjaxSettings) => any): JQuery;
+    ajaxSuccess(handler: (event: JQueryEventObject, request: XMLHttpRequest, ajaxOptions: JQueryAjaxSettings) => any): JQuery;
 
     /**
      * Load data from the server and place the returned HTML into the matched element.
@@ -1304,7 +1304,7 @@ interface JQuery {
      * @param data A plain object or string that is sent to the server with the request.
      * @param complete A callback function that is executed when the request completes.
      */
-    load(url: string, data?: string, complete?: (responseText: string, textStatus: string, XMLHttpRequest: XMLHttpRequest) => any): JQuery;
+    load(url: string, data?: string, complete?: (responseText: string, textStatus: string, request: XMLHttpRequest) => any): JQuery;
     /**
      * Load data from the server and place the returned HTML into the matched element.
      *
@@ -1312,7 +1312,7 @@ interface JQuery {
      * @param data A plain object or string that is sent to the server with the request.
      * @param complete A callback function that is executed when the request completes.
      */
-    load(url: string, data?: Object, complete?: (responseText: string, textStatus: string, XMLHttpRequest: XMLHttpRequest) => any): JQuery;
+    load(url: string, data?: Object, complete?: (responseText: string, textStatus: string, request: XMLHttpRequest) => any): JQuery;
 
     /**
      * Encode a set of form elements as a string for submission.
@@ -3919,7 +3919,7 @@ interface JQuery {
      */
     queue(queueName: string, callback: Function): JQuery;
 }
-declare module "jquery" {
+declare module 'jquery' {
     export = $;
 }
 declare var jQuery: JQueryStatic;

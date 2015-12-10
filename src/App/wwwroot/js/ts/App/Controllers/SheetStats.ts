@@ -19,7 +19,7 @@ module FinancialApp {
     }
 
     export class SheetStatsController {
-        static $inject = ["$scope", "$routeParams", "$location", "$http"];
+        public static $inject = ['$scope', '$routeParams', '$location', '$http'];
 
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
@@ -45,7 +45,7 @@ module FinancialApp {
 
             // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
-                $location.path("/archive");
+                $location.path('/archive');
                 return;
             }
 
@@ -54,7 +54,7 @@ module FinancialApp {
 
         private loadStatistics() {
             var stats: ng.IHttpPromise<DTO.ISheetGlobalStatistics> = this.$http.get<DTO.ISheetGlobalStatistics>(
-                "api/sheet/" + this.year + "-" + this.month + "/statistics");
+                `api/sheet/${this.year}-${this.month}/statistics`);
 
             stats.success((data) => {
                 this.$scope.stats = data;
@@ -65,12 +65,12 @@ module FinancialApp {
 
         private buildChartData() {
             this.$scope.expenseChartData = SheetStatsController.generateChart();
-            this.$scope.expenseChartData.options.title = "Uitgaven per categorie";
+            this.$scope.expenseChartData.options.title = 'Uitgaven per categorie';
             this.$scope.expenseChartData.data.rows = this.generateExpenseCharRows(x => x.delta < 0, -1);
             Colors.Chart.setColors(this.$scope.expenseChartData.options);
 
             this.$scope.incomeChartData = SheetStatsController.generateChart();
-            this.$scope.incomeChartData.options.title = "Inkomen per categorie";
+            this.$scope.incomeChartData.options.title = 'Inkomen per categorie';
             this.$scope.incomeChartData.data.rows = this.generateExpenseCharRows(x => x.delta >= 0);
             Colors.Chart.setColors(this.$scope.incomeChartData.options);
         }
@@ -80,12 +80,12 @@ module FinancialApp {
                 .where(filter)
                 .select(x => {
                     return {
-                        "c": [
+                        'c': [
                             {
-                                "v": x.categoryName
+                                'v': x.categoryName
                             },
                             {
-                                "v": x.delta * modifier
+                                'v': x.delta * modifier
                             }
                         ]
                     }
@@ -94,31 +94,31 @@ module FinancialApp {
 
         private static generateChart(): Object {
             return {
-                "type": "PieChart",
-                "displayed": true,
-                "data": {
-                    "cols": [
+                'type': 'PieChart',
+                'displayed': true,
+                'data': {
+                    'cols': [
                         {
-                            "id": "category",
-                            "label": "Categorie",
-                            "type": "string"
+                            'id': 'category',
+                            'label': 'Categorie',
+                            'type': 'string'
                         },
                         {
-                            "id": "amount",
-                            "label": "Hoeveelheid",
-                            "type": "number"
+                            'id': 'amount',
+                            'label': 'Hoeveelheid',
+                            'type': 'number'
                         }
                     ],
-                    "rows": []
+                    'rows': []
                 },
-                "options": {
-                    "title": "",
-                    "isStacked": "true",
-                    "fill": 20,
-                    "displayExactValues": true
+                'options': {
+                    'title': '',
+                    'isStacked': 'true',
+                    'fill': 20,
+                    'displayExactValues': true
                 },
-                "formatters": {},
-                "view": {}
+                'formatters': {},
+                'view': {}
 
             };
         }

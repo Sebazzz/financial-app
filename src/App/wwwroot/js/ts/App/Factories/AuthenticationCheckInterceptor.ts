@@ -5,7 +5,7 @@ module FinancialApp.Factories {
             return {
                 responseError: (response: ng.IHttpPromiseCallbackArg<any>) => {
                     var isUnauthorizedResponse = response.status === 403 || response.status === 401;
-                    var isLoginPage = $location.path().indexOf("/auth/login") !== -1;
+                    var isLoginPage = $location.path().indexOf('/auth/login') !== -1;
 
                     if (!isLoginPage && isUnauthorizedResponse) {
                         // unauthorized, cookie expired
@@ -13,7 +13,7 @@ module FinancialApp.Factories {
                             uri: $location.path(),
                             logOff: true
                         });
-                        $location.path("/auth/login");
+                        $location.path('/auth/login');
                         $location.replace();
                     }
 
@@ -22,6 +22,6 @@ module FinancialApp.Factories {
             }
         };
 
-        return func.withInject("$q", "$location", "localStorage");
+        return func.withInject('$q', '$location', 'localStorage');
     }
 }

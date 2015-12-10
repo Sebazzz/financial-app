@@ -51,15 +51,15 @@ module FinancialApp {
             this.functors = [];
         }
 
-        addListener(listener: T) {
+        public addListener(listener: T) {
             this.functors.push(listener);
         }
 
-        removeListener(listener: T) {
+        public removeListener(listener: T) {
             this.functors.remove(listener);
         }
 
-        invoke(invoker: (func: T) => boolean) {
+        public invoke(invoker: (func: T) => boolean) {
             var invokables = this.functors.concat([]);
 
             for (var i = 0; i < invokables.length; i++) {

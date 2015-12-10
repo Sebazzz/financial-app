@@ -10,14 +10,14 @@ module FinancialApp {
     }
 
     export class ReportController {
-        static $inject = ["$scope", "$http"];
+        public static $inject = ['$scope', '$http'];
 
         constructor(private $scope: IReportControllerScope, private $http: ng.IHttpService) {
             this.loadStatistics();
         }
 
         private loadStatistics() {
-            var stats: ng.IHttpPromise<DTO.ISheetGlobalStatistics[]> = this.$http.get<DTO.ISheetGlobalStatistics[]>("api/sheet/statistics");
+            var stats: ng.IHttpPromise<DTO.ISheetGlobalStatistics[]> = this.$http.get<DTO.ISheetGlobalStatistics[]>('api/sheet/statistics');
 
             stats.success((data) => {
                 this.$scope.stats = data;
@@ -28,13 +28,13 @@ module FinancialApp {
 
         private buildChartData() {
             this.$scope.expenseChartData = ReportController.generateChart();
-            this.$scope.expenseChartData.options.title = "Uitgaven per categorie";
+            this.$scope.expenseChartData.options.title = 'Uitgaven per categorie';
             this.$scope.expenseChartData.data.rows = this.generateRows(this.$scope.expenseChartData, x => x.delta < 0, -1);
             Colors.Chart.setColors(this.$scope.expenseChartData.options);
 
             this.$scope.incomeChartData = ReportController.generateChart();
-            this.$scope.incomeChartData.options.title = "Inkomen per categorie";
-            this.$scope.incomeChartData.options.backgroundColor = "#000";
+            this.$scope.incomeChartData.options.title = 'Inkomen per categorie';
+            this.$scope.incomeChartData.options.backgroundColor = '#000';
             this.$scope.incomeChartData.data.rows = this.generateRows(this.$scope.incomeChartData, x => x.delta >= 0);
             Colors.Chart.setColors(this.$scope.incomeChartData.options);
 
@@ -127,33 +127,32 @@ module FinancialApp {
             return {
                 id: categoryName,
                 label: categoryName,
-                type: "number"
+                type: 'number'
             };
         }
 
         private static generateChart(): Object {
             return {
-                "type": "LineChart",
-                "displayed": true,
-                "data": {
-                    "cols": [
+                'type': 'LineChart',
+                'displayed': true,
+                'data': {
+                    'cols': [
                         {
-                            "id": "month",
-                            "label": "Maand",
-                            "type": "string"
+                            'id': 'month',
+                            'label': 'Maand',
+                            'type': 'string'
                         }
                     ],
-                    "rows": []
+                    'rows': []
                 },
-                "options": {
-                    "title": "",
-                    "isStacked": "true",
-                    "fill": 20,
-                    "displayExactValues": true
+                'options': {
+                    'title': '',
+                    'isStacked': 'true',
+                    'fill': 20,
+                    'displayExactValues': true
                 },
-                "formatters": {},
-                "view": {}
-
+                'formatters': {},
+                'view': {}
             };
         }
     } 

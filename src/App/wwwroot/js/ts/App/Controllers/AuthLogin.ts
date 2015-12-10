@@ -19,7 +19,7 @@ module FinancialApp {
     }
 
     export class AuthLoginController {
-        static $inject = ["$scope", "$location", "$timeout", "$log", "authentication"];
+        public static $inject = ['$scope', '$location', '$timeout', '$log', 'authentication'];
 
         private targetPath: string;
 
@@ -30,7 +30,7 @@ module FinancialApp {
                     private authentication: Services.AuthenticationService) {
             var uriArgs = (this.$location.search() || {});
 
-            this.targetPath = uriArgs.uri || "/";
+            this.targetPath = uriArgs.uri || '/';
             var doLogOff = !!uriArgs.logOff;
             $scope.wasLoggedOff = !!uriArgs.wasLoggedOff;
 
@@ -40,7 +40,7 @@ module FinancialApp {
             }
 
             if (authentication.isAuthenticated()) {
-                $log.info("AuthLoginController: Already authenticated. Redirecting.");
+                $log.info('AuthLoginController: Already authenticated. Redirecting.');
                 this.postLoginRedirect();
                 return;
             }
@@ -53,7 +53,7 @@ module FinancialApp {
                 $scope.isBusy = false;
 
                 if (authentication.isAuthenticated()) {
-                    $log.info("AuthLoginController: Has authenticated. Redirecting.");
+                    $log.info('AuthLoginController: Has authenticated. Redirecting.');
                     this.postLoginRedirect();
                 }
             });
@@ -70,7 +70,7 @@ module FinancialApp {
                 .then(() => {
                     // handled by authorization control
                 }, () => {
-                    this.$scope.errorMessage = "Inloggen mislukt. Controleer je gebruikersnaam of wachtwoord.";
+                    this.$scope.errorMessage = 'Inloggen mislukt. Controleer je gebruikersnaam of wachtwoord.';
                 })['finally'](() => {
                     this.$scope.isBusy = false;
                 });

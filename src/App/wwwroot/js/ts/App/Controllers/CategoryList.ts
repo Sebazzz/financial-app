@@ -13,7 +13,7 @@ module FinancialApp {
     }
 
     export class CategoryListController {
-        static $inject = ["$scope", "$modal", "categoryResource"];
+        public static $inject = ['$scope', '$modal', 'categoryResource'];
 
         private api: ng.resource.IResourceClass<DTO.ICategoryListing>;
 
@@ -38,7 +38,7 @@ module FinancialApp {
 
             var res = ConfirmDialogController.create(this.$modal, {
                 title: 'Categorie verwijderen',
-                bodyText: 'Weet je zeker dat je de categorie "' + cat.name + "' wilt verwijderen?",
+                bodyText: `Weet je zeker dat je de categorie "${cat.name}" wilt verwijderen?`,
                 dialogType: DialogType.Danger
             });
 

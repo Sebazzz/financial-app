@@ -5,7 +5,7 @@
             return {
                 request: cfg => {
                     var url: string = cfg.url;
-                    if (url.toLowerCase().indexOf("angular/") === -1) {
+                    if (url.toLowerCase().indexOf('angular/') === -1) {
                         //disable IE ajax request caching
                         cfg.headers['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
 

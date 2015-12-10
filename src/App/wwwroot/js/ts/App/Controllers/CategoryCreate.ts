@@ -12,7 +12,7 @@ module FinancialApp {
     }
 
     export class CategoryCreateController {
-        static $inject = ["$scope", "$location", "categoryResource"];
+        public static $inject = ['$scope', '$location', 'categoryResource'];
 
         private api: ng.resource.IResourceClass<DTO.ICategory>;
 
@@ -21,7 +21,7 @@ module FinancialApp {
             $scope.save = () => this.api.save($scope.category, (data) => {
                 $scope.category.id = <number>data.id;
 
-                $location.path("/manage/category");
+                $location.path('/manage/category');
                 $location.replace();
             });
         }

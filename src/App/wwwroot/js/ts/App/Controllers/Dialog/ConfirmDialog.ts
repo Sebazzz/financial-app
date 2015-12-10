@@ -32,10 +32,10 @@ module FinancialApp {
     }
 
     export class ConfirmDialogController {
-        static $inject = ["$scope", "$modalInstance", "options"];
-        static templateUrl = "/Angular/Dialogs/ConfirmDialog.html";
+        public static $inject = ['$scope', '$modalInstance', 'options'];
+        public static templateUrl = '/Angular/Dialogs/ConfirmDialog.html';
 
-        static create($modal: ng.ui.bootstrap.IModalService, options: IConfirmDialogOptions) : ng.ui.bootstrap.IModalServiceInstance {
+        public static create($modal: ng.ui.bootstrap.IModalService, options: IConfirmDialogOptions) : ng.ui.bootstrap.IModalServiceInstance {
             return $modal.open({
                 templateUrl: ConfirmDialogController.templateUrl,
                 controller: ConfirmDialogController,

@@ -11,12 +11,12 @@ module FinancialApp {
     }
 
     export class ArchiveController {
-        static $inject = ["$scope", "$resource"];
+        public static $inject = ['$scope', '$resource'];
 
         private api : ng.resource.IResourceClass<DTO.ISheetListing>;
 
         constructor($scope : IArchiveScope, $resource : ng.resource.IResourceService) {
-            this.api = $resource<DTO.ISheetListing>("/api/sheet/:id");
+            this.api = $resource<DTO.ISheetListing>('/api/sheet/:id');
 
             $scope.sheets = this.api.query(() => {
                 $scope.isLoaded = true;
@@ -24,7 +24,7 @@ module FinancialApp {
             });
         }
 
-        postProcess(sheets: DTO.ISheetListing[]) {
+        public postProcess(sheets: DTO.ISheetListing[]) {
             var now = moment();
             var m = now.month() + 1, y = now.year();
 

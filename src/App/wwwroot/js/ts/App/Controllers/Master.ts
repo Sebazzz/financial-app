@@ -11,7 +11,7 @@ module FinancialApp {
     }
 
     export class MasterController {
-        static $inject = ["$scope", "authentication"];
+        public static $inject = ['$scope', 'authentication'];
 
         constructor($scope: IMasterControllerScope, private authentication: Services.AuthenticationService) {
             MasterController.setAuthenticationInfo($scope, this.authentication.isAuthenticated());

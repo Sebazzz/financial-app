@@ -14,7 +14,7 @@ module FinancialApp {
     }
 
     export class UserEditController {
-        static $inject = ["$scope", "$routeParams", "$location", "authentication", "userResource"];
+        public static $inject = ['$scope', '$routeParams', '$location', 'authentication', 'userResource'];
 
         private api: Factories.IWebResourceClass<DTO.IAppUserMutate>;
 
@@ -29,8 +29,8 @@ module FinancialApp {
             $scope.isCurrentUser = true;
             $scope.user = this.api.get({ id: $routeParams.id }, (data) => {
                 $scope.isCurrentUser = data.id == authentication.getUserId();
-            }, () => $location.path("/manage/user"));
-            $scope.save = () => this.api.update({ id: $routeParams.id }, $scope.user, () => $location.path("/manage/user"));
+            }, () => $location.path('/manage/user'));
+            $scope.save = () => this.api.update({ id: $routeParams.id }, $scope.user, () => $location.path('/manage/user'));
         }
     }
 

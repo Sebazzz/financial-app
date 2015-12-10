@@ -27,7 +27,7 @@ module FinancialApp {
     }
 
     export class SheetEntryEditController {
-        static $inject = ["$scope", "$location", "$routeParams", "$modal", "sheetEntryResource", "categoryResource"];
+        public static $inject = ['$scope', '$location', '$routeParams', '$modal', 'sheetEntryResource', 'categoryResource'];
 
         private api: ng.resource.IResourceClass<DTO.IAppUserMutate>;
 
@@ -56,7 +56,7 @@ module FinancialApp {
         }
 
         private redirectToSheet() {
-            this.$location.path("/sheet/" + this.$routeParams.year + "/" + this.$routeParams.month);
+            this.$location.path('/sheet/' + this.$routeParams.year + '/' + this.$routeParams.month);
         }
 
         private deleteEntry() {

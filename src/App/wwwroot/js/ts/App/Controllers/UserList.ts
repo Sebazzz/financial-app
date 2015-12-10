@@ -13,7 +13,7 @@ module FinancialApp {
     }
 
     export class UserListController {
-        static $inject = ["$scope", "$modal", "userResource"];
+        public static $inject = ['$scope', '$modal', 'userResource'];
 
         private api: ng.resource.IResourceClass<DTO.IAppUserListing>;
 
@@ -34,7 +34,7 @@ module FinancialApp {
         private deleteUser(user: DTO.IAppUserListing) {
             var res = ConfirmDialogController.create(this.$modal, {
                 title: 'Gebruiker verwijderen',
-                bodyText: 'Weet je zeker dat je de gebruiker "' + user.userName + "' wilt verwijderen?",
+                bodyText: `Weet je zeker dat je de gebruiker '${user.userName}' wilt verwijderen?`,
                 dialogType: DialogType.Danger
             });
 

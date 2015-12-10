@@ -13,7 +13,7 @@ module FinancialApp {
     }
 
     export class UserCreateController {
-        static $inject = ["$scope", "$location", "userResource"];
+        public static $inject = ['$scope', '$location', 'userResource'];
 
         private api: ng.resource.IResourceClass<DTO.IAppUserMutate>;
 
@@ -25,9 +25,9 @@ module FinancialApp {
             $scope.save = () => this.api.save($scope.user, (data) => {
                 $scope.user.id = <number>data.id;
 
-                $location.path("/manage/user");
+                $location.path('/manage/user');
             }, (data: string[]) => {
-                $scope.errorMessage = data.join("; ");
+                $scope.errorMessage = data.join('; ');
             });
         }
     }

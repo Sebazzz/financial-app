@@ -8,7 +8,7 @@ module FinancialApp {
     }
 
     export class DefaultController {
-        static $inject = ["$scope", "authentication"];
+        public static $inject = ['$scope', 'authentication'];
 
         constructor(private $scope: IDefaultControllerScope,
                     private authentication : Services.AuthenticationService) {
