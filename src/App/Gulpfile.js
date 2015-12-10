@@ -132,7 +132,7 @@ gulp.task('app-js', function () {
         .pipe(concat('appscripts.js'))
         .pipe(size({ title: 'APPJS' }))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest(filePath.appjs.dest))
+        .pipe(gulp.dest(filePath.appjs.dest)) 
         //.pipe(uglify(filePath.uglifyOptions))
         .pipe(concat('appscripts.min.js'))
         .pipe(size({ title: 'APPJS minified' }))
