@@ -21,7 +21,7 @@
         private readonly IAppVersionService _appVersion;
 
         private static readonly Regex AppViewDirective = new Regex(
-            @"^\/Angular\/(?<first>[A-z/]+)\.html(\s\/Angular\/(?<second>[A-z/]+)\.html)?$",
+            @"^\/Angular\/(?<first>[A-z./]+)\.html(\s\/Angular\/(?<second>[A-z./]+)\.html)?$",
             RegexOptions.Compiled | RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
 
         private string _appCacheManifest;
@@ -93,12 +93,12 @@
                         line = this._urlGenerator.GenerateUrl(line);
                     } else if ((match = AppViewDirective.Match(line)).Success) {
                         line = MakeViewUrl(match.Groups["first"].Value);
-                        this.UpdateCacheInfo(Path.Combine("Angular/", match.Groups["first"].Value), ref etag, ref lastModified);
+                        this.UpdateCacheInfo(Path.Combine("Angular/", match.Groups["first"].Value) + ".html", ref etag, ref lastModified);
 
                         Group secondGroup;
                         if ((secondGroup = match.Groups["second"]) != null && secondGroup.Success) {
                             line += " " + MakeViewUrl(secondGroup.Value);
-                            this.UpdateCacheInfo(Path.Combine("Angular/", match.Groups["second"].Value), ref etag, ref lastModified);
+                            this.UpdateCacheInfo(Path.Combine("Angular/", match.Groups["second"].Value) + ".html" , ref etag, ref lastModified);
                         }
                     }
 
