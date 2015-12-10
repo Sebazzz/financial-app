@@ -2,9 +2,9 @@
 <browserconfig>
   <msapplication>
     <tile>
-      <square70x70logo src="/Images/Tiles/smalltile.png"/>
-      <square150x150logo src="/Images/Tiles/mediumtile.png"/>
-      <square310x310logo src="/Images/Tiles/largetile.png"/>
+      <square70x70logo src="/images/tiles/smalltile.png"/>
+      <square150x150logo src="/Images/tiles/mediumtile.png"/>
+      <square310x310logo src="/Images/tiles/largetile.png"/>
     </tile>
   </msapplication>
 </browserconfig>
