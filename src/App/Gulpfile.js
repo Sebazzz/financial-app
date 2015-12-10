@@ -72,6 +72,8 @@ var filePath = {
 
     uglifyOptions: {
         options: {
+            sourceMap : false,
+            sourceMapIncludeSources : true,
             ie_proof: false // IE11+
         }
     },
@@ -114,30 +116,24 @@ gulp.task('copy-assets', ['copy-bootstrap']);
 
 // ------- JAVASCRIPT
 
-// -- Copies TS source files over for source mapping only
-gulp.task('copy-ts-source', function() {
-    return gulp.src(filePath.appjs.src.ts)
-               .pipe(gulp.dest(filePath.appjs.dest));
-});
-
 // -- Compile typescript, merge with app javascript and emit
-gulp.task('app-js', /*['copy-ts-source'], */ function () {
+gulp.task('app-js', function () {
     return merge(
             // TS compile
-            gulp.src(filePath.appjs.src.ts, filePath.appjs.src.base)
+            gulp.src(filePath.appjs.src.ts)
               .pipe(sourcemaps.init())
               .pipe(ts(tsProject))
               .pipe(sourcemaps.write()),
 
             // JS compile
-            gulp.src(filePath.appjs.src.js, filePath.appjs.src.base)
+            gulp.src(filePath.appjs.src.js)
         )
-        //.pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(concat('appscripts.js'))
         .pipe(size({ title: 'APPJS' }))
-       // .pipe(sourcemaps.write())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(filePath.appjs.dest))
-        .pipe(uglify(filePath.uglifyOptions))
+        //.pipe(uglify(filePath.uglifyOptions))
         .pipe(concat('appscripts.min.js'))
         .pipe(size({ title: 'APPJS minified' }))
         .pipe(gulp.dest(filePath.appjs.dest));
@@ -150,9 +146,11 @@ gulp.task('lib-js', function () {
           .pipe(size({ title: 'LIBJS' }))
           .pipe(sourcemaps.write())
           .pipe(gulp.dest(filePath.libjs.dest))
+          .pipe(sourcemaps.init({ loadMaps: true }))
           .pipe(uglify(filePath.uglifyOptions))
           .pipe(concat('libscripts.min.js'))
           .pipe(size({ title: 'LIBJS minified' }))
+          .pipe(sourcemaps.write())
           .pipe(gulp.dest(filePath.libjs.dest));
 });
 
