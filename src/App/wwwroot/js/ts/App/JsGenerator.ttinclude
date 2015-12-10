@@ -1,5 +1,4 @@
-﻿<#@ template debug="true" hostspecific="true" language="C#" #>
-<#@ assembly name="System.Core" #>
+﻿<#@ assembly name="System.Core" #>
 <#@ assembly name="System.Windows.Forms" #>
 <#@ assembly name="System.Runtime.Serialization" #>
 <#@ assembly name="Microsoft.VisualStudio.Shell.Interop.8.0" #>
@@ -215,7 +214,7 @@
 
 
     private string GetSuggestedNamespace(ProjectItem item) {
-        string ns = item.Properties.Item("CustomToolNamespace").Value.ToString();
+		string ns = Namespace ?? item.Properties.Item("CustomToolNamespace").Value.ToString();
         if (String.IsNullOrEmpty(ns)) {
             return "INVALID.PROVIDE.CUSTOM.TOOL.NAMESPACE.IN.THIS.ITEM.SETTINGS";
         }

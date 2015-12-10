@@ -25,30 +25,6 @@ declare module FinancialApp.DTO {
     
 
     /** 
-* App.Models.Domain.Services.SheetCategoryStatistics
-*/
-
-    export interface ISheetCategoryStatistics extends IObject {
-                    /** 
-* App.Models.Domain.Services.SheetCategoryStatistics.CategoryName
-*/
-
-            categoryName : string;
-
-                    /** 
-* App.Models.Domain.Services.SheetCategoryStatistics.Delta
-*/
-
-            delta : number;
-
-            }
-    
-    
-
-    
-    
-
-    /** 
 * App.Models.Domain.Services.SheetGlobalStatistics
 */
 
@@ -82,6 +58,30 @@ declare module FinancialApp.DTO {
 */
 
             categoryStatistics : ISheetCategoryStatistics[] /*System.Collections.Generic.IEnumerable<App.Models.Domain.Services.SheetCategoryStatistics>*/ ;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
+* App.Models.Domain.Services.SheetCategoryStatistics
+*/
+
+    export interface ISheetCategoryStatistics extends IObject {
+                    /** 
+* App.Models.Domain.Services.SheetCategoryStatistics.CategoryName
+*/
+
+            categoryName : string;
+
+                    /** 
+* App.Models.Domain.Services.SheetCategoryStatistics.Delta
+*/
+
+            delta : number;
 
             }
     
@@ -145,6 +145,93 @@ declare module FinancialApp.DTO {
     
 
     /** 
+* App.Models.DTO.CategoryListing
+*/
+
+    export interface ICategoryListing extends IObject {
+                    /** 
+* App.Models.DTO.CategoryListing.Id
+*/
+
+            id : number;
+
+                    /** 
+* App.Models.DTO.CategoryListing.Name
+*/
+
+            name : string;
+
+                    /** 
+* App.Models.DTO.CategoryListing.Description
+*/
+
+            description : string;
+
+                    /** 
+* App.Models.DTO.CategoryListing.CanBeDeleted
+*/
+
+            canBeDeleted : boolean;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
+* App.Models.DTO.SheetListing
+*/
+
+    export interface ISheetListing extends IObject {
+                    /** 
+* App.Models.DTO.SheetListing.Month
+*/
+
+            month : number;
+
+                    /** 
+* App.Models.DTO.SheetListing.Year
+*/
+
+            year : number;
+
+                    /** 
+* 
+Custom name, if set
+
+* 
+*/
+
+            name : string;
+
+                    /** 
+* App.Models.DTO.SheetListing.UpdateTimestamp
+*/
+
+            updateTimestamp : any;
+
+                    /** 
+* App.Models.DTO.SheetListing.CreateTimestamp
+*/
+
+            createTimestamp : any;
+
+                    /** 
+* App.Models.DTO.SheetListing.Totals
+*/
+
+            totals : ISheetTotals /* App.Models.DTO.SheetTotals*/ ;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
 * App.Models.DTO.SheetTotals
 */
 
@@ -169,51 +256,15 @@ declare module FinancialApp.DTO {
     
 
     /** 
-* App.Models.DTO.Sheet
+* App.Models.DTO.InsertId
 */
 
-    export interface ISheet extends IObject {
+    export interface IInsertId extends IObject {
                     /** 
-* App.Models.DTO.Sheet.Id
+* App.Models.DTO.InsertId.Id
 */
 
             id : number;
-
-                    /** 
-* App.Models.DTO.Sheet.Subject
-*/
-
-            subject : any;
-
-                    /** 
-* App.Models.DTO.Sheet.Name
-*/
-
-            name : string;
-
-                    /** 
-* App.Models.DTO.Sheet.UpdateTimestamp
-*/
-
-            updateTimestamp : any;
-
-                    /** 
-* App.Models.DTO.Sheet.CreateTimestamp
-*/
-
-            createTimestamp : any;
-
-                    /** 
-* App.Models.DTO.Sheet.Entries
-*/
-
-            entries : ISheetEntry[] /* App.Models.DTO.SheetEntry*/ ;
-
-                    /** 
-* App.Models.DTO.Sheet.Offset
-*/
-
-            offset : ICalculationOptions /* App.Models.Domain.CalculationOptions*/ ;
 
             }
     
@@ -319,66 +370,27 @@ declare module FinancialApp.DTO {
     
 
     /** 
-* App.Models.DTO.InsertId
+* App.Models.DTO.LoginModel
 */
 
-    export interface IInsertId extends IObject {
+    export interface ILoginModel extends IObject {
                     /** 
-* App.Models.DTO.InsertId.Id
-*/
-
-            id : number;
-
-            }
-    
-    
-
-    
-    
-
-    /** 
-* 
-Not actually used by our API but let our T4 generate the interface :)
-
-* 
-*/
-
-    export interface IAuthTokenInfo extends IObject {
-                    /** 
-* App.Models.DTO.AuthTokenInfo.AccessToken
-*/
-
-            access_token : string;
-
-                    /** 
-* App.Models.DTO.AuthTokenInfo.UserName
+* App.Models.DTO.LoginModel.UserName
 */
 
             userName : string;
 
-            }
-    
-    
-
-    
-    
-
-    /** 
-* App.Models.DTO.AppUserMutate
-*/
-
-    export interface IAppUserMutate extends IAppUserListing {
                     /** 
-* App.Models.DTO.AppUserMutate.NewPassword
+* App.Models.DTO.LoginModel.Password
 */
 
-            newPassword : string;
+            password : string;
 
                     /** 
-* App.Models.DTO.AppUserMutate.CurrentPassword
+* App.Models.DTO.LoginModel.Persistent
 */
 
-            currentPassword : string;
+            persistent : boolean;
 
             }
     
@@ -418,27 +430,21 @@ Not actually used by our API but let our T4 generate the interface :)
     
 
     /** 
-* App.Models.DTO.LoginModel
+* App.Models.DTO.AppUserMutate
 */
 
-    export interface ILoginModel extends IObject {
+    export interface IAppUserMutate extends IAppUserListing {
                     /** 
-* App.Models.DTO.LoginModel.UserName
+* App.Models.DTO.AppUserMutate.NewPassword
 */
 
-            userName : string;
-
-                    /** 
-* App.Models.DTO.LoginModel.Password
-*/
-
-            password : string;
+            newPassword : string;
 
                     /** 
-* App.Models.DTO.LoginModel.Persistent
+* App.Models.DTO.AppUserMutate.CurrentPassword
 */
 
-            persistent : boolean;
+            currentPassword : string;
 
             }
     
@@ -448,84 +454,51 @@ Not actually used by our API but let our T4 generate the interface :)
     
 
     /** 
-* App.Models.DTO.SheetListing
+* App.Models.DTO.Sheet
 */
 
-    export interface ISheetListing extends IObject {
+    export interface ISheet extends IObject {
                     /** 
-* App.Models.DTO.SheetListing.Month
-*/
-
-            month : number;
-
-                    /** 
-* App.Models.DTO.SheetListing.Year
-*/
-
-            year : number;
-
-                    /** 
-* 
-Custom name, if set
-
-* 
-*/
-
-            name : string;
-
-                    /** 
-* App.Models.DTO.SheetListing.UpdateTimestamp
-*/
-
-            updateTimestamp : any;
-
-                    /** 
-* App.Models.DTO.SheetListing.CreateTimestamp
-*/
-
-            createTimestamp : any;
-
-                    /** 
-* App.Models.DTO.SheetListing.Totals
-*/
-
-            totals : ISheetTotals /* App.Models.DTO.SheetTotals*/ ;
-
-            }
-    
-    
-
-    
-    
-
-    /** 
-* App.Models.DTO.CategoryListing
-*/
-
-    export interface ICategoryListing extends IObject {
-                    /** 
-* App.Models.DTO.CategoryListing.Id
+* App.Models.DTO.Sheet.Id
 */
 
             id : number;
 
                     /** 
-* App.Models.DTO.CategoryListing.Name
+* App.Models.DTO.Sheet.Subject
+*/
+
+            subject : any;
+
+                    /** 
+* App.Models.DTO.Sheet.Name
 */
 
             name : string;
 
                     /** 
-* App.Models.DTO.CategoryListing.Description
+* App.Models.DTO.Sheet.UpdateTimestamp
 */
 
-            description : string;
+            updateTimestamp : any;
 
                     /** 
-* App.Models.DTO.CategoryListing.CanBeDeleted
+* App.Models.DTO.Sheet.CreateTimestamp
 */
 
-            canBeDeleted : boolean;
+            createTimestamp : any;
+
+                    /** 
+* App.Models.DTO.Sheet.Entries
+*/
+
+            entries : ISheetEntry[] /* App.Models.DTO.SheetEntry*/ ;
+
+                    /** 
+* App.Models.DTO.Sheet.Offset
+*/
+
+            offset : ICalculationOptions /* App.Models.Domain.CalculationOptions*/ ;
 
             }
     

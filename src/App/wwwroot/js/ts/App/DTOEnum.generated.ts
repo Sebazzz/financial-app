@@ -19,24 +19,24 @@ module FinancialApp.DTO {
 
     
     /** 
-* App.Models.Domain.AccountType
+* App.Models.Domain.Services.AccountType
 */
 
     export enum AccountType {
                     /** 
-* App.Models.Domain.AccountType.Invalid
+* App.Models.Domain.Services.AccountType.Invalid
 */
 
             Invalid  = 0,
 
                     /** 
-* App.Models.Domain.AccountType.BankAccount
+* App.Models.Domain.Services.AccountType.BankAccount
 */
 
             BankAccount ,
 
                     /** 
-* App.Models.Domain.AccountType.SavingsAccount
+* App.Models.Domain.Services.AccountType.SavingsAccount
 */
 
             SavingsAccount ,
