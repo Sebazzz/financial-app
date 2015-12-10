@@ -31,37 +31,37 @@ var filePath = {
     appjs: {
         src: {
             js: ['./wwwroot/js/App/**/*.js'],
-            ts: ['./Scripts/App/**/*.ts', './Scripts/App/**/*.d.ts']
+            ts: ['./wwwroot/js/ts/App/**/*.ts', './wwwroot/js/ts/**/*.d.ts']
         },
         dest: './wwwroot/build/'
     },
 
     libjs: {
         src: [
-            './bower_components/jquery/dist/jquery.js',
-            './bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+            './wwwroot/bower_components/jquery/dist/jquery.js',
+            './wwwroot/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
             './wwwroot/js/linq.js',
-            './bower_components/angular/angular.js',
+            './wwwroot/bower_components/angular/angular.js',
             './wwwroot/js/angular-locale-nl_NL.js',
-            './bower_components/angular-resource/angular-resource.js',
-            './bower_components/angular-route/angular-route.js',
-            './bower_components/angular-loading-bar/src/loading-bar.js',
-            './bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-            './bower_components/angular-hotkeys/build/hotkeys.js',
-            './bower_components/angular-google-chart/ng-google-chart.js',
-            './bower_components/moment/moment.js',
-            './bower_components/moment/locale/nl.js'],
+            './wwwroot/bower_components/angular-resource/angular-resource.js',
+            './wwwroot/bower_components/angular-route/angular-route.js',
+            './wwwroot/bower_components/angular-loading-bar/src/loading-bar.js',
+            './wwwroot/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+            './wwwroot/bower_components/angular-hotkeys/build/hotkeys.js',
+            './wwwroot/bower_components/angular-google-chart/ng-google-chart.js',
+            './wwwroot/bower_components/moment/moment.js',
+            './wwwroot/bower_components/moment/locale/nl.js'],
         dest: './wwwroot/build/'
     },
 
     tslint: {
-        src: ['./Scripts/App/**/*.ts']
+        src: ['./wwwroot/js/ts/**/*.ts']
     },
 
     sass: {
         src: ['./wwwroot/css/App/App.scss'],
         dest: './wwwroot/build/',
-        loadPath: ['./bower_components/bootstrap-sass-official/assets/stylesheets'],
+        loadPath: ['./wwwroot/bower_components/bootstrap-sass-official/assets/stylesheets'],
         watchPath: ['./wwwroot/css/App/**/*.scss', './bower_components/bootstrap-sass-official/assets/stylesheets/**/*.scss']
     },
 
@@ -76,7 +76,7 @@ var filePath = {
         }
     },
 
-    bowerDir: './bower_components'
+    bowerDir: './wwwroot/bower_components'
 };
 
 // ------ GENERAL
@@ -104,7 +104,7 @@ gulp.task('watchdog', function () {
 
 // ------- COPY ASSETS
 gulp.task('copy-bootstrap', function () {
-    var basePath = './bower_components/bootstrap-sass-official/assets/fonts/bootstrap';
+    var basePath = filePath.bowerDir + '/bootstrap-sass-official/assets/fonts/bootstrap';
 
     return gulp.src([basePath + '/*.*'])
                .pipe(gulp.dest('./wwwroot/fonts/bootstrap'));

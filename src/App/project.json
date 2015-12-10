@@ -49,6 +49,9 @@
     "publishExclude": [
         "**.user",
         "./wwwroot/build/**/*.ts",
+        "./wwwroot/js",
+        "./wwwroot/css",
+        "./wwwroot/bower_components",
         "**/*.ts",
         "**.vspscc"
     ],

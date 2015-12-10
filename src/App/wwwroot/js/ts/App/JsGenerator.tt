@@ -1,0 +1,410 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Windows.Forms" #>
+<#@ assembly name="System.Runtime.Serialization" #>
+<#@ assembly name="Microsoft.VisualStudio.Shell.Interop.8.0" #>
+<#@ assembly name="EnvDTE" #>
+<#@ assembly name="EnvDTE80" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System.Configuration" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ import namespace="Microsoft.VisualStudio.Shell.Interop" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="EnvDTE80" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+
+<#
+	// get current project 
+	// read project file
+	IServiceProvider hostServiceProvider = (IServiceProvider) this.Host;
+	EnvDTE.DTE dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+	if (dte == null) {
+		throw new Exception("Could not get IDE instance - try restarting Visual Studio");
+	}
+
+    string templateFile = this.Host.TemplateFile;
+
+    this.templateProjectItem = dte.Solution.FindProjectItem(templateFile);
+    foreach (EnvDTE.Project currentProject in dte.Solution.OfType<EnvDTE.Project>()) {
+        this.ProcessRecursive(currentProject.CodeModel);
+    }
+#>
+    
+
+<#+
+ static readonly string DataContractAttributeFullName = typeof(System.Runtime.Serialization.DataContractAttribute).FullName;
+    static readonly string DataMemberAttributeFullName = typeof(System.Runtime.Serialization.DataMemberAttribute).FullName;
+
+    private EnvDTE.ProjectItem templateProjectItem;
+    private readonly List<ClassWithNamespace> _dataTypeObjects = new List<ClassWithNamespace>();
+    private readonly List<CodeEnum> _enumObjects = new List<CodeEnum>();
+
+    private static string GetExtension(CodeClass cls) {
+        var baseCls = cls.Bases.OfType<CodeClass>().FirstOrDefault();
+
+        if (baseCls != null) {
+            return "I" + baseCls.Name;
+        }
+
+        return "IObject";
+    }
+
+    private static string GenerateModuleDeclr(ClassWithNamespace cls) {
+        if (String.IsNullOrEmpty(cls.Namespace)) {
+            return "";
+        }
+
+        return "export module " + cls.Namespace + " {";
+    }
+
+    private static string GenerateEndModuleDeclr(ClassWithNamespace cls) {
+        if (String.IsNullOrEmpty(cls.Namespace)) {
+            return "";
+        }
+
+        return "}";
+    }
+
+    private IEnumerable<ConvertedProperty> GetConvertableProperties(CodeClass cls) {
+        foreach (CodeProperty2 prop in cls.Members.OfType<CodeProperty2>()) {
+            CodeAttribute2 dataMemberAttribute = prop.Attributes.OfType<CodeAttribute2>().FirstOrDefault(x=>x.FullName == DataMemberAttributeFullName);
+            if (dataMemberAttribute == null) {
+                continue;
+            }
+
+            // get name 
+            string name = dataMemberAttribute.Arguments.OfType<CodeAttributeArgument>()
+                                                       .Where(x=>x.Name == "Name")
+                                                       .Select(x=>x.Value)
+                                                       .FirstOrDefault();
+
+            if (name != null) {
+                name = name.Trim('"');
+            }
+
+            yield return new ConvertedProperty() {
+                Identifier = name ?? ToCamelCase(prop.Name),
+                Type = this.ConvertType(prop),
+                PropertyObject = prop
+            };
+        }
+    }
+
+    private string ConvertType(CodeProperty2 prop) {
+        CodeType targetType;
+        bool isArray = (prop.Type.TypeKind == vsCMTypeRef.vsCMTypeRefArray);
+
+        if (isArray) {
+            CodeTypeRef arr = prop.Type.ElementType;
+
+            targetType = arr.CodeType;
+        } else {
+            targetType = prop.Type.CodeType;
+
+            if (targetType.FullName.IndexOf("IEnumerable", System.StringComparison.Ordinal) != -1) {
+                string type = Regex.Replace(targetType.FullName,
+                    @"System.Collections.Generic.IEnumerable<([A-z0-9.]+)\.([A-z0-9]+)>", "$2");
+                return ParseType(type, true) + "[] /*" + targetType.FullName + "*/ ";
+            }
+        }
+
+        if (this._dataTypeObjects.Any(x => x.ClassObject == (targetType as CodeClass))) {
+            return "I" + targetType.Name + (isArray ? "[]" : String.Empty) + " /* " + targetType.FullName + "*/ ";
+        }
+
+		if (this._enumObjects.Contains(targetType as CodeEnum)) {
+			return targetType.Name;
+		}
+        
+        return ParseType(targetType.FullName, false);
+    }
+
+    private static string ParseType(string typeName, bool returnInterface) {
+        // remove any system prefix
+        typeName = typeName.StartsWith("System.", StringComparison.OrdinalIgnoreCase)
+                        ? typeName.Substring("System.".Length) : typeName;
+
+        switch (typeName) {
+            case "Int32":
+            case "Int64":
+            case "Int16":
+            case "Double":
+            case "Single":
+            case "Decimal":
+                return "number";
+
+            case "String":
+                return "string";
+
+            case "Boolean":
+                return "boolean";
+        }
+
+        return returnInterface ? "I"+ typeName : "any";
+    }
+
+	private void ProcessRecursive(CodeModel codeModel) {
+	    if (codeModel == null) {
+	        return;
+	    }
+
+		foreach(EnvDTE.CodeElement element in codeModel.CodeElements)
+		{
+		    this.ProcessRecursive(element);
+		}
+    }
+
+    private void ProcessRecursive(CodeElement codeElement) {
+        // process enum
+        if (codeElement.Kind == EnvDTE.vsCMElement.vsCMElementEnum) {
+			var myEnum = (EnvDTE.CodeEnum)codeElement;
+            this.ProcessEnum(myEnum);
+		}
+        // process class
+        if (codeElement.Kind == EnvDTE.vsCMElement.vsCMElementClass) {
+			var myClass = (EnvDTE.CodeClass)codeElement;
+            this.ProcessClass(myClass);
+		}
+
+		// recursively process namespace
+		if (codeElement.Kind == EnvDTE.vsCMElement.vsCMElementNamespace) {
+			var myNs = (EnvDTE.CodeNamespace)codeElement;
+
+			foreach (CodeElement childCodeElement in myNs.Members) {
+			    this.ProcessRecursive(childCodeElement);
+			}
+		}
+    }
+
+    private void ProcessClass(CodeClass cls) {
+		// process only 'DataContract' classes
+        var dataContractAttribute =
+            cls.Attributes.OfType<CodeAttribute2>().FirstOrDefault(x => x.FullName == DataContractAttributeFullName);
+        if (dataContractAttribute == null) {
+            return;
+        }
+
+        // get namespace 
+        string ns = dataContractAttribute.Arguments.OfType<CodeAttributeArgument>()
+                                                    .Where(x=>x.Name == "Namespace")
+                                                    .Select(x=>x.Value)
+                                                    .FirstOrDefault();
+
+        if (ns != null) {
+            ns = ns.Trim('"');
+        }
+
+		this._dataTypeObjects.Add(new ClassWithNamespace() { ClassObject = cls, Namespace = ns});
+    }
+
+    private void ProcessEnum(CodeEnum e) {
+		// process only 'DataContract' classes
+        if (e.Attributes.OfType<CodeAttribute>().All(x => x.FullName != DataContractAttributeFullName)) {
+            return;
+        }
+
+		this._enumObjects.Add(e);
+    }
+
+
+    private string GetSuggestedNamespace(ProjectItem item) {
+        string ns = item.Properties.Item("CustomToolNamespace").Value.ToString();
+        if (String.IsNullOrEmpty(ns)) {
+            return "INVALID.PROVIDE.CUSTOM.TOOL.NAMESPACE.IN.THIS.ITEM.SETTINGS";
+        }
+
+        return ns;
+    }
+
+    private static string ToCamelCase(string s) {
+            if (string.IsNullOrEmpty(s))
+                return s;
+
+            if (!char.IsUpper(s[0]))
+                return s;
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < s.Length; i++)
+            {
+                bool hasNext = (i + 1 < s.Length);
+                if ((i == 0 || !hasNext) || char.IsUpper(s[i + 1]))
+                {
+                    char lowerCase;
+#if !(NETFX_CORE || PORTABLE)
+                    lowerCase = char.ToLower(s[i], System.Globalization.CultureInfo.InvariantCulture);
+#else
+                    lowerCase = char.ToLower(s[i]);
+#endif
+
+                    sb.Append(lowerCase);
+                }
+                else
+                {
+                    sb.Append(s.Substring(i));
+                    break;
+                }
+            }
+
+            return sb.ToString();
+        }
+
+    // !!!! Notice: following four methods are equivalent, but we have no choice!
+    private static string GenerateDocumentation(CodeProperty2 codeElement) {
+        string doc = GenerateJsDocFromXmlComment(codeElement.DocComment);
+
+        if (String.IsNullOrEmpty(doc)) {
+            doc = codeElement.Comment;
+
+            if (String.IsNullOrEmpty(doc)) {
+                doc = codeElement.FullName;
+            }
+
+            doc = GenerateJsDocFromGenericString(doc);
+        }
+
+        return doc;
+    }
+
+    private static string GenerateDocumentation(CodeClass codeElement) {
+        string doc = GenerateJsDocFromXmlComment(codeElement.DocComment);
+
+        if (String.IsNullOrEmpty(doc)) {
+            doc = codeElement.Comment;
+
+            if (String.IsNullOrEmpty(doc)) {
+                doc = codeElement.FullName;
+            }
+
+            doc = GenerateJsDocFromGenericString(doc);
+        }
+
+        return doc;
+    }
+
+    private static string GenerateDocumentation(CodeEnum codeElement) {
+        string doc = GenerateJsDocFromXmlComment(codeElement.DocComment);
+
+        if (String.IsNullOrEmpty(doc)) {
+            doc = codeElement.Comment;
+
+            if (String.IsNullOrEmpty(doc)) {
+                doc = codeElement.FullName;
+            }
+
+            doc = GenerateJsDocFromGenericString(doc);
+        }
+
+        return doc;
+    }
+
+    private static string GenerateDocumentation(CodeVariable codeElement) {
+        string doc = GenerateJsDocFromXmlComment(codeElement.DocComment);
+
+        if (String.IsNullOrEmpty(doc)) {
+            doc = codeElement.Comment;
+
+            if (String.IsNullOrEmpty(doc)) {
+                doc = codeElement.FullName;
+            }
+
+            doc = GenerateJsDocFromGenericString(doc);
+        }
+
+        return doc;
+    }
+
+    private static string GenerateJsDocFromGenericString(string str) {
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("/** ");
+
+        AppendJsDoc(str, sb);
+
+        sb.AppendLine("*/");
+
+        return sb.ToString();
+    }
+
+    private static string GenerateJsDocFromXmlComment(XElement root) {
+        ReplaceTransientTags(root);
+
+        if (root == null || !root.HasElements) {
+            return null;
+        }
+
+        string summary = (string) root.Element("summary");
+        string remarks = (string) root.Element("remarks");
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("/** ");
+
+        if (!String.IsNullOrEmpty(summary)) {
+            AppendJsDoc(summary, sb);
+            sb.AppendLine("* ");
+        }
+
+        if (!String.IsNullOrEmpty(remarks)) {
+            AppendJsDoc(remarks, sb);
+        }
+
+        sb.AppendLine("*/");
+        return sb.ToString();
+    }
+
+    private static void ReplaceTransientTags(XElement element) {
+        foreach (XElement tag in element.Elements().ToList()) {
+            if (tag.Name == "seealso") {
+                tag.Remove();
+                continue;
+            }
+
+            if (tag.Name == "see") {
+                tag.AddBeforeSelf(new XText((string) tag.Attribute("cref")));
+                tag.Remove();
+                continue;
+            }
+
+            ReplaceTransientTags(tag);
+        }
+    }
+
+    private static string GenerateJsDocFromXmlComment(string root) {
+        if (root == null) {
+            return null;
+        }
+
+        try {
+            return GenerateJsDocFromXmlComment(XDocument.Parse(root).Root);
+        }
+        catch (XmlException) {
+            return null;
+        }
+    }
+
+    private static void AppendJsDoc(string text, StringBuilder sb) {
+        string[] parts = text.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+        foreach (string part in parts) {
+            sb.Append("* ");
+            sb.Append(part);
+            sb.AppendLine();
+        }
+    }
+
+    private struct ClassWithNamespace {
+        public CodeClass ClassObject;
+        public string Namespace;
+    }
+
+    private struct ConvertedProperty {
+        public string Identifier;
+        public string Type;
+        public CodeProperty2 PropertyObject;
+    }
+
+    #>
