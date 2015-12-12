@@ -13,12 +13,21 @@ module FinancialApp {
 
         extendMenuVisible: boolean;
         toggleNavBar: IAction;
+
+        currentUser: string;
+
+        clientCount() : number;
     }
 
     export class MenuController {
         public static $inject = ['$scope', '$location'];
 
-        constructor($scope: IMenuControllerScope, $location: ng.ILocationService) {
+        private hubConnection : HubConnection;
+        private hub : AppOwnerHub;
+
+        private clients: string[] = [];
+
+        constructor(private $scope: IMenuControllerScope, $location: ng.ILocationService, private authenticationService : Services.AuthenticationService) {
             $scope.currentPath = $location.path();
             $scope.nowPath = Program.createNowRoute();
             $scope.extendMenuVisible = false;
@@ -27,12 +36,58 @@ module FinancialApp {
                 return str == this.currentPath;
             };
 
+            $scope.clientCount = () => this.clients.length;
+
             $scope.$on('$locationChangeSuccess', () => {
                 $scope.currentPath = $location.path();
                 $scope.extendMenuVisible = false;
             });
 
             $scope.toggleNavBar = () => $scope.extendMenuVisible = !$scope.extendMenuVisible;
+
+            this.hubConnection = $.hubConnection('/extern/signalr');
+            this.hub = this.hubConnection.createHubProxy('appOwnerHub');
+            this.oneTimeSignalRSetup();
+
+            authenticationService.addAuthenticationChange(() => this.handleSignalR(authenticationService.isAuthenticated()));
+            $scope.$on('$destroy', () => this.shutdownSignalR());
+        }
+
+        public handleSignalR(isAuthenticated: boolean): void {
+            if (isAuthenticated) {
+                this.setupSignalR();
+            } else {
+                this.shutdownSignalR();
+            }
+
+            this.$scope.currentUser = this.authenticationService.getUserName();
+        }
+
+        public shutdownSignalR() {
+            if (!this.hubConnection) {
+                return;
+            }
+
+            this.hubConnection.stop();
+        }
+
+        public setupSignalR() {
+            this.hubConnection.start();
+        }
+
+        public oneTimeSignalRSetup() {
+            this.hub.on('popClient', (name: string) => {
+                var idx = this.clients.indexOf(name);
+                if (idx !== -1) {
+                    this.clients.remove(name);
+                }
+            });
+
+            this.hub.on('pushClient', (name: string) => {
+                this.clients.push(name);
+            });
+
+            this.handleSignalR(this.authenticationService.isAuthenticated());
         }
     }
 

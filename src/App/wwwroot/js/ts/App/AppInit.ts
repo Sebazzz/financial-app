@@ -39,7 +39,7 @@ module FinancialApp {
 
             app.config((($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider, $httpProvider : ng.IHttpProvider) => {
                 // generated routes
-                FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
+                ControllerInitializer.registerControllerRoutes($routeProvider);
 
                 // custom routes
                 // ... special 'now' route

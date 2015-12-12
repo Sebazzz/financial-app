@@ -22,13 +22,17 @@
     using Microsoft.Extensions.PlatformAbstractions;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using Support;
 
     public class Startup
     {
+        private readonly IHostingEnvironment _env;
+
         public Startup(IHostingEnvironment env, IApplicationEnvironment applicationEnvironment)
         {
+            this._env = env;
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -63,6 +67,11 @@
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
+
+#if SIGNALR
+            services.AddSignalR(o => o.Hubs.EnableDetailedErrors = this._env.IsDevelopment());
+            services.AddSingleton<JsonSerializer, SignalRJsonSerializer>();
+#endif
 
             // DI
             services.AddScoped<AppDbContext>();
@@ -120,6 +129,10 @@
                 app.UseExceptionHandler("/");
                 app.UseApplicationInsightsExceptionTelemetry();
             }
+
+#if SIGNALR
+            app.UseSignalR("/extern/signalr");
+#endif
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
