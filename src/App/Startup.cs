@@ -104,7 +104,7 @@
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
                 LoginPath = new PathString("/Account/Login"),
-                ExpireTimeSpan = TimeSpan.FromDays(30),
+                ExpireTimeSpan = TimeSpan.FromDays(365 / 2d),
                 SlidingExpiration = true,
 
                 AutomaticAuthenticate = true,
