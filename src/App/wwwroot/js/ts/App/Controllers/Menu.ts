@@ -16,7 +16,8 @@ module FinancialApp {
 
         currentUser: string;
 
-        clientCount() : number;
+        clientCount(): number;
+        loggedInUserSummary() : string;
     }
 
     export class MenuController {
@@ -36,7 +37,8 @@ module FinancialApp {
                 return str == this.currentPath;
             };
 
-            $scope.clientCount = () => this.clients.length;
+            $scope.clientCount = () => this.clients.length - 1;
+            $scope.loggedInUserSummary = () => Enumerable.from(this.clients).toJoinedString('\r\n');
 
             $scope.$on('$locationChangeSuccess', () => {
                 $scope.currentPath = $location.path();
@@ -46,6 +48,7 @@ module FinancialApp {
             $scope.toggleNavBar = () => $scope.extendMenuVisible = !$scope.extendMenuVisible;
 
             this.hubConnection = $.hubConnection('/extern/signalr');
+            this.hubConnection.logging = true;
             this.hub = this.hubConnection.createHubProxy('appOwnerHub');
             this.oneTimeSignalRSetup();
 
@@ -80,11 +83,24 @@ module FinancialApp {
                 var idx = this.clients.indexOf(name);
                 if (idx !== -1) {
                     this.clients.remove(name);
+
+                    this.$scope.$apply();
                 }
             });
 
             this.hub.on('pushClient', (name: string) => {
-                this.clients.push(name);
+                var idx = this.clients.indexOf(name);
+                if (idx !== -1) {
+                    this.clients.push(name);
+
+                    this.$scope.$apply();
+                }
+            });
+
+            this.hub.on('setInitialClientList', (names: string[]) => {
+                this.clients = names;
+
+                this.$scope.$apply();
             });
 
             this.handleSignalR(this.authentication.isAuthenticated());

@@ -1,4 +1,5 @@
 ﻿namespace App.Support.Hub {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Api.Extensions;
     using Microsoft.AspNet.SignalR;
@@ -7,20 +8,22 @@
     public sealed class AppOwnerHub : Hub {
         private readonly ILogger _logger;
 
+        private readonly GroupContext<HashSet<string>> _groupContext = new GroupContext<HashSet<string>>(_ => new HashSet<string>(), s=>new HashSet<string>(s));
+
         private string GetGroupName() {
             return "AppOwner" + this.Context.User.Identity.GetOwnerGroupId();
         }
 
         public override Task OnConnected() {
-            this._logger.LogInformation("Connection incoming, user: {0}", this.Context.User.Identity.Name);
-
+            string identity = this.Context.User.Identity.Name;
             string group = this.GetGroupName();
+
+            this._logger.LogInformation("Connection incoming, user: {0} of group {1}", identity, group);
 
             this.Groups.Add(this.Context.ConnectionId, group);
 
             this.Clients.OthersInGroup(group).pushClient(this.Context.User.Identity.Name);
-
-
+            this.Clients.Caller.setInitialClientList(this._groupContext.AlterAndReturn(group, s => s.Add(identity)));
 
             return base.OnConnected();
         }
@@ -53,11 +56,13 @@
         /// A <see cref="T:System.Threading.Tasks.Task"/>
         /// </returns>
         public override Task OnReconnected() {
-            this._logger.LogInformation("Connection reesstablished, user: {0}", this.Context.User.Identity.Name);
-
+            string identity = this.Context.User.Identity.Name;
             string group = this.GetGroupName();
 
+            this._logger.LogInformation("Connection reesstablished, user: {0} of group {1}", identity, group);
+
             this.Clients.OthersInGroup(group).pushClient(this.Context.User.Identity.Name);
+            this.Clients.Caller.setInitialClientList(this._groupContext.AlterAndReturn(group, s => s.Add(identity)));
 
             return base.OnReconnected();
         }

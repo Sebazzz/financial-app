@@ -27,7 +27,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <p class="navbar-text">
-                        Ingelogd als {{ currentUser }} <span ng-hide="clientCount === 0" class="badge">{{ clientCount }}</span>
+                        Ingelogd als {{ currentUser }} <span ng-hide="clientCount() === 0" class="badge" tooltip-placement="bottom" tooltip="Ingelogde gebruikers: {{ loggedInUserSummary() }}">{{ clientCount() }}</span>
                     </p>
                 </li>
                 <li class="dropdown">
