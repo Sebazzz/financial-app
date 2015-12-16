@@ -8,14 +8,12 @@
     using AutoMapper;
     using Microsoft.AspNet.Authentication.Cookies;
     using Microsoft.AspNet.Builder;
-    using Microsoft.AspNet.FileProviders;
     using Microsoft.AspNet.Hosting;
     using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Mvc.Formatters;
     using Microsoft.AspNet.Mvc.WebApiCompatShim;
     using Microsoft.Data.Entity;
-    using Microsoft.Data.Entity.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -106,6 +104,8 @@
             }
 
             app.UseApplicationInsightsRequestTelemetry();
+            app.UseWebSockets();
+
             app.MapApplicationCacheManifest();
             app.MapAngularViewPath(env);
 
