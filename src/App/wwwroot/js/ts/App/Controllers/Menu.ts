@@ -20,14 +20,14 @@ module FinancialApp {
     }
 
     export class MenuController {
-        public static $inject = ['$scope', '$location'];
+        public static $inject = ['$scope', '$location', 'authentication'];
 
         private hubConnection : HubConnection;
         private hub : AppOwnerHub;
 
         private clients: string[] = [];
 
-        constructor(private $scope: IMenuControllerScope, $location: ng.ILocationService, private authenticationService : Services.AuthenticationService) {
+        constructor(private $scope: IMenuControllerScope, $location: ng.ILocationService, private authentication : Services.AuthenticationService) {
             $scope.currentPath = $location.path();
             $scope.nowPath = Program.createNowRoute();
             $scope.extendMenuVisible = false;
@@ -49,7 +49,7 @@ module FinancialApp {
             this.hub = this.hubConnection.createHubProxy('appOwnerHub');
             this.oneTimeSignalRSetup();
 
-            authenticationService.addAuthenticationChange(() => this.handleSignalR(authenticationService.isAuthenticated()));
+            authentication.addAuthenticationChange(() => this.handleSignalR(authentication.isAuthenticated()));
             $scope.$on('$destroy', () => this.shutdownSignalR());
         }
 
@@ -60,7 +60,7 @@ module FinancialApp {
                 this.shutdownSignalR();
             }
 
-            this.$scope.currentUser = this.authenticationService.getUserName();
+            this.$scope.currentUser = this.authentication.getUserName();
         }
 
         public shutdownSignalR() {
@@ -87,7 +87,7 @@ module FinancialApp {
                 this.clients.push(name);
             });
 
-            this.handleSignalR(this.authenticationService.isAuthenticated());
+            this.handleSignalR(this.authentication.isAuthenticated());
         }
     }
 
