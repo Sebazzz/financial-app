@@ -1,5 +1,4 @@
-﻿#if SIGNALR
-namespace App.Support.Integration {
+﻿namespace App.Support.Integration {
     using System;
     using System.Reflection;
     using Microsoft.AspNet.SignalR.Infrastructure;
@@ -39,5 +38,3 @@ namespace App.Support.Integration {
         }
     }
 }
-
-#endif

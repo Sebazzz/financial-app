@@ -68,10 +68,8 @@
                 .AddSqlServer()
                 .AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
 
-#if SIGNALR
             services.AddSignalR(o => o.Hubs.EnableDetailedErrors = this._env.IsDevelopment());
             services.AddSingleton<JsonSerializer, SignalRJsonSerializer>();
-#endif
 
             // DI
             services.AddScoped<AppDbContext>();
@@ -130,9 +128,7 @@
                 app.UseApplicationInsightsExceptionTelemetry();
             }
 
-#if SIGNALR
             app.UseSignalR("/extern/signalr");
-#endif
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
