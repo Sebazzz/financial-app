@@ -1069,6 +1069,43 @@
           "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.dll": {}
         }
       },
+      "Microsoft.AspNet.WebSockets.Protocol/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "System.Diagnostics.Contracts": "4.0.1-beta-23516",
+          "System.IO": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Net.WebSockets": "4.0.0-beta-23516",
+          "System.Runtime": "4.0.21-beta-23516",
+          "System.Runtime.Extensions": "4.0.11-beta-23516",
+          "System.Runtime.InteropServices": "4.0.21-beta-23516",
+          "System.Security.Cryptography.Algorithms": "4.0.0-beta-23516",
+          "System.Text.Encoding.Extensions": "4.0.11-beta-23516",
+          "System.Threading": "4.0.11-beta-23516",
+          "System.Threading.Tasks": "4.0.11-beta-23516",
+          "System.Threading.Timer": "4.0.1-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Protocol.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Protocol.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebSockets.Server/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Http.Extensions": "1.0.0-rc1-final",
+          "Microsoft.AspNet.WebSockets.Protocol": "1.0.0-rc1-final",
+          "System.Runtime": "4.0.21-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Server.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Server.dll": {}
+        }
+      },
       "Microsoft.AspNet.WebUtilities/1.0.0-rc1-final": {
         "type": "package",
         "dependencies": {
@@ -4044,6 +4081,43 @@
         },
         "runtime": {
           "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebSockets.Protocol/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "System.Diagnostics.Contracts": "4.0.1-beta-23516",
+          "System.IO": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Net.WebSockets": "4.0.0-beta-23516",
+          "System.Runtime": "4.0.21-beta-23516",
+          "System.Runtime.Extensions": "4.0.11-beta-23516",
+          "System.Runtime.InteropServices": "4.0.21-beta-23516",
+          "System.Security.Cryptography.Algorithms": "4.0.0-beta-23516",
+          "System.Text.Encoding.Extensions": "4.0.11-beta-23516",
+          "System.Threading": "4.0.11-beta-23516",
+          "System.Threading.Tasks": "4.0.11-beta-23516",
+          "System.Threading.Timer": "4.0.1-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Protocol.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Protocol.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebSockets.Server/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Http.Extensions": "1.0.0-rc1-final",
+          "Microsoft.AspNet.WebSockets.Protocol": "1.0.0-rc1-final",
+          "System.Runtime": "4.0.21-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Server.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Server.dll": {}
         }
       },
       "Microsoft.AspNet.WebUtilities/1.0.0-rc1-final": {
@@ -7544,6 +7618,43 @@
           "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.dll": {}
         }
       },
+      "Microsoft.AspNet.WebSockets.Protocol/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "System.Diagnostics.Contracts": "4.0.1-beta-23516",
+          "System.IO": "4.0.11-beta-23516",
+          "System.Linq": "4.0.1-beta-23516",
+          "System.Net.WebSockets": "4.0.0-beta-23516",
+          "System.Runtime": "4.0.21-beta-23516",
+          "System.Runtime.Extensions": "4.0.11-beta-23516",
+          "System.Runtime.InteropServices": "4.0.21-beta-23516",
+          "System.Security.Cryptography.Algorithms": "4.0.0-beta-23516",
+          "System.Text.Encoding.Extensions": "4.0.11-beta-23516",
+          "System.Threading": "4.0.11-beta-23516",
+          "System.Threading.Tasks": "4.0.11-beta-23516",
+          "System.Threading.Timer": "4.0.1-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Protocol.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Protocol.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebSockets.Server/1.0.0-rc1-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Http.Extensions": "1.0.0-rc1-final",
+          "Microsoft.AspNet.WebSockets.Protocol": "1.0.0-rc1-final",
+          "System.Runtime": "4.0.21-beta-23516"
+        },
+        "compile": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Server.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Server.dll": {}
+        }
+      },
       "Microsoft.AspNet.WebUtilities/1.0.0-rc1-final": {
         "type": "package",
         "dependencies": {
@@ -10873,6 +10984,34 @@
         "Microsoft.AspNet.WebApi.Client.5.2.2.nupkg",
         "Microsoft.AspNet.WebApi.Client.5.2.2.nupkg.sha512",
         "Microsoft.AspNet.WebApi.Client.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebSockets.Protocol/1.0.0-rc1-final": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "dc/e2uVh/J9dQ9DuXh0hlTSS5lID2Kr+O+EFgf9NgrvP1sFS8EWDGHoUv9RS/owVfFtd956bnRjMX2jD/5NBPA==",
+      "files": [
+        "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Protocol.dll",
+        "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Protocol.xml",
+        "lib/net451/Microsoft.AspNet.WebSockets.Protocol.dll",
+        "lib/net451/Microsoft.AspNet.WebSockets.Protocol.xml",
+        "Microsoft.AspNet.WebSockets.Protocol.1.0.0-rc1-final.nupkg",
+        "Microsoft.AspNet.WebSockets.Protocol.1.0.0-rc1-final.nupkg.sha512",
+        "Microsoft.AspNet.WebSockets.Protocol.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebSockets.Server/1.0.0-rc1-final": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "hVPS2eewqM8S5cpFK62+d10WCaPBQb9pnP3ahEYP/wMlycv0nAmsQ5sMeaI06zI12cZTAXWnwf3aUgN7/2yuFA==",
+      "files": [
+        "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Server.dll",
+        "lib/dotnet5.4/Microsoft.AspNet.WebSockets.Server.xml",
+        "lib/net451/Microsoft.AspNet.WebSockets.Server.dll",
+        "lib/net451/Microsoft.AspNet.WebSockets.Server.xml",
+        "Microsoft.AspNet.WebSockets.Server.1.0.0-rc1-final.nupkg",
+        "Microsoft.AspNet.WebSockets.Server.1.0.0-rc1-final.nupkg.sha512",
+        "Microsoft.AspNet.WebSockets.Server.nuspec"
       ]
     },
     "Microsoft.AspNet.WebUtilities/1.0.0-rc1-final": {
@@ -18224,6 +18363,7 @@
       "Microsoft.AspNet.Mvc.WebApiCompatShim >= 6.0.0-rc1-final",
       "Microsoft.AspNet.Server.Kestrel >= 1.0.0-rc1-final",
       "Microsoft.AspNet.SignalR.Server >= 3.0.0-rc1-final",
+      "Microsoft.AspNet.WebSockets.Server >= 1.0.0-rc1-final",
       "Microsoft.AspNet.StaticFiles >= 1.0.0-rc1-final",
       "Microsoft.AspNet.Tooling.Razor >= 1.0.0-rc1-final",
       "Microsoft.AspNet.FileProviders.Physical >= 1.0.0-rc1-final",
