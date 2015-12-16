@@ -22,11 +22,14 @@
                 <li ng-class="{ 'active': hasPath('/archive') }"><a href="/archive">Archief</a></li>
             </ul>
 
-            <p class="navbar-text navbar-right">
-                Ingelogd als {{ currentUser }} <span ng-hide="clientCount === 0" class="badge">{{ clientCount }}</span>
-            </p>
+
 
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <p class="navbar-text">
+                        Ingelogd als {{ currentUser }} <span ng-hide="clientCount === 0" class="badge">{{ clientCount }}</span>
+                    </p>
+                </li>
                 <li class="dropdown">
                     <a href="javascript:void(0)"
                        ng-class="{ 'active': hasPath('/manage') }"
@@ -42,6 +45,8 @@
                     <a href="/auth/logoff">Uitloggen</a>
                 </li>
             </ul>
+
+            
         </div>
     </div>
 </div>
