@@ -11,9 +11,10 @@ module FinancialApp {
 
     export module DTO {
         export interface ISheetEntry {
-            category: ICategory;   
-            editMode: boolean;
-            isBusy: boolean;
+            category?: ICategory;   
+            editMode?: boolean;
+            isBusy?: boolean;
+            isTransient?: boolean;
         }
 
         export interface ISheet {
@@ -22,7 +23,7 @@ module FinancialApp {
         }
     }
 
-    export interface ISheetScope {
+    export interface ISheetScope extends ng.IScope {
         date: Moment;
         previousDate: Moment;
         isLoaded: boolean;
@@ -35,9 +36,10 @@ module FinancialApp {
             // ReSharper disable once InconsistentNaming
         SortOrderMutation: typeof Factories.SortOrderMutation;
 
-        saveEntry: (entry: DTO.ISheetEntry) => void
-        deleteEntry: (entry: DTO.ISheetEntry) => void
-        editRemarks: (entry: DTO.ISheetEntry) => void
+        editEntry: (entry: DTO.ISheetEntry) => void;
+        saveEntry: (entry: DTO.ISheetEntry) => void;
+        deleteEntry: (entry: DTO.ISheetEntry) => void;
+        editRemarks: (entry: DTO.ISheetEntry) => void;
         addEntry: () => void;
         mutateSortOrder: (entry:DTO.ISheetEntry, mutation: Factories.SortOrderMutation) => void;
     }
@@ -54,10 +56,15 @@ module FinancialApp {
         private isSheetLoaded = false;
 
         private year: number;
-        private month : number;
+        private month: number;
+
+        private hubConnection: HubConnection;
+        private hub: SheetHub;
+
+        private pushedEntries : IRealtimeSheetEntryInfo[] = [];
 
         constructor(private $scope: ISheetScope,
-                            $routeParams: ISheetRouteParams,
+                    private $routeParams: ISheetRouteParams,
                     private $location: ng.ILocationService,
                     private $modal : ng.ui.bootstrap.IModalService,
                     private sheetResource: Factories.ISheetWebResourceClass,
@@ -89,11 +96,18 @@ module FinancialApp {
                 this.signalCategoriesLoaded();
             });
 
+            $scope.editEntry = (entry) => this.editEntry(entry);
             $scope.saveEntry = (entry) => this.saveEntry(entry);
             $scope.deleteEntry = (entry) => this.deleteEntry(entry);
             $scope.addEntry = () => this.addEntry();
             $scope.editRemarks = (entry) => this.editRemarks(entry);
             $scope.mutateSortOrder = (entry, mutation) => this.mutateSortOrder(entry, mutation);
+
+            // set-up signal-r
+            this.hubConnection = $.hubConnection('/extern/signalr');
+            this.hubConnection.logging = true;
+            
+            $scope.$on('$destroy', () => this.shutdownSignalR());
         }
 
         private mutateSortOrder(entry: DTO.ISheetEntry, mutation: Factories.SortOrderMutation) {
@@ -125,6 +139,8 @@ module FinancialApp {
             sheet.totalBank = () => this.calculation.calculateTotal(sheet, FinancialApp.DTO.AccountType.BankAccount);
 
             this.setLoadedBit(sheet);
+
+            this.setupSignalR(this.year + '-' + this.month);
         }
 
         private signalCategoriesLoaded() {
@@ -177,6 +193,13 @@ module FinancialApp {
             res.$promise.then(() => {
                 entry.isBusy = false;
                 this.$scope.sheet.updateTimestamp = moment();
+
+                // signal through
+                var copy = <IFinalizeRealtimeSheetEntry>$.extend({
+                    committed: true
+                }, entry);
+
+                this.hub.invoke('finalizeSheetEntry', copy);
             });
             res.$promise['catch'](() => {
                 entry.isBusy = false;
@@ -195,6 +218,14 @@ module FinancialApp {
                 entry.id = data.id;
                 entry.isBusy = false;
                 this.$scope.sheet.updateTimestamp = moment();
+
+                // signal through
+                var copy = <IFinalizeRealtimeSheetEntry>$.extend({
+                    committed: true
+                }, entry);
+                copy.id = data.id;
+
+                this.hub.invoke('finalizeSheetEntry', copy);
             });
             res.$promise['catch'](() => {
                 entry.isBusy = false;
@@ -216,9 +247,21 @@ module FinancialApp {
             entry.isBusy = true;
             entry.editMode = false;
 
+            var sendCancellation = () => {
+                // signal through
+                var copy = <IFinalizeRealtimeSheetEntry>$.extend({
+                    committed: false,
+                    categoryId : 0
+                }, entry);
+                copy.id = entry.id;
+
+                this.hub.invoke('finalizeSheetEntry', copy);
+            };
+
             // if the entry has not been saved, we can delete it right away
             if (entry.id == 0) {
                 this.$scope.sheet.entries.remove(entry);
+                sendCancellation();
                 return;
             }
 
@@ -233,6 +276,8 @@ module FinancialApp {
                 () => {
                     this.$scope.sheet.entries.remove(entry);
                     this.$scope.sheet.updateTimestamp = moment();
+
+                    sendCancellation();
                 },
                 () => entry.isBusy = false);
         }
@@ -240,7 +285,7 @@ module FinancialApp {
         private addEntry(): void {
             var newEntry: DTO.ISheetEntry = {
                 id: 0,
-                account: FinancialApp.DTO.AccountType.BankAccount,
+                account: DTO.AccountType.BankAccount,
                 categoryId: null,
                 category: null,
                 createTimestamp: moment(),
@@ -254,7 +299,120 @@ module FinancialApp {
             };
 
             this.$scope.sheet.entries.push(newEntry);
+
+            this.watchEntry(newEntry);
         }
+
+        private editEntry(newEntry: DTO.ISheetEntry): void {
+            newEntry.editMode = true;
+
+            this.watchEntry(newEntry);
+        }
+
+        private watchEntry(newEntry : DTO.ISheetEntry): void {
+            var dispose: Function,
+                realtimeId = null,
+                isPushing = false;
+
+            dispose = this.$scope.$watchCollection(() => newEntry, () => {
+                console.log('Entry change...');
+
+                if (!newEntry.editMode && !newEntry.isBusy) {
+                    dispose();
+                    return;
+                }
+
+                if (realtimeId != null) {
+                    newEntry['realtimeId'] = realtimeId;
+                }
+
+                var copy = <IRealtimeSheetEntryInfo>$.extend({}, newEntry);
+                copy.categoryId = copy.category ? copy.category.id : 0;
+
+                if (!isPushing) {
+                    isPushing = true;
+
+                    this.hub.invoke('addOrUpdatePendingSheetEntry', copy)
+                        .done(id => {
+                            realtimeId = id;
+                        }).always(() => isPushing = false);
+                }
+            });
+        }
+
+        private setupSignalR(sheetId: string) {
+            this.hubConnection.qs = {
+                sheetId: sheetId
+            };
+
+            this.hub = this.hubConnection.createHubProxy('sheetHub');
+            this.oneTimeSignalRSetup();
+
+            this.hubConnection.start();
+        }
+
+        private shutdownSignalR() {
+            if (!this.hubConnection) {
+                return;
+            }
+
+            this.hubConnection.stop();
+        }
+
+        private oneTimeSignalRSetup() {
+            this.hub.on('pushSheetEntry', (arg: IRealtimeSheetEntryInfo) => {
+                arg.isTransient = true;
+
+                var exists = !!this.pushedEntries[arg.realtimeId];
+                this.pushedEntries[arg.realtimeId] = arg;
+
+                if (arg.categoryId > 0) {
+                    arg.category = Enumerable.from(this.$scope.categories).firstOrDefault(x => x.id === arg.categoryId);
+                }
+
+                var idx;
+                if (!exists) {
+                    idx = arg.id > 0 ? Enumerable.from(this.$scope.sheet.entries).indexOf(e => e.id === arg.id) : 0;
+                } else {
+                    idx = Enumerable.from(this.$scope.sheet.entries).indexOf(e => isTransientEntry(e) && e.realtimeId === arg.realtimeId);
+                }
+
+                if (idx !== -1) {
+                    this.$scope.sheet.entries[idx] = arg;
+                } else {
+                    this.pushAndSort(arg);
+                }
+
+                this.$scope.$apply();
+            });
+
+            this.hub.on('finalizeRealtimeSheetEntry', (arg: IFinalizeRealtimeSheetEntry) => {
+                delete this.pushedEntries[arg.realtimeId];
+                this.$scope.sheet.entries.remove(Enumerable.from(this.$scope.sheet.entries).firstOrDefault(x => isTransientEntry(x) && x.realtimeId === arg.realtimeId));
+
+                if (arg.committed) {
+                    this.sheetEntryResource.get({
+                        sheetYear: this.$routeParams.year,
+                        sheetMonth: this.$routeParams.month,
+                        id: arg.id
+                    }, e => {
+                        this.pushAndSort(e);
+                        this.$scope.$apply();
+                    });
+                }
+
+                this.$scope.$apply();
+            });
+        }
+
+        private pushAndSort(arg : DTO.ISheetEntry) {
+            this.$scope.sheet.entries.push(arg);
+            this.$scope.sheet.entries.sort((a, b) => a.sortOrder - b.sortOrder);
+        }
+    }
+
+    function isTransientEntry(input: DTO.ISheetEntry) : input is IRealtimeSheetEntryInfo {
+        return input.isTransient === true;
     }
 
     interface IRemarksDialogControllerScope extends ng.IScope {

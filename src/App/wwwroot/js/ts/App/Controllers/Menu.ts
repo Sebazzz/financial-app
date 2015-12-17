@@ -37,7 +37,7 @@ module FinancialApp {
                 return str == this.currentPath;
             };
 
-            $scope.clientCount = () => this.clients.length - 1;
+            $scope.clientCount = () => Math.max(0, this.clients.length - 1);
             $scope.loggedInUserSummary = () => Enumerable.from(this.clients).toJoinedString('\r\n');
 
             $scope.$on('$locationChangeSuccess', () => {

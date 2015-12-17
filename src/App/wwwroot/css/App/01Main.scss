@@ -9,12 +9,12 @@ html {
 
 /**** Rotation animation */
 @keyframes loading-spinner {
-    0% {-ms-transform: rotate(0deg);transform: rotate(0deg);}
-  100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .rotate {
-  animation:         loading-spinner 700ms linear infinite;
+    animation: loading-spinner 700ms linear infinite;
 }
 
 /*** Required for AngularJS Bootstrap UI */
@@ -45,6 +45,24 @@ tr.saving {
 
     color: #909090;
     color: rgba(000, 000, 000, 0.5);
+}
+
+@keyframes transient-row {
+    0% { 
+        background-color: rgba(0,0,0, 0);
+    }
+    50% { 
+        background-color: rgba(0,0,0, 255);
+    }
+    100% {
+        background-color: rgba(0,0,0, 0);
+    }
+}
+
+tr.transient {
+    opacity: 0.8;
+
+    animation: transient-row 700ms linear infinite;
 }
 
 .preserve-whitespace {
