@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 .vs
+project.lock.json
 
 # Build results
 artifacts
