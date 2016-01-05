@@ -22,6 +22,8 @@
 
         [IgnoreDataMember]
         public virtual ICollection<SheetEntry> SheetEntries { get; set; }
+        [IgnoreDataMember]
+        public virtual ICollection<RecurringSheetEntry> RecurringSheetEntries { get; set; }
             
         [DataMember]
         public string Description { get; set; }

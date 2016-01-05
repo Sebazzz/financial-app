@@ -46,6 +46,11 @@
                         .HasOne(x => x.Category)
                         .WithMany(x => x.SheetEntries)
                         .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RecurringSheetEntry>()
+                        .HasOne(x => x.Category)
+                        .WithMany(x => x.RecurringSheetEntries)
+                        .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

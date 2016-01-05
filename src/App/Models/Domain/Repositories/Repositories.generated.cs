@@ -65,6 +65,58 @@ namespace App.Models.Domain.Repositories {
         }
     }
 
+    public sealed partial class RecurringSheetEntryRepository {
+        private readonly DbContext _dbContext;
+        private readonly DbSet<App.Models.Domain.RecurringSheetEntry> _entitySet;
+
+        public RecurringSheetEntryRepository(DbContext dbContext) {
+            this._dbContext = dbContext;
+            this._entitySet = dbContext.Set<App.Models.Domain.RecurringSheetEntry>();
+        }
+
+        [CanBeNull]
+        public App.Models.Domain.RecurringSheetEntry FindById(int id) {
+            return this._entitySet.Where(x => x.Id == id).Include(x => x.Category).FirstOrDefault();
+        }
+
+        [CanBeNull]
+        public Task<App.Models.Domain.RecurringSheetEntry> FindByIdAsync(int id) {
+            return this._entitySet.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        [NotNull]
+        public IQueryable<App.Models.Domain.RecurringSheetEntry> GetAll() {
+            return this._entitySet.Include(x => x.Category);
+        }
+
+        
+
+        public void Add(App.Models.Domain.RecurringSheetEntry item) {
+            this._entitySet.Add(item);
+        }
+
+		public void Delete(App.Models.Domain.RecurringSheetEntry item) {
+			if (item != null) {
+				this._entitySet.Remove(item);
+			}
+		}
+
+		public void DeleteById(int id) {
+			App.Models.Domain.RecurringSheetEntry item = this.FindById(id);
+			if (item != null) {
+				this._entitySet.Remove(item);
+			}
+		}
+
+        public int SaveChanges() {
+            return this._dbContext.SaveChanges();
+        }
+
+        public Task SaveChangesAsync() {
+            return this._dbContext.SaveChangesAsync();
+        }
+    }
+
         
     public sealed partial class CategoryRepository {
         private readonly DbContext _dbContext;
