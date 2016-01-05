@@ -143,7 +143,9 @@
 
         <tr class="row-middle"
             ng-hide="entry.editMode"
-            ng-class="{ 'saving': entry.isBusy }">
+            tooltip="{{ entry.isTransient === true && entry.userName ? 'Wordt nu bewerkt door:' + entry.userName : null }}"
+            tooltip-is-open="entry.isTransient === true && !!entry.userName"
+            ng-class="{ 'saving': entry.isBusy, 'transient': entry.isTransient === true }">
             <td>
                 {{ entry.source }}
 
@@ -172,8 +174,8 @@
             </td>
 
             <td>
-                <div class="btn-group btn-group-sm">
-                    <button class="btn btn-default" ng-click="entry.editMode = true" ng-disabled="entry.isBusy">
+                <div class="btn-group btn-group-sm" ng-show="entry.isTransient !== true">
+                    <button class="btn btn-default" ng-click="editEntry(entry)" ng-disabled="entry.isBusy">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                     <button class="btn btn-danger" ng-click="deleteEntry(entry)" ng-disabled="entry.isBusy">

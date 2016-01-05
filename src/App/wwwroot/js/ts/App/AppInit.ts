@@ -39,7 +39,7 @@ module FinancialApp {
 
             app.config((($routeProvider: ng.route.IRouteProvider, $locationProvider: ng.ILocationProvider, $httpProvider : ng.IHttpProvider) => {
                 // generated routes
-                FinancialApp.ControllerInitializer.registerControllerRoutes($routeProvider);
+                ControllerInitializer.registerControllerRoutes($routeProvider);
 
                 // custom routes
                 // ... special 'now' route
@@ -157,7 +157,7 @@ module FinancialApp {
             }, false);
         }
 
-        private static enableDebug(): boolean {
+        public static enableDebug(): boolean {
             var htmlElement = document.getElementsByTagName('html')[0];
             var isMobileDebug = htmlElement.getAttribute('data-is-mobile') === 'true';
             return isMobileDebug;

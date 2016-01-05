@@ -36,6 +36,7 @@ var filePath = {
     libjs: {
         src: [
             './wwwroot/bower_components/jquery/dist/jquery.js',
+            './wwwroot/bower_components/signalr/jquery.signalR.js',
             './wwwroot/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
             './wwwroot/js/linq.js',
             './wwwroot/bower_components/angular/angular.js',

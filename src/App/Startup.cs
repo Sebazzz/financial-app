@@ -8,27 +8,29 @@
     using AutoMapper;
     using Microsoft.AspNet.Authentication.Cookies;
     using Microsoft.AspNet.Builder;
-    using Microsoft.AspNet.FileProviders;
     using Microsoft.AspNet.Hosting;
     using Microsoft.AspNet.Http;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Mvc.Formatters;
     using Microsoft.AspNet.Mvc.WebApiCompatShim;
     using Microsoft.Data.Entity;
-    using Microsoft.Data.Entity.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using Support;
 
     public class Startup
     {
+        private readonly IHostingEnvironment _env;
+
         public Startup(IHostingEnvironment env, IApplicationEnvironment applicationEnvironment)
         {
+            this._env = env;
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -63,6 +65,9 @@
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
+
+            services.AddSignalR(o => o.Hubs.EnableDetailedErrors = this._env.IsDevelopment());
+            services.AddSingleton<JsonSerializer, SignalRJsonSerializer>();
 
             // DI
             services.AddScoped<AppDbContext>();
@@ -99,6 +104,8 @@
             }
 
             app.UseApplicationInsightsRequestTelemetry();
+            app.UseWebSockets();
+
             app.MapApplicationCacheManifest();
             app.MapAngularViewPath(env);
 
@@ -120,6 +127,8 @@
                 app.UseExceptionHandler("/");
                 app.UseApplicationInsightsExceptionTelemetry();
             }
+
+            app.UseSignalR("/extern/signalr");
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
