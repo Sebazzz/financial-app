@@ -5,7 +5,8 @@
     using Services;
 
     /// <summary>
-    /// Represents a recurring sheet entry - expenses or income which is 'to be expected' each period (for now: month)
+    /// Represents a recurring sheet entry - expenses or income which is 'to be expected' each period (for now: month). In effective
+    /// a recurring sheet entry is a template.
     /// </summary>
     [GenerateRepository]
     public class RecurringSheetEntry : IHasId {
@@ -21,10 +22,6 @@
         public string Remark { get; set; }
 
         public int SortOrder { get; set; }
-
-        public DateTime UpdateTimestamp { get; set; }
-
-        public DateTime CreateTimestamp { get; set; }
 
         public AccountType Account { get; set; }
 

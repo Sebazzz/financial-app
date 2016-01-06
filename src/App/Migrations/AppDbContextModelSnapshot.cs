@@ -143,35 +143,6 @@ namespace App.Migrations
                     b.HasAnnotation("Relational:TableName", "AppUserTrustedUsers");
                 });
 
-            modelBuilder.Entity("App.Models.Domain.RecurringSheetEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Account");
-
-                    b.Property<int?>("CategoryId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("CreateTimestamp");
-
-                    b.Property<decimal>("Delta");
-
-                    b.Property<int?>("OwnerId")
-                        .IsRequired();
-
-                    b.Property<string>("Remark");
-
-                    b.Property<int>("SortOrder");
-
-                    b.Property<string>("Source")
-                        .HasAnnotation("MaxLength", 250);
-
-                    b.Property<DateTime>("UpdateTimestamp");
-
-                    b.HasKey("Id");
-                });
-
             modelBuilder.Entity("App.Models.Domain.Sheet", b =>
                 {
                     b.Property<int>("Id")
@@ -309,17 +280,6 @@ namespace App.Migrations
                     b.HasOne("App.Models.Domain.Identity.AppUser")
                         .WithMany()
                         .HasForeignKey("TargetUserId");
-                });
-
-            modelBuilder.Entity("App.Models.Domain.RecurringSheetEntry", b =>
-                {
-                    b.HasOne("App.Models.Domain.Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("App.Models.Domain.AppOwner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
                 });
 
             modelBuilder.Entity("App.Models.Domain.Sheet", b =>

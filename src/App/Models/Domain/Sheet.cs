@@ -11,6 +11,7 @@
     [GenerateRepository]
     public class Sheet : IAppOwnerEntity, IHasId {
         private ICollection<SheetEntry> _entries;
+        private ICollection<SheetRecurringSheetEntry> _applicableEntries;
         public int Id { get; set; }
 
         /// <summary>
@@ -36,6 +37,15 @@
             set { this._entries = value; }
         }
 
+        ///// <summary>
+        ///// Gets the entries which are applicable as templates for this month
+        ///// </summary>
+        //public virtual ICollection<SheetRecurringSheetEntry> ApplicableTemplates
+        //{
+        //    get { return this._applicableEntries ?? (this._applicableEntries = new Collection<SheetRecurringSheetEntry>()); }
+        //    set { this._applicableEntries = value; }
+        //}
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
@@ -46,5 +56,16 @@
             this.CalculationOptions = new CalculationOptions();
         }
 
+    }
+
+    /// <summary>
+    /// Workaround for EF not supporting many-to-many
+    /// </summary>
+    public class SheetRecurringSheetEntry {
+        [Required]
+        public virtual Sheet Sheet { get; set; }
+        [Required]
+        public virtual RecurringSheetEntry Template { get; set; }
+        public virtual int Id { get; set; }
     }
 }

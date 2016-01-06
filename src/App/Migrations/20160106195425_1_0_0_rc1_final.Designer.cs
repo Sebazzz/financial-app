@@ -8,8 +8,8 @@ using App.Models.Domain;
 namespace App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20160105213556_RecurringSheetEntries")]
-    partial class RecurringSheetEntries
+    [Migration("20160106195425_1_0_0_rc1_final")]
+    partial class _1_0_0_rc1_final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -142,35 +142,6 @@ namespace App.Migrations
                     b.HasKey("Id");
 
                     b.HasAnnotation("Relational:TableName", "AppUserTrustedUsers");
-                });
-
-            modelBuilder.Entity("App.Models.Domain.RecurringSheetEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Account");
-
-                    b.Property<int?>("CategoryId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("CreateTimestamp");
-
-                    b.Property<decimal>("Delta");
-
-                    b.Property<int?>("OwnerId")
-                        .IsRequired();
-
-                    b.Property<string>("Remark");
-
-                    b.Property<int>("SortOrder");
-
-                    b.Property<string>("Source")
-                        .HasAnnotation("MaxLength", 250);
-
-                    b.Property<DateTime>("UpdateTimestamp");
-
-                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("App.Models.Domain.Sheet", b =>
@@ -310,17 +281,6 @@ namespace App.Migrations
                     b.HasOne("App.Models.Domain.Identity.AppUser")
                         .WithMany()
                         .HasForeignKey("TargetUserId");
-                });
-
-            modelBuilder.Entity("App.Models.Domain.RecurringSheetEntry", b =>
-                {
-                    b.HasOne("App.Models.Domain.Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.HasOne("App.Models.Domain.AppOwner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
                 });
 
             modelBuilder.Entity("App.Models.Domain.Sheet", b =>

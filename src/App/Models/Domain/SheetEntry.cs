@@ -28,6 +28,8 @@
 
         public AccountType Account { get; set; }
 
+        //public virtual RecurringSheetEntry Template { get;set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>

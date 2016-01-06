@@ -40,6 +40,14 @@
                 .WithOne()
                 .HasForeignKey<CalculationOptions>(x => x.SheetId);
 
+            //modelBuilder.Entity<SheetRecurringSheetEntry>()
+            //    .HasOne(x => x.Template)
+            //    .WithMany();
+
+            //modelBuilder.Entity<SheetRecurringSheetEntry>()
+            //    .HasOne(x => x.Sheet)
+            //    .WithMany();
+
             modelBuilder.Entity<CalculationOptions>();
             
             modelBuilder.Entity<SheetEntry>()
@@ -47,10 +55,15 @@
                         .WithMany(x => x.SheetEntries)
                         .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<RecurringSheetEntry>()
-                        .HasOne(x => x.Category)
-                        .WithMany(x => x.RecurringSheetEntries)
-                        .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<SheetEntry>()
+            //            .HasOne(x => x.Template)
+            //            .WithMany()
+            //            .OnDelete(DeleteBehavior.SetNull);
+
+            //modelBuilder.Entity<RecurringSheetEntry>()
+            //            .HasOne(x => x.Category)
+            //            .WithMany(x => x.RecurringSheetEntries)
+            //            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

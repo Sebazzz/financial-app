@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
-using Microsoft.Data.Entity.Metadata;
 
 namespace App.Migrations
 {
-    public partial class RecurringSheetEntries : Migration
+    public partial class _1_0_0_rc1_final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,38 +18,6 @@ namespace App.Migrations
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserLogin<int>_AppUser_UserId", table: "AspNetUserLogins");
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<int>_AppRole_RoleId", table: "AspNetUserRoles");
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<int>_AppUser_UserId", table: "AspNetUserRoles");
-            migrationBuilder.CreateTable(
-                name: "RecurringSheetEntry",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Account = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false),
-                    CreateTimestamp = table.Column<DateTime>(nullable: false),
-                    Delta = table.Column<decimal>(nullable: false),
-                    OwnerId = table.Column<int>(nullable: false),
-                    Remark = table.Column<string>(nullable: true),
-                    SortOrder = table.Column<int>(nullable: false),
-                    Source = table.Column<string>(nullable: true),
-                    UpdateTimestamp = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RecurringSheetEntry", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RecurringSheetEntry_Category_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RecurringSheetEntry_AppOwner_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "AppOwner",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
             migrationBuilder.AddForeignKey(
                 name: "FK_CalculationOptions_Sheet_SheetId",
                 table: "CalculationOptions",
@@ -135,7 +102,6 @@ namespace App.Migrations
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserLogin<int>_AppUser_UserId", table: "AspNetUserLogins");
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<int>_AppRole_RoleId", table: "AspNetUserRoles");
             migrationBuilder.DropForeignKey(name: "FK_IdentityUserRole<int>_AppUser_UserId", table: "AspNetUserRoles");
-            migrationBuilder.DropTable("RecurringSheetEntry");
             migrationBuilder.AddForeignKey(
                 name: "FK_CalculationOptions_Sheet_SheetId",
                 table: "CalculationOptions",
