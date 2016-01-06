@@ -37,14 +37,14 @@
             set { this._entries = value; }
         }
 
-        ///// <summary>
-        ///// Gets the entries which are applicable as templates for this month
-        ///// </summary>
-        //public virtual ICollection<SheetRecurringSheetEntry> ApplicableTemplates
-        //{
-        //    get { return this._applicableEntries ?? (this._applicableEntries = new Collection<SheetRecurringSheetEntry>()); }
-        //    set { this._applicableEntries = value; }
-        //}
+        /// <summary>
+        /// Gets the entries which are applicable as templates for this month
+        /// </summary>
+        public virtual ICollection<SheetRecurringSheetEntry> ApplicableTemplates
+        {
+            get { return this._applicableEntries ?? (this._applicableEntries = new Collection<SheetRecurringSheetEntry>()); }
+            set { this._applicableEntries = value; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
