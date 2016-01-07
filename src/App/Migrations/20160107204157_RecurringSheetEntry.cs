@@ -119,7 +119,7 @@ namespace App.Migrations
                 column: "TemplateId",
                 principalTable: "RecurringSheetEntry",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.SetNull);
+                onDelete: ReferentialAction.Restrict);
             migrationBuilder.AddForeignKey(
                 name: "FK_IdentityRoleClaim<int>_AppRole_RoleId",
                 table: "AspNetRoleClaims",

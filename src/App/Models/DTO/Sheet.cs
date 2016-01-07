@@ -24,6 +24,9 @@
         public SheetEntry[] Entries { get; set; }
 
         [DataMember]
+        public RecurringSheetEntry[] ApplicableTemplates { get; set; }
+
+        [DataMember]
         public CalculationOptions Offset { get; set; }
     }
 

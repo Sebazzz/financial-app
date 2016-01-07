@@ -1,0 +1,22 @@
+﻿namespace App.Models.DTO {
+    using System.Runtime.Serialization;
+    using Domain.Services;
+
+    [DataContract]
+    public class RecurringSheetEntryListing {
+        [DataMember]
+        public int Id { get; set; }
+
+        [DataMember]
+        public int CategoryId { get; set; }
+
+        [DataMember]
+        public string CategoryName { get; set; }
+
+        [DataMember]
+        public string Source { get; set; }
+
+        [DataMember]
+        public AccountType Account { get; set; }
+    }
+}

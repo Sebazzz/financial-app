@@ -28,5 +28,12 @@
                                   .Where(x => x.Sheet.Id == sheet.Id)
                                   .Include(x => x.Category);
         }
+
+        public IEnumerable<SheetRecurringSheetEntry> GetTemplatesOfSheet(Sheet sheet) {
+            return this._dbContext.Set<SheetRecurringSheetEntry>()
+                                  .Where(x => x.Sheet.Id == sheet.Id)
+                                  .Include(x => x.Template)
+                                  .Include(x => x.Template.Category);
+        }
     }
 }

@@ -15,14 +15,16 @@
         private readonly SheetRepository _sheetRepository;
         private readonly AppOwnerRepository _appOwnerRepository;
         private readonly IMappingEngine _mappingEngine;
+        private readonly RecurringSheetEntryRepository _recurringSheetEntryRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
-        public SheetRetrievalService(SheetRepository sheetRepository, AppOwnerRepository appOwnerRepository, IMappingEngine mappingEngine) {
+        public SheetRetrievalService(SheetRepository sheetRepository, AppOwnerRepository appOwnerRepository, IMappingEngine mappingEngine, RecurringSheetEntryRepository recurringSheetEntryRepository) {
             this._sheetRepository = sheetRepository;
             this._appOwnerRepository = appOwnerRepository;
             this._mappingEngine = mappingEngine;
+            this._recurringSheetEntryRepository = recurringSheetEntryRepository;
         }
 
         [NotNull]
@@ -67,6 +69,7 @@
             }
             else {
                 theSheet.Entries = new List<Domain.SheetEntry>(this._sheetRepository.GetOfSheet(theSheet));
+                theSheet.ApplicableTemplates = new List<Domain.SheetRecurringSheetEntry>(this._sheetRepository.GetTemplatesOfSheet(theSheet));
             }
 
             return theSheet;
@@ -81,6 +84,8 @@
 
             sheet.Subject = new DateTime(year, month, 1);
             sheet.Owner = this._appOwnerRepository.FindById(ownerId).EnsureNotNull(HttpStatusCode.BadRequest);
+            sheet.ApplicableTemplates = new List<SheetRecurringSheetEntry>(
+                this._recurringSheetEntryRepository.GetByOwner(ownerId).Select(x => SheetRecurringSheetEntry.Create(sheet, x)));
 
             return sheet;
         }

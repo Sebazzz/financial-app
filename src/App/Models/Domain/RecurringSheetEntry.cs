@@ -9,7 +9,7 @@
     /// a recurring sheet entry is a template.
     /// </summary>
     [GenerateRepository]
-    public class RecurringSheetEntry : IHasId {
+    public class RecurringSheetEntry : IHasId, IAppOwnerEntity {
         public int Id { get; set; }
 
         [Required]

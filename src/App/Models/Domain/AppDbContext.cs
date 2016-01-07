@@ -59,7 +59,7 @@
             modelBuilder.Entity<SheetEntry>()
                         .HasOne(x => x.Template)
                         .WithMany()
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<RecurringSheetEntry>()
                         .HasOne(x => x.Category)

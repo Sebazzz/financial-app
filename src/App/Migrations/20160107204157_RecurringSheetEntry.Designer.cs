@@ -8,7 +8,7 @@ using App.Models.Domain;
 namespace App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20160106195939_RecurringSheetEntry")]
+    [Migration("20160107204157_RecurringSheetEntry")]
     partial class RecurringSheetEntry
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

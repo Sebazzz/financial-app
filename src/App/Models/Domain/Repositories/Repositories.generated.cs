@@ -8,6 +8,7 @@
 
 
 namespace App.Models.Domain.Repositories {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.Data.Entity;
@@ -114,6 +115,10 @@ namespace App.Models.Domain.Repositories {
 
         public Task SaveChangesAsync() {
             return this._dbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<RecurringSheetEntry> GetByOwner(int ownerId) {
+            return this._entitySet.Where(x => x.Owner.Id == ownerId);
         }
     }
 
@@ -305,6 +310,7 @@ namespace App.Models.Domain.Repositories {
 							c.AddTransient<CategoryRepository>();
 							c.AddTransient<SheetRepository>();
 							c.AddTransient<AppOwnerRepository>();
+							c.AddTransient<RecurringSheetEntryRepository>();
 					}
 	}
 }

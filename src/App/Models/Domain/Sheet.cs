@@ -67,5 +67,12 @@
         [Required]
         public virtual RecurringSheetEntry Template { get; set; }
         public virtual int Id { get; set; }
+
+        public static SheetRecurringSheetEntry Create(Sheet owner, RecurringSheetEntry template) {
+            return new SheetRecurringSheetEntry {
+                Sheet = owner,
+                Template = template
+            };
+        }
     }
 }
