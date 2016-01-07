@@ -126,6 +126,16 @@
     }
 
     private static string ParseType(string typeName, bool returnInterface) {
+        // remove nullable
+        Match regex = Regex.Match(typeName, @"System.Nullable\<(?<type>[A-z0-9.]+)\>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
+        if (regex.Success) {
+            typeName = regex.Groups["type"].Value;
+        }
+
+        if (typeName.EndsWith("?")) {
+            typeName = typeName.Substring(0, typeName.Length - 1);
+        }
+
         // remove any system prefix
         typeName = typeName.StartsWith("System.", StringComparison.OrdinalIgnoreCase)
                         ? typeName.Substring("System.".Length) : typeName;

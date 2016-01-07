@@ -295,7 +295,8 @@ module FinancialApp {
                 editMode: true,
                 updateTimestamp: moment(),
                 isBusy: false,
-                sortOrder: Enumerable.from(this.$scope.sheet.entries).defaultIfEmpty(<any>{sortOrder: 0}).max(x => x.sortOrder) + 1
+                sortOrder: Enumerable.from(this.$scope.sheet.entries).defaultIfEmpty(<any>{ sortOrder: 0 }).max(x => x.sortOrder) + 1,
+                templateId: null
             };
 
             this.$scope.sheet.entries.push(newEntry);

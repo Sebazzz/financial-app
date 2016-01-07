@@ -25,6 +25,60 @@ declare module FinancialApp.DTO {
     
 
     /** 
+* App.Support.Hub.RealtimeSheetEntry
+*/
+
+    export interface IRealtimeSheetEntry extends ISheetEntry {
+                    /** 
+* App.Support.Hub.RealtimeSheetEntry.RealtimeId
+*/
+
+            realtimeId : number;
+
+                    /** 
+* App.Support.Hub.RealtimeSheetEntry.ConnectionId
+*/
+
+            connectionId : string;
+
+                    /** 
+* App.Support.Hub.RealtimeSheetEntry.UserName
+*/
+
+            userName : string;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
+* App.Support.Hub.FinalizeSheetEntry
+*/
+
+    export interface IFinalizeSheetEntry extends ISheetEntry {
+                    /** 
+* App.Support.Hub.FinalizeSheetEntry.RealtimeId
+*/
+
+            realtimeId : number;
+
+                    /** 
+* App.Support.Hub.FinalizeSheetEntry.Committed
+*/
+
+            committed : boolean;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
 * App.Models.Domain.Services.SheetGlobalStatistics
 */
 
@@ -99,13 +153,13 @@ declare module FinancialApp.DTO {
 * App.Models.Domain.CalculationOptions.SavingsAccountOffset
 */
 
-            savingsAccountOffset : any;
+            savingsAccountOffset : number;
 
                     /** 
 * App.Models.Domain.CalculationOptions.BankAccountOffset
 */
 
-            bankAccountOffset : any;
+            bankAccountOffset : number;
 
             }
     
@@ -240,13 +294,13 @@ Custom name, if set
 * App.Models.DTO.SheetTotals.SavingsAccount
 */
 
-            savingsAccount : any;
+            savingsAccount : number;
 
                     /** 
 * App.Models.DTO.SheetTotals.BankAccount
 */
 
-            bankAccount : any;
+            bankAccount : number;
 
             }
     
@@ -319,6 +373,12 @@ Custom name, if set
 */
 
             categoryId : number;
+
+                    /** 
+* App.Models.DTO.SheetEntry.TemplateId
+*/
+
+            templateId : number;
 
                     /** 
 * App.Models.DTO.SheetEntry.Delta
@@ -495,10 +555,106 @@ Custom name, if set
             entries : ISheetEntry[] /* App.Models.DTO.SheetEntry*/ ;
 
                     /** 
+* App.Models.DTO.Sheet.ApplicableTemplates
+*/
+
+            applicableTemplates : IRecurringSheetEntry[] /* App.Models.DTO.RecurringSheetEntry*/ ;
+
+                    /** 
 * App.Models.DTO.Sheet.Offset
 */
 
             offset : ICalculationOptions /* App.Models.Domain.CalculationOptions*/ ;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
+* App.Models.DTO.RecurringSheetEntry
+*/
+
+    export interface IRecurringSheetEntry extends IObject {
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Id
+*/
+
+            id : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.CategoryId
+*/
+
+            categoryId : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Delta
+*/
+
+            delta : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Source
+*/
+
+            source : string;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Remark
+*/
+
+            remark : string;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Account
+*/
+
+            account : AccountType;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
+* App.Models.DTO.RecurringSheetEntryListing
+*/
+
+    export interface IRecurringSheetEntryListing extends IObject {
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.Id
+*/
+
+            id : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.CategoryId
+*/
+
+            categoryId : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.CategoryName
+*/
+
+            categoryName : string;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.Source
+*/
+
+            source : string;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.Account
+*/
+
+            account : AccountType;
 
             }
     
