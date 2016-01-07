@@ -23,6 +23,9 @@ module FinancialApp {
                     $app.controller('ImpersonateController', ImpersonateController);
                     $app.controller('MasterController', MasterController);
                     $app.controller('MenuController', MenuController);
+                    $app.controller('RecurringSheetEntryCreateController', RecurringSheetEntryCreateController);
+                    $app.controller('RecurringSheetEntryEditController', RecurringSheetEntryEditController);
+                    $app.controller('RecurringSheetEntryListController', RecurringSheetEntryListController);
                     $app.controller('ReportController', ReportController);
                     $app.controller('SheetController', SheetController);
                     $app.controller('SheetEntryCreateController', SheetEntryCreateController);
@@ -73,6 +76,21 @@ module FinancialApp {
                 {
                     controller: 'ImpersonateController',
                     templateUrl: '/Angular/Impersonate.html'
+                });
+                $routeProvider.when('/manage/entry-template/add', 
+                {
+                    controller: 'RecurringSheetEntryCreateController',
+                    templateUrl: '/Angular/RecurringSheetEntryEdit.html'
+                });
+                $routeProvider.when('/manage/entry-template/edit/:id', 
+                {
+                    controller: 'RecurringSheetEntryEditController',
+                    templateUrl: '/Angular/RecurringSheetEntryEdit.html'
+                });
+                $routeProvider.when('/manage/entry-template', 
+                {
+                    controller: 'RecurringSheetEntryListController',
+                    templateUrl: '/Angular/RecurringSheetEntryList.html'
                 });
                 $routeProvider.when('/report', 
                 {

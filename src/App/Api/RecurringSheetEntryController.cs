@@ -13,7 +13,7 @@
 
     [Authorize]
     [Route("api/sheetentry-recurring")]
-    public class RecurringSheetEntryController : BaseEntityController {
+    public sealed class RecurringSheetEntryController : BaseEntityController {
         private readonly IMappingEngine _mappingEngine;
         private readonly RecurringSheetEntryRepository _recurringSheetEntryRepository;
 

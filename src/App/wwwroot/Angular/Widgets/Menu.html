@@ -36,6 +36,7 @@
                        class="dropdown-toggle"
                        data-toggle="dropdown">Beheer<b class="caret"></b></a>
                     <ul class="dropdown-menu">
+                        <li ng-class="{ 'active': hasPath('/manage/entry-template') }"><a href="/manage/entry-template">Regeltemplates</a></li>
                         <li ng-class="{ 'active': hasPath('/manage/category') }"><a href="/manage/category">Categorieëen</a></li>
                         <li ng-class="{ 'active': hasPath('/manage/user') }"><a href="/manage/user">Gebruikers</a></li>
                         <li ng-class="{ 'active': hasPath('/manage/impersonate') }"><a href="/manage/impersonate">Account wisselen</a></li>

@@ -72,7 +72,8 @@ module FinancialApp {
             app.constant('appVersion', Program.getAppVersion());
 
             // factories
-            app.factory('categoryResource', Factories.ResourceFactory<DTO.ICategory>('/api/category/:id'));
+            app.factory('categoryResource', Factories.ResourceFactory<DTO.ICategory>('/api/category/:id')); 
+            app.factory('recurringSheetEntryResource', Factories.ResourceFactory<DTO.ICategory>('/api/sheetentry-recurring/:id')); 
             app.factory('userResource', Factories.ResourceFactory<DTO.IAppUserListing>('/api/user/:id'));
             app.factory('impersonateResource', Factories.ResourceFactory<DTO.IAppUserListing>('/api/user/impersonate/:id', {
                 'impersonate': {

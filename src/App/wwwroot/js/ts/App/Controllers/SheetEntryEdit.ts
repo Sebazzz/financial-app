@@ -39,9 +39,9 @@ module FinancialApp {
                     private $location: ng.ILocationService,
                     private $routeParams: ISheetEntryEditRouteParams,
                     private $modal: ng.ui.bootstrap.IModalService,
-                    private sheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
+                    private recurringSheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>) {
-            $scope.cancel = () => this.redirectToSheet();
+            $scope.cancel = () => this.redirectToOverview();
             $scope.isLoaded = false;
             $scope.AccountType = DTO.AccountType;
 
@@ -49,7 +49,7 @@ module FinancialApp {
                 this.signalCategoriesLoaded();
             });
 
-            $scope.entry = sheetEntryResource.get({
+            $scope.entry = recurringSheetEntryResource.get({
                 sheetYear: $routeParams.year,
                 sheetMonth: $routeParams.month,
                 id: $routeParams.id
@@ -104,7 +104,7 @@ module FinancialApp {
             this.hubConnection.stop();
         }
 
-        private redirectToSheet() {
+        private redirectToOverview() {
             this.$location.path('/sheet/' + this.$routeParams.year + '/' + this.$routeParams.month);
         }
 
@@ -128,14 +128,14 @@ module FinancialApp {
 
             if (this.entryWatcherDispose) this.entryWatcherDispose();
 
-            this.sheetEntryResource['delete'](params, () => {
+            this.recurringSheetEntryResource['delete'](params, () => {
                 var copy = <IFinalizeRealtimeSheetEntry>$.extend({
                     committed: false,
                     categoryId : 0
                 }, this.$scope.entry);
                 copy.id = this.$scope.entry.id;
 
-                this.hub.invoke('finalizeSheetEntry', copy).always(() => this.redirectToSheet());
+                this.hub.invoke('finalizeSheetEntry', copy).always(() => this.redirectToOverview());
             });
         }
 
@@ -150,14 +150,14 @@ module FinancialApp {
 
             this.$scope.entry.categoryId = this.$scope.entry.category.id;
             this.$scope.isLoaded = false;
-            var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.update(params, this.$scope.entry);
+            var res = <ng.resource.IResource<any>> <any> this.recurringSheetEntryResource.update(params, this.$scope.entry);
             res.$promise.then((ret: DTO.IInsertId) => {
                 var copy = <IFinalizeRealtimeSheetEntry>$.extend({
                     committed: true
                 }, this.$scope.entry);
                 copy.id = ret.id;
 
-                this.hub.invoke('finalizeSheetEntry', copy).always(() => this.redirectToSheet());
+                this.hub.invoke('finalizeSheetEntry', copy).always(() => this.redirectToOverview());
             });
             res.$promise['catch'](() => {
                 this.$scope.isLoaded = true;

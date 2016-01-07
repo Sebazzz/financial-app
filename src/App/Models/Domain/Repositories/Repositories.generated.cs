@@ -9,6 +9,7 @@
 
 namespace App.Models.Domain.Repositories {
     using System.Collections.Generic;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.Data.Entity;
@@ -77,12 +78,12 @@ namespace App.Models.Domain.Repositories {
 
         [CanBeNull]
         public App.Models.Domain.RecurringSheetEntry FindById(int id) {
-            return this._entitySet.Where(x => x.Id == id).Include(x => x.Category).FirstOrDefault();
+            return this._entitySet.Where(x => x.Id == id).Include(x => x.Category).Include(x => x.Owner).FirstOrDefault();
         }
 
         [CanBeNull]
         public Task<App.Models.Domain.RecurringSheetEntry> FindByIdAsync(int id) {
-            return this._entitySet.FirstOrDefaultAsync(x => x.Id == id);
+            return this._entitySet.Where(x => x.Id == id).Include(x => x.Category).Include(x => x.Owner).FirstOrDefaultAsync();
         }
 
         [NotNull]
@@ -98,6 +99,7 @@ namespace App.Models.Domain.Repositories {
 
 		public void Delete(App.Models.Domain.RecurringSheetEntry item) {
 			if (item != null) {
+                this._dbContext.Database.ExecuteSqlCommand("UPDATE dbo.SheetEntry SET TemplateId = NULL WHERE TemplateId = @p0", item.Id);
 				this._entitySet.Remove(item);
 			}
 		}
