@@ -3,7 +3,8 @@
 <div ng-show="isLoaded">
     <p>
         Om maandelijks terugkerende uitgaven zoals vaste lasten bij te houden elke maand kan je regeltemplates aanmaken.
-        Deze laten in elke maandelijke sheet zien welke verwachte uitgaven er nog op stapel staan.
+        Deze laten in elke maandelijke sheet zien welke verwachte uitgaven er nog op stapel staan. Uitgaven worden meegeteld
+        tot de eerste inkomsten die gemaakt zijn om een betrouwbare indicatie te geven.
     </p>
 
     <ul class="list-unstyled actionable-list">
@@ -13,12 +14,17 @@
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
 
-                <span class="inline-block" tooltip="Regeltemplate verwijderen">
-                    <a class="btn btn-danger btn-sm"
-                       ng-click="deleteEntry(entry)">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </a>
-                </span>
+                <button type="button" class="btn btn-default" ng-click="mutateSortOrder(entry, SortOrderMutation.Decrease)">
+                    <span class="glyphicon glyphicon-arrow-up"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="mutateSortOrder(entry, SortOrderMutation.Increase)">
+                    <span class="glyphicon glyphicon-arrow-down"></span>
+                </button>
+                <a class="btn btn-danger btn-sm" 
+                    tooltip="Regeltemplate verwijderen"
+                    ng-click="deleteEntry(entry)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
             </div>
 
             <strong>

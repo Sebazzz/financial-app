@@ -310,6 +310,60 @@ Custom name, if set
     
 
     /** 
+* App.Models.DTO.RecurringSheetEntry
+*/
+
+    export interface IRecurringSheetEntry extends IObject {
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Id
+*/
+
+            id : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.CategoryId
+*/
+
+            categoryId : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Delta
+*/
+
+            delta : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.SortOrder
+*/
+
+            sortOrder : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Source
+*/
+
+            source : string;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Remark
+*/
+
+            remark : string;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntry.Account
+*/
+
+            account : AccountType;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
 * App.Models.DTO.InsertId
 */
 
@@ -418,6 +472,54 @@ Custom name, if set
 
                     /** 
 * App.Models.DTO.SheetEntry.Account
+*/
+
+            account : AccountType;
+
+            }
+    
+    
+
+    
+    
+
+    /** 
+* App.Models.DTO.RecurringSheetEntryListing
+*/
+
+    export interface IRecurringSheetEntryListing extends IObject {
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.Id
+*/
+
+            id : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.CategoryId
+*/
+
+            categoryId : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.CategoryName
+*/
+
+            categoryName : string;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.SortOrder
+*/
+
+            sortOrder : number;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.Source
+*/
+
+            source : string;
+
+                    /** 
+* App.Models.DTO.RecurringSheetEntryListing.Account
 */
 
             account : AccountType;
@@ -565,96 +667,6 @@ Custom name, if set
 */
 
             offset : ICalculationOptions /* App.Models.Domain.CalculationOptions*/ ;
-
-            }
-    
-    
-
-    
-    
-
-    /** 
-* App.Models.DTO.RecurringSheetEntry
-*/
-
-    export interface IRecurringSheetEntry extends IObject {
-                    /** 
-* App.Models.DTO.RecurringSheetEntry.Id
-*/
-
-            id : number;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntry.CategoryId
-*/
-
-            categoryId : number;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntry.Delta
-*/
-
-            delta : number;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntry.Source
-*/
-
-            source : string;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntry.Remark
-*/
-
-            remark : string;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntry.Account
-*/
-
-            account : AccountType;
-
-            }
-    
-    
-
-    
-    
-
-    /** 
-* App.Models.DTO.RecurringSheetEntryListing
-*/
-
-    export interface IRecurringSheetEntryListing extends IObject {
-                    /** 
-* App.Models.DTO.RecurringSheetEntryListing.Id
-*/
-
-            id : number;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntryListing.CategoryId
-*/
-
-            categoryId : number;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntryListing.CategoryName
-*/
-
-            categoryName : string;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntryListing.Source
-*/
-
-            source : string;
-
-                    /** 
-* App.Models.DTO.RecurringSheetEntryListing.Account
-*/
-
-            account : AccountType;
 
             }
     

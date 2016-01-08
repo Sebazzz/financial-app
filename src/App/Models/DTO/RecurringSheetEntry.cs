@@ -14,6 +14,9 @@
         public decimal Delta { get; set; }
 
         [DataMember]
+        public int SortOrder { get; set; }
+
+        [DataMember]
         public string Source { get; set; }
 
         [DataMember]

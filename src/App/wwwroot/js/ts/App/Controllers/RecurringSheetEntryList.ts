@@ -10,16 +10,18 @@ module FinancialApp {
         entries: DTO.IRecurringSheetEntryListing[];
         isLoaded: boolean;
         deleteEntry: IAction1<DTO.IRecurringSheetEntryListing>;
+
+        mutateSortOrder: (entry: DTO.IRecurringSheetEntryListing, mutation: Factories.SortOrderMutation) => void;
     }
 
     export class RecurringSheetEntryListController {
         public static $inject = ['$scope', '$modal', 'recurringSheetEntryResource'];
 
-        private api: ng.resource.IResourceClass<DTO.IRecurringSheetEntryListing>;
+        private api: Factories.IRecurringSheetEntryWebResourceClass<DTO.IRecurringSheetEntryListing>;
 
         constructor(private $scope: IRecurringSheetEntryListControllerScope,
                     private $modal: ng.ui.bootstrap.IModalService,
-                    recurringSheetEntryResource: ng.resource.IResourceClass<DTO.IRecurringSheetEntryListing>) {
+                    recurringSheetEntryResource: Factories.IRecurringSheetEntryWebResourceClass<DTO.IRecurringSheetEntryListing>) {
             this.api = recurringSheetEntryResource;
 
             $scope.entries = this.api.query(() => {
@@ -29,6 +31,28 @@ module FinancialApp {
             $scope.deleteEntry = (cat: DTO.IRecurringSheetEntryListing) => {
                 this.deleteEntry(cat);
             };
+
+            $scope.mutateSortOrder = (entry, mutation) => this.mutateSortOrder(entry, mutation);
+        }
+
+        private mutateSortOrder(entry: DTO.IRecurringSheetEntryListing, mutation: Factories.SortOrderMutation) {
+            var entries = this.$scope.entries;
+            var index = entries.indexOf(entry);
+            var newIndex: number = index + mutation;
+            if (newIndex < 0 || newIndex >= entries.length) {
+                return;
+            }
+
+            this.$scope.isLoaded = false;
+            this.api.mutateOrder({
+                id: entry.id,
+                mutation: Factories.SortOrderMutation[mutation]
+            }, {}, () => {
+                entries[index] = entries[newIndex];
+                entries[newIndex] = entry;
+                entry.sortOrder += mutation;
+                this.$scope.isLoaded = true;
+            }, () => this.$scope.isLoaded = true);
         }
 
         private deleteEntry(entry: DTO.IRecurringSheetEntryListing) {

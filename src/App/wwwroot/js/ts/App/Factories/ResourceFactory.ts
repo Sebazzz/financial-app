@@ -37,9 +37,19 @@ module FinancialApp.Factories {
         sheetMonth:number;
     }
 
+    export interface IRecurringSheetSortOrderMutation {
+        mutation: string;
+        id: number;
+    }
+
     export interface ISheetEntryWebResourceClass extends IWebResourceClass<DTO.ISheetEntry> {
         mutateOrder(params: ISheetSortOrderMutation, data: Object);
         mutateOrder(params: ISheetSortOrderMutation, data: Object, success: Function, error?: Function);
+    }
+
+    export interface IRecurringSheetEntryWebResourceClass<T> extends IWebResourceClass<T> {
+        mutateOrder(params: IRecurringSheetSortOrderMutation, data: Object);
+        mutateOrder(params: IRecurringSheetSortOrderMutation, data: Object, success: Function, error?: Function);
     }
 
 

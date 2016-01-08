@@ -1,5 +1,4 @@
 ﻿namespace App.Models.Domain {
-    using System;
     using System.ComponentModel.DataAnnotations;
     using Repositories;
     using Services;
@@ -19,8 +18,12 @@
 
         [StringLength(250)]
         public string Source { get; set; }
+
         public string Remark { get; set; }
 
+        /// <summary>
+        /// Gets or sets the relative order of this expense. This is used so the algorithm can predict the expenses.
+        /// </summary>
         public int SortOrder { get; set; }
 
         public AccountType Account { get; set; }

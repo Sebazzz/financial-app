@@ -1,5 +1,7 @@
 ﻿namespace App.Api {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using AutoMapper;
     using Extensions;
@@ -26,8 +28,28 @@
         [HttpGet]
         [Route("")]
         public IEnumerable<RecurringSheetEntryListing> GetAll() {
-            IQueryable<RecurringSheetEntry> all = this._recurringSheetEntryRepository.GetAll().Where(x => x.Owner.Id == this.OwnerId);
+            IQueryable<RecurringSheetEntry> all = this._recurringSheetEntryRepository.GetAll().Where(x => x.Owner.Id == this.OwnerId).OrderBy(x => x.SortOrder);
             return this._mappingEngine.Map<IEnumerable<RecurringSheetEntryListing>>(all);
+        }
+
+        [Route("order/{mutation}/{id}")]
+        [HttpPut]
+        public void MutateOrder(int id, SortOrderMutationType mutation) {
+            int delta = (int) mutation;
+
+            RecurringSheetEntry entry = this._recurringSheetEntryRepository.FindById(id).EnsureNotNull();
+            this.EntityOwnerService.EnsureOwner(entry, this.OwnerId);
+            Trace.Assert(entry.Category != null);
+
+            entry.SortOrder += delta;
+
+            this._recurringSheetEntryRepository.ReplaceSortOrder(this.OwnerId, entry.SortOrder, entry.SortOrder - delta);
+            this._recurringSheetEntryRepository.SaveChanges();
+        }
+
+        public enum SortOrderMutationType {
+            Increase = 1,
+            Decrease = -1
         }
 
         // GET: api/sheetentry-recurring/1
