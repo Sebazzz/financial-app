@@ -121,6 +121,7 @@ module FinancialApp {
             // services
             app.service('authentication', Services.AuthenticationService);
             app.service('calculation', Services.CalculationService);
+            app.service('sheetEntryFactory', Services.SheetEntryFactory);
 
             // directives
             app.directive('faRequiredIf', Directives.RequiredIf.factory);

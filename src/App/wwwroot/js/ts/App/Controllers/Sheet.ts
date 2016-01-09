@@ -51,7 +51,7 @@ module FinancialApp {
     }
 
     export class SheetController {
-        public static $inject = ['$scope', '$routeParams', '$location', '$modal', 'sheetResource', 'sheetEntryResource', 'categoryResource', 'calculation'];
+        public static $inject = ['$scope', '$routeParams', '$location', '$modal', 'sheetResource', 'sheetEntryResource', 'categoryResource', 'calculation', 'sheetEntryFactory'];
 
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
@@ -71,7 +71,8 @@ module FinancialApp {
                     private sheetResource: Factories.ISheetWebResourceClass,
                     private sheetEntryResource: Factories.ISheetEntryWebResourceClass,
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
-                    private calculation : Services.CalculationService) {
+                    private calculation: Services.CalculationService,
+                    private sheetEntryFactory : Services.SheetEntryFactory) {
 
             this.year = parseInt($routeParams.year, 10);
             this.month = parseInt($routeParams.month, 10);
@@ -295,47 +296,11 @@ module FinancialApp {
         }
 
         private addEntry(template ?: DTO.IRecurringSheetEntry): void {
-            var newEntry = template ? this.createEmptySheetEntryBasedOnTemplate(template) : this.createEmptySheetEntry();
+            var newEntry = this.sheetEntryFactory.createEmpty(this.$scope.sheet, template);
 
             this.$scope.sheet.entries.push(newEntry);
 
             this.watchEntry(newEntry);
-        }
-
-        private createEmptySheetEntry(): DTO.ISheetEntry {
-            return {
-                id: 0,
-                account: DTO.AccountType.BankAccount,
-                categoryId: null,
-                createTimestamp: moment(),
-                delta: 0,
-                remark: null,
-                source: null,
-                editMode: true,
-                updateTimestamp: moment(),
-                isBusy: false,
-                sortOrder: Enumerable.from(this.$scope.sheet.entries).defaultIfEmpty(<any>{ sortOrder: 0 }).max(x => x.sortOrder) + 1,
-                templateId: null
-            };
-        }
-
-        private createEmptySheetEntryBasedOnTemplate(template: DTO.IRecurringSheetEntry): DTO.ISheetEntry {
-            this.$scope.unusedTemplates.splice(this.$scope.unusedTemplates.indexOf(template), 1);
-
-            return {
-                id: 0,
-                account: template.account,
-                categoryId: template.categoryId,
-                createTimestamp: moment(),
-                delta: template.delta,
-                remark: template.remark,
-                source: template.source,
-                editMode: true,
-                updateTimestamp: moment(),
-                isBusy: false,
-                sortOrder: Enumerable.from(this.$scope.sheet.entries).defaultIfEmpty(<any>{ sortOrder: 0 }).max(x => x.sortOrder) + 1,
-                templateId: template.id
-            };
         }
 
         private editEntry(newEntry: DTO.ISheetEntry): void {
