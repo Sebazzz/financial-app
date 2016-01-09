@@ -9,9 +9,22 @@ module FinancialApp {
     export interface IRecurringSheetEntryListControllerScope extends ng.IScope {
         entries: DTO.IRecurringSheetEntryListing[];
         isLoaded: boolean;
+
+        busyStatus: IBusyStatus;
         deleteEntry: IAction1<DTO.IRecurringSheetEntryListing>;
 
         mutateSortOrder: (entry: DTO.IRecurringSheetEntryListing, mutation: Factories.SortOrderMutation) => void;
+
+        // copy enum
+        // ReSharper disable once InconsistentNaming
+        AccountType: typeof DTO.AccountType;
+        // ReSharper disable once InconsistentNaming
+        SortOrderMutation: typeof Factories.SortOrderMutation;
+    }
+
+    // seperate object to make available in child scope
+    export interface IBusyStatus {
+        isBusy : boolean;
     }
 
     export class RecurringSheetEntryListController {
@@ -23,6 +36,13 @@ module FinancialApp {
                     private $modal: ng.ui.bootstrap.IModalService,
                     recurringSheetEntryResource: Factories.IRecurringSheetEntryWebResourceClass<DTO.IRecurringSheetEntryListing>) {
             this.api = recurringSheetEntryResource;
+
+            $scope.AccountType = DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
+            $scope.SortOrderMutation = Factories.SortOrderMutation; // we need to copy the enum itself, or we won't be able to refer to it in the view
+
+            $scope.busyStatus = {
+                isBusy: false
+            };
 
             $scope.entries = this.api.query(() => {
                 $scope.isLoaded = true;
@@ -43,7 +63,7 @@ module FinancialApp {
                 return;
             }
 
-            this.$scope.isLoaded = false;
+            this.$scope.busyStatus.isBusy = true;
             this.api.mutateOrder({
                 id: entry.id,
                 mutation: Factories.SortOrderMutation[mutation]
@@ -51,8 +71,8 @@ module FinancialApp {
                 entries[index] = entries[newIndex];
                 entries[newIndex] = entry;
                 entry.sortOrder += mutation;
-                this.$scope.isLoaded = true;
-            }, () => this.$scope.isLoaded = true);
+                this.$scope.busyStatus.isBusy = false;
+            }, () => this.$scope.busyStatus.isBusy = false);
         }
 
         private deleteEntry(entry: DTO.IRecurringSheetEntryListing) {
@@ -66,9 +86,9 @@ module FinancialApp {
         }
 
         private deleteEntryCore(entry: DTO.IRecurringSheetEntryListing) {
-            this.$scope.isLoaded = false;
+            this.$scope.busyStatus.isBusy = true;
             this.api['delete']({ id: entry.id }, () => {
-                this.$scope.isLoaded = true;
+                this.$scope.busyStatus.isBusy = false;
                 this.$scope.entries.remove(entry);
             });
         }

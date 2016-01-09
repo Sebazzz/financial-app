@@ -10,18 +10,19 @@
     <ul class="list-unstyled actionable-list">
         <li ng-repeat="entry in entries">
             <div class="pull-right">
-                <a class="btn btn-default btn-sm" ng-href="/manage/entry-template/edit/{{entry.id}}" tooltip="Bewerken">
+                <a class="btn btn-default btn-sm" ng-disabled="busyStatus.isBusy" ng-href="/manage/entry-template/edit/{{entry.id}}" tooltip="Bewerken">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
 
-                <button type="button" class="btn btn-default" ng-click="mutateSortOrder(entry, SortOrderMutation.Decrease)">
+                <button type="button" class="btn btn-default" ng-disabled="busyStatus.isBusy || $index === 0" ng-click="mutateSortOrder(entry, SortOrderMutation.Decrease)">
                     <span class="glyphicon glyphicon-arrow-up"></span>
                 </button>
-                <button type="button" class="btn btn-default" ng-click="mutateSortOrder(entry, SortOrderMutation.Increase)">
+                <button type="button" class="btn btn-default" ng-disabled="busyStatus.isBusy || $index === (entries.length - 1)" ng-click="mutateSortOrder(entry, SortOrderMutation.Increase)">
                     <span class="glyphicon glyphicon-arrow-down"></span>
                 </button>
-                <a class="btn btn-danger btn-sm" 
-                    tooltip="Regeltemplate verwijderen"
+                <a class="btn btn-danger btn-sm"
+                   tooltip="Regeltemplate verwijderen"
+                   ng-disabled="busyStatus.isBusy"
                     ng-click="deleteEntry(entry)">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
