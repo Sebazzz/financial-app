@@ -11,7 +11,6 @@ module FinancialApp {
 
     export module DTO {
         export interface ISheetEntry {
-            category?: ICategory;   
             editMode?: boolean;
             isBusy?: boolean;
             isTransient?: boolean;
@@ -106,14 +105,14 @@ module FinancialApp {
                     allTemplates = this.$scope.sheet.applicableTemplates,
                     i: number, arr: DTO.ISheetEntry[], len: number, idx: number;
                 
-                for (i = 0, arr = newItems, len = arr.length; i < len; i++) {
+                for (i = 0, arr = newItems || [], len = arr.length; i < len; i++) {
                     idx = Enumerable.from(templates).indexOf(x => x.id === arr[i].templateId);
                     if (idx !== -1) {
                         templates.splice(idx, 1);
                     }
                 }
 
-                for (i = 0, arr = removedItems, len = arr.length; i < len; i++) {
+                for (i = 0, arr = removedItems || [], len = arr.length; i < len; i++) {
                     idx = Enumerable.from(allTemplates).indexOf(x => x.id === arr[i].templateId);
                     if (idx !== -1) {
                         templates.push(allTemplates[idx]);
@@ -175,15 +174,6 @@ module FinancialApp {
 
         private setLoadedBit(sheetData: DTO.ISheet) {
             this.$scope.isLoaded = this.isCategoriesLoaded && this.isSheetLoaded;
-
-            if (!sheetData || !sheetData.entries || !this.$scope.isLoaded) {
-                return;
-            }
-
-            for (var i = 0; i < sheetData.entries.length; i++) {
-                var entry = sheetData.entries[i];
-                entry.category = Enumerable.from(this.$scope.categories).first(c => entry.categoryId === c.id);
-            }
         }
 
         private editRemarks(entry: DTO.ISheetEntry) {
@@ -199,9 +189,6 @@ module FinancialApp {
         private saveEntry(entry: DTO.ISheetEntry) {
             entry.editMode = false;
             entry.isBusy = true;
-
-            // santize
-            entry.categoryId = entry.category.id;
 
             if (!(entry.id > 0)) {
                 this.saveAsNewEntry(entry);
@@ -320,7 +307,6 @@ module FinancialApp {
                 id: 0,
                 account: DTO.AccountType.BankAccount,
                 categoryId: null,
-                category: null,
                 createTimestamp: moment(),
                 delta: 0,
                 remark: null,
@@ -340,7 +326,6 @@ module FinancialApp {
                 id: 0,
                 account: template.account,
                 categoryId: template.categoryId,
-                category: Enumerable.from(this.$scope.categories).first(c => template.categoryId === c.id),
                 createTimestamp: moment(),
                 delta: template.delta,
                 remark: template.remark,
@@ -377,7 +362,6 @@ module FinancialApp {
                 }
 
                 var copy = <IRealtimeSheetEntryInfo>$.extend({}, newEntry);
-                copy.categoryId = copy.category ? copy.category.id : 0;
 
                 if (!isPushing) {
                     isPushing = true;
@@ -415,10 +399,6 @@ module FinancialApp {
 
                 var exists = !!this.pushedEntries[arg.realtimeId];
                 this.pushedEntries[arg.realtimeId] = arg;
-
-                if (arg.categoryId > 0) {
-                    arg.category = Enumerable.from(this.$scope.categories).firstOrDefault(x => x.id === arg.categoryId);
-                }
 
                 var idx;
                 if (!exists) {

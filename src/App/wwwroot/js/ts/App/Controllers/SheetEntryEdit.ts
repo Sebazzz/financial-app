@@ -83,7 +83,6 @@ module FinancialApp {
 
                 var copy = <IRealtimeSheetEntryInfo>$.extend({}, val);
                 copy.sortOrder = 9999; // we don't know, take highest to push to others
-                copy.categoryId = copy.category ? copy.category.id : 0;
 
                 if (!isPushing) {
                     isPushing = true;
@@ -148,7 +147,6 @@ module FinancialApp {
 
             if (this.entryWatcherDispose) this.entryWatcherDispose();
 
-            this.$scope.entry.categoryId = this.$scope.entry.category.id;
             this.$scope.isLoaded = false;
             var res = <ng.resource.IResource<any>> <any> this.recurringSheetEntryResource.update(params, this.$scope.entry);
             res.$promise.then((ret: DTO.IInsertId) => {
@@ -167,14 +165,12 @@ module FinancialApp {
         private signalCategoriesLoaded() {
             if (this.$scope.entry.id) {
                 this.$scope.isLoaded = true;
-                this.$scope.entry.category = Enumerable.from(this.$scope.categories).first(x => x.id == this.$scope.entry.categoryId);
             }
         }
 
         private signalEntryLoaded() {
             if (this.$scope.categories.$resolved) {
                 this.$scope.isLoaded = true;
-                this.$scope.entry.category = Enumerable.from(this.$scope.categories).first(x => x.id == this.$scope.entry.categoryId);
             }
         }
     }

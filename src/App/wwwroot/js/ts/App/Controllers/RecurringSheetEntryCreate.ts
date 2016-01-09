@@ -48,7 +48,6 @@ module FinancialApp {
         }
 
         private saveEntry() {
-            this.$scope.entry.categoryId = this.$scope.entry.category.id;
             this.$scope.isLoaded = false;
             var res = <ng.resource.IResource<any>><any>this.recurringSheetEntryResource.save(this.$scope.entry);
             res.$promise.then((ret: DTO.IInsertId) => {
@@ -61,7 +60,6 @@ module FinancialApp {
 
         private signalCategoriesLoaded() {
             this.$scope.isLoaded = true;
-            this.$scope.entry.category = Enumerable.from(this.$scope.categories).firstOrDefault(x => x.id == this.$scope.entry.categoryId);
         }
     }
 } 

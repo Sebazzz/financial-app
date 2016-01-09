@@ -61,7 +61,6 @@ module FinancialApp {
                 sheetYear: this.$routeParams.year
             };
 
-            this.$scope.entry.categoryId = this.$scope.entry.category.id;
             this.$scope.isLoaded = false;
 
             var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.save(params, this.$scope.entry);

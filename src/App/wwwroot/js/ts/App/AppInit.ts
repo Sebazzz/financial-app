@@ -128,6 +128,9 @@ module FinancialApp {
             app.directive('faSmartFloat', Directives.SmartFloatDirective.factory);
             app.directive('faScrollNub', Directives.ScrollNub.factory.withInject('$window'));
 
+            // filters
+            app.filter('itemLookup', () => Directives.itemLookupFilter);
+
             // controllers
             ControllerInitializer.registerControllers(app);
 

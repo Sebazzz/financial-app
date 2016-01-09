@@ -52,7 +52,7 @@
                     Categorie
                 </td>
                 <td>
-                    {{ entry.category.name }}
+                    {{ entry.categoryId | itemLookup:categories }}
                 </td>
             </tr>
             <tr ng-show="entry.account === AccountType.BankAccount">

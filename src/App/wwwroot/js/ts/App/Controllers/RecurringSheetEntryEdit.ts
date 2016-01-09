@@ -11,7 +11,6 @@ module FinancialApp {
     }
 
     export interface IEditRecurringSheetEntry extends DTO.IRecurringSheetEntry {
-        category : DTO.ICategory;
     }
 
     export interface IRecurringSheetEntryEditScope extends ng.IScope {
@@ -85,7 +84,6 @@ module FinancialApp {
                 id: this.$routeParams.id
             };
 
-            this.$scope.entry.categoryId = this.$scope.entry.category.id;
             this.$scope.isLoaded = false;
             var res = <ng.resource.IResource<any>> <any> this.recurringSheetEntryResource.update(params, this.$scope.entry);
             res.$promise.then((ret: DTO.IInsertId) => {
@@ -99,14 +97,12 @@ module FinancialApp {
         private signalCategoriesLoaded() {
             if (this.$scope.entry.id) {
                 this.$scope.isLoaded = true;
-                this.$scope.entry.category = Enumerable.from(this.$scope.categories).firstOrDefault(x => x.id == this.$scope.entry.categoryId);
             }
         }
 
         private signalEntryLoaded() {
             if (this.$scope.categories.$resolved) {
                 this.$scope.isLoaded = true;
-                this.$scope.entry.category = Enumerable.from(this.$scope.categories).firstOrDefault(x => x.id == this.$scope.entry.categoryId);
             }
         }
     }

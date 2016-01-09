@@ -82,8 +82,8 @@
                     </td>
 
                     <td>
-                        <select ng-options="category.name for category in categories"
-                                ng-model="entry.category"
+                        <select ng-options="category.id as category.name for category in categories"
+                                ng-model="entry.categoryId"
                                 class="form-control input-sm"
                                 required>
                             <option value="">-- maak een keuze --</option>
@@ -158,7 +158,7 @@
                     </td>
 
                     <td>
-                        {{ entry.category.name }}
+                        {{ entry.categoryId | itemLookup:categories }}
                     </td>
 
                     <td>

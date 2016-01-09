@@ -33,8 +33,8 @@
         <div class="form-group">
             <label for="categoryId">Categorie</label>
             <select id="categoryId" name="categoryId"
-                    ng-options="category.name for category in categories"
-                    ng-model="entry.category"
+                    ng-options="category.id as category.name for category in categories"
+                    ng-model="entry.categoryId"
                     class="form-control input-sm"
                     required>
                 <option value="">-- maak een keuze --</option>
