@@ -1,4 +1,5 @@
 ﻿namespace App.Models.Domain.Repositories {
+    using System.Linq;
     using Microsoft.Data.Entity;
 
     partial class RecurringSheetEntryRepository {
@@ -8,6 +9,10 @@
                 newSortOrder,
                 oldSortOrder,
                 ownerId);
+        }
+
+        public int FindNextSortOrder(int ownerId) {
+            return this._entitySet.Where(x => x.Owner.Id == ownerId).Max(x => x.SortOrder) + 1;
         }
     }
 }

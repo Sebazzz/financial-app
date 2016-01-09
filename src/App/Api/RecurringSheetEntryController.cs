@@ -69,6 +69,7 @@
             RecurringSheetEntry entry = this._mappingEngine.Map<RecurringSheetEntryDTO, RecurringSheetEntry>(value);
             this.EntityOwnerService.AssignOwner(entry, this.OwnerId);
 
+            entry.SortOrder = this._recurringSheetEntryRepository.FindNextSortOrder(this.OwnerId);
             this._recurringSheetEntryRepository.Add(entry);
             this._recurringSheetEntryRepository.SaveChanges();
 
