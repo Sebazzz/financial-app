@@ -30,6 +30,8 @@ module FinancialApp {
         sheet: DTO.ISheet;
         categories: DTO.ICategoryListing[];
 
+        unusedTemplates: DTO.IRecurringSheetEntry[];
+
         // copy enum
             // ReSharper disable once InconsistentNaming
         AccountType: typeof DTO.AccountType;
@@ -40,7 +42,7 @@ module FinancialApp {
         saveEntry: (entry: DTO.ISheetEntry) => void;
         deleteEntry: (entry: DTO.ISheetEntry) => void;
         editRemarks: (entry: DTO.ISheetEntry) => void;
-        addEntry: () => void;
+        addEntry: (template?: DTO.IRecurringSheetEntry) => void;
         mutateSortOrder: (entry:DTO.ISheetEntry, mutation: Factories.SortOrderMutation) => void;
     }
 
@@ -80,6 +82,7 @@ module FinancialApp {
             $scope.isLoaded = false;
             $scope.AccountType = DTO.AccountType; // we need to copy the enum itself, or we won't be able to refer to it in the view
             $scope.SortOrderMutation = Factories.SortOrderMutation; // we need to copy the enum itself, or we won't be able to refer to it in the view
+            $scope.unusedTemplates = [];
 
             // bail out if invalid date is provided (we can do this without checking with the server)
             if (!$scope.date.isValid()) {
@@ -88,7 +91,9 @@ module FinancialApp {
             }
 
             // get data
-            $scope.sheet = sheetResource.getByDate({ year: this.year, month: this.month }, (data) => {
+            $scope.sheet = sheetResource.getByDate({ year: this.year, month: this.month }, (data : DTO.ISheet) => {
+                $scope.unusedTemplates = data.applicableTemplates.concat([]);
+
                 this.signalSheetsLoaded(data);
             }, () => $location.path('/archive'));
 
@@ -96,10 +101,30 @@ module FinancialApp {
                 this.signalCategoriesLoaded();
             });
 
+            $scope.$watchCollection('sheet.entries', (newItems: DTO.ISheetEntry[], removedItems: DTO.ISheetEntry[]) => {
+                var templates = this.$scope.unusedTemplates,
+                    allTemplates = this.$scope.sheet.applicableTemplates,
+                    i: number, arr: DTO.ISheetEntry[], len: number, idx: number;
+                
+                for (i = 0, arr = newItems, len = arr.length; i < len; i++) {
+                    idx = Enumerable.from(templates).indexOf(x => x.id === arr[i].templateId);
+                    if (idx !== -1) {
+                        templates.splice(idx, 1);
+                    }
+                }
+
+                for (i = 0, arr = removedItems, len = arr.length; i < len; i++) {
+                    idx = Enumerable.from(allTemplates).indexOf(x => x.id === arr[i].templateId);
+                    if (idx !== -1) {
+                        templates.push(allTemplates[idx]);
+                    }
+                }
+            });
+
             $scope.editEntry = (entry) => this.editEntry(entry);
             $scope.saveEntry = (entry) => this.saveEntry(entry);
             $scope.deleteEntry = (entry) => this.deleteEntry(entry);
-            $scope.addEntry = () => this.addEntry();
+            $scope.addEntry = (template) => this.addEntry(template);
             $scope.editRemarks = (entry) => this.editRemarks(entry);
             $scope.mutateSortOrder = (entry, mutation) => this.mutateSortOrder(entry, mutation);
 
@@ -282,8 +307,16 @@ module FinancialApp {
                 () => entry.isBusy = false);
         }
 
-        private addEntry(): void {
-            var newEntry: DTO.ISheetEntry = {
+        private addEntry(template ?: DTO.IRecurringSheetEntry): void {
+            var newEntry = template ? this.createEmptySheetEntryBasedOnTemplate(template) : this.createEmptySheetEntry();
+
+            this.$scope.sheet.entries.push(newEntry);
+
+            this.watchEntry(newEntry);
+        }
+
+        private createEmptySheetEntry(): DTO.ISheetEntry {
+            return {
                 id: 0,
                 account: DTO.AccountType.BankAccount,
                 categoryId: null,
@@ -298,10 +331,26 @@ module FinancialApp {
                 sortOrder: Enumerable.from(this.$scope.sheet.entries).defaultIfEmpty(<any>{ sortOrder: 0 }).max(x => x.sortOrder) + 1,
                 templateId: null
             };
+        }
 
-            this.$scope.sheet.entries.push(newEntry);
+        private createEmptySheetEntryBasedOnTemplate(template: DTO.IRecurringSheetEntry): DTO.ISheetEntry {
+            this.$scope.unusedTemplates.splice(this.$scope.unusedTemplates.indexOf(template), 1);
 
-            this.watchEntry(newEntry);
+            return {
+                id: 0,
+                account: template.account,
+                categoryId: template.categoryId,
+                category: Enumerable.from(this.$scope.categories).first(c => template.categoryId === c.id),
+                createTimestamp: moment(),
+                delta: template.delta,
+                remark: template.remark,
+                source: template.source,
+                editMode: true,
+                updateTimestamp: moment(),
+                isBusy: false,
+                sortOrder: Enumerable.from(this.$scope.sheet.entries).defaultIfEmpty(<any>{ sortOrder: 0 }).max(x => x.sortOrder) + 1,
+                templateId: template.id
+            };
         }
 
         private editEntry(newEntry: DTO.ISheetEntry): void {

@@ -57,6 +57,7 @@
 
             Mapper.CreateMap<Models.DTO.SheetEntry, SheetEntry>(MemberList.Source)
                 .ForMember(x => x.Template, m => m.MapFrom(s => s.TemplateId))
+                .ForSourceMember(x => x.TemplateId, m =>m.Ignore()) // TODO: ignore shouldn't be necessary here
                 .ForMember(x => x.Category, m => m.MapFrom(s => s.CategoryId))
                 .ForSourceMember(x => x.CategoryId, m =>m.Ignore()); // TODO: ignore shouldn't be necessary here
 

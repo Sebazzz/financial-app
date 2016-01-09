@@ -84,6 +84,7 @@
             services.AddScoped<SheetStatisticsService>();
             services.AddScoped<AutoMapperEngineFactory.SheetOffsetCalculationResolver>();
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<Category>>();
+            services.AddScoped<AutoMapperEngineFactory.EntityResolver<RecurringSheetEntry>>();
             
             services.AddSingleton<IMappingEngine>(AutoMapperEngineFactory.Create);
             services.AddSingleton<IETagGenerator, ETagGenerator>();
