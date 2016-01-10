@@ -216,15 +216,6 @@
         </div>
         <div class="btn-toolbar" style="float: right;" role="toolbar">
             <div class="btn-group" role="group">
-                <a href="#"
-                   class="btn btn-default"
-                   ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/stats">
-                    <span class="glyphicon glyphicon-stats"></span>
-                    Rapportage
-                </a>
-            </div>
-
-            <div class="btn-group" role="group">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary" ng-click="addEntry()">
                         <span class="glyphicon glyphicon-plus-sign"></span>
@@ -239,6 +230,15 @@
                         <li ng-repeat="template in unusedTemplates"><a href="#" ng-click="addEntry(template)">{{template.source}}</a></li>
                     </ul>
                 </div>
+            </div>
+
+            <div class="btn-group" role="group">
+                <a href="#"
+                   class="btn btn-default"
+                   ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/stats">
+                    <span class="glyphicon glyphicon-stats"></span>
+                    Rapportage
+                </a>
             </div>
         </div>
     </form>
