@@ -46,7 +46,7 @@ module FinancialApp {
                 this.signalCategoriesLoaded();
             });
 
-            $scope.entry = <IEditRecurringSheetEntry>recurringSheetEntryResource.get({
+            $scope.entry = recurringSheetEntryResource.get({
                 id: $routeParams.id
             }, () => this.signalEntryLoaded());
 

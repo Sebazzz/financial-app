@@ -17,13 +17,21 @@
         Spaarrekening: <span ng-class="{ 'negative': sheet.totalSavings() < 0 }">{{ sheet.totalSavings() | currency }}</span>
         <small>(vorige maand: {{ sheet.offset.savingsAccountOffset | currency}})</small>
     </p>
-    
-    <p ng-show="sheet.entries.length > 0">
-        <a class="btn btn-sm btn-primary" style="width: 100%" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
+
+    <div class="btn-group btn-group-justified btn-group-sm" role="group" ng-show="sheet.entries.length > 0">
+        <a class="btn btn-primary" style="width: 50%" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
             <span class="glyphicon glyphicon-plus"></span>
-            Nieuwe regel toevoegen
+            Toevoegen
         </a>
-    </p>
+        <button type="button" class="btn btn-primary dropdown-toggle" style="width: 50%" ng-disabled="unusedTemplates.length === 0" data-toggle="dropdown">
+            Van template
+
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li ng-repeat="template in unusedTemplates"><a href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add?templateId={{template.id}}">{{template.source}}</a></li>
+        </ul>
+    </div>
 
     <div ng-repeat="entry in sheet.entries">
         <table class="table table-condensed sheet-mobile-table" ng-init="entry.showRemarks = false">
@@ -72,7 +80,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="padding-left:0;padding-right: 0;text-align: center;">
+                <td colspan="2" style="padding-left: 0; padding-right: 0; text-align: center;">
                     <div class="btn-group btn-group-justified btn-group-xs">
                         <button class="btn btn-default"
                                 style="width: 8%"
@@ -87,12 +95,12 @@
                         <a href="#"
                            ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/{{entry.id}}"
                            class="btn btn-default"
-                           style="width:31%">
+                           style="width: 31%">
                             <span class="glyphicon glyphicon-pencil"></span> Bewerken
                         </a>
                         <button class="btn btn-danger"
                                 ng-click="deleteEntry(entry)"
-                                style="width:31%">
+                                style="width: 31%">
                             <span class="glyphicon glyphicon-trash"> Verwijderen</span>
                         </button>
                     </div>
@@ -100,12 +108,22 @@
             </tr>
         </table>
     </div>
-    <p>
-        <a class="btn btn-lg btn-primary" style="width: 100%" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
+
+    <div class="btn-group btn-group-justified btn-group-lg" role="group">
+        <a class="btn btn-primary" style="width: 50%" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add">
             <span class="glyphicon glyphicon-plus"></span>
-            Nieuwe regel toevoegen
+            Toevoegen
         </a>
-    </p>
+        <button type="button" class="btn btn-primary dropdown-toggle" style="width: 50%" ng-disabled="unusedTemplates.length === 0" data-toggle="dropdown">
+            Van template
+
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li ng-repeat="template in unusedTemplates"><a href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add?templateId={{template.id}}">{{template.source}}</a></li>
+        </ul>
+    </div>
+
     <p>
         <a class="btn btn-lg btn-default btn-sm" style="width: 100%" href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/stats">
             <span class="glyphicon glyphicon-stats"></span>

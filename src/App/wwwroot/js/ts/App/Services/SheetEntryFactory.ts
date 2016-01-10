@@ -47,6 +47,8 @@ module FinancialApp.Services {
         }
 
         private static pickSortOrder(sheet: DTO.ISheet) {
+            if (!sheet) return 0;
+
             return Enumerable.from(sheet.entries).defaultIfEmpty(<any>{ sortOrder: 0 }).max(x => x.sortOrder) + 1;
         }
     }

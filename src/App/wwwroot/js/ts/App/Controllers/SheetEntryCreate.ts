@@ -10,6 +10,7 @@ module FinancialApp {
     export interface ISheetEntryCreateRouteParams extends ng.route.IRouteParamsService {
         year: string;
         month: string;
+        templateId ?: number;
     }
 
     export interface ISheetEntryCreateScope extends ng.IScope {
@@ -27,15 +28,22 @@ module FinancialApp {
     }
 
     export class SheetEntryCreateController {
-        public static $inject = ['$scope', '$location', '$routeParams', 'sheetEntryResource', 'categoryResource'];
+        public static $inject = ['$scope', '$location', '$routeParams', 'recurringSheetEntryResource', 'sheetEntryResource', 'categoryResource', 'sheetEntryFactory'];
 
         private api: ng.resource.IResourceClass<DTO.IAppUserMutate>;
+
+        private useTemplate : boolean;
+        private template : DTO.IRecurringSheetEntry;
 
         constructor(private $scope: ISheetEntryCreateScope,
                     private $location: ng.ILocationService,
                     private $routeParams: ISheetEntryCreateRouteParams,
+                    private recurringSheetEntryResource: Factories.IWebResourceClass<DTO.IRecurringSheetEntry>,
                     private sheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
-                    categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>) {
+                    categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
+                    private sheetEntryFactory: Services.SheetEntryFactory) {
+            this.useTemplate = $routeParams.templateId !== null;
+
             $scope.cancel = () => this.redirectToSheet();
             $scope.isLoaded = false;
             $scope.AccountType = DTO.AccountType;
@@ -44,8 +52,17 @@ module FinancialApp {
             $scope.entry.account = DTO.AccountType.BankAccount;
 
             $scope.categories = categoryResource.query(() => {
-                $scope.isLoaded = true;
+                $scope.isLoaded = !this.useTemplate || this.template !== null;
             });
+
+            if (this.useTemplate) {
+                this.template = recurringSheetEntryResource.get({
+                    id: $routeParams.templateId
+                }, () => {
+                    $scope.isLoaded = $scope.categories.length > 0;
+                    $scope.entry = this.sheetEntryFactory.createEmpty(null, this.template);
+                });
+            }
 
             $scope.saveEntry = () => this.saveEntry();
         }
