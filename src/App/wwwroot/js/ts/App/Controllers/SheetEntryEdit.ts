@@ -104,7 +104,7 @@ module FinancialApp {
         }
 
         private redirectToOverview() {
-            this.$location.path('/sheet/' + this.$routeParams.year + '/' + this.$routeParams.month);
+            this.$location.url('/sheet/' + this.$routeParams.year + '/' + this.$routeParams.month);
         }
 
         private deleteEntry() {
