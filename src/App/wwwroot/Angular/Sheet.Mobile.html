@@ -32,6 +32,52 @@
             <li ng-repeat="template in unusedTemplates"><a href="#" ng-href="/sheet/{{date.year()}}/{{date.month()+1}}/entries/add?templateId={{template.id}}">{{template.source}}</a></li>
         </ul>
     </div>
+    
+    <div class="panel panel-danger" ng-show="expenseTrajectory.unpayableExpenses.length > 0">
+        <div class="panel-heading"><span class="glyphicon glyphicon-euro"></span> Uitgavenwaarschuwing</div>
+        <div class="panel-body">
+            <p ng-show="expenseTrajectory.nextIncome">
+                Let op! Er is tot de volgende inkomsten ({{expenseTrajectory.nextIncome.delta | currency}} via {{expenseTrajectory.nextIncome.source}})
+                onvoldoende geld beschikbaar om de volgende vaste lasten te kunnen betalen:
+            </p>
+            <p ng-show="!expenseTrajectory.nextIncome">
+                Let op! Er is onvoldoende geld beschikbaar om de volgende vaste lasten te kunnen betalen:
+            </p>
+            <table class="table">
+                <tr>
+                    <th>
+                        Bron / reden
+                    </th>
+                    <th>
+                        Categorie
+                    </th>
+                    <th>
+                        Bedrag
+                    </th>
+                </tr>
+                <tr ng-repeat="expense in expenseTrajectory.unpayableExpenses track by expense.id">
+                    <td>
+                        {{expense.source}}
+                    </td>
+                    <td>
+                        {{ expense.categoryId | itemLookup:categories }}
+                    </td>
+                    <td>
+                        <span ng-class="{ 'negative': expense.delta < 0 }">{{ expense.delta | currency }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <strong ng-class="{ 'negative': expenseTrajectory.totalBankWithExpense < 0 }">{{ expenseTrajectory.totalBankWithExpense | currency }}</strong>
+                    </td>
+                </tr>
+            </table>
+
+            <p>Maak geld vrij om ervoor te zorgen dat de bovenstaande uitgaven afgeschreven kunnen worden.</p>
+        </div>
+    </div>
 
     <div ng-repeat="entry in sheet.entries">
         <table class="table table-condensed sheet-mobile-table" ng-init="entry.showRemarks = false">

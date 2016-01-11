@@ -513,9 +513,9 @@ $state-warning-text:             $brand-warning !default;
 $state-warning-bg:               #fcf8e3 !default;
 $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
-$state-danger-text:              $brand-danger !default;
-$state-danger-bg:                #f2dede !default;
-$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
+$state-danger-text:              lighten($brand-danger, 40%) !default;
+$state-danger-bg:                darken(adjust-hue(#f2dede, -10), 40%) !default;
+$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 15%) !default;
 
 
 //== Tooltips
@@ -707,7 +707,7 @@ $list-group-link-heading-color: #333 !default;
 //
 //##
 
-$panel-bg:                    #fff !default;
+$panel-bg:                    $body-bg !default;
 $panel-body-padding:          15px !default;
 $panel-heading-padding:       10px 15px !default;
 $panel-footer-padding:        $panel-heading-padding !default;

@@ -31,6 +31,8 @@ module FinancialApp {
 
         unusedTemplates: DTO.IRecurringSheetEntry[];
 
+        expenseTrajectory: Services.ISheetExpenseTrajectory;
+
         // copy enum
             // ReSharper disable once InconsistentNaming
         AccountType: typeof DTO.AccountType;
@@ -51,7 +53,7 @@ module FinancialApp {
     }
 
     export class SheetController {
-        public static $inject = ['$scope', '$routeParams', '$location', '$modal', 'sheetResource', 'sheetEntryResource', 'categoryResource', 'sheetTotal', 'sheetEntryFactory'];
+        public static $inject = ['$scope', '$routeParams', '$location', '$modal', 'sheetResource', 'sheetEntryResource', 'categoryResource', 'sheetTotalCalculation', 'sheetExpensesCalculation', 'sheetEntryFactory'];
 
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
@@ -70,8 +72,9 @@ module FinancialApp {
                     private $modal : ng.ui.bootstrap.IModalService,
                     private sheetResource: Factories.ISheetWebResourceClass,
                     private sheetEntryResource: Factories.ISheetEntryWebResourceClass,
-                    categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
-                    private calculation: Services.SheetTotalCalculationService,
+                            categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
+                    private sheetTotalCalculation: Services.SheetTotalCalculationService,
+                    private sheetExpensesCalculation : Services.SheetExpensesCalculationService,
                     private sheetEntryFactory : Services.SheetEntryFactory) {
 
             this.year = parseInt($routeParams.year, 10);
@@ -121,6 +124,14 @@ module FinancialApp {
                 }
             });
 
+            $scope.$watch('sheet.entries', () => {
+                if (!this.$scope.sheet.offset) {
+                    return; // not fully loaded yet
+                }
+
+                $scope.expenseTrajectory = this.sheetExpensesCalculation.calculateExpenseTrajectory(this.$scope.sheet);
+            }, true);
+
             $scope.editEntry = (entry) => this.editEntry(entry);
             $scope.saveEntry = (entry) => this.saveEntry(entry);
             $scope.deleteEntry = (entry) => this.deleteEntry(entry);
@@ -160,8 +171,8 @@ module FinancialApp {
         private signalSheetsLoaded(sheet : DTO.ISheet) {
             this.isSheetLoaded = true;
 
-            sheet.totalSavings = () => this.calculation.calculateTotal(sheet, FinancialApp.DTO.AccountType.SavingsAccount);
-            sheet.totalBank = () => this.calculation.calculateTotal(sheet, FinancialApp.DTO.AccountType.BankAccount);
+            sheet.totalSavings = () => this.sheetTotalCalculation.calculateTotal(sheet, FinancialApp.DTO.AccountType.SavingsAccount);
+            sheet.totalBank = () => this.sheetTotalCalculation.calculateTotal(sheet, FinancialApp.DTO.AccountType.BankAccount);
 
             this.setLoadedBit(sheet);
 
