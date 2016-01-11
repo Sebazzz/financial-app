@@ -90,7 +90,7 @@ gulp.task('clean', function () {
     return del(['wwwroot/build/**/*.*']);
 });
 
-gulp.task('build', ['bower', 'lib-js', 'app-js', 'css', 'copy-assets']);
+gulp.task('build', ['bower', 'lib-js', 'lib-js-min', 'app-js', 'app-js-min', 'css', 'copy-assets']);
 
 gulp.task('watchdog', function () {
     var cssWatch = [].concat(filePath.css.src).concat(filePath.sass.watchPath);
@@ -121,11 +121,24 @@ gulp.task('app-js', function () {
             .pipe(concat('appscripts.js'))
             .pipe(size({ title: 'APPJS' }))
             .pipe(sourcemaps.write("./"))
-            .pipe(gulp.dest(filePath.appjs.dest)) 
-            //.pipe(uglify(filePath.uglifyOptions))
+            .pipe(gulp.dest(filePath.appjs.dest));
+});
+
+gulp.task('app-js-min', function () {
+    return gulp.src(filePath.appjs.src)
+            .pipe(ts(tsProject))
+            .pipe(uglify(filePath.uglifyOptions))
             .pipe(concat('appscripts.min.js'))
             .pipe(size({ title: 'APPJS minified' }))
             .pipe(gulp.dest(filePath.appjs.dest));
+});
+
+gulp.task('lib-js-min', function () {
+    return gulp.src(filePath.libjs.src)
+          .pipe(uglify(filePath.uglifyOptions))
+          .pipe(concat('libscripts.min.js'))
+          .pipe(size({ title: 'LIBJS minified' }))
+          .pipe(gulp.dest(filePath.libjs.dest));
 });
 
 gulp.task('lib-js', function () {
@@ -133,12 +146,6 @@ gulp.task('lib-js', function () {
           .pipe(sourcemaps.init({ loadMaps: true }))
           .pipe(concat('libscripts.js'))
           .pipe(size({ title: 'LIBJS' }))
-          .pipe(sourcemaps.write("./"))
-          .pipe(gulp.dest(filePath.libjs.dest))
-          .pipe(sourcemaps.init({ loadMaps: true }))
-          //.pipe(uglify(filePath.uglifyOptions))
-          .pipe(concat('libscripts.min.js'))
-          .pipe(size({ title: 'LIBJS minified' }))
           .pipe(sourcemaps.write("./"))
           .pipe(gulp.dest(filePath.libjs.dest));
 });
