@@ -3,7 +3,7 @@
 /// <reference path="../DTO.generated.d.ts"/>
 /// <reference path="../DTOEnum.generated.ts"/>
 /// <reference path="../Factories/ResourceFactory.ts"/>
-/// <reference path="../Services/CalculationService.ts"/>
+/// <reference path="../Services/SheetTotalCalculationService.ts"/>
 /// <reference path="../../typings/angular-ui-bootstrap/angular-ui-bootstrap.d.ts"/>
 
 module FinancialApp {
@@ -51,7 +51,7 @@ module FinancialApp {
     }
 
     export class SheetController {
-        public static $inject = ['$scope', '$routeParams', '$location', '$modal', 'sheetResource', 'sheetEntryResource', 'categoryResource', 'calculation', 'sheetEntryFactory'];
+        public static $inject = ['$scope', '$routeParams', '$location', '$modal', 'sheetResource', 'sheetEntryResource', 'categoryResource', 'sheetTotal', 'sheetEntryFactory'];
 
         private isCategoriesLoaded = false;
         private isSheetLoaded = false;
@@ -71,7 +71,7 @@ module FinancialApp {
                     private sheetResource: Factories.ISheetWebResourceClass,
                     private sheetEntryResource: Factories.ISheetEntryWebResourceClass,
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
-                    private calculation: Services.CalculationService,
+                    private calculation: Services.SheetTotalCalculationService,
                     private sheetEntryFactory : Services.SheetEntryFactory) {
 
             this.year = parseInt($routeParams.year, 10);

@@ -3,15 +3,15 @@
 /// <reference path="../../typings/linq/linq.d.ts"/>
 
 module FinancialApp.Services {
-    export class CalculationService {
+    export class SheetTotalCalculationService {
         constructor() {
-            
+
         }
 
         public calculateTotal(sheet: DTO.ISheet, accountType: DTO.AccountType) {
             var sum = Enumerable.from(sheet.entries)
-                             .where((e : DTO.ISheetEntry) => e.account === accountType)
-                             .sum((e: DTO.ISheetEntry) => e.delta);
+                .where((e: DTO.ISheetEntry) => e.account === accountType)
+                .sum((e: DTO.ISheetEntry) => e.delta);
 
             if (accountType == DTO.AccountType.BankAccount) {
                 sum += sheet.offset.bankAccountOffset;
@@ -23,5 +23,5 @@ module FinancialApp.Services {
 
             return sum || 0.00;
         }
-    }    
+    }
 }

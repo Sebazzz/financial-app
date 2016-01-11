@@ -120,7 +120,7 @@ module FinancialApp {
 
             // services
             app.service('authentication', Services.AuthenticationService);
-            app.service('calculation', Services.CalculationService);
+            app.service('sheetTotal', Services.SheetTotalCalculationService);
             app.service('sheetEntryFactory', Services.SheetEntryFactory);
 
             // directives
