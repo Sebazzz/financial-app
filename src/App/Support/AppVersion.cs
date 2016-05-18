@@ -5,8 +5,8 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
-    using Microsoft.AspNet.FileProviders;
-    using Microsoft.AspNet.Hosting;
+    using Microsoft.Extensions.FileProviders;
+    using Microsoft.AspNetCore.Hosting;
 
     public interface IAppVersionService {
         string GetVersionIdentifier();

@@ -3,10 +3,11 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Extensions;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Models.Domain.Identity;
     using Models.DTO;
+    using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
     [Route("api/authentication")]
     public class AuthenticationController : ApiController {
@@ -54,7 +55,7 @@
             //       of which there is only one handler. This causes exception. Need to find way to resolve this.
             //await this._authenticationManager.SignOutAsync();
 
-            await this.Context.Authentication.SignOutAsync(IdentityCookieOptions.ApplicationCookieAuthenticationType);
+            await this.Context.Authentication.SignOutAsync(new IdentityCookieOptions().ApplicationCookieAuthenticationScheme);
 
             return new AuthenticationInfo();
         }

@@ -1,7 +1,7 @@
 ﻿namespace App.Models.Domain.Repositories {
     using System;
     using System.Collections.Generic;
-    using Microsoft.Data.Entity;
+    using Microsoft.EntityFrameworkCore;
     using System.Linq;
 
     partial class SheetRepository {

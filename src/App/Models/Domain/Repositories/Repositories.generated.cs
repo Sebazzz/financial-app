@@ -12,7 +12,7 @@ namespace App.Models.Domain.Repositories {
     using System.Data.SqlClient;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.Data.Entity;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
 
     public sealed partial class SheetEntryRepository {

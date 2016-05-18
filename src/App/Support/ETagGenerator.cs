@@ -1,6 +1,6 @@
 namespace App.Support {
     using System;
-    using Microsoft.AspNet.FileProviders;
+    using Microsoft.Extensions.FileProviders;
 
     public sealed class ETagGenerator : IETagGenerator {
         public string GenerateETag(IFileInfo fileInfo) {

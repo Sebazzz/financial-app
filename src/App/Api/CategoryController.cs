@@ -4,7 +4,7 @@
     using System.Net;
     using AutoMapper;
     using Extensions;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Mvc;
     using Models.Domain;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
@@ -13,11 +13,11 @@
     [Route("api/category")]
     public sealed class CategoryController : BaseEntityController {
         private readonly CategoryRepository _categoryRepository;
-        private readonly IMappingEngine _mapper;
+        private readonly IMapper _mapper;
 
         public CategoryController(EntityOwnerService entityOwnerService, 
                                   CategoryRepository categoryRepository, 
-                                  IMappingEngine mapper) : base(entityOwnerService) {
+                                  IMapper mapper) : base(entityOwnerService) {
             this._categoryRepository = categoryRepository;
             this._mapper = mapper;
         }

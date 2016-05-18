@@ -6,8 +6,8 @@
     using System.Web.Http;
     using AutoMapper;
     using Extensions;
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
     using Models.DTO;
@@ -20,9 +20,9 @@
     public class SheetEntryController : BaseEntityController {
         private readonly SheetEntryRepository _sheetEntryRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
-        private readonly IMappingEngine _mappingEngine;
+        private readonly IMapper _mappingEngine;
 
-        public SheetEntryController(EntityOwnerService entityOwnerService, SheetEntryRepository sheetEntryRepository, SheetRetrievalService sheetRetrievalService, IMappingEngine mappingEngine) : base(entityOwnerService) {
+        public SheetEntryController(EntityOwnerService entityOwnerService, SheetEntryRepository sheetEntryRepository, SheetRetrievalService sheetRetrievalService, IMapper mappingEngine) : base(entityOwnerService) {
             this._sheetEntryRepository = sheetEntryRepository;
             this._sheetRetrievalService = sheetRetrievalService;
             this._mappingEngine = mappingEngine;

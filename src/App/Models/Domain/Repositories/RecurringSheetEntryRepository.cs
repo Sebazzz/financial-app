@@ -1,6 +1,6 @@
 ﻿namespace App.Models.Domain.Repositories {
     using System.Linq;
-    using Microsoft.Data.Entity;
+    using Microsoft.EntityFrameworkCore;
 
     partial class RecurringSheetEntryRepository {
         public void ReplaceSortOrder(int ownerId, int oldSortOrder, int newSortOrder) {

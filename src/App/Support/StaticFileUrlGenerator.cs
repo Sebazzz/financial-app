@@ -2,8 +2,8 @@
     using System;
     using System.Collections.Concurrent;
     using System.IO;
-    using Microsoft.AspNet.FileProviders;
-    using Microsoft.AspNet.Hosting;
+    using Microsoft.Extensions.FileProviders;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Primitives;
 

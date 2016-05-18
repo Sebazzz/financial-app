@@ -1,5 +1,5 @@
 namespace App.Support.Integration {
-    using Microsoft.AspNet.Builder;
+    using Microsoft.AspNetCore.Builder;
 
     public static class ApplicationCacheExtensions {
         public static void MapApplicationCacheManifest(this IApplicationBuilder app) {

@@ -1,8 +1,8 @@
 ﻿namespace App.Support.Filters {
     using System;
-    using Microsoft.AspNet.Http;
-    using Microsoft.AspNet.Http.Headers;
-    using Microsoft.AspNet.Mvc.Filters;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http.Headers;
+    using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Net.Http.Headers;
 
     public sealed class DefaultResponseCacheFilterAttribute : ActionFilterAttribute {

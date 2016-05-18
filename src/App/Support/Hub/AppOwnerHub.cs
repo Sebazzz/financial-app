@@ -3,7 +3,7 @@ namespace App.Support.Hub {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Api.Extensions;
-    using Microsoft.AspNet.SignalR;
+    using Microsoft.AspNetCore.SignalR;
     using Microsoft.Extensions.Logging;
 
     public sealed class AppOwnerHub : Hub {

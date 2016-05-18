@@ -2,7 +2,7 @@
 namespace App.Support.Integration {
     using System;
     using System.Reflection;
-    using Microsoft.AspNet.SignalR.Infrastructure;
+    using Microsoft.AspNetCore.SignalR.Infrastructure;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
 

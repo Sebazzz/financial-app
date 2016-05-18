@@ -5,7 +5,7 @@
     using System.Net.Http;
     using System.Net.Http.Formatting;
     using System.Web.Http;
-    using Microsoft.AspNet.Mvc.Filters;
+    using Microsoft.AspNetCore.Mvc.Filters;
 
     public class ValidationExceptionFilterAttribute : ExceptionFilterAttribute {
         /// <summary>

@@ -10,10 +10,10 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Extensions;
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Mvc;
-    using Microsoft.AspNet.Mvc.WebApiCompatShim;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
     using Models.Domain;
     using Models.Domain.Identity;
     using Models.Domain.Repositories;
@@ -24,9 +24,9 @@
     public class UserController : ApiController {
         private readonly AppUserManager _appUserManager;
         private readonly AppOwnerRepository _appOwnerRepository;
-        private readonly IMappingEngine _mappingEngine;
+        private readonly IMapper _mappingEngine;
 
-        public UserController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository, IMappingEngine mappingEngine) {
+        public UserController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository, IMapper mappingEngine) {
             this._appUserManager = appUserManager;
             this._appOwnerRepository = appOwnerRepository;
             this._mappingEngine = mappingEngine;

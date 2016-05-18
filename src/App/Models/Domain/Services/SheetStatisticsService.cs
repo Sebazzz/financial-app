@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Runtime.Serialization;
     using Repositories;
-    using Microsoft.Data.Entity;
+    using Microsoft.EntityFrameworkCore;
 
     public class SheetStatisticsService {
         private readonly SheetRepository _sheetRepository;

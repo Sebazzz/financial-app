@@ -8,9 +8,9 @@ namespace App.Api
     using System.Threading.Tasks;
     using AutoMapper.QueryableExtensions;
     using Extensions;
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Models.Domain.Identity;
     using Models.DTO;
     using App.Models.Domain.Services;
@@ -21,9 +21,9 @@ namespace App.Api
     public class ImpersonateUserController : ApiController {
         private readonly SignInManager<AppUser> _authenticationManager;
         private readonly AppUserManager _appUserManager;
-        private readonly IMappingEngine _mappingEngine;
+        private readonly IMapper _mappingEngine;
 
-        public ImpersonateUserController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, IMappingEngine mappingEngine) {
+        public ImpersonateUserController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, IMapper mappingEngine) {
             this._appUserManager = appUserManager;
             this._authenticationManager = authenticationManager;
             this._mappingEngine = mappingEngine;

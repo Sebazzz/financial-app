@@ -4,22 +4,22 @@
     using System.Linq;
     using AutoMapper;
     using Extensions;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Mvc;
     using Models.DTO;
     using SheetDTO = Models.DTO.Sheet;
     using Sheet = Models.Domain.Sheet;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
-    using Microsoft.Data.Entity;
+    using Microsoft.EntityFrameworkCore;
 
     [Route("api/sheet")]
     public class SheetController : BaseEntityController {
         private readonly SheetRepository _sheetRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
         private readonly SheetStatisticsService _sheetStatisticsService;
-        private readonly IMappingEngine _mappingEngine;
+        private readonly IMapper _mappingEngine;
 
-        public SheetController(EntityOwnerService entityOwnerService, SheetRepository sheetRepository, SheetRetrievalService sheetRetrievalService, SheetStatisticsService sheetStatisticsService, IMappingEngine mappingEngine) : base(entityOwnerService) {
+        public SheetController(EntityOwnerService entityOwnerService, SheetRepository sheetRepository, SheetRetrievalService sheetRetrievalService, SheetStatisticsService sheetStatisticsService, IMapper mappingEngine) : base(entityOwnerService) {
             this._sheetRepository = sheetRepository;
             this._sheetRetrievalService = sheetRetrievalService;
             this._sheetStatisticsService = sheetStatisticsService;

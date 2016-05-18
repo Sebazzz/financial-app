@@ -1,7 +1,7 @@
 ﻿namespace App.Api {
     using System.Web.Http;
     using Extensions;
-    using Microsoft.AspNet.Authorization;
+    using Microsoft.AspNetCore.Authorization;
     using Models.Domain.Services;
 
     [Authorize]

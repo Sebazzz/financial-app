@@ -1,6 +1,6 @@
 ﻿namespace App.Api {
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
     using Models.Domain;
     using Models.Domain.Services;
 

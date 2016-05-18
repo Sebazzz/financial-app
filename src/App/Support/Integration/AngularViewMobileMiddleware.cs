@@ -2,10 +2,10 @@ namespace App.Support.Integration {
     using System;
     using System.IO;
     using System.Threading.Tasks;
-    using Microsoft.AspNet.Builder;
-    using Microsoft.AspNet.FileProviders;
-    using Microsoft.AspNet.Hosting;
-    using Microsoft.AspNet.Http;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Logging;
 
     public sealed class AngularViewMobileMiddleware {
@@ -32,7 +32,7 @@ namespace App.Support.Integration {
 
             string pathValue = context.Request.PathBase.Add(context.Request.Path);
             if (pathValue.EndsWith("." + mobileSuffix, StringComparison.OrdinalIgnoreCase)) {
-                this._logger.LogVerbose(0, "Notice: Already requesting mobile view via path {0}", pathValue);
+                this._logger.LogTrace(0, "Notice: Already requesting mobile view via path {0}", pathValue);
 
                 await this._next(context);
                 return;
@@ -42,7 +42,7 @@ namespace App.Support.Integration {
             if (this._fileProvider.GetFileInfo(mobilePath).Exists) {
                 context.Request.Path = Path.ChangeExtension(context.Request.Path.Value, mobileSuffix);
 
-                this._logger.LogVerbose(0, "Rewriting mobile field path from {0} to {1}", pathValue, context.Request.Path.Value);
+                this._logger.LogTrace(0, "Rewriting mobile field path from {0} to {1}", pathValue, context.Request.Path.Value);
             }
 
             await this._next(context);

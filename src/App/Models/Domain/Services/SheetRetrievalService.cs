@@ -7,20 +7,20 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using DTO;
-    using Microsoft.Data.Entity;
+    using Microsoft.EntityFrameworkCore;
     using Repositories;
     using Sheet = Domain.Sheet;
 
     public class SheetRetrievalService {
         private readonly SheetRepository _sheetRepository;
         private readonly AppOwnerRepository _appOwnerRepository;
-        private readonly IMappingEngine _mappingEngine;
+        private readonly IMapper _mappingEngine;
         private readonly RecurringSheetEntryRepository _recurringSheetEntryRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
-        public SheetRetrievalService(SheetRepository sheetRepository, AppOwnerRepository appOwnerRepository, IMappingEngine mappingEngine, RecurringSheetEntryRepository recurringSheetEntryRepository) {
+        public SheetRetrievalService(SheetRepository sheetRepository, AppOwnerRepository appOwnerRepository, IMapper mappingEngine, RecurringSheetEntryRepository recurringSheetEntryRepository) {
             this._sheetRepository = sheetRepository;
             this._appOwnerRepository = appOwnerRepository;
             this._mappingEngine = mappingEngine;

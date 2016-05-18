@@ -1,6 +1,6 @@
 namespace App.Support.Integration {
-    using Microsoft.AspNet.Builder;
-    using Microsoft.AspNet.Hosting;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
 
     public static class AngularViewExtensions {
         public static void MapAngularViewPath(this IApplicationBuilder app, IHostingEnvironment hostingEnvironment) {

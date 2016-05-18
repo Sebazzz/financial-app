@@ -1,8 +1,8 @@
 ﻿namespace App.Models.Domain.Identity {
     using System.Linq;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Microsoft.Data.Entity;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
 
     public sealed class AppUserStore : UserStore<AppUser, AppRole, AppDbContext, int> {
         public AppUserStore(AppDbContext context, IdentityErrorDescriber describer = null) : base(context, describer) {}

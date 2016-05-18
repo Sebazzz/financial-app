@@ -1,20 +1,25 @@
 ﻿namespace App.Models.Domain {
     using Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Microsoft.Data.Entity;
-    using Microsoft.Data.Entity.Infrastructure;
-    using Microsoft.Data.Entity.Metadata;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
+    using Microsoft.EntityFrameworkCore.Internal;
+    using Microsoft.EntityFrameworkCore.Metadata;
 
     /// <summary>
     /// Represents the database context for the application
     /// </summary>
     public sealed class AppDbContext : IdentityDbContext<AppUser, AppRole, int> {
-        public AppDbContext(DbContextOptions options) : base(options) {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
             
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
+
+            foreach (var entity in modelBuilder.Model.GetEntityTypes()) {
+                entity.Relational().TableName = entity.Name;
+            }
 
             // categories
             modelBuilder.Entity<Category>();

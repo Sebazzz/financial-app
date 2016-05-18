@@ -5,8 +5,8 @@
     using System.Linq;
     using AutoMapper;
     using Extensions;
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
     using Models.DTO;
@@ -16,10 +16,10 @@
     [Authorize]
     [Route("api/sheetentry-recurring")]
     public sealed class RecurringSheetEntryController : BaseEntityController {
-        private readonly IMappingEngine _mappingEngine;
+        private readonly IMapper _mappingEngine;
         private readonly RecurringSheetEntryRepository _recurringSheetEntryRepository;
 
-        public RecurringSheetEntryController(EntityOwnerService entityOwnerService, IMappingEngine mappingEngine, RecurringSheetEntryRepository recurringSheetEntryRepository) : base(entityOwnerService) {
+        public RecurringSheetEntryController(EntityOwnerService entityOwnerService, IMapper mappingEngine, RecurringSheetEntryRepository recurringSheetEntryRepository) : base(entityOwnerService) {
             this._mappingEngine = mappingEngine;
             this._recurringSheetEntryRepository = recurringSheetEntryRepository;
         }

@@ -1,5 +1,5 @@
 ﻿namespace App.Controllers {
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Mvc;
     using Support;
     using Support.Filters;
 

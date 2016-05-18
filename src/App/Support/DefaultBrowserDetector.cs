@@ -1,6 +1,6 @@
 ﻿namespace App.Support {
     using System;
-    using Microsoft.AspNet.Http;
+    using Microsoft.AspNetCore.Http;
 
     public interface IBrowserDetector {
         bool IsMobileDevice();

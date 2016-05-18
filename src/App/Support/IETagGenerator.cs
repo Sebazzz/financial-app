@@ -1,5 +1,5 @@
 namespace App.Support {
-    using Microsoft.AspNet.FileProviders;
+    using Microsoft.Extensions.FileProviders;
 
     public interface IETagGenerator {
         string GenerateETag(IFileInfo fileInfo);

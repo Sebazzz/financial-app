@@ -6,14 +6,14 @@
     using App.Models.Domain.Identity;
     using App.Support.Integration;
     using AutoMapper;
-    using Microsoft.AspNet.Authentication.Cookies;
-    using Microsoft.AspNet.Builder;
-    using Microsoft.AspNet.Hosting;
-    using Microsoft.AspNet.Http;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Mvc.Formatters;
-    using Microsoft.AspNet.Mvc.WebApiCompatShim;
-    using Microsoft.Data.Entity;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc.Formatters;
+    using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -22,17 +22,20 @@
     using Models.Domain.Services;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using NuGet.Common;
     using Support;
+    using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
     public class Startup
     {
         private readonly IHostingEnvironment _env;
 
-        public Startup(IHostingEnvironment env, IApplicationEnvironment applicationEnvironment)
+        public Startup(IHostingEnvironment env)
         {
             this._env = env;
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddUserSecrets()
@@ -62,9 +65,7 @@
                 .AddUserManager<AppUserManager>()
                 .AddUserStore<AppUserStore>();
 
-            services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
 
 #if SIGNALR
             services.AddSignalR(o => o.Hubs.EnableDetailedErrors = this._env.IsDevelopment());
@@ -88,7 +89,7 @@
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<Category>>();
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<RecurringSheetEntry>>();
             
-            services.AddSingleton<IMappingEngine>(AutoMapperEngineFactory.Create);
+            services.AddSingleton<IMapper>(AutoMapperEngineFactory.Create);
             services.AddSingleton<IETagGenerator, ETagGenerator>();
             services.AddSingleton<IStaticFileUrlGenerator, StaticFileUrlGenerator>();
             services.AddSingleton<IAppVersionService, AppVersionService>();
@@ -119,7 +120,7 @@
 
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
-                AuthenticationScheme = IdentityCookieOptions.ApplicationCookieAuthenticationType
+                AuthenticationScheme = new IdentityCookieOptions().ApplicationCookieAuthenticationScheme
             });
 
             if (env.IsDevelopment()) {
@@ -134,8 +135,6 @@
 #if SIGNALR
             app.UseSignalR("/extern/signalr");
 #endif
-
-            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
             app.UseStaticFiles();
 
@@ -156,8 +155,5 @@
             app.UseApplicationInsightsExceptionTelemetry();
 
         }
-
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }

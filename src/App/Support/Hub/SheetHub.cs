@@ -6,7 +6,7 @@ namespace App.Support.Hub {
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.AspNet.SignalR;
+    using Microsoft.AspNetCore.SignalR;
     using System.Runtime.Serialization;
     using Models.DTO;
 

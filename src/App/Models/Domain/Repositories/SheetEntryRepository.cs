@@ -1,5 +1,5 @@
 ﻿namespace App.Models.Domain.Repositories {
-    using Microsoft.Data.Entity;
+    using Microsoft.EntityFrameworkCore;
 
     partial class SheetEntryRepository {
         public void ReplaceSortOrder(Sheet sheet, int oldSortOrder, int newSortOrder) {

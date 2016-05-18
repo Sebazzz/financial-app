@@ -6,8 +6,8 @@
     using System.Globalization;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     public class AppUserTrustedUser {
         public virtual AppUser TargetUser { get; set; }
