@@ -1,4 +1,5 @@
-﻿namespace App.Support.Hub {
+﻿#if SIGNALR
+namespace App.Support.Hub {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Api.Extensions;
@@ -72,3 +73,4 @@
         }
     }
 }
+#endif

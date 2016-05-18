@@ -1,4 +1,5 @@
-﻿namespace App.Support.Hub {
+﻿#if SIGNALR
+namespace App.Support.Hub {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
@@ -156,3 +157,4 @@
         public bool Committed { get; set; }
     }
 }
+#endif

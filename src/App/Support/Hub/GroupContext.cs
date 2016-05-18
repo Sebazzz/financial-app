@@ -1,4 +1,5 @@
-﻿namespace App.Support.Hub {
+﻿#if SIGNALR
+namespace App.Support.Hub {
     using System;
     using System.Collections.Concurrent;
     using GroupName=System.String;
@@ -40,3 +41,4 @@
         }
     }
 }
+#endif
