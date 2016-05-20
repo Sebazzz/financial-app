@@ -17,28 +17,22 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.PlatformAbstractions;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using NuGet.Common;
     using Support;
     using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
     public class Startup
     {
-        private readonly IHostingEnvironment _env;
-
         public Startup(IHostingEnvironment env)
         {
-            this._env = env;
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddUserSecrets()
+                .AddDevelopmentSecrets(env)
                 .AddApplicationInsightsSettings(developerMode:env.IsDevelopment())
                 .AddEnvironmentVariables();
 
