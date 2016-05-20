@@ -52,7 +52,7 @@
             IQueryable<Sheet> allSheets = this._sheetRepository.GetByOwner(ownerId);
 
             return allSheets.OrderBy(x => x.Subject)
-                            .ProjectTo<SheetListing>(null, this._mappingEngine);
+                            .ProjectTo<SheetListing>(this._mappingEngine.ConfigurationProvider);
         }
 
         [NotNull]

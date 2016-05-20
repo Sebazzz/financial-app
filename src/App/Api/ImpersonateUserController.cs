@@ -37,7 +37,7 @@ namespace App.Api
             return this._appUserManager.Users
                                        .Where(x => x.TrustedUsers.Any(u => u.TargetUser.Id == userId))
                                        .OrderBy(x => x.UserName)
-                                       .ProjectTo<AppUserListing>(null, this._mappingEngine);
+                                       .ProjectTo<AppUserListing>(this._mappingEngine.ConfigurationProvider);
         }
 
                 // POST: api/user/impersonate/3

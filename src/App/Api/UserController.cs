@@ -44,7 +44,7 @@
             return this._appUserManager.Users
                                        .Where(x => x.Group.Id == this.OwnerId)
                                        .OrderBy(x => x.UserName)
-                                       .ProjectTo<AppUserListing>(null, this._mappingEngine);
+                                       .ProjectTo<AppUserListing>(this._mappingEngine.ConfigurationProvider);
         }
 
         // GET: api/User/5
