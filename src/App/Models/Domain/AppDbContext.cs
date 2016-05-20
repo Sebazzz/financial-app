@@ -17,10 +17,6 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
 
-            foreach (var entity in modelBuilder.Model.GetEntityTypes()) {
-                entity.Relational().TableName = entity.Name;
-            }
-
             // categories
             modelBuilder.Entity<Category>();
 

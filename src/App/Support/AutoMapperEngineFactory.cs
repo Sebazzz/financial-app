@@ -23,7 +23,7 @@
                 cfg.ConstructServicesUsing(t => serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext.RequestServices.GetService(t));
                 cfg.AddGlobalIgnore("Owner");
 
-                 cfg.CreateMap<Category,Category>()
+                cfg.CreateMap<Category,Category>()
                              .ForMember(x => x.Owner, m=> m.Ignore());
 
                 cfg.CreateMap<Sheet, Models.DTO.SheetListing>(MemberList.Destination)
@@ -66,7 +66,6 @@
 
                 cfg.CreateMap<int, Category>().ConvertUsing<EntityResolver<Category>>();
                 cfg.CreateMap<int?, RecurringSheetEntry>().ConvertUsing<EntityResolver<RecurringSheetEntry>>();
-
             });
 
             config.AssertConfigurationIsValid();
