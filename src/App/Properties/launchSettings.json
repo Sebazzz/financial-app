@@ -3,41 +3,25 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:11607/",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:5000/",
+      "sslPort": 5001
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
+      "launchBrowser": true,
       "environmentVariables": {
-        "Hosting:Environment": "Development"
-      },
-      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-update1"
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     },
     "web": {
-      "commandName": "web",
-      "launchUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "Hosting:Environment": "Development"
-      },
-      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-rc1-update1"
-    },
-    "web-x86": {
-      "commandName": "web",
-      "launchBrowser": true,
-      "launchUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "Hosting:Environment": "Development"
-      },
-      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-update1"
-    },
-    "IIS Express x86": {
-      "commandName": "IISExpress",
-      "environmentVariables": {
-        "Hosting:Environment": "Development"
-      },
-      "sdkVersion": "dnx-coreclr-win-x86.1.0.0-rc1-update1"
+        "commandName": "Project",
+        "launchBrowser": true,
+        "launchUrl": "http://localhost:5000",
+        "environmentVariables": {
+            "ASPNETCORE_ENVIRONMENT": "Development"
+        }
     }
   }
 }
