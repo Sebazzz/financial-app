@@ -101,6 +101,7 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
+
             if (env.IsDevelopment()) {
                 loggerFactory.AddDebug(LogLevel.Debug);
             } else {

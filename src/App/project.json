@@ -112,6 +112,12 @@
             "./wwwroot/bower_components",
             "**/*.ts",
             "**.vspscc"
+        ],
+        "include": [
+            "wwwroot",
+            "Views",
+            "appsettings.json",
+            "web.config"
         ]
     },
 
