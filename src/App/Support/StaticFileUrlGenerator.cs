@@ -27,7 +27,11 @@
         }
         public string GenerateUrl(string file) {
             GeneratedFileInfo info = this._urlsByPath.GetOrAdd(file, this.GenerateUrlInternalFirstTime);
-            
+
+            if (info.ChangeToken == null) {
+                return null; // invalid url
+            }
+
             // anticipate changed file
             if (!info.ChangeToken.ActiveChangeCallbacks && info.ChangeToken.HasChanged) {
                 this._logger.LogInformation("File token of url '{0}' is out-of-date. Regenerating.", file);
