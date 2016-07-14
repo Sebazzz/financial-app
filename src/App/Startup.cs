@@ -45,9 +45,6 @@
         public void ConfigureServices(IServiceCollection services) {
             services.AddApplicationInsightsTelemetry(this.Configuration);
             services.AddMvc(options => {
-                JsonOutputFormatter jsonFormatter = options.OutputFormatters.OfType<JsonOutputFormatter>().First();
-                jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
                 options.Filters.Add(typeof(HttpResponseExceptionActionFilter));
             });
 
@@ -121,7 +118,6 @@
             if (env.IsDevelopment()) {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-                app.UseRuntimeInfoPage();
             } else {
                 app.UseExceptionHandler("/");
                 app.UseApplicationInsightsExceptionTelemetry();
