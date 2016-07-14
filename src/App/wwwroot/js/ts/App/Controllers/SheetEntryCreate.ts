@@ -42,7 +42,7 @@ module FinancialApp {
                     private sheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>,
                     private sheetEntryFactory: Services.SheetEntryFactory) {
-            this.useTemplate = $routeParams.templateId !== null;
+            this.useTemplate = $routeParams.templateId && $routeParams.templateId !== null;
 
             $scope.cancel = () => this.redirectToSheet();
             $scope.isLoaded = false;

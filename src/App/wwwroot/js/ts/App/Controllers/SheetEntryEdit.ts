@@ -39,7 +39,7 @@ module FinancialApp {
                     private $location: ng.ILocationService,
                     private $routeParams: ISheetEntryEditRouteParams,
                     private $modal: ng.ui.bootstrap.IModalService,
-                    private recurringSheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
+                    private sheetEntryResource: Factories.IWebResourceClass<DTO.ISheetEntry>,
                     categoryResource: ng.resource.IResourceClass<DTO.ICategoryListing>) {
             $scope.cancel = () => this.redirectToOverview();
             $scope.isLoaded = false;
@@ -49,7 +49,7 @@ module FinancialApp {
                 this.signalCategoriesLoaded();
             });
 
-            $scope.entry = recurringSheetEntryResource.get({
+            $scope.entry = sheetEntryResource.get({
                 sheetYear: $routeParams.year,
                 sheetMonth: $routeParams.month,
                 id: $routeParams.id
@@ -61,9 +61,9 @@ module FinancialApp {
             // set-up signal-r
             this.hubConnection = $.hubConnection('/extern/signalr');
             this.hubConnection.logging = true;
-            this.setupSignalR($routeParams.year + '-' + $routeParams.month);
+            //this.setupSignalR($routeParams.year + '-' + $routeParams.month);
 
-            $scope.$on('$destroy', () => this.shutdownSignalR());
+            //$scope.$on('$destroy', () => this.shutdownSignalR());
         }
 
         private setupSignalR(sheetId: string) {
@@ -127,14 +127,14 @@ module FinancialApp {
 
             if (this.entryWatcherDispose) this.entryWatcherDispose();
 
-            this.recurringSheetEntryResource['delete'](params, () => {
+            this.sheetEntryResource['delete'](params, () => {
                 var copy = <IFinalizeRealtimeSheetEntry>$.extend({
                     committed: false,
                     categoryId : 0
                 }, this.$scope.entry);
                 copy.id = this.$scope.entry.id;
 
-                this.hub.invoke('finalizeSheetEntry', copy).always(() => this.redirectToOverview());
+                //this.hub.invoke('finalizeSheetEntry', copy).always(() => this.redirectToOverview());
             });
         }
 
@@ -148,14 +148,14 @@ module FinancialApp {
             if (this.entryWatcherDispose) this.entryWatcherDispose();
 
             this.$scope.isLoaded = false;
-            var res = <ng.resource.IResource<any>> <any> this.recurringSheetEntryResource.update(params, this.$scope.entry);
+            var res = <ng.resource.IResource<any>> <any> this.sheetEntryResource.update(params, this.$scope.entry);
             res.$promise.then((ret: DTO.IInsertId) => {
                 var copy = <IFinalizeRealtimeSheetEntry>$.extend({
                     committed: true
                 }, this.$scope.entry);
                 copy.id = ret.id;
 
-                this.hub.invoke('finalizeSheetEntry', copy).always(() => this.redirectToOverview());
+                //this.hub.invoke('finalizeSheetEntry', copy).always(() => this.redirectToOverview());
             });
             res.$promise['catch'](() => {
                 this.$scope.isLoaded = true;
