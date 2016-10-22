@@ -74,7 +74,7 @@
         }
 
         // ReSharper disable once ClassNeverInstantiated.Local -- It is instantiated, but using DI
-        public sealed class EntityResolver<TEntity> : IValueResolver<int, TEntity>, ITypeConverter<int, TEntity>, ITypeConverter<int?, TEntity> where TEntity : class, IHasId {
+        public sealed class EntityResolver<TEntity> : ITypeConverter<int, TEntity>, ITypeConverter<int?, TEntity> where TEntity : class, IHasId {
             private readonly HttpContext _httpContext;
             private readonly EntityOwnerService _entityOwnerService;
 
@@ -165,20 +165,24 @@
                 return this.ResolveCore(source);
             }
 
-            public TEntity Convert(int? source, ResolutionContext context) {
+            public TEntity Convert(int? source, TEntity destination, ResolutionContext context) {
+                return this.ResolveCore(source);
+            }
+
+            public TEntity Convert(int source, TEntity destination, ResolutionContext context) {
                 return this.ResolveCore(source);
             }
         }
 
         // ReSharper disable once ClassNeverInstantiated.Local -- It is instantiated, but using DI
-        public sealed class SheetOffsetCalculationResolver : IValueResolver<Sheet, CalculationOptions> {
+        public sealed class SheetOffsetCalculationResolver : IValueResolver<Sheet, Models.DTO.Sheet, CalculationOptions> {
             private readonly SheetOffsetCalculationService _offsetCalculationService;
 
             public SheetOffsetCalculationResolver(SheetOffsetCalculationService offsetCalculationService) {
                 this._offsetCalculationService = offsetCalculationService;
             }
 
-            public CalculationOptions Resolve(Sheet source, ResolutionContext context) {
+            public CalculationOptions Resolve(Sheet source, Models.DTO.Sheet destination, CalculationOptions destMember, ResolutionContext context) {
                 return this._offsetCalculationService.CalculateOffset(source);
             }
         }
