@@ -1,5 +1,4 @@
-﻿@using System.Threading.Tasks
-@using Microsoft.AspNetCore.Hosting
+﻿@using Microsoft.AspNetCore.Hosting
 @inject IHostingEnvironment HostingEnvironment
 
 <div ng-include="'/Angular/Widgets/Menu.html'" ng-show="isMenuVisible"></div>
@@ -8,8 +7,8 @@
 
 <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
 
-<script src="@UrlGenerator.GenerateUrl("/build/libscripts.js")"></script>
-<script src="@UrlGenerator.GenerateUrl("/build/appscripts.js")"></script>
+<script fa-url="/build/libscripts.js"></script>
+<script fa-url="/build/appscripts.js"></script>
 <script>FinancialApp.Program.init();</script>
 
 <noscript>
