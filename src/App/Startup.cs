@@ -44,11 +44,17 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             services.AddApplicationInsightsTelemetry(this.Configuration);
+
             services.AddMvc(options => {
                 options.Filters.Add(typeof(HttpResponseExceptionActionFilter));
-            });
+            }).AddWebApiConventions();
 
-            services.AddIdentity<AppUser, AppRole>()
+            services.AddIdentity<AppUser, AppRole>(
+                    options => {
+                        options.Password.RequireDigit = false;
+                        options.Password.RequireLowercase = false;
+                        options.Password.RequireNonAlphanumeric = false;
+                    })
                 .AddEntityFrameworkStores<AppDbContext, int>()
                 .AddDefaultTokenProviders()
                 .AddUserValidator<AppUserValidator>()
@@ -99,7 +105,6 @@
                 loggerFactory.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
             }
 
-            app.UseApplicationInsightsRequestTelemetry();
             app.UseWebSockets();
 
             app.MapApplicationCacheManifest();
@@ -120,7 +125,6 @@
                 app.UseDeveloperExceptionPage();
             } else {
                 app.UseExceptionHandler("/");
-                app.UseApplicationInsightsExceptionTelemetry();
             }
 
 #if SIGNALR
@@ -142,9 +146,6 @@
                         action = "Index"
                     });
             });
-
-            app.UseApplicationInsightsExceptionTelemetry();
-
         }
     }
 }

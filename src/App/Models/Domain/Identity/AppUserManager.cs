@@ -21,7 +21,6 @@
 
     public sealed class AppPasswordValidator : PasswordValidator<AppUser> {
         public AppPasswordValidator(IdentityErrorDescriber errors = null) : base(errors) {
-            
         }
     }
 
