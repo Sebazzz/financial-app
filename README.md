@@ -12,6 +12,6 @@ Financial management SPA app created using ASP.NET Web Api, AngularJS and Entity
 **Browser Support:**
 Currently being tested on:
 
-  * Internet Explorer 9 to 11
-  * Windows Phone 7.5 and Windows Phone 8
+  * Internet Explorer 11
+  * Microsoft Edge (Mobile and Desktop)
   * Mozilla Firefox
