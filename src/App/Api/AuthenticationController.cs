@@ -3,6 +3,8 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Extensions;
+
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Domain.Identity;
@@ -51,11 +53,7 @@
         [HttpPost]
         [Route("logoff")]
         public async Task<AuthenticationInfo> LogOff() {
-            // TODO: AuthenticationManager does a very rough sign out, signing out all three authentication schemes
-            //       of which there is only one handler. This causes exception. Need to find way to resolve this.
-            //await this._authenticationManager.SignOutAsync();
-
-            await this.Context.Authentication.SignOutAsync(new IdentityCookieOptions().ApplicationCookieAuthenticationScheme);
+            await this.Context.SignOutAsync();
 
             return new AuthenticationInfo();
         }

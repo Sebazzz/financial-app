@@ -42,7 +42,7 @@
         [Route("")]
         public IEnumerable<AppUserListing> Get() {
             return this._appUserManager.Users
-                                       .Where(x => x.Group.Id == this.OwnerId)
+                                       .Where(x => x.GroupId == this.OwnerId)
                                        .OrderBy(x => x.UserName)
                                        .ProjectTo<AppUserListing>(this._mappingEngine.ConfigurationProvider);
         }
@@ -123,7 +123,7 @@
         }
 
         private void EnsureAccess(AppUser user) {
-            if (user.Group.Id != this.OwnerId) {
+            if (user.GroupId != this.OwnerId) {
                 throw new HttpResponseException(HttpStatusCode.Forbidden);
             }
         }

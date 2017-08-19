@@ -3,11 +3,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     public class AppUserTrustedUser {
         public virtual AppUser TargetUser { get; set; }
@@ -21,6 +17,8 @@
 
         [Required]
         public virtual AppOwner Group { get; set; }
+
+        public int GroupId { get; set; }
 
         /// <summary>
         /// Gets a list of trusted app users the current user may impersonate.

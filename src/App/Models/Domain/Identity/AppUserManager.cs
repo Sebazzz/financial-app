@@ -30,7 +30,7 @@
         public override async Task<IList<Claim>> GetClaimsAsync(AppUser user) {
             IList<Claim> claims = await base.GetClaimsAsync(user);
 
-            claims.Add(new Claim("AppOwnerGroup", user.Group.Id.ToString(CultureInfo.InvariantCulture), typeof(Int32).FullName));
+            claims.Add(new Claim("AppOwnerGroup", user.GroupId.ToString(CultureInfo.InvariantCulture), typeof(Int32).FullName));
 
             return claims;
         }
@@ -48,7 +48,7 @@
         }
 
         private async Task<IList<AppUser>> GetUsersForAppOwnerGroup(int id) {
-            return await this.Users.Where(x => x.Group.Id == id).ToListAsync();
+            return await this.Users.Where(x => x.GroupId == id).ToListAsync();
         }
     }
 }

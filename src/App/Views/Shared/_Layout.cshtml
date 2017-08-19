@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Hosting
-@using Microsoft.AspNetCore.Mvc.Rendering
 @inject IHostingEnvironment HostingEnvironment
 
 <!DOCTYPE html>
@@ -23,8 +22,6 @@
     <link rel="apple-touch-icon" fa-href="/images/tiles/apple-tile.png" />
 
     <link fa-url="/build/styling.css" rel="stylesheet" />
-
-    @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body ng-class="{ 'anonymous': !isAuthenticated, 'authenticated': isAuthenticated }" fa-scroll-nub>
     @RenderBody()

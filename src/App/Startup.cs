@@ -32,7 +32,6 @@
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddDevelopmentSecrets(env)
                 .AddApplicationInsightsSettings(developerMode:env.IsDevelopment())
                 .AddEnvironmentVariables();
 
@@ -55,14 +54,21 @@
                         options.Password.RequireLowercase = false;
                         options.Password.RequireNonAlphanumeric = false;
                     })
-                .AddEntityFrameworkStores<AppDbContext, int>()
+                .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders()
                 .AddUserValidator<AppUserValidator>()
                 .AddPasswordValidator<AppPasswordValidator>()
                 .AddUserManager<AppUserManager>()
                 .AddUserStore<AppUserStore>();
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(opt => {
+                        opt.LoginPath = new PathString("/Account/Login");
+                        opt.ExpireTimeSpan = TimeSpan.FromDays(365 / 2d);
+                        opt.SlidingExpiration = true;
+                    });
+
+            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
 
 #if SIGNALR
             services.AddSignalR(o => o.Hubs.EnableDetailedErrors = this._env.IsDevelopment());
@@ -110,15 +116,7 @@
             app.MapApplicationCacheManifest();
             app.MapAngularViewPath(env);
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions {
-                LoginPath = new PathString("/Account/Login"),
-                ExpireTimeSpan = TimeSpan.FromDays(365 / 2d),
-                SlidingExpiration = true,
-
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                AuthenticationScheme = new IdentityCookieOptions().ApplicationCookieAuthenticationScheme
-            });
+            app.UseAuthentication();
 
             if (env.IsDevelopment()) {
                 app.UseBrowserLink();

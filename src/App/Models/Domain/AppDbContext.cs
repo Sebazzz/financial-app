@@ -2,9 +2,6 @@
     using Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Internal;
-    using Microsoft.EntityFrameworkCore.Metadata;
 
     /// <summary>
     /// Represents the database context for the application
