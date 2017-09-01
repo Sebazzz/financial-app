@@ -113,7 +113,6 @@
 
             app.UseWebSockets();
 
-            app.MapApplicationCacheManifest();
             app.MapAngularViewPath(env);
 
             app.UseAuthentication();

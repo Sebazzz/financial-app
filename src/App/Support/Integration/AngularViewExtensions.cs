@@ -4,7 +4,7 @@ namespace App.Support.Integration {
 
     public static class AngularViewExtensions {
         public static void MapAngularViewPath(this IApplicationBuilder app, IHostingEnvironment hostingEnvironment) {
-            app.Map("/Angular", a => a.UseAngularMobileViews().UseAngularViewCaching().UseStaticFilesOnRelativePath(hostingEnvironment, "./Angular/"));
+            app.Map("/ko-templates", a => a.UseAngularMobileViews().UseAngularViewCaching().UseStaticFilesOnRelativePath(hostingEnvironment, "./ko-templates/"));
         }
 
         public static IApplicationBuilder UseAngularViewCaching(this IApplicationBuilder app) {

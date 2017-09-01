@@ -14,7 +14,7 @@
 }
 
 // Fix logged in message display on small screens
-@media (max-width: $screen-xs-max) { 
+@media (max-width: map-get($container-max-widths, 'xs')) {
     .navbar .navbar-text {
         text-align: right;
         padding-right: 1em;

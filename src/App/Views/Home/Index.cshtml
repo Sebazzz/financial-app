@@ -1,15 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Hosting
 @inject IHostingEnvironment HostingEnvironment
 
-<div ng-include="'/Angular/Widgets/Menu.html'" ng-show="isMenuVisible"></div>
+<top-menu></top-menu>
 
-<div class="container" ng-view></div>
+<page-container class="container"></page-container>
 
 <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
-
-<script fa-url="/build/libscripts.js"></script>
-<script fa-url="/build/appscripts.js"></script>
-<script>FinancialApp.Program.init();</script>
 
 <noscript>
     <div class="alert alert-danger">
@@ -17,4 +13,10 @@
     </div>
 </noscript>
 
+<script type="text/html" id="pageLoader">
+    Loading page
+</script>
+
 <div ng-include="'/Angular/ConnectionFailure.html'"></div>
+
+<script src="/build/app.js" asp-append-version="true"></script>

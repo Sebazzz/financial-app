@@ -10,10 +10,20 @@
     <RuntimeIdentifiers>win10-x64;ubuntu.14.04-x64</RuntimeIdentifiers>
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;dnxcore50;portable-net45+win8</PackageTargetFallback>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules\**\*" />
+    <Content Remove="wwwroot\js\App.ts" />
+    <Content Remove="wwwroot\js\AppFramework\AppFactory.ts" />
+    <Content Remove="wwwroot\js\AppFramework\ComponentLoader.ts" />
+    <Content Remove="wwwroot\js\Components\TopMenu.ts" />
+    <Content Remove="wwwroot\js\Custom.d.ts" />
+    <Content Remove="wwwroot\js\PageFactory.ts" />
+    <Content Remove="wwwroot\js\Pages\DefaultPage.ts" />
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -60,15 +70,23 @@
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <Exec Command="npm install" />
-    <Exec Command="bower install" />
-    <Exec Command="gulp clean" />
-    <Exec Command="gulp build" />
+    <Exec Command="npm build" />
   </Target>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\js\App.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\AppFactory.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\ComponentLoader.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Components\TopMenu.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Custom.d.ts" />
+    <TypeScriptCompile Include="wwwroot\js\PageFactory.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\DefaultPage.ts" />
   </ItemGroup>
 
 </Project>

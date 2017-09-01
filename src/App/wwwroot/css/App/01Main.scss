@@ -1,8 +1,4 @@
-﻿.ng-hide {
-    /* Shut up intellisense / R# */
-}
-
-html {
+﻿html {
     -ms-touch-action: manipulation;
     touch-action: manipulation;
 }
@@ -106,12 +102,6 @@ tr#sheet-offset td + td{
     border-top: 1px dashed gray;
 }
 
-.navbar-brand img {
-    float: left;
-    position: relative;
-    top: -10px;
-}
-
 .scrollTo {
     display: none;
 }
@@ -130,11 +120,11 @@ tr#sheet-offset td + td{
         right: 10px;
         opacity: 0.5;
         cursor: pointer;
-        background: url(../icons/scroll_arrow_down.png) no-repeat;
+        background: url(../../images/icons/scroll_arrow_down.png) no-repeat;
     }
 
     .scrollTo.invert {
-        background: url(../icons/scroll_arrow_top.png) no-repeat;
+        background: url(../../images/icons/scroll_arrow_top.png) no-repeat;
     }
 
 }

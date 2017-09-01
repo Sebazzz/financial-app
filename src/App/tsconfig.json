@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "module": "commonjs",
+        "target": "es5",
+        "allowJs": true,
+        "alwaysStrict": true,
+        "importHelpers": true,
+        "lib": [ "dom", "es5", "es2015.promise", "es2015.iterable", "scripthost"]
+    },
+    "compileOnSave": false
+}

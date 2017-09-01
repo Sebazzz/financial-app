@@ -178,4 +178,3 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
-/src/App/package-lock.json

@@ -44,7 +44,7 @@
             long fileLength = 0;
 
             IDirectoryContents buildContents = this._hostingEnvironment.WebRootFileProvider.GetDirectoryContents("build");
-            IDirectoryContents viewContents = this._hostingEnvironment.WebRootFileProvider.GetDirectoryContents("Angular");
+            IDirectoryContents viewContents = this._hostingEnvironment.WebRootFileProvider.GetDirectoryContents("ko-templates");
             IEnumerable<IFileInfo> allFiles = Enumerable.Empty<IFileInfo>().Union(buildContents).Union(viewContents);
 
             // we get a 'reasonably good' hash of the application
