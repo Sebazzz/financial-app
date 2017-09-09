@@ -34,8 +34,6 @@ export class Router {
                 origin = document.location.origin,
                 hrefWithoutOrigin = href.indexOf(origin) === 0 ? href.substr(origin.length) : href;
 
-            debugger;
-
             if (!hrefWithoutOrigin) {
                 return;
             }

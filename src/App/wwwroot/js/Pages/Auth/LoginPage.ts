@@ -19,14 +19,18 @@ export default class AuthLoginPage extends Page {
             { name: 'auth.login', path: '/login' }
         ];
 
-        this.confirm = this.confirm.bind(this);
+        this.login = this.login.bind(this);
     }
 
     protected onActivate(args?: any): Promise<void> {
+        if (this.appContext.authentication.isAuthenticated()) {
+            this.appContext.router.navigateToDefault();
+        }
+
         return Promise.resolve();
     }
 
-    public async confirm() {
+    public async login() {
         this.isBusy(true);
 
         try {

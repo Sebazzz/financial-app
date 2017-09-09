@@ -16,9 +16,10 @@ function middleware(router: Router, authenticationService: AuthenticationService
     return (toState: State) => {
         const path = toState.path,
               isAuthenticating = authenticationService.isCheckingAuthentication,
-              isAuthenticated = authenticationService.isAuthenticated;
+              currentAuthenticationObservable = authenticationService.currentAuthentication,
+              currentAuthenticationValue = currentAuthenticationObservable.peek();
 
-        if (isAuthenticated.peek()) {
+        if (currentAuthenticationValue && currentAuthenticationValue.isAuthenticated) {
             return Promise.resolve(true);
         }
 
@@ -40,14 +41,15 @@ function middleware(router: Router, authenticationService: AuthenticationService
         console.log('AuthenticationMiddleware: Path %s checking: not logged in', path);
 
         const promise = new Promise<boolean>((resolve, reject) => {
-            isAuthenticated.subscribe(val => {
-                console.log('AuthenticationMiddleware: Path %s checked with result %s: not logged in', path, val);
+            const subscription = currentAuthenticationObservable.subscribe(val => {
+                console.log('AuthenticationMiddleware: Path %s checked with result %s: not logged in', path, val.isAuthenticated);
+                subscription.dispose();
 
-                if (val) {
+                if (val.isAuthenticated) {
                     resolve(true);
                 } else {
-                    router.navigate('auth.login');
                     reject('unauthenticated');
+                    router.navigate('auth.login');
                 }
             });
         });
@@ -59,7 +61,7 @@ function middleware(router: Router, authenticationService: AuthenticationService
 export default class AuthenticationService {
     private api = new auth.Api();
 
-    public currentAuthentication = ko.observable<auth.IAuthenticationInfo>(AuthenticationService.getPersistedAuthenticationInfo() || defaultAuthInfo);
+    public currentAuthentication = ko.observable<auth.IAuthenticationInfo>(AuthenticationService.getPersistedAuthenticationInfo() || defaultAuthInfo).extend({ notify: 'always' });;
     public isAuthenticated = ko.pureComputed(() => this.currentAuthentication() && this.currentAuthentication().isAuthenticated);
     public isCheckingAuthentication = false;
 
@@ -117,6 +119,8 @@ export default class AuthenticationService {
     }
 
     private persistAuthenticationInfo(authInfo: auth.IAuthenticationInfo) {
+        console.log('AuthenticationService: Persisting authentication info');
+
         const json = JSON.stringify(authInfo);
 
         localStorage.setItem(AuthenticationService.persistedAuthInfoKey, json);

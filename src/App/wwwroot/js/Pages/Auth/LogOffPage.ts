@@ -13,14 +13,14 @@ export default class AuthLogOffPage extends Page {
             { name: 'auth.logoff', path: '/logoff' }
         ];
 
-        this.confirm = this.confirm.bind(this);
+        this.logOff = this.logOff.bind(this);
     }
 
     protected onActivate(args?: any): Promise<void> {
         return Promise.resolve();
     }
 
-    public async confirm() {
+    public async logOff() {
         this.isBusy(true);
 
         try {
