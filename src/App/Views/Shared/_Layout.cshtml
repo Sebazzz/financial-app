@@ -18,7 +18,7 @@
 
     <link href="/build/app.css" rel="stylesheet" asp-append-version="true"/>
 </head>
-<body data-bind="{ 'anonymous': !isAuthenticated(), 'authenticated': isAuthenticated }">
+<body data-bind="css: { 'anonymous': !context.authentication.isAuthenticated(), 'authenticated': context.authentication.isAuthenticated }">
     @RenderBody()
 </body>
 </html>

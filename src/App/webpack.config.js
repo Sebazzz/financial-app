@@ -1,3 +1,4 @@
+/// <binding ProjectOpened='Watch - Development' />
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const path = require('path');
 const webpack = require('webpack');

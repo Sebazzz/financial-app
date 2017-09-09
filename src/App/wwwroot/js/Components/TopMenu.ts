@@ -7,6 +7,7 @@ class TopMenu extends framework.Panel {
     private path = ko.observable<string>();
 
     public nowPath = ko.observable<string>('now'); // TODO
+    public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
 
     public deactivate(): void {
     }

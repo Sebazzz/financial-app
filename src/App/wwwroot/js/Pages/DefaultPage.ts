@@ -1,8 +1,11 @@
 ﻿import {Page} from '../AppFramework/Page'
 import AppContext from '../AppFramework/AppContext'
+import * as ko from 'knockout';
 
 export default class DefaultPage extends Page {
-    
+
+    public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
+
     constructor(appContext: AppContext) {
         super(appContext);
 

@@ -113,8 +113,8 @@ class PageComponentModel {
                 currentPage.deactivate();
             }
 
-            this.page(null);
             this.templateName(defaultTemplateName);
+            this.page(null);
 
             const page = this.findPage(toState.name),
                   templateId = await this.templateManager.loadTemplate(page);
@@ -123,8 +123,8 @@ class PageComponentModel {
 
             await page.activate(toState.params);
 
-            this.templateName(templateId);
             this.page(page);
+            this.templateName(templateId);
         } catch (e) {
             console.error(e);
 

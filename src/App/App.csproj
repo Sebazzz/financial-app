@@ -19,10 +19,14 @@
     <Compile Remove="wwwroot\**\*;node_modules\**\*" />
     <Content Remove="wwwroot\js\App.ts" />
     <Content Remove="wwwroot\js\AppFramework\AppFactory.ts" />
+    <Content Remove="wwwroot\js\AppFramework\AuthenticationService.ts" />
     <Content Remove="wwwroot\js\AppFramework\ComponentLoader.ts" />
+    <Content Remove="wwwroot\js\AppFramework\HttpClient.ts" />
+    <Content Remove="wwwroot\js\AppFramework\ServerApi\Authentication.ts" />
+    <Content Remove="wwwroot\js\Components\Loader.ts" />
     <Content Remove="wwwroot\js\Components\TopMenu.ts" />
-    <Content Remove="wwwroot\js\Custom.d.ts" />
     <Content Remove="wwwroot\js\PageFactory.ts" />
+    <Content Remove="wwwroot\js\Pages\AuthLogOffPage.ts" />
     <Content Remove="wwwroot\js\Pages\DefaultPage.ts" />
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -82,11 +86,19 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\js\App.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\AppFactory.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\AuthenticationService.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ComponentLoader.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\Authentication.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\HttpClient.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Components\Loader.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\TopMenu.ts" />
-    <TypeScriptCompile Include="wwwroot\js\Custom.d.ts" />
     <TypeScriptCompile Include="wwwroot\js\PageFactory.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Auth\LogOffPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\DefaultPage.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\build\" />
   </ItemGroup>
 
 </Project>

@@ -33,6 +33,7 @@ export class App {
 
 function initRouter(app: App) {
     app.context.router = app.router.getInternalInstance();
+    app.context.router.useMiddleware(app.context.authentication.middleware);
 
     app.initRouter();
     for (const page of app.pages) {
@@ -43,6 +44,7 @@ function initRouter(app: App) {
 function startUp(app: App) {
     console.info('AppFactory: Startup');
 
+    app.context.authentication.initialize();
     app.router.start();
     app.start();
 }
@@ -53,17 +55,19 @@ function bind(app: App) {
     app.bind();
 
     const element = document.body;
+
     ko.applyBindings(app, element);
 }
 
 function registerBindingProvider() {
     function preprocessor(node: Node) : void {
         if (node.nodeType === 8) {
+            node.nodeValue = node.nodeValue.replace('$appContext', '$app.context');
             node.nodeValue = node.nodeValue.replace('$app', '$root');
         } else if (node instanceof HTMLElement) {
             const dataBind = node.getAttribute('data-bind');
 
-            if(dataBind) node.setAttribute('data-bind', dataBind.replace('$app', '$root'));
+            if (dataBind) node.setAttribute('data-bind', dataBind.replace('$appContext', '$app.context').replace('$app', '$root'));
         }
 
         return null;
@@ -85,3 +89,5 @@ export function createApp<TModel extends App>(app: TModel) {
 
     console.info('AppFactory: Done');
 }
+
+ko.options.deferUpdates = true;

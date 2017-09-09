@@ -24,10 +24,10 @@
         [Route("check")]
         public AuthenticationInfo CheckAuthentication() {
             return new AuthenticationInfo() {
-                                                UserId = this.User.Identity.GetUserId(),
-                                                UserName = this.User.Identity.Name,
-                                                IsAuthenticated = this.User.Identity.IsAuthenticated
-                                            };
+                UserId = this.User.Identity.GetUserId(),
+                UserName = this.User.Identity.Name,
+                IsAuthenticated = this.User.Identity.IsAuthenticated
+            };
         }
 
         [HttpPost]
@@ -44,10 +44,10 @@
             }
 
             return new AuthenticationInfo {
-                                                IsAuthenticated = true,
-                                                UserId = user.Id,
-                                                UserName = user.UserName
-                                            };
+                IsAuthenticated = true,
+                UserId = user.Id,
+                UserName = user.UserName
+            };
         }
 
         [HttpPost]

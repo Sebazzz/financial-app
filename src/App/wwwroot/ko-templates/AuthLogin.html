@@ -1,29 +1,25 @@
 ﻿<form class="form-signin" role="form" novalidate>
     <h2 class="form-signin-heading">Inloggen</h2>
 
-    <strong class="text-danger" ng-show="!!errorMessage">{{errorMessage}}</strong>
-
-    <strong class="text-info" ng-show="!!wasLoggedOff">Je sessie is verlopen en je was uitgelogd. Log opnieuw hieronder in.</strong>
+    <strong class="text-danger" data-bind="visible: errorMessage, text: errorMessage"></strong>
 
     <input type="text" class="form-control" placeholder="Gebruikersnaam"
-           ng-disabled="isBusy" 
-           ng-model="userName" 
+           data-bind="value: userName, disabled: isBusy"
            required autofocus>
 
     <input type="password" class="form-control" placeholder="Wachtwoord" 
-           ng-disabled="isBusy" ng-model="password" 
+           data-bind="value: password, disabled: isBusy"
            required>
 
     <label class="checkbox hidden">
         <input type="checkbox" value="remember-me" 
-               ng-disabled="isBusy" ng-model="rememberMe"> Login onthouden
+               data-bind="value: persist, disabled: isBusy"> Login onthouden
     </label>
 
     <button class="btn btn-lg btn-primary btn-block" 
-            ng-disabled="isBusy"
-            ng-click="login()">
+            data-bind="click: confirm, disabled: isBusy">
         Inloggen
     </button>
     
-    <small ng-show="isBusy">Bezig met inloggen...</small>
+    <small data-bind="visible: isBusy">Bezig met inloggen...</small>
 </form>

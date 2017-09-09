@@ -1,5 +1,6 @@
 ﻿import browserPlugin from 'router5/plugins/browser';
-import { createRouter, constants, errorCodes, loggerPlugin, transitionPath, Route, Router as RouterImpl } from 'router5'
+import { createRouter, constants, errorCodes, loggerPlugin, transitionPath, Route, Router as RouterImpl } from 'router5';
+import * as $ from 'jquery';
 
 export type RoutingTable = Array<Route>;
 
@@ -22,6 +23,31 @@ export class Router {
 
     public start() {
         this.router.start();
+
+        this.initListener();
+    }
+
+    private initListener() {
+        $(document.body).on('click', 'a', (ev) => {
+            const anchor = ev.target,
+                href = (anchor as HTMLAnchorElement).href,
+                origin = document.location.origin,
+                hrefWithoutOrigin = href.indexOf(origin) === 0 ? href.substr(origin.length) : href;
+
+            debugger;
+
+            if (!hrefWithoutOrigin) {
+                return;
+            }
+
+            const state = this.router.matchPath(hrefWithoutOrigin);
+            if (!state) {
+                return;
+            }
+
+            ev.preventDefault();
+            this.router.navigate(state.name, state.params);
+        });
     }
 
     public getInternalInstance(): RouterImpl { return this.router; }

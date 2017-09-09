@@ -1,6 +1,7 @@
 ﻿import * as af from './AppFramework/AppFactory'
 import getPages from './PageFactory'
 import * as topMenu from './Components/TopMenu'
+import * as loader from './Components/Loader'
 import 'bootstrap';
 
 export class App extends af.App {
@@ -18,5 +19,6 @@ export class App extends af.App {
 
     public registerComponents(): void {
         topMenu.register(this.context);
+        loader.register(this.context);
     }
 }
