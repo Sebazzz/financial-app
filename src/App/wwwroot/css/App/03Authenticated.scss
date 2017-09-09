@@ -20,3 +20,12 @@ t
         padding-right: 1em;
     }
 }
+
+.logged-in-text {
+    margin-right: 4em;
+    font-size: 90%;
+}
+
+.navbar {
+    border-top: 2px solid darken($accent-color, 15%);
+}
