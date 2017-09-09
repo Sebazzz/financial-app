@@ -21,18 +21,31 @@ const tsProvide = new webpack.ProvidePlugin({
     Popper: ['popper.js', 'default']
 });
 
+const libExtract = new webpack.optimize.CommonsChunkPlugin({
+    name: 'lib.js'
+});
+
+const stableModuleIds = new webpack.HashedModuleIdsPlugin({
+    hashFunction: 'sha256',
+    hashDigest: 'hex',
+    hashDigestLength: 20
+});
+
 module.exports = {
   devtool: 'inline-source-map',
-  entry: [
-      './wwwroot/js/main.ts',
-      './wwwroot/css/App/App.scss'
-  ],
+  entry: {
+      'app.js': ['./wwwroot/js/main.ts' ],
+      'app.css': ['./wwwroot/css/App/App.scss' ],
+      'lib.js': ['jquery', 'router5', 'bootstrap', 'tslib', 'popper.js', 'knockout']
+  },
   plugins: [
      tsProvide,
-     extractSass
+     extractSass,
+     libExtract,
+     stableModuleIds
   ],
   output: {
-    filename: 'app.js',
+    filename: '[name]',
     path: path.resolve(__dirname, 'wwwroot/build')
   },
   resolve: {
