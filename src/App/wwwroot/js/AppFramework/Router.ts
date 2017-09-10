@@ -31,9 +31,9 @@ export class Router {
             const anchor = ev.target,
                 href = (anchor as HTMLAnchorElement).href,
                 origin = document.location.origin,
-                hrefWithoutOrigin = href.indexOf(origin) === 0 ? href.substr(origin.length) : href;
+                hrefWithoutOrigin = href && href.indexOf(origin) === 0 ? href.substr(origin.length) : href;
 
-            if (!hrefWithoutOrigin) {
+            if (!hrefWithoutOrigin || hrefWithoutOrigin.indexOf('#') === 0) {
                 return;
             }
 
