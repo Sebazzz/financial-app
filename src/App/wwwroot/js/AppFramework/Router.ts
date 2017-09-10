@@ -60,6 +60,13 @@ export class Router {
     }
 
     public getRoute(route: string, params?: any): string {
-        return this.router.buildPath(route, params || {});
+        const state = this.router.buildPath(route, params || {});
+
+        if (state === null) {
+            console.warn('Router: Unable to find route named "%s"', route);
+            return '';
+        }
+
+        return state;
     }
 }

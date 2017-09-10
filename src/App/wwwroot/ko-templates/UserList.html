@@ -10,7 +10,7 @@
             <div class="pull-right">
                 <a class="btn btn-secondary btn-sm" 
                    href="#"
-                   data-bind="href: { route: 'manage.user.edit', params: { id: user.id }}, tooltip: 'Gebruiker bewerken'">
+                   data-bind="route: manage.user.edit | { id: user.id }, tooltip: 'Gebruiker bewerken'">
                     <span class="fa fa-pencil"></span>
                 </a>
 
@@ -24,7 +24,7 @@
 
             <strong>
                 <a href="#"
-                   data-click="href: { route: 'manage.user.edit', params: { id: user.id }}, text: user.userName"></a>
+                   data-bind="route: manage.user.edit | { id: user.id }, text: user.userName"></a>
             </strong> 
 
             <small>(<span data-bind="text: user.email"></span>)</small>
@@ -32,6 +32,6 @@
     </ul>
     
     <p>
-        <a href="/manage/user/add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe gebruiker</a>
+        <a href="#" data-bind="route: manage.user.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe gebruiker</a>
     </p>
 </div>

@@ -5,6 +5,7 @@ import * as ko from 'knockout';
 
 class TopMenu extends framework.Panel {
     private path = ko.observable<string>('/');
+    private routeNode = ko.observable<string>('default');
 
     public nowPath = ko.observable<string>('now'); // TODO
     public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
@@ -22,6 +23,7 @@ class TopMenu extends framework.Panel {
             return {
                 onTransitionSuccess: (toState: State) => {
                     toState && this.path(toState.path);
+                    toState && this.routeNode(toState.name);
                 }
             }
         };
@@ -30,14 +32,25 @@ class TopMenu extends framework.Panel {
         appContext.router.usePlugin(menuPlugin);
     }
 
-    public hasPath(searchPath: string|KnockoutObservable<string>) {
+    public hasLocation(paramRaw: string|KnockoutObservable<string>) {
         return ko.pureComputed(() => {
-            const path = this.path(),
-                  subPath = ko.unwrap(searchPath),
-                  isHomePath = searchPath === '/',
-                  hasPath = isHomePath ? path === '/' : path && path.indexOf(subPath) !== -1;
+            const param = ko.unwrap(paramRaw),
+                  matchRouteNode = param.indexOf('/') === -1;
 
-            return hasPath ? 'active' : '';
+            let isMatch : boolean;
+            if (!matchRouteNode) {
+                const path = this.path(),
+                      hasPath = path && path.indexOf(param) !== -1;
+
+                isMatch = hasPath;
+            } else {
+                const routeNode = this.routeNode(),
+                      isInNode = routeNode && routeNode.indexOf(param) === 0;
+
+                isMatch = isInNode;
+            }
+
+            return isMatch ? 'active' : '';
         });
     }
 }

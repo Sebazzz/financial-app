@@ -12,17 +12,17 @@
 
     <div class="collapse navbar-collapse" id="top-menu-content">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active" data-bind="css: hasPath('/')">
-                <a class="nav-link" href="/">Home</a>
+            <li class="nav-item active" data-bind="css: hasLocation('default')">
+                <a class="nav-link" href="#" data-bind="route: default">Home</a>
             </li>
-            <li class="nav-item" data-bind="css: hasPath(nowPath)">
-                <a class="nav-link" href="/now">Huidige maand</a>
+            <li class="nav-item" data-bind="css: hasLocation(nowPath)">
+                <a class="nav-link" href="#" data-bind="route: now">Huidige maand</a>
             </li>
-            <li class="nav-item" data-bind="css: hasPath('/report')">
-                <a class="nav-link" href="/report">Rapportage</a>
+            <li class="nav-item" data-bind="css: hasLocation('report')">
+                <a class="nav-link" href="#" data-bind="route: report">Rapportage</a>
             </li>
-            <li class="nav-item" data-bind="css: hasPath('/archive')">
-                <a class="nav-link" href="/archive">Archief</a>
+            <li class="nav-item" data-bind="css: hasLocation('archive')">
+                <a class="nav-link" href="#"  data-bind="route: archive">Archief</a>
             </li>
         </ul>
         
@@ -32,18 +32,18 @@
             </li>
             <li class="nav-item dropdown">
                 <a href="javascript:void(0)"
-                   data-bind="css: hasPath('/manage')"
+                   data-bind="css: hasLocation('manage')"
                    class="nav-link dropdown-toggle"
                    data-toggle="dropdown">Beheer<b class="caret"></b></a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" data-bind="css: hasPath('/manage/entry-template')" href="/manage/entry-template">Regeltemplates</a>
-                    <a class="dropdown-item" data-bind="css: hasPath('/manage/category')" href="/manage/category">Categorieëen</a>
-                    <a class="dropdown-item" data-bind="css: hasPath('/manage/user')" href="/manage/user">Gebruikers</a>
-                    <a class="dropdown-item" data-bind="css: hasPath('/manage/impersonate')" href="/manage/impersonate">Account wisselen</a>
+                    <a class="dropdown-item" data-bind="css: hasLocation('manage.entry-template'), route: manage.entry-template" href="#">Regeltemplates</a>
+                    <a class="dropdown-item" data-bind="css: hasLocation('manage.category'), route: manage.category" href="#">Categorieëen</a>
+                    <a class="dropdown-item" data-bind="css: hasLocation('manage.user'), route: manage.user" href="#">Gebruikers</a>
+                    <a class="dropdown-item" data-bind="css: hasLocation('manage.impersonate'), route: manage.impersonate" href="#">Account wisselen</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="/auth/logoff" class="nav-link" data-bind="css: hasPath('/auth/logoff')">Uitloggen</a>
+                <a href="#" class="nav-link" data-bind="css: hasLocation('auth.logoff'), route: auth.logoff">Uitloggen</a>
             </li>
         </ul>
     </div>

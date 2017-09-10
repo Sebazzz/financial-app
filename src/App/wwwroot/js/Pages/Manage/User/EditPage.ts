@@ -8,7 +8,7 @@ export default class EditPage extends Page {
         this.templateName = 'UserEdit';
         this.routes = [
                 { name: 'manage.user.edit', path: '/edit/:id' },
-                { name: 'manage.user.create', path: '/create'}
+                { name: 'manage.user.add', path: '/add'}
             ];
     }
 

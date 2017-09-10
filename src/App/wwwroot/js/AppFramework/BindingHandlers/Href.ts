@@ -30,3 +30,44 @@ ko.bindingHandlers['href'] = {
         });
     }
 };
+
+ko.bindingHandlers['route'] = {
+    init(element: HTMLAnchorElement, valueAccessor: () => HrefOptions, ignored1: any, ignored2: any, bindingContext: KnockoutBindingContext) {
+        ko.computed(() => {
+            let options = ko.unwrap<IRouteOptions | string>(valueAccessor());
+            if (!isRouteOptions(options)) {
+                options = {
+                    route: options,
+                } as IRouteOptions;
+            }
+
+            const $app = bindingContext.$root as App,
+                  href = $app.router.getRoute(options.route, options.params);
+
+            element.href = href;
+        }).extend({
+            disposeWhenNodeIsRemoved: element
+        });
+    },
+    preprocess(input: string) {
+        // We allow the following syntax:
+        // route: 'derp'
+        // route: derp
+        // route: derp | {}
+
+        if (input.indexOf('\'') !== -1) {
+            return input;
+        }
+
+        const paramsSeperatorIndex = input.indexOf('|'),
+              paramsString = paramsSeperatorIndex !== -1 ? input.substr(paramsSeperatorIndex + 1) : null,
+              routeString = paramsSeperatorIndex !== -1 ? input.substr(0, paramsSeperatorIndex) : input,
+              trimmedRouteName = routeString.trim();
+
+        if (paramsString) {
+            return `{ route: '${trimmedRouteName}', params: ${paramsString} }`;
+        }
+
+        return `'${trimmedRouteName}'`;
+    }
+}
