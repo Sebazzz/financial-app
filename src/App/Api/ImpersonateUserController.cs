@@ -16,6 +16,8 @@ namespace App.Api
     using App.Models.Domain.Services;
     using AutoMapper;
 
+    using Microsoft.EntityFrameworkCore;
+
     [Authorize]
     [Route("api/user/impersonate")]
     public class ImpersonateUserController : ApiController {
@@ -49,7 +51,7 @@ namespace App.Api
             AppUser currentUser = await this._appUserManager.FindByIdAsync(currentUserId);
             currentUser.EnsureNotNull(HttpStatusCode.Forbidden);
 
-            AppUser user = await this._appUserManager.FindByIdAsync(id);
+            AppUser user = await this._appUserManager.Users.Where(x => x.Id == id).Include(x => x.TrustedUsers).FirstOrDefaultAsync();
             user.EnsureNotNull(HttpStatusCode.Forbidden);
 
             if (!user.TrustedUsers.Contains(currentUser)) {
@@ -59,10 +61,10 @@ namespace App.Api
             await this._authenticationManager.SignInAsync(user, true);
 
             return new AuthenticationInfo {
-                                                IsAuthenticated = true,
-                                                UserId = user.Id,
-                                                UserName = user.UserName
-                                            };
+                IsAuthenticated = true,
+                UserId = user.Id,
+                UserName = user.UserName
+            };
         } 
     }
 }

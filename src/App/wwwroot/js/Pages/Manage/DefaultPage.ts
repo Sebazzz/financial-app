@@ -7,7 +7,7 @@ export default class DefaultPage extends Page {
 
         this.templateName = 'Default';
         this.routes = [
-            { name: 'manage', path: '/', forwardTo: 'default' }
+            { name: 'manage', path: '/manage', forwardTo: 'default' }
         ];
     }
 

@@ -1,4 +1,4 @@
-﻿import HttpClient from './HttpClient';
+﻿import ApiBase from './ApiBase';
 
 export interface IAuthenticationInfo {
     userId : number;
@@ -12,9 +12,7 @@ export interface ILoginModel {
     persistent: boolean;
 }
 
-export class Api {
-    private httpClient = HttpClient.create();
-
+export class Api extends ApiBase {
     public check(): Promise<IAuthenticationInfo> {
         return this.httpClient.get<IAuthenticationInfo>('/api/authentication/check');
     }

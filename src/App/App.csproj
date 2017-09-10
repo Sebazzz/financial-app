@@ -28,6 +28,9 @@
     <Content Remove="wwwroot\js\PageFactory.ts" />
     <Content Remove="wwwroot\js\Pages\AuthLogOffPage.ts" />
     <Content Remove="wwwroot\js\Pages\DefaultPage.ts" />
+    <Content Remove="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
+    <Content Remove="wwwroot\js\ServerApi\User.ts" />
+    <Content Remove="wwwroot\js\ServerApi\UserImpersonate.ts" />
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -88,6 +91,7 @@
     <TypeScriptCompile Include="wwwroot\js\AppFramework\AppFactory.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\AuthenticationService.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ComponentLoader.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\ApiBase.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\Authentication.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\HttpClient.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\Loader.ts" />
@@ -100,6 +104,9 @@
     <TypeScriptCompile Include="wwwroot\js\Pages\Auth\LogOffPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\ServerApi\User.ts" />
+    <TypeScriptCompile Include="wwwroot\js\ServerApi\UserImpersonate.ts" />
   </ItemGroup>
 
   <ItemGroup>
