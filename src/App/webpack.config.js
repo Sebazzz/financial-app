@@ -77,16 +77,8 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          'file-loader'
-        ]
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          'file-loader'
-        ]
+          test: /\.(png|svg|jpg|gif|ttf|eot|woff|woff2)$/,
+          use: 'url-loader?limit=8192'
       }
     ]
   }
