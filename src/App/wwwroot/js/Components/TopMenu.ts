@@ -4,7 +4,7 @@ import AppContext from '../AppFramework/AppContext';
 import * as ko from 'knockout';
 
 class TopMenu extends framework.Panel {
-    private path = ko.observable<string>();
+    private path = ko.observable<string>('/');
 
     public nowPath = ko.observable<string>('now'); // TODO
     public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
@@ -18,24 +18,26 @@ class TopMenu extends framework.Panel {
     constructor(appContext: AppContext) {
         super(appContext);
 
-        const self = this;
         const menuPlugin: RouterPluginFactory = () => {
             return {
-                    onTransitionSuccess(toState: State, fromState: State) {
-                        toState && self.path(toState.path);
-                    }
+                onTransitionSuccess: (toState: State) => {
+                    toState && this.path(toState.path);
                 }
+            }
         };
 
         menuPlugin.pluginName = 'top-menu-plugin';
         appContext.router.usePlugin(menuPlugin);
     }
 
-    public hasPath(path: string) {
+    public hasPath(searchPath: string|KnockoutObservable<string>) {
         return ko.pureComputed(() => {
-            const path = this.path();
+            const path = this.path(),
+                  subPath = ko.unwrap(searchPath),
+                  isHomePath = searchPath === '/',
+                  hasPath = isHomePath ? path === '/' : path && path.indexOf(subPath) !== -1;
 
-            return path && path.indexOf(path) !== -1;
+            return hasPath ? 'active' : '';
         });
     }
 }
