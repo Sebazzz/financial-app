@@ -106,9 +106,14 @@ export default class AuthenticationService {
 
     // By persisting the authentication information, we can tell 
     // in advance whether an user is authenticated or not
-    private static getPersistedAuthenticationInfo(): auth.IAuthenticationInfo {
+    private static getPersistedAuthenticationInfo(): auth.IAuthenticationInfo|null {
         try {
-            return JSON.parse(localStorage.getItem(this.persistedAuthInfoKey));
+            const rawData = localStorage.getItem(this.persistedAuthInfoKey);
+            if (!rawData) {
+                return null;
+            }
+
+            return JSON.parse(rawData);
         } catch (e) {
             return null;
         }

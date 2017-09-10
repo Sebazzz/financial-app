@@ -7,7 +7,7 @@ import * as ko from 'knockout';
 
 export abstract class Page extends Panel {
     public title = ko.observable<string>();
-    public templateName : string = null;
+    public templateName : string|null = null;
 
     protected constructor(appContext: AppContext) {
         super(appContext);
@@ -52,8 +52,13 @@ class PageTemplateManager {
     }
 
     public async loadTemplate(page : Page): Promise<string> {
-        const templateName = page.templateName,
-              templateId = PageTemplateManager.templateId(templateName),
+        const templateName = page.templateName;
+
+        if (!templateName) {
+            throw new Error(`Unable to load empty template for ${page.constructor}`);
+        }
+
+        const templateId = PageTemplateManager.templateId(templateName),
               templateUrl = `/ko-templates/${templateName}.html`;
 
         if (this.loadedTemplates[templateName] === true) {
@@ -146,16 +151,18 @@ class PageComponentModel {
 }
 
 class PageComponent implements KnockoutComponentTypes.ComponentConfig {
-    public viewModel : KnockoutComponentTypes.ViewModelFactoryFunction = null;
-    public template : string  = null;
+    private appContext : AppContext;
+    public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
+        createViewModel: () => {
+            return new PageComponentModel(this.appContext);
+        }
+    };
+
+    public template : string;
     public synchronous = true;
 
-    constructor(appContext : AppContext) {
-        this.viewModel = {
-                createViewModel: () => {
-                    return new PageComponentModel(appContext);
-                } 
-            };
+    constructor(appContext: AppContext) {
+        this.appContext = appContext;
 
         this.template = `<div data-bind="template: { name: $component.templateName, data: $component.page }"></div>`;
     }

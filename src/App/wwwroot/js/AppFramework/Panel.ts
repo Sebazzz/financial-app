@@ -43,16 +43,18 @@ export abstract class Panel {
 export type PanelFactory<T> = (params?: any, componentInfo?: KnockoutComponentTypes.ComponentInfo) => T;
 
 export class PanelComponent<T extends Panel> implements KnockoutComponentTypes.Config {
-    public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = null;
+    protected factory: PanelFactory<T>;
+
+    public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
+        createViewModel: (params?: any, componentInfo?: KnockoutComponentTypes.ComponentInfo) => {
+            return this.factory(params, componentInfo);
+        }
+    };
+
     public template: any = null;
 
-    constructor(protected name: string, protected factory: PanelFactory<T>) {
-        this.viewModel = {
-            createViewModel(params?: any, componentInfo?: KnockoutComponentTypes.ComponentInfo) {
-                return factory(params, componentInfo);
-            }
-        };
-
+    constructor(protected name: string, factory: PanelFactory<T>) {
+        this.factory = factory;
         this.template = {
             location: `ko-templates/widgets/${this.name}.html`
         };

@@ -9,10 +9,9 @@ export interface IRouteProvider {
 }
 
 export class Router {
-    private router: RouterImpl = null;
+    private router: RouterImpl = createRouter(undefined, { defaultRoute: 'default' });
 
     constructor() {
-        this.router = createRouter(null, {defaultRoute: 'default'});
         this.router.usePlugin(loggerPlugin);
         this.router.usePlugin(browserPlugin({}));
     }

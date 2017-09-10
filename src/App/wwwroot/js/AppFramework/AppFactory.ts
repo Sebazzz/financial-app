@@ -61,7 +61,7 @@ function bind(app: App) {
 
 function registerBindingProvider() {
     function preprocessor(node: Node) : void {
-        if (node.nodeType === 8) {
+        if (node.nodeType === 8 && node.nodeValue) {
             node.nodeValue = node.nodeValue.replace('$appContext', '$app.context');
             node.nodeValue = node.nodeValue.replace('$app', '$root');
         } else if (node instanceof HTMLElement) {
@@ -69,8 +69,6 @@ function registerBindingProvider() {
 
             if (dataBind) node.setAttribute('data-bind', dataBind.replace('$appContext', '$app.context').replace('$app', '$root'));
         }
-
-        return null;
     }
 
    (ko.bindingProvider.instance as any)['preprocessNode'] = preprocessor;
