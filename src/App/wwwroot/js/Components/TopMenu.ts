@@ -42,12 +42,12 @@ class TopMenu extends framework.Panel {
                 const path = this.path(),
                       hasPath = path && path.indexOf(param) !== -1;
 
-                isMatch = hasPath;
+                isMatch = !!hasPath;
             } else {
                 const routeNode = this.routeNode(),
                       isInNode = routeNode && routeNode.indexOf(param) === 0;
 
-                isMatch = isInNode;
+                isMatch = !!isInNode;
             }
 
             return isMatch ? 'active' : '';

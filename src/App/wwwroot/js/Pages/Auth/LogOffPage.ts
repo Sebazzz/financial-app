@@ -8,6 +8,7 @@ export default class AuthLogOffPage extends Page {
     constructor(appContext: AppContext) {
         super(appContext);
 
+        this.title('Uitloggen');
         this.templateName = 'AuthLogOff';
         this.routes = [
             { name: 'auth.logoff', path: '/logoff' }

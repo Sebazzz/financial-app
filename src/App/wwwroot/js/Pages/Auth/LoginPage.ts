@@ -13,6 +13,7 @@ export default class AuthLoginPage extends Page {
     constructor(appContext: AppContext) {
         super(appContext);
 
+        this.title('Inloggen');
         this.templateName = 'AuthLogin';
         this.routes = [
             { name: 'auth', path: '/auth', forwardTo: '/auth/login' },

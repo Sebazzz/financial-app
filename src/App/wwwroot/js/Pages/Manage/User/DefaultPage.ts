@@ -11,6 +11,7 @@ export default class DefaultPage extends Page {
     constructor(appContext: AppContext) {
         super(appContext);
 
+        this.title('Gebruikers');
         this.templateName = 'UserList';
         this.routes = [
             { name: 'manage.user', path: '/user' }

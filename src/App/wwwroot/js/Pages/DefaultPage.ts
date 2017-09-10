@@ -9,6 +9,7 @@ export default class DefaultPage extends Page {
     constructor(appContext: AppContext) {
         super(appContext);
 
+        this.title('Welkom');
         this.templateName = 'Default';
         this.routes = [
             { name: 'default', path: '/' }

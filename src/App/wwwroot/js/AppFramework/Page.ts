@@ -97,7 +97,7 @@ class PageComponentModel {
 
     public title = ko.computed(() => {
         const page = this.page(),
-              pageTitle = page && page.title() || 'Untitled page';
+              pageTitle = page && page.title();
 
         return pageTitle;
     });
@@ -106,7 +106,11 @@ class PageComponentModel {
         this.templateManager = new PageTemplateManager(appContext);
         appContext.router.useMiddleware(() => this.handleRouteChange.bind(this));
 
-        this.title.subscribe(() => document.title = this.title() + this.appContext.title);
+        ko.computed(() => {
+            const title = this.title();
+
+            document.title = title ? `${title} - ${this.appContext.title}` : this.appContext.title;
+        });
     }
 
     public async handleRouteChange(toState: State, fromState?: State, done?: Function): Promise<boolean> {
