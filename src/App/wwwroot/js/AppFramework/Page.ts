@@ -1,6 +1,6 @@
 ﻿import AppContext from './AppContext';
-import { State, Router as RouterImpl } from 'router5'
-import {Panel,ActivationPromise, PanelComponent} from './Panel';
+import { State } from 'router5'
+import {Panel,ActivationPromise} from './Panel';
 import * as router from './Router';
 import * as $ from 'jquery';
 import * as ko from 'knockout';

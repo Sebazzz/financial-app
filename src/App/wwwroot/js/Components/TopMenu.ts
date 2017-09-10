@@ -1,5 +1,5 @@
 ﻿import * as framework from '../AppFramework/Panel';
-import {State, Plugin as RouterPlugin, PluginFactory as RouterPluginFactory} from 'router5';
+import {State, PluginFactory as RouterPluginFactory} from 'router5';
 import AppContext from '../AppFramework/AppContext';
 import * as ko from 'knockout';
 

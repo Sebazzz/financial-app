@@ -1,4 +1,3 @@
-import * as ko from 'knockout';
 import * as af from './AppFramework/AppFactory'
 import {App} from './App'
 

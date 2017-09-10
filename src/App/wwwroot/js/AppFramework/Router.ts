@@ -1,5 +1,5 @@
 ﻿import browserPlugin from 'router5/plugins/browser';
-import { createRouter, constants, errorCodes, loggerPlugin, transitionPath, Route, Router as RouterImpl } from 'router5';
+import { createRouter, loggerPlugin, Route, Router as RouterImpl } from 'router5';
 import * as $ from 'jquery';
 
 export type RoutingTable = Array<Route>;
