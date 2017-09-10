@@ -1,0 +1,42 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension=".ts" #>
+<#@ import namespace="System.IO" #>
+import AppContext from './AppFramework/AppContext';
+<#
+
+	var templateFile = Host.TemplateFile;
+	var currentDirectory = Path.GetDirectoryName(templateFile);
+	var pagesDirectoryPath = Path.Combine(currentDirectory, "Pages");
+	var pageFiles = Directory.GetFiles(pagesDirectoryPath, "*.ts", SearchOption.AllDirectories);
+
+	foreach (var pageFile in pageFiles) {#>
+import <#=GetAliasName(pageFile, currentDirectory)#> from '<#=GetModuleName(pageFile, currentDirectory)#>';
+<#}#>
+
+export default function getPages(appContext : AppContext) {
+    return [
+<# foreach (var pageFile in pageFiles) {#>
+        new <#=GetAliasName(pageFile, currentDirectory)#>(appContext)<#=EmitComma(pageFile, pageFiles)#>
+<#}#>
+    ];
+}
+
+<#+
+	static string GetAliasName(string pageFile, string currentDirectory) {
+		string moduleName = GetModuleName(pageFile, currentDirectory);
+		string alias = moduleName.Replace("Pages/", "").Replace("./", "").Replace("/", "_");
+		return alias;
+	}
+
+	static string GetModuleName(string pageFile, string currentDirectory) {
+		string relativePath = pageFile.Substring(currentDirectory.Length + 1);
+		string withoutExtension = relativePath.Replace(".ts", "");
+		string forwardSlash = withoutExtension.Replace("\\", "/");
+		return "./" + forwardSlash;
+	}
+
+	static string EmitComma(string item, string[] array) {
+		int itemIndex = Array.IndexOf(array, item);
+		return itemIndex == array.Length - 1 ? "" : ",";
+	}
+#>

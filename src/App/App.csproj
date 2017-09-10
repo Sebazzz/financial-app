@@ -92,13 +92,29 @@
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\HttpClient.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\Loader.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\TopMenu.ts" />
-    <TypeScriptCompile Include="wwwroot\js\PageFactory.ts" />
+    <TypeScriptCompile Include="wwwroot\js\PageFactory.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PageFactory.tt</DependentUpon>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="wwwroot\js\Pages\Auth\LogOffPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Manage\DefaultPage.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\build\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\js\PageFactory.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PageFactory.ts</LastGenOutput>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>
