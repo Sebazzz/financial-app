@@ -3,6 +3,7 @@ import { registerPageLoader, Page } from './Page';
 import { Router } from './Router';
 import * as ko from 'knockout';
 import * as ComponentLoader from './ComponentLoader';
+import './BindingHandlers/All';
 
 export class App {
     public pages: Page[] = [];

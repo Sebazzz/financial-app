@@ -58,4 +58,8 @@ export class Router {
 
         return false;
     }
+
+    public getRoute(route: string, params?: any): string {
+        return this.router.buildPath(route, params || {});
+    }
 }

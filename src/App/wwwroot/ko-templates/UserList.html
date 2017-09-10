@@ -1,37 +1,37 @@
 ﻿<h1>Gebruikers</h1>
 
-<div ng-show="isLoaded">
+<div>
     <p>
         Beheer met dit scherm de medegebruikers (en jezelf) in je account.
     </p>
 
-    <ul class="list-unstyled actionable-list">
-        <li ng-repeat="user in users">
+    <ul class="list-unstyled actionable-list" data-bind="foreach: { data: users, as: 'user' }">
+        <li>
             <div class="pull-right">
-                <a class="btn btn-default btn-sm" ng-href="/manage/user/edit/{{user.id}}" tooltip="Bewerken">
-                    <span class="glyphicon glyphicon-pencil"></span>
+                <a class="btn btn-secondary btn-sm" 
+                   href="#"
+                   data-bind="href: { route: 'manage.user.edit', params: { id: user.id }}, tooltip: 'Gebruiker bewerken'">
+                    <span class="fa fa-pencil"></span>
                 </a>
 
-                <span class="inline-block" tooltip="Gebruiker verwijderen">
+                <span class="inline-block" data-bind="tooltip: 'Gebruiker verwijderen'">
                     <a class="btn btn-danger btn-sm"
-                       ng-click="deleteUser(user)">
-                        <span class="glyphicon glyphicon-trash"></span>
+                       data-bind="click: $parent.deleteUser">
+                        <span class="fa fa-trash"></span>
                     </a>
                 </span>
             </div>
 
             <strong>
                 <a href="#"
-                   ng-href="/manage/user/edit/{{user.id}}">{{user.userName}}</a>
+                   data-click="href: { route: 'manage.user.edit', params: { id: user.id }}, text: user.userName"></a>
             </strong> 
 
-            <small>({{user.email}})</small>
+            <small>(<span data-bind="text: user.email"></span>)</small>
         </li>
     </ul>
     
     <p>
-        <a href="/manage/user/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Nieuwe gebruiker</a>
+        <a href="/manage/user/add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe gebruiker</a>
     </p>
 </div>
-
-<div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

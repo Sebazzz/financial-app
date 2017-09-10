@@ -20,6 +20,8 @@
     <Content Remove="wwwroot\js\App.ts" />
     <Content Remove="wwwroot\js\AppFramework\AppFactory.ts" />
     <Content Remove="wwwroot\js\AppFramework\AuthenticationService.ts" />
+    <Content Remove="wwwroot\js\AppFramework\BindingHandlers.ts" />
+    <Content Remove="wwwroot\js\AppFramework\BindingHandlers\All.ts" />
     <Content Remove="wwwroot\js\AppFramework\ComponentLoader.ts" />
     <Content Remove="wwwroot\js\AppFramework\HttpClient.ts" />
     <Content Remove="wwwroot\js\AppFramework\ServerApi\Authentication.ts" />
@@ -29,6 +31,7 @@
     <Content Remove="wwwroot\js\Pages\AuthLogOffPage.ts" />
     <Content Remove="wwwroot\js\Pages\DefaultPage.ts" />
     <Content Remove="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
+    <Content Remove="wwwroot\js\Pages\Manage\User\EditPage.ts" />
     <Content Remove="wwwroot\js\ServerApi\User.ts" />
     <Content Remove="wwwroot\js\ServerApi\UserImpersonate.ts" />
     <None Update="wwwroot\**\*;Views\**\*">
@@ -90,6 +93,9 @@
     <TypeScriptCompile Include="wwwroot\js\App.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\AppFactory.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\AuthenticationService.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\All.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Tooltip.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Href.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ComponentLoader.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\ApiBase.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\Authentication.ts" />
@@ -105,6 +111,8 @@
     <TypeScriptCompile Include="wwwroot\js\Pages\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Manage\User\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Manage\User\EditPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\User.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\UserImpersonate.ts" />
   </ItemGroup>
