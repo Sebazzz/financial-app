@@ -2,6 +2,7 @@
 import AppContext from '../../../AppFramework/AppContext'
 import * as user from '../../../ServerApi/User';
 import * as ko from 'knockout';
+import confirmAsync from '../../../AppFramework/Forms/Confirmation';
 
 export default class DefaultPage extends Page {
     private api = new user.Api();
@@ -25,8 +26,9 @@ export default class DefaultPage extends Page {
     }
 
     public async deleteUser(user: user.IAppUserListing) {
-        await this.api.delete(user.id);
-        this.users.remove(user);
-
+        if (await confirmAsync(`Weet je zeker dat je ${user.userName} wilt verwijderen?`, 'Gebruiker verwijderen', true)) {
+            await this.api.delete(user.id);
+            this.users.remove(user);
+        }
     }
 } 
