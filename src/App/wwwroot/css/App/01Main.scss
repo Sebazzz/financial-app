@@ -129,3 +129,12 @@ tr#sheet-offset td + td{
         padding: 10px 2px;
     }
 }
+
+// Custom elements
+top-menu, page-container {
+    display: block;
+}
+
+top-menu {
+    margin-bottom: 1rem;
+}
