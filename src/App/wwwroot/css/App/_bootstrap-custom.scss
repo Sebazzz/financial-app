@@ -36,4 +36,7 @@ $enable-shadows: true;
 $enable-gradients: true;
 $enable-transitions: true;
 
+$modal-content-bg: $gray-900;
+$close-color: $white;
+
 @import "bootstrap/scss/bootstrap.scss";
