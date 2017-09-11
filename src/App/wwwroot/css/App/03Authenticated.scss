@@ -29,3 +29,7 @@ t
 .navbar {
     border-top: 2px solid darken($accent-color, 15%);
 }
+
+.invalid-feedback-list {
+    white-space: pre-line;
+}
