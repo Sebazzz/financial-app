@@ -34,6 +34,7 @@ function middleware(router: Router, authenticationService: AuthenticationService
         if (!isAuthenticating) {
             console.log('AuthenticationMiddleware: Path %s rejected: not logged in', path);
 
+            router.cancel();
             router.navigate('auth.login');
             return Promise.reject<boolean>('unauthenticated');
         }
@@ -49,6 +50,7 @@ function middleware(router: Router, authenticationService: AuthenticationService
                     resolve(true);
                 } else {
                     reject('unauthenticated');
+                    router.cancel();
                     router.navigate('auth.login');
                 }
             });
