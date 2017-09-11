@@ -2,7 +2,9 @@
     "compilerOptions": {
         "allowJs": true,
         "alwaysStrict": true,
-        "lib": [ "dom", "es5", "es2015.promise", "es2015.iterable", "scripthost" ],
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": [ "dom", "es5", "es2015.promise", "es2015.iterable", "es2015.reflect", "scripthost" ],
         "importHelpers": true,
         "module": "commonjs",
         "noFallthroughCasesInSwitch": true,

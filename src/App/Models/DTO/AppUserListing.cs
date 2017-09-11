@@ -1,24 +1,20 @@
 ﻿namespace App.Models.DTO {
-    using System.Runtime.Serialization;
+    using System.ComponentModel.DataAnnotations;
 
-    [DataContract]
     public class AppUserListing {
-        [DataMember]
+        [Required(ErrorMessage = "Het e-mail adres is verplicht")]
+        [RegularExpression("(.*)@(.*)", ErrorMessage = "Vul een geldig e-mail adres in")]
         public string Email { get; set; }
 
-        [DataMember]
+        [Required(ErrorMessage = "De gebruikersnaam is verplicht")]
         public string UserName { get; set; }
 
-        [DataMember]
         public int Id { get; set; }
     }
 
-    [DataContract]
     public class AppUserMutate : AppUserListing {
-        [DataMember]
         public string NewPassword { get; set; }
 
-        [DataMember]
         public string CurrentPassword { get; set; }
     }
 }

@@ -46,6 +46,7 @@
 
             services.AddMvc(options => {
                 options.Filters.Add(typeof(HttpResponseExceptionActionFilter));
+                options.Filters.Add(typeof(ModelStateCamelCaseFilter));
             }).AddWebApiConventions();
 
             services.AddIdentity<AppUser, AppRole>(

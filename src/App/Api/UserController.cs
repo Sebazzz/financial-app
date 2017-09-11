@@ -4,7 +4,6 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Net;
-    using System.Net.Http;
     using System.Threading.Tasks;
     using System.Web.Http;
     using AutoMapper;
@@ -13,7 +12,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Models.Domain;
     using Models.Domain.Identity;
     using Models.Domain.Repositories;
@@ -21,7 +20,7 @@
 
     [Authorize]
     [Route("api/user")]
-    public class UserController : ApiController {
+    public class UserController : Controller {
         private readonly AppUserManager _appUserManager;
         private readonly AppOwnerRepository _appOwnerRepository;
         private readonly IMapper _mappingEngine;
@@ -32,14 +31,10 @@
             this._mappingEngine = mappingEngine;
         }
 
-        protected int OwnerId
-        {
-            get { return this.User.Identity.GetOwnerGroupId(); }
-        }
+        protected int OwnerId => this.User.Identity.GetOwnerGroupId();
 
         // GET: api/User
-        [HttpGet]
-        [Route("")]
+        [HttpGet("")]
         public IEnumerable<AppUserListing> Get() {
             return this._appUserManager.Users
                                        .Where(x => x.GroupId == this.OwnerId)
@@ -48,8 +43,7 @@
         }
 
         // GET: api/User/5
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}", Name = "User-Get")]
         public async Task<AppUserListing> Get(int id) {
             AppUser user = await this.GetUser(id);
 
@@ -65,35 +59,62 @@
         }
 
         // POST: api/User
-        [HttpPost]
-        [Route("")]
-        public async Task<InsertId> Post([FromBody] AppUserMutate value) {
+        [HttpPost("")]
+        public async Task<IActionResult> Post([FromBody] AppUserMutate value) {
             AppUser newUser = AppUser.Create(value.UserName, value.Email, this.GetCurrentGroup());
-            IdentityResult result = await this._appUserManager.CreateAsync(newUser, value.NewPassword);
-            this.EnsureSucceeded(result);
+            await this.ValidatePasswordInformation(value, newUser);
 
-            return newUser.Id;
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            IdentityResult result = await this._appUserManager.CreateAsync(newUser, value.NewPassword);
+            if (!result.Succeeded) {
+                return this.BadRequest(result.Errors);
+            }
+
+            return this.CreatedAtRoute("User-Get", new {id = newUser.Id}, this.Get(newUser.Id));
         }
 
-        private void EnsureSucceeded(IdentityResult result) {
-            if (!result.Succeeded) {
-                throw new HttpResponseException(
-                    this.Request.CreateResponse(HttpStatusCode.BadRequest, result.Errors));
+        private async Task ValidatePasswordInformation(AppUserMutate value, AppUser newUser) {
+            if (value.CurrentPassword != value.NewPassword) {
+                this.ModelState.AddModelError<AppUserMutate>(x => x.NewPassword, "De wachtwoorden zijn niet gelijk aan elkaar.");
+            } else if (String.IsNullOrEmpty(value.CurrentPassword)) {
+                this.ModelState.AddModelError<AppUserMutate>(x => x.CurrentPassword, "Voer een wachtwoord in.");
+            } else {
+                foreach (IPasswordValidator<AppUser> passwordValidator in this._appUserManager.PasswordValidators) {
+                    var validationResult = await passwordValidator.ValidateAsync(this._appUserManager, newUser, value.CurrentPassword);
+
+                    if (!validationResult.Succeeded) {
+                        foreach (IdentityError identityError in validationResult.Errors) {
+                            this.ModelState.AddModelError<AppUserMutate>(x => x.CurrentPassword, identityError.Description);
+                        }
+                    }
+                }
             }
         }
 
         // PUT: api/User/5
         [HttpPut]
         [Route("{id}")]
-        public async Task<InsertId> Put(int id, [FromBody] AppUserMutate value) {
+        public async Task<IActionResult> Put(int id, [FromBody] AppUserMutate value) {
             AppUser currentUser = await this.GetUser(id);
 
             if (value.UserName != null) this.EnsureNotCurrentUser(id);
+            if (value.CurrentPassword != null) {
+                await this.ValidatePasswordInformation(value, currentUser);
+            }
+
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
 
             currentUser.UserName = value.UserName ?? currentUser.UserName;
             currentUser.Email = value.Email ?? currentUser.Email;
             IdentityResult result = await this._appUserManager.UpdateAsync(currentUser);
-            this.EnsureSucceeded(result);
+            if (!result.Succeeded) {
+                return this.BadRequest(result.Errors);
+            }
 
             if (value.NewPassword != null) {
                 if (this.User.Identity.GetUserId() == id) {
@@ -106,15 +127,17 @@
                     throw new NotImplementedException();
                     //result = await this._appUserManager.ChangePasswordAsync(currentUser, value.NewPassword);
                 }
-                this.EnsureSucceeded(result);
+
+                if (!result.Succeeded) {
+                    return this.BadRequest(result.Errors);
+                }
             }
 
-            return id;
+            return this.NoContent();
         }
 
         // DELETE: api/User/5
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpDelete("{id}")]
         public async Task Delete(int id) {
             this.EnsureNotCurrentUser(id);
 
@@ -136,8 +159,7 @@
 
         private void EnsureNotCurrentUser(int targetUserId) {
             if (targetUserId == this.User.Identity.GetUserId()) {
-                throw new HttpResponseException(
-                    this.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "You cannot edit your own details."));
+                throw new InvalidOperationException("You cannot edit your own details.");
             }
         }
     }

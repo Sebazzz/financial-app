@@ -1,6 +1,9 @@
 ﻿namespace App.Api.Extensions {
     using System.Net;
+    using System.Net.Http;
     using System.Web.Http;
+
+    using Microsoft.AspNetCore.Mvc;
 
     internal static class ApiExtensions {
         /// <summary>

@@ -29,6 +29,7 @@
     "jquery": "3.2.1",
     "knockout": "3.4.2",
     "moment": "2.18.1",
+    "reflect-metadata": "0.1.10",
     "router5": "5.1.7",
     "tslib": "1.7.1"
   },

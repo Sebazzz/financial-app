@@ -1,10 +1,10 @@
 ﻿// ******************************************************************************
-//  © 2016 Ernst & Young - www.ey.com | www.beco.nl
+//  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  Author          : Ernst & Young - Cleantech and Sustainability
-//  File:           : IncludeTagHelper.cs
+//  File:           : VersionedFileTagHelper.cs
 //  Project         : App
 // ******************************************************************************
+
 
 namespace App.Support.TagHelpers {
     using System;

@@ -36,7 +36,7 @@ module.exports = {
   entry: {
       'app.js': ['./wwwroot/js/main.ts' ],
       'app.css': ['./wwwroot/css/App/App.scss' ],
-      'lib.js': ['jquery', 'router5', 'bootstrap', 'tslib', 'popper.js', 'knockout']
+      'lib.js': ['jquery', 'router5', 'bootstrap', 'tslib', 'popper.js', 'knockout', 'reflect-metadata']
   },
   plugins: [
      tsProvide,
