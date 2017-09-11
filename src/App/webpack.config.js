@@ -58,14 +58,18 @@ module.exports = {
         use: extractSass.extract({
             use: [
                 {
-                    loader: 'css-loader'
+                    loader: 'css-loader',
+                    options: {
+                        sourceMap: true
+                    }
                 },
                 {
                     loader: 'sass-loader',
                     options: {
                         includePaths: [
                             './node_modules'
-                        ]
+                        ],
+                        sourceMap: true
                     }
                 }
             ]
