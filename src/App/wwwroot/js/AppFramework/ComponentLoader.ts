@@ -1,17 +1,18 @@
 ﻿import * as ko from 'knockout';
-import * as $ from 'jquery';
 import AppContext from './AppContext';
+import HttpClient from './ServerApi/HttpClient';
 
 export function register(appContext : AppContext) {
     const appVersion = appContext.versionStamp;
     const defaultLoader = ko.components.defaultLoader;
+    const httpClient = HttpClient.create();
 
     ko.components.loaders.unshift({
         loadTemplate(componentName: string, templateConfig: any, callback: (result: Node[] | null) => void): void {
             if (typeof templateConfig === 'object' && typeof templateConfig.location === 'string') {
                 console.log('ComponentLoader: %s', componentName);
-                $.get(templateConfig.location, {v:appVersion})
-                    .done((html: any) => {
+                httpClient.getText(templateConfig.location, {v:appVersion})
+                    .then((html: any) => {
                         if (!html) {
                             return;
                         }

@@ -1,8 +1,8 @@
 ﻿import AppContext from './AppContext';
 import { State } from 'router5'
 import {Panel,ActivationPromise} from './Panel';
+import HttpClient from './ServerApi/HttpClient';
 import * as router from './Router';
-import * as $ from 'jquery';
 import * as ko from 'knockout';
 
 export abstract class Page extends Panel {
@@ -47,6 +47,7 @@ export abstract class Page extends Panel {
 
 class PageTemplateManager {
     private loadedTemplates: { [template: string]: boolean | null | undefined } = {};
+    private httpClient = HttpClient.create();
 
     constructor(private appContext: AppContext) {
     }
@@ -67,7 +68,7 @@ class PageTemplateManager {
 
         console.log('TemplateManager: Loading template from %s', templateUrl);
 
-        const content = await $.get(templateUrl, {v: this.appContext.versionStamp}),
+        const content = await this.httpClient.getText(templateUrl, {v: this.appContext.versionStamp}),
               domElement = document.createElement('script') as HTMLScriptElement;
 
         console.log('TemplateManager: Loaded template from %s', templateUrl);
