@@ -26,8 +26,42 @@ t
     font-size: 90%;
 }
 
+$navbar-top-border-width: 2px;
 .navbar {
-    border-top: 2px solid darken($accent-color, 15%);
+    border-top: $navbar-top-border-width solid darken($accent-color, 15%);
+}
+
+.progress-indicator {
+    .progress-indicator-bar {
+        background: lighten($accent-color, 20%);
+        display: inline-block;
+        height: $navbar-top-border-width;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        overflow: visible;
+    }
+
+    .progress-indicator-spinner {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        color: lighten($accent-color, 20%);
+        animation: rotating 750ms linear infinite;
+        z-index: 1;
+    }
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .invalid-feedback-list {

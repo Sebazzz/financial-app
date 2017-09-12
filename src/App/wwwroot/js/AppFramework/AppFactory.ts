@@ -4,6 +4,7 @@ import { Router } from './Router';
 import * as ko from 'knockout';
 import * as ComponentLoader from './ComponentLoader';
 import './BindingHandlers/All';
+import registerLoadingBar from './Components/LoadingBar';
 
 export class App {
     public pages: Page[] = [];
@@ -75,10 +76,15 @@ function registerBindingProvider() {
    (ko.bindingProvider.instance as any)['preprocessNode'] = preprocessor;
 }
 
+function registerComponents(appContext : AppContext) {
+    registerLoadingBar(appContext);
+}
+
 export function createApp<TModel extends App>(app: TModel) {
     console.info('AppFactory: CreateApp');
 
     ComponentLoader.register(app.context);
+    registerComponents(app.context);
     app.registerComponents();
     initRouter(app);
     registerPageLoader(app.context);
