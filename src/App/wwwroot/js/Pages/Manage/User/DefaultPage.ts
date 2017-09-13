@@ -14,9 +14,7 @@ export default class DefaultPage extends Page {
 
         this.title('Gebruikers');
         this.templateName = 'manage/user/default';
-        this.routes = [
-            { name: 'manage.user', path: '/user' }
-        ];
+        this.routes = { name: 'manage.user', path: '/user' };
 
         this.deleteUser = this.deleteUser.bind(this);
     }

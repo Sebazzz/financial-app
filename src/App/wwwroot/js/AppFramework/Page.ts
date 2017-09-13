@@ -13,7 +13,7 @@ export abstract class Page extends Panel {
         super(appContext);
     }
 
-    public routes: router.RoutingTable = [];
+    public routes: router.RoutingTable | router.Route = [];
 
     public async activate(args?: any): Promise<void> {
         // TODO: change return type to ActivationPromise if bug is fixed:

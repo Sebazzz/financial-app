@@ -6,9 +6,7 @@ export default class DefaultPage extends Page {
         super(appContext);
 
         this.templateName = 'Default';
-        this.routes = [
-            { name: 'manage', path: '/manage', forwardTo: 'default' }
-        ];
+        this.routes = { name: 'manage', path: '/manage', forwardTo: 'default' };
     }
 
     protected onActivate(args?: any): Promise<void> {
