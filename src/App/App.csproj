@@ -22,6 +22,7 @@
     <Content Remove="wwwroot\js\AppFramework\AuthenticationService.ts" />
     <Content Remove="wwwroot\js\AppFramework\BindingHandlers.ts" />
     <Content Remove="wwwroot\js\AppFramework\BindingHandlers\All.ts" />
+    <Content Remove="wwwroot\js\AppFramework\BindingHandlers\Hidden.ts" />
     <Content Remove="wwwroot\js\AppFramework\ComponentLoader.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\Confirmation.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\ValidationMessage.ts" />
@@ -99,6 +100,7 @@
     <TypeScriptCompile Include="wwwroot\js\AppFramework\AuthenticationService.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\All.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Form.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Hidden.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Tooltip.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Href.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ComponentLoader.ts" />
@@ -132,6 +134,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\build\" />
+    <Folder Include="wwwroot\js\typings\" />
   </ItemGroup>
 
   <ItemGroup>
