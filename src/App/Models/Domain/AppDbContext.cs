@@ -2,13 +2,13 @@
     using Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Design;
 
     /// <summary>
     /// Represents the database context for the application
     /// </summary>
     public sealed class AppDbContext : IdentityDbContext<AppUser, AppRole, int> {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
-            
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {          
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -63,6 +63,17 @@
                         .HasOne(x => x.Category)
                         .WithMany(x => x.RecurringSheetEntries)
                         .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+
+    public sealed class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbContext> {
+        public AppDbContext CreateDbContext(string[] args) {
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+            // TODO: Find way to de-dup connection string from appsettings.json
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Integrated Security=true;Database=financial_app;MultipleActiveResultSets=true");
+            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }
