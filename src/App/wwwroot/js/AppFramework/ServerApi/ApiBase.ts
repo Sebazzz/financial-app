@@ -7,19 +7,19 @@ export default class ApiBase {
 
     protected baseUrl: string | null = null;
 
-    public execGet<T>(url: UrlPart = null, data: any = null): Promise<T> {
+    protected execGet<T>(url: UrlPart = null, data: any = null): Promise<T> {
         return this.httpClient.get<T>(this.makeFullUrl(url), data);
     }
 
-    public execPut<T>(url: UrlPart = null, data: any = null): Promise<T> {
+    protected execPut<T>(url: UrlPart = null, data: any = null): Promise<T> {
         return this.httpClient.put<T>(this.makeFullUrl(url), data);
     }
 
-    public execPost<T>(url: UrlPart = null, data: any = null): Promise<T> {
+    protected execPost<T>(url: UrlPart = null, data: any = null): Promise<T> {
         return this.httpClient.post<T>(this.makeFullUrl(url), data);
     }
 
-    public execDelete<T>(url: UrlPart = null, data: any = null): Promise<T> {
+    protected execDelete<T>(url: UrlPart = null, data: any = null): Promise<T> {
         return this.httpClient.delete<T>(this.makeFullUrl(url), data);
     }
 
