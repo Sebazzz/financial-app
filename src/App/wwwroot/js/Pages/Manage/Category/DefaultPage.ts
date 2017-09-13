@@ -14,9 +14,7 @@ export default class DefaultPage extends Page {
 
         this.title('Categoriëen');
         this.templateName = 'manage/category/default';
-        this.routes = [
-            { name: 'manage.category', path: '/category' }
-        ];
+        this.routes = { name: 'manage.category', path: '/category' };
 
         this.deleteCategory = this.deleteCategory.bind(this);
     }

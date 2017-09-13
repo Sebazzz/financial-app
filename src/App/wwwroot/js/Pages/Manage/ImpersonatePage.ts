@@ -14,9 +14,7 @@ export default class ImpersonatePage extends Page {
 
         this.title('Account wisselen');
         this.templateName = 'manage/impersonate';
-        this.routes = [
-            { name: 'manage.impersonate', path: '/impersonate' }
-        ];
+        this.routes = { name: 'manage.impersonate', path: '/impersonate' };
 
         this.impersonate = this.impersonate.bind(this);
     }

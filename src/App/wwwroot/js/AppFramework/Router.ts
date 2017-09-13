@@ -1,11 +1,12 @@
 ﻿import browserPlugin from 'router5/plugins/browser';
-import { createRouter, loggerPlugin, Route, Router as RouterImpl } from 'router5';
+import { createRouter, loggerPlugin, Route as RouteImpl, Router as RouterImpl } from 'router5';
 import * as $ from 'jquery';
 
+export type Route = RouteImpl;
 export type RoutingTable = Array<Route>;
 
 export interface IRouteProvider {
-    routes: RoutingTable;
+    routes: RoutingTable|Route;
 }
 
 export class Router {
@@ -17,7 +18,13 @@ export class Router {
     }
 
     public addPage(page: IRouteProvider) {
-        this.router.add(page.routes);
+        const routes = page.routes;
+
+        if (Array.isArray(routes)) {
+            this.router.add(routes);
+        } else {
+            this.router.add([routes]);
+        }
     }
 
     public start() {
@@ -49,8 +56,14 @@ export class Router {
 
     public getInternalInstance(): RouterImpl { return this.router; }
 
-    public matchPage(routeName : string, page: IRouteProvider): boolean {
-        for (const route of page.routes) {
+    public matchPage(routeName: string, page: IRouteProvider): boolean {
+        const routes = page.routes;
+
+        if (!Array.isArray(routes)) {
+            return routes.name === routeName;
+        }
+
+        for (const route of routes) {
             if (route.name === routeName) {
                 return true;
             }

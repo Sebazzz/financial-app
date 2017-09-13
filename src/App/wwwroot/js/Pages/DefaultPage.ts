@@ -11,9 +11,7 @@ export default class DefaultPage extends Page {
 
         this.title('Welkom');
         this.templateName = 'Default';
-        this.routes = [
-            { name: 'default', path: '/' }
-        ];
+        this.routes = { name: 'default', path: '/' };
     }
 
     protected onActivate(args?: any): Promise<void> {
