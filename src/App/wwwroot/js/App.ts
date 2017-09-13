@@ -2,6 +2,7 @@
 import getPages from './PageFactory'
 import * as topMenu from './Components/TopMenu'
 import * as loader from './Components/Loader'
+import './BindingHandlers/All'
 import 'bootstrap';
 
 export class App extends af.App {

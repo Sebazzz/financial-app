@@ -30,6 +30,8 @@
     <Content Remove="wwwroot\js\AppFramework\ServerApi\Authentication.ts" />
     <Content Remove="wwwroot\js\AppFramework\ServerApi\Mapper.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\ValidateableViewModel.ts" />
+    <Content Remove="wwwroot\js\BindingHandlers\All.ts" />
+    <Content Remove="wwwroot\js\BindingHandlers\Cleave.ts" />
     <Content Remove="wwwroot\js\Components\Loader.ts" />
     <Content Remove="wwwroot\js\Components\TopMenu.ts" />
     <Content Remove="wwwroot\js\PageFactory.ts" />
@@ -37,8 +39,10 @@
     <Content Remove="wwwroot\js\Pages\DefaultPage.ts" />
     <Content Remove="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
     <Content Remove="wwwroot\js\Pages\Manage\User\EditPage.ts" />
+    <Content Remove="wwwroot\js\ServerApi\RecurringSheetEntry.ts" />
     <Content Remove="wwwroot\js\ServerApi\User.ts" />
     <Content Remove="wwwroot\js\ServerApi\UserImpersonate.ts" />
+    <Content Remove="wwwroot\js\typings\cleave.d.ts" />
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -112,6 +116,8 @@
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\HttpClient.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\Mapper.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\ValidateableViewModel.ts" />
+    <TypeScriptCompile Include="wwwroot\js\BindingHandlers\All.ts" />
+    <TypeScriptCompile Include="wwwroot\js\BindingHandlers\Cleave.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\Loader.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\TopMenu.ts" />
     <TypeScriptCompile Include="wwwroot\js\PageFactory.ts">
@@ -124,17 +130,20 @@
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\Category\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\Category\EditPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Manage\EntryTemplate\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Manage\EntryTemplate\EditPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\User\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\User\EditPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\Category.ts" />
+    <TypeScriptCompile Include="wwwroot\js\ServerApi\RecurringSheetEntry.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\User.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\UserImpersonate.ts" />
+    <TypeScriptCompile Include="wwwroot\js\typings\cleave.d.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\build\" />
-    <Folder Include="wwwroot\js\typings\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -81,7 +81,6 @@ namespace App.Models.Domain.Repositories {
             return this._entitySet.Where(x => x.Id == id).Include(x => x.Category).Include(x => x.Owner).FirstOrDefault();
         }
 
-        [CanBeNull]
         public Task<App.Models.Domain.RecurringSheetEntry> FindByIdAsync(int id) {
             return this._entitySet.Where(x => x.Id == id).Include(x => x.Category).Include(x => x.Owner).FirstOrDefaultAsync();
         }
