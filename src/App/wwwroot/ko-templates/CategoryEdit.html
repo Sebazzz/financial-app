@@ -1,25 +1,32 @@
-﻿<h1>Categorie {{ category.id > 0 ? 'bewerken' : 'aanmaken'}}</h1>
+﻿<h1 data-bind="text: title"></h1>
 
-<form novalidate name="cForm" role="form">
-    <div class="form-group" ng-class="{'has-error': cForm.name.$invalid && !cForm.name.$pristine}">
-        <label for="name">Naam:</label>
-        <input id="name" name="name" type="text" class="form-control" ng-model="category.name" required />
+<div class="alert alert-danger" data-bind="visible: errorMessage">
+    <strong>Oeps!</strong> <span data-bind="text: errorMessage"></span>
+</div>
 
-        <span ng-show="cForm.name.$dirty && cForm.name.$error.required"
-              class="text-danger validation-block">Verplicht: voer een naam in voor de categorie.</span>
-    </div>
+<div data-bind="with: category">
+    <form novalidate role="form" data-bind="form">
+        <div class="form-group">
+            <label for="name">Gebruikersnaam:</label>
+            <input id="name"
+                   data-bind="value: name"
+                   type="text" class="form-control" maxlength="100" required />
 
-    <div class="form-group">
-        <label for="description">Beschrijving:</label>
-        <textarea id="description" name="description" class="form-control" rows="3" ng-model="category.description"></textarea>
+            <div data-bind="validationMessage: name"></div>
+        </div>
 
-        <p class="help-block">
-            Korte beschrijving dat in het overzicht wordt getoond en als hulp bij het selecteren van een categorie.
+        <div class="form-group">
+            <label for="description">Beschrijving:</label>
+            <textarea id="description" name="description" class="form-control" rows="3" data-bind="value: description"></textarea>
+
+            <p class="form-text text-muted">
+                Korte beschrijving dat in het overzicht wordt getoond en als hulp bij het selecteren van een categorie.
+            </p>
+        </div>
+
+        <p class="clearfix">
+            <button class="btn btn-primary">Opslaan</button>
+            <a href="#" data-bind="route: manage.category" class="btn btn-link">Annuleren</a>
         </p>
-    </div>
-
-    <p class="clearfix">
-        <button class="btn btn-primary" ng-click="save()" ng-disabled="cForm.$invalid">Opslaan</button>
-        <a href="/manage/category" class="btn btn-link">Annuleren</a>
-    </p>
-</form>
+    </form>
+</div>

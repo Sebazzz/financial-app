@@ -119,10 +119,13 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="wwwroot\js\Pages\Auth\LogOffPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Manage\Category\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Manage\Category\EditPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\User\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\User\EditPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\ServerApi\Category.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\User.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\UserImpersonate.ts" />
   </ItemGroup>

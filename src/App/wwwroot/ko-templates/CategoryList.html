@@ -1,40 +1,37 @@
 ﻿<h1>Categorieën</h1>
 
-<div ng-show="isLoaded">
+<div>
     <p>
         Onderstaand vindt je categorieën die je kan gebruiken bij het indelen van je financieën.
     </p>
 
-    <ul class="list-unstyled actionable-list">
-        <li ng-repeat="category in categories">
+    <ul class="list-unstyled actionable-list" data-bind="foreach: { data: categories, as: 'category' }">
+        <li>
             <div class="pull-right">
-                <a class="btn btn-default btn-sm" ng-href="/manage/category/edit/{{category.id}}" tooltip="Bewerken">
-                    <span class="glyphicon glyphicon-pencil"></span>
+                <a class="btn btn-secondary btn-sm"
+                   href="#"
+                   data-bind="route: manage.category.edit | { id: category.id }, tooltip: 'Categorie bewerken'">
+                    <span class="fa fa-pencil"></span>
                 </a>
-
-                <span class="inline-block" tooltip="{{category.canBeDeleted ? 'Categorie verwijderen' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'}}">
+                
+                <span class="inline-block" data-bind="tooltip: category.canBeDeleted ? 'Categorie verwijderen' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'">
                     <a class="btn btn-danger btn-sm"
-                       ng-disabled="!category.canBeDeleted"
-                       ng-click="deleteCategory(category)">
-                        <span class="glyphicon glyphicon-trash"></span>
+                       data-bind="click: $parent.deleteCategory, css: { 'disabled': !category.canBeDeleted }">
+                        <span class="fa fa-trash"></span>
                     </a>
                 </span>
             </div>
-
+            
             <strong>
                 <a href="#"
-                   ng-href="/manage/category/edit/{{category.id}}">{{category.name}}</a>
-            </strong> <br />
+                   data-bind="route: manage.category.edit | { id: category.id }, text: category.name"></a>
+            </strong><br/>
 
-            <small>
-                {{category.description}}
-            </small>
+            <small data-bind="text: category.description"></small>
         </li>
     </ul>
     
     <p>
-        <a href="/manage/category/add" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Nieuwe categorie</a>
+        <a href="#" data-bind="route: manage.category.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe categorie</a>
     </p>
 </div>
-
-<div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>

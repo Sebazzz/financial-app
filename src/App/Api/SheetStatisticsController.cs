@@ -6,7 +6,7 @@
 
     [Authorize]
     [Route("api/sheet/{sheetYear:int}-{sheetMonth:int}/statistics")]
-    public class SheetStatisticsController : BaseEntityController {
+    public class SheetStatisticsController : LegacyBaseEntityController {
         private readonly SheetRetrievalService _sheetRetrievalService;
         private readonly SheetStatisticsService _sheetStatisticsService;
 

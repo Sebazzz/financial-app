@@ -13,7 +13,7 @@
     using Microsoft.EntityFrameworkCore;
 
     [Route("api/sheet")]
-    public class SheetController : BaseEntityController {
+    public class SheetController : LegacyBaseEntityController {
         private readonly SheetRepository _sheetRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
         private readonly SheetStatisticsService _sheetStatisticsService;
