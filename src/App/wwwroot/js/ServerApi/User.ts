@@ -12,23 +12,29 @@ export interface IAppUserMutate extends IAppUserListing {
 }
 
 export class Api extends ApiBase {
-    public list(): Promise<Array<IAppUserListing>> {
-        return this.httpClient.get('/api/user');
+    constructor() {
+        super();
+
+        this.baseUrl = '/api/user';
     }
 
-    public delete(id: number) : Promise<void> {
-        return this.httpClient.delete<void>(`/api/user/${id}`);
+    public list() {
+        return this.execGet<Array<IAppUserListing>>();
     }
 
-    public get(number: number): Promise<IAppUserListing> {
-        return this.httpClient.get(`/api/user/${number}`);
+    public delete(id: number) {
+        return this.execDelete<void>(id);
     }
 
-    public create(entity: IAppUserMutate): Promise<ICreatedResult<IAppUserListing>> {
-        return this.httpClient.post('/api/user', entity);
+    public get(number: number) {
+        return this.execGet<IAppUserListing>(number);
     }
 
-    public update(id: number, entity: IAppUserMutate) : Promise<void> {
-        return this.httpClient.put<void>(`/api/user/${id}`, entity);
+    public create(entity: IAppUserMutate) {
+        return this.execPost<ICreatedResult<IAppUserListing>>(null, entity);
+    }
+
+    public update(id: number, entity: IAppUserMutate) {
+        return this.execPut<void>(id, entity);
     }
 }
