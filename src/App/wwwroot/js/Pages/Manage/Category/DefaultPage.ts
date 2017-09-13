@@ -13,7 +13,7 @@ export default class DefaultPage extends Page {
         super(appContext);
 
         this.title('Categoriëen');
-        this.templateName = 'CategoryList';
+        this.templateName = 'manage/category/default';
         this.routes = [
             { name: 'manage.category', path: '/category' }
         ];

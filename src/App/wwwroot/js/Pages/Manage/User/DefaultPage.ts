@@ -13,7 +13,7 @@ export default class DefaultPage extends Page {
         super(appContext);
 
         this.title('Gebruikers');
-        this.templateName = 'UserList';
+        this.templateName = 'manage/user/default';
         this.routes = [
             { name: 'manage.user', path: '/user' }
         ];

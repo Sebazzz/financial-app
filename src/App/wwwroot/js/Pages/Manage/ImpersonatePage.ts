@@ -13,7 +13,7 @@ export default class ImpersonatePage extends Page {
         super(appContext);
 
         this.title('Account wisselen');
-        this.templateName = 'Impersonate';
+        this.templateName = 'manage/impersonate';
         this.routes = [
             { name: 'manage.impersonate', path: '/impersonate' }
         ];
