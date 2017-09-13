@@ -1,4 +1,5 @@
 ﻿import './Href'
 import './Tooltip'
 import './Form'
+import './Hidden'
 import '../Forms/ValidationMessage'
