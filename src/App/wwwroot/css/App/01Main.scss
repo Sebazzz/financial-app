@@ -142,3 +142,9 @@ top-menu {
 .btn {
     cursor: pointer;
 }
+
+.btn {
+    &.disabled, &[disabled] {
+        cursor: not-allowed;
+    }
+}

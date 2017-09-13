@@ -1,0 +1,42 @@
+﻿import { default as ApiBase, ICreatedResult } from '../AppFramework/ServerApi/ApiBase';
+
+export interface ICategoryListing {
+    id: number;
+    name: string;
+    description: string;
+    canBeDeleted: boolean;
+}
+
+export interface ICategory {
+    id: number;
+    name: string;
+    description: string|null;
+}
+
+export class Api extends ApiBase {
+    constructor() {
+        super();
+
+        this.baseUrl = '/api/category';
+    }
+
+    public list() {
+        return this.execGet<Array<ICategoryListing>>();
+    }
+
+    public delete(id: number) {
+        return this.execDelete<void>(id);
+    }
+
+    public get(number: number) {
+        return this.execGet<ICategory>(number);
+    }
+
+    public create(entity: ICategory) {
+        return this.execPost<ICreatedResult<ICategory>>(null, entity);
+    }
+
+    public update(id: number, entity: ICategory) {
+        return this.execPut<void>(id, entity);
+    }
+}

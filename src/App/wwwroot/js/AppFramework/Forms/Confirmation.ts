@@ -53,11 +53,11 @@ export default function confirmAsync(text: string, title?: string, isDanger = fa
     return new Promise<boolean>((resolve) => {
         let result = false;
 
-        $modal.on('click', '.btn-primary', (ev) => {
+        $modal.on('click', '.btn-primary, .btn-danger', (ev) => {
             ev.preventDefault();
 
             result = true;
-            $modalContainer.modal('hide');
+            $modal.modal('hide');
         });
 
         $modal.on('hidden.bs.modal', () => {

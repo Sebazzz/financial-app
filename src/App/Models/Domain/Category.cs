@@ -11,7 +11,7 @@
         public int Id { get; set; }
 
         [DataMember]
-        [Required]
+        [Required(ErrorMessage = "Naam is verplicht")]
         [StringLength(250, MinimumLength = 2)]
         public string Name { get; set; }
 

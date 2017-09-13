@@ -17,7 +17,7 @@
 
     [Authorize]
     [Route("api/sheet/{sheetYear:int}-{sheetMonth:int}/entries")]
-    public class SheetEntryController : BaseEntityController {
+    public class SheetEntryController : LegacyBaseEntityController {
         private readonly SheetEntryRepository _sheetEntryRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
         private readonly IMapper _mappingEngine;
