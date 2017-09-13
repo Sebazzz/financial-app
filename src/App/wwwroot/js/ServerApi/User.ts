@@ -24,11 +24,11 @@ export class Api extends ApiBase {
         return this.httpClient.get(`/api/user/${number}`);
     }
 
-    public create(user: IAppUserMutate): Promise<ICreatedResult<IAppUserListing>> {
-        return this.httpClient.post('/api/user', user);
+    public create(entity: IAppUserMutate): Promise<ICreatedResult<IAppUserListing>> {
+        return this.httpClient.post('/api/user', entity);
     }
 
-    public update(id: number, user: IAppUserMutate) : Promise<void> {
-        return this.httpClient.put(`/api/user/${id}`, user);
+    public update(id: number, entity: IAppUserMutate) : Promise<void> {
+        return this.httpClient.put<void>(`/api/user/${id}`, entity);
     }
 }
