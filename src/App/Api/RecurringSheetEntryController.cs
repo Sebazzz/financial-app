@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading.Tasks;
+
     using AutoMapper;
     using Extensions;
     using Microsoft.AspNetCore.Authorization;
@@ -15,7 +17,7 @@
 
     [Authorize]
     [Route("api/sheetentry-recurring")]
-    public sealed class RecurringSheetEntryController : LegacyBaseEntityController {
+    public sealed class RecurringSheetEntryController : BaseEntityController {
         private readonly IMapper _mappingEngine;
         private readonly RecurringSheetEntryRepository _recurringSheetEntryRepository;
 
@@ -25,26 +27,26 @@
         }
 
         // GET: api/sheetentry-recurring
-        [HttpGet]
-        [Route("")]
+        [HttpGet("")]
         public IEnumerable<RecurringSheetEntryListing> GetAll() {
             IQueryable<RecurringSheetEntry> all = this._recurringSheetEntryRepository.GetAll().Where(x => x.Owner.Id == this.OwnerId).OrderBy(x => x.SortOrder);
             return this._mappingEngine.Map<IEnumerable<RecurringSheetEntryListing>>(all);
         }
 
-        [Route("order/{mutation}/{id}")]
-        [HttpPut]
-        public void MutateOrder(int id, SortOrderMutationType mutation) {
+        [HttpPost("{id}/order/{mutation}")]
+        public async Task<IActionResult> MutateOrder(int id, SortOrderMutationType mutation) {
             int delta = (int) mutation;
 
-            RecurringSheetEntry entry = this._recurringSheetEntryRepository.FindById(id).EnsureNotNull();
+            RecurringSheetEntry entry = await this.GetEntityByIdAsync(id);
             this.EntityOwnerService.EnsureOwner(entry, this.OwnerId);
             Trace.Assert(entry.Category != null);
 
             entry.SortOrder += delta;
 
             this._recurringSheetEntryRepository.ReplaceSortOrder(this.OwnerId, entry.SortOrder, entry.SortOrder - delta);
-            this._recurringSheetEntryRepository.SaveChanges();
+            await this._recurringSheetEntryRepository.SaveChangesAsync();
+
+            return this.NoContent();
         }
 
         public enum SortOrderMutationType {
@@ -53,52 +55,60 @@
         }
 
         // GET: api/sheetentry-recurring/1
-        [HttpGet]
-        [Route("{id}")]
-        public RecurringSheetEntryDTO Get(int id) {
-            RecurringSheetEntry entry = this._recurringSheetEntryRepository.FindById(id).EnsureNotNull();
+        [HttpGet("{id}", Name = "RecurringSheetEntry-Get")]
+        public async Task<RecurringSheetEntryDTO> Get(int id) {
+            RecurringSheetEntry entry = await this.GetEntityByIdAsync(id);
             this.EntityOwnerService.EnsureOwner(entry, this.OwnerId);
 
             return this._mappingEngine.Map<RecurringSheetEntryDTO>(entry);
         }
 
          // POST: api/sheetentry-recurring
-        [HttpPost]
-        [Route("")]
-        public InsertId Post([FromBody] RecurringSheetEntryDTO value) {
+        [HttpPost("")]
+        public async Task<IActionResult> Post([FromBody] RecurringSheetEntryDTO value) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
             RecurringSheetEntry entry = this._mappingEngine.Map<RecurringSheetEntryDTO, RecurringSheetEntry>(value);
             this.EntityOwnerService.AssignOwner(entry, this.OwnerId);
 
             entry.SortOrder = this._recurringSheetEntryRepository.FindNextSortOrder(this.OwnerId);
             this._recurringSheetEntryRepository.Add(entry);
-            this._recurringSheetEntryRepository.SaveChanges();
+            await this._recurringSheetEntryRepository.SaveChangesAsync();
 
-            return entry.Id;
+            return this.CreatedAtRoute("RecurringSheetEntry-Get", new {id = value.Id}, this.Get(entry.Id));
         }
 
         // PUT: api/sheetentry-recurring/5
-        [Route("{id:int}")]
-        [HttpPut]
-        public InsertId Put(int id, [FromBody] RecurringSheetEntryDTO value) {
-            RecurringSheetEntry entry = this._recurringSheetEntryRepository.FindById(id).EnsureNotNull();
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Put(int id, [FromBody] RecurringSheetEntryDTO value) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            RecurringSheetEntry entry = await this.GetEntityByIdAsync(id);
             this.EntityOwnerService.EnsureOwner(entry, this.OwnerId);
 
             this._mappingEngine.Map(value, entry);
 
-            this._recurringSheetEntryRepository.SaveChanges();
+            await this._recurringSheetEntryRepository.SaveChangesAsync();
 
-            return entry.Id;
+            return this.NoContent();
         }
 
         // DELETE: api/sheet/2014-11/entries
-        [Route("{id:int}")]
-        [HttpDelete]
-        public void Delete(int id) {
-            RecurringSheetEntry entry = this._recurringSheetEntryRepository.FindById(id).EnsureNotNull();
+        [HttpDelete("{id:int}")]
+        public async Task Delete(int id) {
+            RecurringSheetEntry entry = await this.GetEntityByIdAsync(id);
             this.EntityOwnerService.EnsureOwner(entry, this.OwnerId);
 
             this._recurringSheetEntryRepository.Delete(entry);
-            this._recurringSheetEntryRepository.SaveChanges();
+            await this._recurringSheetEntryRepository.SaveChangesAsync();
+        }
+
+        private async Task<RecurringSheetEntry> GetEntityByIdAsync(int id) {
+            return (await this._recurringSheetEntryRepository.FindByIdAsync(id)).EnsureNotNull();
         }
     }
 }

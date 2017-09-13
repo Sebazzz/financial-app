@@ -80,9 +80,16 @@ function registerComponents(appContext : AppContext) {
     registerLoadingBar(appContext);
 }
 
+function registerGlobals() {
+    // For development it is *very* useful to have some globals available
+
+    (window as any)['ko'] = ko;
+}
+
 export function createApp<TModel extends App>(app: TModel) {
     console.info('AppFactory: CreateApp');
 
+    registerGlobals();
     ComponentLoader.register(app.context);
     registerComponents(app.context);
     app.registerComponents();

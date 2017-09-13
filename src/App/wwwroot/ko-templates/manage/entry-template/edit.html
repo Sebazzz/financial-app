@@ -1,0 +1,89 @@
+﻿<h1 data-bind="text: title"></h1>
+
+<div class="alert alert-danger" data-bind="visible: errorMessage">
+    <strong>Oeps!</strong> <span data-bind="text: errorMessage"></span>
+</div>
+
+<div data-bind="with: entryTemplate">
+    <form novalidate role="form" data-bind="form">
+        <div class="form-group">
+            <label for="source">Bron / reden</label>
+            
+            <div class="input-group" data-bind="validationProperty: source">
+                <input type="text" class="form-control"
+                       id="source"
+                       maxlength="250"
+                       placeholder="(winkel, vaste lasten, etc)"
+                       data-bind="value: source"
+                       required>
+                
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" 
+                            type="button" 
+                            data-bind="click: toggleRemarksEditor, tooltip: 'Extra notities of opmerkingen bewerken'">
+                        <span class="fa fa-arrows-alt"></span>
+                    </button>
+                </span>
+            </div>
+
+            <div data-bind="validationMessage: source"></div>
+        </div>
+
+        <div class="form-group" data-bind="visible: showRemarksEditor">
+            <label for="remark">Extra notities of opmerkingen</label>
+            <textarea data-bind="value: remark" id="remark" class="form-control"></textarea>
+
+            <div data-bind="validationMessage: remark"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="categoryId">Categorie</label> <br/>
+            
+            <select id="categoryId"
+                    data-bind="value: categoryId, options: $parent.availableCategories, optionsText: 'name', optionsValue: 'id', optionsCaption: '-- maak een keuze--'"
+                    class="custom-select"
+                    required>
+                <option value="">-- maak een keuze --</option>
+            </select>
+            
+            <div data-bind="validationMessage: categoryId"></div>
+        </div>
+
+        <div class="form-group" id="account">
+            <label for="account">Type mutatie</label>
+            
+            <div class="form-check" data-bind="validationProperty: source">
+                <label class="custom-control custom-radio">
+                    <input type="radio" name="account" class="custom-control-input" data-bind="checked: account, checkedValue: $parent.AccountType.BankAccount">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Bankrekening</span>
+                </label>
+            
+                <label class="custom-control custom-radio">
+                    <input type="radio" name="account" class="custom-control-input" data-bind="checked: account, checkedValue: $parent.AccountType.SavingsAccount">
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Spaarrekening</span>
+                </label>
+            </div>
+
+            <div data-bind="validationMessage: account"></div>
+        </div>
+
+        <div class="form-group" data-bind="css: { negative: delta() < 0 }">
+            <label for="delta">Bedrag</label>
+            
+            <input type="text"
+                   id="delta"
+                   data-bind="cleaveCurrency: delta"
+                   class="form-control"
+                   placeholder="(voer bedrag in, negatief of positief)"/>
+            
+            <div data-bind="validationMessage: delta"></div>
+        </div>
+        
+        <p class="clearfix">
+            <button class="btn btn-primary">Opslaan</button>
+            <a href="#" data-bind="route: manage.entry-template" class="btn btn-link">Annuleren</a>
+        </p>
+    </form>
+</div>

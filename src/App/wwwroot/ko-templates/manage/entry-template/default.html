@@ -1,0 +1,48 @@
+﻿<h1 data-bind="text: title"></h1>
+
+<div>
+    <p>
+        Om maandelijks terugkerende uitgaven zoals vaste lasten bij te houden elke maand kan je regeltemplates aanmaken.
+        Deze laten in elke maandelijke sheet zien welke verwachte uitgaven er nog op stapel staan. Uitgaven worden meegeteld
+        tot de eerste inkomsten die gemaakt zijn om een betrouwbare indicatie te geven.
+    </p>
+
+    <ul class="list-unstyled actionable-list" data-bind="foreach: {data: entryTemplates, as: 'entry'}">
+        <li>
+            <div class="pull-right">
+                <a class="btn btn-secondary"
+                   href="#"
+                   data-bind="route: manage.entry-template.edit | { id: entry.id }, tooltip: 'Regeltemplate bewerken'">
+                    <span class="fa fa-pencil"></span>
+                </a>
+
+                <button type="button" class="btn btn-secondary" data-bind="click: $parent.mutateSortOrderHandler(entry, $parent.SortOrderMutation.Decrease)">
+                    <span class="fa fa-arrow-up"></span>
+                </button>
+                <button type="button" class="btn btn-secondary" data-bind="click: $parent.mutateSortOrderHandler(entry, $parent.SortOrderMutation.Increase)">
+                    <span class="fa fa-arrow-down"></span>
+                </button>
+
+                <span class="inline-block" data-bind="tooltip: 'Regeltemplate verwijderen'">
+                    <a class="btn btn-danger"
+                       data-bind="click: $parent.deleteEntryTemplate">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </span>
+            </div>
+            
+            <strong>
+                <a href="#"
+                   data-bind="route: manage.entry-template.edit | { id: entry.id }, text: entry.source"></a>
+            </strong><br />
+
+            <small>
+                <span data-bind="text: entry.account === $parent.AccountType.BankAccount ? 'Betaalrekening' : 'Spaarrekening'"></span>, categorie <span data-bind="text: entry.categoryName"></span>.
+            </small>
+        </li>
+    </ul>
+    
+    <p>
+        <a href="#" data-bind="route: manage.entry-template.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe regeltemplate</a>
+    </p>
+</div>
