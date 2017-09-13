@@ -6,7 +6,7 @@
     using Validation;
 
     [DataContract]
-    public class RecurringSheetEntry {
+    public class RecurringSheetEntry : IValidatableObject {
         [DataMember]
         public int Id { get; set; }
 
@@ -32,5 +32,7 @@
         [DataMember]
         [Required(ErrorMessage = "Kies het type mutatie")]
         public AccountType? Account { get; set; }
+            }
+        }
     }
 }
