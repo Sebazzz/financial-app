@@ -12,7 +12,7 @@ function findValidateableViewModel(bindingContext: KnockoutBindingContext): v.Va
         viewModel = currentBindingContext && currentBindingContext.$data;
     }
 
-    if (!viewModel) {
+    if (!viewModel || !(viewModel instanceof v.ValidateableViewModel) {
         return null;
     }
 
