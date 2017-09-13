@@ -22,7 +22,7 @@ export default class EditPage extends FormPage {
         super(appContext);
 
         this.title('Gebruiker bewerken');
-        this.templateName = 'UserEdit';
+        this.templateName = 'manage/user/edit';
         this.routes = [
                 { name: 'manage.user.edit', path: '/edit/:id' },
                 { name: 'manage.user.add', path: '/add'}

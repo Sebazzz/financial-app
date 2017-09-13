@@ -15,7 +15,7 @@ export default class EditPage extends FormPage {
         super(appContext);
 
         this.title('Categorie bewerken');
-        this.templateName = 'CategoryEdit';
+        this.templateName = 'manage/category/edit';
         this.routes = [
                 { name: 'manage.category.edit', path: '/edit/:id' },
                 { name: 'manage.category.add', path: '/add'}
