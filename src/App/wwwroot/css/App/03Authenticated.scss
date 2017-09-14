@@ -54,6 +54,24 @@ $navbar-top-border-width: 2px;
     }
 }
 
+.page-loader {
+    padding: 100px 0;
+
+    .page-loader-spinner {
+        animation: rotating 750ms linear infinite;
+        font-size: 20px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .page-loader-text {
+        font-size: 18px;
+        margin-left: 1em;
+
+        vertical-align: middle;
+    }
+}
+
 @keyframes rotating {
     from {
         transform: rotate(0deg);
