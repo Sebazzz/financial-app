@@ -79,3 +79,17 @@ form[role=form] {
         }
     }
 }
+
+.table-sheet-archive {
+    td {
+        border: none;
+    }
+
+    td.col-number {
+        text-align: center;
+    }
+}
+
+.balance-negative {
+    @extend .text-danger;
+}

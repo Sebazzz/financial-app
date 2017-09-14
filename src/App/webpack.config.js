@@ -36,7 +36,18 @@ module.exports = {
   entry: {
       'app.js': ['./wwwroot/js/main.ts' ],
       'app.css': ['./wwwroot/css/app.scss' ],
-      'lib.js': ['jquery', 'router5', 'bootstrap', 'tslib', 'popper.js', 'knockout', 'reflect-metadata', 'cleave.js', 'moment']
+      'lib.js': [
+          'jquery',
+          'kendo-ui-core/js/kendo.core',
+          'kendo-ui-core/js/cultures/kendo.culture.nl-NL',
+          'router5',
+          'reflect-metadata',
+          'tslib',
+          'popper.js',
+          'bootstrap',
+          'knockout',
+          'cleave.js'
+      ]
   },
   plugins: [
      tsProvide,
