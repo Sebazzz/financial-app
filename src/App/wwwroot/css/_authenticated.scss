@@ -1,0 +1,81 @@
+﻿body.authenticated {
+    padding-top: 0;
+}
+
+.dashboard-action-primary {
+    a {
+        font-weight: bold;
+        font-size: 120%;
+    }
+}
+t
+.btn-group + .panel {
+    margin-top: 1em;
+}
+
+// Fix logged in message display on small screens
+@media (max-width: map-get($container-max-widths, 'xs')) {
+    .navbar .navbar-text {
+        text-align: right;
+        padding-right: 1em;
+    }
+}
+
+.logged-in-text {
+    margin-right: 4em;
+    font-size: 90%;
+}
+
+.navbar {
+    border-top: $navbar-top-border-width solid darken($accent-color, 15%);
+}
+
+.page-loader {
+    padding: 100px 0;
+
+    .page-loader-spinner {
+        animation: rotating 750ms linear infinite;
+        font-size: 20px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .page-loader-text {
+        font-size: 18px;
+        margin-left: 1em;
+
+        vertical-align: middle;
+    }
+}
+
+@keyframes rotating {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.invalid-feedback-list {
+    white-space: pre-line;
+}
+
+form[role=form] {
+    .button-bar *:last-child::after {
+        @include fa-icon();
+        content: $fa-var-circle-o-notch;
+        animation: rotating 750ms linear infinite;
+        color: $accent-color;
+        margin-left: 2em;
+        opacity: 0;
+        transition: opacity 300ms linear;
+    }
+
+    &.is-busy .button-bar {
+        *:last-child::after {
+            opacity: 1;
+        }
+    }
+}
