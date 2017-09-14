@@ -1,0 +1,37 @@
+﻿<h1 data-bind="text: title"></h1>
+
+<div>
+    <p>
+        Hier wordt een lijst getoond van opgeslagen maanden in het archief.
+    </p>
+
+    <table class="table table-sm table-responsive table-sheet-archive">
+        <tbody data-bind="foreach: { data: sheets, as: 'sheet' }">
+            <tr>
+                <td>
+
+                    <a href="#"
+                       data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                              text: $parent.displayName(sheet)"></a>
+                </td>
+
+                <td class="col-number" data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative': sheet.totals.bankAccount < 0 }"></td>
+                <td class="col-number" data-bind="formatText: sheet.totals.savingsAccount, format: 'c', css: {'balance-negative': sheet.totals.savingsAccount < 0 }"></td>
+                <td>
+                    <p class="pull-right">
+                        <a class="btn btn-secondary" 
+                           data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                              tooltip: 'Bewerken'">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <a class="btn btn-secondary" 
+                           data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year },
+                              tooltip: 'Rapportage'">
+                            <span class="fa fa-bar-chart "></span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

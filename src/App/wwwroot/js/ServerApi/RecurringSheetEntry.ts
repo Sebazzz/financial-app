@@ -1,4 +1,7 @@
 ﻿import { default as ApiBase, ICreatedResult } from '../AppFramework/ServerApi/ApiBase';
+import { AccountType } from './SheetEntry';
+
+export { AccountType };
 
 export interface IRecurringSheetEntryListing {
     id : number;
@@ -17,14 +20,6 @@ export interface IRecurringSheetEntry {
     source : string;
     remark : string;
     account: AccountType;
-}
-
-export enum AccountType {
-    Invalid = 0,
-
-    BankAccount = 1,
-
-    SavingsAccount = 2
 }
 
 export enum SortOrderMutationType {

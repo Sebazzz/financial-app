@@ -10,10 +10,9 @@
     using Sheet = Models.Domain.Sheet;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
-    using Microsoft.EntityFrameworkCore;
 
     [Route("api/sheet")]
-    public class SheetController : LegacyBaseEntityController {
+    public class SheetController : BaseEntityController {
         private readonly SheetRepository _sheetRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
         private readonly SheetStatisticsService _sheetStatisticsService;
@@ -26,8 +25,7 @@
             this._mappingEngine = mappingEngine;
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public SheetDTO GetById(int id) {
             Sheet sheet = this._sheetRepository.FindByIdInclude(id)
                                                .FirstOrDefault();
@@ -37,18 +35,18 @@
 
             this.EntityOwnerService.EnsureOwner(sheet, this.OwnerId);
             var dto = this._mappingEngine.Map<Sheet, SheetDTO>(sheet);
+
             Array.Sort(dto.Entries, SortOrderComparer<SheetEntry>.Instance);
+
             return dto;
         }
 
-        [HttpGet]
-        [Route("statistics")]
+        [HttpGet("statistics")]
         public IEnumerable<SheetGlobalStatistics> GetAllStatistics() {
             return this._sheetStatisticsService.CalculateExpensesForAll(this.OwnerId).OrderBy(x => x.SheetSubject);
         }
 
-        [HttpGet]
-        [Route("{year:int:max(2100):min(2000)}-{month:int:max(12):min(1)}")]
+        [HttpGet("{year:int:max(2100):min(2000)}-{month:int:max(12):min(1)}")]
         public SheetDTO GetBySubject(int month, int year) {
             Sheet theSheet = this._sheetRetrievalService.GetBySubject(month, year, this.OwnerId);
             var dto = this._mappingEngine.Map<Sheet, SheetDTO>(theSheet);
@@ -57,8 +55,7 @@
             return dto;
         }
 
-        [HttpGet]
-        [Route("")]
+        [HttpGet("")]
         public IEnumerable<SheetListing> GetAll() {
             IEnumerable<SheetListing> allSheets = this._sheetRetrievalService.GetAll(this.OwnerId);
             return allSheets.OrderByDescending(x => new DateTime(x.Year, x.Month, 1));
