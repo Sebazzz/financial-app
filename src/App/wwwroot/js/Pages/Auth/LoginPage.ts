@@ -14,7 +14,7 @@ export default class AuthLoginPage extends Page {
         super(appContext);
 
         this.title('Inloggen');
-        this.templateName = 'AuthLogin';
+        this.templateName = 'auth/login';
         this.routes = [
             { name: 'auth', path: '/auth', forwardTo: '/auth/login' },
             { name: 'auth.login', path: '/login' }
