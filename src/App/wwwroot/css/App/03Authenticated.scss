@@ -85,3 +85,21 @@ $navbar-top-border-width: 2px;
 .invalid-feedback-list {
     white-space: pre-line;
 }
+
+form[role=form] {
+    .button-bar *:last-child::after {
+        @include fa-icon();
+        content: $fa-var-circle-o-notch;
+        animation: rotating 750ms linear infinite;
+        color: $accent-color;
+        margin-left: 2em;
+        opacity: 0;
+        transition: opacity 300ms linear;
+    }
+
+    &.is-busy .button-bar {
+        *:last-child::after {
+            opacity: 1;
+        }
+    }
+}
