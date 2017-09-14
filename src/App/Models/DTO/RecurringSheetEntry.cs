@@ -1,11 +1,12 @@
 ﻿namespace App.Models.DTO {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
     using Domain.Services;
 
+    using Validation;
+
     [DataContract]
-    public class RecurringSheetEntry : IValidatableObject {
+    public class RecurringSheetEntry {
         [DataMember]
         public int Id { get; set; }
 
@@ -15,6 +16,7 @@
 
         [DataMember]
         [Required(ErrorMessage = "Vul een bedrag in")]
+        [CurrencyDeltaValidation]
         public decimal Delta { get; set; }
 
         [DataMember]
@@ -30,11 +32,5 @@
         [DataMember]
         [Required(ErrorMessage = "Kies het type mutatie")]
         public AccountType? Account { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
-            if (this.Delta == 0) {
-                yield return new ValidationResult("Geef een bedrag op", new[]{ nameof(this.Delta)});
-            }
-        }
     }
 }
