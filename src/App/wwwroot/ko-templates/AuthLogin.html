@@ -1,15 +1,21 @@
 ﻿<form class="form-signin" role="form" novalidate>
+    <h1 class="application-header" data-bind="text: $appContext.title"></h1>
+
     <h2 class="form-signin-heading">Inloggen</h2>
 
     <strong class="text-danger" data-bind="visible: errorMessage, text: errorMessage"></strong>
 
-    <input type="text" class="form-control" placeholder="Gebruikersnaam"
-           data-bind="value: userName, disabled: isBusy"
-           required autofocus>
-
-    <input type="password" class="form-control" placeholder="Wachtwoord" 
-           data-bind="value: password, disabled: isBusy"
-           required>
+    <div class="form-group">
+        <input type="text" class="form-control form-control-lg" placeholder="Gebruikersnaam"
+               data-bind="value: userName, disabled: isBusy"
+               required autofocus>
+    </div>
+    
+    <div class="form-group">
+        <input type="password" class="form-control form-control-lg" placeholder="Wachtwoord" 
+               data-bind="value: password, disabled: isBusy"
+               required>
+    </div>
 
     <label class="checkbox invisible">
         <input type="checkbox" value="remember-me" 
