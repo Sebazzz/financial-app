@@ -1,25 +1,46 @@
 ﻿@using Microsoft.AspNetCore.Hosting
 @inject IHostingEnvironment HostingEnvironment
-    
-<loading-bar></loading-bar>
 
-<top-menu></top-menu>
+<!DOCTYPE html>
+<html lang="nl"
+      data-app-mobile="@BrowserDetector.IsMobileDevice().ToString().ToLowerInvariant()"
+      data-app-version="@ViewBag.AppVersion">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<page-container class="container"></page-container>
+        <title>Financial App</title>
 
-<span style="color:#FFF" id="scrollBottom">&nbsp;</span>
+        <base href="/">
 
-<noscript>
-    <div class="alert alert-danger">
-        <strong>Sorry!</strong> Om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
-    </div>
-</noscript>
+        <meta name="msapplication-config" content="/images/tiles/manifest-microsoft.xml" />
+        <link href="favicon.ico" rel="favicon" asp-append-version="true"/>
+        <link rel="apple-touch-icon" fa-href="/images/tiles/apple-tile.png" asp-append-version="true"/>
 
-<script type="text/html" id="pageLoader">
-    <p class="page-loader">
-        <span class="page-loader-spinner fa fa-circle-o-notch"></span> <span class="page-loader-text">Bezig met laden...</span>
-    </p>
-</script>
+        <link href="/build/app.css" rel="stylesheet" asp-append-version="true"/>
+    </head>
+    <body data-bind="css: { 'anonymous': !context.authentication.isAuthenticated(), 'authenticated': context.authentication.isAuthenticated }">
+        <loading-bar></loading-bar>
 
-<script src="/build/lib.js" asp-append-version="true"></script>
-<script src="/build/app.js" asp-append-version="true"></script>
+        <top-menu></top-menu>
+
+        <page-container class="container"></page-container>
+
+        <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
+
+        <noscript>
+            <div class="alert alert-danger">
+                <strong>Sorry!</strong> Om deze applicatie te gebruiken heb je javascript benodigd. Dit heb je niet aan staan.
+            </div>
+        </noscript>
+
+        <script type="text/html" id="pageLoader">
+            <p class="page-loader">
+                <span class="page-loader-spinner fa fa-circle-o-notch"></span> <span class="page-loader-text">Bezig met laden...</span>
+            </p>
+        </script>
+
+        <script src="/build/lib.js" asp-append-version="true"></script>
+        <script src="/build/app.js" asp-append-version="true"></script>
+    </body>
+</html>
