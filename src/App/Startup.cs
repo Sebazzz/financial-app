@@ -130,6 +130,13 @@
             app.UseSignalR("/extern/signalr");
 #endif
 
+            app.UseWhen(
+                ctx => ctx.Request.Path.StartsWithSegments(new PathString("/browserconfig.xml")),
+                _ => _.Use((ctx, next) => {
+                    ctx.Request.Path = "/images/tiles/manifest-microsoft.xml";
+                    return next();
+                }));
+
             app.UseStaticFiles();
 
             app.UseMvc(routes => {
