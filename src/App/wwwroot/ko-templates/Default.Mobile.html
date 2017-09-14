@@ -3,29 +3,30 @@
 </h1>
 
 <p>
-    <strong>Welkom</strong> bij de financiële huishouding. Je bent ingelogd als <strong>{{userName}}</strong>. Wat wil je vandaag doen?
+    <strong>Welkom</strong> bij de financiële huishouding. Je bent ingelogd als <strong data-bind="text: currentUserName"></strong>. Wat wil je vandaag doen?
 </p>
 
 <ul>
     <li class="dashboard-action-primary">
-        <a href="/now">Huidige maand bekijken / bewerken</a>
+        <a href="#" data-bind="route: now">Huidige maand bekijken / bewerken</a>
+    </li>
+
+    <li>
+        <a href="#" data-bind="route: archive">Archief financiën bekijken</a>
     </li>
     <li>
-        <a href="/archive">Archief financiën bekijken</a>
+        <a href="#" data-bind="route: now.add">Een regel toevoegen voor de huidige maand</a>
     </li>
     <li>
-        <a href="/now/entries/add">Een regel toevoegen voor de huidige maand</a>
+        <a href="#" data-bind="route: report">Rapportage financiën bekijken</a>
     </li>
     <li>
-        <a href="/report">Rapportage financiën bekijken</a>
+        <a href="#" data-bind="route: manage.entry-template">Regeltemplates beheren</a>
     </li>
     <li>
-        <a href="/manage/entry-template">Regeltemplates beheren</a>
+        <a href="#" data-bind="route: manage.category">Categorieën beheren</a>
     </li>
     <li>
-        <a href="/manage/category">Categorieën beheren</a>
-    </li>
-    <li>
-        <a href="/manage/impersonate">Als een andere gebruiker inloggen</a>
+        <a href="#" data-bind="route: manage.impersonate">Als een andere gebruiker inloggen</a>
     </li>
 </ul>
