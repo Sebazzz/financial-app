@@ -13,6 +13,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc.Formatters;
     using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -132,10 +133,18 @@
             app.UseStaticFiles();
 
             app.UseMvc(routes => {
+                // If we still reached this at this point the ko-template was not found:
+                // Trigger an failure instead of sending the app bootstrapper which causes all kinds of havoc.
+                routes.MapFailedRoute("ko-templates/{*.}");
+
+                // Any non-matched web api calls should fail as well
+                routes.MapFailedRoute("api/{*.}");
+
+
                 // We only match one controller since we will want
                 // all requests to go to the controller which renders
                 // the initial view.
-
+                
                 routes.MapRoute(
                     name: "default",
                     template: "{*.}",
