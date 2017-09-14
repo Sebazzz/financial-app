@@ -35,7 +35,7 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: {
       'app.js': ['./wwwroot/js/main.ts' ],
-      'app.css': ['./wwwroot/css/App/App.scss' ],
+      'app.css': ['./wwwroot/css/app.scss' ],
       'lib.js': ['jquery', 'router5', 'bootstrap', 'tslib', 'popper.js', 'knockout', 'reflect-metadata', 'cleave.js', 'moment']
   },
   plugins: [

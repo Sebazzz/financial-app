@@ -1,0 +1,38 @@
+﻿body.anonymous {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #000; 
+
+  top-menu {
+      display: none;
+  }
+}
+
+.form-signin {
+    max-width: 400px;
+    padding: 15px;
+    margin: 0 auto;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 5px;
+    }
+}
+
+.form-signin .form-signin-heading {
+  margin-bottom: 10px;
+}
+
+
+body.anonymous .progress-indicator-bar {
+  background: #FFF;
+}
+
+body.anonymous .progress-indicator-spinner {
+    border-top-color: #FFF;
+    border-left-color: #FFF;
+}
