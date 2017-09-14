@@ -37,6 +37,8 @@ ko.bindingHandlers['form'] = {
 
             try {
                 element.classList.remove('was-validated');
+                element.classList.add('is-busy');
+
                 page.errorMessage(null);
                 page.isBusy(true);
 
@@ -48,6 +50,7 @@ ko.bindingHandlers['form'] = {
                 console.error(e);
             } finally {
                 element.classList.add('was-validated');
+                element.classList.remove('is-busy');
                 page.isBusy(false);
 
                 console.groupEnd();
