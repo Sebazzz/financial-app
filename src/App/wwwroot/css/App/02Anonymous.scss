@@ -9,47 +9,30 @@
 }
 
 .form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
-}
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-  margin-bottom: 10px;
-}
-.form-signin .checkbox {
-  font-weight: normal;
-}
-.form-signin .form-control {
-  position: relative;
-  height: auto;
-  box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+    max-width: 400px;
+    padding: 15px;
+    margin: 0 auto;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 5px;
+    }
 }
 
-body.anonymous #loading-bar .bar {
+.form-signin .form-signin-heading {
+  margin-bottom: 10px;
+}
+
+
+body.anonymous .progress-indicator-bar {
   background: #FFF;
 }
 
-body.anonymous #loading-bar .peg {
-  box-shadow: #FFF 1px 0 6px 1px;
-}
-
-body.anonymous #loading-bar-spinner .spinner-icon {
-  border-top-color:  #FFF;
-  border-left-color: #FFF;
+body.anonymous .progress-indicator-spinner {
+    border-top-color: #FFF;
+    border-left-color: #FFF;
 }

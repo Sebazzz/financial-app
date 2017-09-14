@@ -1,4 +1,6 @@
-﻿/**** Rotation animation */
+﻿$navbar-top-border-width: 2px;
+
+/**** Rotation animation */
 @keyframes loading-spinner {
     0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -154,4 +156,34 @@ loading-bar {
     top: 0;
     left: 0;
     right: 0;
+}
+
+.navbar-brand, .application-header {
+    background: url(../../images/icons/application.svg) 10px center no-repeat;
+    background-size: contain;
+    padding-left: 70px;
+}
+
+
+.progress-indicator {
+    .progress-indicator-bar {
+        background: lighten($accent-color, 20%);
+        display: inline-block;
+        height: $navbar-top-border-width;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        overflow: visible;
+    }
+
+    .progress-indicator-spinner {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        color: lighten($accent-color, 20%);
+        animation: rotating 750ms linear infinite;
+        z-index: 1;
+    }
 }

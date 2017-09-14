@@ -15,3 +15,20 @@ Currently being tested on:
   * Internet Explorer 11
   * Microsoft Edge (Mobile and Desktop)
   * Mozilla Firefox
+  
+## Attribution
+
+Built on:
+
+- Knockout.js
+- Bootstrap 4
+- Fontawesome
+
+Built with:
+
+- Typescript
+- Webpack
+
+Application icon:
+
+Icon made by [Freepik](http://www.freepik.com/) from [www.flaticon.com](http://www.flaticon.com/).
