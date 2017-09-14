@@ -114,7 +114,7 @@
 
             app.UseWebSockets();
 
-            app.MapAngularViewPath(env);
+            app.MapTemplateViewPath(env);
 
             app.UseAuthentication();
 
