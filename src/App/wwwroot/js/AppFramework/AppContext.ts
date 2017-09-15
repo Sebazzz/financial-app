@@ -8,7 +8,9 @@ export default class AppContext {
     public app: App;
     public authentication: AuthenticationService = new AuthenticationService();
 
-    public versionStamp =  document.documentElement.getAttribute('data-app-version') || 'v0_0';
+    public versionStamp = document.documentElement.getAttribute('data-app-version') || 'v0_0';
+
+    public culture = 'en-US';
 
     constructor(app:App) {
         this.app = app;
