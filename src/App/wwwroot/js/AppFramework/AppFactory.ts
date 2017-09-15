@@ -86,9 +86,14 @@ function registerGlobals() {
     (window as any)['ko'] = ko;
 }
 
+function setCultureInformation(app: App) {
+    kendo.culture(app.context.culture);
+}
+
 export function createApp<TModel extends App>(app: TModel) {
     console.info('AppFactory: CreateApp');
 
+    setCultureInformation(app);
     registerGlobals();
     ComponentLoader.register(app.context);
     registerComponents(app.context);
