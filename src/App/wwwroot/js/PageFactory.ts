@@ -1,5 +1,6 @@
 ﻿import AppContext from './AppFramework/AppContext';
 import DefaultPage from './Pages/DefaultPage';
+import ReportPage from './Pages/ReportPage';
 import Archive_DefaultPage from './Pages/Archive/DefaultPage';
 import Archive_SheetPage from './Pages/Archive/SheetPage';
 import Archive_SheetEntry_DefaultPage from './Pages/Archive/SheetEntry/DefaultPage';
@@ -18,6 +19,7 @@ import Manage_User_EditPage from './Pages/Manage/User/EditPage';
 export default function getPages(appContext : AppContext) {
     return [
         new DefaultPage(appContext),
+        new ReportPage(appContext),
         new Archive_DefaultPage(appContext),
         new Archive_SheetPage(appContext),
         new Archive_SheetEntry_DefaultPage(appContext),
