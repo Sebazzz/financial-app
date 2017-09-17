@@ -34,18 +34,26 @@ export default class EditPage extends FormPage {
     }
 
     protected async onActivate(args?: any): Promise<void> {
-        this.availableCategories(await this.categoryApi.list());
+        const loadCategories = this.categoryApi.list();
+
 
         if (args && args.id) {
             this.id(+args.id);
 
             this.title('Regeltemplate bewerken');
-            this.set(await this.api.get(this.id.peek()));
+
+            const [entity, categories] = await Promise.all([this.api.get(this.id.peek()), loadCategories]);
+
+            this.set(entity);
+            this.availableCategories(categories);
+
             this.title(`Regeltemplate "${this.entryTemplate().source()}" bewerken`);
         } else {
             this.id(0);
             this.entryTemplate(new EditViewModel());
             this.title('Regeltemplate aanmaken');
+
+            this.availableCategories(await loadCategories);
         }
     }
 

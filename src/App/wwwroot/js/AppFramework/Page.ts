@@ -20,12 +20,6 @@ export abstract class Page extends Panel {
         // https://github.com/Microsoft/TypeScript/issues/14169
 
         {
-            const initialLoad = this.loadActivationDependencies(args);
-
-            await initialLoad;
-        }
-
-        {
             const promise = this.onActivate(args) || Promise.resolve();
             this.registerForLoadStatus(promise);
 
@@ -36,13 +30,6 @@ export abstract class Page extends Panel {
     public deactivate(): void { }
 
     protected abstract onActivate(args?: any): ActivationPromise | null;
-
-    /**
-        * Returns loads the dependencies for this page and returns an appropiate promise
-        */
-    protected loadActivationDependencies(args?: any): ActivationPromise {
-        return Promise.resolve();
-    }
 }
 
 class PageTemplateManager {
@@ -126,12 +113,11 @@ class PageComponentModel {
             this.templateName(defaultTemplateName);
             this.page(null);
 
-            const page = this.findPage(toState.name),
-                  templateId = await this.templateManager.loadTemplate(page);
+            console.info('Route changes %s to %s: Activating page / loading template', fromState && fromState.name || '(null)', toState.name);
 
-            console.info('Route changes %s to %s: Activating page', fromState && fromState.name || '(null)', toState.name);
+            const page = this.findPage(toState.name);
 
-            await page.activate(toState.params);
+            const [templateId] = await Promise.all([this.templateManager.loadTemplate(page), page.activate(toState.params)]);
 
             this.page(page);
             this.templateName(templateId);
