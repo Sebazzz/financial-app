@@ -1,4 +1,6 @@
-﻿namespace App {
+﻿using Microsoft.AspNetCore.SpaServices.Webpack;
+
+namespace App {
     using System;
     using System.Diagnostics;
     using System.Linq;
@@ -125,6 +127,9 @@
             if (env.IsDevelopment()) {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                    HotModuleReplacement = true
+                });
             } else {
                 app.UseExceptionHandler("/");
             }
