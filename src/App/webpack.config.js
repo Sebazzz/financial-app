@@ -1,5 +1,7 @@
 /// <binding ProjectOpened='Watch - Development' />
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 const path = require('path');
 const webpack = require('webpack');
 
@@ -32,6 +34,19 @@ const stableModuleIds = new webpack.HashedModuleIdsPlugin({
     hashDigestLength: 20
 });
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+const plugins = [
+    tsProvide,
+    extractSass,
+    libExtract,
+    stableModuleIds
+];
+
+if (isProduction) {
+    plugins.push(new UglifyJSPlugin());
+}
+
 module.exports = {
   devtool: 'inline-source-map',
   entry: {
@@ -52,12 +67,7 @@ module.exports = {
           'es6-promise'
       ]
   },
-  plugins: [
-     tsProvide,
-     extractSass,
-     libExtract,
-     stableModuleIds
-  ],
+  plugins: plugins,
   output: {
     filename: '[name]',
     path: path.resolve(__dirname, 'wwwroot/build')
