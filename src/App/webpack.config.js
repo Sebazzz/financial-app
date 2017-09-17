@@ -5,9 +5,12 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const path = require('path');
 const webpack = require('webpack');
+const isProduction = process.env.NODE_ENV === 'production',
+      targetDir = path.resolve(__dirname, 'wwwroot/build');
 
 const extractSass = new ExtractTextPlugin({
-    filename: 'app.css'
+    filename: 'app.css',
+    disable: !isProduction
 });
 
 const tsProvide = new webpack.ProvidePlugin({
@@ -22,7 +25,8 @@ const tsProvide = new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
     Popper: ['popper.js', 'default'],
-    Promise: 'es6-promise'
+    Promise: 'es6-promise',
+    EventSource: 'eventsource'
 });
 
 const libExtract = new webpack.optimize.CommonsChunkPlugin({
@@ -35,15 +39,27 @@ const stableModuleIds = new webpack.HashedModuleIdsPlugin({
     hashDigestLength: 20
 });
 
-const isProduction = process.env.NODE_ENV === 'production'
-      targetDir = path.resolve(__dirname, 'wwwroot/build');
-
 const plugins = [
     new CleanWebpackPlugin([targetDir]),
     tsProvide,
     extractSass,
     libExtract,
     stableModuleIds
+];
+
+const libraries = [
+    'jquery',
+    'kendo-ui-core/js/kendo.core',
+    'kendo-ui-core/js/cultures/kendo.culture.nl-NL',
+    'router5',
+    'reflect-metadata',
+    'tslib',
+    'popper.js',
+    'bootstrap',
+    'knockout',
+    'cleave.js',
+    'json.date-extensions',
+    'es6-promise'
 ];
 
 if (isProduction) {
@@ -54,26 +70,13 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: {
       'app.js': ['./wwwroot/js/main.ts' ],
-      'app.css': ['./wwwroot/css/app.scss' ],
-      'lib.js': [
-          'jquery',
-          'kendo-ui-core/js/kendo.core',
-          'kendo-ui-core/js/cultures/kendo.culture.nl-NL',
-          'router5',
-          'reflect-metadata',
-          'tslib',
-          'popper.js',
-          'bootstrap',
-          'knockout',
-          'cleave.js', 
-          'json.date-extensions', 
-          'es6-promise'
-      ]
+      'lib.js': libraries
   },
   plugins: plugins,
   output: {
     filename: '[name]',
-    path: targetDir
+    path: targetDir,
+    publicPath: '/build/'
   },
   resolve: {
    extensions: ['.ts', '.js']
@@ -110,7 +113,8 @@ module.exports = {
                         sourceMap: true
                     }
                 }
-            ]
+            ],
+            fallback: 'style-loader'
         })
       },
       {
@@ -125,3 +129,4 @@ module.exports = {
     ]
   }
 };
+
