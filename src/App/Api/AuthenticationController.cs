@@ -36,7 +36,7 @@
             AppUser user = await this._appUserManager.FindByNameAsync(parameters.UserName);
             user.EnsureNotNull(HttpStatusCode.Forbidden);
 
-            SignInResult result =await this._authenticationManager.PasswordSignInAsync(user, parameters.Password, true, false);
+            SignInResult result = await this._authenticationManager.PasswordSignInAsync(user, parameters.Password, true, false);
             if (result.Succeeded == false) {
                 return new AuthenticationInfo {
                     IsAuthenticated = false
@@ -53,7 +53,7 @@
         [HttpPost]
         [Route("logoff")]
         public async Task<AuthenticationInfo> LogOff() {
-            await this.Context.SignOutAsync();
+            await this._authenticationManager.SignOutAsync();
 
             return new AuthenticationInfo();
         }
