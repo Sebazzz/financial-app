@@ -48,7 +48,8 @@ module.exports = {
           'bootstrap',
           'knockout',
           'cleave.js', 
-          'json.date-extensions'
+          'json.date-extensions', 
+          'es6-promise'
       ]
   },
   plugins: [

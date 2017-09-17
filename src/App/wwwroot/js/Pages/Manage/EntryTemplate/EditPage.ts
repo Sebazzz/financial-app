@@ -5,6 +5,7 @@ import * as entry from '../../../ServerApi/RecurringSheetEntry';
 import * as validate from '../../../AppFramework/Forms/ValidateableViewModel';
 import * as mapper from '../../../AppFramework/ServerApi/Mapper';
 import * as ko from 'knockout';
+import { AccountType } from '../../../ServerApi/SheetEntry';
 
 export default class EditPage extends FormPage {
     private categoryApi = new category.Api();
@@ -12,11 +13,11 @@ export default class EditPage extends FormPage {
 
     public id = ko.observable<number>(0);
 
-    public entry = ko.observable<EditViewModel>(new EditViewModel());
+    public entryTemplate = ko.observable<EditViewModel>(new EditViewModel());
     public availableCategories = ko.observableArray<category.ICategoryListing>();
 
 // ReSharper disable InconsistentNaming
-    public AccountType = entry.AccountType;
+    public AccountType = AccountType;
 // ReSharper restore InconsistentNaming
 
     constructor(appContext: AppContext) {
@@ -40,16 +41,16 @@ export default class EditPage extends FormPage {
 
             this.title('Regeltemplate bewerken');
             this.set(await this.api.get(this.id.peek()));
-            this.title(`Regeltemplate "${this.entry().source()}" bewerken`);
+            this.title(`Regeltemplate "${this.entryTemplate().source()}" bewerken`);
         } else {
             this.id(0);
-            this.entry(new EditViewModel());
+            this.entryTemplate(new EditViewModel());
             this.title('Regeltemplate aanmaken');
         }
     }
 
     public async save(): Promise<void> {
-        const entryTemplate = this.entry.peek();
+        const entryTemplate = this.entryTemplate.peek();
 
         try {
             const serialized = ko.toJS(entryTemplate) as entry.IRecurringSheetEntry,
@@ -78,7 +79,7 @@ export default class EditPage extends FormPage {
             throw new Error('Unable to deserialize server response: null');
         }
 
-        this.entry(vm);
+        this.entryTemplate(vm);
     }
 }
 
@@ -89,7 +90,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public source = ko.observable<string>();
     public sortOrder = ko.observable<number>(0);
     public remark = ko.observable<string>();
-    public account = ko.observable<entry.AccountType>();
+    public account = ko.observable<AccountType>();
 
     public showRemarksEditor = ko.observable<boolean>(false);
     public toggleRemarksEditor() {
