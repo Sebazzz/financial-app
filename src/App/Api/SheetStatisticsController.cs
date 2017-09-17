@@ -6,7 +6,7 @@
 
     [Authorize]
     [Route("api/sheet/{sheetYear:int}-{sheetMonth:int}/statistics")]
-    public class SheetStatisticsController : LegacyBaseEntityController {
+    public class SheetStatisticsController : BaseEntityController {
         private readonly SheetRetrievalService _sheetRetrievalService;
         private readonly SheetStatisticsService _sheetStatisticsService;
 
@@ -15,8 +15,7 @@
             this._sheetStatisticsService = sheetStatisticsService;
         }
 
-        [Route("")]
-        [HttpGet]
+        [HttpGet("")]
         public SheetGlobalStatistics Get(int sheetMonth, int sheetYear) {
             Sheet s = this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId);
             this.EntityOwnerService.EnsureOwner(s, this.OwnerId);

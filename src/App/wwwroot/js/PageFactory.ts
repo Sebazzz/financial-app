@@ -3,6 +3,7 @@ import DefaultPage from './Pages/DefaultPage';
 import ReportPage from './Pages/ReportPage';
 import Archive_DefaultPage from './Pages/Archive/DefaultPage';
 import Archive_SheetPage from './Pages/Archive/SheetPage';
+import Archive_SheetStatisticsPage from './Pages/Archive/SheetStatisticsPage';
 import Archive_SheetEntry_DefaultPage from './Pages/Archive/SheetEntry/DefaultPage';
 import Archive_SheetEntry_EditPage from './Pages/Archive/SheetEntry/EditPage';
 import Auth_LoginPage from './Pages/Auth/LoginPage';
@@ -22,6 +23,7 @@ export default function getPages(appContext : AppContext) {
         new ReportPage(appContext),
         new Archive_DefaultPage(appContext),
         new Archive_SheetPage(appContext),
+        new Archive_SheetStatisticsPage(appContext),
         new Archive_SheetEntry_DefaultPage(appContext),
         new Archive_SheetEntry_EditPage(appContext),
         new Auth_LoginPage(appContext),
