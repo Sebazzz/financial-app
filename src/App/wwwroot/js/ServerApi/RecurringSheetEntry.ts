@@ -1,8 +1,6 @@
 ﻿import { default as ApiBase, ICreatedResult } from '../AppFramework/ServerApi/ApiBase';
 import { AccountType } from './SheetEntry';
 
-export { AccountType };
-
 export interface IRecurringSheetEntryListing {
     id : number;
     categoryId : number;

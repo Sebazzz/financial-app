@@ -1,6 +1,7 @@
 ﻿import {Page} from '../../../AppFramework/Page'
 import AppContext from '../../../AppFramework/AppContext'
 import * as entry from '../../../ServerApi/RecurringSheetEntry';
+import {AccountType} from '../../../ServerApi/SheetEntry';
 import * as ko from 'knockout';
 import confirmAsync from '../../../AppFramework/Forms/Confirmation';
 
@@ -12,7 +13,7 @@ export default class DefaultPage extends Page {
     // Pass the types below to the view
 // ReSharper disable InconsistentNaming
     public SortOrderMutation = entry.SortOrderMutationType;
-    public AccountType = entry.AccountType;
+    public AccountType = AccountType;
 // ReSharper restore InconsistentNaming
 
     constructor(appContext: AppContext) {

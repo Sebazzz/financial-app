@@ -1,6 +1,7 @@
 ﻿import FormPage from '../../../AppFramework/Forms/FormPage';
 import AppContext from '../../../AppFramework/AppContext';
 import NowRouteProvider from '../../../Services/NowRoute';
+import { AccountType } from '../../../ServerApi/SheetEntry';
 
 import * as ko from 'knockout';
 import * as mapper from '../../../AppFramework/ServerApi/Mapper';
@@ -150,7 +151,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public source = ko.observable<string>();
     public sortOrder = ko.observable<number>(0);
     public remark = ko.observable<string>();
-    public account = ko.observable<entryTemplate.AccountType>();
+    public account = ko.observable<AccountType>();
     public templateId = ko.observable<number>();
 
     public showRemarksEditor = ko.observable<boolean>(false);
