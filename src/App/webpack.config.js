@@ -1,6 +1,7 @@
 /// <binding ProjectOpened='Watch - Development' />
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const path = require('path');
 const webpack = require('webpack');
@@ -34,9 +35,11 @@ const stableModuleIds = new webpack.HashedModuleIdsPlugin({
     hashDigestLength: 20
 });
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production'
+      targetDir = path.resolve(__dirname, 'wwwroot/build');
 
 const plugins = [
+    new CleanWebpackPlugin([targetDir]),
     tsProvide,
     extractSass,
     libExtract,
@@ -44,7 +47,7 @@ const plugins = [
 ];
 
 if (isProduction) {
-    plugins.push(new UglifyJSPlugin());
+    plugins.push(new UglifyJsPlugin());
 }
 
 module.exports = {
@@ -70,7 +73,7 @@ module.exports = {
   plugins: plugins,
   output: {
     filename: '[name]',
-    path: path.resolve(__dirname, 'wwwroot/build')
+    path: targetDir
   },
   resolve: {
    extensions: ['.ts', '.js']
@@ -84,6 +87,17 @@ module.exports = {
                 {
                     loader: 'css-loader',
                     options: {
+                        sourceMap: true
+                    }
+                },
+                {
+                    loader: 'postcss-loader', 
+                    options: {
+                        plugins: function() {
+                            return [
+                                require('autoprefixer')
+                            ];
+                        },
                         sourceMap: true
                     }
                 },
