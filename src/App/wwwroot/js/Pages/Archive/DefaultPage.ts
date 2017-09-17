@@ -1,5 +1,5 @@
-﻿import {Page} from '../../AppFramework/Page'
-import AppContext from '../../AppFramework/AppContext'
+﻿import {Page} from '../../AppFramework/Page';
+import AppContext from '../../AppFramework/AppContext';
 import * as sheet from '../../ServerApi/Sheet';
 import * as ko from 'knockout';
 

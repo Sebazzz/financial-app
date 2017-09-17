@@ -1,5 +1,5 @@
 /// <binding ProjectOpened='Watch - Development' />
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -18,7 +18,8 @@ const tsProvide = new webpack.ProvidePlugin({
     __asyncValues: ['tslib', '__asyncValues'],
     $: 'jquery',
     jQuery: 'jquery',
-    Popper: ['popper.js', 'default']
+    Popper: ['popper.js', 'default'],
+    Promise: 'es6-promise'
 });
 
 const libExtract = new webpack.optimize.CommonsChunkPlugin({
@@ -46,7 +47,8 @@ module.exports = {
           'popper.js',
           'bootstrap',
           'knockout',
-          'cleave.js'
+          'cleave.js', 
+          'json.date-extensions'
       ]
   },
   plugins: [
@@ -60,7 +62,7 @@ module.exports = {
     path: path.resolve(__dirname, 'wwwroot/build')
   },
   resolve: {
-   extensions: [".ts", ".js"]
+   extensions: ['.ts', '.js']
   },
   module: {
     rules: [

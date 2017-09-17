@@ -1,18 +1,18 @@
 ﻿import {Page} from '../../../AppFramework/Page'
 import AppContext from '../../../AppFramework/AppContext'
-import * as entryTemplate from '../../../ServerApi/RecurringSheetEntry';
+import * as entry from '../../../ServerApi/RecurringSheetEntry';
 import * as ko from 'knockout';
 import confirmAsync from '../../../AppFramework/Forms/Confirmation';
 
 export default class DefaultPage extends Page {
-    private api = new entryTemplate.Api();
+    private api = new entry.Api();
 
-    public entryTemplates = ko.observableArray<entryTemplate.IRecurringSheetEntryListing>();
+    public entryTemplates = ko.observableArray<entry.IRecurringSheetEntryListing>();
 
     // Pass the types below to the view
 // ReSharper disable InconsistentNaming
-    public SortOrderMutation = entryTemplate.SortOrderMutationType;
-    public AccountType = entryTemplate.AccountType;
+    public SortOrderMutation = entry.SortOrderMutationType;
+    public AccountType = entry.AccountType;
 // ReSharper restore InconsistentNaming
 
     constructor(appContext: AppContext) {
@@ -34,14 +34,14 @@ export default class DefaultPage extends Page {
         this.entryTemplates(await this.api.list());
     }
 
-    public async deleteEntryTemplate(entryTemplate: entryTemplate.IRecurringSheetEntryListing) {
+    public async deleteEntryTemplate(entryTemplate: entry.IRecurringSheetEntryListing) {
         if (await confirmAsync(`Weet je zeker dat je ${entryTemplate.source} wilt verwijderen?`, 'Regeltemplate verwijderen', true)) {
             this.entryTemplates.remove(entryTemplate);
             await this.api.delete(entryTemplate.id);
         }
     }
 
-    public mutateSortOrderHandler(entry : entryTemplate.IRecurringSheetEntryListing, mutation : entryTemplate.SortOrderMutationType) {
+    public mutateSortOrderHandler(entry : entry.IRecurringSheetEntryListing, mutation : entry.SortOrderMutationType) {
         return async () => {
             try {
                 await this.api.mutateOrder(entry.id, mutation);

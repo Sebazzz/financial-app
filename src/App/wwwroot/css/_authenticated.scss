@@ -92,4 +92,22 @@ form[role=form] {
 
 .balance-negative {
     @extend .text-danger;
+
+    .bg-danger & {
+        color: darken(crimson, 25%) !important;
+    }
+}
+
+.table-sheet {
+    .row-middle td {
+        vertical-align: middle;
+    }
+}
+
+.btn-group-justified {
+    display: flex; // inline-flex by default
+
+    > .btn {
+        flex: 1 1 auto;
+    }
 }

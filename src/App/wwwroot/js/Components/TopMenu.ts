@@ -2,12 +2,16 @@
 import {State, PluginFactory as RouterPluginFactory} from 'router5';
 import AppContext from '../AppFramework/AppContext';
 import * as ko from 'knockout';
+import NowRouteProvider from '../Services/NowRoute';
 
 class TopMenu extends framework.Panel {
     private path = ko.observable<string>('/');
     private routeNode = ko.observable<string>('default');
 
-    public nowPath = ko.observable<string>('now'); // TODO
+    public nowPath = ko.pureComputed<string>(() => {
+        return new NowRouteProvider().getRoute(this.appContext.app.router);
+    });
+
     public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
 
     public deactivate(): void {

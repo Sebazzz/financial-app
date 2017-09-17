@@ -1,22 +1,22 @@
 ﻿import AppContext from '../../../AppFramework/AppContext';
 import FormPage from '../../../AppFramework/Forms/FormPage';
 import * as category from '../../../ServerApi/Category';
-import * as entryTemplate from '../../../ServerApi/RecurringSheetEntry';
+import * as entry from '../../../ServerApi/RecurringSheetEntry';
 import * as validate from '../../../AppFramework/Forms/ValidateableViewModel';
 import * as mapper from '../../../AppFramework/ServerApi/Mapper';
 import * as ko from 'knockout';
 
 export default class EditPage extends FormPage {
     private categoryApi = new category.Api();
-    private api = new entryTemplate.Api();
+    private api = new entry.Api();
 
     public id = ko.observable<number>(0);
 
-    public entryTemplate = ko.observable<EditViewModel>(new EditViewModel());
+    public entry = ko.observable<EditViewModel>(new EditViewModel());
     public availableCategories = ko.observableArray<category.ICategoryListing>();
 
 // ReSharper disable InconsistentNaming
-    public AccountType = entryTemplate.AccountType;
+    public AccountType = entry.AccountType;
 // ReSharper restore InconsistentNaming
 
     constructor(appContext: AppContext) {
@@ -40,19 +40,19 @@ export default class EditPage extends FormPage {
 
             this.title('Regeltemplate bewerken');
             this.set(await this.api.get(this.id.peek()));
-            this.title(`Regeltemplate "${this.entryTemplate().source()}" bewerken`);
+            this.title(`Regeltemplate "${this.entry().source()}" bewerken`);
         } else {
             this.id(0);
-            this.entryTemplate(new EditViewModel());
+            this.entry(new EditViewModel());
             this.title('Regeltemplate aanmaken');
         }
     }
 
     public async save(): Promise<void> {
-        const entryTemplate = this.entryTemplate.peek();
+        const entryTemplate = this.entry.peek();
 
         try {
-            const serialized = ko.toJS(entryTemplate) as entryTemplate.IRecurringSheetEntry,
+            const serialized = ko.toJS(entryTemplate) as entry.IRecurringSheetEntry,
                   id = this.id.peek(),
                   isNew = id === 0;
 
@@ -72,13 +72,13 @@ export default class EditPage extends FormPage {
         }
     }
 
-    private set(data: entryTemplate.IRecurringSheetEntry): any {
+    private set(data: entry.IRecurringSheetEntry): any {
         const vm = mapper.MapUtils.deserialize<EditViewModel>(EditViewModel, data);
         if (!vm) {
             throw new Error('Unable to deserialize server response: null');
         }
 
-        this.entryTemplate(vm);
+        this.entry(vm);
     }
 }
 
@@ -89,7 +89,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public source = ko.observable<string>();
     public sortOrder = ko.observable<number>(0);
     public remark = ko.observable<string>();
-    public account = ko.observable<entryTemplate.AccountType>();
+    public account = ko.observable<entry.AccountType>();
 
     public showRemarksEditor = ko.observable<boolean>(false);
     public toggleRemarksEditor() {

@@ -36,6 +36,5 @@ export default class ApiBase {
     }
 }
 
-export interface ICreatedResult<T> {
-    result: T;
-}
+// ReSharper disable once InconsistentNaming
+export type ICreatedResult<T> = T;

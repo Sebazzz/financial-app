@@ -8,7 +8,8 @@ ko.bindingHandlers['formatText'] = {
         ko.computed(() => {
             const format = allBindingsAccessor.get('format'),
                   value = ko.unwrap(valueAccessor()),
-                  str = kendo.toString(value, format);
+                  isCompositeFormatString = format.indexOf('{') !== -1,
+                  str = isCompositeFormatString ? kendo.format(format, value) : kendo.toString(value, format);
 
             $element.text(str);
         }).extend({ 'disposeWhenNodeIsRemoved': element });
