@@ -1,60 +1,55 @@
 ﻿<h1>
     Financiën
-    <small>{{ date | moment: 'MMMM YYYY'}}</small>
+    <small data-bind="formatText: date, format: 'MMMM yyyy'"></small>
 </h1>
 
 <h2>Statistieken</h2>
 
-<div ng-if="isLoaded">
+<div data-bind="with: stats">
     <p class="lead">
-        In {{ date | moment: 'MMMM YYYY'}} is in totaal {{stats.totalExpenses | currency}} uitgegeven.
-        {{stats.totalIncome | currency}} aan inkomsten zijn verkregen, waarvan
-        <span ng-class="{ 'negative': stats.totalSavings < 0 }">{{stats.totalSavings | currency}}</span> is gespaard.
+        In <span data-bind="formatText: $parent.date, format: 'MMMM yyyy'"></span> is in totaal <span data-bind="formatText: totalExpenses, format: 'c'"></span> uitgegeven.
+        <span data-bind="formatText: totalIncome, format: 'c'"></span> aan inkomsten zijn verkregen, waarvan
+        <span data-bind="css: { 'balance-negative': totalSavings < 0 }, formatText: totalSavings, format: 'c'"></span> is gespaard.
     </p>
+    
+    <div data-bind="visible: categoryStatistics.length > 0">
+        <p>
+            Onderstaand een overzicht van uitgaven en inkomsten per categorie.
+        </p>
 
-    <p>
-        Onderstaand een overzicht van uitgaven en inkomsten per categorie.
-    </p>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Categorie</th>
-                <th>Bedrag</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="catStats in stats.categoryStatistics">
-            <tr>
-                <td>
-                    {{catStats.categoryName}}
-                </td>
-                <td>
-                    <span ng-class="{ 'negative': catStats.delta < 0 }">
-                        {{catStats.delta | currency}}
-                    </span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Categorie</th>
+                    <th>Bedrag</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: categoryStatistics">
+                <tr>
+                    <td data-bind="text: categoryName"></td>
+                    <td data-bind="css: { 'balance-negative': delta < 0 },
+                                   formatText: delta, format: 'c'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     
     <h3>Grafisch</h3>
-    <div google-chart chart="expenseChartData" ng-style="style"></div>
-    <div google-chart chart="incomeChartData" ng-style="style"></div>
+    <p>
+        <span class="fa fa-line-chart"></span> Aan dit onderdeel wordt nog gewerkt.
+    </p>
 </div>
-
-<div ng-hide="isLoaded" ng-include="'/Angular/Widgets/Loader.html'"></div>
 
 <p class="btn-group mobile-center" style="margin-top: 2em">
     <a href="#"
-       ng-href="/sheet/{{previousDate.year()}}/{{previousDate.month()+1}}/stats"
-       class="btn btn-default">Vorige maand</a>
-
+       class="btn btn-secondary"
+       data-bind="href: previousSheetStatisticsRoute">Vorige maand</a>
+    
     <a href="#"
-       ng-href="/sheet/{{date.year()}}/{{date.month()+1}}"
-       class="btn btn-primary">Terug naar lijst</a>
-
+       class="btn btn-primary"
+       data-bind="href: currentSheetRoute">Terug naar lijst</a>
+    
     <a href="#"
-       ng-disabled="nextDate === null"
-       ng-href="/sheet/{{nextDate.year()}}/{{nextDate.month()+1}}/stats"
-       class="btn btn-default">Volgende maand</a>
+       class="btn btn-secondary"
+       data-bind="href: nextSheetStatisticsRoute, visible: hasNextMonth">Volgende maand</a>
 </p>

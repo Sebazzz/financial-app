@@ -1,11 +1,9 @@
 ﻿namespace App.Models.Domain.Services {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Serialization;
     using Repositories;
-    using Microsoft.EntityFrameworkCore;
 
     public class SheetStatisticsService {
         private readonly SheetRepository _sheetRepository;

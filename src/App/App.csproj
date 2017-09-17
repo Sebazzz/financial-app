@@ -40,6 +40,7 @@
     <Content Remove="wwwroot\js\Pages\Archive\SheetEntry\DefaultPage.ts" />
     <Content Remove="wwwroot\js\Pages\Archive\SheetEntry\EditPage.ts" />
     <Content Remove="wwwroot\js\Pages\Archive\SheetPage.ts" />
+    <Content Remove="wwwroot\js\Pages\Archive\SheetStatisticsPage.ts" />
     <Content Remove="wwwroot\js\Pages\AuthLogOffPage.ts" />
     <Content Remove="wwwroot\js\Pages\DefaultPage.ts" />
     <Content Remove="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
@@ -142,6 +143,7 @@
     <TypeScriptCompile Include="wwwroot\js\Pages\Archive\SheetEntry\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Archive\SheetEntry\EditPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Archive\SheetPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Archive\SheetStatisticsPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Auth\LogOffPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\Category\DefaultPage.ts" />
