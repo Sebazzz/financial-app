@@ -5,6 +5,9 @@
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Net.Http.Headers;
 
+    /// <summary>
+    /// Ensures the controllers this attribute is applied to allows caching of the HTML
+    /// </summary>
     public sealed class DefaultResponseCacheFilterAttribute : ActionFilterAttribute {
         public override void OnResultExecuting(ResultExecutingContext context) {
             ResponseHeaders headers = context.HttpContext.Response.GetTypedHeaders();
@@ -14,8 +17,6 @@
                 Public = true,
                 MaxAge = TimeSpan.FromDays(1)
             };
-
-            base.OnResultExecuting(context);
         }
     }
 }
