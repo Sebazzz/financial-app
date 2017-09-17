@@ -111,3 +111,10 @@ form[role=form] {
         flex: 1 1 auto;
     }
 }
+
+h1, h2, h3, h4 {
+    small {
+        opacity: 0.5;
+        font-size: 60%;
+    }
+}
