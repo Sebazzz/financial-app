@@ -15,7 +15,7 @@
                 </a>
                 
                 <span class="inline-block" data-bind="tooltip: category.canBeDeleted ? 'Categorie verwijderen' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'">
-                    <a class="btn btn-danger btn-sm"
+                    <a class="btn btn-outline-danger btn-sm"
                        data-bind="click: $parent.deleteCategory, css: { 'disabled': !category.canBeDeleted }">
                         <span class="fa fa-trash"></span>
                     </a>

@@ -38,7 +38,7 @@ export default function confirmAsync(text: string, title?: string, isDanger = fa
         title: title,
         confirmButtonText: confirmButtonText,
         rejectButtonText: rejectButtonText,
-        primaryCssClass: isDanger ? 'btn-danger' : 'btn-primary'
+        primaryCssClass: isDanger ? 'btn-outline-danger' : 'btn-primary'
     };
 
     const modalContainer = document.createElement('div');
@@ -53,7 +53,7 @@ export default function confirmAsync(text: string, title?: string, isDanger = fa
     return new Promise<boolean>((resolve) => {
         let result = false;
 
-        $modal.on('click', '.btn-primary, .btn-danger', (ev) => {
+        $modal.on('click', '.btn-primary, .btn-outline-danger', (ev) => {
             ev.preventDefault();
 
             result = true;
