@@ -33,8 +33,6 @@ export default class EditPage extends FormPage {
     constructor(appContext: AppContext) {
         super(appContext);
 
-       
-
         this.title('Regeltemplate bewerken');
         this.templateName = 'archive/sheetentry-edit';
         this.routes = [
@@ -77,13 +75,17 @@ export default class EditPage extends FormPage {
 
         const baseTitle = `Financiën ${kendo.toString(date, 'MMMM yyyy')}`;
 
-        this.availableCategories(await this.categoryApi.list());
+        const loadCategories = this.categoryApi.list();
 
         if (args && args.id) {
             this.id(+args.id);
 
             this.title(`Regel bewerken - ${baseTitle}`);
-            this.set(await this.api.get(this.id.peek()));
+
+            const [entity, categories] = await Promise.all([this.api.get(this.id.peek()), loadCategories]);
+            this.set(entity);
+            this.availableCategories(categories);
+
             this.title(`Regel "${this.entry().source()}" bewerken - ${baseTitle}`);
         } else {
             const templateId = +(args && args.templateId),

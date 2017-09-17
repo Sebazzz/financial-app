@@ -18,7 +18,7 @@ export default class SheetPage extends Page {
               routeArgs = { month: date.getMonth() + 1, year: date.getFullYear() };
 
         return this.appContext.app.router.getRoute('archive.sheet', routeArgs);
-    })
+    });
 
     public previousDate = ko.pureComputed(() => {
         const date = new Date(this.date());

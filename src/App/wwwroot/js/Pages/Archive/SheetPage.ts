@@ -117,8 +117,14 @@ export default class SheetPage extends FormPage {
         this.title(`Financiën ${kendo.toString(date, 'MMMM yyyy')}`);
 
         this.sheetEntryApi.setContext(year, month);
-        this.availableCategories(await this.categoryApi.list());
-        this.loadSheet(await this.api.getBySubject(year, month));
+
+        const [category, sheet] = await Promise.all([
+            this.categoryApi.list(),
+            this.api.getBySubject(year, month)
+            ]);
+
+        this.availableCategories(category);
+        this.loadSheet(sheet);
     }
 
     public displayName(sheet: sheet.ISheetListing) {
