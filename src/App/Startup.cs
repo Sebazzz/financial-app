@@ -22,6 +22,8 @@
     using Models.Domain.Services;
     using Newtonsoft.Json.Serialization;
     using Support;
+    using Support.Filters;
+
     using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
     public class Startup
@@ -48,6 +50,7 @@
             services.AddMvc(options => {
                 options.Filters.Add(typeof(HttpResponseExceptionActionFilter));
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
+                options.Filters.Add(typeof(ApiCachePreventionFilterAttribute));
             }).AddWebApiConventions();
 
             services.AddIdentity<AppUser, AppRole>(
