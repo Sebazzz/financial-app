@@ -11,7 +11,7 @@ export class App extends af.App {
     }
 
     public initRouter() {
-        this.addPages(getPages(this.context));
+        this.addPages(getPages());
     }
 
     public bind(): void {

@@ -1,10 +1,10 @@
-﻿import {Page} from '../../../AppFramework/Page'
+﻿import {Page, IPageRegistration} from '../../../AppFramework/Page'
 import AppContext from '../../../AppFramework/AppContext'
 import * as category from '../../../ServerApi/Category';
 import * as ko from 'knockout';
 import confirmAsync from '../../../AppFramework/Forms/Confirmation';
 
-export default class DefaultPage extends Page {
+class DefaultPage extends Page {
     private api = new category.Api();
 
     public categories = ko.observableArray<category.ICategoryListing>();
@@ -13,8 +13,6 @@ export default class DefaultPage extends Page {
         super(appContext);
 
         this.title('Categoriëen');
-        this.templateName = 'manage/category/default';
-        this.routes = { name: 'manage.category', path: '/category' };
 
         this.deleteCategory = this.deleteCategory.bind(this);
     }
@@ -29,4 +27,11 @@ export default class DefaultPage extends Page {
             await this.api.delete(category.id);
         }
     }
-} 
+}
+
+export default {
+    name: 'DefaultManageUser',
+    templateName: 'manage/category/default',
+    routingTable: { name: 'manage.category', path: '/category' },
+    createPage: (appContext) => new DefaultPage(appContext)
+} as IPageRegistration;

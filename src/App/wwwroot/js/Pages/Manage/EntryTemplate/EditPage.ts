@@ -1,4 +1,5 @@
 ﻿import AppContext from '../../../AppFramework/AppContext';
+import {IPageRegistration} from '../../../AppFramework/Page';
 import FormPage from '../../../AppFramework/Forms/FormPage';
 import * as category from '../../../ServerApi/Category';
 import * as entry from '../../../ServerApi/RecurringSheetEntry';
@@ -7,7 +8,7 @@ import * as mapper from '../../../AppFramework/ServerApi/Mapper';
 import * as ko from 'knockout';
 import { AccountType } from '../../../ServerApi/SheetEntry';
 
-export default class EditPage extends FormPage {
+class EditPage extends FormPage {
     private categoryApi = new category.Api();
     private api = new entry.Api();
 
@@ -24,11 +25,6 @@ export default class EditPage extends FormPage {
         super(appContext);
 
         this.title('Regeltemplate bewerken');
-        this.templateName = 'manage/entry-template/edit';
-        this.routes = [
-                { name: 'manage.entry-template.edit', path: '/edit/:id' },
-                { name: 'manage.entry-template.add', path: '/add'}
-            ];
 
         this.save = this.save.bind(this);
     }
@@ -105,3 +101,13 @@ export class EditViewModel extends validate.ValidateableViewModel {
         this.showRemarksEditor(!this.showRemarksEditor());
     }
 }
+
+export default {
+    name: 'EditManageEntryTemplate',
+    templateName: 'manage/entry-template/edit',
+    routingTable: [
+        { name: 'manage.entry-template.edit', path: '/edit/:id' },
+        { name: 'manage.entry-template.add', path: '/add'}
+    ],
+    createPage: (appContext) => new EditPage(appContext)
+} as IPageRegistration;

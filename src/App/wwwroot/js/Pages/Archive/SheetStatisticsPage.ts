@@ -1,11 +1,11 @@
-﻿import { Page }  from '../../AppFramework/Page';
+﻿import { Page, IPageRegistration }  from '../../AppFramework/Page';
 import AppContext from '../../AppFramework/AppContext';
 
 import * as ko from 'knockout';
 
 import * as sheetStatistics from '../../ServerApi/SheetStatistics';
 
-export default class SheetPage extends Page {
+class SheetStatisticsPage extends Page {
     private api = new sheetStatistics.Api();
 
     public currentValidationErrors = ko.observableArray<string>();
@@ -59,15 +59,6 @@ export default class SheetPage extends Page {
         super(appContext);
 
         this.title('Statistieken');
-        this.templateName = 'archive/sheet-stats';
-        this.routes = [
-                { name: 'archive.sheet.statistics', path: '/statistics' },
-                {
-                    name: 'sheet.stats',
-                    path: '/stats',
-                    forwardTo: 'archive.sheet.statistics'
-                }
-            ];
     }
 
     protected async onActivate(args?: any): Promise<void> {
@@ -88,3 +79,17 @@ export default class SheetPage extends Page {
         this.stats(await this.api.get());
     }
 }
+
+export default {
+    name: 'ArchiveSheetStatisticsPage',
+    templateName: 'archive/sheet-stats',
+    routingTable: [
+        { name: 'archive.sheet.statistics', path: '/statistics' },
+        {
+            name: 'sheet.stats',
+            path: '/stats',
+            forwardTo: 'archive.sheet.statistics'
+        }
+    ],
+    createPage: (appContext) => new SheetStatisticsPage(appContext)
+} as IPageRegistration;

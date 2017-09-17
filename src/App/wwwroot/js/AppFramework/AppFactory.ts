@@ -1,5 +1,5 @@
 ﻿import AppContext from './AppContext';
-import { registerPageLoader, Page } from './Page';
+import { registerPageLoader, IPageRegistration } from './Page';
 import { Router } from './Router';
 import * as $ from 'jquery';
 import * as ko from 'knockout';
@@ -9,7 +9,7 @@ import registerLoadingBar from './Components/LoadingBar';
 import registerModal from './Components/Modal';
 
 export class App {
-    public pages: Page[] = [];
+    public pages: IPageRegistration[] = [];
     public context: AppContext = new AppContext(this);
     public router = new Router();
 
@@ -18,9 +18,9 @@ export class App {
     public initRouter(): void { }
     public registerComponents(): void { }
 
-    public findPage(routeName: string): Page|null {
+    public findPage(routeName: string): IPageRegistration|null {
         for (const page of this.pages) {
-            if (this.router.matchPage(routeName, page)) {
+            if (this.router.matchRoutingTable(routeName, page.routingTable)) {
                 return page;
             }
         }
@@ -28,7 +28,7 @@ export class App {
         return null;
     }
 
-    protected addPages(pages: Page[]) {
+    protected addPages(pages: IPageRegistration[]) {
         for (const page of pages) {
             this.pages.push(page);
         }
@@ -41,7 +41,7 @@ function initRouter(app: App) {
 
     app.initRouter();
     for (const page of app.pages) {
-        app.router.addPage(page);
+        app.router.add(page.routingTable);        
     }
 }
 

@@ -1,11 +1,12 @@
 ﻿import AppContext from '../../../AppFramework/AppContext';
+import {IPageRegistration} from '../../../AppFramework/Page';
 import FormPage from '../../../AppFramework/Forms/FormPage';
 import * as category from '../../../ServerApi/Category';
 import * as validate from '../../../AppFramework/Forms/ValidateableViewModel';
 import * as mapper from '../../../AppFramework/ServerApi/Mapper';
 import * as ko from 'knockout';
 
-export default class EditPage extends FormPage {
+class EditPage extends FormPage {
     private api = new category.Api();
 
     public id = ko.observable<number>(0);
@@ -15,11 +16,6 @@ export default class EditPage extends FormPage {
         super(appContext);
 
         this.title('Categorie bewerken');
-        this.templateName = 'manage/category/edit';
-        this.routes = [
-                { name: 'manage.category.edit', path: '/edit/:id' },
-                { name: 'manage.category.add', path: '/add'}
-            ];
 
         this.save = this.save.bind(this);
     }
@@ -77,3 +73,13 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public name = ko.observable<string>();
     public description = ko.observable<string>();
 }
+
+export default {
+    name: 'EditManageCategory',
+    templateName: 'manage/category/edit',
+    routingTable: [
+        { name: 'manage.category.edit', path: '/edit/:id' },
+        { name: 'manage.category.add', path: '/add'}
+    ],
+    createPage: (appContext) => new EditPage(appContext)
+} as IPageRegistration;

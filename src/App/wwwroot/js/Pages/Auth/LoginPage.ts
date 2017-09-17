@@ -1,8 +1,8 @@
-﻿import {Page} from '../../AppFramework/Page'
+﻿import {Page, IPageRegistration} from '../../AppFramework/Page'
 import AppContext from '../../AppFramework/AppContext'
 import * as ko from 'knockout';
 
-export default class AuthLoginPage extends Page {
+class AuthLoginPage extends Page {
     public userName = ko.observable<string>();
     public password = ko.observable<string>();
     public persist = ko.observable<boolean>(true);
@@ -14,11 +14,6 @@ export default class AuthLoginPage extends Page {
         super(appContext);
 
         this.title('Inloggen');
-        this.templateName = 'auth/login';
-        this.routes = [
-            { name: 'auth', path: '/auth', forwardTo: '/auth/login' },
-            { name: 'auth.login', path: '/login' }
-        ];
 
         this.login = this.login.bind(this);
     }
@@ -52,4 +47,14 @@ export default class AuthLoginPage extends Page {
             this.isBusy(false);
         }
     }
-} 
+}
+
+export default {
+    name: 'AuthLogin',
+    templateName: 'auth/login',
+    routingTable: [
+        { name: 'auth', path: '/auth', forwardTo: '/auth/login' },
+        { name: 'auth.login', path: '/login' }
+    ],
+    createPage: (appContext) => new AuthLoginPage(appContext)
+} as IPageRegistration;

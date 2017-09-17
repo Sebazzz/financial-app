@@ -1,7 +1,6 @@
 ﻿<#@ template language="C#" hostspecific="true" #>
 <#@ output extension=".ts" #>
 <#@ import namespace="System.IO" #>
-import AppContext from './AppFramework/AppContext';
 <#
 
 	var templateFile = Host.TemplateFile;
@@ -13,10 +12,10 @@ import AppContext from './AppFramework/AppContext';
 import <#=GetAliasName(pageFile, currentDirectory)#> from '<#=GetModuleName(pageFile, currentDirectory)#>';
 <#}#>
 
-export default function getPages(appContext : AppContext) {
+export default function getPages() {
     return [
 <# foreach (var pageFile in pageFiles) {#>
-        new <#=GetAliasName(pageFile, currentDirectory)#>(appContext)<#=EmitComma(pageFile, pageFiles)#>
+        <#=GetAliasName(pageFile, currentDirectory)#><#=EmitComma(pageFile, pageFiles)#>
 <#}#>
     ];
 }
@@ -25,7 +24,7 @@ export default function getPages(appContext : AppContext) {
 	static string GetAliasName(string pageFile, string currentDirectory) {
 		string moduleName = GetModuleName(pageFile, currentDirectory);
 		string alias = moduleName.Replace("Pages/", "").Replace("./", "").Replace("/", "_");
-		return alias;
+		return alias + "Registration";
 	}
 
 	static string GetModuleName(string pageFile, string currentDirectory) {

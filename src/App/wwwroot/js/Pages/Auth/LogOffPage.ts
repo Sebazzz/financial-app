@@ -1,18 +1,14 @@
-﻿import { Page } from '../../AppFramework/Page'
+﻿import {Page, IPageRegistration} from '../../AppFramework/Page'
 import AppContext from '../../AppFramework/AppContext'
 import * as ko from 'knockout';
 
-export default class AuthLogOffPage extends Page {
+class AuthLogOffPage extends Page {
     public isBusy = ko.observable(false);
 
     constructor(appContext: AppContext) {
         super(appContext);
 
         this.title('Uitloggen');
-        this.templateName = 'auth/logoff';
-        this.routes = [
-            { name: 'auth.logoff', path: '/logoff' }
-        ];
 
         this.logOff = this.logOff.bind(this);
     }
@@ -31,4 +27,11 @@ export default class AuthLogOffPage extends Page {
             this.appContext.router.navigateToDefault();
         }
     }
-} 
+}
+
+export default {
+    name: 'AuthLogoff',
+    templateName: 'auth/logoff',
+    routingTable:{ name: 'auth.logoff', path: '/logoff' },
+    createPage: (appContext) => new AuthLogOffPage(appContext)
+} as IPageRegistration;

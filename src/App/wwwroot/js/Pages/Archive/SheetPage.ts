@@ -1,4 +1,5 @@
 ﻿import FormPage from '../../AppFramework/Forms/FormPage';
+import {IPageRegistration} from '../../AppFramework/Page';
 import AppContext from '../../AppFramework/AppContext';
 import NowRouteProvider from '../../Services/NowRoute';
 
@@ -17,7 +18,7 @@ import * as modal from '../../AppFramework/Components/Modal';
 
 import confirmAsync from '../../AppFramework/Forms/Confirmation';
 
-export default class SheetPage extends FormPage {
+class SheetPage extends FormPage {
     private categoryApi = new category.Api();
     private api = new sheet.Api();
     private sheetEntryApi = new sheetEntry.Api();
@@ -68,28 +69,6 @@ export default class SheetPage extends FormPage {
         super(appContext);
         
         this.title('Financiën');
-        this.templateName = 'archive/sheet';
-        this.routes = [
-            { name: 'archive.sheet', path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>' },
-            {
-                name: 'sheet',
-                path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>',
-                forwardTo: 'archive.sheet'
-            },
-            {
-                name: 'now',
-                path: '/now',
-                canActivate: (router) => {
-                    return () => {
-                        const nowRoute = new NowRouteProvider();
-
-                        router.cancel();
-                        router.navigate('archive.sheet', nowRoute.getParams());
-                        return false;
-                    }
-                }
-            }
-        ];
 
         // bind "this"
         this.addEntry = this.addEntry.bind(this);
@@ -451,3 +430,30 @@ export class RemarksModel {
         this.sheetEntry.remark(this.content());
     }
 }
+
+export default {
+    name: 'ArchiveSheetPage',
+    templateName: 'archive/sheet',
+    routingTable: [
+        { name: 'archive.sheet', path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>' },
+        {
+            name: 'sheet',
+            path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>',
+            forwardTo: 'archive.sheet'
+        },
+        {
+            name: 'now',
+            path: '/now',
+            canActivate: (router) => {
+                return () => {
+                    const nowRoute = new NowRouteProvider();
+
+                    router.cancel();
+                    router.navigate('archive.sheet', nowRoute.getParams());
+                    return false;
+                }
+            }
+        }
+    ],
+    createPage: (appContext) => new SheetPage(appContext)
+} as IPageRegistration;
