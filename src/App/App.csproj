@@ -25,6 +25,7 @@
     <Content Remove="wwwroot\js\AppFramework\BindingHandlers\Hidden.ts" />
     <Content Remove="wwwroot\js\AppFramework\BindingHandlers\TextFormat.ts" />
     <Content Remove="wwwroot\js\AppFramework\ComponentLoader.ts" />
+    <Content Remove="wwwroot\js\AppFramework\Components\Modal.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\Confirmation.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\ValidationMessage.ts" />
     <Content Remove="wwwroot\js\AppFramework\HttpClient.ts" />
@@ -36,6 +37,9 @@
     <Content Remove="wwwroot\js\Components\Loader.ts" />
     <Content Remove="wwwroot\js\Components\TopMenu.ts" />
     <Content Remove="wwwroot\js\PageFactory.ts" />
+    <Content Remove="wwwroot\js\Pages\Archive\SheetEntry\DefaultPage.ts" />
+    <Content Remove="wwwroot\js\Pages\Archive\SheetEntry\EditPage.ts" />
+    <Content Remove="wwwroot\js\Pages\Archive\SheetPage.ts" />
     <Content Remove="wwwroot\js\Pages\AuthLogOffPage.ts" />
     <Content Remove="wwwroot\js\Pages\DefaultPage.ts" />
     <Content Remove="wwwroot\js\Pages\Manage\ImpersonatePage.ts" />
@@ -45,7 +49,10 @@
     <Content Remove="wwwroot\js\ServerApi\SheetEntry.ts" />
     <Content Remove="wwwroot\js\ServerApi\User.ts" />
     <Content Remove="wwwroot\js\ServerApi\UserImpersonate.ts" />
+    <Content Remove="wwwroot\js\Services\Calculator.ts" />
+    <Content Remove="wwwroot\js\Services\NowRoute.ts" />
     <Content Remove="wwwroot\js\typings\cleave.d.ts" />
+    <Content Remove="wwwroot\js\typings\json.date-extensions.d.ts" />
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -112,6 +119,7 @@
     <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Tooltip.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Href.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ComponentLoader.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\Components\Modal.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\Confirmation.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\FormPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\ValidationMessage.ts" />
@@ -130,6 +138,9 @@
       <DependentUpon>PageFactory.tt</DependentUpon>
     </TypeScriptCompile>
     <TypeScriptCompile Include="wwwroot\js\Pages\Archive\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Archive\SheetEntry\DefaultPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Archive\SheetEntry\EditPage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Pages\Archive\SheetPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Auth\LogOffPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\DefaultPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\Pages\Manage\Category\DefaultPage.ts" />
@@ -146,7 +157,10 @@
     <TypeScriptCompile Include="wwwroot\js\ServerApi\SheetEntry.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\User.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\UserImpersonate.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Services\Calculator.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Services\NowRoute.ts" />
     <TypeScriptCompile Include="wwwroot\js\typings\cleave.d.ts" />
+    <TypeScriptCompile Include="wwwroot\js\typings\json.date-extensions.d.ts" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,7 +17,7 @@ ko.bindingHandlers['cleaveNumber'] = ko.bindingHandlers['cleaveCurrency'] = {
               cleaveOptions = {
                   numeral: true,
                   numeralDecimalScale: allBindingsAccessor.get('cleaveNumberScale') || 2,
-                  prefix: isCurrency ? cultureInfo.numberFormat.currency.symbol : undefined,
+                  prefix: isCurrency ? cultureInfo.numberFormat.currency.symbol + ' ' : undefined,
                   numeralDecimalMark: (cultureInfo.numberFormat as any)['.'],
                   delimiter: (cultureInfo.numberFormat as any)[',']
               },

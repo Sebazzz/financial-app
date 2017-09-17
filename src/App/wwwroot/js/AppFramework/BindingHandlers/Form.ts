@@ -20,6 +20,11 @@ function findPage(bindingContext: KnockoutBindingContext) : IFormPage {
     return viewModel;
 }
 
+export interface IFormOptions {
+    handler: (viewModel : ValidateableViewModel) => Promise<void>;
+    isBusy: KnockoutObservable<boolean>;
+}
+
 /**
  * The form binding handler handles common requirements of forms:
  * - Disabling any submit buttons on submission
@@ -27,10 +32,12 @@ function findPage(bindingContext: KnockoutBindingContext) : IFormPage {
  * - Set/unset busy flags
  */
 ko.bindingHandlers['form'] = {
-    init(element: HTMLElement, valueAccessor: () => ValidateableViewModel|undefined, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ValidateableViewModel, bindingContext: KnockoutBindingContext) {
-        const page = findPage(bindingContext);
+    init(element: HTMLElement, valueAccessor: () => IFormOptions|undefined, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ValidateableViewModel, bindingContext: KnockoutBindingContext) {
+        const $element = $(element),
+              page = findPage(bindingContext),
+              options = valueAccessor() || { handler: page.save, isBusy: page.isBusy };
 
-        $(element).on('submit', async (ev) => {
+        const handler = async (ev : any) => {
             ev.preventDefault();
 
             console.group('Form: Submit');
@@ -40,9 +47,9 @@ ko.bindingHandlers['form'] = {
                 element.classList.add('is-busy');
 
                 page.errorMessage(null);
-                page.isBusy(true);
+                options.isBusy(true);
 
-                await page.save();
+                await options.handler(viewModel);
             } catch (e) {
                 page.errorMessage('Oeps. Dat ging niet goed. Probeer het nog eens.');
 
@@ -51,13 +58,19 @@ ko.bindingHandlers['form'] = {
             } finally {
                 element.classList.add('was-validated');
                 element.classList.remove('is-busy');
-                page.isBusy(false);
+                options.isBusy(false);
 
                 console.groupEnd();
             }
-        });
+        };
+
+        if (element.tagName === 'FORM') {
+            $element.on('submit', handler);
+        } else {
+            $element.on('click', '.btn.btn-primary', handler);
+        }
 
         const $buttons = $(element).find('button');
-        ko.computed(() => $buttons.prop('disabled', page.isBusy())).extend({ 'disposeWhenNodeIsRemoved': element });
+        ko.computed(() => $buttons.prop('disabled', options.isBusy())).extend({ 'disposeWhenNodeIsRemoved': element });
     }
 };

@@ -22,7 +22,7 @@ ko.bindingHandlers['href'] = {
             }
 
             const $app = bindingContext.$root as App,
-                  href = $app.router.getRoute(options.route, options.params);
+                  href = $app.router.getRoute(options.route, ko.toJS(options.params));
 
             element.href = href;
         }).extend({
@@ -42,7 +42,7 @@ ko.bindingHandlers['route'] = {
             }
 
             const $app = bindingContext.$root as App,
-                  href = $app.router.getRoute(options.route, options.params);
+                  href = $app.router.getRoute(options.route, ko.toJS(options.params));
 
             element.href = href;
         }).extend({

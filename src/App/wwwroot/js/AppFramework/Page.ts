@@ -85,7 +85,7 @@ class PageTemplateManager {
 
 
     private static templateId(templateName: string) {
-        return `template-page-${templateName}`;
+        return `template-path-${templateName.replace('/', '-').replace('.', '-')}`;
     }
 }
 

@@ -29,7 +29,6 @@ namespace App.Models.Domain.Repositories {
             return this._entitySet.Where(x => x.Id == id).Include(x => x.Sheet).Include(x => x.Sheet.Owner).Include(x => x.Category).FirstOrDefault();
         }
 
-        [CanBeNull]
         public Task<App.Models.Domain.SheetEntry> FindByIdAsync(int id) {
             return this._entitySet.FirstOrDefaultAsync(x => x.Id == id);
         }

@@ -1,6 +1,9 @@
 ﻿import AppContext from './AppFramework/AppContext';
 import DefaultPage from './Pages/DefaultPage';
 import Archive_DefaultPage from './Pages/Archive/DefaultPage';
+import Archive_SheetPage from './Pages/Archive/SheetPage';
+import Archive_SheetEntry_DefaultPage from './Pages/Archive/SheetEntry/DefaultPage';
+import Archive_SheetEntry_EditPage from './Pages/Archive/SheetEntry/EditPage';
 import Auth_LoginPage from './Pages/Auth/LoginPage';
 import Auth_LogOffPage from './Pages/Auth/LogOffPage';
 import Manage_DefaultPage from './Pages/Manage/DefaultPage';
@@ -16,6 +19,9 @@ export default function getPages(appContext : AppContext) {
     return [
         new DefaultPage(appContext),
         new Archive_DefaultPage(appContext),
+        new Archive_SheetPage(appContext),
+        new Archive_SheetEntry_DefaultPage(appContext),
+        new Archive_SheetEntry_EditPage(appContext),
         new Auth_LoginPage(appContext),
         new Auth_LogOffPage(appContext),
         new Manage_DefaultPage(appContext),

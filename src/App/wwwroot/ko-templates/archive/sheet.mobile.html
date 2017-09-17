@@ -1,0 +1,164 @@
+﻿<h1>
+    Financiën
+    <small data-bind="formatText: date, format: 'MMMM yyyy'"></small>
+</h1>
+
+<div data-bind="with: sheet">
+    <p>
+        <small>
+            Aangemaakt: <span data-bind="formatText: createTimestamp, format: '{0:d MMMM} om {0:t}'"></span> |
+            Laatst bijgewerkt: <span data-bind="formatText: updateTimestamp, format: '{0:d MMMM} om {0:t}'"></span>
+        </small>
+    </p>
+
+    <p class="mobile-sheet-summary"
+       data-bind="with: { totals: $parent.totals, offset: offset }">
+        Bankrekening: <span data-bind="css: { 'balance-negative': totals().bankAccount < 0 }, formatText: totals().bankAccount, format: 'c'"></span>
+        <small>(vorige maand: <span data-bind="formatText: offset.bankAccountOffset, format: 'c'"></span>)</small> <br/>
+        Spaarrekening: <span data-bind="css: { 'balance-negative': totals().savingsAccount < 0 }, formatText: totals().savingsAccount, format: 'c'"></span>
+        <small>(vorige maand: <span data-bind="formatText: offset.savingsAccountOffset, format: 'c'"></span>)</small>
+    </p>
+
+    <div class="btn-group btn-group-justified btn-group-sm" role="group" data-bind="visible: entries().length > 0">
+        <a class="btn btn-primary" href="#" 
+           data-bind="route: archive.sheet.entry.add | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
+            <span class="fa fa-plus"></span>
+            Toevoegen
+        </a>
+        <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Van template
+            </button>
+            <div class="dropdown-menu" data-bind="foreach: unusedTemplates">
+                <a href="#" class="dropdown-item" data-bind="route: archive.sheet.entry.add | { month: $parentContext.$parent.date().getMonth() + 1, year: $parentContext.$parent.date().getFullYear(), templateId: id }, text: source"></a>
+            </div>
+        </div>
+    </div>
+    
+    <div data-bind="with: $parent.expenseTrajectory">
+        <div class="card text-white bg-danger mb-3" style="max-width: 40rem;" data-bind="visible: unpayableExpenses.length > 0">
+            <div class="card-header"><span class="fa fa-credit-card-alt"></span> Uitgavenwaarschuwing</div>
+            <div class="card-body">
+                <p class="card-text" data-bind="visible: nextIncome, if: nextIncome">
+                    Let op! Er is tot de volgende inkomsten (<span data-bind="formatText: nextIncome.delta, format: 'c'"></span> via <span data-bind="text: nextIncome.source"></span>)
+                    onvoldoende geld beschikbaar om de volgende vaste lasten te kunnen betalen:
+                </p>
+                <p class="card-text" data-bind="hidden: nextIncome">
+                    Let op! Er is onvoldoende geld beschikbaar om de volgende vaste lasten te kunnen betalen:
+                </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Bron / reden</th>
+                            <th>Categorie</th>
+                            <th>Bedrag</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: { data: unpayableExpenses, as: 'expense' }">
+                        <tr>
+                            <td data-bind="text: expense.source"></td>
+                            <td data-bind="text: $parentContext.$parentContext.$parent.categoryNameById(expense.categoryId)"></td>
+                            <td data-bind="css: {'balance-negative': expense.delta < 0 },
+                                           formatText: expense.delta, format: 'c'"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="card-text">Maak geld vrij om ervoor te zorgen dat de bovenstaande uitgaven afgeschreven kunnen worden.</p>
+            </div>
+        </div>
+    </div>
+
+    <div data-bind="foreach: entries">
+        <table class="table table-sm sheet-mobile-table">
+            <tr>
+                <th colspan="2">
+                    <button class="pull-right btn btn-link"
+                            data-bind="visible: remark() && !showRemark(), click: toggleRemark, tooltip: 'Extra notities of opmerkingen bekijken'">
+                        <span class="fa fa-arrows-alt"></span>
+                    </button>
+
+                    <div data-bind="text: source"></div>
+                </th>
+            </tr>
+            <tr data-bind="visible: showRemark">
+                <td>
+                    Opmerkingen
+                </td>
+                <td>
+                    <p class="preserve-whitespace" data-bind="text: remark"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Categorie
+                </td>
+                <td data-bind="text: $parentContext.$parent.categoryNameById(categoryId())"></td>
+            </tr>
+            <tr data-bind="visible: account() === AccountType.BankAccount">
+                <td>
+                    Betaalrekening
+                </td>
+                <td data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></td>
+            </tr>
+            <tr data-bind="visible: account() === AccountType.SavingsAccount">
+                <td>
+                    Spaarrekening
+                </td>
+                <td data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-left: 0; padding-right: 0; text-align: center;">
+                    <div class="btn-group btn-group-justified btn-group-xs">
+                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Decrease)">
+                            <span class="fa fa-arrow-up"></span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Increase)">
+                            <span class="fa fa-arrow-down"></span>
+                        </button>
+                        <a class="btn btn-primary" href="#" 
+                           data-bind="disabled: isBusy, 
+                                      route: archive.sheet.entry.edit | { month: $parentContext.$parent.date().getMonth() + 1, year: $parentContext.$parent.date().getFullYear(), id: id }">
+                            <span class="fa fa-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" data-bind="disabled: isBusy, click: $parentContext.$parent.deleteEntry">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="btn-group btn-group-justified" role="group" data-bind="visible: entries().length > 0">
+        <a class="btn btn-primary" href="#"
+           data-bind="route: archive.sheet.entry.add | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
+            <span class="fa fa-plus"></span>
+            Toevoegen
+        </a>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Van template
+            </button>
+            <div class="dropdown-menu" data-bind="foreach: unusedTemplates">
+                <a href="#" class="dropdown-item" data-bind="route: archive.sheet.entry.add | { month: $parentContext.$parent.date().getMonth() + 1, year: $parentContext.$parent.date().getFullYear(), templateId: id }, text: source"></a>
+            </div>
+        </div>
+    </div>
+
+    <p>
+        <a href="#"
+           class="btn btn-secondary btn-block"
+           data-bind="route: archive.sheet.statistics | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
+            <span class="fa fa-bar-chart"></span>
+            Rapportage
+        </a>
+    </p>
+
+    <h2>Totalen</h2>
+    <p class="mobile-sheet-summary"
+       data-bind="with: $parent.totals">
+        Bankrekening: <span data-bind="css: { 'balance-negative': bankAccount < 0 }, formatText: bankAccount, format: 'c'"></span> |
+        Spaarrekening: <span data-bind="css: { 'balance-negative': savingsAccount < 0 }, formatText: savingsAccount, format: 'c'"></span>
+    </p>
+</div>

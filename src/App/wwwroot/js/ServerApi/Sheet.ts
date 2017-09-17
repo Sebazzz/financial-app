@@ -2,8 +2,9 @@
 import { IRecurringSheetEntry } from './RecurringSheetEntry';
 import { ISheetEntry } from './SheetEntry';
 
-export type DateTime = string;
+export type DateTime = Date;
 export type Decimal = number;
+export { IRecurringSheetEntry };
 
 export interface ISheetListing {
     month: number;
