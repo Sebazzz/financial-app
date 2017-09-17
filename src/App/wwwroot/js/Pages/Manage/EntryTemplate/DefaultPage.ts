@@ -1,11 +1,11 @@
-﻿import {Page} from '../../../AppFramework/Page'
+﻿import {Page, IPageRegistration} from '../../../AppFramework/Page'
 import AppContext from '../../../AppFramework/AppContext'
 import * as entry from '../../../ServerApi/RecurringSheetEntry';
 import {AccountType} from '../../../ServerApi/SheetEntry';
 import * as ko from 'knockout';
 import confirmAsync from '../../../AppFramework/Forms/Confirmation';
 
-export default class DefaultPage extends Page {
+class DefaultPage extends Page {
     private api = new entry.Api();
 
     public entryTemplates = ko.observableArray<entry.IRecurringSheetEntryListing>();
@@ -20,8 +20,6 @@ export default class DefaultPage extends Page {
         super(appContext);
 
         this.title('Regeltemplates');
-        this.templateName = 'manage/entry-template/default';
-        this.routes = { name: 'manage.entry-template', path: '/entry-template' };
 
         this.deleteEntryTemplate = this.deleteEntryTemplate.bind(this);
         this.mutateSortOrderHandler = this.mutateSortOrderHandler.bind(this);
@@ -53,4 +51,11 @@ export default class DefaultPage extends Page {
             }
         };
     }
-} 
+}
+
+export default {
+    name: 'DefaultManageEntryTemplate',
+    templateName: 'manage/entry-template/default',
+    routingTable: { name: 'manage.entry-template', path: '/entry-template' },
+    createPage: (appContext) => new DefaultPage(appContext)
+} as IPageRegistration;

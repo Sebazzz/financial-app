@@ -1,10 +1,9 @@
-﻿import {Page} from '../../../AppFramework/Page'
+﻿import {Page, IPageRegistration} from '../../../AppFramework/Page'
 import AppContext from '../../../AppFramework/AppContext'
 import * as user from '../../../ServerApi/User';
 import * as ko from 'knockout';
 import confirmAsync from '../../../AppFramework/Forms/Confirmation';
-
-export default class DefaultPage extends Page {
+class DefaultPage extends Page {
     private api = new user.Api();
 
     public users = ko.observableArray<user.IAppUserListing>();
@@ -13,8 +12,6 @@ export default class DefaultPage extends Page {
         super(appContext);
 
         this.title('Gebruikers');
-        this.templateName = 'manage/user/default';
-        this.routes = { name: 'manage.user', path: '/user' };
 
         this.deleteUser = this.deleteUser.bind(this);
     }
@@ -29,4 +26,11 @@ export default class DefaultPage extends Page {
             this.users.remove(user);
         }
     }
-} 
+}
+
+export default {
+    name: 'DefaultManageUser',
+    templateName: 'manage/user/default',
+    routingTable: { name: 'manage.user', path: '/user' },
+    createPage: (appContext) => new DefaultPage(appContext)
+} as IPageRegistration;

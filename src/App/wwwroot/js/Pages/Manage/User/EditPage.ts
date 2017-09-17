@@ -1,11 +1,12 @@
 ﻿import AppContext from '../../../AppFramework/AppContext';
+import {IPageRegistration} from '../../../AppFramework/Page';
 import FormPage from '../../../AppFramework/Forms/FormPage';
 import * as user from '../../../ServerApi/User';
 import * as validate from '../../../AppFramework/Forms/ValidateableViewModel';
 import * as mapper from '../../../AppFramework/ServerApi/Mapper';
 import * as ko from 'knockout';
 
-export default class EditPage extends FormPage {
+class EditPage extends FormPage {
     private api = new user.Api();
 
     public id = ko.observable<number>(0);
@@ -22,11 +23,6 @@ export default class EditPage extends FormPage {
         super(appContext);
 
         this.title('Gebruiker bewerken');
-        this.templateName = 'manage/user/edit';
-        this.routes = [
-                { name: 'manage.user.edit', path: '/edit/:id' },
-                { name: 'manage.user.add', path: '/add'}
-            ];
 
         this.save = this.save.bind(this);
     }
@@ -85,3 +81,13 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public currentPassword = ko.observable<string>();
     public newPassword = ko.observable<string>();
 }
+
+export default {
+    name: 'DefaultManageUserEdit',
+    templateName: 'manage/user/edit',
+    routingTable: [
+        { name: 'manage.user.edit', path: '/edit/:id' },
+        { name: 'manage.user.add', path: '/add'}
+    ],
+    createPage: (appContext) => new EditPage(appContext)
+} as IPageRegistration;

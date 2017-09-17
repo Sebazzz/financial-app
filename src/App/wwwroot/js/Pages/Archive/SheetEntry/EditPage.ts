@@ -1,4 +1,5 @@
 ﻿import FormPage from '../../../AppFramework/Forms/FormPage';
+import {IPageRegistration} from '../../../AppFramework/Page';
 import AppContext from '../../../AppFramework/AppContext';
 import NowRouteProvider from '../../../Services/NowRoute';
 import { AccountType } from '../../../ServerApi/SheetEntry';
@@ -13,7 +14,7 @@ import * as category from '../../../ServerApi/Category';
 import * as validate from '../../../AppFramework/Forms/ValidateableViewModel';
 
 
-export default class EditPage extends FormPage {
+class EditPage extends FormPage {
     private categoryApi = new category.Api();
     private templateApi = new entryTemplate.Api();
     private api = new sheetEntry.Api();
@@ -34,27 +35,6 @@ export default class EditPage extends FormPage {
         super(appContext);
 
         this.title('Regeltemplate bewerken');
-        this.templateName = 'archive/sheetentry-edit';
-        this.routes = [
-            { name: 'sheet.entry.add', path: '/add', forwardTo: 'archive.sheet.entry.add' },
-            { name: 'sheet.entry.edit', path: '/edit/:id', forwardTo: 'archive.sheet.entry.edit' },
-
-            { name: 'archive.sheet.entry.edit', path: '/edit/:id' },
-            { name: 'archive.sheet.entry.add', path: '/add' },
-            {
-                name: 'now.add',
-                path: '/add',
-                canActivate: (router) => {
-                    return () => {
-                        const nowRoute = new NowRouteProvider();
-
-                        router.cancel();
-                        router.navigate('archive.sheet.entry.add', nowRoute.getParams());
-                        return false;
-                    }
-                }
-            }
-        ];
 
         this.save = this.save.bind(this);
     }
@@ -165,3 +145,29 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public AccountType = sheetEntry.AccountType;
     // ReSharper restore InconsistentNaming
 }
+
+export default {
+    name: 'ArchiveSheetEntryEditPage',
+    templateName: 'archive/sheetentry-edit',
+    routingTable: [
+        { name: 'sheet.entry.add', path: '/add', forwardTo: 'archive.sheet.entry.add' },
+        { name: 'sheet.entry.edit', path: '/edit/:id', forwardTo: 'archive.sheet.entry.edit' },
+
+        { name: 'archive.sheet.entry.edit', path: '/edit/:id' },
+        { name: 'archive.sheet.entry.add', path: '/add' },
+        {
+            name: 'now.add',
+            path: '/add',
+            canActivate: (router) => {
+                return () => {
+                    const nowRoute = new NowRouteProvider();
+
+                    router.cancel();
+                    router.navigate('archive.sheet.entry.add', nowRoute.getParams());
+                    return false;
+                }
+            }
+        }
+    ],
+    createPage: (appContext) => new EditPage(appContext)
+} as IPageRegistration;

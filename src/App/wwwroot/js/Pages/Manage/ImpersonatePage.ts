@@ -1,10 +1,10 @@
-﻿import { Page } from '../../AppFramework/Page'
+﻿import {Page, IPageRegistration} from '../../AppFramework/Page'
 import AppContext from '../../AppFramework/AppContext'
 import * as user from '../../ServerApi/User';
 import * as userImpersonate from '../../ServerApi/UserImpersonate';
 import * as ko from 'knockout';
 
-export default class ImpersonatePage extends Page {
+class ImpersonatePage extends Page {
     private api = new userImpersonate.Api();
 
     public users = ko.observableArray<user.IAppUserListing>();
@@ -13,8 +13,6 @@ export default class ImpersonatePage extends Page {
         super(appContext);
 
         this.title('Account wisselen');
-        this.templateName = 'manage/impersonate';
-        this.routes = { name: 'manage.impersonate', path: '/impersonate' };
 
         this.impersonate = this.impersonate.bind(this);
     }
@@ -28,4 +26,11 @@ export default class ImpersonatePage extends Page {
         this.appContext.authentication.currentAuthentication(info);
         this.appContext.router.navigateToDefault();
     }
-} 
+}
+
+export default {
+    name: 'ManageImpersonate',
+    templateName: 'manage/impersonate',
+    routingTable: { name: 'manage.impersonate', path: '/impersonate' },
+    createPage: (appContext) => new ImpersonatePage(appContext)
+} as IPageRegistration;

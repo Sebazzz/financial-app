@@ -1,19 +1,27 @@
 ﻿import AppContext from './AppContext';
-import { State } from 'router5'
+import { State } from 'router5';
+import { RoutingTable } from './Router';
+
 import {Panel,ActivationPromise} from './Panel';
 import HttpClient from './ServerApi/HttpClient';
-import * as router from './Router';
 import * as ko from 'knockout';
+
+export interface IPageRegistration {
+    name:string;
+    templateName: string;
+    routingTable: RoutingTable;
+
+    createPage(appContext: AppContext): Page;
+}
+
+export type PageRegistration = IPageRegistration;
 
 export abstract class Page extends Panel {
     public title = ko.observable<string>();
-    public templateName : string|null = null;
 
     protected constructor(appContext: AppContext) {
         super(appContext);
     }
-
-    public routes: router.RoutingTable | router.Route = [];
 
     public async activate(args?: any): Promise<void> {
         // TODO: change return type to ActivationPromise if bug is fixed:
@@ -27,9 +35,23 @@ export abstract class Page extends Panel {
         }
     }
 
-    public deactivate(): void { }
+    public deactivate(): void {
+        this.disposeObservables();
+    }
 
     protected abstract onActivate(args?: any): ActivationPromise | null;
+
+    private disposeObservables() {
+        // Proactively dispose any computed properties to prevent memory leaks
+        const bag = (this as any);
+        for (const property in bag) {
+            const item = bag[property];
+
+            if (ko.isComputed(item)) {
+                item.dispose();
+            }
+        }
+    }
 }
 
 class PageTemplateManager {
@@ -39,11 +61,11 @@ class PageTemplateManager {
     constructor(private appContext: AppContext) {
     }
 
-    public async loadTemplate(page : Page): Promise<string> {
+    public async loadTemplate(page : PageRegistration): Promise<string> {
         const templateName = page.templateName;
 
         if (!templateName) {
-            throw new Error(`Unable to load empty template for ${page.constructor}`);
+            throw new Error(`Unable to load empty template for ${page.name}`);
         }
 
         const templateId = PageTemplateManager.templateId(templateName),
@@ -115,9 +137,10 @@ class PageComponentModel {
 
             console.info('Route changes %s to %s: Activating page / loading template', fromState && fromState.name || '(null)', toState.name);
 
-            const page = this.findPage(toState.name);
+            const pageRegistration = this.findPage(toState.name),
+                  page = pageRegistration.createPage(this.appContext);
 
-            const [templateId] = await Promise.all([this.templateManager.loadTemplate(page), page.activate(toState.params)]);
+            const [templateId] = await Promise.all([this.templateManager.loadTemplate(pageRegistration), page.activate(toState.params)]);
 
             this.page(page);
             this.templateName(templateId);
@@ -130,7 +153,7 @@ class PageComponentModel {
         return true;
     }
 
-    private findPage(routeName: string) : Page {
+    private findPage(routeName: string): PageRegistration {
         const page = this.appContext.app.findPage(routeName);
 
         if (page === null) {

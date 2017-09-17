@@ -3,10 +3,11 @@ import { createRouter, loggerPlugin, Route as RouteImpl, Router as RouterImpl } 
 import * as $ from 'jquery';
 
 export type Route = RouteImpl;
-export type RoutingTable = Array<Route>;
+export type Routes = Array<Route>;
+export type RoutingTable = Routes | Route;
 
 export interface IRouteProvider {
-    routes: RoutingTable|Route;
+    routes: RoutingTable;
 }
 
 export class Router {
@@ -17,9 +18,7 @@ export class Router {
         this.router.usePlugin(browserPlugin({}));
     }
 
-    public addPage(page: IRouteProvider) {
-        const routes = page.routes;
-
+    public add(routes: RoutingTable | Route) {
         if (Array.isArray(routes)) {
             this.router.add(routes);
         } else {
@@ -56,9 +55,7 @@ export class Router {
 
     public getInternalInstance(): RouterImpl { return this.router; }
 
-    public matchPage(routeName: string, page: IRouteProvider): boolean {
-        const routes = page.routes;
-
+    public matchRoutingTable(routeName: string, routes: RoutingTable): boolean {
         if (!Array.isArray(routes)) {
             return routes.name === routeName;
         }
