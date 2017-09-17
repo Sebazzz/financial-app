@@ -1,11 +1,14 @@
 ﻿body.anonymous {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #000; 
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #000;
 
-  top-menu {
-      display: none;
-  }
+    top-menu {
+        opacity: 0;
+        user-select: none;
+        cursor: default;
+        margin-top: -40px;
+    }
 }
 
 .form-signin {

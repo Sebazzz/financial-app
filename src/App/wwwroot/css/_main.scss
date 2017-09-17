@@ -6,6 +6,14 @@
   100% { transform: rotate(360deg); }
 }
 
+body {
+    transition: background-color 500ms linear;
+
+    top-menu {
+        transition: opacity 500ms linear;
+    }
+}
+
 .rotate {
     animation: loading-spinner 700ms linear infinite;
 }
