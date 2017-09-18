@@ -59,6 +59,8 @@ class PageTemplateManager {
     private httpClient = HttpClient.create();
 
     constructor(private appContext: AppContext) {
+        // Provided by app implementor
+        this.loadedTemplates['pageLoader'] = true;
     }
 
     public async loadTemplate(page : PageRegistration): Promise<string> {
@@ -94,6 +96,10 @@ class PageTemplateManager {
 
 
     private static templateId(templateName: string) {
+        if (templateName === 'pageLoader') {
+            return templateName;
+        }
+
         return `template-path-${templateName.replace('/', '-').replace('.', '-')}`;
     }
 }

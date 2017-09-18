@@ -10,6 +10,7 @@
     "@types/rx": "4.1.1",
     "aspnet-webpack": "2.0.1",
     "autoprefixer": "7.1.4",
+    "awesome-typescript-loader": "3.2.3",
     "clean-webpack-plugin": "0.1.16",
     "css-loader": "0.28.7",
     "eventsource": "1.0.5",
@@ -45,6 +46,7 @@
   "scripts": {
     "start": "webpack",
     "build": "webpack",
+    "webpack-stats": "webpack --json > webpack-stats.json",
     "watch": "webpack --watch"
   }
 }

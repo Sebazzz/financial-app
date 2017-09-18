@@ -1,7 +1,8 @@
-/// <binding ProjectOpened='Watch - Development' />
+/// <binding />
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 const path = require('path');
 const webpack = require('webpack');
@@ -24,6 +25,7 @@ const tsProvide = new webpack.ProvidePlugin({
     __asyncValues: ['tslib', '__asyncValues'],
     $: 'jquery',
     jQuery: 'jquery',
+    'window.jQuery': 'jquery',
     Popper: ['popper.js', 'default'],
     Promise: 'es6-promise',
     EventSource: 'eventsource'
@@ -41,6 +43,7 @@ const stableModuleIds = new webpack.HashedModuleIdsPlugin({
 
 const plugins = [
     new CleanWebpackPlugin([targetDir]),
+    new CheckerPlugin(),
     tsProvide,
     extractSass,
     libExtract,
@@ -119,7 +122,7 @@ module.exports = {
       },
       {
         test: /\.ts?$/,
-        use: 'ts-loader',
+        use: 'awesome-typescript-loader',
         exclude: /node_modules/
       },
       {
