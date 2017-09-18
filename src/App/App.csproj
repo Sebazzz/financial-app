@@ -28,6 +28,7 @@
     <Content Remove="wwwroot\js\AppFramework\Components\Modal.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\Confirmation.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\ValidationMessage.ts" />
+    <Content Remove="wwwroot\js\AppFramework\HotModulePage.ts" />
     <Content Remove="wwwroot\js\AppFramework\HttpClient.ts" />
     <Content Remove="wwwroot\js\AppFramework\ServerApi\Authentication.ts" />
     <Content Remove="wwwroot\js\AppFramework\ServerApi\Mapper.ts" />
@@ -55,7 +56,9 @@
     <Content Remove="wwwroot\js\Services\NowRoute.ts" />
     <Content Remove="wwwroot\js\typings\assets.d.ts" />
     <Content Remove="wwwroot\js\typings\cleave.d.ts" />
+    <Content Remove="wwwroot\js\typings\hmr.d.ts" />
     <Content Remove="wwwroot\js\typings\json.date-extensions.d.ts" />
+    <Content Remove="wwwroot\js\typings\webpack.d.ts" />
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -127,6 +130,7 @@
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\Confirmation.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\FormPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\ValidationMessage.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\HotModulePage.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\ApiBase.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\Authentication.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\HttpClient.ts" />
@@ -168,7 +172,9 @@
     <TypeScriptCompile Include="wwwroot\js\Services\NowRoute.ts" />
     <TypeScriptCompile Include="wwwroot\js\typings\assets.d.ts" />
     <TypeScriptCompile Include="wwwroot\js\typings\cleave.d.ts" />
+    <TypeScriptCompile Include="wwwroot\js\typings\hmr.d.ts" />
     <TypeScriptCompile Include="wwwroot\js\typings\json.date-extensions.d.ts" />
+    <TypeScriptCompile Include="wwwroot\js\typings\webpack.d.ts" />
   </ItemGroup>
 
   <ItemGroup>
