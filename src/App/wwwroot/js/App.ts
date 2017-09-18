@@ -1,5 +1,5 @@
 ﻿import * as af from './AppFramework/AppFactory'
-import getPages from './PageFactory'
+import pageFactory from './PageFactory'
 import * as topMenu from './Components/TopMenu'
 import * as loader from './Components/Loader'
 import './BindingHandlers/All'
@@ -11,7 +11,13 @@ export class App extends af.App {
     }
 
     public initRouter() {
-        this.addPages(getPages());
+        pageFactory.installPages(this);
+
+        if (module.hot) {
+            module.hot.accept('./PageFactory', () => {
+                pageFactory.replacePages(this);
+            });
+        }
     }
 
     public bind(): void {
@@ -23,3 +29,4 @@ export class App extends af.App {
         loader.register(this.context);
     }
 }
+

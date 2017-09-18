@@ -1,6 +1,7 @@
 ﻿<#@ template language="C#" hostspecific="true" #>
 <#@ output extension=".ts" #>
 <#@ import namespace="System.IO" #>
+import {IPageRepository} from './AppFramework/AppFactory';
 <#
 
 	var templateFile = Host.TemplateFile;
@@ -12,13 +13,25 @@
 import <#=GetAliasName(pageFile, currentDirectory)#> from '<#=GetModuleName(pageFile, currentDirectory)#>';
 <#}#>
 
-export default function getPages() {
-    return [
+const pageFactory = {
+	replacePages(repository : IPageRepository) : void {
 <# foreach (var pageFile in pageFiles) {#>
-        <#=GetAliasName(pageFile, currentDirectory)#><#=EmitComma(pageFile, pageFiles)#>
+		repository.replacePage(require('<#=GetModuleName(pageFile, currentDirectory)#>').default);
 <#}#>
-    ];
+},
+
+	installPages(repository : IPageRepository) : void {
+		const pages = [
+<# foreach (var pageFile in pageFiles) {#>
+			<#=GetAliasName(pageFile, currentDirectory)#><#=EmitComma(pageFile, pageFiles)#>
+<#}#>
+		];
+
+		repository.addPages(pages);
+	}
 }
+
+export default pageFactory;
 
 <#+
 	static string GetAliasName(string pageFile, string currentDirectory) {
