@@ -8,4 +8,7 @@ declare namespace webpack {
     }
 }
 
-declare function require(input : string) : any;
+/**
+ * Import the specified asset
+ */
+declare function require<T=any>(input : string) : T;

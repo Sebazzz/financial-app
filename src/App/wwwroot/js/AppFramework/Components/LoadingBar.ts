@@ -3,10 +3,6 @@ import * as ko from 'knockout';
 import * as $ from 'jquery';
 import {default as HttpClient, IHttpInterceptor} from '../ServerApi/HttpClient';
 
-const template = `
-<span class="progress-indicator-bar" data-bind="visible: $component.show"></span>
-<span class="progress-indicator-spinner fa fa-circle-o-notch" data-bind="visible: $component.show"></span>`;
-
 const settings = {
     completionTimeOut: 500,
     autoIncrement: true,
@@ -169,7 +165,7 @@ class LoadingBarComponentModel implements IHttpInterceptor {
 class LoadingBarComponent implements KnockoutComponentTypes.ComponentConfig {
     private appContext: AppContext;
     
-    public template = template;
+    public template = require<string>('./templates/loading-bar.html');
 
     public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
         createViewModel: (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
