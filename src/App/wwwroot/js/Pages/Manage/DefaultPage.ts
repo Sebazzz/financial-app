@@ -12,7 +12,7 @@ class DefaultPage extends Page {
 }
 
 export default {
-    name: 'DefaultManage',
+    name: module.id,
     templateName: 'default',
     routingTable: { name: 'manage', path: '/manage', forwardTo: 'default' },
     createPage: (appContext) => new DefaultPage(appContext)

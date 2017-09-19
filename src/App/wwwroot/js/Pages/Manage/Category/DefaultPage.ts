@@ -30,7 +30,7 @@ class DefaultPage extends Page {
 }
 
 export default {
-    name: 'DefaultManageCategory',
+    name: module.id,
     templateName: 'manage/category/default',
     routingTable: { name: 'manage.category', path: '/category' },
     createPage: (appContext) => new DefaultPage(appContext)

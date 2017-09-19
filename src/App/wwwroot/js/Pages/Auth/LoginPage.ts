@@ -50,7 +50,7 @@ class AuthLoginPage extends Page {
 }
 
 export default {
-    name: 'AuthLogin',
+    name: module.id,
     templateName: 'auth/login',
     routingTable: [
         { name: 'auth', path: '/auth', forwardTo: '/auth/login' },

@@ -29,7 +29,7 @@ class ImpersonatePage extends Page {
 }
 
 export default {
-    name: 'ManageImpersonate',
+    name: module.id,
     templateName: 'manage/impersonate',
     routingTable: { name: 'manage.impersonate', path: '/impersonate' },
     createPage: (appContext) => new ImpersonatePage(appContext)
