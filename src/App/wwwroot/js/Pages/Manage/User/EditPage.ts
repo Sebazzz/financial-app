@@ -83,7 +83,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'manage/user/edit',
     routingTable: [
         { name: 'manage.user.edit', path: '/edit/:id' },

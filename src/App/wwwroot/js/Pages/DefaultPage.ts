@@ -17,7 +17,7 @@ class DefaultPage extends Page {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'default',
     routingTable: { name: 'default', path: '/' },
     createPage: (appContext) => new DefaultPage(appContext)

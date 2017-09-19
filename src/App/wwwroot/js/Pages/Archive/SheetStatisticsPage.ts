@@ -81,7 +81,7 @@ class SheetStatisticsPage extends Page {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'archive/sheet-stats',
     routingTable: [
         { name: 'archive.sheet.statistics', path: '/statistics' },

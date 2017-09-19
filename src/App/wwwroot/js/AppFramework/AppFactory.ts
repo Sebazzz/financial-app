@@ -41,22 +41,22 @@ export class App implements IPageRepository {
         for (const page of pages) {
             this.pages.push(page);
 
-            if (uniquePageIds.indexOf(page.name) !== -1) {
-                console.error('Page with id %s already exists in the loaded pages. App behaviour will be undefined.', page.name);
+            if (uniquePageIds.indexOf(page.id) !== -1) {
+                console.error('Page with id %s already exists in the loaded pages. App behaviour will be undefined.', page.id);
             }
 
-            uniquePageIds.push(page.name);
+            uniquePageIds.push(page.id);
         }
     }
 
     public replacePage(replacement: IPageRegistration): void {
-        console.info('App HMR support: Replacing page %s', replacement.name);
+        console.info('App HMR support: Replacing page %s', replacement.id);
 
         // Find matching page
         for (let index = 0; index < this.pages.length; index++) {
             const page = this.pages[index];
 
-            if (page.name !== replacement.name) {
+            if (page.id !== replacement.id) {
                 continue;
             }
 
@@ -65,7 +65,7 @@ export class App implements IPageRepository {
             }
 
             if (JSON.stringify(page.routingTable) !== JSON.stringify(replacement.routingTable)) {
-                console.warn('Routing table for page %s has changed: This is not supported. Reload the application to allow routing changes to apply.', replacement.name);
+                console.warn('Routing table for page %s has changed: This is not supported. Reload the application to allow routing changes to apply.', replacement.id);
                 return;
             }
 
@@ -76,22 +76,22 @@ export class App implements IPageRepository {
                   routingTable = Array.isArray(page.routingTable) ? page.routingTable : [page.routingTable];
 
             if (routingTable.some(route => route.name === currentState.name)) {
-                console.log('%s is the current loaded page. Reloading via HMR proxy page.', replacement.name);
+                console.log('%s is the current loaded page. Reloading via HMR proxy page.', replacement.id);
                 this.context.router.navigate(
                     'hmr-proxy',
                     { name: currentState.name, params: currentState.params ? JSON.stringify(currentState.params) : {} },
                     { replace: true },
-                    () => console.log('Loading of HMR proxy for %s completed', replacement.name)
+                    () => console.log('Loading of HMR proxy for %s completed', replacement.id)
                 );
                 return;
             }
 
-            console.log('Replacement of %s completed', replacement.name);
+            console.log('Replacement of %s completed', replacement.id);
 
             return;
         }
 
-        console.error('Unable to find page %s. Possibly the module name has changed. Reload the application.', replacement.name);
+        console.error('Unable to find page %s. Possibly the module name has changed. Reload the application.', replacement.id);
     }
 }
 

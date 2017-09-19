@@ -27,7 +27,7 @@ class HotModuleReplacementPage extends Page {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'page-loader',
     routingTable: { name: 'hmr-proxy', path: '/hmr-proxy' },
     createPage: (appContext) => new HotModuleReplacementPage(appContext)
