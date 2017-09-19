@@ -35,19 +35,12 @@ const libExtract = new webpack.optimize.CommonsChunkPlugin({
     name: 'lib.js'
 });
 
-const stableModuleIds = new webpack.HashedModuleIdsPlugin({
-    hashFunction: 'sha256',
-    hashDigest: 'hex',
-    hashDigestLength: 20
-});
-
 const plugins = [
     new CleanWebpackPlugin([targetDir]),
     new CheckerPlugin(),
     tsProvide,
     extractSass,
-    libExtract,
-    stableModuleIds
+    libExtract
 ];
 
 const libraries = [
@@ -67,6 +60,13 @@ const libraries = [
 
 if (isProduction) {
     plugins.push(new UglifyJsPlugin());
+    plugins.push(new new webpack.HashedModuleIdsPlugin({
+        hashFunction: 'sha256',
+        hashDigest: 'hex',
+        hashDigestLength: 20
+    }));
+} else {
+    plugins.push(new webpack.NamedModulesPlugin());
 }
 
 module.exports = {
