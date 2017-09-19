@@ -8,6 +8,7 @@ import './BindingHandlers/All';
 import registerLoadingBar from './Components/LoadingBar';
 import registerModal from './Components/Modal';
 import hotModuleReplacementPage from './HotModulePage';
+import installDefaultTemplates from './Templates/Index';
 
 export interface IPageRepository {
     addPages(pages: IPageRegistration[]): void;
@@ -188,6 +189,7 @@ ${error.toString()}`);
 export function createApp<TModel extends App>(app: TModel) {
     console.info('AppFactory: CreateApp');
 
+    installDefaultTemplates();
     setKnockoutErrorHandler();
     applyJsonDateHook();
     setCultureInformation(app);
