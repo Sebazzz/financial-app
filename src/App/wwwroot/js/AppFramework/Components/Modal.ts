@@ -1,25 +1,6 @@
 ﻿import * as ko from 'knockout';
 import * as $ from 'jquery';
 
-const template = `
-<div class="modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header" data-bind="if: $component.controller.title">
-        <h5 class="modal-title" data-bind="text: $component.controller.title"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" data-bind="template: { nodes: $component.contentNodes, data: $component.controller.modalViewModel, if: $component.controller.modalViewModel }"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bind="text: $component.controller.primaryButtonText, visible: $component.controller.primaryButtonText"></button>
-        <button type="button" class="btn btn-secondary" data-bind="text: $component.controller.dismissButtonText, visible: $component.controller.dismissButtonText" data-dismiss="modal"></button>
-      </div>
-    </div>
-  </div>
-</div>`;
-
 export class ModalController<T=any> {
     private $component: ModalComponentComponentModel;
 
@@ -130,9 +111,8 @@ class ModalComponentComponentModel {
     }
 }
 
-
 class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
-    public template = template;
+    public template = null;
 
     public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
         createViewModel: (params: IModalParams, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
@@ -141,6 +121,22 @@ class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
     };
 
     public synchronous = true;
+
+    constructor() {
+        this.loadTemplate();
+
+        if (module.hot) {
+            module.hot.accept('./Templates/modal.html', () => {
+                this.loadTemplate();
+
+                console.warn('Modal: New template has been loaded, but re-rendering of component is required to apply changes');
+            });
+        }
+    }
+
+    private loadTemplate() {
+        this.template = require('./Templates/modal.html');
+    }
 }
 
 export default function register() {
