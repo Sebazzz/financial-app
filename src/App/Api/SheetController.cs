@@ -2,9 +2,13 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
+
     using AutoMapper;
     using Extensions;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     using Models.DTO;
     using SheetDTO = Models.DTO.Sheet;
     using Sheet = Models.Domain.Sheet;
@@ -26,10 +30,8 @@
         }
 
         [HttpGet("{id}")]
-        public SheetDTO GetById(int id) {
-            Sheet sheet = this._sheetRepository.FindByIdInclude(id)
-                                               .FirstOrDefault();
-            sheet.EnsureNotNull();
+        public async Task<SheetDTO> GetById(int id) {
+            Sheet sheet = await this._sheetRepository.FindByIdInclude(id).FirstOrDefaultAsync().EnsureNotNull();
 
             sheet.Entries = new List<Models.Domain.SheetEntry>(this._sheetRepository.GetOfSheet(sheet));
 

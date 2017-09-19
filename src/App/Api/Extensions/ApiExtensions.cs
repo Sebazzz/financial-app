@@ -1,15 +1,11 @@
 ﻿namespace App.Api.Extensions {
     using System;
     using System.Net;
-    using System.Net.Http;
     using System.Threading.Tasks;
-    using System.Web.Http;
-
-    using Microsoft.AspNetCore.Mvc;
 
     internal static class ApiExtensions {
         /// <summary>
-        ///     Throws an <see cref="HttpResponseException" /> when the input is <c>null</c>
+        ///     Throws an <see cref="HttpStatusException" /> when the input is <c>null</c>
         /// </summary>
         /// <remarks>
         ///     Probably from strict point of view a very bad idea, but it is so productive
@@ -21,7 +17,7 @@
         [NotNull]
         public static T EnsureNotNull<T>([CanBeNull]this T input, HttpStatusCode throwCode = HttpStatusCode.NotFound) where T : class {
             if (input == null) {
-                throw new HttpResponseException(throwCode);
+                throw new HttpStatusException(throwCode);
             }
 
             return input;
@@ -44,7 +40,7 @@
             T result = await input;
 
             if (result == null) {
-                throw new HttpResponseException(throwCode);
+                throw new HttpStatusException(throwCode);
             }
 
             return result;

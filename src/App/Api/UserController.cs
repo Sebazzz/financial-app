@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
-    using System.Web.Http;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Extensions;
@@ -118,13 +117,12 @@
 
             if (value.NewPassword != null) {
                 if (this.User.Identity.GetUserId() == id) {
-                    if (value.CurrentPassword == null) throw new HttpResponseException(HttpStatusCode.BadRequest);
+                    if (value.CurrentPassword == null) throw new HttpStatusException(HttpStatusCode.BadRequest);
 
-                    result =
-                        await this._appUserManager.ChangePasswordAsync(currentUser, value.CurrentPassword, value.NewPassword);
+                    result = await this._appUserManager.ChangePasswordAsync(currentUser, value.CurrentPassword, value.NewPassword);
                 }
                 else {
-                    throw new NotImplementedException();
+                    throw new HttpStatusException(HttpStatusCode.NotImplemented);
                     //result = await this._appUserManager.ChangePasswordAsync(currentUser, value.NewPassword);
                 }
 
@@ -147,7 +145,7 @@
 
         private void EnsureAccess(AppUser user) {
             if (user.GroupId != this.OwnerId) {
-                throw new HttpResponseException(HttpStatusCode.Forbidden);
+                throw new HttpStatusException(HttpStatusCode.Forbidden);
             }
         }
 

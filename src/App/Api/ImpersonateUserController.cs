@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web.Http;
 
 namespace App.Api
 {
@@ -20,7 +19,7 @@ namespace App.Api
 
     [Authorize]
     [Route("api/user/impersonate")]
-    public class ImpersonateUserController : ApiController {
+    public class ImpersonateUserController : Controller {
         private readonly SignInManager<AppUser> _authenticationManager;
         private readonly AppUserManager _appUserManager;
         private readonly IMapper _mappingEngine;
@@ -42,20 +41,18 @@ namespace App.Api
                                        .ProjectTo<AppUserListing>(this._mappingEngine.ConfigurationProvider);
         }
 
-                // POST: api/user/impersonate/3
+        // POST: api/user/impersonate/3
         [HttpPost]
         [Route("{id}")]
         public async Task<AuthenticationInfo> Impersonate(int id) {
             int currentUserId = this.User.Identity.GetUserId();
 
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(currentUserId);
-            currentUser.EnsureNotNull(HttpStatusCode.Forbidden);
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(currentUserId).EnsureNotNull(HttpStatusCode.Forbidden);
 
-            AppUser user = await this._appUserManager.Users.Where(x => x.Id == id).Include(x => x.TrustedUsers).FirstOrDefaultAsync();
-            user.EnsureNotNull(HttpStatusCode.Forbidden);
+            AppUser user = await this._appUserManager.Users.Where(x => x.Id == id).Include(x => x.TrustedUsers).FirstOrDefaultAsync().EnsureNotNull(HttpStatusCode.Forbidden);
 
             if (!user.TrustedUsers.Contains(currentUser)) {
-                throw new HttpResponseException(HttpStatusCode.Forbidden);
+                throw new HttpStatusException(HttpStatusCode.Forbidden);
             }
 
             await this._authenticationManager.SignInAsync(user, true);

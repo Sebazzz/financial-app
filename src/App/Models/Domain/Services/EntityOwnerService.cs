@@ -1,8 +1,6 @@
 ﻿namespace App.Models.Domain.Services {
     using System.Diagnostics;
-    using System.Net;
     using System.Security;
-    using System.Web.Http;
     using Repositories;
 
     public class EntityOwnerService {
