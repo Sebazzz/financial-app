@@ -11,8 +11,7 @@
                 throw new ArgumentNullException(nameof(identity));
             }
 
-            ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
-            if (claimsIdentity == null || !identity.IsAuthenticated) {
+            if (!(identity is ClaimsIdentity claimsIdentity) || !identity.IsAuthenticated) {
                 return 0;
             }
 
@@ -37,8 +36,7 @@
                 throw new ArgumentNullException(nameof(identity));
             }
 
-            ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
-            if (claimsIdentity == null || !identity.IsAuthenticated) {
+            if (!(identity is ClaimsIdentity claimsIdentity) || !identity.IsAuthenticated) {
                 return 0;
             }
 
