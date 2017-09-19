@@ -54,7 +54,7 @@ class DefaultPage extends Page {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'manage/entry-template/default',
     routingTable: { name: 'manage.entry-template', path: '/entry-template' },
     createPage: (appContext) => new DefaultPage(appContext)

@@ -196,17 +196,17 @@ class SheetPage extends FormPage {
 
     public addEntry() {
         const basis = {
-            id: 0,
-            sortOrder: this.sheet().getNextSortOrder(),
-            account: sheetEntry.AccountType.BankAccount,
-            categoryId: null,
-            createTimestamp: new Date(),
-            delta: 0,
-            remark: null,
-            source: null,
-            updateTimestamp: new Date(),
-            templateId: null
-        },
+                id: 0,
+                sortOrder: this.sheet().getNextSortOrder(),
+                account: sheetEntry.AccountType.BankAccount,
+                categoryId: null,
+                createTimestamp: new Date(),
+                delta: 0,
+                remark: null,
+                source: null,
+                updateTimestamp: new Date(),
+                templateId: null
+            },
             model = mapper.MapUtils.deserialize<SheetEntry>(SheetEntry, basis);
 
         if (!model) {
@@ -432,7 +432,7 @@ export class RemarksModel {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'archive/sheet',
     routingTable: [
         { name: 'archive.sheet', path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>' },

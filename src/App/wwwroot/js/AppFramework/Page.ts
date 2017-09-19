@@ -7,10 +7,26 @@ import HttpClient from './ServerApi/HttpClient';
 import * as ko from 'knockout';
 
 export interface IPageRegistration {
-    name:string;
+    /**
+     * Represents an unique identifier for the page. This is used for hot-reloading the page.
+     */
+    id: string;
+
+    /**
+     * Specifies the name of the template (sub-path) of the path.
+     */
     templateName: string;
+
+    /**
+     * Specifies the routes that lead to the page
+     */
     routingTable: RoutingTable;
 
+    /**
+     * Factory for creating the actual page instance. Is called on every navigation.
+     *
+     * Must return a page instance. The page will have the opportunity to load resources asynchronously.
+     */
     createPage(appContext: AppContext): Page;
 }
 
@@ -75,7 +91,7 @@ class PageTemplateManager {
         const templateName = page.templateName;
 
         if (!templateName) {
-            throw new Error(`Unable to load empty template for ${page.name}`);
+            throw new Error(`Unable to load empty template for ${page.id}`);
         }
 
         const templateId = PageTemplateManager.templateId(templateName),

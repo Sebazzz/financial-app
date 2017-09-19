@@ -30,7 +30,7 @@ class AuthLogOffPage extends Page {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'auth/logoff',
     routingTable:{ name: 'auth.logoff', path: '/logoff' },
     createPage: (appContext) => new AuthLogOffPage(appContext)

@@ -22,7 +22,7 @@ class DefaultPage extends Page {
     }
 
     public async deleteCategory(category: category.ICategoryListing) {
-        if (await confirmAsync(`Weet je zeker dat je ${category.name} wilt verwijderen?`, 'Categorie verwijderen', true)) {
+        if (await confirmAsync(`Weet je zeker dat je ${category.id} wilt verwijderen?`, 'Categorie verwijderen', true)) {
             this.categories.remove(category);
             await this.api.delete(category.id);
         }
@@ -30,7 +30,7 @@ class DefaultPage extends Page {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'manage/category/default',
     routingTable: { name: 'manage.category', path: '/category' },
     createPage: (appContext) => new DefaultPage(appContext)

@@ -147,7 +147,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
 }
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'archive/sheetentry-edit',
     routingTable: [
         { name: 'sheet.entry.add', path: '/add', forwardTo: 'archive.sheet.entry.add' },

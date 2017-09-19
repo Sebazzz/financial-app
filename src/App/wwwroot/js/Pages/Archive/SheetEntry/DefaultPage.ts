@@ -11,7 +11,7 @@ class DefaultPage extends Page {
 } 
 
 export default {
-    name: module.id,
+    id: module.id,
     templateName: 'default',
     routingTable: [
         { name: 'sheet.entry', path: '/entry', forwardTo: 'archive.sheet.entry' },
