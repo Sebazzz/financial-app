@@ -60,7 +60,7 @@ class PageTemplateManager {
 
     constructor(private appContext: AppContext) {
         // Provided by app implementor
-        this.loadedTemplates['pageLoader'] = true;
+        this.loadedTemplates['page-loader'] = true;
     }
 
     public async loadTemplate(page : PageRegistration): Promise<string> {
@@ -96,7 +96,7 @@ class PageTemplateManager {
 
 
     private static templateId(templateName: string) {
-        if (templateName === 'pageLoader') {
+        if (templateName === 'page-loader') {
             return templateName;
         }
 
@@ -104,7 +104,7 @@ class PageTemplateManager {
     }
 }
 
-const defaultTemplateName = 'pageLoader';
+const defaultTemplateName = 'page-loader';
 class PageComponentModel {
     private templateManager : PageTemplateManager;
 
