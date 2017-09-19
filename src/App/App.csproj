@@ -25,6 +25,7 @@
     <Content Remove="wwwroot\js\AppFramework\BindingHandlers\TextFormat.ts" />
     <Content Remove="wwwroot\js\AppFramework\ComponentLoader.ts" />
     <Content Remove="wwwroot\js\AppFramework\Components\Modal.ts" />
+    <Content Remove="wwwroot\js\AppFramework\DefaultPages.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\Confirmation.ts" />
     <Content Remove="wwwroot\js\AppFramework\Forms\ValidationMessage.ts" />
     <Content Remove="wwwroot\js\AppFramework\HotModulePage.ts" />
@@ -125,6 +126,7 @@
     <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\Href.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ComponentLoader.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Components\Modal.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\Templates\Index.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\Confirmation.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\FormPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\ValidationMessage.ts" />

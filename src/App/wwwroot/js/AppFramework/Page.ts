@@ -44,6 +44,8 @@ export abstract class Page extends Panel {
     private disposeObservables() {
         // Proactively dispose any computed properties to prevent memory leaks
         const bag = (this as any);
+
+        // ReSharper disable once MissingHasOwnPropertyInForeach
         for (const property in bag) {
             const item = bag[property];
 
@@ -54,13 +56,19 @@ export abstract class Page extends Panel {
     }
 }
 
+const defaultTemplateName = 'page-loader',
+      errorTemplateName = 'page-error',
+      magicTemplates = [defaultTemplateName, errorTemplateName];
+
 class PageTemplateManager {
     private loadedTemplates: { [template: string]: boolean | null | undefined } = {};
     private httpClient = HttpClient.create();
 
     constructor(private appContext: AppContext) {
         // Provided by app implementor
-        this.loadedTemplates['page-loader'] = true;
+        for (const magicTemplate of magicTemplates) {
+            this.loadedTemplates[magicTemplate] = true;
+        }
     }
 
     public async loadTemplate(page : PageRegistration): Promise<string> {
@@ -96,7 +104,7 @@ class PageTemplateManager {
 
 
     private static templateId(templateName: string) {
-        if (templateName === 'page-loader') {
+        if (magicTemplates.indexOf(templateName) !== -1) {
             return templateName;
         }
 
@@ -104,7 +112,7 @@ class PageTemplateManager {
     }
 }
 
-const defaultTemplateName = 'page-loader';
+
 class PageComponentModel {
     private templateManager : PageTemplateManager;
 
@@ -153,7 +161,11 @@ class PageComponentModel {
         } catch (e) {
             console.error(e);
 
-            return false;
+            // Always consider the page load to be a success, even in the case of a failure. Instead,
+            // we load a failed template and be done with that.
+            this.templateName(errorTemplateName);
+
+            return true;
         }
 
         return true;

@@ -128,6 +128,12 @@ module.exports = {
       {
           test: /\.(png|svg|jpg|gif|ttf|eot|woff|woff2)$/,
           use: 'url-loader?limit=8192'
+      },
+      {
+          test: /\.(html)$/,
+          use: {
+             loader: 'html-loader'
+          }
       }
     ]
   }
