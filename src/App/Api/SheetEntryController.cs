@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
-    using System.Web.Http;
     using AutoMapper;
     using Extensions;
     using Microsoft.AspNetCore.Authorization;
@@ -121,7 +120,7 @@
             int sheetYear = Convert.ToInt32(routeData.Values["sheetYear"]);
 
             if (sheetEntry.Sheet.Subject.Month != sheetMonth || sheetEntry.Sheet.Subject.Year != sheetYear) {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                throw new HttpStatusException(HttpStatusCode.BadRequest);
             }
         }
 

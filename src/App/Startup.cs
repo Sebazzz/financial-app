@@ -3,7 +3,9 @@
 namespace App {
     using System;
     using System.Diagnostics;
-    using System.Linq;
+
+    using Api.Extensions;
+
     using App.Models.Domain;
     using App.Models.Domain.Identity;
     using App.Support.Integration;
@@ -13,16 +15,12 @@ namespace App {
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc.Formatters;
-    using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
-    using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
-    using Newtonsoft.Json.Serialization;
     using Support;
     using Support.Filters;
 
@@ -50,10 +48,10 @@ namespace App {
             services.AddApplicationInsightsTelemetry(this.Configuration);
 
             services.AddMvc(options => {
-                options.Filters.Add(typeof(HttpResponseExceptionActionFilter));
+                options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
                 options.Filters.Add(typeof(ApiCachePreventionFilterAttribute));
-            }).AddWebApiConventions();
+            });
 
             services.AddIdentity<AppUser, AppRole>(
                     options => {
