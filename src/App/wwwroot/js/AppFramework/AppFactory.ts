@@ -207,3 +207,12 @@ export function createApp<TModel extends App>(app: TModel) {
 // For improved performance, by default defer all updates
 // via the knockout microtask queue
 ko.options.deferUpdates = true;
+
+// HMR support
+if (module.hot) {
+    module.hot.accept('./BindingHandlers/All', () => {
+        console.warn('New binding handlers have been loaded.');
+        console.warn('Please note though, they will only applied on new rendered templates or pages.');
+        console.warn('This might create some inconsistency in your views.');
+    });
+}
