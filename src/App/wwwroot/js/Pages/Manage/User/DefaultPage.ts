@@ -29,7 +29,7 @@ class DefaultPage extends Page {
 }
 
 export default {
-    name: 'DefaultManageUser',
+    name: module.id,
     templateName: 'manage/user/default',
     routingTable: { name: 'manage.user', path: '/user' },
     createPage: (appContext) => new DefaultPage(appContext)

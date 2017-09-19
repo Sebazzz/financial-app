@@ -432,7 +432,7 @@ export class RemarksModel {
 }
 
 export default {
-    name: 'ArchiveSheetPage',
+    name: module.id,
     templateName: 'archive/sheet',
     routingTable: [
         { name: 'archive.sheet', path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>' },

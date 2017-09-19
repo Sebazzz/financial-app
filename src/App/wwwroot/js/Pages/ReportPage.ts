@@ -15,7 +15,7 @@ class ReportPage extends Page {
 } 
 
 export default {
-    name: 'ReportPage',
+    name: module.id,
     templateName: 'report',
     routingTable: { name: 'report', path: '/report' },
     createPage: (appContext) => new ReportPage(appContext)
