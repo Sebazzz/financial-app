@@ -29,13 +29,13 @@ ko.bindingHandlers['tooltip'] = {
             const options = getTooltipOptions(valueAccessor());
             const text = ko.unwrap(options.text);
             if (!text) {
-                $element.tooltip('dispose');
                 return;
             }
 
             const forceOpen = ko.unwrap(options.forceOpen);
             const trigger = forceOpen ? 'manual' : 'hover focus';
 
+            $element.tooltip('dispose');
             $element.tooltip({
                 title: text,
                 trigger: trigger
