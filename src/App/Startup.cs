@@ -21,8 +21,12 @@ namespace App {
     using Microsoft.Extensions.Logging;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
+
+    using Newtonsoft.Json.Serialization;
+
     using Support;
     using Support.Filters;
+    using Support.Hub;
 
     using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -75,10 +79,7 @@ namespace App {
 
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
 
-#if SIGNALR
-            services.AddSignalR(o => o.Hubs.EnableDetailedErrors = this._env.IsDevelopment());
-            services.AddSingleton<JsonSerializer, SignalRJsonSerializer>();
-#endif
+            services.AddSignalR(options => options.JsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             // DI
             services.AddScoped<AppDbContext>();
@@ -116,8 +117,6 @@ namespace App {
                 loggerFactory.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
             }
 
-            app.UseWebSockets();
-
             app.MapTemplateViewPath(env);
 
             app.UseAuthentication();
@@ -132,9 +131,9 @@ namespace App {
                 app.UseExceptionHandler("/");
             }
 
-#if SIGNALR
-            app.UseSignalR("/extern/signalr");
-#endif
+            app.UseSignalR(builder => {
+                builder.MapHub<AppOwnerHub>("extern/connect/app-owner");
+            });
 
             app.UseWhen(
                 ctx => ctx.Request.Path.StartsWithSegments(new PathString("/browserconfig.xml")),

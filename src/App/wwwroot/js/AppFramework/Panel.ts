@@ -32,6 +32,10 @@ export abstract class Panel {
 
     public abstract deactivate(): void;
 
+    public dispose() {
+        this.deactivate();
+    }
+
     protected abstract onActivate(): ActivationPromise | null;
     protected registerForLoadStatus(activationPromise: ActivationPromise): void {
         activationPromise.then(() => this.loadStatus(LoadingStatus.Done));
@@ -47,7 +51,11 @@ export class PanelComponent<T extends Panel> implements KnockoutComponentTypes.C
 
     public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
         createViewModel: (params?: any, componentInfo?: KnockoutComponentTypes.ComponentInfo) => {
-            return this.factory(params, componentInfo);
+            const panel = this.factory(params, componentInfo);
+
+            panel.activate();
+
+            return panel;
         }
     };
 
