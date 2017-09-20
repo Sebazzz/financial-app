@@ -7,8 +7,13 @@ class AuthLoginPage extends Page {
     public password = ko.observable<string>();
     public persist = ko.observable<boolean>(true);
 
+    public success = ko.observable<boolean>(false);
+
     public isBusy = ko.observable<boolean>(false);
     public errorMessage = ko.observable<string>(null);
+
+    public returnUrl = ko.observable<string | null>(null);
+    public needsLoginAfterRedirect = ko.pureComputed(() => !!this.returnUrl() && !this.errorMessage() && !this.success());
 
     constructor(appContext: AppContext) {
         super(appContext);
@@ -22,6 +27,8 @@ class AuthLoginPage extends Page {
         if (this.appContext.authentication.isAuthenticated()) {
             this.appContext.router.navigateToDefault();
         }
+
+        this.returnUrl(args && args.returnUrl ? args.returnUrl : null);
 
         return Promise.resolve();
     }
@@ -39,7 +46,23 @@ class AuthLoginPage extends Page {
             this.errorMessage(result.isAuthenticated? null: 'Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
 
             if (result.isAuthenticated) {
-                this.appContext.router.navigateToDefault();
+                this.success(true);
+
+                setTimeout(() => {
+                        const router = this.appContext.router,
+                              returnUrl = this.returnUrl();
+
+                        if (returnUrl) {
+                            const state = router.matchPath(returnUrl);
+                            if (state) {
+                                router.navigate(state.name, state.params);
+                                return;
+                            }
+                        }
+
+                        router.navigateToDefault();
+                    },
+                    1000);
             }
         } catch (e) {
             this.errorMessage('Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
