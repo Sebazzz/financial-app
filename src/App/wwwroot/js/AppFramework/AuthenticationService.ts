@@ -10,7 +10,8 @@ const defaultAuthInfo: auth.IAuthenticationInfo = {
 
 function middleware(router: Router, authenticationService: AuthenticationService): Middleware {
     const allowedRoutes = [
-        /^\/auth\//i
+        /^\/auth\//i,
+        /^\/hrm-proxy\//i
     ];
 
     return (toState: State) => {
@@ -31,11 +32,13 @@ function middleware(router: Router, authenticationService: AuthenticationService
             }
         }
 
+        const returnUrl = location.pathname !== '/' ? location.pathname + (location.search ? `?${location.search}` : '') : null;
+
         if (!isAuthenticating) {
             console.log('AuthenticationMiddleware: Path %s rejected: not logged in', path);
 
             router.cancel();
-            router.navigate('auth.login');
+            router.navigate('auth.login', { returnUrl: returnUrl });
             return Promise.reject<boolean>('unauthenticated');
         }
 
@@ -51,7 +54,7 @@ function middleware(router: Router, authenticationService: AuthenticationService
                 } else {
                     reject('unauthenticated');
                     router.cancel();
-                    router.navigate('auth.login');
+                    router.navigate('auth.login', { returnUrl: returnUrl });
                 }
             });
         });
