@@ -59,6 +59,7 @@ declare namespace webpack.hmr {
         data?:any;
 
         accept(dependencies?: ModuleDependencies, callback ?: Function) : void;
+        accept(callback ?: Function) : void;
         decline(dependencies: ModuleDependencies): void;
 
         /**
