@@ -73,11 +73,12 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: {
       'app.js': ['./wwwroot/js/main.ts' ],
-      'lib.js': libraries
+      'lib.js': libraries,
   },
   plugins: plugins,
   output: {
-    filename: '[name]',
+      filename: '[name]',
+      chunkFilename: 'lazy_[name].[chunkhash].js',
     path: targetDir,
     publicPath: '/build/'
   },
