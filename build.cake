@@ -15,6 +15,7 @@ var buildDir = Directory("./build") + Directory(configuration);
 var publishDir = Directory("./build/publish");
 var assemblyInfoFile = Directory($"./src/{baseName}/Properties") + File("AssemblyInfo.cs");
 var nodeEnv = configuration == "Release" ? "production" : "development";
+var mainProjectPath = Directory("./src/App");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -75,6 +76,34 @@ Task("Restore-NuGet-Packages")
 	});
 });
 
+Task("Generate-MigrationScript")
+	.Does(() => {
+		string workingDirectory = System.Environment.CurrentDirectory;
+		
+		// Work around the fact that Cake is not applying the working directory to the dotnet core executable
+		try {
+			System.Environment.CurrentDirectory = MakeAbsolute(mainProjectPath).ToString();
+			
+			DotNetCoreTool(
+				"App.csproj", 
+				"ef", 
+				new ProcessArgumentBuilder()
+					.Append("migrations")
+					.Append("script")
+					.Append("-o ../../build/publish/MigrationScript.sql"), 
+				new DotNetCoreToolSettings  {
+					WorkingDirectory = mainProjectPath, 
+					DiagnosticOutput = true
+				});
+		} finally {
+			System.Environment.CurrentDirectory = workingDirectory;
+		}
+	
+	}
+	
+	);
+	//.Does(() => StartProcess());
+
 Task("Set-NodeEnvironment")
 	.Does(() => {
 		Information("Setting NODE_ENV to {0}", nodeEnv);
@@ -88,7 +117,7 @@ Task("Restore-Node-Packages")
 	
 	var exitCode = 
 		StartProcess("cmd", new ProcessSettings()
-		.UseWorkingDirectory("./src/App")
+		.UseWorkingDirectory(mainProjectPath)
 		.WithArguments(args => args.Append("/C").AppendQuoted("npm install")));
 		
 	if (exitCode != 0) {
@@ -125,10 +154,12 @@ Action<String> PublishSelfContained = (string platform) => {
 
 Task("Publish-Win10")
     .IsDependentOn("Rebuild")
+	.IsDependentOn("Generate-MigrationScript")
     .Does(() => PublishSelfContained("win10-x64"));
 
 Task("Publish-Ubuntu")
     .IsDependentOn("Rebuild")
+	.IsDependentOn("Generate-MigrationScript")
     .Does(() => PublishSelfContained("ubuntu.14.04-x64"));
 	
 Task("Publish")
