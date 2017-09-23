@@ -100,6 +100,7 @@
 
             <!-- Body -->
             <tbody data-bind="foreach: entries">
+            <!-- ko if: editMode -->
             <tr class="row-middle"
                 data-bind="visible: editMode,
                             css: { 'saving': isBusy },
@@ -181,7 +182,9 @@
                     </div>
                 </td>
             </tr>
-
+            <!-- /ko -->
+                
+            <!-- ko ifnot: editMode -->
             <tr class="row-middle"
                 data-bind="
                     hidden: editMode, 
@@ -227,6 +230,7 @@
                     </div>
                 </td>
             </tr>
+            <!-- /ko -->
             </tbody>
 
             <!-- Footer -->
