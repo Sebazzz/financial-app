@@ -48,6 +48,7 @@
     <Content Remove="wwwroot\js\Pages\Manage\User\EditPage.ts" />
     <Content Remove="wwwroot\js\Pages\ReportPage.ts" />
     <Content Remove="wwwroot\js\ServerApi\RecurringSheetEntry.ts" />
+    <Content Remove="wwwroot\js\ServerApi\Setup.ts" />
     <Content Remove="wwwroot\js\ServerApi\Sheet.ts" />
     <Content Remove="wwwroot\js\ServerApi\SheetEntry.ts" />
     <Content Remove="wwwroot\js\ServerApi\User.ts" />
@@ -165,6 +166,7 @@
     <TypeScriptCompile Include="wwwroot\js\Pages\ReportPage.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\Category.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\RecurringSheetEntry.ts" />
+    <TypeScriptCompile Include="wwwroot\js\ServerApi\Setup.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\Sheet.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\SheetEntry.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\User.ts" />

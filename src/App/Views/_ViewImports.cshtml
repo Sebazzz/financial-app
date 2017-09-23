@@ -1,5 +1,7 @@
 ﻿@using App.Support
+@using App.Support.Setup
 @addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
 @addTagHelper "*, App"
 @inject Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration TelemetryConfiguration
 @inject IBrowserDetector BrowserDetector
+@inject RequestAppSetupState SetupState;

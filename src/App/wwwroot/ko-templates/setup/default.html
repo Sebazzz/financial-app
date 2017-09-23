@@ -1,0 +1,176 @@
+﻿<h1 class="setup-wizard">Financial App Setup Wizard</h1>
+
+<ul class="nav nav-pills nav-fill nav-setup-wizard"
+    data-bind="foreach: steps"> 
+    <li class="nav-item">
+        <a class="nav-link" 
+           data-bind="css: $parent.stepCssClass($data), text: ($index() + 1) + '. ' + name"
+           href="#"></a>
+    </li>
+</ul>
+
+<div class="setup-wizard-steps">
+    <div data-bind="with: step(0), form">
+        <h2 data-bind="text: name"></h2>
+        
+        <div class="alert alert-danger" data-bind="visible: $parent.errorMessage">
+            <strong>Oeps!</strong> <span data-bind="text: $parent.errorMessage"></span>
+        </div>
+    
+        <p>
+            Welkom bij de Financial App!
+        </p>
+    
+        <p>
+            Deze setup wizard zal je door de stappen heenleiden om de applicatie te installeren en/of te upgraden naar de laatste versie.
+        </p>
+    
+        <p>
+            <button class="btn btn-primary">Volgende</button>
+        </p>
+    </div>
+    
+    <form data-bind="with: step(1), form, hidden: isBusy" novalidate>
+        <h2 data-bind="text: name"></h2>
+        
+        <div data-bind="visible: $parent.errorMessage" class="error-panel">
+            <div class="alert alert-danger">
+                <strong>Oeps!</strong> <span data-bind="text: $parent.errorMessage"></span>
+            </div>
+            
+            <button type="button" data-target="pre" data-toggle="collapse" class="btn btn-secondary btn-sm">Foutdetails verbergen/tonen</button>
+
+            <pre data-bind="text: errorDetails" class="collapse"></pre>
+        </div>
+    
+        <p>
+            Financial App heeft een database nodig voor opslag van gegevens. De connection string kan je opgeven via "appsettings.json".
+        </p>
+    
+        <p>
+            Klik op "Volgende" om de databaseverbinding te testen.
+        </p>
+    
+        <p>
+            <button class="btn btn-primary">Volgende</button>
+        </p>
+    </form>
+    
+    <form data-bind="with: step(2), form, hidden: isBusy" novalidate>
+        <h2 data-bind="text: name"></h2>
+
+        <div data-bind="visible: $parent.errorMessage" class="error-panel">
+            <div class="alert alert-danger">
+                <strong>Oeps!</strong> <span data-bind="text: $parent.errorMessage"></span>
+            </div>
+
+            <button type="button" data-target="pre" data-toggle="collapse" class="btn btn-secondary btn-sm">Foutdetails verbergen/tonen</button>
+
+            <pre data-bind="text: errorDetails" class="collapse"></pre>
+        </div>
+
+        <p>
+            We zullen nu de database initialiseren of bijwerken naar de laatste versie. Zorg ervoor dat je een backup klaar heb liggen indien het misgaat.
+        </p>
+
+        <p>
+            Klik op "Volgende" om de database te initialiseren.
+        </p>
+
+        <p>
+            <button class="btn btn-primary">Volgende</button>
+        </p>
+    </form>
+    
+    <form data-bind="with: step(3), form, hidden: isBusy" novalidate>
+        <h2 data-bind="text: name"></h2>
+
+        <div data-bind="visible: $parent.errorMessage" class="error-panel">
+            <div class="alert alert-danger">
+                <strong>Oeps!</strong> <span data-bind="text: $parent.errorMessage"></span>
+            </div>
+
+            <button type="button" data-target="pre" data-toggle="collapse" class="btn btn-secondary btn-sm">Foutdetails verbergen/tonen</button>
+
+            <pre data-bind="text: errorDetails" class="collapse"></pre>
+        </div>
+
+        <p>
+            In de database moet stamdata geladen worden zodat de applicatie correct functioneert. 
+        </p>
+
+        <p>
+            Klik op "Volgende" om de stamdata in de database te laden.
+        </p>
+
+        <p>
+            <button class="btn btn-primary">Volgende</button>
+        </p>
+    </form>
+    
+    <form data-bind="with: step(4), form, hidden: isBusy" novalidate>
+        <h2 data-bind="text: name"></h2>
+
+        <div data-bind="visible: $parent.errorMessage" class="error-panel">
+            <div class="alert alert-danger">
+                <strong>Oeps!</strong> <span data-bind="text: $parent.errorMessage"></span>
+            </div>
+
+            <button type="button" data-target="pre" data-toggle="collapse" class="btn btn-secondary btn-sm">Foutdetails verbergen/tonen</button>
+
+            <pre data-bind="text: errorDetails" class="collapse"></pre>
+        </div>
+
+        <p>
+            Bijna klaar! We gaan nu een initiele gebruiker maken met beheerrechten. Met deze gebruiker zal je andere gebruikers en gebruikersgroepen kunnen aanmaken.
+        </p>
+
+        <div class="form-group">
+            <label for="userName">Gebruikersnaam:</label>
+            <input id="userName"
+                   data-bind="value: userName"
+                   type="text" class="form-control" maxlength="100" required />
+
+            <div data-bind="validationMessage: userName"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-mail adres:</label>
+            <input id="email" name="email" type="email" class="form-control" data-bind="value: email" maxlength="150" required />
+
+            <div data-bind="validationMessage: email"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Wachtwoord:</label>
+            <input id="password" name="password" type="text" class="form-control" data-bind="value: password" maxlength="150" />
+            <small class="form-text text-muted">We hebben al een veilig wachtwoord voor je uitgekozen. Dit kan je wijzigen als je wilt.</small>
+
+            <div data-bind="validationMessage: password"></div>
+        </div>
+
+        <p>
+            <button class="btn btn-primary">Volgende</button>
+        </p>
+    </form>
+    
+    <form data-bind="with: step(5), form, hidden: isBusy" novalidate>
+        <h2 data-bind="text: name"></h2>
+    
+        <p>
+            Gefeliciteerd. Je hebt de installatie afgerond.
+        </p>
+    
+        <p>
+            Als je op "Volgende" klikt zullen we de applicatie herladen en kan je inloggen met de gebruikersnaam uit te vorige stap.
+        </p>
+    
+        <p>
+            <button class="btn btn-primary">Volgende</button>
+        </p>
+    </form>
+    
+    <div data-bind="visible: isBusy">
+        <loader></loader>
+    </div>
+</div>

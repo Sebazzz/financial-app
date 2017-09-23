@@ -3,6 +3,7 @@
 namespace App {
     using System;
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     using Api.Extensions;
 
@@ -11,6 +12,7 @@ namespace App {
     using App.Support.Integration;
     using AutoMapper;
     using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -27,6 +29,8 @@ namespace App {
     using Support;
     using Support.Filters;
     using Support.Hub;
+    using Support.Setup;
+    using Support.Setup.Steps;
 
     using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -66,16 +70,36 @@ namespace App {
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders()
                 .AddUserValidator<AppUserValidator>()
+                .AddRoleValidator<AppRoleValidator>()
                 .AddPasswordValidator<AppPasswordValidator>()
                 .AddUserManager<AppUserManager>()
-                .AddUserStore<AppUserStore>();
+                .AddRoleManager<AppRoleManager>()
+                .AddUserStore<AppUserStore>()
+                .AddRoleStore<AppRoleStore>();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(opt => {
-                        opt.LoginPath = new PathString("/Account/Login");
-                        opt.ExpireTimeSpan = TimeSpan.FromDays(365 / 2d);
-                        opt.SlidingExpiration = true;
-                    });
+            services.ConfigureApplicationCookie(
+                opt => {
+                    opt.LoginPath = new PathString("/Account/Login");
+                    opt.ExpireTimeSpan = TimeSpan.FromDays(365 / 2d);
+                    opt.SlidingExpiration = true;
+
+                    // Override cookie validator until setup has been completed
+                    Func<CookieValidatePrincipalContext, Task> existingHandler = opt.Events.OnValidatePrincipal;
+                    opt.Events.OnValidatePrincipal = async (ctx) => {
+                        RequestAppSetupState setupState = ctx.HttpContext.RequestServices.GetRequiredService<RequestAppSetupState>();
+
+                        if (await setupState.HasBeenSetup()) {
+                            await existingHandler(ctx);
+                        } else {
+                            ctx.RejectPrincipal();
+                        }
+                    };
+                }
+            );
+
+            services.AddAuthorization(opt => {
+                opt.AddPolicy("AppSetup", policy => policy.AddRequirements(new SetupNotRunAuthorizationRequirement()));
+            });
 
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
 
@@ -104,6 +128,13 @@ namespace App {
             services.AddSingleton<IAppVersionService, AppVersionService>();
 
             services.AddTransient<IBrowserDetector, DefaultBrowserDetector>();
+
+            services.AddScoped<SetupService>();
+            services.AddScoped<SetupStepFactory>();
+            services.AddScoped<RequestAppSetupState>();
+            services.AddSingleton<AppSetupState>();
+
+            services.AddSingleton<IAuthorizationHandler, SetupNotRunAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

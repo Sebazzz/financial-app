@@ -16,6 +16,7 @@ import Manage_EntryTemplate_DefaultPageRegistration from './Pages/Manage/EntryTe
 import Manage_EntryTemplate_EditPageRegistration from './Pages/Manage/EntryTemplate/EditPage';
 import Manage_User_DefaultPageRegistration from './Pages/Manage/User/DefaultPage';
 import Manage_User_EditPageRegistration from './Pages/Manage/User/EditPage';
+import Setup_DefaultRegistration from './Pages/Setup/Default';
 
 const pageFactory = {
 	replacePages(repository : IPageRepository) : void {
@@ -36,6 +37,7 @@ const pageFactory = {
 		repository.replacePage(require('./Pages/Manage/EntryTemplate/EditPage').default);
 		repository.replacePage(require('./Pages/Manage/User/DefaultPage').default);
 		repository.replacePage(require('./Pages/Manage/User/EditPage').default);
+		repository.replacePage(require('./Pages/Setup/Default').default);
 },
 
 	installPages(repository : IPageRepository) : void {
@@ -56,7 +58,8 @@ const pageFactory = {
 			Manage_EntryTemplate_DefaultPageRegistration,
 			Manage_EntryTemplate_EditPageRegistration,
 			Manage_User_DefaultPageRegistration,
-			Manage_User_EditPageRegistration
+			Manage_User_EditPageRegistration,
+			Setup_DefaultRegistration
 		];
 
 		repository.addPages(pages);

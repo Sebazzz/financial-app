@@ -24,7 +24,7 @@
         }
     }
 
-    public sealed class AppUserManager : UserManager<AppUser> {
+    public sealed class AppUserManager : AspNetUserManager<AppUser> {
         public AppUserManager(IUserStore<AppUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<AppUser> passwordHasher, IEnumerable<IUserValidator<AppUser>>  userValidators, IEnumerable<IPasswordValidator<AppUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, Microsoft.Extensions.Logging.ILogger<UserManager<AppUser>>  logger) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger) {}
 
         public override async Task<IList<Claim>> GetClaimsAsync(AppUser user) {
@@ -50,5 +50,13 @@
         private async Task<IList<AppUser>> GetUsersForAppOwnerGroup(int id) {
             return await this.Users.Where(x => x.GroupId == id).ToListAsync();
         }
+    }
+
+    public sealed class AppRoleManager : AspNetRoleManager<AppRole> {
+        public AppRoleManager(IRoleStore<AppRole> store, IEnumerable<IRoleValidator<AppRole>> roleValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<AppRole>> logger, IHttpContextAccessor contextAccessor) : base(store, roleValidators, keyNormalizer, errors, logger, contextAccessor) { }
+    }
+
+    public sealed class AppRoleValidator : RoleValidator<AppRole> {
+        public AppRoleValidator(IdentityErrorDescriber errors = null) : base(errors) { }
     }
 }

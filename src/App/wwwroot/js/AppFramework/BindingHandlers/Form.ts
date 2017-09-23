@@ -51,7 +51,7 @@ ko.bindingHandlers['form'] = {
 
                 await options.handler(viewModel);
             } catch (e) {
-                page.errorMessage('Oeps. Dat ging niet goed. Probeer het nog eens.');
+                page.errorMessage('Dat ging niet goed. Probeer het nog eens.');
 
                 console.error('Form: Caught exception: %s', e);
                 console.error(e);

@@ -1,10 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Hosting
+@using Newtonsoft.Json
 @inject IHostingEnvironment HostingEnvironment
 
 <!DOCTYPE html>
 <html lang="nl"
-      data-app-mobile="@BrowserDetector.IsMobileDevice().ToString().ToLowerInvariant()"
-      data-app-version="@ViewBag.AppVersion">
+      data-app-mobile="@JsonConvert.SerializeObject(BrowserDetector.IsMobileDevice())"
+      data-app-version="@ViewBag.AppVersion"
+      data-app-setup-mode="@JsonConvert.SerializeObject(!await SetupState.HasBeenSetup())">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

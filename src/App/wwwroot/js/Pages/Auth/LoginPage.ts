@@ -23,14 +23,12 @@ class AuthLoginPage extends Page {
         this.login = this.login.bind(this);
     }
 
-    protected onActivate(args?: any): Promise<void> {
-        if (this.appContext.authentication.isAuthenticated()) {
+    protected async onActivate(args?: any): Promise<void> {
+        if (await this.appContext.authentication.checkAuthentication()) {
             this.appContext.router.navigateToDefault();
         }
 
         this.returnUrl(args && args.returnUrl ? args.returnUrl : null);
-
-        return Promise.resolve();
     }
 
     public async login() {
