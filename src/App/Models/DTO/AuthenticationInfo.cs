@@ -11,5 +11,8 @@
 
         [DataMember]
         public string UserName { get; set; }
+
+        [DataMember]
+        public string[] Roles { get; set; } = new string[0];
     }
 }

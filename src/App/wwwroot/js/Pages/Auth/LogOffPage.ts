@@ -25,7 +25,7 @@ class AuthLogOffPage extends Page {
             await this.appContext.authentication.checkAuthentication();
         } finally {
             this.isBusy(false);
-            this.appContext.router.navigateToDefault();
+            this.appContext.router.navigate('auth.login');
         }
     }
 }
