@@ -118,3 +118,18 @@ h1, h2, h3, h4 {
         font-size: 60%;
     }
 }
+
+.roles-indicator {
+    margin-left: 1em;
+    color: $cyan;
+    font-style: italic;
+    font-size: 70%;
+
+    &::before {
+        content: '(';
+    }
+
+    &::after {
+        content: ')';
+    }
+}

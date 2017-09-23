@@ -1,5 +1,7 @@
 ﻿namespace App.Api {
+    using System.Linq;
     using System.Net;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Extensions;
 
@@ -24,7 +26,8 @@
             return new AuthenticationInfo() {
                 UserId = this.User.Identity.GetUserId(),
                 UserName = this.User.Identity.Name,
-                IsAuthenticated = this.User.Identity.IsAuthenticated
+                IsAuthenticated = this.User.Identity.IsAuthenticated,
+                Roles = this.User.FindAll(ClaimTypes.Role).Select(x => x.Value).ToArray()
             };
         }
 
@@ -47,7 +50,8 @@
             return this.Ok(new AuthenticationInfo {
                 IsAuthenticated = true,
                 UserId = user.Id,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Roles = await (await this._appUserManager.GetRolesAsync(user)).ToAsyncEnumerable().ToArray()
             });
         }
 

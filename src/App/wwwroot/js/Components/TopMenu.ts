@@ -16,6 +16,7 @@ class TopMenu extends framework.Panel {
     });
 
     public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
+    public roles = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().roles.join(', '));
 
     public activeClientCount = this.activityService.activeClientCount;
     public isConnected = this.activityService.isConnected;
