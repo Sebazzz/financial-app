@@ -37,6 +37,7 @@
     <Content Remove="wwwroot\js\BindingHandlers\Cleave.ts" />
     <Content Remove="wwwroot\js\BindingHandlers\LazyBindingHandler.ts" />
     <Content Remove="wwwroot\js\Components\Loader.ts" />
+    <Content Remove="wwwroot\js\Components\ScrollNub.ts" />
     <Content Remove="wwwroot\js\Components\TopMenu.ts" />
     <Content Remove="wwwroot\js\PageFactory.ts" />
     <Content Remove="wwwroot\js\Pages\Archive\SheetEntry\DefaultPage.ts" />
@@ -144,6 +145,7 @@
     <TypeScriptCompile Include="wwwroot\js\BindingHandlers\Cleave.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\LazyBindingHandler.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\Loader.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Components\ScrollNub.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\TopMenu.ts" />
     <TypeScriptCompile Include="wwwroot\js\eventsource-polyfill.js" />
     <TypeScriptCompile Include="wwwroot\js\PageFactory.ts">

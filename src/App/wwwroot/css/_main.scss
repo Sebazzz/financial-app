@@ -122,7 +122,7 @@ tr#sheet-offset td + td{
     }
 
     .scrollTo {
-        display: none;
+        display: inline-block;
         width: 32px;
         height: 32px;
         position: fixed;
@@ -131,10 +131,18 @@ tr#sheet-offset td + td{
         opacity: 0.5;
         cursor: pointer;
         background: url(../images/icons/scroll_arrow_down.png) no-repeat;
+
+        transition: transform 0.5s ease-in-out;
+
+        transform: rotate(0deg);
     }
 
-    .scrollTo.invert {
-        background: url(../images/icons/scroll_arrow_top.png) no-repeat;
+    .scrollTo.scroll-nub-invert {
+        transform: rotate(180deg);
+    }
+
+    .scrollTo.scroll-nub-disabled {
+        transform: translateY(50px);
     }
 
 }
