@@ -52,6 +52,9 @@
     }
 
     public class AppRole : IdentityRole<int> {
+        public static class KnownRoles {
+            public const string Administrator = "Administrator";
+        }
         
     }
 

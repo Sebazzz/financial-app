@@ -8,11 +8,13 @@ const defaultAuthInfo: auth.IAuthenticationInfo = {
     isAuthenticated: false
 };
 
+const allowedRoutes = [
+    /^\/auth\//i,
+    /^\/hmr-proxy/i
+];
+
 function middleware(router: Router, authenticationService: AuthenticationService): Middleware {
-    const allowedRoutes = [
-        /^\/auth\//i,
-        /^\/hrm-proxy\//i
-    ];
+    
 
     return (toState: State) => {
         const path = toState.path,
@@ -72,8 +74,12 @@ export default class AuthenticationService {
 
     public middleware: MiddlewareFactory = (router: Router) => middleware(router, this);
 
+    public addAnonymousRoute(match: RegExp) {
+        allowedRoutes.push(match);
+    }
+
     public initialize(): void {
-        this.checkAuthentication();
+        this.checkAuthenticationCore();
         this.autoPersistAuthenticationInfo();
     }
 
@@ -81,6 +87,21 @@ export default class AuthenticationService {
         const authInfo = await this.api.logoff();
         this.currentAuthentication(authInfo);
         return authInfo;
+    }
+
+    public checkAuthentication() {
+        return new Promise<boolean>((resolve) => {
+            if (!this.isCheckingAuthentication) {
+                resolve(this.isAuthenticated.peek());
+                return;
+            }
+
+            const disposable = this.currentAuthentication.subscribe(x => {
+                disposable.dispose();
+
+                resolve(this.isAuthenticated.peek());
+            });
+        });
     }
 
     public async authenticate(userName: string, password: string, persistent: boolean) {
@@ -95,7 +116,7 @@ export default class AuthenticationService {
         return authInfo;
     }
 
-    private async checkAuthentication() {
+    private async checkAuthenticationCore() {
         this.isCheckingAuthentication = true;
         console.log('AuthenticationService: Checking authentication');
         try {

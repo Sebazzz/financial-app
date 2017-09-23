@@ -14,4 +14,8 @@
             get { return base.Users.Include(x => x.Group).Include(x => x.TrustedUsers); }
         }
     }
+
+    public sealed class AppRoleStore : RoleStore<AppRole, AppDbContext, int> {
+        public AppRoleStore(AppDbContext context, IdentityErrorDescriber describer = null) : base(context, describer) { }
+    }
 }
