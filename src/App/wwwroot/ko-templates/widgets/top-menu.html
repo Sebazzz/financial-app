@@ -23,9 +23,11 @@
         
         <ul class="navbar-nav">
             <li class="navbar-text logged-in-text" data-bind="visible: $appContext.authentication.isAuthenticated">
-                Ingelogd als <span data-bind="text: currentUserName"></span> <span class="roles-indicator" data-bind="visible: roles, text: roles"></span>
+                Ingelogd als <span data-bind="text: currentUserName"></span>
                 
-                <span class="badge badge-info" data-bind="tooltip: { text: activeClientTooltip, forceOpen: showActiveClientTooltip }, text: activeClientCount, visible: isConnected() && activeClientCount() > 0">0</span>
+                <span class="badge badge-info" data-bind="tooltip: { text: activeClientTooltip, forceOpen: showActiveClientTooltip }, text: activeClientCount, visible: isConnected() && activeClientCount() > 1">0</span>
+                
+                <span class="roles-indicator" data-bind="visible: roles, text: roles"></span>
             </li>
             <li class="nav-item dropdown">
                 <a href="javascript:void(0)"

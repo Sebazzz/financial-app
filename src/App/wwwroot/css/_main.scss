@@ -36,21 +36,39 @@ body {
     font-size: 9pt;
 }
 
-#app tr.row-middle td {
-    vertical-align: middle;
+tr.row-middle {
+    td {
+        vertical-align: middle;
+    }
+
+    transition: opacity 500ms linear;
+
+    &.saving {
+        opacity: 0.6;
+        color: #909090;
+        color: rgba(000, 000, 000, 0.5);
+
+        animation: saving-row 500ms infinite;
+        cursor: wait;
+    }
 }
 
 span.negative, div.input-group.negative .form-control {
     color: red;
 }
 
-tr.saving {
-    opacity: 0.6;
+@keyframes saving-row {
+    0% {
+        opacity: 0.6;
+    }
 
-    background-color: #EEE;
+    50% {
+        opacity: 0.3;
+    }
 
-    color: #909090;
-    color: rgba(000, 000, 000, 0.5);
+    100% {
+        opacity: 0.6;
+    }
 }
 
 @keyframes transient-row {
