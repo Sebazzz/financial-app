@@ -24,8 +24,6 @@ On Ubuntu install `libuv`:
 ### Database set-up
 Create an new empty database with a case insensitive collation (`SQL_Latin1_General_CP1_CI_AS` is preferred).
 
-Execute the migration script on the created database.
-
 ### Application installation
 Unpack the application on any location. Edit `appsettings.json` and alter the `ConnectionString` key to a connection string you use for connecting to the database of the previous step.
 
@@ -34,4 +32,6 @@ To run the application, simple run:
 
     ./App
 
-The application will launch.
+The application will launch. 
+
+You will be greeted with a setup wizard, in which you will be able to set-up an administrator user. 
