@@ -7,20 +7,27 @@
       "sslPort": 0
     }
   },
-  "profiles": {
-    "web": {
-      "commandName": "Project",
-      "launchUrl": "http://localhost:5000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "use64Bit": true
+    "profiles": {
+        "web": {
+            "commandName": "Project",
+            "launchUrl": "http://localhost:5000",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        "web-perf-test": {
+            "commandName": "Project",
+            "launchUrl": "http://localhost:5000",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
+            }
+        },
+        "IIS Express": {
+            "commandName": "IISExpress",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "use64Bit": true
+        }
     }
-  }
 }
