@@ -153,7 +153,6 @@ namespace App {
             app.UseAuthentication();
 
             if (env.IsDevelopment()) {
-                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true
