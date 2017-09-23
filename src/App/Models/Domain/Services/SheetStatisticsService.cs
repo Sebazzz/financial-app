@@ -24,10 +24,55 @@
             return this.QueryStatistics(sheets).FirstOrDefault();
         }
 
+        public Report CalculateExpensesForAll(int ownerId) {
+            List<SheetGlobalStatistics> statistics = this.QueryStatistics(this._sheetRepository.GetByOwner(ownerId)).ToList();
 
-        public IEnumerable<SheetGlobalStatistics> CalculateExpensesForAll(int ownerId) {
-            return this.QueryStatistics(this._sheetRepository.GetByOwner(ownerId));
-        } 
+            DateTime[] dates = (
+                from item in statistics
+                group item by item.SheetSubject into g
+                orderby g.Key
+                select g.Key
+                ).ToArray();
+
+            string[] labels = (
+                from date in dates
+                select date.ToString("Y")).ToArray();
+
+            Report report = new Report {
+                Expenses = new ReportDigest {
+                    Labels = labels,
+                    DataSets = GenerateDataSet(x => x.Delta < 0, x => -x, statistics, dates)
+                },
+                Income = new ReportDigest {
+                    Labels = labels,
+                    DataSets = GenerateDataSet(x => x.Delta > 0, x => x, statistics, dates)
+                }
+            };
+
+            return report;
+        }
+
+        private static ReportDataSet[] GenerateDataSet(Func<SheetCategoryStatistics,bool> filter, Func<decimal,decimal> correction, List<SheetGlobalStatistics> statistics, DateTime[] dates) {
+            string[] categories = (
+                from item in statistics
+                from catStats in item.CategoryStatistics
+                where filter(catStats)
+                select catStats.CategoryName
+            ).Distinct().ToArray();
+
+            return (
+                from category in categories
+                select new ReportDataSet {
+                    Label = category,
+                    Data = (
+                        from date in dates
+                        let sheet = statistics.Find(x => x.SheetSubject == date)
+                        let categoryInfo = sheet?.CategoryStatistics.FirstOrDefault(x => x.CategoryName == category && filter(x))
+                        select correction(categoryInfo?.Delta ?? 0M)
+                    ).ToArray()
+                }
+            ).ToArray();
+        }
 
         private IQueryable<SheetGlobalStatistics> QueryStatistics(IQueryable<Sheet> sheets) {
             // TODO: remove 'ToList()....' when EF properly supports this projection
@@ -69,6 +114,23 @@
                 yield return globalStatistics;
             }
         }
+    }
+
+    public class Report {
+        public ReportDigest Income { get; set; }
+        public ReportDigest Expenses { get; set; }
+    }
+
+    public class ReportDigest {
+        public string[] Labels { get;set; }
+
+        public ReportDataSet[] DataSets { get; set; }
+    }
+
+
+    public class ReportDataSet {
+        public string Label { get; set; }
+        public decimal[] Data { get; set; }
     }
 
     [DataContract]

@@ -35,6 +35,7 @@
     <Content Remove="wwwroot\js\AppFramework\Forms\ValidateableViewModel.ts" />
     <Content Remove="wwwroot\js\BindingHandlers\All.ts" />
     <Content Remove="wwwroot\js\BindingHandlers\Cleave.ts" />
+    <Content Remove="wwwroot\js\BindingHandlers\LazyBindingHandler.ts" />
     <Content Remove="wwwroot\js\Components\Loader.ts" />
     <Content Remove="wwwroot\js\Components\TopMenu.ts" />
     <Content Remove="wwwroot\js\PageFactory.ts" />
@@ -54,6 +55,7 @@
     <Content Remove="wwwroot\js\ServerApi\User.ts" />
     <Content Remove="wwwroot\js\ServerApi\UserImpersonate.ts" />
     <Content Remove="wwwroot\js\Services\Calculator.ts" />
+    <Content Remove="wwwroot\js\Services\ChartLoader.ts" />
     <Content Remove="wwwroot\js\Services\NowRoute.ts" />
     <Content Remove="wwwroot\js\typings\assets.d.ts" />
     <Content Remove="wwwroot\js\typings\cleave.d.ts" />
@@ -139,7 +141,9 @@
     <TypeScriptCompile Include="wwwroot\js\AppFramework\ServerApi\Mapper.ts" />
     <TypeScriptCompile Include="wwwroot\js\AppFramework\Forms\ValidateableViewModel.ts" />
     <TypeScriptCompile Include="wwwroot\js\BindingHandlers\All.ts" />
+    <TypeScriptCompile Include="wwwroot\js\BindingHandlers\ChartHandler.ts" />
     <TypeScriptCompile Include="wwwroot\js\BindingHandlers\Cleave.ts" />
+    <TypeScriptCompile Include="wwwroot\js\AppFramework\BindingHandlers\LazyBindingHandler.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\Loader.ts" />
     <TypeScriptCompile Include="wwwroot\js\Components\TopMenu.ts" />
     <TypeScriptCompile Include="wwwroot\js\eventsource-polyfill.js" />
@@ -172,6 +176,7 @@
     <TypeScriptCompile Include="wwwroot\js\ServerApi\User.ts" />
     <TypeScriptCompile Include="wwwroot\js\ServerApi\UserImpersonate.ts" />
     <TypeScriptCompile Include="wwwroot\js\Services\Calculator.ts" />
+    <TypeScriptCompile Include="wwwroot\js\Services\ChartLoader.ts" />
     <TypeScriptCompile Include="wwwroot\js\Services\NowRoute.ts" />
     <TypeScriptCompile Include="wwwroot\js\typings\assets.d.ts" />
     <TypeScriptCompile Include="wwwroot\js\typings\cleave.d.ts" />

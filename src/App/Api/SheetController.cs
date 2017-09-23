@@ -44,8 +44,8 @@
         }
 
         [HttpGet("statistics")]
-        public IEnumerable<SheetGlobalStatistics> GetAllStatistics() {
-            return this._sheetStatisticsService.CalculateExpensesForAll(this.OwnerId).OrderBy(x => x.SheetSubject);
+        public Report GetAllStatistics() {
+            return this._sheetStatisticsService.CalculateExpensesForAll(this.OwnerId);
         }
 
         [HttpGet("{year:int:max(2100):min(2000)}-{month:int:max(12):min(1)}")]
