@@ -51,7 +51,7 @@ registerLazyBindingHandler(
         }
     },
     (canvas: HTMLCanvasElement) => {
-        const context : CanvasRenderingContext2D = canvas.getContext('2d');
+        const context = canvas.getContext('2d');
         if (!context) {
             return;
         }
