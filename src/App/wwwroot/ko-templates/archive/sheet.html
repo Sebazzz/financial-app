@@ -167,10 +167,10 @@
 
                 <td>
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" data-bind="disable: isBusy">
                             <span class="fa fa-floppy-o"></span>
                         </button>
-                        <button class="btn btn-danger" data-bind="click: $parentContext.$parent.deleteEntry">
+                        <button class="btn btn-danger" data-bind="click: $parentContext.$parent.deleteEntry, disable: isBusy">
                             <span class="fa fa-trash"></span>
                         </button>
                         <button type="button" class="btn btn-secondary" disabled="disabled">
@@ -215,16 +215,16 @@
 
                 <td>
                     <div class="btn-group btn-group-sm" data-bind="hidden: isTransient">
-                        <button class="btn btn-primary" data-bind="disabled: isBusy, click: toggleEdit">
+                        <button class="btn btn-primary" data-bind="disable: isBusy, click: toggleEdit">
                             <span class="fa fa-pencil"></span>
                         </button>
-                        <button class="btn btn-danger" data-bind="disabled: isBusy, click: $parentContext.$parent.deleteEntry">
+                        <button class="btn btn-danger" data-bind="disable: isBusy, click: $parentContext.$parent.deleteEntry">
                             <span class="fa fa-trash"></span>
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Decrease)">
+                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Decrease), disable: isBusy">
                             <span class="fa fa-arrow-up"></span>
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Increase)">
+                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Increase), disable: isBusy">
                             <span class="fa fa-arrow-down"></span>
                         </button>
                     </div>
