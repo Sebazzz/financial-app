@@ -48,6 +48,7 @@ const libraries = [
     'kendo-ui-core/js/kendo.core',
     'kendo-ui-core/js/cultures/kendo.culture.nl-NL',
     'router5',
+    'router5/plugins/browser',
     'reflect-metadata',
     'tslib',
     'popper.js',
@@ -55,12 +56,13 @@ const libraries = [
     'knockout',
     'cleave.js',
     'json.date-extensions',
-    'es6-promise'
+    'es6-promise',
+    '@aspnet/signalr-client'
 ];
 
 if (isProduction) {
     plugins.push(new UglifyJsPlugin());
-    plugins.push(new new webpack.HashedModuleIdsPlugin({
+    plugins.push(new webpack.HashedModuleIdsPlugin({
         hashFunction: 'sha256',
         hashDigest: 'hex',
         hashDigestLength: 20
@@ -83,7 +85,10 @@ module.exports = {
     publicPath: '/build/'
   },
   resolve: {
-   extensions: ['.ts', '.js']
+   extensions: ['.ts', '.js'],
+   alias: {
+        '@aspnet/signalr-client': '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha1-final.js'
+    }
   },
   module: {
     rules: [
