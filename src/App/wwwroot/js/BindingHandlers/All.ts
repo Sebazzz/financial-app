@@ -1,1 +1,2 @@
 ﻿import './Cleave';
+import './ChartHandler';

@@ -1,5 +1,6 @@
 ﻿import { Page, IPageRegistration }  from '../../AppFramework/Page';
 import AppContext from '../../AppFramework/AppContext';
+import { ChartOptions } from 'chart.js';
 
 import * as ko from 'knockout';
 
@@ -8,10 +9,23 @@ import * as sheetStatistics from '../../ServerApi/SheetStatistics';
 class SheetStatisticsPage extends Page {
     private api = new sheetStatistics.Api();
 
+    public stats = ko.observable<sheetStatistics.ISheetGlobalStatistics>();
+    public income = ko.observable<sheetStatistics.IReportDigest>();
+    public expenses = ko.observable<sheetStatistics.IReportDigest>();
+
+    public chartOptions: ChartOptions = {
+        legend: {
+            position: 'right'
+        },
+        tooltips: {
+            callbacks: {
+                label: (value, data) => value && `${data.labels[value.index || 0]}: ${kendo.toString(+(data.datasets[value.datasetIndex || 0].data[value.index || 0] || 0), 'c')}`
+            }
+        }
+    };
+
     public currentValidationErrors = ko.observableArray<string>();
     public date = ko.observable<Date>();
-
-    public stats = ko.observable<sheetStatistics.ISheetGlobalStatistics>();
 
     public currentSheetRoute = ko.pureComputed(() => {
         const date = this.date(),
@@ -76,7 +90,13 @@ class SheetStatisticsPage extends Page {
         this.title(`Statistieken financiën ${kendo.toString(date, 'MMMM yyyy')}`);
 
         this.api.setContext(year, month);
-        this.stats(await this.api.get());
+
+        const [stats, chart] = await Promise.all([this.api.get(), this.api.getChart()]);
+
+        this.stats(stats);
+
+        this.income(chart.income);
+        this.expenses(chart.expenses);
     }
 }
 

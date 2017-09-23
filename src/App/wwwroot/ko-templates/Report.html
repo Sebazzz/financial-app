@@ -2,11 +2,24 @@
 
 <div>
     <h2>
-        <span class="fa fa-tasks"></span>
-        In aanbouw
+        Uitgaven
     </h2>
     
-    <p>
-        Aan dit onderdeel wordt nog gewerkt.
-    </p>
+    <canvas with="600" 
+            height="100"
+            data-bind="
+            chart: expenses,
+            chartType: 'line',
+            chartOptions: chartOptions"></canvas>
+    
+    <h2>
+        Inkomsten
+    </h2>
+
+    <canvas with="600"
+            height="100"
+            data-bind="
+            chart: income,
+            chartType: 'line',
+            chartOptions: chartOptions"></canvas>
 </div>

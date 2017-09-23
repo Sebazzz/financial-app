@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@types/bootstrap": "3.3.36",
+    "@types/chart.js": "2.6.5",
     "@types/jquery": "3.2.12",
     "@types/kendo-ui": "2017.2.2",
     "@types/knockout": "3.4.45",
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "bootstrap": "4.0.0-beta",
+    "chart.js": "2.7.0",
     "cleave.js": "1.0.1",
     "es6-promise": "4.1.1",
     "font-awesome": "4.7.0",

@@ -17,7 +17,7 @@
             Onderstaand een overzicht van uitgaven en inkomsten per categorie.
         </p>
 
-        <table class="table">
+        <table class="table table-sm table-responsive">
             <thead>
                 <tr>
                     <th>Categorie</th>
@@ -33,11 +33,32 @@
             </tbody>
         </table>
     </div>
+</div>
+
+<div>
+    <h3><span class="fa fa-line-chart"></span> Grafisch</h3>
     
-    <h3>Grafisch</h3>
-    <p>
-        <span class="fa fa-line-chart"></span> Aan dit onderdeel wordt nog gewerkt.
-    </p>
+    <h4>
+        Uitgaven
+    </h4>
+
+    <canvas with="400"
+            height="100"
+            data-bind="
+            chart: expenses,
+            chartType: 'pie',
+            chartOptions: chartOptions"></canvas>
+
+    <h4>
+        Inkomsten
+    </h4>
+
+    <canvas with="400"
+            height="100"
+            data-bind="
+            chart: income,
+            chartType: 'pie',
+            chartOptions: chartOptions"></canvas>
 </div>
 
 <p class="btn-group mobile-center" style="margin-top: 2em">
