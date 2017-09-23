@@ -8,14 +8,14 @@
     <ul class="list-unstyled actionable-list" data-bind="foreach: { data: categories, as: 'category' }">
         <li>
             <div class="pull-right">
-                <a class="btn btn-secondary btn-sm"
+                <a class="btn btn-secondary"
                    href="#"
                    data-bind="route: manage.category.edit | { id: category.id }, tooltip: 'Categorie bewerken'">
                     <span class="fa fa-pencil"></span>
                 </a>
                 
                 <span class="inline-block" data-bind="tooltip: category.canBeDeleted ? 'Categorie verwijderen' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'">
-                    <a class="btn btn-outline-danger btn-sm"
+                    <a class="btn btn-outline-danger"
                        data-bind="click: $parent.deleteCategory, css: { 'disabled': !category.canBeDeleted }">
                         <span class="fa fa-trash"></span>
                     </a>
