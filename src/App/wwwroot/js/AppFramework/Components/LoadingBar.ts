@@ -30,7 +30,6 @@ class LoadingBarComponentModel implements IHttpInterceptor {
         this.$element = $(element).children('.progress-indicator-bar');
 
         this.requestCompleted = this.requestCompleted.bind(this);
-        this.show.subscribe(console.log);
 
         console.log('LoadingBar started [%s]', this.appContext.title);
     }
