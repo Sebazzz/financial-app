@@ -154,18 +154,18 @@ class PageTemplateManager {
             const isMobileDevice = document.documentElement.getAttribute('data-app-mobile') !== 'false';
 
             if (isMobileDevice) {
-                return import(
+                return await import(
                     /* webpackChunkName: "templates" */
                     /* webpackMode: "lazy" */
                     '../../ko-templates/' + templateName + '.mobile.html');
             }
 
-            return import(
+            return await import(
                 /* webpackChunkName: "templates" */
                 /* webpackMode: "lazy" */
                 '../../ko-templates/' + templateName + '.html');
         } catch (e) {
-            return import(
+            return await import(
                 /* webpackChunkName: "templates" */
                 /* webpackMode: "lazy" */
                 '../../ko-templates/' + templateName + '.html');
