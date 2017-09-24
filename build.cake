@@ -175,6 +175,7 @@ Action<string,string> PublishSelfContained = (string platform, string folder) =>
 
 Task("Run-Webpack")
 	.IsDependentOn("Restore-Node-Packages")
+	.IsDependentOn("Set-NodeEnvironment")
 	.Does(() => {
 		var exitCode = 
 			StartProcess("cmd", new ProcessSettings()
