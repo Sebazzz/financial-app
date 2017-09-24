@@ -16,11 +16,14 @@ namespace App {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http.Headers;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Net.Http.Headers;
+
     using Models.Domain.Repositories;
     using Models.Domain.Services;
 
@@ -172,7 +175,18 @@ namespace App {
                     return next();
                 }));
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions {
+                OnPrepareResponse = context => {
+                    // Enable aggressive caching behavior since we differ on query string anyway.
+                    ResponseHeaders headers = context.Context.Response.GetTypedHeaders();
+                    headers.Expires = DateTimeOffset.Now.AddYears(1);
+                    headers.CacheControl = new CacheControlHeaderValue {
+                        MaxAge = TimeSpan.FromDays(356),
+                        MustRevalidate = false,
+                        Public = true
+                    };
+                }
+            });
 
             app.UseMvc(routes => {
                 // If we still reached this at this point the ko-template was not found:

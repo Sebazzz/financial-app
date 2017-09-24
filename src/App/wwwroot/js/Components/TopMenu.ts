@@ -140,5 +140,5 @@ class UserActivityService {
 }
 
 export function register(appContext : AppContext) {
-    framework.createPanelComponent('top-menu', () => new TopMenu(appContext));
+    framework.createPanelComponent('top-menu', require('../../ko-templates/widgets/top-menu.html'), () => new TopMenu(appContext));
 }
