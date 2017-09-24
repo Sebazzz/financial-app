@@ -34,7 +34,25 @@
 
         <top-menu></top-menu>
 
-        <page-container class="container"></page-container>
+        <page-container class="container">
+            <h1 class="navbar-brand">Financial App</h1>
+
+            <p>
+                We zijn bezig met de benodigde bestanden voor de applicatie te downloaden.
+            </p>
+
+            <div class="initial-download-indicator">
+                <span class="fa fa-server" aria-hidden="true"></span>
+
+                <span class="fa fa-file-code-o" aria-hidden="true"></span>
+
+                <span class="fa fa-mobile" aria-hidden="true"></span>
+            </div>
+
+            <p>
+                Dit hoeft maar één keer te gebeuren, maar het kan even duren...
+            </p>
+        </page-container>
 
         <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
 
@@ -44,7 +62,7 @@
             </div>
         </noscript>
 
-        <script src="/build/lib.js" asp-append-version="true"></script>
-        <script src="/build/app.js" asp-append-version="true"></script>
+        <script src="/build/lib.js" asp-append-version="true" defer></script>
+        <script src="/build/app.js" asp-append-version="true" defer></script>
     </body>
 </html>
