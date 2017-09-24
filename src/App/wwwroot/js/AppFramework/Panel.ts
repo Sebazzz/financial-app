@@ -59,18 +59,17 @@ export class PanelComponent<T extends Panel> implements KnockoutComponentTypes.C
         }
     };
 
-    public template: any = null;
+    public template: string;
+    public synchronous = true;
 
-    constructor(protected name: string, factory: PanelFactory<T>) {
+    constructor(template: string, factory: PanelFactory<T>) {
         this.factory = factory;
-        this.template = {
-            location: `ko-templates/widgets/${this.name}.html`
-        };
+        this.template = template;
     }
 }
 
-export function createPanelComponent<T extends Panel>(name: string, factory: PanelFactory<T>) {
-    const component = new PanelComponent<T>(name, factory);
+export function createPanelComponent<T extends Panel>(name: string, template: string, factory: PanelFactory<T>) {
+    const component = new PanelComponent<T>(template, factory);
 
     ko.components.register(name, component);
 }
