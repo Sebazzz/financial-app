@@ -26,3 +26,8 @@ declare namespace webpack {
  * Import the specified asset
  */
 declare var require: webpack.IRequire;
+
+/**
+ * Declares a global variable to execute module-specific code
+ */
+declare var DEBUG: boolean;

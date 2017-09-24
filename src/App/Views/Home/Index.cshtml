@@ -26,6 +26,7 @@
         
         <environment include="Development">
             <script src="/js/eventsource-polyfill.js" asp-append-version="true"></script>
+            <script>var DEBUG = true;window.DEBUG = DEBUG;</script>
         </environment>
     </head>
     <body data-bind="css: { 'anonymous': !context.authentication.isAuthenticated(), 'authenticated': context.authentication.isAuthenticated }">
