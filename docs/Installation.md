@@ -16,22 +16,45 @@ To run the application you'Il need:
    * If using Linux, install on Ubuntu 16.x or higher.
 * Microsoft SQL Server for the database. The free SQL Server Express also works.
 
-On Ubuntu install `libuv`:
+On Ubuntu install `libuv` and `libunwind8`:
 
-    sudo apt-get install libuv
+    sudo apt-get install libuv libunwind8
 
 ## Installation
+
+### HTTPS configuration
+To use HTTPs, use the following environment variables:
+
+`HTTPS__CERTIFICATEPATH`: Path to pfx file.
+`HTTPS__CERTIFICATEPASSWORD`: Password for pfx file.
+
+The server will automatically start on port 80 and 443.
+
 ### Database set-up
 Create an new empty database with a case insensitive collation (`SQL_Latin1_General_CP1_CI_AS` is preferred).
 
 ### Application installation
-Unpack the application on any location. Edit `appsettings.json` and alter the `ConnectionString` key to a connection string you use for connecting to the database of the previous step.
+Unpack the application on any location, for instance `/opt/fa-app`.
+
+Modify the connection string in `launch.conf`.
+
+You can try out the application using:
+
+    ./launch run
+
+Install the application as a systemd service using:
+
+    ./launch install
+
+View other options:
+
+    ./launch --help
 
 ### Run
-To run the application, simple run:
+To run the application after installation, simply run:
 
-    ./App
+    ./launch start
 
-The application will launch. 
+The application will launch at the URL specified in `launch.conf`. 
 
 You will be greeted with a setup wizard, in which you will be able to set-up an administrator user. 

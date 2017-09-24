@@ -1,3 +1,6 @@
+#addin nuget:?package=Cake.Compression&version=0.1.4
+#addin nuget:?package=SharpZipLib
+
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -115,10 +118,28 @@ Task("Restore-Node-Packages")
 	.IsDependentOn("Check-Node-Version")
 	.Does(() => {
 	
-	var exitCode = 
-		StartProcess("cmd", new ProcessSettings()
-		.UseWorkingDirectory(mainProjectPath)
-		.WithArguments(args => args.Append("/C").AppendQuoted("npm install")));
+	int exitCode;
+	
+	try {
+		Information("Trying to restore packages using npm-cache");
+		
+		exitCode = 
+			StartProcess("cmd", new ProcessSettings()
+			.UseWorkingDirectory(mainProjectPath)
+			.WithArguments(args => args.Append("/C").AppendQuoted("npm-cache install npm")));
+		
+		if (exitCode != 0) {
+			Warning("npm-cache returned error code {0}. Falling back to npm.", exitCode);
+			throw new CakeException();
+		}
+	} catch {
+		Warning("Could not restore packages using npm-cache. Falling back to npm.");
+	
+		exitCode = 
+			StartProcess("cmd", new ProcessSettings()
+			.UseWorkingDirectory(mainProjectPath)
+			.WithArguments(args => args.Append("/C").AppendQuoted("npm install")));
+	}
 		
 	if (exitCode != 0) {
 		throw new CakeException($"'npm install' returned exit code {exitCode} (0x{exitCode:x2})");
@@ -139,34 +160,60 @@ Task("Run")
         DotNetCoreRun($"App.csproj", null, new DotNetCoreRunSettings { WorkingDirectory = "./src/App" });
 });
 
-Action<String> PublishSelfContained = (string platform) => {
+Action<string,string> PublishSelfContained = (string platform, string folder) => {
 	Information("Publishing self-contained for platform {0}", platform);
 
 	var settings = new DotNetCorePublishSettings
 			 {
 				 Configuration = configuration,
-				 OutputDirectory = publishDir + Directory(platform),
+				 OutputDirectory = publishDir + Directory(folder ?? platform),
 				 Runtime = platform
 			 };
 	
         DotNetCorePublish($"./src/App/App.csproj", settings);
 };
 
-Task("Publish-Win10")
+Task("Run-Webpack")
+	.IsDependentOn("Restore-Node-Packages")
+	.Does(() => {
+		var exitCode = 
+			StartProcess("cmd", new ProcessSettings()
+			.UseWorkingDirectory(mainProjectPath)
+			.WithArguments(args => args.Append("/C").AppendQuoted("npm run-script build")));
+		
+		if (exitCode != 0) {
+			throw new CakeException($"'npm run-script build' returned exit code {exitCode} (0x{exitCode:x2})");
+		}
+	});
+
+Task("Publish-Common")
+	.Description("Internal task - do not use")
     .IsDependentOn("Rebuild")
-	.IsDependentOn("Generate-MigrationScript")
-    .Does(() => PublishSelfContained("win10-x64"));
+    .IsDependentOn("Generate-MigrationScript")
+	.IsDependentOn("Run-Webpack");
+	
+Task("Publish-Win10")
+	.Description("Publish for Windows 10 / Windows Server 2016")
+    .IsDependentOn("Publish-Common")
+    .Does(() => PublishSelfContained("win10-x64", null));
+
+Task("Publish-Ubuntu-Core")
+	.Description("Internal task - do not use")
+    .IsDependentOn("Publish-Common")
+    .Does(() => PublishSelfContained("ubuntu.14.04-x64", "ubuntu.14.04-x64/app"));
 
 Task("Publish-Ubuntu")
-    .IsDependentOn("Rebuild")
-	.IsDependentOn("Generate-MigrationScript")
-    .Does(() => PublishSelfContained("ubuntu.14.04-x64"));
+    .IsDependentOn("Publish-Ubuntu-Core")
+	.Description("Publish for Ubuntu 14.04")
+    .Does(() => {
+       CopyFile(File("./tools/launchscripts/ubuntu/launch"), publishDir + File("ubuntu.14.04-x64/launch"));
+       CopyFile(File("./tools/launchscripts/ubuntu/launch.conf"), publishDir + File("ubuntu.14.04-x64/launch.conf"));
+       GZipCompress(publishDir + Directory("ubuntu.14.04-x64/"), publishDir + File("financial-app-ubuntu-14.04-x64.tar.gz"));
+	});
 	
 Task("Publish")
     .IsDependentOn("Publish-Win10")
     .IsDependentOn("Publish-Ubuntu");
-
-
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS

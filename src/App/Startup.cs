@@ -3,6 +3,7 @@
 namespace App {
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Threading.Tasks;
 
     using Api.Extensions;
@@ -18,9 +19,11 @@ namespace App {
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Headers;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Logging;
     using Microsoft.Net.Http.Headers;
 
@@ -39,20 +42,12 @@ namespace App {
 
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration env)
         {
-            // Set up configuration sources.
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddApplicationInsightsSettings(developerMode:env.IsDevelopment())
-                .AddEnvironmentVariables();
-
-            this.Configuration = builder.Build();
+            this.Configuration = env;
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
@@ -174,7 +169,7 @@ namespace App {
                     ctx.Request.Path = "/images/tiles/manifest-microsoft.xml";
                     return next();
                 }));
-
+            
             app.UseStaticFiles(new StaticFileOptions {
                 OnPrepareResponse = context => {
                     // Enable aggressive caching behavior since we differ on query string anyway.
@@ -188,10 +183,24 @@ namespace App {
                 }
             });
 
+            // Let's encrypt support
+            app.UseRouter(r => {
+                r.MapGet(".well-known/acme-challenge/{id}", async (request, response, routeData) => {
+                    string id = routeData.Values["id"] as string;
+                    if (id != Path.GetFileName(id)) {
+                        return; // Prevent injection attack
+                    }
+
+                    string file = Path.Combine(env.WebRootPath, ".well-known","acme-challenge", id);
+                    await response.SendFileAsync(file);
+                });
+            });
+
             app.UseMvc(routes => {
                 // If we still reached this at this point the ko-template was not found:
                 // Trigger an failure instead of sending the app bootstrapper which causes all kinds of havoc.
                 routes.MapFailedRoute("ko-templates/{*.}");
+                routes.MapFailedRoute("build/{*.}");
 
                 // Any non-matched web api calls should fail as well
                 routes.MapFailedRoute("api/{*.}");
