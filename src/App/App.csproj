@@ -12,6 +12,10 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
+    <Version>2.0.0-beta1</Version>
+    <Authors>Sebastiaan Dammann</Authors>
+    <Company>Damsteen.nl</Company>
+    <Product>Financial App</Product>
   </PropertyGroup>
 
   <ItemGroup>
@@ -72,6 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-alpha1-final" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0">
@@ -107,7 +112,8 @@
     <PackageReference Include="AutoMapper" Version="6.1.1" />
   </ItemGroup>
 
-  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish" Condition="'false'=='true'" >
+	<!-- Do not run this task. Webpack may change the files causing havoc in the build process as msbuild won't be able to find files it through it would find. -->
     <Exec Command="npm install" />
     <Exec Command="npm run-script build" />
   </Target>
