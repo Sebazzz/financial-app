@@ -1,10 +1,14 @@
 ﻿<div class="alert alert-danger">
-    <span class="fa fa-bomb"></span> <strong>Krak!</strong> Dat ging niet goed.
+    <span class="fa fa-bomb" data-toggle="collapse" data-target="#errorInfo"></span> <strong>Krak!</strong> Dat ging niet goed.
 </div>
             
 <p>
     Het is niet gelukt om deze pagina te laden. Wellicht is de internetverbinding verbroken?
 </p>
+
+<div id="errorInfo" class="collapse">
+    <pre data-bind="text: $component.errorInfo"></pre>
+</div>
             
 <p>
     <a href="#" onclick="document.location.reload(true);" class="btn btn-primary">Opnieuw laden</a>
