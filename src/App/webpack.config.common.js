@@ -47,7 +47,7 @@ const libraries = [
 module.exports =  {
     devtool: 'inline-source-map',
     entry: {
-        'app.js': ['./wwwroot/js/main.ts'],
+        'app.js': ['./js/App/main.ts'],
         'lib.js': libraries
     },
     plugins: [
@@ -66,7 +66,8 @@ module.exports =  {
         extensions: ['.ts', '.js'],
         alias: {
             '@aspnet/signalr-client': '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha1-final.js',
-            '~': path.resolve(__dirname)
+            '~': path.resolve(__dirname),
+            'AppFramework': path.resolve(__dirname, 'js/AppFramework')
         }
     },
     module: {

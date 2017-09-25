@@ -2,6 +2,7 @@
     "compilerOptions": {
         "allowJs": true,
         "alwaysStrict": true,
+        "baseUrl": ".",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "lib": [ "dom", "es5", "es2015.promise", "es2015.iterable", "es2015.reflect", "scripthost" ],
@@ -13,11 +14,15 @@
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,
+        "paths": {
+            "AppFramework/*": [ "js/AppFramework/*" ]
+        },
         "preserveConstEnums": true,
         "removeComments": true,
         "strictNullChecks": true,
         "sourceMap": true,
         "target": "es5",
+        "traceResolution": true,
         "typeRoots": [
             "./wwwroot/js/typings",
             "./wwwroot/js/AppFramework/typings",
