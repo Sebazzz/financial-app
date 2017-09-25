@@ -48,7 +48,7 @@ module.exports =  {
     devtool: 'inline-source-map',
     entry: {
         'app.js': ['./wwwroot/js/main.ts'],
-        'lib.js': libraries,
+        'lib.js': libraries
     },
     plugins: [
         new CleanWebpackPlugin([targetDir]),
@@ -65,7 +65,8 @@ module.exports =  {
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
-            '@aspnet/signalr-client': '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha1-final.js'
+            '@aspnet/signalr-client': '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha1-final.js',
+            '~': path.resolve(__dirname)
         }
     },
     module: {

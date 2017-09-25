@@ -118,7 +118,7 @@ class PageTemplateManager {
             //
             // In addition, during bundling, if not hoisted into a variable, webpack
             // will create a iif that throws an exception.
-            const recursiveName = './wwwroot/ko-templates lazy recursive ^\\.\\/.*\\.html$';
+            const recursiveName = '~/ko-templates lazy recursive ^\\.\\/.*\\.html$';
 
             console.log('Adding call for template %s via %s', templateName, recursiveName);
             module.hot.accept(recursiveName, async () => {
@@ -157,19 +157,19 @@ class PageTemplateManager {
                 return await import(
                     /* webpackChunkName: "templates" */
                     /* webpackMode: "lazy" */
-                    '../../ko-templates/' + templateName + '.mobile.html');
+                    '~/ko-templates/' + templateName + '.mobile.html');
             }
-            console.log('../../ko-templates/' + templateName + '.html');
+            console.log('~/ko-templates/' + templateName + '.html');
             return await import(
                 /* webpackChunkName: "templates" */
                 /* webpackMode: "lazy" */
-                '../../ko-templates/' + templateName + '.html');
+                '~/ko-templates/' + templateName + '.html');
         } catch (e) {
-            console.log('../../ko-templates/' + templateName + '.html');
+            console.log('~/ko-templates/' + templateName + '.html');
             return await import(
                 /* webpackChunkName: "templates" */
                 /* webpackMode: "lazy" */
-                '../../ko-templates/' + templateName + '.html');
+                '~/ko-templates/' + templateName + '.html');
         }
     }
 
