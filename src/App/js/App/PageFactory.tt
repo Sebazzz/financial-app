@@ -1,0 +1,54 @@
+﻿<#@ template language="C#" hostspecific="true" #>
+<#@ output extension=".ts" #>
+<#@ import namespace="System.IO" #>
+import {IPageRepository} from 'AppFramework/AppFactory';
+<#
+
+	var templateFile = Host.TemplateFile;
+	var currentDirectory = Path.GetDirectoryName(templateFile);
+	var pagesDirectoryPath = Path.Combine(currentDirectory, "Pages");
+	var pageFiles = Directory.GetFiles(pagesDirectoryPath, "*.ts", SearchOption.AllDirectories);
+
+	foreach (var pageFile in pageFiles) {#>
+import <#=GetAliasName(pageFile, currentDirectory)#> from '<#=GetModuleName(pageFile, currentDirectory)#>';
+<#}#>
+
+const pageFactory = {
+	replacePages(repository : IPageRepository) : void {
+<# foreach (var pageFile in pageFiles) {#>
+		repository.replacePage(require('<#=GetModuleName(pageFile, currentDirectory)#>').default);
+<#}#>
+},
+
+	installPages(repository : IPageRepository) : void {
+		const pages = [
+<# foreach (var pageFile in pageFiles) {#>
+			<#=GetAliasName(pageFile, currentDirectory)#><#=EmitComma(pageFile, pageFiles)#>
+<#}#>
+		];
+
+		repository.addPages(pages);
+	}
+}
+
+export default pageFactory;
+
+<#+
+	static string GetAliasName(string pageFile, string currentDirectory) {
+		string moduleName = GetModuleName(pageFile, currentDirectory);
+		string alias = moduleName.Replace("Pages/", "").Replace("./", "").Replace("/", "_");
+		return alias + "Registration";
+	}
+
+	static string GetModuleName(string pageFile, string currentDirectory) {
+		string relativePath = pageFile.Substring(currentDirectory.Length + 1);
+		string withoutExtension = relativePath.Replace(".ts", "");
+		string forwardSlash = withoutExtension.Replace("\\", "/");
+		return "./" + forwardSlash;
+	}
+
+	static string EmitComma(string item, string[] array) {
+		int itemIndex = Array.IndexOf(array, item);
+		return itemIndex == array.Length - 1 ? "" : ",";
+	}
+#>
