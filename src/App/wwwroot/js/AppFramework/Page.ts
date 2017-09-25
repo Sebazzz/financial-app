@@ -159,12 +159,13 @@ class PageTemplateManager {
                     /* webpackMode: "lazy" */
                     '../../ko-templates/' + templateName + '.mobile.html');
             }
-
+            console.log('../../ko-templates/' + templateName + '.html');
             return await import(
                 /* webpackChunkName: "templates" */
                 /* webpackMode: "lazy" */
                 '../../ko-templates/' + templateName + '.html');
         } catch (e) {
+            console.log('../../ko-templates/' + templateName + '.html');
             return await import(
                 /* webpackChunkName: "templates" */
                 /* webpackMode: "lazy" */
@@ -187,6 +188,7 @@ class PageComponentModel {
 
     public templateName = ko.observable<string>(defaultTemplateName).extend({ notify: 'always' });
     public page = ko.observable<Page | null>(null);
+    public errorInfo = ko.observable<string | null>(null);
 
     public title = ko.computed(() => {
         const page = this.page(),
@@ -227,12 +229,18 @@ class PageComponentModel {
 
             this.page(page);
             this.templateName(templateId);
+            this.errorInfo(null);
         } catch (e) {
             console.error(e);
 
             // Always consider the page load to be a success, even in the case of a failure. Instead,
             // we load a failed template and be done with that.
             this.templateName(errorTemplateName);
+            try {
+                this.errorInfo(e.toString());
+            } catch (e) {
+                this.errorInfo(JSON.stringify(e));
+            }
 
             return true;
         }
