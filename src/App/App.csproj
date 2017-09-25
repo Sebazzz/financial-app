@@ -67,6 +67,28 @@
     <Content Remove="wwwroot\js\typings\hmr.d.ts" />
     <Content Remove="wwwroot\js\typings\json.date-extensions.d.ts" />
     <Content Remove="wwwroot\js\typings\webpack.d.ts" />
+    <Content Include="ko-templates\archive\default.html" />
+    <Content Include="ko-templates\archive\sheet-stats.html" />
+    <Content Include="ko-templates\archive\sheet.html" />
+    <Content Include="ko-templates\archive\sheet.mobile.html" />
+    <Content Include="ko-templates\archive\sheetentry-edit.html" />
+    <Content Include="ko-templates\auth\login.html" />
+    <Content Include="ko-templates\auth\logoff.html" />
+    <Content Include="ko-templates\ConnectionFailure.html" />
+    <Content Include="ko-templates\default.html" />
+    <Content Include="ko-templates\default.mobile.html" />
+    <Content Include="ko-templates\manage\category\default.html" />
+    <Content Include="ko-templates\manage\category\edit.html" />
+    <Content Include="ko-templates\manage\entry-template\default.html" />
+    <Content Include="ko-templates\manage\entry-template\edit.html" />
+    <Content Include="ko-templates\manage\impersonate.html" />
+    <Content Include="ko-templates\manage\user\default.html" />
+    <Content Include="ko-templates\manage\user\edit.html" />
+    <Content Include="ko-templates\offline.html" />
+    <Content Include="ko-templates\report.html" />
+    <Content Include="ko-templates\setup\default.html" />
+    <Content Include="ko-templates\widgets\loader.html" />
+    <Content Include="ko-templates\widgets\top-menu.html" />
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -112,7 +134,7 @@
     <PackageReference Include="AutoMapper" Version="6.1.1" />
   </ItemGroup>
 
-  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish" Condition="'false'=='true'" >
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish" Condition="'false'=='true'">
 	<!-- Do not run this task. Webpack may change the files causing havoc in the build process as msbuild won't be able to find files it through it would find. -->
     <Exec Command="npm install" />
     <Exec Command="npm run-script build" />

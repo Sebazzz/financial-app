@@ -14,5 +14,5 @@ class Loader extends framework.Panel {
 }
 
 export function register(appContext: AppContext) {
-    framework.createPanelComponent('loader', require('../../ko-templates/widgets/loader.html'), () => new Loader(appContext));
+    framework.createPanelComponent('loader', require('~/ko-templates/widgets/loader.html'), () => new Loader(appContext));
 }

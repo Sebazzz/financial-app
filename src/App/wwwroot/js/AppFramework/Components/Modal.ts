@@ -126,7 +126,7 @@ class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
         this.loadTemplate();
 
         if (module.hot) {
-            module.hot.accept('./Templates/modal.html', () => {
+            module.hot.accept('./templates/modal.html', () => {
                 this.loadTemplate();
 
                 console.warn('Modal: New template has been loaded, but re-rendering of component is required to apply changes');
@@ -135,7 +135,7 @@ class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
     }
 
     private loadTemplate() {
-        this.template = require('./Templates/modal.html');
+        this.template = require('./templates/modal.html');
     }
 }
 

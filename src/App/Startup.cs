@@ -146,8 +146,6 @@ namespace App {
                 loggerFactory.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
             }
 
-            app.MapTemplateViewPath(env);
-
             app.UseAuthentication();
 
             if (env.IsDevelopment()) {
