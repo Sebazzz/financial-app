@@ -89,7 +89,7 @@ class EditPage extends FormPage {
             this.id(0);
             this.entry(model);
             this.title(`Regel aanmaken - ${baseTitle}`);
-            this.availableCategories(await categories);
+            this.availableCategories(await loadCategories);
         }
     }
 

@@ -22,9 +22,9 @@ function checkScroll(): void {
             scrollNub.classList.remove('scroll-nub-invert');
         }
 
-        scrollNub.classList.remove('disabled');
+        scrollNub.classList.remove('scroll-nub-disabled');
     } else {
-        scrollNub.classList.add('disabled');
+        scrollNub.classList.add('scroll-nub-disabled');
     }
 
     currentpageYOffset = pageYOffset;
@@ -46,7 +46,7 @@ function onScrollNubClick(ev: any) {
     ev.preventDefault();
 
     // scroll to top or bottom
-    const scrollToTop = scrollNub.classList.contains('invert'),
+    const scrollToTop = scrollNub.classList.contains('scroll-nub-invert'),
           selector = scrollToTop ? 'top-menu' : 'body > #scrollBottom',
           scrollElement = document.querySelector(selector) as HTMLElement;
       
