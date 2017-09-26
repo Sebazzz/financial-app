@@ -1,4 +1,6 @@
-﻿namespace App.Api {
+﻿using System.Collections.Generic;
+
+namespace App.Api {
     using System;
     using System.Linq;
 
@@ -29,34 +31,53 @@
         [HttpGet("chart")]
         public Report GetStats(int sheetMonth, int sheetYear) {
             Sheet s = this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId);
-
-            DateTime previousSheetDate = s.Subject.AddMonths(-1);
-            Sheet ps = this._sheetRetrievalService.GetBySubject(previousSheetDate.Month, previousSheetDate.Year, this.OwnerId);
             this.EntityOwnerService.EnsureOwner(s, this.OwnerId);
 
-            SheetGlobalStatistics pstats = this._sheetStatisticsService.CalculateExpensesPerCategory(ps);
-            SheetGlobalStatistics stats = this._sheetStatisticsService.CalculateExpensesPerCategory(s);
+            DateTime previousSheetDate = s.Subject.AddMonths(-1);
+            DateTime nextSheetDate = s.Subject.AddMonths(1);
+            List<Sheet> sheet = new List<Sheet>(3);
 
+            if (nextSheetDate < DateTime.Now) {
+                sheet.Add(this._sheetRetrievalService.GetBySubject(nextSheetDate.Month, nextSheetDate.Year, this.OwnerId));
+            }
+            sheet.Add(this._sheetRetrievalService.GetBySubject(previousSheetDate.Month, previousSheetDate.Year, this.OwnerId));
+            sheet.Add(this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId));
+
+            Sheet[] dataArray = sheet.ToArray();
             return new Report {
-                Income = Create(pstats, stats, x => x > 0, x => x),
-                Expenses = Create(pstats, stats, x => x < 0, x => x * -1) 
+                Income = Create(dataArray, x => x > 0, x => x),
+                Expenses = Create(dataArray, x => x < 0, x => x * -1) 
             };
         }
 
-        private ReportDigest Create(SheetGlobalStatistics oneMonth, SheetGlobalStatistics otherMonth, Func<decimal, bool> filter, Func<decimal, decimal> transform) {
-            string[] categories = oneMonth.CategoryStatistics.Union(otherMonth.CategoryStatistics)
+        private ReportDigest Create(Sheet[] sheets, Func<decimal, bool> filter, Func<decimal, decimal> transform) {
+            SheetGlobalStatistics[] calculatedStats = new SheetGlobalStatistics[sheets.Length];
+            for (int index = 0; index < sheets.Length; index++) {
+                calculatedStats[index] = this._sheetStatisticsService.CalculateExpensesPerCategory(sheets[index]);
+            }
+
+            IEnumerable<SheetCategoryStatistics> catStats = Enumerable.Empty<SheetCategoryStatistics>();
+            foreach (SheetGlobalStatistics item in calculatedStats) catStats = catStats.Union(item.CategoryStatistics);
+
+            string[] categories = catStats
                 .Where(x => filter(x.Delta))
                 .Select(x => x.CategoryName)
                 .Distinct()
                 .OrderBy(x => x)
                 .ToArray();
 
-            decimal[] GetData(SheetGlobalStatistics dataSet, SheetGlobalStatistics otherDataSet) {
+            decimal[] GetData(SheetGlobalStatistics dataSet, SheetGlobalStatistics[] otherDataSets) {
+                // We want to get all statistics, if this category occurs in at least one of the other data sets
                 return (
                     from category in categories
                     let delta = dataSet.CategoryStatistics.FirstOrDefault(x => x.CategoryName == category)?.Delta ?? 0
-                    let otherDelta = otherDataSet.CategoryStatistics.FirstOrDefault(x => x.CategoryName == category)?.Delta ?? 0
-                    where filter(delta) || filter(otherDelta)
+                    let existsInOtherDataSets = (
+                        from otherDataSet in otherDataSets
+                        let otherDelta = otherDataSet.CategoryStatistics.FirstOrDefault(x => x.CategoryName == category)?.Delta ?? 0
+                        where filter(otherDelta)
+                        select otherDelta
+                    ).Any()
+                    where filter(delta) || existsInOtherDataSets
                     select transform(delta)
                 ).ToArray();
             }
@@ -67,16 +88,15 @@
 
             return new ReportDigest {
                 Labels = categories,
-                DataSets = new[] {
-                    new ReportDataSet {
-                        Data = GetData(oneMonth, otherMonth),
-                        Label = GetLabel(oneMonth)
-                    },
-                    new ReportDataSet {
-                        Data = GetData(otherMonth, oneMonth),
-                        Label = GetLabel(otherMonth)
+                DataSets = (
+                    from sheetStats in calculatedStats
+                    let otherStats = calculatedStats.Where(x => x != sheetStats).ToArray()
+                    orderby sheetStats.SheetSubject
+                    select new ReportDataSet {
+                        Data = GetData(sheetStats, otherStats),
+                        Label = GetLabel(sheetStats)
                     }
-                }
+                ).ToArray()
             };
         }
     }
