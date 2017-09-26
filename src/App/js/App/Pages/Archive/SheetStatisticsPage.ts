@@ -15,7 +15,7 @@ class SheetStatisticsPage extends Page {
 
     public chartOptions: ChartOptions = {
         legend: {
-            position: 'right'
+            position: window.screenX < 800 ? 'bottom' : 'right'
         },
         tooltips: {
             callbacks: {
