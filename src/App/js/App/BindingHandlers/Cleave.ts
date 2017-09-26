@@ -39,7 +39,7 @@ ko.bindingHandlers['cleaveNumber'] = ko.bindingHandlers['cleaveCurrency'] = {
         function updateObservable() {
             const obs = valueAccessor();
             if (ko.isWriteableObservable(obs)) {
-                let rawValue = cleave.getRawValue();
+                let rawValue = cleave.getFormattedValue();
 
                 if (rawValue === null || typeof rawValue === 'undefined' || rawValue === '') {
                     rawValue = null;
