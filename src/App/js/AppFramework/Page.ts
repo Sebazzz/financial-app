@@ -118,7 +118,7 @@ class PageTemplateManager {
             //
             // In addition, during bundling, if not hoisted into a variable, webpack
             // will create a iif that throws an exception.
-            const recursiveName = '~/ko-templates lazy recursive ^\\.\\/.*\\.html$';
+            const recursiveName = './ko-templates lazy recursive ^\\.\\/.*\\.html$';
 
             console.log('Adding call for template %s via %s', templateName, recursiveName);
             module.hot.accept(recursiveName, async () => {
