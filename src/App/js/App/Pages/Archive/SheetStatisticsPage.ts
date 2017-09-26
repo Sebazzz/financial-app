@@ -19,7 +19,7 @@ class SheetStatisticsPage extends Page {
         },
         tooltips: {
             callbacks: {
-                label: (value, data) => value && `${data.labels[value.index || 0]}: ${kendo.toString(+(data.datasets[value.datasetIndex || 0].data[value.index || 0] || 0), 'c')}`
+                label: (value, data) => value && `${data.datasets[value.datasetIndex || 0].label}: ${kendo.toString(+(data.datasets[value.datasetIndex || 0].data[value.index || 0] || 0), 'c')}`
             }
         }
     };
