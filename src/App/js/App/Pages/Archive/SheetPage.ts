@@ -61,7 +61,7 @@ class SheetPage extends FormPage {
 
         return {
             bankAccount: this.totalCalculator.calculateTotal(dataObject, sheetEntry.AccountType.BankAccount),
-            savingsAccount: this.totalCalculator.calculateTotal(dataObject, sheetEntry.AccountType.BankAccount)
+            savingsAccount: this.totalCalculator.calculateTotal(dataObject, sheetEntry.AccountType.SavingsAccount)
         }
     });
 
