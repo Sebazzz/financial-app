@@ -1,0 +1,83 @@
+# The *Unnamed* application framework documentation
+
+## Binding handlers
+The *Unnamed* framework comes with several bindings to make life easier.
+
+### `hidden`
+This is the inverted version of knockout built-in `visible`.
+
+Usage:
+
+    <element data-bind="hidden: myObservable"/>
+
+### `href`
+Binding with can:
+
+1. Simply act as a shorthand for `attr` in combination with `href`: Set the target of an hyperlink.
+2. Set the hyperlink `href` to an generated path to a route.
+
+Usage (1):
+
+    <a data-bind="href: '/example.html'" href="#"></a>
+    <a data-bind="href: myDestination" href="#"></a>
+
+Usage (2):
+
+    <a data-bind="href: { route: 'edit', options: { id: 3 }}" href=""></a>
+
+
+### `route`
+Similar to `href`, the `route` binding allows setting the destination of an hyperlink to a page. The main difference is that this binding allows an alternate syntax, which is especially useful in the case your route does not have any parameters.
+
+Usage (no parameters):
+
+	<a data-bind="href: product.create" href="#"></a>
+
+Usage (with parameters):
+
+    <a data-bind="href: product.edit | { id: $data.id }" href="#"></a>
+
+### `formatText`
+Supports formatting text like .NET format strings. It relies on Kendo UI's [`format`](http://docs.telerik.com/kendo-ui/api/javascript/kendo#methods-format) or [`toString`](http://docs.telerik.com/kendo-ui/api/javascript/kendo#methods-toString) method. When no format string is detected (containing `{` or `}`) `toString` is called.
+
+The additional `format` binding is used for specifying the string format.
+
+Usage:
+
+    <span class="money" data-bind="formatText: amount, format: 'c'"></span>
+
+    <span class="money" data-bind="formatText: amount, format: 'I am rich, I got {0:c} in my wallet.'"></span>
+
+### Lazy loading binding handlers
+Some binding handlers rely on libraries you probably want to have lazy loaded, once they are used. You can use the lazy binding handler to support this scenario.
+
+Simply import the 'LazyBindingHandler' and use the default exported `register` function to register your binding handler. The function takes the name of the binding handler (1), the callback returning a promise for loading the library (2), and the binding handler definition (3), where `init` takes the result of the loaded library. An optional parameter (4) is called to modify the element while the dependency is loading.
+
+Usage:
+
+    import registerBindingHandler from 'AppFramework/BindingHandlers/LazyBindingHandler';
+
+    registerBindingHandler(
+		'lazyHello',
+        () => import('./HeavyHello'),
+        {
+             init: (lib, element) => {
+                 element.innerText = lib.hello();
+             }
+        },
+        (element) => element.innerText = 'Loading'
+    );
+
+### `tooltip`
+This binding handler puts a tooltip on the element. Optionally it can be forced to show immediately.
+
+Usage:
+
+     <button data-bind="tooltip: 'Hello ' + name()"></button>
+
+Usage (manually controlled):
+
+     <button data-bind="tooltip: { text: name, forceOpen: !!name() }"></button>
+
+### `form`, `validationMessage` and `validationProperty`
+The `form` binding handler supports forms and catch-all error handling. The `validationMessage` and `validationProperty` binding handlers support server-side validation. See [Forms and validation](Forms-and-validation.md) for more information.
