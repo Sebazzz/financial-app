@@ -3,6 +3,7 @@
     <small data-bind="formatText: date, format: 'MMMM yyyy'"></small>
 </h1>
 
+
 <h2>Statistieken</h2>
 
 <div data-bind="with: stats">
@@ -43,7 +44,7 @@
     </h4>
 
     <canvas with="400"
-            height="300"
+            height="200"
             data-bind="
             chart: expenses,
             chartType: 'horizontalBar',
@@ -54,7 +55,7 @@
     </h4>
 
     <canvas with="400"
-            height="150"
+            height="100"
             data-bind="
             chart: income,
             chartType: 'horizontalBar',
