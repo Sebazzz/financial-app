@@ -13,7 +13,8 @@ class AuthLoginPage extends Page {
     public errorMessage = ko.observable<string>(null);
 
     public returnUrl = ko.observable<string | null>(null);
-    public needsLoginAfterRedirect = ko.pureComputed(() => !!this.returnUrl() && !this.errorMessage() && !this.success());
+    public returnUrlIsDefaultPage = ko.pureComputed(() => this.appContext.router.buildPath('default', {}) === this.returnUrl());
+    public needsLoginAfterRedirect = ko.pureComputed(() => !!this.returnUrl() && !this.returnUrlIsDefaultPage() && !this.errorMessage() && !this.success());
 
     constructor(appContext: AppContext) {
         super(appContext);
@@ -25,6 +26,8 @@ class AuthLoginPage extends Page {
 
     protected async onActivate(args?: any): Promise<void> {
         if (await this.appContext.authentication.checkAuthentication()) {
+            console.info('LoginPage: We are logged in. Redirecting to home.');
+
             this.appContext.router.navigateToDefault();
         }
 

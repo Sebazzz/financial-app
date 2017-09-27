@@ -35,7 +35,7 @@ function middleware(router: Router, authenticationService: AuthenticationService
             }
         }
 
-        const returnUrl = location.pathname !== '/' ? location.pathname + (location.search ? `?${location.search}` : '') : null;
+        const returnUrl = router.buildPath(toState.name, toState.params);
 
         if (!isAuthenticating) {
             console.log('AuthenticationMiddleware: Path %s rejected: not logged in', path);
