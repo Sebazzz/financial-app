@@ -39,3 +39,17 @@ body.anonymous .progress-indicator-spinner {
     border-top-color: #FFF;
     border-left-color: #FFF;
 }
+
+@include media-breakpoint-down(sm) {
+    body.anonymous {
+        h1 {
+            font-size: 2rem;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+}
