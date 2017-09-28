@@ -1,5 +1,5 @@
 ﻿<div class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
-    <a class="navbar-brand" href="/" data-bind="text: $appContext.title"></a>
+    <a class="navbar-brand" href="/" ko-text="$appContext.title"></a>
     
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top-menu-content" aria-controls="top-menu-content" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -7,42 +7,43 @@
 
     <div class="collapse navbar-collapse" id="top-menu-content">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active" data-bind="css: hasLocation('default')">
-                <a class="nav-link" href="#" data-bind="route: default">Home</a>
+            <li class="nav-item active" ko-css="hasLocation('default')">
+                <a class="nav-link" href="#" ko-route="default">Home</a>
             </li>
-            <li class="nav-item" data-bind="css: hasLocation(nowPath)">
-                <a class="nav-link" href="#" data-bind="route: now">Huidige maand</a>
+            <li class="nav-item" ko-css="hasLocation(nowPath)">
+                <a class="nav-link" href="#" ko-route="now">Huidige maand</a>
             </li>
-            <li class="nav-item" data-bind="css: hasLocation('report')">
-                <a class="nav-link" href="#" data-bind="route: report">Rapportage</a>
+            <li class="nav-item" ko-css="hasLocation('report')">
+                <a class="nav-link" href="#" ko-route="report">Rapportage</a>
             </li>
-            <li class="nav-item" data-bind="css: hasLocation('archive')">
-                <a class="nav-link" href="#"  data-bind="route: archive">Archief</a>
+            <li class="nav-item" ko-css="hasLocation('archive')">
+                <a class="nav-link" href="#"  ko-route="archive">Archief</a>
             </li>
         </ul>
         
         <ul class="navbar-nav">
-            <li class="navbar-text logged-in-text" data-bind="visible: $appContext.authentication.isAuthenticated">
-                Ingelogd als <span data-bind="text: currentUserName"></span>
+            <li class="navbar-text logged-in-text" 
+                ko-visible="$appContext.authentication.isAuthenticated">
+                Ingelogd als <span ko-text="currentUserName"></span>
                 
                 <span class="badge badge-info" data-bind="tooltip: { text: activeClientTooltip, forceOpen: showActiveClientTooltip }, text: activeClientCount, visible: isConnected() && activeClientCount() > 1">0</span>
                 
-                <span class="roles-indicator" data-bind="visible: roles, text: roles"></span>
+                <span class="roles-indicator" ko-visible="roles" ko-text="roles"></span>
             </li>
             <li class="nav-item dropdown">
                 <a href="javascript:void(0)"
-                   data-bind="css: hasLocation('manage')"
+                   ko-css="hasLocation('manage')"
                    class="nav-link dropdown-toggle"
                    data-toggle="dropdown">Beheer<b class="caret"></b></a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" data-bind="css: hasLocation('manage.entry-template'), route: manage.entry-template" href="#">Regeltemplates</a>
-                    <a class="dropdown-item" data-bind="css: hasLocation('manage.category'), route: manage.category" href="#">Categorieëen</a>
-                    <a class="dropdown-item" data-bind="css: hasLocation('manage.user'), route: manage.user" href="#">Gebruikers</a>
-                    <a class="dropdown-item" data-bind="css: hasLocation('manage.impersonate'), route: manage.impersonate" href="#">Account wisselen</a>
+                    <a class="dropdown-item" ko-css="hasLocation('manage.entry-template')" ko-route="manage.entry-template" href="#">Regeltemplates</a>
+                    <a class="dropdown-item" ko-css="hasLocation('manage.category')" ko-route="manage.category" href="#">Categorieëen</a>
+                    <a class="dropdown-item" ko-css="hasLocation('manage.user')" ko-route="manage.user" href="#">Gebruikers</a>
+                    <a class="dropdown-item" ko-css="hasLocation('manage.impersonate')" ko-route="manage.impersonate" href="#">Account wisselen</a>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" data-bind="css: hasLocation('auth.logoff'), route: auth.logoff">Uitloggen</a>
+                <a href="#" class="nav-link" ko-css="hasLocation('auth.logoff')" ko-route="auth.logoff">Uitloggen</a>
             </li>
         </ul>
     </div>

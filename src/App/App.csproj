@@ -67,6 +67,8 @@
     <Content Remove="js\App\typings\hmr.d.ts" />
     <Content Remove="js\App\typings\json.date-extensions.d.ts" />
     <Content Remove="js\App\typings\webpack.d.ts" />
+    <None Remove="js\AppFramework\BindingContextExtender.ts" />
+    <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
     <Content Include="js\AppFramework\AppContext.ts" />
     <Content Include="js\AppFramework\BindingHandlers\Form.ts" />
     <Content Include="js\AppFramework\BindingHandlers\Href.ts" />
@@ -183,6 +185,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="js\AppFramework\BindingContextExtender.ts" />
+    <TypeScriptCompile Include="js\AppFramework\UnnamedBindingProvider.ts" />
     <TypeScriptCompile Include="js\App\App.ts" />
     <TypeScriptCompile Include="js\AppFramework\AppFactory.ts" />
     <TypeScriptCompile Include="js\AppFramework\AuthenticationService.ts" />
