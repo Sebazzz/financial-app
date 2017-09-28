@@ -7,6 +7,7 @@ import * as ComponentLoader from './ComponentLoader';
 import './BindingHandlers/All';
 import registerLoadingBar from './Components/LoadingBar';
 import registerModal from './Components/Modal';
+import registerBindingProvider from './UnnamedBindingProvider';
 import hotModuleReplacementPage from './HotModulePage';
 import installDefaultTemplates from './Templates/Index';
 
@@ -123,21 +124,6 @@ function bind(app: App) {
     const element = document.body;
 
     ko.applyBindings(app, element);
-}
-
-function registerBindingProvider() {
-    function preprocessor(node: Node) : void {
-        if (node.nodeType === 8 && node.nodeValue) {
-            node.nodeValue = node.nodeValue.replace('$appContext', '$app.context');
-            node.nodeValue = node.nodeValue.replace('$app', '$root');
-        } else if (node instanceof HTMLElement) {
-            const dataBind = node.getAttribute('data-bind');
-
-            if (dataBind) node.setAttribute('data-bind', dataBind.replace('$appContext', '$app.context').replace('$app', '$root'));
-        }
-    }
-
-   (ko.bindingProvider.instance as any)['preprocessNode'] = preprocessor;
 }
 
 function registerComponents(appContext : AppContext) {
