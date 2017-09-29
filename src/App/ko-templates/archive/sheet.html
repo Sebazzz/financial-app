@@ -136,7 +136,7 @@
                 <td>
                     <div data-bind="visible: account() === AccountType.BankAccount, css: { 'balance-negative': delta() < 0 }">
                         <input type="text"
-                                data-bind="cleaveCurrency: delta, validationProperty: delta"
+                                data-bind="moneyInput: delta, validationProperty: delta"
                                 class="form-control form-control-sm"
                                 placeholder="(voer bedrag in, negatief of positief)" />
                     </div>
@@ -152,7 +152,7 @@
                 <td>
                     <div data-bind="visible: account() === AccountType.SavingsAccount, css: { 'balance-negative': delta() < 0 },">
                         <input type="text"
-                                data-bind="cleaveCurrency: delta, validationProperty: delta"
+                                data-bind="moneyInput: delta, validationProperty: delta"
                                 class="form-control form-control-sm"
                                 placeholder="(voer bedrag in, negatief of positief)" />
                     </div>

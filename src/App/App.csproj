@@ -69,6 +69,7 @@
     <Content Remove="js\App\typings\webpack.d.ts" />
     <None Remove="js\AppFramework\BindingContextExtender.ts" />
     <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
+    <None Remove="js\App\BindingHandlers\MoneyInput.ts" />
     <Content Include="js\AppFramework\AppContext.ts" />
     <Content Include="js\AppFramework\BindingHandlers\Form.ts" />
     <Content Include="js\AppFramework\BindingHandlers\Href.ts" />
@@ -212,6 +213,7 @@
     <TypeScriptCompile Include="js\App\BindingHandlers\ChartHandler.ts" />
     <TypeScriptCompile Include="js\App\BindingHandlers\Cleave.ts" />
     <TypeScriptCompile Include="js\AppFramework\BindingHandlers\LazyBindingHandler.ts" />
+    <TypeScriptCompile Include="js\App\BindingHandlers\MoneyInput.ts" />
     <TypeScriptCompile Include="js\App\Components\Loader.ts" />
     <TypeScriptCompile Include="js\App\Components\ScrollNub.ts" />
     <TypeScriptCompile Include="js\App\Components\TopMenu.ts" />
