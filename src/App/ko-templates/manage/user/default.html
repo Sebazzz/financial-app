@@ -1,22 +1,25 @@
-﻿<h1 data-bind="text: title"></h1>
+﻿<h1 ko-text="title"></h1>
 
 <div>
     <p>
         Beheer met dit scherm de medegebruikers (en jezelf) in je account.
     </p>
 
-    <ul class="list-unstyled actionable-list" data-bind="foreach: { data: users, as: 'user' }">
+    <ul class="list-unstyled actionable-list" 
+        ko-foreach:data="users"
+        ko-foreach:as#="user">
         <li>
             <div class="pull-right">
                 <a class="btn btn-secondary" 
                    href="#"
-                   data-bind="route: manage.user.edit | { id: user.id }, tooltip: 'Gebruiker bewerken'">
+                   ko-tooltip#="Gebruiker bewerken"
+                   ko-route="manage.user.edit | { id: user.id }">
                     <span class="fa fa-pencil"></span>
                 </a>
 
-                <span class="inline-block" data-bind="tooltip: 'Gebruiker verwijderen'">
+                <span class="inline-block" ko-tooltip#="Gebruiker verwijderen">
                     <a class="btn btn-outline-danger"
-                       data-bind="click: $parent.deleteUser">
+                       ko-click="$parent.deleteUser">
                         <span class="fa fa-trash"></span>
                     </a>
                 </span>
@@ -24,14 +27,15 @@
 
             <strong>
                 <a href="#"
-                   data-bind="route: manage.user.edit | { id: user.id }, text: user.userName"></a>
+                   ko-route="manage.user.edit | { id: user.id }"
+                   ko-text="user.userName"></a>
             </strong> 
 
-            <small>(<span data-bind="text: user.email"></span>)</small>
+            <small>(<span ko-text="user.email"></span>)</small>
         </li>
     </ul>
     
     <p>
-        <a href="#" data-bind="route: manage.user.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe gebruiker</a>
+        <a href="#" ko-route="manage.user.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe gebruiker</a>
     </p>
 </div>

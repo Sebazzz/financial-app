@@ -59,7 +59,8 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
     };
 
     writeableBindingContext.createChildContext = function () {
-        preprocessBindingContext(this);
-        return createChildContext.apply(this, arguments);
+        const childContext = createChildContext.apply(this, arguments);
+        preprocessBindingContext(childContext);
+        return childContext;
     };
 }

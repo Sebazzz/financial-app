@@ -26,7 +26,11 @@
                 ko-visible="$appContext.authentication.isAuthenticated">
                 Ingelogd als <span ko-text="currentUserName"></span>
                 
-                <span class="badge badge-info" data-bind="tooltip: { text: activeClientTooltip, forceOpen: showActiveClientTooltip }, text: activeClientCount, visible: isConnected() && activeClientCount() > 1">0</span>
+                <span class="badge badge-info" 
+                      ko-text="activeClientCount"
+                      ko-tooltip:text="activeClientTooltip"
+                      ko-tooltip:force-open="showActiveClientTooltip"
+                      ko-visible="isConnected() && activeClientCount() > 1">0</span>
                 
                 <span class="roles-indicator" ko-visible="roles" ko-text="roles"></span>
             </li>
