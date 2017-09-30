@@ -1,41 +1,50 @@
 ﻿<form class="form-signin" role="form" novalidate>
-    <h1 class="application-header" data-bind="text: $appContext.title"></h1>
+    <h1 class="application-header" ko-text="$appContext.title"></h1>
 
     <h2 class="form-signin-heading">Inloggen</h2>
     
-    <div class="alert alert-info" role="alert" data-bind="visible: needsLoginAfterRedirect">
+    <div class="alert alert-info" role="alert" ko-visible="needsLoginAfterRedirect">
         Je moet opnieuw inloggen want we herkenden je niet.
     </div>
     
-    <div class="alert alert-danger" role="alert" data-bind="visible: errorMessage">
-        <span data-bind="text: errorMessage"></span>
+    <div class="alert alert-danger" role="alert" ko-visible="errorMessage">
+        <span ko-text="errorMessage"></span>
     </div>
 
-    <div class="alert alert-success" role="alert" data-bind="visible: success">
+    <div class="alert alert-success" role="alert" ko-visible="success">
         <strong>Welkom terug!</strong> Je bent ingelogd en wordt doorverwezen...
     </div>
 
     <div class="form-group">
-        <input type="text" class="form-control form-control-lg" placeholder="Gebruikersnaam"
-               data-bind="value: userName, disabled: isBusy"
+        <input type="text" 
+               class="form-control form-control-lg" 
+               placeholder="Gebruikersnaam"
+               ko-value="userName"
+               ko-disabled="isBusy"
                required autofocus>
     </div>
     
     <div class="form-group">
-        <input type="password" class="form-control form-control-lg" placeholder="Wachtwoord" 
-               data-bind="value: password, disabled: isBusy"
+        <input type="password" 
+               class="form-control form-control-lg" 
+               placeholder="Wachtwoord" 
+               ko-value="password"
+               ko-disabled="isBusy"
                required>
     </div>
 
     <label class="invisible">
-        <input type="checkbox" value="remember-me" 
-               data-bind="value: persist, disabled: isBusy"> Login onthouden
+        <input type="checkbox" 
+               value="remember-me" 
+               ko-value="persist"
+               ko-disabled="isBusy"> Login onthouden
     </label>
 
-    <button class="btn btn-lg btn-primary btn-block" 
-            data-bind="click: login, disabled: isBusy">
+    <button class="btn btn-lg btn-primary btn-block"
+            ko-click="login"
+            ko-disabled="isBusy">
         Inloggen
     </button>
     
-    <small data-bind="visible: isBusy">Bezig met inloggen...</small>
+    <small ko-visible="isBusy">Bezig met inloggen...</small>
 </form>

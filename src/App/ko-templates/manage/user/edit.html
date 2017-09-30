@@ -1,40 +1,41 @@
-﻿<h1 data-bind="text: title"></h1>
+﻿<h1 ko-text="title"></h1>
 
-<div class="alert alert-danger" data-bind="visible: errorMessage">
-    <strong>Oeps!</strong> <span data-bind="text: errorMessage"></span>
+<div class="alert alert-danger" ko-visible="errorMessage">
+    <strong>Oeps!</strong> <span ko-text="errorMessage"></span>
 </div>
 
-<div data-bind="with: user">
-    <form novalidate role="form" data-bind="form">
+<div ko-with="user">
+    <form novalidate role="form" ko-form>
         <div class="form-group">
             <label for="userName">Gebruikersnaam:</label>
             <input id="userName"
-                   data-bind="disabled: $parent.isCurrentUser, value: userName"
+                   ko-disabled="$parent.isCurrentUser"
+                   ko-value="userName"
                    type="text" class="form-control" maxlength="100" required />
 
-            <div data-bind="validationMessage: userName"></div>
+            <div ko-validation-message="userName"></div> 
         </div>
 
         <div class="form-group">
             <label for="email">E-mail adres:</label>
-            <input id="email" name="email" type="email" class="form-control" data-bind="value: email" maxlength="150" required />
+            <input id="email" name="email" type="email" class="form-control" ko-value="email" maxlength="150" required />
 
-            <div data-bind="validationMessage: email"></div>
+            <div ko-validation-message="email"></div>
         </div>
 
         <div class="form-group">
             <label for="newPassword">Nieuw wachtwoord:</label>
-            <input id="newPassword" name="newPassword" type="password" class="form-control" data-bind="value: newPassword" maxlength="150" />
+            <input id="newPassword" name="newPassword" type="password" class="form-control" ko-value="newPassword" maxlength="150" />
 
-            <div data-bind="validationMessage: newPassword"></div>
+            <div ko-validation-message="newPassword"></div>
         </div>
 
         <div class="form-group">
             <label for="currentPassword" data-bind="visible: $parent.id() === 0">Wachtwoord (herhalen):</label>
             <label for="currentPassword" data-bind="visible: $parent.id() !== 0">Huidig wachtwoord:</label>
-            <input id="currentPassword" name="currentPassword" type="password" class="form-control" data-bind="value: currentPassword" maxlength="150" />
+            <input id="currentPassword" name="currentPassword" type="password" class="form-control" ko-value="currentPassword" maxlength="150" />
 
-            <div data-bind="validationMessage: currentPassword"></div>
+            <div ko-validation-message="currentPassword"></div>
 
         </div>
 

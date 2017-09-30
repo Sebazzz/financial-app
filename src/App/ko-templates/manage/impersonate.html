@@ -1,16 +1,18 @@
-﻿<h1>Inloggen als andere gebruiker</h1>
+﻿<h1 ko-text="title"></h1>
 
 <div>
     <p>
         Log in als andere gebruikers die jouw account vertrouwen.
     </p>
 
-    <ul class="list-unstyled actionable-list" data-bind="foreach: users">
+    <ul class="list-unstyled actionable-list" 
+        ko-foreach="users">
         <li>
             <div class="pull-right">
-                <span class="inline-block" tooltip="Inloggen als deze gebruiker">
+                <span class="inline-block" 
+                      ko-tooltip#="Inloggen als deze gebruiker">
                     <a class="btn btn-primary"
-                       data-bind="click: $parent.impersonate">
+                       ko-click="$parent.impersonate">
                         <span class="fa fa-user-circle-o"></span>
                         Inloggen
                     </a>
@@ -19,10 +21,11 @@
 
             <strong>
                 <a href="#"
-                   data-bind="click: $parent.impersonate, text: userName"></a>
+                   ko-click="$parent.impersonate"
+                   ko-text="userName"></a>
             </strong> 
 
-            <small>(<span data-bind="text: email"></span>)</small>
+            <small>(<span ko-text="email"></span>)</small>
         </li>
     </ul>
 </div>
