@@ -208,7 +208,7 @@ Task("Publish-Ubuntu")
 	.Description("Publish for Ubuntu 14.04")
     .Does(() => {
        CopyFile(File("./tools/launchscripts/ubuntu/launch"), publishDir + File("ubuntu.14.04-x64/launch"));
-       CopyFile(File("./tools/launchscripts/ubuntu/launch.conf"), publishDir + File("ubuntu.14.04-x64/launch.conf"));
+       CopyFile(File("./tools/launchscripts/ubuntu/launch.conf"), publishDir + File("ubuntu.14.04-x64/launch.conf.example"));
        GZipCompress(publishDir + Directory("ubuntu.14.04-x64/"), publishDir + File("financial-app-ubuntu-14.04-x64.tar.gz"));
 	});
 	

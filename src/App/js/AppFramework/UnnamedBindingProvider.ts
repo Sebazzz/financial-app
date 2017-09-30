@@ -38,13 +38,30 @@ function getBindingsEvaluator(bindings: BindingMap, cacheKey: string): BindingsF
         return bindingCache[cacheKey];
     }
 
-    // Typescript bindings for preProcessBindings not available
+    // Typescript bindings for preProcessBindings not available, so work around it
     const preProcessBindings = (ko.expressionRewriting as any).preProcessBindings as PreprocessBindings,
           newBindings = preProcessBindings(bindings, {valueAccessors: true}),
           functionBody = `with($context){with($data||{}){return{${newBindings}}}}`,
           func = new Function('$context', '$element', functionBody);
 
     return bindingCache[cacheKey] = func as BindingsFactory;
+}
+
+function makeBindingBame(attributeName: string): string {
+    // Attributes in HTML are case insensitive, so we will not be able to represent
+    // a binding for "textInput" as "ko-textInput", so we will need to represent it 
+    // as "ko-text-input" instead.
+
+    let bindingName = attributeName.toLowerCase(), dashIndex : number;
+    while ((dashIndex = bindingName.indexOf('-')) !== -1) {
+        if (dashIndex + 1 >= bindingName.length) {
+            throw new Error('Invalid attribute name: ' + attributeName);
+        }
+
+        bindingName = bindingName.substr(0, dashIndex) + bindingName.substr(dashIndex + 1, 1).toUpperCase() + bindingName.substr(dashIndex + 2);
+    }
+
+    return bindingName;
 }
 
 function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext): BindingAccessors|null {
@@ -59,7 +76,7 @@ function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext)
               attributeName = attribute.name;
 
         if (attributeName.indexOf(attributePrefix) === 0) {
-            const bindingName = attributeName.substr(attributePrefix.length), bindingValue = attribute.value;
+            const bindingName = makeBindingBame(attributeName.substr(attributePrefix.length)), bindingValue = attribute.value;
             bindingMap.push({ key: bindingName, value: bindingValue });
 
             cacheKey += `[${bindingName}]=${bindingValue}`;

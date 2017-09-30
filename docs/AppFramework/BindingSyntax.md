@@ -24,3 +24,7 @@ Which is equivalent to:
 
     <element data-bind="binding: value" />
 
+### Camelcase binding handlers
+Some binding handlers use camel-case names, for instance `textInput`. Since HTML attributes are case-insensitive, these binding handlers cannot be read as-is. Instead, use lowercase names and a dash before the uppercase character to represent the binding.
+
+For example `ko-text-input` instead of `ko-textInput`.
