@@ -1,5 +1,6 @@
 ﻿$navbar-top-border-width: 4px;
 $modal-top-border-width: 4px;
+$negative-color: darken(red, 10%);
 
 /**** Rotation animation */
 @keyframes loading-spinner {
@@ -53,8 +54,8 @@ tr.row-middle {
     }
 }
 
-span.negative, div.input-group.negative .form-control {
-    color: red;
+span.negative, div.input-group.negative .form-control, div.negative .form-control {
+    color: $negative-color;
 }
 
 @keyframes saving-row {
