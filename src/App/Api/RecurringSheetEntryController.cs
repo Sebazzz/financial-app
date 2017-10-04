@@ -12,6 +12,9 @@
     using Models.Domain.Repositories;
     using Models.Domain.Services;
     using Models.DTO;
+
+    using Support.Filters;
+
     using RecurringSheetEntry = Models.Domain.RecurringSheetEntry;
     using RecurringSheetEntryDTO=Models.DTO.RecurringSheetEntry;
 
@@ -28,6 +31,7 @@
 
         // GET: api/sheetentry-recurring
         [HttpGet("")]
+        [ReadOnlyApi]
         public IEnumerable<RecurringSheetEntryListing> GetAll() {
             IQueryable<RecurringSheetEntry> all = this._recurringSheetEntryRepository.GetAll().Where(x => x.Owner.Id == this.OwnerId).OrderBy(x => x.SortOrder);
             return this._mappingEngine.Map<IEnumerable<RecurringSheetEntryListing>>(all);

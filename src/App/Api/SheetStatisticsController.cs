@@ -9,7 +9,10 @@ namespace App.Api {
     using Models.Domain;
     using Models.Domain.Services;
 
+    using Support.Filters;
+
     [Authorize]
+    [ReadOnlyApi]
     [Route("api/sheet/{sheetYear:int}-{sheetMonth:int}/statistics")]
     public class SheetStatisticsController : BaseEntityController {
         private readonly SheetRetrievalService _sheetRetrievalService;

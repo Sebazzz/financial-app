@@ -70,6 +70,7 @@
     <None Remove="js\AppFramework\BindingContextExtender.ts" />
     <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
     <None Remove="js\App\BindingHandlers\MoneyInput.ts" />
+    <None Remove="Models\Domain\Repositories\Repositories.tt" />
     <Content Include="js\AppFramework\AppContext.ts" />
     <Content Include="js\AppFramework\BindingHandlers\Form.ts" />
     <Content Include="js\AppFramework\BindingHandlers\Href.ts" />
@@ -128,6 +129,10 @@
     <Content Include="ko-templates\setup\default.html" />
     <Content Include="ko-templates\widgets\loader.html" />
     <Content Include="ko-templates\widgets\top-menu.html" />
+    <Content Include="Models\Domain\Repositories\Repositories.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Repositories.generated.cs</LastGenOutput>
+    </Content>
     <None Update="wwwroot\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -262,6 +267,14 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Models\Domain\Repositories\Repositories.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

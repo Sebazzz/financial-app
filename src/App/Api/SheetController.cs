@@ -15,6 +15,8 @@
     using Models.Domain.Repositories;
     using Models.Domain.Services;
 
+    using Support.Filters;
+
     [Route("api/sheet")]
     public class SheetController : BaseEntityController {
         private readonly SheetRepository _sheetRepository;
@@ -30,6 +32,7 @@
         }
 
         [HttpGet("{id}")]
+        [ReadOnlyApi]
         public async Task<SheetDTO> GetById(int id) {
             Sheet sheet = await this._sheetRepository.FindByIdInclude(id).FirstOrDefaultAsync().EnsureNotNull();
 
@@ -44,6 +47,7 @@
         }
 
         [HttpGet("statistics")]
+        [ReadOnlyApi]
         public Report GetAllStatistics() {
             return this._sheetStatisticsService.CalculateExpensesForAll(this.OwnerId);
         }
