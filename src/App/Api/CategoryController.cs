@@ -12,6 +12,8 @@
     using Models.Domain.Services;
     using Models.DTO;
 
+    using Support.Filters;
+
     [Route("api/category")]
     public sealed class CategoryController : BaseEntityController {
         private readonly CategoryRepository _categoryRepository;
@@ -26,6 +28,7 @@
 
         // GET: api/Category
         [HttpGet("")]
+        [ReadOnlyApi]
         public IEnumerable<CategoryListing> Get() {
             var q = this._categoryRepository.GetByOwner(this.OwnerId);
 
@@ -41,6 +44,7 @@
 
         // GET: api/Category/5
         [HttpGet("{id}", Name = "Category-Get")]
+        [ReadOnlyApi]
         public Category Get(int id) {
             return this._categoryRepository.GetByOwner(this.OwnerId).FirstOrDefault(x=>x.Id ==id).EnsureNotNull();
         }

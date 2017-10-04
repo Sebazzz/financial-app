@@ -17,6 +17,8 @@ namespace App.Api
 
     using Microsoft.EntityFrameworkCore;
 
+    using Support.Filters;
+
     [Authorize]
     [Route("api/user/impersonate")]
     public class ImpersonateUserController : Controller {
@@ -33,6 +35,7 @@ namespace App.Api
         // GET: api/user/impersonate
         [HttpGet]
         [Route("")]
+        [ReadOnlyApi]
         public IEnumerable<AppUserListing> Get() {
             int userId = this.User.Identity.GetUserId();
             return this._appUserManager.Users
