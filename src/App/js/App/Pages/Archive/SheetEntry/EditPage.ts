@@ -13,6 +13,8 @@ import * as category from '../../../ServerApi/Category';
 
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 
+import {State} from 'router5';
+
 
 class EditPage extends FormPage {
     private categoryApi = new category.Api();
@@ -160,7 +162,12 @@ export default {
             name: 'now.add',
             path: '/add',
             canActivate: (router) => {
-                return () => {
+                return (toState: State) => {
+                    if (toState.name !== 'now.add') {
+                        // Derived route - always OK
+                        return true;
+                    }
+
                     const nowRoute = new NowRouteProvider();
 
                     router.cancel();

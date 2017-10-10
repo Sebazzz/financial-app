@@ -1,32 +1,32 @@
 ﻿<div class="jumbotron">
-    <h1 class="display-3" data-bind="text: title">Hello, world!</h1>
-    <p class="lead"><strong>Welkom</strong> bij de financiële huishouding. Je bent ingelogd als <strong data-bind="text: currentUserName()"></strong>. Wat wil je vandaag doen?</p>
+    <h1 class="display-3" ko-text="title"></h1>
+    <p class="lead"><strong>Welkom</strong> bij de financiële huishouding. Je bent ingelogd als <strong ko-text="currentUserName"></strong>. Wat wil je vandaag doen?</p>
     <hr class="my-4">
     <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" data-bind="route: now" role="button">Huidige maand bekijken</a>
+        <a class="btn btn-primary btn-lg" href="#" ko-route="now" role="button">Huidige maand bekijken</a>
     </p>
     
     <p>Begin direct met de bovenstaande knop of kies uit één van de andere opties.</p>
 
     <ul>
         <li class="dashboard-action-primary">
-            <a href="#" data-bind="route: now">Huidige maand bekijken / bewerken</a>
+            <a href="#" ko-route="now">Huidige maand bekijken / bewerken</a>
         </li>
     
         <li>
-            <a href="#" data-bind="route: archive">Archief financiën bekijken</a>
+            <a href="#" ko-route="archive">Archief financiën bekijken</a>
         </li>
         <li>
-            <a href="#" data-bind="route: report">Rapportage financiën bekijken</a>
+            <a href="#" ko-route="report">Rapportage financiën bekijken</a>
         </li>
         <li>
-            <a href="#" data-bind="route: manage.entry-template">Regeltemplates beheren</a>
+            <a href="#" ko-route="manage.entry-template">Regeltemplates beheren</a>
         </li>
         <li>
-            <a href="#" data-bind="route: manage.category">Categorieën beheren</a>
+            <a href="#" ko-route="manage.category">Categorieën beheren</a>
         </li>
         <li>
-            <a href="#" data-bind="route: manage.impersonate">Als een andere gebruiker inloggen</a>
+            <a href="#" ko-route="manage.impersonate">Als een andere gebruiker inloggen</a>
         </li>
     </ul>
 </div>

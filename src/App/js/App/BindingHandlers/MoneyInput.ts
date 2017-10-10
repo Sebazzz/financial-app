@@ -8,7 +8,7 @@ const isMobileDevice = document.documentElement.getAttribute('data-app-mobile') 
  */
 function supportsValueAsNumber(element: HTMLInputElement) {
     try {
-        element.valueAsNumber = 0; // This line will throw
+        element.valueAsNumber = 0; // This line will throw in MS Edge
 
         element.valueAsNumber = NaN;
 
@@ -18,17 +18,32 @@ function supportsValueAsNumber(element: HTMLInputElement) {
     }
 }
 
-function parseValue(element: HTMLInputElement) : number {
+function getParseCulture(element: HTMLInputElement) {
+    const val = '12,23';
+    element.value = val;
+
+    if (element.value !== val) {
+        // Happens in Edge
+        element.value = '';
+
+        return 'en-US';
+    }
+
+    element.value = '';
+    return 'nl-NL';
+}
+
+function parseValue(element: HTMLInputElement, culture : string) : number {
     if (!element.value) {
         return NaN;
     }
 
-    const parsedValue = kendo.parseFloat(element.value);
+    const parsedValue = kendo.parseFloat(element.value, culture);
     if (kendo.toString(parsedValue, 'g') === element.value) {
         return parsedValue;
     }
 
-    // input type=number appears to be fixed to decimal points
+    // ultimate fallback
     return kendo.parseFloat(element.value, 'en-US');
 }
 
@@ -38,10 +53,11 @@ ko.bindingHandlers['moneyInput'] = {
         element.type = 'number';
         element.step = '0.01';
 
-        const isValueAsNumberSupported = supportsValueAsNumber(element);
+        const isValueAsNumberSupported = supportsValueAsNumber(element),
+              parseCulture = getParseCulture(element);
         if (!isValueAsNumberSupported) {
             // Force consistent behavior in Edge
-            element.lang = 'en-US';
+            element.lang = parseCulture;
         }
 
         let isSettingValue = false;
@@ -57,7 +73,7 @@ ko.bindingHandlers['moneyInput'] = {
             if (isValueAsNumberSupported) {
                 element.valueAsNumber = value;
             } else {
-                element.value = kendo.toString(value, 'g', 'en-US');
+                element.value = kendo.toString(value, 'g', parseCulture);
             }
         }, this, { disposeWhenNodeIsRemoved: element });
 
@@ -68,7 +84,7 @@ ko.bindingHandlers['moneyInput'] = {
 
                 const observable = valueAccessor();
                 if (ko.isWriteableObservable(observable)) {
-                    const value = isValueAsNumberSupported ? element.valueAsNumber : parseValue(element);
+                    const value = isValueAsNumberSupported ? element.valueAsNumber : parseValue(element, parseCulture);
 
                     if (isNaN(value) || typeof value === 'undefined') {
                         observable(null);

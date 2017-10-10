@@ -445,7 +445,12 @@ export default {
             name: 'now',
             path: '/now',
             canActivate: (router) => {
-                return () => {
+                return (toState) => {
+                    if (toState.name !== 'now') {
+                        // Derived route - always OK
+                        return true;
+                    }
+
                     const nowRoute = new NowRouteProvider();
 
                     router.cancel();

@@ -7,10 +7,9 @@
     
     <canvas with="600" 
             height="200"
-            data-bind="
-            chart: expenses,
-            chartType: 'line',
-            chartOptions: chartOptions"></canvas>
+            ko-chart="expenses"
+            ko-chart-type#="line"
+            ko-chart-options="chartOptions"></canvas>
     
     <h2>
         Inkomsten
@@ -18,8 +17,7 @@
 
     <canvas with="600"
             height="200"
-            data-bind="
-            chart: income,
-            chartType: 'line',
-            chartOptions: chartOptions"></canvas>
+            ko-chart="income"
+            ko-chart-type#="line"
+            ko-chart-options="chartOptions"></canvas>
 </div>
