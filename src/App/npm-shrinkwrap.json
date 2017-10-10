@@ -5,9 +5,9 @@
   "requires": true,
   "dependencies": {
     "@aspnet/signalr-client": {
-      "version": "1.0.0-alpha1-final",
-      "resolved": "https://registry.npmjs.org/@aspnet/signalr-client/-/signalr-client-1.0.0-alpha1-final.tgz",
-      "integrity": "sha1-H1kDhKWnnDrh6iueDz2NjNrET30=",
+      "version": "1.0.0-alpha2-final",
+      "resolved": "https://registry.npmjs.org/@aspnet/signalr-client/-/signalr-client-1.0.0-alpha2-final.tgz",
+      "integrity": "sha1-a899AQKHXfiqbwOhB0h8k/Tx/rQ=",
       "requires": {
         "msgpack5": "3.5.1"
       }
