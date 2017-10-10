@@ -65,7 +65,7 @@ module.exports =  {
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
-            '@aspnet/signalr-client': '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha1-final.js',
+            '@aspnet/signalr-client': '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha2-final.js',
             '~': path.resolve(__dirname),
             'AppFramework': path.resolve(__dirname, 'js/AppFramework')
         }

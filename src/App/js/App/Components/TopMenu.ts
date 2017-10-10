@@ -103,25 +103,42 @@ class UserActivityService {
     public activeClients = ko.observableArray<string>();
     public activeClientCount = ko.pureComputed(() => this.activeClients().length);
     public isConnected = ko.observable<boolean>();
+    public isConnecting = ko.observable<boolean>();
 
     constructor() {
         this.connection.on('pushClient', (name: string) => this.onPushClient(name));
         this.connection.on('popClient', (name: string) => this.onPopClient(name));
         this.connection.on('setInitialClientList', (names: string[]) => this.onSetInitialClientList(names));
 
-        this.connection.onClosed = (e) => {
+        this.connection.onclose = () => {
             console.error('UserActivityService: Connection failed.');
-            console.error(e);
 
             this.isConnected(false);
         };
     }
 
-    public start() {
-        return this.connection.start().then(() => this.isConnected(true));
+    public async start() {
+        if (this.isConnecting() || this.isConnected()) {
+            console.log('UserActivityService: start request ignored - either the connection is started or the connection is starting');
+            return;
+        }
+
+        console.log('UserActivityService: starting connection');
+        try {
+            this.isConnecting(true);
+            this.isConnected(false);
+
+            await this.connection.start();
+            console.log('UserActivityService: started connection');
+
+            this.isConnected(true);
+        } finally {
+            this.isConnecting(false);
+        }
     }
 
     public stop() {
+        console.log('UserActivityService: stopping connection');
         this.connection.stop();
     }
 
