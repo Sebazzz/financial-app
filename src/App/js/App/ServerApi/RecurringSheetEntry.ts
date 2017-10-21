@@ -16,7 +16,7 @@ export interface IRecurringSheetEntry {
     delta: number;
     sortOrder : number;
     source : string;
-    remark : string;
+    remark : string|null;
     account: AccountType;
 }
 
