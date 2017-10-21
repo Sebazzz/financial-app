@@ -216,6 +216,24 @@ Task("Publish")
     .IsDependentOn("Publish-Win10")
     .IsDependentOn("Publish-Ubuntu");
 
+Task("Test-JS")
+    .IsDependentOn("Run-Webpack")
+    .Description("Test javascript front-end code")
+    .Does(() => {
+		var exitCode = 
+			StartProcess("cmd", new ProcessSettings()
+			.UseWorkingDirectory(mainProjectPath)
+			.WithArguments(args => args.Append("/C").AppendQuoted("npm run-script test")));
+		
+		if (exitCode != 0) {
+			throw new CakeException($"'npm run-script test' returned exit code {exitCode} (0x{exitCode:x2})");
+		}
+	});
+
+Task("Test")
+    .IsDependentOn("Test-JS")
+    .Description("Run all tests");
+
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////

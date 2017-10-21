@@ -70,6 +70,9 @@
     <None Remove="js\AppFramework\BindingContextExtender.ts" />
     <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
     <None Remove="js\App\BindingHandlers\MoneyInput.ts" />
+    <None Remove="js\tests\App\main.ts" />
+    <None Remove="js\tests\main.ts" />
+    <None Remove="js\tests\App\Services\Calculator.ts" />
     <None Remove="Models\Domain\Repositories\Repositories.tt" />
     <Content Include="js\AppFramework\AppContext.ts" />
     <Content Include="js\AppFramework\BindingHandlers\Form.ts" />
@@ -222,6 +225,7 @@
     <TypeScriptCompile Include="js\App\Components\Loader.ts" />
     <TypeScriptCompile Include="js\App\Components\ScrollNub.ts" />
     <TypeScriptCompile Include="js\App\Components\TopMenu.ts" />
+    <TypeScriptCompile Include="js\tests\App\Services\Calculator.ts" />
     <TypeScriptCompile Include="wwwroot\js\eventsource-polyfill.js" />
     <TypeScriptCompile Include="js\App\PageFactory.ts">
       <DesignTime>True</DesignTime>
