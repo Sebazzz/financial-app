@@ -28,7 +28,7 @@ export class SheetExpensesCalculationService {
         // until the first income
         const sheetTotal = this.sheetTotalCalculation.calculateTotal(sheet, sheetEntry.AccountType.BankAccount),
             existingRecurringExpenses = sheet.entries.filter(x => x.templateId !== null).map(x => x.templateId),
-            orderedExpectedExpenses = sheet.applicableTemplates.filter(x => existingRecurringExpenses.indexOf(x.id) === -1).sort((x, y) => y.sortOrder - x.sortOrder),
+            orderedExpectedExpenses = sheet.applicableTemplates.filter(x => existingRecurringExpenses.indexOf(x.id) === -1).sort((x, y) => x.sortOrder - y.sortOrder),
             unpayableExpenses: recurring.IRecurringSheetEntry[] = [];
 
         let nextIncome: recurring.IRecurringSheetEntry | null = null,
@@ -41,17 +41,16 @@ export class SheetExpensesCalculationService {
                 continue;
             }
 
-            var isIncome = current.delta > 0;
+            const isIncome = current.delta > 0;
+            predictedSheetTotal += current.delta;
+
             if (isIncome) {
                 nextIncome = current;
-                break;
             }
 
-            if (predictedSheetTotal < 0) {
+            if (predictedSheetTotal < 0 && nextIncome === null) {
                 unpayableExpenses.push(current);
             }
-
-            predictedSheetTotal += current.delta;
         }
 
         return {

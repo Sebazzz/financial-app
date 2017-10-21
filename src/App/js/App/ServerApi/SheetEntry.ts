@@ -12,7 +12,7 @@ export interface ISheetEntry {
     delta: number;
 
     source: string;
-    remark:string;
+    remark:string|null;
 
     sortOrder : number;
 
