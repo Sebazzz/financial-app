@@ -192,7 +192,7 @@ describe('SheetExpensesCalculationService calculates expense trajectory', () => 
             const result = calculator.calculateExpenseTrajectory(sheet);
 
             expect(result.nextIncome).to.be.null;
-            expect(result.unpayableExpenses).to.have.deep.members([expense]);
+            expect(result.unpayableExpenses).to.deep.equal([expense]);
             expect(result.totalBankWithExpense).to.be.eq(-250);
         });
     });
@@ -247,7 +247,7 @@ describe('SheetExpensesCalculationService calculates expense trajectory', () => 
         });
     });
 
-    describe('multiple templates', () => {
+    describe('two templates', () => {
         it('upcoming salary before expense: no expense warnings', () => {
             const income = createEntryTemplate(2000, AccountType.BankAccount, 1);
             const expense = createEntryTemplate(-1000, AccountType.BankAccount, 2);
@@ -272,6 +272,86 @@ describe('SheetExpensesCalculationService calculates expense trajectory', () => 
             expect(result.nextIncome).to.be.deep.eq(income);
             expect(result.unpayableExpenses).to.be.empty;
             expect(result.totalBankWithExpense).to.be.eq(500 - 50 + 2000 - 1000);
-        })
+        });
+
+        it('upcoming salary after expense: one expense warning', () => {
+            const expense = createEntryTemplate(-1000, AccountType.BankAccount, 1);
+            const income = createEntryTemplate(2000, AccountType.BankAccount, 2);
+
+            const sheet: ISheet = {
+                id: 0,
+                subject: new Date(),
+                name: null,
+                updateTimestamp: new Date(),
+                createTimestamp: new Date(),
+
+                // The properties that reaully matter
+                offset: { savingsAccountOffset: null, bankAccountOffset: 500 },
+                entries: [
+                    createEntry(-50, AccountType.BankAccount)
+                ],
+                applicableTemplates: [income, expense]
+            };
+
+            const result = calculator.calculateExpenseTrajectory(sheet);
+
+            expect(result.nextIncome).to.be.deep.eq(income);
+            expect(result.unpayableExpenses).to.deep.equal([expense]);
+            expect(result.totalBankWithExpense).to.be.eq(500 - 50 + 2000 - 1000);
+        });
+    });
+
+    describe('multiple expenses', () => {
+        const templates = [
+            createEntryTemplate(-500, AccountType.BankAccount, 1),
+            createEntryTemplate(-1000, AccountType.BankAccount, 2),
+            createEntryTemplate(1500, AccountType.BankAccount, 3),
+            createEntryTemplate(-500, AccountType.BankAccount, 4),
+            createEntryTemplate(-250, AccountType.BankAccount, 5)
+        ];
+
+        const [firstExpense, secondExpense, income] = templates;
+
+        it('one expense payable: unpayable expenses are returned until first income', () => {
+            const sheet: ISheet = {
+                id: 0,
+                subject: new Date(),
+                name: null,
+                updateTimestamp: new Date(),
+                createTimestamp: new Date(),
+
+                // The properties that reaully matter
+                offset: { savingsAccountOffset: null, bankAccountOffset: 500 },
+                entries: [],
+                applicableTemplates: templates
+            };
+
+            const result = calculator.calculateExpenseTrajectory(sheet);
+
+            expect(result.nextIncome).to.be.deep.eq(income);
+            expect(result.totalBankWithExpense).to.be.eq(500 - 500 - 1000 + 1500 - 500 - 250);
+            expect(result.unpayableExpenses).to.deep.equal([secondExpense]);
+        });
+
+        it('none expense payable: unpayable expenses are returned until first income', () => {
+            const sheet: ISheet = {
+                id: 0,
+                subject: new Date(),
+                name: null,
+                updateTimestamp: new Date(),
+                createTimestamp: new Date(),
+
+                // The properties that reaully matter
+                offset: { savingsAccountOffset: null, bankAccountOffset: 400 },
+                entries: [],
+                applicableTemplates: templates
+            };
+
+            const result = calculator.calculateExpenseTrajectory(sheet);
+
+            expect(result.nextIncome).to.be.deep.eq(income);
+            expect(result.totalBankWithExpense).to.be.eq(400 - 500 - 1000 + 1500 - 500 - 250);
+            expect(result.unpayableExpenses).to.deep.equal([firstExpense, secondExpense]);
+        });
     });
 });
