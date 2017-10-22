@@ -51,7 +51,7 @@ In some cases you want to preserve the property name, for instance when binding 
 
 In that case you can use an asterisk (`*`) to escape the property name:
 
-    ko-css-*is-required="true"
+    ko-css:*is-required="true"
 
 ### String literals
 It is odd to needing to put a string literal in additional quotes:

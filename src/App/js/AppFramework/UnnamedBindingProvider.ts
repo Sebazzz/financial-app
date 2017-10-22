@@ -155,7 +155,7 @@ function getEscapedPropertyValue(bindingName: string, bindingValue: string) : [s
           lastIndex = bindingName.length - 1;
 
     if (bindingName.lastIndexOf(escapePropertyMarker) === lastIndex) {
-        const escapedBindingValue = escape + bindingValue.replace(escape, '\\' + escape) + escape;
+        const escapedBindingValue = escape + bindingValue.replace(new RegExp(escape, 'g'), '\\' + escape) + escape;
         return [bindingName.substr(0, lastIndex), escapedBindingValue];
     }
 
@@ -197,7 +197,7 @@ function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext)
                     const subProperty = subProperties[propertyIndex],
                           isLastProperty = propertyIndex + 1 === subProperties.length;
 
-                    const subItem = item[subProperty];
+                    const subItem : any = item[subProperty];
 
                     if (typeof subItem === 'string') {
                         throw new Error(`Invalid binding: ${attributeName}. Nested properties on different levels found.`);
@@ -213,11 +213,13 @@ function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext)
                         }
                     } else if (isLastProperty) {
                         throw new Error(`Invalid binding: ${attributeName}. Nested properties on different levels found.`);
+                    } else {
+                        item = subItem as INestedPropertyBinding;
                     }
                 }
             }
 
-            cacheKey += `[${bindingName}]=${bindingValue}`;
+            cacheKey += `[${attributeName}]=${bindingValue}`;
         }
     }
 
