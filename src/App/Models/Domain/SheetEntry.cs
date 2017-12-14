@@ -1,11 +1,13 @@
 ﻿namespace App.Models.Domain {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Repositories;
     using Services;
 
     [GenerateRepository]
     public class SheetEntry : IHasId, IHasSortOrder {
+        private ICollection<SheetEntryTag> _tags;
         public int Id { get; set; }
 
         [Required]
@@ -29,6 +31,13 @@
         public AccountType Account { get; set; }
 
         public virtual RecurringSheetEntry Template { get;set; }
+
+        public virtual ICollection<SheetEntryTag> Tags
+        {
+            get => this._tags ?? (this._tags = new List<SheetEntryTag>());
+            set => this._tags = value;
+        }
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.

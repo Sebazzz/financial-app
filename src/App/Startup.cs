@@ -119,6 +119,8 @@ namespace App {
             services.AddScoped<AutoMapperEngineFactory.SheetOffsetCalculationResolver>();
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<Category>>();
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<RecurringSheetEntry>>();
+            services.AddScoped<AutoMapperEngineFactory.EntityResolver<Tag>>();
+            services.AddScoped<AutoMapperEngineFactory.SheetEntryTagConverter>();
             
             services.AddSingleton<IMapper>(AutoMapperEngineFactory.Create);
             services.AddSingleton<IETagGenerator, ETagGenerator>();

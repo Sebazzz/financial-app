@@ -63,6 +63,21 @@
                         .HasOne(x => x.Category)
                         .WithMany(x => x.RecurringSheetEntries)
                         .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SheetEntryTag>()
+                        .HasOne(x => x.Tag)
+                        .WithMany()
+                        .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SheetEntryTag>()
+                        .HasIndex(t => new {t.TagId, t.SheetEntryId})
+                        .IsUnique();
+
+            modelBuilder.Entity<SheetEntry>()
+                        .HasMany(x => x.Tags)
+                        .WithOne(x => x.SheetEntry);
+
+
         }
     }
 

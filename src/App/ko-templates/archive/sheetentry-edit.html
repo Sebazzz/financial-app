@@ -56,6 +56,24 @@
             <div data-bind="validationMessage: categoryId"></div>
         </div>
 
+        <div class="form-group">
+            <label for="tagIds">Labels</label> <br />
+
+            <select id="tagIds"
+                    ko-selected-options="tags"
+                    ko-options="$parent.availableTags"
+                    ko-options-text#="name"
+                    ko-options-after-render="$parent.tagSelectionRendered"
+                    ko-options-value#="id"
+                    ko-options-caption#="(geen labels)"
+                    required
+                    multiple
+                    size="4">
+            </select>
+
+            <div data-bind="validationMessage: tagIds"></div>
+        </div>
+
         <div class="form-group" id="account">
             <label for="account">Type mutatie</label>
 

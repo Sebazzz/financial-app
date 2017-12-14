@@ -46,6 +46,19 @@ ko.bindingHandlers['tooltip'] = {
             }
         }).extend({
             disposeWhenNodeIsRemoved: element
+            });
+
+        ko.utils.domNodeDisposal.addDisposeCallback(element, () => {
+            const tooltip = $element.data('bs.tooltip'),
+                tip = tooltip && tooltip.getTipElement();
+
+            if (tip) {
+                $(tip).remove();
+            }
+
+            if (tooltip) {
+                tooltip.dispose();
+            }
         });
     }
 };

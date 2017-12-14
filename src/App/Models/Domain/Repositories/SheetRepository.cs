@@ -26,7 +26,9 @@
         public IQueryable<SheetEntry> GetOfSheet(Sheet sheet) {
             return this._dbContext.Set<SheetEntry>()
                                   .Where(x => x.Sheet.Id == sheet.Id)
-                                  .Include(x => x.Category);
+                                  .Include(x => x.Category)
+                                  .Include(x => x.Tags)
+                                  .ThenInclude(x => x.Tag);
         }
 
         public IEnumerable<SheetRecurringSheetEntry> GetTemplatesOfSheet(Sheet sheet) {

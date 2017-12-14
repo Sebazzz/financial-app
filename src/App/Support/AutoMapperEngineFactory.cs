@@ -24,15 +24,15 @@
                 cfg.AddGlobalIgnore("Owner");
 
                 cfg.CreateMap<Category,Category>()
-                             .ForMember(x => x.Owner, m=> m.Ignore());
+                   .ForMember(x => x.Owner, m=> m.Ignore());
 
                 cfg.CreateMap<Sheet, Models.DTO.SheetListing>(MemberList.Destination)
                                  .ForMember(x => x.Month, x=>x.MapFrom(z=>z.Subject.Month))
                                  .ForMember(x => x.Year, x => x.MapFrom(z => z.Subject.Year))
                                  .ForMember(x => x.Totals, x => x.MapFrom(z => new SheetTotals {
-                                                                                                   BankAccount = z.CalculationOptions.BankAccountOffset ?? 0 + z.Entries.Where(e => e.Account == AccountType.BankAccount).Sum(e => e.Delta),
-                                                                                                   SavingsAccount = z.CalculationOptions.SavingsAccountOffset ?? 0 + z.Entries.Where(e => e.Account == AccountType.SavingsAccount).Sum(e => e.Delta)
-                                                                                               }));
+                    BankAccount = z.CalculationOptions.BankAccountOffset ?? 0 + z.Entries.Where(e => e.Account == AccountType.BankAccount).Sum(e => e.Delta),
+                    SavingsAccount = z.CalculationOptions.SavingsAccountOffset ?? 0 + z.Entries.Where(e => e.Account == AccountType.SavingsAccount).Sum(e => e.Delta)
+                }));
 
                 cfg.CreateMap<RecurringSheetEntry, RecurringSheetEntryListing>();
 
@@ -51,6 +51,10 @@
                     .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id))
                     .ForMember(x => x.TemplateId, m => m.MapFrom(x => x.Template != null ? x.Template.Id : (int?)null));
 
+                cfg.CreateMap<SheetEntry, Models.DTO.TagReportSheetEntry>(MemberList.Destination)
+                    .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id))
+                    .ForMember(x => x.TemplateId, m => m.MapFrom(x => x.Template != null ? x.Template.Id : (int?)null));
+
                 cfg.CreateMap<RecurringSheetEntry, Models.DTO.RecurringSheetEntry>(MemberList.Destination)
                     .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id));
 
@@ -64,6 +68,17 @@
                     .ForMember(x => x.Category, m => m.MapFrom(s => s.CategoryId))
                     .ForSourceMember(x => x.CategoryId, m =>m.Ignore()); // TODO: ignore shouldn't be necessary here
 
+                cfg.CreateMap<Tag,TagListing>(MemberList.Destination);
+                cfg.CreateMap<TagListing,Tag>(MemberList.Source)
+                   .ForMember(x => x.IsInactive, m=>m.Ignore());
+
+                cfg.CreateMap<int, SheetEntryTag>()
+                   .ConvertUsing<SheetEntryTagConverter>();
+                
+                cfg.CreateMap<int, Tag>().ConvertUsing<EntityResolver<Tag>>();
+
+                cfg.CreateMap<SheetEntryTag,int>().ConvertUsing(t => t.TagId);
+
                 cfg.CreateMap<int, Category>().ConvertUsing<EntityResolver<Category>>();
                 cfg.CreateMap<int?, RecurringSheetEntry>().ConvertUsing<EntityResolver<RecurringSheetEntry>>();
             });
@@ -71,6 +86,23 @@
             config.AssertConfigurationIsValid();
 
             return config.CreateMapper();
+        }
+
+
+        public sealed class SheetEntryTagConverter : ITypeConverter<int, SheetEntryTag> {
+            private readonly EntityResolver<Tag> _entityResolver;
+
+            public SheetEntryTagConverter(EntityResolver<Tag> entityResolver) {
+                this._entityResolver = entityResolver;
+            }
+
+            public SheetEntryTag Convert(int id, SheetEntryTag destination, ResolutionContext context) {
+                Tag tag = this._entityResolver.Resolve(id, context);
+                return new SheetEntryTag {
+                    Tag = tag,
+                    TagId = tag.Id
+                };
+            }
         }
 
         // ReSharper disable once ClassNeverInstantiated.Local -- It is instantiated, but using DI

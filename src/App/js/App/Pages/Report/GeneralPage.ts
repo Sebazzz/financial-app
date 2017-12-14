@@ -1,6 +1,6 @@
 ﻿import {Page, IPageRegistration} from 'AppFramework/Page'
 import AppContext from 'AppFramework/AppContext'
-import * as api from '../ServerApi/SheetStatistics';
+import * as api from 'App/ServerApi/SheetStatistics';
 import { ChartOptions } from 'chart.js';
 
 const offwhite = '#f8f9fa';
@@ -15,7 +15,18 @@ class ReportPage extends Page {
         tooltips: {
             mode: 'index',
             callbacks: {
-                label: (value, data) => value && `${data.datasets[value.datasetIndex || 0].label}: ${kendo.toString(+(value.yLabel || 0), 'c')}`
+                label: (value, data) => {
+                    if (!value || !data.datasets) {
+                        return '';
+                    }
+
+                    const dataSet = data.datasets[value.datasetIndex || 0];
+                    if (!dataSet) {
+                        return '';
+                    }
+
+                    return `${dataSet.label}: ${kendo.toString(+(value.yLabel || 0), 'c')}`;
+                }
             }
         },
         hover: {
@@ -54,7 +65,7 @@ class ReportPage extends Page {
     constructor(appContext: AppContext) {
         super(appContext);
 
-        this.title('Rapportage');
+        this.title('Rapportage - algemeen');
     }
 
     protected async onActivate(args?: any): Promise<void> {
@@ -67,7 +78,7 @@ class ReportPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'report',
-    routingTable: { name: 'report', path: '/report' },
+    templateName: 'report/general',
+    routingTable: { name: 'report.general', path: '/general' },
     createPage: (appContext) => new ReportPage(appContext)
 } as IPageRegistration;

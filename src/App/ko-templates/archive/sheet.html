@@ -120,6 +120,11 @@
                                     data-bind="click: $parentContext.$parent.editRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bewerken'">
                                 <span class="fa fa-arrows-alt"></span>
                             </button>
+                            <button class="btn btn-secondary btn-sm"
+                                    ko-click="$parentContext.$parent.editTagsOfEntry"
+                                    ko-tooltip#="Tags selecteren">
+                                <span class="fa fa-tags"></span>
+                            </button>
                         </span>
                     </div>
                 </td>
@@ -190,12 +195,20 @@
                     hidden: editMode, 
                     css: { 'saving': isBusy, 'transient': isTransient },
                     tooltip: { text: tooltip, forceOpen: isTransient }">
-                <td>
+                <td ko-style:*border-left-color="$parentContext.$parent.getSheetEntryColor($data)" 
+                    class="tagged-with-border">
                     <span data-bind="text: source"></span>
 
                     <a class="pull-right" href="#"
                        data-bind="visible: !!remark(), click: $parentContext.$parent.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
                         <span class="fa fa-arrows-alt"></span>
+                    </a>
+                    
+                    <a class="btn btn-secondary btn-sm pull-right"
+                       ko-popover:controller="$parentContext.$parent.tagViewerPopover"
+                       ko-popover:data="$parentContext.$parent.viewTagsOfEntry"
+                       ko-visible="tags().length > 0">
+                        <span class="fa fa-tags"></span>
                     </a>
                 </td>
 
@@ -290,6 +303,38 @@
         <a href="#" data-bind="route: archive" class="btn btn-link">Terug naar archief</a>
     </form>
 </div>
+
+<popover params="controller: tagSelectionPopover">
+    <ul ko-foreach:data="availableTags"
+        ko-foreach:as#="tag"
+        class="tag-list">
+        <li>
+            <label class="custom-control custom-checkbox tag-item" ko-style:*background-color="'#' + hexColorCode">
+                <input type="checkbox" class="custom-control-input"
+                       ko-checked-value="$data"
+                       ko-checked="$parent.selectedTags">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description" 
+                      ko-text="name" 
+                      ko-tooltip="description"></span>
+            </label>
+        </li>
+    </ul>
+</popover>
+
+<popover params="controller: tagViewerPopover">
+    <ul ko-foreach:data="selectedTags"
+        ko-foreach:as#="tag"
+        class="tag-list">
+        <li>
+            <span class="tag-item" 
+                  ko-style:*background-color="'#' + hexColorCode"
+                  ko-text="name"
+                  ko-tooltip="description">
+            </span>
+        </li>
+    </ul>
+</popover>
 
 <modal params="controller: remarksEditModal">
     <textarea class="form-control" data-bind="textInput: content" placeholder="(eventuele extra opmerkingen, notities, etc)"></textarea>

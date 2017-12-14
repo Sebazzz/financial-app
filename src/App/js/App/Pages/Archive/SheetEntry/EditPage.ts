@@ -9,6 +9,7 @@ import * as mapper from 'AppFramework/ServerApi/Mapper';
 
 import * as entryTemplate from '../../../ServerApi/RecurringSheetEntry';
 import * as sheetEntry from '../../../ServerApi/SheetEntry';
+import * as tag from 'App/ServerApi/Tag';
 import * as category from '../../../ServerApi/Category';
 
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
@@ -19,12 +20,14 @@ import {State} from 'router5';
 class EditPage extends FormPage {
     private categoryApi = new category.Api();
     private templateApi = new entryTemplate.Api();
+    private tagApi = new tag.Api();
     private api = new sheetEntry.Api();
 
     public id = ko.observable<number>(0);
 
     public entry = ko.observable<EditViewModel>(new EditViewModel());
     public availableCategories = ko.observableArray<category.ICategoryListing>();
+    public availableTags = ko.observableArray<tag.ITag>();
 
     public date = ko.observable<Date>();
 
@@ -57,16 +60,21 @@ class EditPage extends FormPage {
 
         const baseTitle = `Financiën ${kendo.toString(date, 'MMMM yyyy')}`;
 
-        const loadCategories = this.categoryApi.list();
+        const loadCategories = this.categoryApi.list(),
+              loadTags = this.tagApi.list();
 
         if (args && args.id) {
             this.id(+args.id);
 
             this.title(`Regel bewerken - ${baseTitle}`);
 
-            const [entity, categories] = await Promise.all([this.api.get(this.id.peek()), loadCategories]);
+            const [entity, tags, categories] = await Promise.all([
+                this.api.get(this.id.peek()),
+                loadTags,
+                loadCategories]);
             this.set(entity);
             this.availableCategories(categories);
+            this.availableTags(tags);
 
             this.title(`Regel "${this.entry().source()}" bewerken - ${baseTitle}`);
         } else {
@@ -91,7 +99,12 @@ class EditPage extends FormPage {
             this.id(0);
             this.entry(model);
             this.title(`Regel aanmaken - ${baseTitle}`);
-            this.availableCategories(await loadCategories);
+
+            const [tags, categories] = await Promise.all([
+                loadTags,
+                loadCategories]);
+            this.availableTags(tags);
+            this.availableCategories(categories);
         }
     }
 
@@ -127,6 +140,22 @@ class EditPage extends FormPage {
 
         this.entry(vm);
     }
+
+    public tagSelectionRendered(option: HTMLOptionElement, item: tag.ITag) {
+        if (item && item.hexColorCode) {
+            option.style.backgroundColor = '#' + item.hexColorCode;
+
+            const r = parseInt(item.hexColorCode.substr(0, 2), 16),
+                  g = parseInt(item.hexColorCode.substr(2, 2), 16),
+                  b = parseInt(item.hexColorCode.substr(4, 2), 16),
+                  // ref: https://stackoverflow.com/a/596243/646215
+                  lightness = (0.299 * r + 0.587 * g + 0.114 * b);
+
+            if (lightness < 90) {
+                option.style.color = '#FFF';
+            }
+        }
+    }
 }
 
 export class EditViewModel extends validate.ValidateableViewModel {
@@ -138,6 +167,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public remark = ko.observable<string>();
     public account = ko.observable<AccountType>();
     public templateId = ko.observable<number>();
+    public tags = ko.observableArray<number>();
 
     public showRemarksEditor = ko.observable<boolean>(false);
     public toggleRemarksEditor() {

@@ -1,20 +1,22 @@
 ﻿import FormPage from 'AppFramework/Forms/FormPage';
 import {IPageRegistration} from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
-import NowRouteProvider from '../../Services/NowRoute';
+import NowRouteProvider from 'App/Services/NowRoute';
 
 import * as ko from 'knockout';
 import * as mapper from 'AppFramework/ServerApi/Mapper';
 
-import * as sheet from '../../ServerApi/Sheet';
-import * as entryTemplate from '../../ServerApi/RecurringSheetEntry';
-import * as sheetEntry from '../../ServerApi/SheetEntry';
-import * as category from '../../ServerApi/Category';
+import * as sheet from 'App/ServerApi/Sheet';
+import * as tag from 'App/ServerApi/Tag';
+import * as entryTemplate from 'App/ServerApi/RecurringSheetEntry';
+import * as sheetEntry from 'App/ServerApi/SheetEntry';
+import * as category from 'App/ServerApi/Category';
 
-import * as calculator from '../../Services/Calculator';
+import * as calculator from 'App/Services/Calculator';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 
 import * as modal from 'AppFramework/Components/Modal';
+import * as popover from 'AppFramework/Components/Popover';
 
 import confirmAsync from 'AppFramework/Forms/Confirmation';
 
@@ -22,17 +24,21 @@ class SheetPage extends FormPage {
     private categoryApi = new category.Api();
     private api = new sheet.Api();
     private sheetEntryApi = new sheetEntry.Api();
+    private tagApi = new tag.Api();
     private totalCalculator = new calculator.SheetTotalCalculationService();
     private expenseTrajectoryCalculator = new calculator.SheetExpensesCalculationService();
 
     public currentValidationErrors = ko.observableArray<string>();
     public date = ko.observable<Date>();
 
+    public availableTags = ko.observableArray<tag.ITag>();
     public availableCategories = ko.observableArray<category.ICategoryListing>();
     public sheet = ko.observable<Sheet>();
 
     public remarksEditModal = new modal.ModalController<RemarksModel>('Opmerkingen bewerken');
     public remarksDisplayModal = new modal.ModalController<RemarksModel>('Opmerkingen bekijken', null, 'Sluiten');
+    public tagSelectionPopover = new popover.PopoverController<TagsModel>('Tags selecteren');
+    public tagViewerPopover = new popover.PopoverController<TagsModel>('Tags bekijken');
 
     public expenseTrajectory = ko.pureComputed(() => {
         const sheet = this.sheet(),
@@ -42,7 +48,8 @@ class SheetPage extends FormPage {
     }).extend({ rateLimit: 250 });
 
     public previousDate = ko.pureComputed(() => {
-        const date = new Date(this.date());
+        // TODO: workaround TS bug https://github.com/Microsoft/TypeScript/issues/20215
+        const date = new Date(this.date() as any);
         date.setMonth(date.getMonth() - 1);
 
         return date;
@@ -79,6 +86,8 @@ class SheetPage extends FormPage {
         this.mutateSortOrderHandler = this.mutateSortOrderHandler.bind(this);
         this.editRemarksOfEntry = this.editRemarksOfEntry.bind(this);
         this.showRemarksOfEntry = this.showRemarksOfEntry.bind(this);
+        this.editTagsOfEntry = this.editTagsOfEntry.bind(this);
+        this.viewTagsOfEntry = this.viewTagsOfEntry.bind(this);
     }
 
     protected async onActivate(args?: any): Promise<void> {
@@ -97,12 +106,14 @@ class SheetPage extends FormPage {
 
         this.sheetEntryApi.setContext(year, month);
 
-        const [category, sheet] = await Promise.all([
+        const [category, tag, sheet] = await Promise.all([
             this.categoryApi.list(),
+            this.tagApi.list(),
             this.api.getBySubject(year, month)
             ]);
 
         this.availableCategories(category);
+        this.availableTags(tag);
         this.loadSheet(sheet);
     }
 
@@ -134,6 +145,16 @@ class SheetPage extends FormPage {
         return null;
     }
 
+    public tagById(id: number): tag.ITag | null {
+        for (const tag of this.availableTags()) {
+            if (tag.id === id) {
+                return tag;
+            }
+        }
+
+        return null;
+    }
+
     public async editRemarksOfEntry(sheetEntry: SheetEntry, event : Event) {
         event.preventDefault();
 
@@ -143,6 +164,32 @@ class SheetPage extends FormPage {
         if (dialogResult === modal.DialogResult.PrimaryButton) {
             controller.applyChanges();
         }
+    }
+
+    public async editTagsOfEntry(sheetEntry: SheetEntry, event: Event) {
+        event.preventDefault();
+
+        const controller = new TagsModel(this.availableTags.peek(), sheetEntry);
+
+        await this.tagSelectionPopover.show(controller, event.currentTarget as Element);
+
+        controller.applyChanges();
+    }
+
+    public viewTagsOfEntry(sheetEntry: SheetEntry) {
+        return new TagsModel(this.availableTags.peek(), sheetEntry);
+    }
+
+    public getSheetEntryColor(sheetEntry: SheetEntry) {
+        const tmp = new TagsModel(this.availableTags.peek(), sheetEntry),
+              tags = tmp.selectedTags.peek().filter(x => !!x.hexColorCode);
+
+        if (tags.length === 0) {
+            return 'transparent';
+        }
+
+        const colorCode = tags[0].hexColorCode;
+        return colorCode ? '#' + colorCode : 'transparent';
     }
 
     public async showRemarksOfEntry(sheetEntry: SheetEntry, event: Event) {
@@ -320,6 +367,8 @@ class SheetPage extends FormPage {
 export class SheetEntry extends validate.ValidateableViewModel {
     public id = ko.observable<number>(0);
 
+    public tags = ko.observableArray<number>();
+
     public categoryId = ko.observable<number>();
     public templateId = ko.observable<number>();
 
@@ -414,6 +463,20 @@ export class Sheet {
 
     public sortEntries(): void {
         this.entries.sort((x, y) => x.sortOrder() - y.sortOrder());
+    }
+}
+
+export class TagsModel {
+    public availableTags = ko.observableArray<tag.ITag>();
+    public selectedTags = ko.observableArray<tag.ITag>();
+
+    constructor(tags: tag.ITag[], private sheetEntry: SheetEntry) {
+        this.availableTags(tags);
+        this.selectedTags(sheetEntry.tags().map(tid => tags.filter(inner => inner.id === tid)[0]));
+    }
+
+    public applyChanges() {
+        this.sheetEntry.tags(this.selectedTags.peek().map(t => t.id));
     }
 }
 

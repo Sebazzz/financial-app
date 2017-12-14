@@ -19,7 +19,18 @@ class SheetStatisticsPage extends Page {
         },
         tooltips: {
             callbacks: {
-                label: (value, data) => value && `${data.datasets[value.datasetIndex || 0].label}: ${kendo.toString(+(data.datasets[value.datasetIndex || 0].data[value.index || 0] || 0), 'c')}`
+                label: (value, data) => {
+                    if (!value || !data.datasets) {
+                        return '';
+                    }
+
+                    const dataSet = data.datasets[value.datasetIndex || 0];
+                    if (!dataSet.data) {
+                        return '';
+                    }
+
+                    return `${dataSet.label}: ${kendo.toString(+(dataSet.data[value.index || 0] || 0), 'c')}`;
+                }
             }
         }
     };
@@ -35,7 +46,8 @@ class SheetStatisticsPage extends Page {
     });
 
     public previousDate = ko.pureComputed(() => {
-        const date = new Date(this.date());
+        // TODO: workaround TS bug https://github.com/Microsoft/TypeScript/issues/20215
+        const date = new Date(this.date() as any);
         date.setMonth(date.getMonth() - 1);
 
         return date;
@@ -49,7 +61,8 @@ class SheetStatisticsPage extends Page {
     });
 
     public nextDate = ko.pureComputed(() => {
-        const date = new Date(this.date());
+        // TODO: workaround TS bug https://github.com/Microsoft/TypeScript/issues/20215
+        const date = new Date(this.date() as any);
         date.setMonth(date.getMonth() + 1);
 
         return date;

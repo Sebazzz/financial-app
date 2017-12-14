@@ -80,7 +80,7 @@
             this._sheetEntryRepository.Add(entry);
             await this._sheetEntryRepository.SaveChangesAsync();
 
-            return this.CreatedAtRoute("SheetEntry-Get", new {id = value.Id}, this.Get(entry.Id));
+            return this.CreatedAtRoute("SheetEntry-Get", new {id = entry.Id}, this.Get(entry.Id));
         }
 
         // PUT: api/sheet/2014-10/entries
@@ -125,7 +125,7 @@
         }
 
         private async Task<SheetEntry> GetByIdAsync(int id) {
-            SheetEntry entry = await this._sheetEntryRepository.GetAll().Include(x => x.Sheet).Include(x => x.Sheet.Owner).Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id).EnsureNotNull();
+            SheetEntry entry = await this._sheetEntryRepository.GetAll().Include(x => x.Sheet).Include(x => x.Sheet.Owner).Include(x => x.Category).Include(x => x.Tags).FirstOrDefaultAsync(x => x.Id == id).EnsureNotNull();
             this.EnsureCorrectSheet(entry);
             this.EntityOwnerService.EnsureOwner(entry.Sheet, this.OwnerId);
             return entry;

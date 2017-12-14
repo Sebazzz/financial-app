@@ -1,0 +1,39 @@
+﻿<h1 data-bind="text: title"></h1>
+
+<div>
+    <p>
+        Onderstaand vindt je labels die je kan gebruiken om uitgaves te labelen zodat je hier later rapportages over kan bekijken. Bijvoorbeeld "Kerstcadeaus 2017". Tags die je niet meer wilt zien kan je verwijderen (inactief maken).
+    </p>
+
+    <ul class="list-unstyled actionable-list" data-bind="foreach: { data: tags, as: 'tag' }">
+        <li ko-style:*border-left-color="tag.hexColorCode ? '#'+tag.hexColorCode : 'argb(0,0,0,0)'" class="tagged-with-border">
+            <div class="pull-right">
+                <a class="btn btn-secondary"
+                   href="#"
+                   ko-route="manage.tag.edit | { id: tag.id }"
+                   ko-tooltip#="Label bewerken">
+                    <span class="fa fa-pencil"></span>
+                </a>
+                
+                <span class="inline-block" ko-tooltip#="Label verwijderen / inactief maken">
+                    <a class="btn btn-outline-danger"
+                       ko-click="$parent.deleteTag">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </span>
+            </div>
+            
+            <strong>
+                <a href="#"
+                   ko-route="manage.tag.edit | { id: tag.id }"
+                   ko-text="tag.name"></a>
+            </strong><br/>
+
+            <small data-bind="text: tag.description"></small>
+        </li>
+    </ul>
+    
+    <p>
+        <a href="#" ko-route="manage.tag.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuw label</a>
+    </p>
+</div>
