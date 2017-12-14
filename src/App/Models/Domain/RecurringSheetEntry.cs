@@ -1,4 +1,5 @@
 ﻿namespace App.Models.Domain {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using Repositories;
     using Services;
@@ -30,5 +31,6 @@
 
         [Required]
         public virtual AppOwner Owner { get; set; }
+
     }
 }

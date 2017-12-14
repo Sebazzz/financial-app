@@ -7,6 +7,7 @@ import * as ComponentLoader from './ComponentLoader';
 import './BindingHandlers/All';
 import registerLoadingBar from './Components/LoadingBar';
 import registerModal from './Components/Modal';
+import registerPopover from './Components/Popover';
 import registerBindingProvider from './UnnamedBindingProvider';
 import hotModuleReplacementPage from './HotModulePage';
 import installDefaultTemplates from './Templates/Index';
@@ -129,6 +130,7 @@ function bind(app: App) {
 function registerComponents(appContext : AppContext) {
     registerLoadingBar(appContext);
     registerModal();
+    registerPopover();
 }
 
 function registerGlobals() {

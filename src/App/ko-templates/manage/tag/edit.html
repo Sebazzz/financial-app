@@ -1,0 +1,50 @@
+﻿<h1 data-bind="text: title"></h1>
+
+<div class="alert alert-danger" data-bind="visible: errorMessage">
+    <strong>Oeps!</strong> <span data-bind="text: errorMessage"></span>
+</div>
+
+<div data-bind="with: tag">
+    <form novalidate role="form" data-bind="form">
+        <div class="form-group">
+            <label for="name">Naam:</label>
+            <input id="name"
+                   data-bind="value: name"
+                   type="text" class="form-control" maxlength="100" required />
+
+            <div data-bind="validationMessage: name"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Beschrijving:</label>
+            <textarea id="description" name="description" class="form-control" rows="3" data-bind="value: description"></textarea>
+
+            <p class="form-text text-muted">
+                Korte beschrijving dat in het overzicht wordt getoond en als hulp bij het selecteren van een label.
+            </p>
+        </div>
+        
+        <div class="form-group">
+            <label for="hexColorCode">Kleur:</label>
+
+            <input id="hexColorCode"
+                   data-bind="value: hexColorCode, disable: noColor"
+                   type="color" class="form-control" maxlength="100" required />
+            
+            <label class="custom-control custom-checkbox d-block">
+                <input type="checkbox" ko-checked="noColor()" ko-click="toggleColor" class="custom-control-input"/> 
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Gebruik geen kleur bij dit label</span>
+            </label>
+
+            <p class="form-text text-muted">
+                Kleur waarmee mutaties worden weergegeven die met dit label zijn gekoppeld.
+            </p>
+        </div>
+
+        <p class="button-bar">
+            <button class="btn btn-primary">Opslaan</button>
+            <a href="#" data-bind="route: manage.tag" class="btn btn-link">Annuleren</a>
+        </p>
+    </form>
+</div>

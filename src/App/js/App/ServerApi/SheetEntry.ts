@@ -20,6 +20,8 @@ export interface ISheetEntry {
     createTimestamp: DateTime;
 
     account: AccountType;
+
+    tags:number[];
 }
 
 export enum AccountType {

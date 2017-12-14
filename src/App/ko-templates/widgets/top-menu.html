@@ -13,11 +13,18 @@
             <li class="nav-item" ko-css="hasLocation(nowPath)">
                 <a class="nav-link" href="#" ko-route="now">Huidige maand</a>
             </li>
-            <li class="nav-item" ko-css="hasLocation('report')">
-                <a class="nav-link" href="#" ko-route="report">Rapportage</a>
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0)"
+                   ko-css="hasLocation('report')"
+                   class="nav-link dropdown-toggle"
+                   data-toggle="dropdown">Rapportage <b class="caret"></b></a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" ko-css="hasLocation('report.general')" ko-route="report" href="#">Algemeen</a>
+                    <a class="dropdown-item" ko-css="hasLocation('report.tags')" ko-route="report.tags" href="#">Per label</a>
+                </div>
             </li>
             <li class="nav-item" ko-css="hasLocation('archive')">
-                <a class="nav-link" href="#"  ko-route="archive">Archief</a>
+                <a class="nav-link" href="#" ko-route="archive">Archief</a>
             </li>
         </ul>
         
@@ -42,6 +49,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" ko-css="hasLocation('manage.entry-template')" ko-route="manage.entry-template" href="#">Regeltemplates</a>
                     <a class="dropdown-item" ko-css="hasLocation('manage.category')" ko-route="manage.category" href="#">Categorieëen</a>
+                    <a class="dropdown-item" ko-css="hasLocation('manage.tag')" ko-route="manage.tag" href="#">Labels</a>
                     <a class="dropdown-item" ko-css="hasLocation('manage.user')" ko-route="manage.user" href="#">Gebruikers</a>
                     <a class="dropdown-item" ko-css="hasLocation('manage.impersonate')" ko-route="manage.impersonate" href="#">Account wisselen</a>
                 </div>

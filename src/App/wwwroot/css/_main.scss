@@ -301,3 +301,49 @@ loading-bar {
     background: url(../images/icons/currency-euro.png) 10px center / 1em no-repeat $input-bg;
     padding-left: 2em;
 }
+
+.tagged-with-border {
+    border-left: 5px solid transparent;
+
+    .actionable-list & {
+        margin-bottom: 15px;
+        padding-left: 1rem;
+    }
+}
+
+input[type=color].form-control {
+    display: block;
+    width: 150px;
+    padding: 5px;
+    height: 50px;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.tag-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tag-item {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 2px;
+
+    &.custom-control {
+        padding-left: 2em;
+    }
+
+    .custom-control-indicator {
+        left: 0.5em;
+    }
+
+    .tag-list & {
+        display: block;
+        margin-right: 0;
+    }
+}

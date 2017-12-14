@@ -1,0 +1,139 @@
+﻿<h1>Rapportage <small>financiën - tags</small></h1>
+
+<form class="form-inline">
+    <label for="tag-selector">Rapportage over:&nbsp;</label>
+
+    <select id="tag-selector"
+            class="custom-select"
+            ko-options="tags"
+            ko-options-text#="name"
+            ko-options-caption#="Maak een keuze..."
+            ko-options-after-render="tagSelectionRendered"
+            ko-value="selectedTag"></select>
+</form>
+
+<div ko-ifnot="selectedTag">
+    <p class="form-text text-muted">Selecteer een tag om een rapportage te zien.</p>
+</div>
+
+<div ko-if="selectedTag">
+    <p ko-text="selectedTag().description"
+       ko-visible="selectedTag().description"
+       class="form-text text-muted"></p>
+
+    <h2>Overzicht uitgaven</h2>
+    <table class="table table-sm table-responsive table-sheet">
+        <colgroup>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col style="width: 10.5em" />
+        </colgroup>
+
+        <!-- Header -->
+        <thead>
+            <tr>
+                <th>
+                    Periode
+                </th>
+
+                <th>
+                    Bron / reden
+                </th>
+                <th>
+                    Categorie
+                </th>
+
+                <th>
+                    Betaalrekening
+                </th>
+
+                <th>
+                    Spaarrekening
+                </th>
+            </tr>
+        </thead>
+
+        <tbody data-bind="foreach: entries">
+            <tr class="row-middle">
+                <td>
+                    <a href="#"
+                       ko-route="archive.sheet | {month: sheetSubject.getMonth() + 1, year: sheetSubject.getFullYear() }"
+                       ko-format-text="sheetSubject"
+                       ko-format#="MMMM yyyy"></a>
+                </td>
+
+                <td>
+                    <span data-bind="text: source"></span>
+
+                    <a class="pull-right" href="#"
+                       data-bind="visible: !!remark, click: $parent.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
+                        <span class="fa fa-arrows-alt"></span>
+                    </a>
+                    <a class="btn btn-secondary btn-sm pull-right"
+                       ko-popover:controller="$parent.tagViewerPopover"
+                       ko-popover:data="$parent.viewTagsOfEntry"
+                       ko-visible="tags.length > 1">
+                        <span class="fa fa-tags"></span>
+                    </a>
+                </td>
+
+                <td data-bind="text: categoryName"></td>
+
+                <td>
+                    <div data-bind="visible: account === AccountType.BankAccount">
+                        <span data-bind="css: { 'balance-negative': delta < 0 }, formatText: delta, format: 'c'"></span>
+                    </div>
+                </td>
+
+                <td>
+                    <div data-bind="visible: account === AccountType.SavingsAccount">
+                        <span data-bind="css: { 'balance-negative': delta < 0 }, formatText: delta, format: 'c'"></span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        
+        <!-- Footer -->
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    &nbsp;
+                </td>
+
+                <td>
+                    <span data-bind="css: { 'balance-negative': totals().bankAccount < 0 },
+                                        formatText: totals().bankAccount, format: 'c'"></span>
+                </td>
+
+                <td>
+                    <span data-bind="css: { 'balance-negative': totals().savingsAccount < 0 },
+                                        formatText: totals().savingsAccount, format: 'c'"></span>
+                </td>
+
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<popover params="controller: tagViewerPopover">
+    <ul ko-foreach:data="selectedTags"
+        ko-foreach:as#="tag"
+        class="tag-list">
+        <li>
+            <span class="tag-item"
+                  ko-style:*background-color="'#' + hexColorCode"
+                  ko-text="name"
+                  ko-tooltip="description">
+            </span>
+        </li>
+    </ul>
+</popover>
+
+<modal params="controller: remarksDisplayModal">
+    <p data-bind="text: content" class="preserve-whitespace"></p>
+</modal>

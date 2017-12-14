@@ -1,5 +1,5 @@
 ﻿import * as framework from 'AppFramework/Panel';
-import {State, PluginFactory as RouterPluginFactory} from 'router5';
+import {State} from 'router5';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import NowRouteProvider from '../Services/NowRoute';
@@ -50,13 +50,13 @@ class TopMenu extends framework.Panel {
     constructor(appContext: AppContext) {
         super(appContext);
 
-        const menuPlugin: RouterPluginFactory = () => {
+        const menuPlugin : any = () => {
             return {
                 onTransitionSuccess: (toState: State) => {
                     toState && this.path(toState.path);
                     toState && this.routeNode(toState.name);
                 }
-            }
+            };
         };
 
         menuPlugin.pluginName = 'top-menu-plugin';

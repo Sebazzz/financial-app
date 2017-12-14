@@ -68,12 +68,22 @@
     <Content Remove="js\App\typings\json.date-extensions.d.ts" />
     <Content Remove="js\App\typings\webpack.d.ts" />
     <None Remove="js\AppFramework\BindingContextExtender.ts" />
+    <None Remove="js\AppFramework\Components\Popover.ts" />
+    <None Remove="js\AppFramework\Components\templates\popover.html" />
     <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
     <None Remove="js\App\BindingHandlers\MoneyInput.ts" />
+    <None Remove="js\App\Pages\Manage\Tag\DefaultPage.ts" />
+    <None Remove="js\App\Pages\Manage\Tag\EditPage.ts" />
+    <None Remove="js\App\Pages\Report\DefaultPage.ts" />
+    <None Remove="js\App\Pages\Report\TagsPage.ts" />
+    <None Remove="js\App\ServerApi\Tag.ts" />
+    <None Remove="js\App\ServerApi\TagReport.ts" />
     <None Remove="js\tests\AppFramework\UnnamedBindingProvider.ts" />
     <None Remove="js\tests\App\main.ts" />
     <None Remove="js\tests\main.ts" />
     <None Remove="js\tests\App\Services\Calculator.ts" />
+    <None Remove="ko-templates\manage\tag\default.html" />
+    <None Remove="ko-templates\manage\tag\edit.html" />
     <None Remove="Models\Domain\Repositories\Repositories.tt" />
     <Content Include="js\AppFramework\AppContext.ts" />
     <Content Include="js\AppFramework\BindingHandlers\Form.ts" />
@@ -82,6 +92,7 @@
     <Content Include="js\AppFramework\BindingHandlers\Tooltip.ts" />
     <Content Include="js\AppFramework\Components\LoadingBar.ts" />
     <Content Include="js\AppFramework\Components\templates\loading-bar.html" />
+    <Content Include="js\AppFramework\Components\templates\popover.html" />
     <Content Include="js\AppFramework\Components\templates\modal.html" />
     <Content Include="js\AppFramework\Forms\FormPage.ts" />
     <Content Include="js\AppFramework\Forms\templates\confirmation.html" />
@@ -121,6 +132,8 @@
     <Content Include="ko-templates\ConnectionFailure.html" />
     <Content Include="ko-templates\default.html" />
     <Content Include="ko-templates\default.mobile.html" />
+    <Content Include="ko-templates\manage\tag\default.html" />
+    <Content Include="ko-templates\manage\tag\edit.html" />
     <Content Include="ko-templates\manage\category\default.html" />
     <Content Include="ko-templates\manage\category\edit.html" />
     <Content Include="ko-templates\manage\entry-template\default.html" />
@@ -129,7 +142,7 @@
     <Content Include="ko-templates\manage\user\default.html" />
     <Content Include="ko-templates\manage\user\edit.html" />
     <Content Include="ko-templates\offline.html" />
-    <Content Include="ko-templates\report.html" />
+    <Content Include="ko-templates\report\general.html" />
     <Content Include="ko-templates\setup\default.html" />
     <Content Include="ko-templates\widgets\loader.html" />
     <Content Include="ko-templates\widgets\top-menu.html" />
@@ -196,6 +209,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="js\AppFramework\BindingContextExtender.ts" />
+    <TypeScriptCompile Include="js\AppFramework\Components\Popover.ts" />
     <TypeScriptCompile Include="js\AppFramework\UnnamedBindingProvider.ts" />
     <TypeScriptCompile Include="js\App\App.ts" />
     <TypeScriptCompile Include="js\AppFramework\AppFactory.ts" />
@@ -226,6 +240,12 @@
     <TypeScriptCompile Include="js\App\Components\Loader.ts" />
     <TypeScriptCompile Include="js\App\Components\ScrollNub.ts" />
     <TypeScriptCompile Include="js\App\Components\TopMenu.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Manage\Tag\DefaultPage.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Manage\Tag\EditPage.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Report\TagsPage.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Report\DefaultPage.ts" />
+    <TypeScriptCompile Include="js\App\ServerApi\Tag.ts" />
+    <TypeScriptCompile Include="js\App\ServerApi\TagReport.ts" />
     <TypeScriptCompile Include="js\tests\AppFramework\UnnamedBindingProvider.ts" />
     <TypeScriptCompile Include="js\tests\App\Services\Calculator.ts" />
     <TypeScriptCompile Include="wwwroot\js\eventsource-polyfill.js" />
@@ -249,7 +269,7 @@
     <TypeScriptCompile Include="js\App\Pages\Manage\ImpersonatePage.ts" />
     <TypeScriptCompile Include="js\App\Pages\Manage\User\DefaultPage.ts" />
     <TypeScriptCompile Include="js\App\Pages\Manage\User\EditPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\ReportPage.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Report\GeneralPage.ts" />
     <TypeScriptCompile Include="js\App\ServerApi\Category.ts" />
     <TypeScriptCompile Include="js\App\ServerApi\RecurringSheetEntry.ts" />
     <TypeScriptCompile Include="js\App\ServerApi\Setup.ts" />

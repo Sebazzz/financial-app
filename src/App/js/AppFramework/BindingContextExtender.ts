@@ -24,6 +24,7 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
             ctx = ctx.$parentContext;
         }
 
+        console.log('findPage: Not able to find the page');
         return null;
     }
 

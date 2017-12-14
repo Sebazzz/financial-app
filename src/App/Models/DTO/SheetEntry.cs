@@ -7,7 +7,7 @@
     using Validation;
 
     [DataContract]
-    public class SheetEntry : IHasSortOrder {
+    public abstract class SheetEntryBase : IHasSortOrder {
         [DataMember]
         public int Id { get; set; }
 
@@ -17,6 +17,7 @@
 
         [DataMember]
         public int? TemplateId { get; set; }
+
 
         [DataMember]
         [CurrencyDeltaValidation]
@@ -43,5 +44,20 @@
         [DataMember]
         [Required]
         public AccountType Account { get; set; }
+
+        [DataMember]
+        public int[] Tags { get; set; }
+    }
+
+    [DataContract]
+    public class SheetEntry : SheetEntryBase {}
+
+    [DataContract]
+    public sealed class TagReportSheetEntry : SheetEntryBase {
+        [DataMember]
+        public DateTime SheetSubject { get; set; }
+
+        [DataMember]
+        public string CategoryName { get; set; }
     }
 }
