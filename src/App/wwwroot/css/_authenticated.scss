@@ -102,6 +102,10 @@ form[role=form] {
     .row-middle td {
         vertical-align: middle;
     }
+
+    .btn-link {
+        color: $body-color;
+    }
 }
 
 .btn-group-justified {

@@ -199,12 +199,13 @@
                     class="tagged-with-border">
                     <span data-bind="text: source"></span>
 
-                    <a class="pull-right" href="#"
+                    <a class="btn btn-link btn-sm pull-right" href="#"
                        data-bind="visible: !!remark(), click: $page.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
                         <span class="fa fa-arrows-alt"></span>
                     </a>
                     
                     <a class="btn btn-link btn-sm pull-right"
+                       href="#"
                        ko-popover:controller="$page.tagViewerPopover"
                        ko-visible="tags().length > 0">
                         <span class="fa fa-tags"></span>
@@ -304,21 +305,23 @@
 </div>
 
 <popover params="controller: tagSelectionPopover">
-    <ul ko-foreach:data="availableTags"
+    <!-- ko lookupScope: { data: tags, source: $page.availableTags, selector: 'id' } -->
+    <ul ko-foreach:data="$page.availableTags"
         ko-foreach:as#="tag"
         class="tag-list">
         <li>
             <label class="custom-control custom-checkbox tag-item" ko-style:*background-color="'#' + hexColorCode">
                 <input type="checkbox" class="custom-control-input"
                        ko-checked-value="$data"
-                       ko-checked="$parent.selectedTags">
+                       ko-checked="$parentContext.$lookup">
                 <span class="custom-control-indicator"></span>
-                <span class="custom-control-description" 
-                      ko-text="name" 
+                <span class="custom-control-description"
+                      ko-text="name"
                       ko-tooltip="description"></span>
             </label>
         </li>
     </ul>
+    <!-- /ko -->
 </popover>
 
 <popover params="controller: tagViewerPopover">

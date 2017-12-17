@@ -16,7 +16,7 @@ class TagsPage extends Page {
     private reportApi = new tagReport.Api();
 
     public remarksDisplayModal = new modal.ModalController<RemarksModel>('Opmerkingen bekijken', null, 'Sluiten');
-    public tagViewerPopover = new popover.PopoverController<TagsModel>('Tags bekijken');
+    public tagViewerPopover = new popover.PopoverController<sheetEntry.ISheetEntry>('Tags bekijken');
 
     private calculator = new calculator.SheetTotalCalculationService();
 
@@ -44,12 +44,11 @@ class TagsPage extends Page {
     constructor(appContext: AppContext) {
         super(appContext);
 
-        this.title('Rapportage - tags');
+        this.title('Rapportage - per label');
 
         this.setSelectedTagListener();
 
         // bind "this"
-        this.viewTagsOfEntry = this.viewTagsOfEntry.bind(this);
         this.showRemarksOfEntry = this.showRemarksOfEntry.bind(this);
     }
 
@@ -106,25 +105,10 @@ class TagsPage extends Page {
         this.entries(entries);
     }
 
-
-    public viewTagsOfEntry(sheetEntry: tagReport.ITagReportSheetEntry) {
-        return new TagsModel(this.tags.peek(), sheetEntry);
-    }
-
     public async showRemarksOfEntry(sheetEntry: tagReport.ITagReportSheetEntry, event: Event) {
         event.preventDefault();
 
         this.remarksDisplayModal.showDialog(new RemarksModel(sheetEntry));
-    }
-}
-
-export class TagsModel {
-    public availableTags = ko.observableArray<tag.ITag>();
-    public selectedTags = ko.observableArray<tag.ITag>();
-
-    constructor(tags: tag.ITag[], sheetEntry: tagReport.ITagReportSheetEntry) {
-        this.availableTags(tags);
-        this.selectedTags(sheetEntry.tags.map(tid => tags.filter(inner => inner.id === tid)[0]));
     }
 }
 

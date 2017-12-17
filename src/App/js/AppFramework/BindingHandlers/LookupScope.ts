@@ -21,6 +21,10 @@ ko.bindingHandlers['lookupScope'] = {
                 read: () => {
                     const identifiers = ko.unwrap<TIdentifier[] | TIdentifier>(options.data), sourceData = ko.unwrap(options.source);
 
+                    if (sourceData === null) {
+                        throw new Error('lookupScope: options.source is null');
+                    }
+
                     if (!$.isArray(identifiers)) {
                         const identifier = identifiers,
                               lookup = sourceData.filter((val) => identifier === accessor(val))[0];
