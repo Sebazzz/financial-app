@@ -38,7 +38,7 @@ class SheetPage extends FormPage {
     public remarksEditModal = new modal.ModalController<RemarksModel>('Opmerkingen bewerken');
     public remarksDisplayModal = new modal.ModalController<RemarksModel>('Opmerkingen bekijken', null, 'Sluiten');
     public tagSelectionPopover = new popover.PopoverController<TagsModel>('Labels selecteren');
-    public tagViewerPopover = new popover.PopoverController<TagsModel>('Labels bekijken');
+    public tagViewerPopover = new popover.PopoverController<SheetEntry>('Labels bekijken');
 
     public expenseTrajectory = ko.pureComputed(() => {
         const sheet = this.sheet(),
@@ -87,7 +87,6 @@ class SheetPage extends FormPage {
         this.editRemarksOfEntry = this.editRemarksOfEntry.bind(this);
         this.showRemarksOfEntry = this.showRemarksOfEntry.bind(this);
         this.editTagsOfEntry = this.editTagsOfEntry.bind(this);
-        this.viewTagsOfEntry = this.viewTagsOfEntry.bind(this);
     }
 
     protected async onActivate(args?: any): Promise<void> {
@@ -174,10 +173,6 @@ class SheetPage extends FormPage {
         await this.tagSelectionPopover.show(controller, event.currentTarget as Element);
 
         controller.applyChanges();
-    }
-
-    public viewTagsOfEntry(sheetEntry: SheetEntry) {
-        return new TagsModel(this.availableTags.peek(), sheetEntry);
     }
 
     public getSheetEntryColor(sheetEntry: SheetEntry) {
