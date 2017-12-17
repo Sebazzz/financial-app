@@ -30,7 +30,7 @@
                 Van template
             </button>
             <div class="dropdown-menu" data-bind="foreach: unusedTemplates">
-                <a href="#" class="dropdown-item" data-bind="route: archive.sheet.entry.add | { month: $parentContext.$parent.date().getMonth() + 1, year: $parentContext.$parent.date().getFullYear(), templateId: id }, text: source"></a>
+                <a href="#" class="dropdown-item" data-bind="route: archive.sheet.entry.add | { month: $page.date().getMonth() + 1, year: $page.date().getFullYear(), templateId: id }, text: source"></a>
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@
                     <tbody data-bind="foreach: { data: unpayableExpenses, as: 'expense' }">
                         <tr>
                             <td data-bind="text: expense.source"></td>
-                            <td data-bind="text: $parentContext.$parentContext.$parent.categoryNameById(expense.categoryId)"></td>
+                            <td data-bind="text: $pageContext.$parent.categoryNameById(expense.categoryId)"></td>
                             <td data-bind="css: {'balance-negative': expense.delta < 0 },
                                            formatText: expense.delta, format: 'c'"></td>
                         </tr>
@@ -93,7 +93,7 @@
                 <td>
                     Categorie
                 </td>
-                <td data-bind="text: $parentContext.$parent.categoryNameById(categoryId())"></td>
+                <td data-bind="text: $page.categoryNameById(categoryId())"></td>
             </tr>
             <tr data-bind="visible: account() === AccountType.BankAccount">
                 <td>
@@ -107,21 +107,37 @@
                 </td>
                 <td data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></td>
             </tr>
+            <tr ko-visible="tags().length > 0" 
+                ko-lookup-scope:data="tags" 
+                ko-lookup-scope:source="$page.availableTags" 
+                ko-lookup-scope:selector#="id">
+                <td>
+                   Labels 
+                </td>
+                <td ko-foreach:data="$lookup"
+                    ko-foreach:as#="tag">
+                    <span class="tag-item" 
+                          ko-style:*background-color="tag.hexColorCode ? '#' + tag.hexColorCode : 'transparent'"
+                          ko-text="tag.name"
+                          ko-tooltip="tag.description">
+                    </span>
+                </td>
+            </tr>
             <tr>
                 <td colspan="2" style="padding-left: 0; padding-right: 0; text-align: center;">
                     <div class="btn-group btn-group-justified btn-group-xs">
-                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Decrease)">
+                        <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Decrease)">
                             <span class="fa fa-arrow-up"></span>
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Increase)">
+                        <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Increase)">
                             <span class="fa fa-arrow-down"></span>
                         </button>
                         <a class="btn btn-primary" href="#" 
                            data-bind="disabled: isBusy, 
-                                      route: archive.sheet.entry.edit | { month: $parentContext.$parent.date().getMonth() + 1, year: $parentContext.$parent.date().getFullYear(), id: id }">
+                                      route: archive.sheet.entry.edit | { month: $page.date().getMonth() + 1, year: $page.date().getFullYear(), id: id }">
                             <span class="fa fa-pencil"></span>
                         </a>
-                        <button class="btn btn-danger" data-bind="disabled: isBusy, click: $parentContext.$parent.deleteEntry">
+                        <button class="btn btn-danger" data-bind="disabled: isBusy, click: $page.deleteEntry">
                             <span class="fa fa-trash"></span>
                         </button>
                     </div>
@@ -141,7 +157,7 @@
                 Van template
             </button>
             <div class="dropdown-menu" data-bind="foreach: unusedTemplates">
-                <a href="#" class="dropdown-item" data-bind="route: archive.sheet.entry.add | { month: $parentContext.$parent.date().getMonth() + 1, year: $parentContext.$parent.date().getFullYear(), templateId: id }, text: source"></a>
+                <a href="#" class="dropdown-item" data-bind="route: archive.sheet.entry.add | { month: $page.date().getMonth() + 1, year: $page.date().getFullYear(), templateId: id }, text: source"></a>
             </div>
         </div>
     </div>
