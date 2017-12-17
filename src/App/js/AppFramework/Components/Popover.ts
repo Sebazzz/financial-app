@@ -168,7 +168,7 @@ export default function register() {
     ko.components.register('popover', new PopoverComponent());
 
     ko.bindingHandlers['popover'] = {
-        init(element: Element, valueAccessor: () => { controller: PopoverController, data: any | DataFactory}, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext: KnockoutBindingContext): void {
+        init(element: Element, valueAccessor: () => { controller: PopoverController, data: any | DataFactory}, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void {
             const options = valueAccessor(),
                   controller = options.controller;
 
