@@ -4529,14 +4529,7 @@
       "resolved": "https://registry.npmjs.org/kendo-ui-core/-/kendo-ui-core-2017.3.1206.tgz",
       "integrity": "sha1-RH8YBPW1jBofh0SdEgoHyrCRGOQ=",
       "requires": {
-        "jquery": "2.2.4"
-      },
-      "dependencies": {
-        "jquery": {
-          "version": "2.2.4",
-          "resolved": "https://registry.npmjs.org/jquery/-/jquery-2.2.4.tgz",
-          "integrity": "sha1-LInWiJterFIqfuoywUUhVZxsvwI="
-        }
+        "jquery": "3.2.1"
       }
     },
     "kind-of": {
