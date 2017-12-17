@@ -68,6 +68,7 @@
     <Content Remove="js\App\typings\json.date-extensions.d.ts" />
     <Content Remove="js\App\typings\webpack.d.ts" />
     <None Remove="js\AppFramework\BindingContextExtender.ts" />
+    <None Remove="js\AppFramework\BindingHandlers\BindingContextLog.ts" />
     <None Remove="js\AppFramework\BindingHandlers\LookupScope.ts" />
     <None Remove="js\AppFramework\Components\Popover.ts" />
     <None Remove="js\AppFramework\Components\templates\popover.html" />
@@ -210,6 +211,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="js\AppFramework\BindingContextExtender.ts" />
+    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\BindingContextLog.ts" />
     <TypeScriptCompile Include="js\AppFramework\BindingHandlers\LookupScope.ts" />
     <TypeScriptCompile Include="js\AppFramework\Components\Popover.ts" />
     <TypeScriptCompile Include="js\AppFramework\UnnamedBindingProvider.ts" />

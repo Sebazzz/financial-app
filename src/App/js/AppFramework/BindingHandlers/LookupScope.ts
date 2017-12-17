@@ -46,10 +46,8 @@ ko.bindingHandlers['lookupScope'] = {
                             (options.data as KnockoutObservable<TIdentifier>)(accessor(data as TSource));
                         }
                     }
-
-                    
                 }
-            });
+              }).extend({ disposeWhenNodeIsRemoved: element});
 
         const ctx = bindingContext.extend({
             $lookup: childData

@@ -98,3 +98,8 @@ This binding would extract the name:
 	<!-- ko lookupScope: { data: categoryId, source: $parent.availableCategories } -->
     <span data-bind="text: $lookup">(category name will appear here)</span>
     <!-- /ko -->
+
+### `bindingContextLog`
+The `bindingContextLog` binding handler has no effect on the DOM but logs the current binding context and parent binding context inside a "console group". Usage:
+
+	<!-- ko bindingContextLog: 'my title' --><!-- /ko --> 

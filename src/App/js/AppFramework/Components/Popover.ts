@@ -65,7 +65,7 @@ class PopoverComponentComponentModel {
         return new Promise<void>((resolve) => {
             const $popover = $(element),
                   needsInitialization = !$popover.data('bs.popover'),
-                eventHandlerName = 'click.bs-popover-auto-hide-' + this.instances.length;
+                  eventHandlerName = 'click.bs-popover-auto-hide-' + this.instances.length;
 
             let isShown = false;
 
@@ -75,12 +75,15 @@ class PopoverComponentComponentModel {
                         const template = $popover.data('bs.popover').getTipElement() as Element,
                               root = template.querySelector('.ko-root') as Element,
                               bindingContext = ko.contextFor(element) as KnockoutBindingContext,
-                              childBindingContext = bindingContext.createChildContext(this.controller, '$component');
+                              childBindingContext = bindingContext.extend({
+                                  $component: this.controller,
+                                  $viewModel: ko.utils.peekObservable(this.controller.popoverViewModel),
+                                  $nodes: this.contentNodes
+                              });
 
                         root.innerHTML = this.template;
 
-                        ko.cleanNode(root);
-                        ko.applyBindings(childBindingContext, root);
+                        ko.applyBindingsToDescendants(childBindingContext, root);
                     } catch (e) {
                         console.error(e);
 
@@ -165,14 +168,18 @@ export default function register() {
     ko.components.register('popover', new PopoverComponent());
 
     ko.bindingHandlers['popover'] = {
-        init(element: Element, valueAccessor: () => { controller: PopoverController, data: any | DataFactory}, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext): void {
+        init(element: Element, valueAccessor: () => { controller: PopoverController, data: any | DataFactory}, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void {
             const options = valueAccessor(),
                   controller = options.controller;
 
             function onHoverIn() {
-                const data = typeof options.data === 'function' ? options.data(viewModel) : options.data;
+                let data = typeof options.data === 'function' ? options.data(viewModel) : options.data;
+                if (typeof data === 'undefined') {
+                    data = bindingContext.$data;
+                }
 
-                controller.show(data, element);
+                controller.show(data, element)
+                          .catch(reason => console.error(reason));
             }
 
             function onHoverOut() {
