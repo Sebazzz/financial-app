@@ -12,6 +12,7 @@ namespace App {
     using App.Models.Domain.Identity;
     using App.Support.Integration;
     using AutoMapper;
+    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
@@ -51,7 +52,9 @@ namespace App {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.AddApplicationInsightsTelemetry(this.Configuration);
+            if (!String.Equals(this.Configuration["DISABLE_TELEMETRY"], "True", StringComparison.OrdinalIgnoreCase)) {
+                services.AddApplicationInsightsTelemetry(this.Configuration);
+            }
 
             services.AddMvc(options => {
                 options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
@@ -141,7 +144,7 @@ namespace App {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-
+            
             if (env.IsDevelopment()) {
                 loggerFactory.AddDebug(LogLevel.Debug);
             } else {
