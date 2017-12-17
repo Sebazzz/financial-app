@@ -63,11 +63,11 @@
     "tslib": "1.8.1"
   },
   "scripts": {
-    "start": "webpack",
-    "build": "webpack",
+    "start": "npx webpack",
+    "build": "npx webpack",
     "test": "karma start --single-run",
     "test-watch": "karma start --no-single-run",
-    "webpack-stats": "webpack --json > webpack-stats.json",
-    "watch": "webpack --watch"
+    "webpack-stats": "npx webpack --json > webpack-stats.json",
+    "watch": "npx webpack --watch"
   }
 }
