@@ -37,7 +37,7 @@ class SheetPage extends FormPage {
 
     public remarksEditModal = new modal.ModalController<RemarksModel>('Opmerkingen bewerken');
     public remarksDisplayModal = new modal.ModalController<RemarksModel>('Opmerkingen bekijken', null, 'Sluiten');
-    public tagSelectionPopover = new popover.PopoverController<TagsModel>('Labels selecteren');
+    public tagSelectionPopover = new popover.PopoverController<SheetEntry>('Labels selecteren');
     public tagViewerPopover = new popover.PopoverController<SheetEntry>('Labels bekijken');
 
     public expenseTrajectory = ko.pureComputed(() => {
@@ -168,16 +168,11 @@ class SheetPage extends FormPage {
     public async editTagsOfEntry(sheetEntry: SheetEntry, event: Event) {
         event.preventDefault();
 
-        const controller = new TagsModel(this.availableTags.peek(), sheetEntry);
-
-        await this.tagSelectionPopover.show(controller, event.currentTarget as Element);
-
-        controller.applyChanges();
+        await this.tagSelectionPopover.show(sheetEntry, event.currentTarget as Element);
     }
 
     public getSheetEntryColor(sheetEntry: SheetEntry) {
-        const tmp = new TagsModel(this.availableTags.peek(), sheetEntry),
-              tags = tmp.selectedTags.peek().filter(x => !!x.hexColorCode);
+        const tags = this.availableTags().filter(x => !!x.hexColorCode && sheetEntry.tags.indexOf(x.id) !== -1);
 
         if (tags.length === 0) {
             return 'transparent';
@@ -458,20 +453,6 @@ export class Sheet {
 
     public sortEntries(): void {
         this.entries.sort((x, y) => x.sortOrder() - y.sortOrder());
-    }
-}
-
-export class TagsModel {
-    public availableTags = ko.observableArray<tag.ITag>();
-    public selectedTags = ko.observableArray<tag.ITag>();
-
-    constructor(tags: tag.ITag[], private sheetEntry: SheetEntry) {
-        this.availableTags(tags);
-        this.selectedTags(sheetEntry.tags().map(tid => tags.filter(inner => inner.id === tid)[0]));
-    }
-
-    public applyChanges() {
-        this.sheetEntry.tags(this.selectedTags.peek().map(t => t.id));
     }
 }
 

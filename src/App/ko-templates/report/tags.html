@@ -1,7 +1,7 @@
-﻿<h1>Rapportage <small>financiën - tags</small></h1>
+﻿<h1>Rapportage <small>financiën - labels</small></h1>
 
 <form class="form-inline">
-    <label for="tag-selector">Rapportage over:&nbsp;</label>
+    <label for="tag-selector">Rapporteer over:&nbsp;</label>
 
     <select id="tag-selector"
             class="custom-select"
@@ -13,7 +13,7 @@
 </form>
 
 <div ko-ifnot="selectedTag">
-    <p class="form-text text-muted">Selecteer een tag om een rapportage te zien.</p>
+    <p class="form-text text-muted">Selecteer een label om een rapportage te zien.</p>
 </div>
 
 <div ko-if="selectedTag">
@@ -64,17 +64,19 @@
                        ko-format#="MMMM yyyy"></a>
                 </td>
 
-                <td>
+                <td class="tagged-with-border">
                     <span data-bind="text: source"></span>
 
-                    <a class="pull-right" href="#"
-                       data-bind="visible: !!remark, click: $parent.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
+                    <a class="btn btn-link btn-sm pull-right" href="#"
+                       data-bind="visible: !!remark, 
+                                  click: $page.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
                         <span class="fa fa-arrows-alt"></span>
                     </a>
-                    <a class="btn btn-secondary btn-sm pull-right"
-                       ko-popover:controller="$parent.tagViewerPopover"
-                       ko-popover:data="$parent.viewTagsOfEntry"
-                       ko-visible="tags.length > 1">
+
+                    <a class="btn btn-link btn-sm pull-right"
+                       href="#"
+                       ko-popover:controller="$page.tagViewerPopover"
+                       ko-visible="tags.length > 0">
                         <span class="fa fa-tags"></span>
                     </a>
                 </td>
@@ -121,17 +123,19 @@
 </div>
 
 <popover params="controller: tagViewerPopover">
-    <ul ko-foreach:data="selectedTags"
+    <!-- ko lookupScope: { data: tags, source: $page.tags, selector: 'id' } -->
+    <ul ko-foreach:data="$lookup"
         ko-foreach:as#="tag"
         class="tag-list">
         <li>
             <span class="tag-item"
-                  ko-style:*background-color="'#' + hexColorCode"
-                  ko-text="name"
-                  ko-tooltip="description">
+                  ko-style:*background-color="tag.hexColorCode ? '#' + tag.hexColorCode : 'transparent'"
+                  ko-text="tag.name"
+                  ko-tooltip="tag.description">
             </span>
         </li>
     </ul>
+    <!-- /ko -->
 </popover>
 
 <modal params="controller: remarksDisplayModal">
