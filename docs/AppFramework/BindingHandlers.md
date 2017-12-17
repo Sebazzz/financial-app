@@ -81,3 +81,20 @@ Usage (manually controlled):
 
 ### `form`, `validationMessage` and `validationProperty`
 The `form` binding handler supports forms and catch-all error handling. The `validationMessage` and `validationProperty` binding handlers support server-side validation. See [Forms and validation](Forms-and-validation.md) for more information.
+
+### `lookupScope`
+Enables looking up a value from an array from another scope. For instance: you have an array of ids and elsewhere an array of objects corresponding to those ids. In that case you want to get all objects with the current ids. The looked up value or values (in case of an array) will end up in the magic variable `$lookup`. This is a writeable observable, so any changes will be reflected back on the parent entity. 
+
+For instance this parent object:
+
+	{ availableCategories: Category[] }
+
+With this child object:
+
+	{ categoryId: observable(number) }
+
+This binding would extract the name:
+
+	<!-- ko lookupScope: { data: categoryId, source: $parent.availableCategories } -->
+    <span data-bind="text: $lookup">(category name will appear here)</span>
+    <!-- /ko -->

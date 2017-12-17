@@ -34,16 +34,19 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
     //  $page: If applicable, gets the page instance
     Object.defineProperties(writeableBindingContext, {
         '$app': {
+            configurable:true,
             get: () => bindingContext.$root,
             enumerable: true
         },
         '$appContext': {
+            configurable:true,
             get: () => bindingContext.$root.context,
             enumerable: true
         },
         '$page': {
-            get: () => findPage(),
-            enumerable: true
+            configurable:true,
+            get: findPage,
+            enumerable: false // when extending the binding context knockout will actually call this property, not ideal
         }
     });
 
@@ -55,13 +58,20 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
           createChildContext = bindingContext.createChildContext;
 
     writeableBindingContext.extend = function () {
-        preprocessBindingContext(this);
-        return extend.apply(this, arguments);
+        const newContext = extend.apply(this, arguments);
+
+        delete newContext[bindingContextPreprocessMarker];
+        preprocessBindingContext(newContext);
+
+        return newContext;
     };
 
     writeableBindingContext.createChildContext = function () {
         const childContext = createChildContext.apply(this, arguments);
+
+        delete childContext[bindingContextPreprocessMarker];
         preprocessBindingContext(childContext);
+
         return childContext;
     };
 }

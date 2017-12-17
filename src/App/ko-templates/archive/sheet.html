@@ -41,7 +41,7 @@
                     <tbody data-bind="foreach: { data: unpayableExpenses, as: 'expense' }">
                         <tr>
                             <td data-bind="text: expense.source"></td>
-                            <td data-bind="text: $parentContext.$parentContext.$parent.categoryNameById(expense.categoryId)"></td>
+                            <td data-bind="text: $pageContext.$parent.categoryNameById(expense.categoryId)"></td>
                             <td data-bind="css: {'balance-negative': expense.delta < 0 },
                                            formatText: expense.delta, format: 'c'"></td>
                         </tr>
@@ -105,7 +105,7 @@
                 data-bind="visible: editMode,
                             css: { 'saving': isBusy },
                             form: {
-                                handler: $parentContext.$parent.saveEntry,
+                                handler: $page.saveEntry,
                                 isBusy: isBusy
                             }">
                 <td>
@@ -117,11 +117,11 @@
                                 required maxlength="250"/>
                         <span class="input-group-btn">
                             <button class="btn btn-secondary btn-sm"
-                                    data-bind="click: $parentContext.$parent.editRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bewerken'">
+                                    data-bind="click: $page.editRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bewerken'">
                                 <span class="fa fa-arrows-alt"></span>
                             </button>
                             <button class="btn btn-secondary btn-sm"
-                                    ko-click="$parentContext.$parent.editTagsOfEntry"
+                                    ko-click="$page.editTagsOfEntry"
                                     ko-tooltip#="Labels selecteren">
                                 <span class="fa fa-tags"></span>
                             </button>
@@ -131,7 +131,7 @@
 
                 <td>
                     <select id="categoryId"
-                            data-bind="value: categoryId, options: $parentContext.$parent.availableCategories, optionsText: 'name', optionsValue: 'id', optionsCaption: '-- maak een keuze--'"
+                            data-bind="value: categoryId, options: $page.availableCategories, optionsText: 'name', optionsValue: 'id', optionsCaption: '-- maak een keuze--'"
                             class="custom-select form-control-sm"
                             required>
                         <option value="">-- maak een keuze --</option>
@@ -175,7 +175,7 @@
                         <button class="btn btn-primary" data-bind="disable: isBusy">
                             <span class="fa fa-floppy-o"></span>
                         </button>
-                        <button class="btn btn-danger" data-bind="click: $parentContext.$parent.deleteEntry, disable: isBusy">
+                        <button class="btn btn-danger" data-bind="click: $page.deleteEntry, disable: isBusy">
                             <span class="fa fa-trash"></span>
                         </button>
                         <button type="button" class="btn btn-secondary" disabled="disabled">
@@ -195,24 +195,24 @@
                     hidden: editMode, 
                     css: { 'saving': isBusy, 'transient': isTransient },
                     tooltip: { text: tooltip, forceOpen: isTransient }">
-                <td ko-style:*border-left-color="$parentContext.$parent.getSheetEntryColor($data)" 
+                <td ko-style:*border-left-color="$page.getSheetEntryColor($data)" 
                     class="tagged-with-border">
                     <span data-bind="text: source"></span>
 
                     <a class="pull-right" href="#"
-                       data-bind="visible: !!remark(), click: $parentContext.$parent.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
+                       data-bind="visible: !!remark(), click: $page.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
                         <span class="fa fa-arrows-alt"></span>
                     </a>
                     
                     <a class="btn btn-link btn-sm pull-right"
-                       ko-popover:controller="$parentContext.$parent.tagViewerPopover"
-                       ko-popover:data="$parentContext.$parent.viewTagsOfEntry"
+                       ko-popover:controller="$page.tagViewerPopover"
+                       ko-popover:data="$page.viewTagsOfEntry"
                        ko-visible="tags().length > 0">
                         <span class="fa fa-tags"></span>
                     </a>
                 </td>
 
-                <td data-bind="text: $parentContext.$parent.categoryNameById(categoryId())"></td>
+                <td data-bind="text: $page.categoryNameById(categoryId())"></td>
 
                 <td>
                     <div data-bind="visible: account() === AccountType.BankAccount">
@@ -231,13 +231,13 @@
                         <button class="btn btn-primary" data-bind="disable: isBusy, click: toggleEdit">
                             <span class="fa fa-pencil"></span>
                         </button>
-                        <button class="btn btn-danger" data-bind="disable: isBusy, click: $parentContext.$parent.deleteEntry">
+                        <button class="btn btn-danger" data-bind="disable: isBusy, click: $page.deleteEntry">
                             <span class="fa fa-trash"></span>
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Decrease), disable: isBusy">
+                        <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Decrease), disable: isBusy">
                             <span class="fa fa-arrow-up"></span>
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bind="click: $parentContext.$parent.mutateSortOrderHandler($data, SortOrderMutation.Increase), disable: isBusy">
+                        <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Increase), disable: isBusy">
                             <span class="fa fa-arrow-down"></span>
                         </button>
                     </div>
@@ -285,7 +285,7 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu" data-bind="foreach: unusedTemplates">
-                        <a href="#" class="dropdown-item" data-bind="click: $parentContext.$parent.addEntryTemplate, text: source"></a>
+                        <a href="#" class="dropdown-item" data-bind="click: $page.addEntryTemplate, text: source"></a>
                     </div>
                 </div>
             </div>
@@ -327,7 +327,7 @@
         ko-foreach:as#="tag"
         class="tag-list">
         <li>
-            <span class="tag-item" 
+            <span class="tag-item"
                   ko-style:*background-color="tag.hexColorCode ? '#' + tag.hexColorCode : 'transparent'"
                   ko-text="tag.name"
                   ko-tooltip="tag.description">
