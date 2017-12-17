@@ -122,7 +122,7 @@
                             </button>
                             <button class="btn btn-secondary btn-sm"
                                     ko-click="$parentContext.$parent.editTagsOfEntry"
-                                    ko-tooltip#="Tags selecteren">
+                                    ko-tooltip#="Labels selecteren">
                                 <span class="fa fa-tags"></span>
                             </button>
                         </span>
@@ -204,7 +204,7 @@
                         <span class="fa fa-arrows-alt"></span>
                     </a>
                     
-                    <a class="btn btn-secondary btn-sm pull-right"
+                    <a class="btn btn-link btn-sm pull-right"
                        ko-popover:controller="$parentContext.$parent.tagViewerPopover"
                        ko-popover:data="$parentContext.$parent.viewTagsOfEntry"
                        ko-visible="tags().length > 0">
@@ -328,9 +328,9 @@
         class="tag-list">
         <li>
             <span class="tag-item" 
-                  ko-style:*background-color="'#' + hexColorCode"
-                  ko-text="name"
-                  ko-tooltip="description">
+                  ko-style:*background-color="tag.hexColorCode ? '#' + tag.hexColorCode : 'transparent'"
+                  ko-text="tag.name"
+                  ko-tooltip="tag.description">
             </span>
         </li>
     </ul>

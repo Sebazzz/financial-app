@@ -27,7 +27,7 @@ ko.bindingHandlers['tooltip'] = {
 
         ko.computed(() => {
             const options = getTooltipOptions(valueAccessor());
-            const text = ko.unwrap(options.text);
+            const text = options && ko.unwrap(options.text);
             if (!text) {
                 return;
             }

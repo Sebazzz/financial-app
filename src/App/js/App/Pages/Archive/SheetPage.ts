@@ -37,8 +37,8 @@ class SheetPage extends FormPage {
 
     public remarksEditModal = new modal.ModalController<RemarksModel>('Opmerkingen bewerken');
     public remarksDisplayModal = new modal.ModalController<RemarksModel>('Opmerkingen bekijken', null, 'Sluiten');
-    public tagSelectionPopover = new popover.PopoverController<TagsModel>('Tags selecteren');
-    public tagViewerPopover = new popover.PopoverController<TagsModel>('Tags bekijken');
+    public tagSelectionPopover = new popover.PopoverController<TagsModel>('Labels selecteren');
+    public tagViewerPopover = new popover.PopoverController<TagsModel>('Labels bekijken');
 
     public expenseTrajectory = ko.pureComputed(() => {
         const sheet = this.sheet(),
