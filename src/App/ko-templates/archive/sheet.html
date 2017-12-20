@@ -41,7 +41,7 @@
                     <tbody data-bind="foreach: { data: unpayableExpenses, as: 'expense' }">
                         <tr>
                             <td data-bind="text: expense.source"></td>
-                            <td data-bind="text: $pageContext.$parent.categoryNameById(expense.categoryId)"></td>
+                            <td data-bind="text: $page.categoryNameById(expense.categoryId)"></td>
                             <td data-bind="css: {'balance-negative': expense.delta < 0 },
                                            formatText: expense.delta, format: 'c'"></td>
                         </tr>
