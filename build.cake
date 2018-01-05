@@ -123,13 +123,13 @@ Task("Restore-Node-Packages")
 	try {
 		Information("Trying to restore packages using npm-cache");
 		
-		exitCode = 
-			StartProcess("cmd", new ProcessSettings()
+		exitCode = unchecked((int) 0xDEADBEEF); // Temporary skip npm-cache because it causes corrupt installation of packages (clean-webpack-plugin missing)
+			/*StartProcess("cmd", new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("npm-cache install npm")));
+			.WithArguments(args => args.Append("/C").AppendQuoted("npm-cache install npm")))*/;
 		
 		if (exitCode != 0) {
-			Warning("npm-cache returned error code {0}. Falling back to npm.", exitCode);
+			Warning("npm-cache returned error code 0x{0:X2}. Falling back to npm.", exitCode);
 			throw new CakeException();
 		}
 	} catch {
@@ -160,7 +160,7 @@ Task("Run")
         DotNetCoreRun($"App.csproj", null, new DotNetCoreRunSettings { WorkingDirectory = "./src/App" });
 });
 
-Action<string,string> PublishSelfContained = (string platform, string folder) => {
+void PublishSelfContained(string platform, string folder) {
 	Information("Publishing self-contained for platform {0}", platform);
 
 	var settings = new DotNetCorePublishSettings
@@ -171,7 +171,7 @@ Action<string,string> PublishSelfContained = (string platform, string folder) =>
 			 };
 	
         DotNetCorePublish($"./src/App/App.csproj", settings);
-};
+}
 
 Task("Run-Webpack")
 	.IsDependentOn("Restore-Node-Packages")
@@ -198,20 +198,35 @@ Task("Publish-Win10")
     .IsDependentOn("Publish-Common")
     .Does(() => PublishSelfContained("win10-x64", null));
 
-Task("Publish-Ubuntu-Core")
-	.Description("Internal task - do not use")
-    .IsDependentOn("Publish-Common")
-    .Does(() => PublishSelfContained("ubuntu.14.04-x64", "ubuntu.14.04-x64/app"));
 
-Task("Publish-Ubuntu")
-    .IsDependentOn("Publish-Ubuntu-Core")
-	.Description("Publish for Ubuntu 14.04")
-    .Does(() => {
-       CopyFile(File("./tools/launchscripts/ubuntu/launch"), publishDir + File("ubuntu.14.04-x64/launch"));
-       CopyFile(File("./tools/launchscripts/ubuntu/launch.conf"), publishDir + File("ubuntu.14.04-x64/launch.conf.example"));
-       GZipCompress(publishDir + Directory("ubuntu.14.04-x64/"), publishDir + File("financial-app-ubuntu-14.04-x64.tar.gz"));
-	});
+var ubuntuAllPublishTask = Task("Publish-Ubuntu");
+
+void UbuntuPublishTask(string taskId, string versionId, string description) {
+	string internalTaskName = $"Publish-Ubuntu-Core-{taskId}";
+	string taskName = $"Publish-Ubuntu-{taskId}";
+
+	Task(internalTaskName)
+		.Description("Internal task - do not use")
+		.IsDependentOn("Publish-Common")
+		.Does(() => PublishSelfContained(versionId, $"{versionId}/app"));
+
+	var output = publishDir + File($"financial-app-{versionId}.tar.gz");
+	Task(taskName)
+		.IsDependentOn(internalTaskName)
+		.Description($"Publish for {description}, output to {output}")
+		.Does(() => {
+		   CopyFile(File("./tools/launchscripts/ubuntu/launch"), publishDir + File($"{versionId}/launch"));
+		   CopyFile(File("./tools/launchscripts/ubuntu/launch.conf"), publishDir + File($"{versionId}/launch.conf.example"));
+		   GZipCompress(publishDir + Directory($"{versionId}/"), output);
+		});
 	
+	ubuntuAllPublishTask.IsDependentOn(taskName);
+}
+
+UbuntuPublishTask("14.04-x64", "ubuntu.14.04-x64", "Ubuntu 14.04 64-bit");
+UbuntuPublishTask("16.10-x64", "ubuntu.16.10-x64", "Ubuntu 16.10/17.04 64-bit");
+//UbuntuPublishTask("16.10-x64-ngen", "ubuntu.16.10-x64-corert", "Ubuntu 16.10/17.04 64-bit - experimental ahead-of-time compiled version");
+
 Task("Publish")
     .IsDependentOn("Publish-Win10")
     .IsDependentOn("Publish-Ubuntu");

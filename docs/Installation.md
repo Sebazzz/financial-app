@@ -16,9 +16,21 @@ To run the application you'Il need:
    * If using Linux, install on Ubuntu 16.x or higher.
 * Microsoft SQL Server for the database. The free SQL Server Express also works.
 
-On Ubuntu install `libuv` and `libunwind8`:
+On Ubuntu install:
 
-    sudo apt-get install libuv libunwind8
+    sudo apt-get install libunwind8 liblttng-ust0 libcurl3 libssl1.0.0 libuuid1 libkrb5-3 zlib1g
+
+In addition, for Ubuntu 16.x:
+
+	sudo apt-get install libicu55
+
+For Ubuntu 14.x:
+
+	sudo apt-get install libicu52
+
+For Ubuntu 17.x:
+
+	sudo apt-get install libicu57
 
 ## Installation
 
