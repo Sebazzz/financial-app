@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <PackageId>App</PackageId>
     <UserSecretsId>FinancialApp</UserSecretsId>
-    <RuntimeIdentifiers>win10-x64;ubuntu.14.04-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win10-x64;ubuntu.14.04-x64;ubuntu.16.10-x64</RuntimeIdentifiers>
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
