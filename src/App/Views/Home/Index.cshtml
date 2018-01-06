@@ -28,6 +28,7 @@
             <script src="/js/eventsource-polyfill.js" asp-append-version="true"></script>
             <script>var DEBUG = true;window.DEBUG = DEBUG;</script>
         </environment>
+        @Html.Raw(JavaScriptSnippet.FullScript)
     </head>
     <body data-bind="css: { 'anonymous': !context.authentication.isAuthenticated(), 'authenticated': context.authentication.isAuthenticated }">
         <loading-bar></loading-bar>
