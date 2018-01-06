@@ -10,6 +10,9 @@ class TelemetryPlugin implements RouterPlugin {
     private currentTimestamp : number|undefined;
 
     constructor(private appInsights: Microsoft.ApplicationInsights.IAppInsights, private router : Router) {
+        this.onTransitionStart = this.onTransitionStart.bind(this);
+        this.onTransitionSuccess = this.onTransitionSuccess.bind(this);
+        this.onTransitionError = this.onTransitionError.bind(this);
     }
 
     public onTransitionStart(): void {
@@ -27,7 +30,7 @@ class TelemetryPlugin implements RouterPlugin {
         }
     }
 
-    public onTransitionError?(toState: State, fromState: State, err?: any): void {
+    public onTransitionError(toState: State, fromState: State, err?: any): void {
         this.appInsights.trackException(err, toState.name);
     }
 }

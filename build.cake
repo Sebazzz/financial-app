@@ -192,12 +192,30 @@ Task("Publish-Common")
     .IsDependentOn("Rebuild")
     .IsDependentOn("Generate-MigrationScript")
 	.IsDependentOn("Run-Webpack");
-	
-Task("Publish-Win10")
-	.Description("Publish for Windows 10 / Windows Server 2016")
-    .IsDependentOn("Publish-Common")
-    .Does(() => PublishSelfContained("win10-x64", null));
 
+var windowsAllPublishTask = Task("Publish-Windows");
+
+void WindowsPublishTask(string taskId, string versionId, string description) {
+	string internalTaskName = $"Publish-Windows-Core-{taskId}";
+	string taskName = $"Publish-Windows-{taskId}";
+
+	Task(internalTaskName)
+		.Description("Internal task - do not use")
+		.IsDependentOn("Publish-Common")
+		.Does(() => PublishSelfContained(versionId, $"{versionId}/app"));
+
+	var output = publishDir + File($"financial-app-{versionId}.zip");
+	Task(taskName)
+		.IsDependentOn(internalTaskName)
+		.Description($"Publish for {description}, output to {output}")
+		.Does(() => {
+		   ZipCompress(publishDir + Directory($"{versionId}/"), output);
+		});
+	
+	windowsAllPublishTask.IsDependentOn(taskName);
+}
+
+WindowsPublishTask("10-x64", "win10-x64", "Windows 10 / Windows Server 2016 64-bit");
 
 var ubuntuAllPublishTask = Task("Publish-Ubuntu");
 
@@ -228,7 +246,7 @@ UbuntuPublishTask("16.10-x64", "ubuntu.16.10-x64", "Ubuntu 16.10/17.04 64-bit");
 //UbuntuPublishTask("16.10-x64-ngen", "ubuntu.16.10-x64-corert", "Ubuntu 16.10/17.04 64-bit - experimental ahead-of-time compiled version");
 
 Task("Publish")
-    .IsDependentOn("Publish-Win10")
+    .IsDependentOn("Publish-Windows")
     .IsDependentOn("Publish-Ubuntu");
 
 Task("Test-JS")
