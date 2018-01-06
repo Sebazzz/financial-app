@@ -1,17 +1,19 @@
 #!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-SYSTEMD_MANIFEST=/etc/systemd/system/financial-app.service
-cd $DIR
 
-echo Financial-app multi-purpose launch script
+FA_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+FA_APP_DIR=$FA_HOME/app
+SYSTEMD_MANIFEST_NAME=financial-app.service
+SYSTEMD_MANIFEST=/etc/systemd/system/$SYSTEMD_MANIFEST_NAME
+
+echo "Financial-app multi-purpose launch script ($FA_HOME)"
 
 function run {
 	echo Set environment variables from launch.conf
-	source ./launch.conf
+	source $FA_HOME/launch.conf
 	
 	echo Starting application
 	cd app
-	./App
+	$FA_APP_DIR/App
 	
 	exit $?
 }
@@ -36,8 +38,8 @@ function install {
 Description=Financial App
 
 [Service]
-WorkingDirectory=$DIR
-ExecStart=$DIR/launch run
+WorkingDirectory=$FA_HOME
+ExecStart=$FA_HOME/launch run
 Restart=always
 
 # Restart service after 10 seconds if service crashes
@@ -50,7 +52,7 @@ WantedBy=multi-user.target
 EOF
 
 	echo "... Enabling service"
-	systemctl enable financial-app.service
+	systemctl enable $SYSTEMD_MANIFEST_NAME
 	EXIT_CODE=$?
 	
 	if [ $EXIT_CODE -ne 0 ]; then
@@ -60,7 +62,7 @@ EOF
 	fi
 	
 	echo "... Ensuring execution permissions"
-	chmod +x ./app/App
+	chmod +x $FA_APP_DIR/App
 }
 
 function uninstall {
@@ -71,18 +73,18 @@ function uninstall {
 
 	echo "Uninstalling from systemd"
 	echo "... Stopping if we're running"
-	systemctl stop financial-app.service
+	systemctl stop $SYSTEMD_MANIFEST_NAME
 	
 	echo "... Disabling service"
-	systemctl disable financial-app.service
+	systemctl disable $SYSTEMD_MANIFEST_NAME
 	
 	echo "... Deleting service manifest"
-	rm /etc/systemd/system/financial-app.service
+	rm /etc/systemd/system/$SYSTEMD_MANIFEST_NAME
 }
 
 function start-service {
 	echo "Starting financial-app via systemd"
-	systemctl start financial-app.service
+	systemctl start $SYSTEMD_MANIFEST_NAME
 	
 	EXIT_CODE=$?
 	if [ $EXIT_CODE -ne 0 ]; then
@@ -90,7 +92,7 @@ function start-service {
 	fi
 	
 	echo "... Status:"
-	systemctl status financial-app.service
+	systemctl status $SYSTEMD_MANIFEST_NAME --no-pager --full
 	
 	EXIT_CODE=$?
 	if [ $EXIT_CODE -ne 0 ]; then
@@ -100,7 +102,7 @@ function start-service {
 
 function stop-service {
 	echo "Stopping financial-app via systemd"
-	systemctl stop financial-app.service
+	systemctl stop $SYSTEMD_MANIFEST_NAME
 	
 	EXIT_CODE=$?
 	if [ $EXIT_CODE -ne 0 ]; then
@@ -108,7 +110,7 @@ function stop-service {
 	fi
 	
 	echo "... Status:"
-	systemctl status financial-app.service
+	systemctl status $SYSTEMD_MANIFEST_NAME --no-pager --full
 }
 
 case "$1" in
@@ -134,12 +136,12 @@ case "$1" in
 		;;
 		
 	"status")
-		systemctl status financial-app.service
+		systemctl status $SYSTEMD_MANIFEST_NAME
 		exit $?
 		;;
 		
 	"log")
-		journalctl -fu kestrel-hellomvc.service
+		journalctl -fu $SYSTEMD_MANIFEST_NAME
 		exit $?
 		;;
 	
@@ -161,7 +163,7 @@ case "$1" in
 		echo "  uninstall       - Uninstall, installed as systemd service"
 		echo "  "
 		echo "  restart         - Restart (if installed as systemd service)"
-		echo "  start           - Start (if installed as systemd service)"
+		echo "  start           - Start (if installed as systemd service) and dump service status. Pass --no-interactive to prevent serv"
 		echo "  stop            - Stop (if installed as systemd service)"
 		echo "  "
 		echo "  log             - View journalctl"
