@@ -3,6 +3,7 @@
   "name": "financial-app",
   "private": true,
   "devDependencies": {
+    "@types/applicationinsights-js": "1.0.5",
     "@types/bootstrap": "3.3.36",
     "@types/chart.js": "2.7.3",
     "@types/jquery": "3.2.16",

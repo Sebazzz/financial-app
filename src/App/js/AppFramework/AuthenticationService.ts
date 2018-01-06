@@ -1,6 +1,7 @@
 ﻿import * as auth from './ServerApi/Authentication';
 import * as ko from 'knockout';
 import { MiddlewareFactory, Middleware, Router, State } from 'router5';
+import { trackLogin, trackLogout } from './Telemetry';
 
 const defaultAuthInfo: auth.IAuthenticationInfo = {
     userId: 0,
@@ -82,6 +83,7 @@ export default class AuthenticationService {
     public initialize(): void {
         this.checkAuthenticationCore();
         this.autoPersistAuthenticationInfo();
+        this.hookupTelemetry();
     }
 
     public async unauthenticate(): Promise<auth.IAuthenticationInfo> {
@@ -97,7 +99,7 @@ export default class AuthenticationService {
                 return;
             }
 
-            const disposable = this.currentAuthentication.subscribe(x => {
+            const disposable = this.currentAuthentication.subscribe(() => {
                 disposable.dispose();
 
                 resolve(this.isAuthenticated.peek());
@@ -156,5 +158,17 @@ export default class AuthenticationService {
         const json = JSON.stringify(authInfo);
 
         localStorage.setItem(AuthenticationService.persistedAuthInfoKey, json);
+    }
+
+    private hookupTelemetry() {
+        ko.computed(() => {
+            const authInfo = this.currentAuthentication();
+
+            if (!authInfo || !authInfo.isAuthenticated) {
+                trackLogout();
+            } else {
+                trackLogin(authInfo);
+            }
+        });
     }
 }

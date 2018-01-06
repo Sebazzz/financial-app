@@ -1,6 +1,7 @@
 ﻿import browserPlugin from 'router5/plugins/browser';
 import { createRouter, loggerPlugin, Route as RouteImpl, Router as RouterImpl } from 'router5';
 import * as $ from 'jquery';
+import { telemetryPlugin } from './Telemetry';
 
 export type Route = RouteImpl;
 export type Routes = Array<Route>;
@@ -16,6 +17,7 @@ export class Router {
     constructor() {
         this.router.usePlugin(loggerPlugin);
         this.router.usePlugin(browserPlugin({}));
+        this.router.usePlugin(telemetryPlugin);
     }
 
     public add(routes: RoutingTable | Route) {
