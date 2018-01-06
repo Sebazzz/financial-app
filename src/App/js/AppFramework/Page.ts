@@ -1,5 +1,5 @@
 ﻿import AppContext from './AppContext';
-import { State } from 'router5';
+import { Router, State } from 'router5';
 import { RoutingTable } from './Router';
 
 import {Panel,ActivationPromise} from './Panel';
@@ -182,6 +182,13 @@ class PageTemplateManager {
     }
 }
 
+export class RouterUtils {
+    public static getPage(router: Router): Page|null {
+        const deps = router.getDependencies();
+
+        return deps && deps['app.page'] || null;
+    }
+}
 
 class PageComponentModel {
     private templateManager : PageTemplateManager;
@@ -230,6 +237,8 @@ class PageComponentModel {
             this.page(page);
             this.templateName(templateId);
             this.errorInfo(null);
+
+            this.appContext.router.setDependency('app.page', page);
         } catch (e) {
             console.error(e);
 

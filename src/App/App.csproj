@@ -72,6 +72,7 @@
     <None Remove="js\AppFramework\BindingHandlers\LookupScope.ts" />
     <None Remove="js\AppFramework\Components\Popover.ts" />
     <None Remove="js\AppFramework\Components\templates\popover.html" />
+    <None Remove="js\AppFramework\Telemetry.ts" />
     <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
     <None Remove="js\App\BindingHandlers\MoneyInput.ts" />
     <None Remove="js\App\Pages\Manage\Tag\DefaultPage.ts" />
@@ -214,6 +215,7 @@
     <TypeScriptCompile Include="js\AppFramework\BindingHandlers\BindingContextLog.ts" />
     <TypeScriptCompile Include="js\AppFramework\BindingHandlers\LookupScope.ts" />
     <TypeScriptCompile Include="js\AppFramework\Components\Popover.ts" />
+    <TypeScriptCompile Include="js\AppFramework\Telemetry.ts" />
     <TypeScriptCompile Include="js\AppFramework\UnnamedBindingProvider.ts" />
     <TypeScriptCompile Include="js\App\App.ts" />
     <TypeScriptCompile Include="js\AppFramework\AppFactory.ts" />

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.SpaServices.Webpack;
-
-namespace App {
+﻿namespace App {
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -12,7 +10,6 @@ namespace App {
     using App.Models.Domain.Identity;
     using App.Support.Integration;
     using AutoMapper;
-    using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
@@ -24,7 +21,6 @@ namespace App {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Logging;
     using Microsoft.Net.Http.Headers;
 
@@ -40,7 +36,7 @@ namespace App {
     using Support.Setup.Steps;
 
     using LogLevel = Microsoft.Extensions.Logging.LogLevel;
-
+    using Microsoft.AspNetCore.SpaServices.Webpack;
     public class Startup
     {
         public Startup(IConfiguration env)

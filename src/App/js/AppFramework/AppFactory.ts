@@ -11,6 +11,7 @@ import registerPopover from './Components/Popover';
 import registerBindingProvider from './UnnamedBindingProvider';
 import hotModuleReplacementPage from './HotModulePage';
 import installDefaultTemplates from './Templates/Index';
+import { trackBindingFrameworkException } from './Telemetry';
 
 export interface IPageRepository {
     addPages(pages: IPageRegistration[]): void;
@@ -157,11 +158,14 @@ function applyJsonDateHook() {
 }
 
 function setKnockoutErrorHandler() {
-    const isMobileDevice = document.documentElement.getAttribute('data-app-mobile') !== 'false';
+    // Incorrect TSD: onError should be writeable
+    (ko as any).onError = (error: Error) => {
+        trackBindingFrameworkException(error);
 
-    if (isMobileDevice) {
-        // Incorrect TSD: onError should be writeable
-        (ko as any).onError = (error : Error) => {
+        // Mobile handling
+        const isMobileDevice = document.documentElement.getAttribute('data-app-mobile') !== 'false';
+
+        if (isMobileDevice) {
             alert(`Application error ${error.name}
 
 ${error.message}
@@ -170,8 +174,8 @@ At:
 ${error.stack}
 
 ${error.toString()}`);
-        };
-    }
+        }
+    };
 }
 
 export function createApp<TModel extends App>(app: TModel) {
