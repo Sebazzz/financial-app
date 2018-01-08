@@ -36,17 +36,16 @@ Task("Rebuild")
 	.IsDependentOn("Clean")
 	.IsDependentOn("Build");
 	
-Task("Check-Node-Version")
-	.Does(() => {
+void CheckToolVersion(string name, string executable, string argument, Version wantedVersion) {
 	try {
-		Information("Checking node.js version...");
+		Information($"Checking {name} version...");
 	
 		var processSettings = new ProcessSettings()
-			.WithArguments(args => args.Append("--version"))
+			.WithArguments(args => args.Append("/C").AppendQuoted(executable + " " + argument))
 			.SetRedirectStandardOutput(true)
 		;
 		
-		var process = StartAndReturnProcess("node", processSettings);
+		var process = StartAndReturnProcess("cmd", processSettings);
 		
 		process.WaitForExit();
 		
@@ -57,19 +56,28 @@ Task("Check-Node-Version")
 		}
 		
 		if (String.IsNullOrEmpty(line)) {
-			throw new CakeException("Didn't get any output from Node.js");
+			throw new CakeException("Didn't get any output from " + executable);
 		}
 	
-		Version actualVersion = Version.Parse(line.Substring(1));
-		Version wantedVersion = new Version(6,1,0);
+		Version actualVersion = Version.Parse(line.Trim('v'));
 		
 		Information("Got version {0} - we want at least version {1}", actualVersion, wantedVersion);
 		if (wantedVersion > actualVersion) {
-			throw new CakeException($"Node version {actualVersion} does not satisfy the requirement of Node>={wantedVersion}");
+			throw new CakeException($"{name} version {actualVersion} does not satisfy the requirement of {name}>={wantedVersion}");
 		}
 	} catch (Exception e) when (!(e is CakeException)) {
-		throw new CakeException("Unable to check Node.js version");
+		throw new CakeException($"Unable to check {name} version. Please check whether {name} is available in the current %PATH%.", e);
 	}
+}
+	
+Task("Check-Node-Version")
+	.Does(() => {
+	CheckToolVersion("node.js", "node", "--version", new Version(6,1,0));
+});
+
+Task("Check-Yarn-Version")
+	.Does(() => {
+	CheckToolVersion("yarn package manager", "yarn", "--version", new Version(1,3,2));
 });
 
 Task("Restore-NuGet-Packages")
@@ -116,33 +124,20 @@ Task("Set-NodeEnvironment")
 
 Task("Restore-Node-Packages")
 	.IsDependentOn("Check-Node-Version")
+	.IsDependentOn("Check-Yarn-Version")
 	.Does(() => {
 	
 	int exitCode;
 	
-	try {
-		Information("Trying to restore packages using npm-cache");
-		
-		exitCode = unchecked((int) 0xDEADBEEF); // Temporary skip npm-cache because it causes corrupt installation of packages (clean-webpack-plugin missing)
-			/*StartProcess("cmd", new ProcessSettings()
-			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("npm-cache install npm")))*/;
-		
-		if (exitCode != 0) {
-			Warning("npm-cache returned error code 0x{0:X2}. Falling back to npm.", exitCode);
-			throw new CakeException();
-		}
-	} catch {
-		Warning("Could not restore packages using npm-cache. Falling back to npm.");
+	Information("Trying to restore packages using yarn");
 	
-		exitCode = 
+	exitCode = 
 			StartProcess("cmd", new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("npm install")));
-	}
+			.WithArguments(args => args.Append("/C").AppendQuoted("yarn install")));
 		
 	if (exitCode != 0) {
-		throw new CakeException($"'npm install' returned exit code {exitCode} (0x{exitCode:x2})");
+		throw new CakeException($"'yarn install' returned exit code {exitCode} (0x{exitCode:x2})");
 	}
 });
 
@@ -180,10 +175,10 @@ Task("Run-Webpack")
 		var exitCode = 
 			StartProcess("cmd", new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("npm run-script build")));
+			.WithArguments(args => args.Append("/C").AppendQuoted("yarn run build")));
 		
 		if (exitCode != 0) {
-			throw new CakeException($"'npm run-script build' returned exit code {exitCode} (0x{exitCode:x2})");
+			throw new CakeException($"'yarn run build' returned exit code {exitCode} (0x{exitCode:x2})");
 		}
 	});
 
@@ -256,10 +251,10 @@ Task("Test-JS")
 		var exitCode = 
 			StartProcess("cmd", new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("npm run-script test")));
+			.WithArguments(args => args.Append("/C").AppendQuoted("yarn run test")));
 		
 		if (exitCode != 0) {
-			throw new CakeException($"'npm run-script test' returned exit code {exitCode} (0x{exitCode:x2})");
+			throw new CakeException($"'yarn run test' returned exit code {exitCode} (0x{exitCode:x2})");
 		}
 	});
 
