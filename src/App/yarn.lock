@@ -3141,7 +3141,7 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-jquery@3.2.1, jquery@<3.0.0:
+jquery@3.2.1, jquery@<=3:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
 
@@ -3316,11 +3316,11 @@ karma@2.0.0:
     tmp "0.0.33"
     useragent "^2.1.12"
 
-kendo-ui-core@2017.3.1206:
-  version "2017.3.1206"
-  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2017.3.1206.tgz#447f1804f5b58c1a1f87449d120a07cab09118e4"
+kendo-ui-core@2018.1.117:
+  version "2018.1.117"
+  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.1.117.tgz#e376e1b12aab51db3167ee35fa81c0a399d738d2"
   dependencies:
-    jquery "<3.0.0"
+    jquery "<=3"
 
 kind-of@^2.0.1:
   version "2.0.1"
