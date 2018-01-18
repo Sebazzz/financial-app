@@ -53,16 +53,14 @@
             <label for="account">Type mutatie</label>
             
             <div class="form-check" data-bind="validationProperty: source">
-                <label class="custom-control custom-radio">
+                <label class="custom-control custom-radio custom-control-inline">
                     <input type="radio" name="account" class="custom-control-input" data-bind="checked: account, checkedValue: $parent.AccountType.BankAccount">
-                    <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description">Bankrekening</span>
+                    <span class="custom-control-label">Bankrekening</span>
                 </label>
             
-                <label class="custom-control custom-radio">
+                <label class="custom-control custom-radio custom-control-inline">
                     <input type="radio" name="account" class="custom-control-input" data-bind="checked: account, checkedValue: $parent.AccountType.SavingsAccount">
-                    <span class="custom-control-indicator"></span>
-                    <span class="custom-control-description">Spaarrekening</span>
+                    <span class="custom-control-label">Spaarrekening</span>
                 </label>
             </div>
 
