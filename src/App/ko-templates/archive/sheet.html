@@ -54,7 +54,7 @@
     </div>
   
     <form name="sheetForm" novalidate>
-        <table class="table table-sm table-responsive table-sheet">
+        <table class="table table-sm table-responsive-sm table-sheet">
             <colgroup>
                 <col/>
                 <col/>
@@ -115,7 +115,7 @@
                                 class="form-control form-control-sm"
                                 data-bind="value: source"
                                 required maxlength="250"/>
-                        <span class="input-group-btn">
+                        <span class="input-group-append">
                             <button class="btn btn-secondary btn-sm"
                                     data-bind="click: $page.editRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bewerken'">
                                 <span class="fa fa-arrows-alt"></span>
@@ -315,8 +315,7 @@
                 <input type="checkbox" class="custom-control-input"
                        ko-checked-value="$data"
                        ko-checked="$parentContext.$lookup">
-                <span class="custom-control-indicator"></span>
-                <span class="custom-control-description"
+                <span class="custom-control-label"
                       ko-text="name"
                       ko-tooltip="description"></span>
             </label>
