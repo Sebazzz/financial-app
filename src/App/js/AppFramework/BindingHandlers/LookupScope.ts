@@ -35,18 +35,18 @@ ko.bindingHandlers['lookupScope'] = {
                     return sourceData.filter((val) => identifiers.indexOf(accessor(val)) !== -1);
                 },
                 write: (data: TSource[] | TSource) => {
-                    if (!ko.isObservable(options.data)) {
+                    if (!ko.isObservable<TIdentifier | TIdentifier[]>(options.data)) {
                         return;
                     }
 
                     if ($.isArray(ko.utils.peekObservable<TIdentifier[] | TIdentifier>(options.data))) {
                         // case: target is array
-                        if (ko.isWriteableObservable(options.data)) {
+                        if (ko.isWriteableObservable<TIdentifier | TIdentifier[]>(options.data)) {
                             (options.data as KnockoutObservableArray<TIdentifier>)((data as TSource[]).map(val => accessor(val)));
                         }
                     } else {
                         // case: target is single-value
-                        if (ko.isWriteableObservable(options.data)) {
+                        if (ko.isWriteableObservable<TIdentifier | TIdentifier[]>(options.data)) {
                             (options.data as KnockoutObservable<TIdentifier>)(accessor(data as TSource));
                         }
                     }
