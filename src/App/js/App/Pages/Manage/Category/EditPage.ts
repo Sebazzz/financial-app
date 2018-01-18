@@ -38,7 +38,7 @@ class EditPage extends FormPage {
         const category = this.category.peek();
 
         try {
-            const serialized = ko.toJS(category) as category.ICategory,
+            const serialized = ko.toJS<any>(category) as category.ICategory,
                   id = this.id.peek(),
                   isNew = id === 0;
 

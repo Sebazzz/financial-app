@@ -45,7 +45,7 @@ class EditPage extends FormPage {
         const user = this.user.peek();
 
         try {
-            const serialized = ko.toJS(user) as user.IAppUserMutate,
+            const serialized = ko.toJS<any>(user) as user.IAppUserMutate,
                   id = this.id.peek(),
                   isNew = id === 0;
 

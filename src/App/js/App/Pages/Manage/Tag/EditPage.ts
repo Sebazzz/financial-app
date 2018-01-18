@@ -38,7 +38,7 @@ class EditPage extends FormPage {
         const tag = this.tag.peek();
 
         try {
-            const serialized = ko.toJS(tag) as tag.ITag,
+            const serialized = ko.toJS<any>(tag) as tag.ITag,
                   id = this.id.peek(),
                   isNew = id === 0;
 
