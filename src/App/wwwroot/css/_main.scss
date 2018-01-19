@@ -37,202 +37,13 @@ body {
     font-size: 9pt;
 }
 
-tr.row-middle {
-    td {
-        vertical-align: middle;
-    }
-
-    transition: opacity 500ms linear;
-
-    &.saving {
-        opacity: 0.6;
-        color: #909090;
-        color: rgba(000, 000, 000, 0.5);
-
-        animation: saving-row 500ms infinite;
-        cursor: wait;
-    }
-}
 
 span.negative, div.input-group.negative .form-control, div.negative .form-control {
     color: $negative-color;
 }
 
-@keyframes saving-row {
-    0% {
-        opacity: 0.6;
-    }
-
-    50% {
-        opacity: 0.3;
-    }
-
-    100% {
-        opacity: 0.6;
-    }
-}
-
-@keyframes transient-row {
-    0% { 
-        background-color: rgba(0,0,0, 0);
-    }
-    50% { 
-        background-color: rgba(0,0,0, 255);
-    }
-    100% {
-        background-color: rgba(0,0,0, 0);
-    }
-}
-
-$initial-download-indicator-width: 500px;
-$initial-download-indicator-vert-padding: 5px;
-$initial-download-indicator-hor-padding: 25px;
-$initial-download-indicator-side-icon-size: 40px;
-
-$initial-download-indicator-anim-width: $initial-download-indicator-width - ($initial-download-indicator-hor-padding) - ($initial-download-indicator-side-icon-size * 0.5);
-
-.initial-download-indicator {
-    position: relative;
-    width: 500px;
-    margin: 30px auto;
-    padding: $initial-download-indicator-vert-padding $initial-download-indicator-hor-padding;
-    font-size: 20px;
-
-    .fa {
-        display: inline-block;
-    }
-
-    .fa-server, .fa-mobile {
-        position: absolute;
-        top: 0;
-        font-size: $initial-download-indicator-side-icon-size;
-        z-index: 10;
-        background-color: $body-bg;
-    }
-
-    .fa-server {
-        left: $initial-download-indicator-hor-padding;
-    }
-
-    .fa-file-code-o {
-        animation: initial-download-indicator 5s ease infinite;
-    }
-
-    .fa-mobile {
-        right: 0;
-        top: -10px;
-        font-size: $initial-download-indicator-side-icon-size * 1.5;
-    }
-}
-
-@keyframes initial-download-indicator {
-    0% {
-        transform: translate($initial-download-indicator-hor-padding,0) scale(0.8);
-    }
-
-    40% {
-        transform: translate($initial-download-indicator-anim-width * 0.45, -10px) rotate(0deg) scale(1.2);
-    }
-
-    50% {
-        transform: translate($initial-download-indicator-anim-width * 0.5, -20px) rotate(180deg) scale(1.5);
-    }
-
-    50% {
-        transform: translate($initial-download-indicator-anim-width * 0.55, -10px) rotate(360deg) scale(1.2);
-    }
-
-    99% {
-        transform: translate($initial-download-indicator-anim-width, 0px) scale(0.8);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translate($initial-download-indicator-hor-padding,0);
-        opacity: 0;
-    }
-}
-
-tr.transient {
-    opacity: 0.8;
-
-    animation: transient-row 700ms linear infinite;
-}
-
 .preserve-whitespace {
     white-space: pre-wrap;
-}
-
-.sheet-mobile-table tr td:first-child {
-    width: 30%;
-    padding-right: 2em;
-    font-weight: bold;
-}
-
-.sheet-mobile-table tr td:last-child {
-    padding-left: 2em;
-    text-align: right;
-}
-
-.sheet-mobile-table {
-    border-top: 2px solid #000;
-    margin-bottom: 1em;
-}
-
-.sheet-mobile-table th div {
-    text-align: center;
-    vertical-align: middle;
-    margin-right: 1em;
-}
-
-.mobile-sheet-summary {
-    text-align: center;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-tr#sheet-offset td {
-    font-size: 8pt;
-    padding-bottom: 0.5em;
-}
-
-tr#sheet-offset td + td{
-    border-top: 1px dashed gray;
-}
-
-.scrollTo {
-    display: none;
-}
-
-@media screen and (max-width: 700px) {
-    h1 {
-        text-align: center;
-    }
-
-    .scrollTo {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        position: fixed;
-        bottom: 10px;
-        right: 10px;
-        opacity: 0.5;
-        cursor: pointer;
-        background: url(../images/icons/scroll_arrow_down.png) no-repeat;
-
-        transition: transform 0.5s ease-in-out;
-
-        transform: rotate(0deg);
-    }
-
-    .scrollTo.scroll-nub-invert {
-        transform: rotate(180deg);
-    }
-
-    .scrollTo.scroll-nub-disabled {
-        transform: translateY(50px);
-    }
-
 }
 
 .actionable-list {
@@ -260,62 +71,15 @@ top-menu {
     }
 }
 
-loading-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    // for some reason bootstrap gives a position: relative to .alert, .navbar, .card among others
-    // messing up the z-index positioning causing the progress bar to be hidden. Now can I give these
-    // elements a position:static but there is a chance something might break, so let's promote
-    // this element to a new stacking context (ref: MDN https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context)
-    z-index: 1;
-    transform: rotate(0deg);
-}
-
 .navbar-brand, .application-header {
     background: url(../images/icons/application.svg) 10px center no-repeat;
     background-size: contain;
     padding-left: 70px;
 }
 
-
-.progress-indicator {
-    .progress-indicator-bar {
-        background: lighten($accent-color, 20%);
-        display: inline-block;
-        height: $navbar-top-border-width;
-        z-index: 1;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 50%;
-        overflow: visible;
-    }
-
-    .progress-indicator-spinner {
-        position: absolute;
-        left: 10px;
-        top: 10px;
-        color: lighten($accent-color, 20%);
-        animation: rotating 750ms linear infinite;
-        z-index: 1;
-    }
-}
-
 .input-money {
     background: url(../images/icons/currency-euro.png) 10px center / 1em no-repeat $input-bg;
     padding-left: 2em;
-}
-
-.tagged-with-border {
-    border-left: 5px solid transparent;
-
-    .actionable-list & {
-        margin-bottom: 15px;
-        padding-left: 1rem;
-    }
 }
 
 input[type=color].form-control {
@@ -327,32 +91,5 @@ input[type=color].form-control {
     &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
-    }
-}
-
-.tag-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.tag-item {
-    display: inline-block;
-    padding: 3px 6px;
-    border-radius: 2px;
-
-    &.custom-control {
-        padding-left: 2em;
-    }
-
-    .custom-control-indicator {
-        left: 0.5em;
-    }
-
-    .tag-list & {
-        display: block;
-        margin-right: 0;
-
-        margin-top: 5px;
     }
 }

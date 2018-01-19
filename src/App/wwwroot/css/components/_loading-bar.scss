@@ -1,0 +1,36 @@
+﻿
+loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    // for some reason bootstrap gives a position: relative to .alert, .navbar, .card among others
+    // messing up the z-index positioning causing the progress bar to be hidden. Now can I give these
+    // elements a position:static but there is a chance something might break, so let's promote
+    // this element to a new stacking context (ref: MDN https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context)
+    z-index: 1;
+    transform: rotate(0deg);
+}
+
+.progress-indicator {
+    .progress-indicator-bar {
+        background: lighten($accent-color, 20%);
+        display: inline-block;
+        height: $navbar-top-border-width;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        overflow: visible;
+    }
+
+    .progress-indicator-spinner {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        color: lighten($accent-color, 20%);
+        animation: rotating 750ms linear infinite;
+        z-index: 1;
+    }
+}
