@@ -1,0 +1,31 @@
+﻿.scrollTo {
+    display: none;
+}
+
+@media screen and (max-width: 700px) {
+    h1 {
+        text-align: center;
+    }
+
+    .scrollTo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        opacity: 0.5;
+        cursor: pointer;
+        background: url(../images/icons/scroll_arrow_down.png) no-repeat;
+        transition: transform 0.5s ease-in-out;
+        transform: rotate(0deg);
+    }
+
+    .scrollTo.scroll-nub-invert {
+        transform: rotate(180deg);
+    }
+
+    .scrollTo.scroll-nub-disabled {
+        transform: translateY(50px);
+    }
+}

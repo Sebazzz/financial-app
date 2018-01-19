@@ -1,0 +1,87 @@
+﻿tr.row-middle {
+    td {
+        vertical-align: middle;
+    }
+
+    transition: opacity 500ms linear;
+
+    &.saving {
+        opacity: 0.6;
+        color: #909090;
+        color: rgba(000, 000, 000, 0.5);
+        animation: saving-row 500ms infinite;
+        cursor: wait;
+    }
+}
+
+
+@keyframes saving-row {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes transient-row {
+    0% {
+        background-color: rgba(0,0,0, 0);
+    }
+
+    50% {
+        background-color: rgba(0,0,0, 255);
+    }
+
+    100% {
+        background-color: rgba(0,0,0, 0);
+    }
+}
+
+tr.transient {
+    opacity: 0.8;
+    animation: transient-row 700ms linear infinite;
+}
+
+
+.sheet-mobile-table tr td:first-child {
+    width: 30%;
+    padding-right: 2em;
+    font-weight: bold;
+}
+
+.sheet-mobile-table tr td:last-child {
+    padding-left: 2em;
+    text-align: right;
+}
+
+.sheet-mobile-table {
+    border-top: 2px solid #000;
+    margin-bottom: 1em;
+}
+
+.sheet-mobile-table th div {
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 1em;
+}
+
+.mobile-sheet-summary {
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+tr#sheet-offset td {
+    font-size: 8pt;
+    padding-bottom: 0.5em;
+}
+
+tr#sheet-offset td + td {
+    border-top: 1px dashed gray;
+}
