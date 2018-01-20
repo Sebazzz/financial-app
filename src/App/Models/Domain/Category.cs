@@ -2,6 +2,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
+    using App.Models.Validation;
     using Repositories;
 
     [DataContract]
@@ -27,5 +28,12 @@
             
         [DataMember]
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set monthly budget for this category
+        /// </summary>
+        [DataMember]
+        [CurrencyDeltaValidation]
+        public decimal? MonthlyBudget { get; set; }
     }
 }

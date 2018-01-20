@@ -1,4 +1,5 @@
-﻿import {IPageRepository} from 'AppFramework/AppFactory';
+﻿  
+import {IPageRepository} from 'AppFramework/AppFactory';
 import DefaultPageRegistration from './Pages/DefaultPage';
 import Archive_DefaultPageRegistration from './Pages/Archive/DefaultPage';
 import Archive_SheetPageRegistration from './Pages/Archive/SheetPage';
@@ -18,6 +19,7 @@ import Manage_Tag_EditPageRegistration from './Pages/Manage/Tag/EditPage';
 import Manage_User_DefaultPageRegistration from './Pages/Manage/User/DefaultPage';
 import Manage_User_EditPageRegistration from './Pages/Manage/User/EditPage';
 import Report_DefaultPageRegistration from './Pages/Report/DefaultPage';
+import Report_BudgetPageRegistration from './Pages/Report/BudgetPage';
 import Report_GeneralPageRegistration from './Pages/Report/GeneralPage';
 import Report_TagsPageRegistration from './Pages/Report/TagsPage';
 import Setup_DefaultRegistration from './Pages/Setup/Default';
@@ -43,6 +45,7 @@ const pageFactory = {
 		repository.replacePage(require('./Pages/Manage/User/DefaultPage').default);
 		repository.replacePage(require('./Pages/Manage/User/EditPage').default);
 		repository.replacePage(require('./Pages/Report/DefaultPage').default);
+		repository.replacePage(require('./Pages/Report/BudgetPage').default);
 		repository.replacePage(require('./Pages/Report/GeneralPage').default);
 		repository.replacePage(require('./Pages/Report/TagsPage').default);
 		repository.replacePage(require('./Pages/Setup/Default').default);
@@ -69,6 +72,7 @@ const pageFactory = {
 			Manage_User_DefaultPageRegistration,
 			Manage_User_EditPageRegistration,
 			Report_DefaultPageRegistration,
+			Report_BudgetPageRegistration,
 			Report_GeneralPageRegistration,
 			Report_TagsPageRegistration,
 			Setup_DefaultRegistration

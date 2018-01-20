@@ -25,9 +25,12 @@
                             <span class="fa fa-pencil"></span>
                         </a>
                         <a class="btn btn-secondary" 
-                           data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year },
-                              tooltip: 'Rapportage'">
-                            <span class="fa fa-bar-chart "></span>
+                           data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }, tooltip: 'Rapportage'">
+                            <span class="fa fa-bar-chart"></span>
+                        </a>
+                        <a class="btn btn-secondary"
+                           data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }, tooltip: 'Vergelijking met begroting'">
+                            <span class="fa fa-table"></span>
                         </a>
                     </p>
                 </td>

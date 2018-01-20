@@ -1,0 +1,106 @@
+﻿<h1 ko-hidden="hasPreselectedDate">Rapportage <small>financiën - budget</small></h1>
+<h1 ko-visible="hasPreselectedDate">Begroting <small data-bind="formatText: preselectedDate, format: 'MMMM yyyy'"></small></h1>
+
+<form class="form-inline" ko-ifnot="hasPreselectedDate">
+    <label for="sheet-selector">Rapporteer over:&nbsp;</label>
+
+    <select id="sheet-selector"
+            class="custom-select"
+            ko-options="sheets"
+            ko-options-text="$page.displayName"
+            ko-options-caption#="Maak een keuze..."
+            ko-value="selectedSheet"></select>
+</form>
+
+<div class="alert alert-danger" ko-visible="isBudgetLoadError">
+    <span class="fa fa-bomb"></span> <strong>Krak!</strong> Dat ging niet goed.
+</div>
+
+<div ko-with="budget">
+    <p>
+        Een overzicht van de begroting tegenover de daadwerkelijk gemaakte kosten wordt hieronder getoond.
+    </p>
+
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Categorie</th>
+                <th>Begroot bedrag</th>
+                <th ko-format-text="$parent.selectedDate"
+                    ko-format#="MMMM yyyy"></th>
+                <th>Voorgaande maand</th>
+                <th class="col-hide-mobile">Gemiddelde voorg. 6 maanden</th>
+                <th class="col-hide-mobile">Totaal voorg. 6 maanden</th>
+                <th class="col-hide-mobile">Gemiddelde <span ko-text="$parent.selectedDate().getFullYear()"></span></th>
+                <th class="col-hide-mobile">Totaal <span ko-text="$parent.selectedDate().getFullYear()"></span></th>
+            </tr>
+        </thead>
+        <tbody ko-foreach="rows" style="white-space: nowrap">
+            <tr>
+                <td>
+                    <span ko-text="categoryName"></span>
+                </td>
+                <td ko-format-text="monthlyBudget"
+                    ko-format#="c"
+                    css:negative="monthlyBudget < 0"></td>
+                <td ko-format-text="currentMonth"
+                    ko-format#="c"
+                    css:negative="isOverBudget"></td>
+                <td ko-format-text="lastMonth"
+                    ko-format#="c"></td>
+                <td class="col-hide-mobile"
+                    ko-format-text="averageSixMonths"
+                    ko-format#="c"></td>
+                <td class="col-hide-mobile"
+                    ko-format-text="totalSixMonths"
+                    ko-format#="c"></td>
+                <td class="col-hide-mobile"
+                    ko-format-text="averageYear"
+                    ko-format#="c"></td>
+                <td class="col-hide-mobile"
+                    ko-format-text="totalYear"
+                    ko-format#="c"></td>
+            </tr>
+        </tbody>
+        <tfoot ko-with="totals">
+            <tr>
+                <td>
+                    <strong>Totalen</strong>
+                </td>
+                <td ko-format-text="budgetTotal"
+                    ko-format#="c"
+                    css:negative="budgetTotal"></td>
+                <td ko-format-text="currentMonth"
+                    ko-format#="c"></td>
+                <td ko-format-text="lastMonth"
+                    ko-format#="c"></td>
+                <td class="col-hide-mobile"
+                    ko-format-text="averageSixMonths"
+                    ko-format#="c"></td>
+                <td class="col-hide-mobile"
+                    ko-format-text="totalSixMonths"
+                    ko-format#="c"></td>
+                <td class="col-hide-mobile"
+                    ko-format-text="averageYear"
+                    ko-format#="c"></td>
+                <td class="col-hide-mobile"
+                    ko-format-text="totalYear"
+                    ko-format#="c"></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<p class="btn-group mobile-center" ko-if="hasPreselectedDate" style="margin-top: 2em">
+    <a href="#"
+       class="btn btn-secondary"
+       data-bind="href: previousSheetStatisticsRoute">Vorige maand</a>
+
+    <a href="#"
+       class="btn btn-primary"
+       data-bind="href: currentSheetRoute">Terug naar lijst</a>
+
+    <a href="#"
+       class="btn btn-secondary"
+       data-bind="href: nextSheetStatisticsRoute, visible: hasNextMonth">Volgende maand</a>
+</p>

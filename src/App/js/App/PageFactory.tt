@@ -1,13 +1,18 @@
 ﻿<#@ template language="C#" hostspecific="true" #>
 <#@ output extension=".ts" #>
+<#@ assembly name="System.Core" #>  
 <#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
 import {IPageRepository} from 'AppFramework/AppFactory';
 <#
 
 	var templateFile = Host.TemplateFile;
 	var currentDirectory = Path.GetDirectoryName(templateFile);
 	var pagesDirectoryPath = Path.Combine(currentDirectory, "Pages");
-	var pageFiles = Directory.GetFiles(pagesDirectoryPath, "*.ts", SearchOption.AllDirectories);
+	var pageFiles = Directory.GetFiles(pagesDirectoryPath, "*.ts", SearchOption.AllDirectories)
+							 .OrderBy(x => Path.GetDirectoryName(x))
+							 .ThenBy(x => !IsDefaultPage(x))
+							 .ToArray();
 
 	foreach (var pageFile in pageFiles) {#>
 import <#=GetAliasName(pageFile, currentDirectory)#> from '<#=GetModuleName(pageFile, currentDirectory)#>';
@@ -50,5 +55,9 @@ export default pageFactory;
 	static string EmitComma(string item, string[] array) {
 		int itemIndex = Array.IndexOf(array, item);
 		return itemIndex == array.Length - 1 ? "" : ",";
+	}
+
+	static bool IsDefaultPage(string item) {
+		return item.Contains("DefaultPage");
 	}
 #>
