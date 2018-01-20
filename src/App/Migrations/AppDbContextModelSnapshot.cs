@@ -54,6 +54,8 @@ namespace App.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<decimal?>("MonthlyBudget");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250);
@@ -266,7 +268,8 @@ namespace App.Migrations
 
                     b.HasIndex("SheetEntryId");
 
-                    b.HasIndex("TagId");
+                    b.HasIndex("TagId", "SheetEntryId")
+                        .IsUnique();
 
                     b.ToTable("SheetEntryTag");
                 });

@@ -1,4 +1,7 @@
-﻿namespace App {
+﻿using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
+
+namespace App {
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -47,6 +50,7 @@
         public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
         public void ConfigureServices(IServiceCollection services) {
             if (!String.Equals(this.Configuration["DISABLE_TELEMETRY"], "True", StringComparison.OrdinalIgnoreCase)) {
                 services.AddApplicationInsightsTelemetry(this.Configuration);
@@ -105,6 +109,7 @@
             // DI
             services.AddScoped<AppDbContext>();
             services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContext>());
+            services.AddScoped<DbConnection>(sp => sp.GetRequiredService<DbContext>().Database.GetDbConnection());
             services.AddScoped<AppUserManager>();
             services.AddScoped<AppUserStore>();
 
@@ -115,6 +120,7 @@
             services.AddScoped<EntityOwnerService>();
             services.AddScoped<SheetOffsetCalculationService>();
             services.AddScoped<SheetStatisticsService>();
+            services.AddScoped<BudgetRetrievalService>();
             services.AddScoped<AutoMapperEngineFactory.SheetOffsetCalculationResolver>();
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<Category>>();
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<RecurringSheetEntry>>();

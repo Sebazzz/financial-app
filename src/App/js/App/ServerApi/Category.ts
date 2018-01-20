@@ -11,6 +11,7 @@ export interface ICategory {
     id: number;
     name: string;
     description: string|null;
+    monthlyBudget: number|null;
 }
 
 export class Api extends ApiBase {

@@ -1,6 +1,6 @@
 ﻿import {Page, IPageRegistration} from 'AppFramework/Page'
 import AppContext from 'AppFramework/AppContext';
-import * as sheet from '../../ServerApi/Sheet';
+import * as sheet from 'App/ServerApi/Sheet';
 import * as ko from 'knockout';
 class DefaultPage extends Page {
     private api = new sheet.Api();

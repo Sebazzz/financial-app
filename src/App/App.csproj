@@ -79,6 +79,7 @@
     <None Remove="js\App\Pages\Manage\Tag\EditPage.ts" />
     <None Remove="js\App\Pages\Report\DefaultPage.ts" />
     <None Remove="js\App\Pages\Report\TagsPage.ts" />
+    <None Remove="js\App\ServerApi\Budget.ts" />
     <None Remove="js\App\ServerApi\Tag.ts" />
     <None Remove="js\App\ServerApi\TagReport.ts" />
     <None Remove="js\tests\AppFramework\UnnamedBindingProvider.ts" />
@@ -162,6 +163,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.4" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0-alpha2-final" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.1" />
@@ -250,6 +252,7 @@
     <TypeScriptCompile Include="js\App\Pages\Manage\Tag\EditPage.ts" />
     <TypeScriptCompile Include="js\App\Pages\Report\TagsPage.ts" />
     <TypeScriptCompile Include="js\App\Pages\Report\DefaultPage.ts" />
+    <TypeScriptCompile Include="js\App\ServerApi\Budget.ts" />
     <TypeScriptCompile Include="js\App\ServerApi\Tag.ts" />
     <TypeScriptCompile Include="js\App\ServerApi\TagReport.ts" />
     <TypeScriptCompile Include="js\tests\AppFramework\UnnamedBindingProvider.ts" />

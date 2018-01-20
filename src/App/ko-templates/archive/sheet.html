@@ -298,6 +298,13 @@
                     <span class="fa fa-bar-chart"></span>
                     Rapportage
                 </a>
+                
+                <a class="btn btn-secondary"
+                   data-bind="route: archive.sheet.budget | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }, tooltip: 'Vergelijking met begroting'">
+                    <span class="fa fa-table"></span>
+                    
+                    Begroting
+                </a>
             </div>
         </div>
         

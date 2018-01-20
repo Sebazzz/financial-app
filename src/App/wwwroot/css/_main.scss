@@ -93,3 +93,9 @@ input[type=color].form-control {
         cursor: not-allowed;
     }
 }
+
+@include media-breakpoint-down(sm) {
+    .col-hide-mobile {
+        display: none;
+    }
+}

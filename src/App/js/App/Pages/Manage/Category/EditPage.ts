@@ -72,6 +72,50 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public id = 0;
     public name = ko.observable<string>();
     public description = ko.observable<string>();
+    public monthlyBudget = ko.observable<number|null>(null).extend({ notify: 'always' });
+
+    public hasMonthlyBudget = ko.computed({
+        read: () => this.monthlyBudget() !== null,
+        write: (val) => this.monthlyBudget(val ? (this.monthlyBudget() || 0) : null)
+    });
+    public isIncome = ko.computed({
+        read: () => this.hasMonthlyBudget() && (this.monthlyBudget() || 0) >= 0,
+        write: (val) => {
+            const currentBudget = this.monthlyBudget();
+            if (currentBudget === null) {
+                return;
+            }
+
+            if (val && currentBudget < 0 || !val && currentBudget > 0) {
+                this.monthlyBudget(-1 * currentBudget);
+            }
+        }
+    });
+
+    public normalizedMonthlyBudget = ko.computed( {
+        read: () => {
+            const factor = this.isIncome() ? 1 : -1,
+                  amount = this.monthlyBudget();
+
+            if (amount === null) {
+                return null;
+            }
+ 
+            return amount * factor;
+        },
+        write: (val) => {
+            if (val === null) {
+                this.monthlyBudget(null);
+            } else if (val >= 0) {
+                this.monthlyBudget(val);
+            } else if (val < 0) {
+                console.log('Value less than zero (%d) - resetting', val);
+
+                const factor = this.isIncome() ? 1 : -1;
+                this.monthlyBudget(val * factor);
+            }
+        }
+    }).extend({ notify: 'always' });
 }
 
 export default {
