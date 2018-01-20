@@ -30,5 +30,9 @@
             "node_modules/@types"
         ]
     },
-    "compileOnSave": false
+    "compileOnSave": false,
+    "exclude": [
+        "node_modules",
+        "wwwroot"
+    ]
 }
