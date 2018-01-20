@@ -1,4 +1,4 @@
-﻿import * as $ from 'jquery';
+import * as $ from 'jquery';
 
 interface IRequestFormat {
     dataType: string;
@@ -12,7 +12,7 @@ const interceptors: IHttpInterceptor[] = [];
 export type RequestHandler<T> = (promise: Promise<T>) => void;
 
 export interface IHttpInterceptor {
-    interceptRequest<T>(request : JQuery.AjaxSettings) : RequestHandler<T> | null;    
+    interceptRequest<T>(request: JQuery.AjaxSettings): RequestHandler<T> | null;
 }
 
 export default class HttpClient {
@@ -24,7 +24,7 @@ export default class HttpClient {
         return new HttpClient();
     }
 
-    public get<T>(url: string, data: any = null) : Promise<T> {
+    public get<T>(url: string, data: any = null): Promise<T> {
         return this.method(url, 'GET', data);
     }
 
@@ -52,14 +52,14 @@ export default class HttpClient {
         }
 
         const ajaxOptions: JQuery.AjaxSettings = {
-            url: url,
+            url,
             contentType: requestFormat.contentType,
             data: data === null ? data : convertData(),
             dataType: requestFormat.dataType,
-            method: method
+            method
         };
 
-        const requestHandlers: RequestHandler<T>[] = [];
+        const requestHandlers: Array<RequestHandler<T>> = [];
         for (const interceptor of interceptors) {
             const handler = interceptor.interceptRequest(ajaxOptions);
             if (handler) {

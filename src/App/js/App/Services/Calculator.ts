@@ -1,6 +1,6 @@
-﻿import * as sheet from '../ServerApi/Sheet'
-import * as sheetEntry from '../ServerApi/SheetEntry'
-import * as recurring from '../ServerApi/RecurringSheetEntry'
+import * as sheet from '../ServerApi/Sheet';
+import * as sheetEntry from '../ServerApi/SheetEntry';
+import * as recurring from '../ServerApi/RecurringSheetEntry';
 
 export class SheetTotalCalculationService {
     public calculateTotal(sheet: sheet.ISheet, accountType: sheetEntry.AccountType) {
@@ -19,7 +19,6 @@ export class SheetTotalCalculationService {
     }
 }
 
-
 export class SheetExpensesCalculationService {
     private sheetTotalCalculation = new SheetTotalCalculationService();
 
@@ -34,7 +33,7 @@ export class SheetExpensesCalculationService {
         let nextIncome: recurring.IRecurringSheetEntry | null = null,
             predictedSheetTotal = sheetTotal;
 
-        for (var i = 0, len = orderedExpectedExpenses.length, current: recurring.IRecurringSheetEntry; i < len; i++) {
+        for (let i = 0, len = orderedExpectedExpenses.length, current: recurring.IRecurringSheetEntry; i < len; i++) {
             current = orderedExpectedExpenses[i];
 
             if (current.account !== sheetEntry.AccountType.BankAccount) {
@@ -54,8 +53,8 @@ export class SheetExpensesCalculationService {
         }
 
         return {
-            nextIncome: nextIncome,
-            unpayableExpenses: unpayableExpenses,
+            nextIncome,
+            unpayableExpenses,
             totalBankWithExpense: predictedSheetTotal
         };
     }

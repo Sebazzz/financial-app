@@ -1,22 +1,22 @@
-﻿import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
 import { AccountType } from './SheetEntry';
 
 export interface IRecurringSheetEntryListing {
-    id : number;
-    categoryId : number;
+    id: number;
+    categoryId: number;
     categoryName: string;
-    sortOrder : number;
-    source : string;
+    sortOrder: number;
+    source: string;
     account: AccountType;
 }
 
 export interface IRecurringSheetEntry {
-    id : number;
-    categoryId : number;
+    id: number;
+    categoryId: number;
     delta: number;
-    sortOrder : number;
-    source : string;
-    remark : string|null;
+    sortOrder: number;
+    source: string;
+    remark: string|null;
     account: AccountType;
 }
 
@@ -33,7 +33,7 @@ export class Api extends ApiBase {
     }
 
     public list() {
-        return this.execGet<Array<IRecurringSheetEntryListing>>();
+        return this.execGet<IRecurringSheetEntryListing[]>();
     }
 
     public delete(id: number) {

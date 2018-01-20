@@ -1,4 +1,4 @@
-﻿import {Page} from './Page';
+import {Page} from './Page';
 
 const bindingContextPreprocessMarker = '__unnamedBindingContextExtender';
 
@@ -33,18 +33,18 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
     //  $appContext: The application context
     //  $page: If applicable, gets the page instance
     Object.defineProperties(writeableBindingContext, {
-        '$app': {
-            configurable:true,
+        $app: {
+            configurable: true,
             get: () => bindingContext.$root,
             enumerable: true
         },
-        '$appContext': {
-            configurable:true,
+        $appContext: {
+            configurable: true,
             get: () => bindingContext.$root.context,
             enumerable: true
         },
-        '$page': {
-            configurable:true,
+        $page: {
+            configurable: true,
             get: findPage,
             enumerable: false // when extending the binding context knockout will actually call this property, not ideal
         }
@@ -57,7 +57,7 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
     const extend = bindingContext.extend,
           createChildContext = bindingContext.createChildContext;
 
-    writeableBindingContext.extend = function () {
+    writeableBindingContext.extend = function() {
         const newContext = extend.apply(this, arguments);
 
         delete newContext[bindingContextPreprocessMarker];
@@ -66,7 +66,7 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
         return newContext;
     };
 
-    writeableBindingContext.createChildContext = function () {
+    writeableBindingContext.createChildContext = function() {
         const childContext = createChildContext.apply(this, arguments);
 
         delete childContext[bindingContextPreprocessMarker];

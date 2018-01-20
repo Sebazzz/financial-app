@@ -1,4 +1,4 @@
-﻿import { default as ApiBase } from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase } from 'AppFramework/ServerApi/ApiBase';
 
 export interface ISetupStepDescriptor {
     order: number;
@@ -11,10 +11,10 @@ export interface ISetupState {
     steps: ISetupStepDescriptor[];
 }
 
-export interface ISetupInvocation<TData=undefined> {
+export interface ISetupInvocation<TData= undefined> {
     setupStepNumber: number;
 
-    data : TData;
+    data: TData;
 }
 
 export class Api extends ApiBase {

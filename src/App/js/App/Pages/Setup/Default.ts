@@ -1,14 +1,14 @@
-﻿import { IPageRegistration } from 'AppFramework/Page'
-import FormPage from 'AppFramework/Forms/FormPage'
+import { IPageRegistration } from 'AppFramework/Page';
+import FormPage from 'AppFramework/Forms/FormPage';
 import * as api from '../../ServerApi/Setup';
-import AppContext from 'AppFramework/AppContext'
+import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 
 class DefaultPage extends FormPage {
     private api = new api.Api();
 
-    private setupStepHandlerFactory: Array<SetupStepHandlerFactory> = [
+    private setupStepHandlerFactory: SetupStepHandlerFactory[] = [
         () => new DefaultSetupStepHandler(),
         () => new DatabaseConnectionSetupStepHandler(),
         () => new DatabaseMigrationStepHandler(),
@@ -130,11 +130,10 @@ abstract class SetupStepHandler extends validate.ValidateableViewModel {
         return false;
     }
 
-    public getData() : any {
+    public getData(): any {
         return undefined;
     }
 }
-
 
 class DefaultSetupStepHandler extends SetupStepHandler { }
 
@@ -170,5 +169,5 @@ export default {
     id: module.id,
     templateName: 'setup/default',
     routingTable: { name: 'setup', path: '/setup' },
-    createPage: (appContext) => new DefaultPage(appContext)
+    createPage:appContext => new DefaultPage(appContext)
 } as IPageRegistration;

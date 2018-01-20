@@ -1,4 +1,4 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import * as v from './ValidateableViewModel';
 import {Page} from '../Page';
 
@@ -19,10 +19,10 @@ function findValidateableViewModel(bindingContext: KnockoutBindingContext): v.Va
     return viewModel;
 }
 
-ko.bindingHandlers['validationMessage'] = {
+ko.bindingHandlers.validationMessage = {
     init(element: HTMLElement, valueAccessor: () => string, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
         const validatable = findValidateableViewModel(bindingContext),
-              property = valueAccessor(), 
+              property = valueAccessor(),
               $element = $(element);
 
         if (!validatable) {
@@ -43,17 +43,17 @@ ko.bindingHandlers['validationMessage'] = {
                 $element.text('');
             } else {
                 $element.text(propertyState.join('\r\n'));
-            };
-        }).extend({ 'disposeWhenNodeIsRemoved': element });
+            }
+        }).extend({ disposeWhenNodeIsRemoved: element });
     },
 
-    preprocess(value:string) {
+    preprocess(value: string) {
         return `'${value}'`;
     }
 };
 
-ko.bindingHandlers['validationProperty'] = {
-    init(element: HTMLInputElement, valueAccessor: () => string, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel:any, bindingContext: KnockoutBindingContext) {
+ko.bindingHandlers.validationProperty = {
+    init(element: HTMLInputElement, valueAccessor: () => string, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
         const validatable = findValidateableViewModel(bindingContext),
             property = valueAccessor();
 
@@ -61,7 +61,7 @@ ko.bindingHandlers['validationProperty'] = {
             return;
         }
 
-        function mark(validationState : string|undefined) {
+        function mark(validationState: string|undefined) {
             if ('setCustomValidity' in element) {
                 element.setCustomValidity(validationState ? validationState : '');
 
@@ -90,8 +90,8 @@ ko.bindingHandlers['validationProperty'] = {
                 mark(undefined);
             } else {
                 mark(propertyState.join('\r\n'));
-            };
-        }).extend({ 'disposeWhenNodeIsRemoved': element });
+            }
+        }).extend({ disposeWhenNodeIsRemoved: element });
     },
 
     preprocess(value: string) {
@@ -99,7 +99,7 @@ ko.bindingHandlers['validationProperty'] = {
     }
 };
 
-function handleByConvention(bindingHandlerName: string) : void {
+function handleByConvention(bindingHandlerName: string): void {
     const bindingHandler = ko.bindingHandlers[bindingHandlerName],
           existingPreprocess = bindingHandler.preprocess;
 

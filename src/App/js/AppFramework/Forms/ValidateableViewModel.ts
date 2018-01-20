@@ -1,6 +1,6 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 
-export type ModelStateErrors = Array<string>;
+export type ModelStateErrors = string[];
 
 export interface IModelState {
     [key: string]: ModelStateErrors;
@@ -12,7 +12,7 @@ export class ValidateableViewModel {
 
 const httpBadRequest = 400;
 
-export function tryExtractValidationError(xhr : JQueryXHR, viewModel : ValidateableViewModel) : boolean {
+export function tryExtractValidationError(xhr: JQueryXHR, viewModel: ValidateableViewModel): boolean {
     // ReSharper disable once TsResolvedFromInaccessibleModule [R# limitation]
     if (xhr.status !== httpBadRequest) {
         return false;

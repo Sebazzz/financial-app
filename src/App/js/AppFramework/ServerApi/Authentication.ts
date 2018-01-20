@@ -1,7 +1,7 @@
-﻿import ApiBase from './ApiBase';
+import ApiBase from './ApiBase';
 
 export interface IAuthenticationInfo {
-    userId : number;
+    userId: number;
     userName: string | null;
     isAuthenticated: boolean;
     roles: string[];

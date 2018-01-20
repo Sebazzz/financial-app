@@ -1,5 +1,5 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page'
-import AppContext from 'AppFramework/AppContext'
+import {Page, IPageRegistration} from 'AppFramework/Page';
+import AppContext from 'AppFramework/AppContext';
 
 class DefaultPage extends Page {
     constructor(appContext: AppContext) {
@@ -15,5 +15,5 @@ export default {
     id: module.id,
     templateName: 'default',
     routingTable: { name: 'report', path: '/report', forwardTo: 'report.general' },
-    createPage: (appContext) => new DefaultPage(appContext)
+    createPage:appContext => new DefaultPage(appContext)
 } as IPageRegistration;

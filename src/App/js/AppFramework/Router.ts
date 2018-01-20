@@ -1,10 +1,10 @@
-﻿import browserPlugin from 'router5/plugins/browser';
+import browserPlugin from 'router5/plugins/browser';
 import { createRouter, loggerPlugin, Route as RouteImpl, Router as RouterImpl } from 'router5';
 import * as $ from 'jquery';
 import { telemetryPlugin } from './Telemetry';
 
 export type Route = RouteImpl;
-export type Routes = Array<Route>;
+export type Routes = Route[];
 export type RoutingTable = Routes | Route;
 
 export interface IRouteProvider {
@@ -35,7 +35,7 @@ export class Router {
     }
 
     private initListener() {
-        $(document.body).on('click', 'a', (ev) => {
+        $(document.body).on('click', 'a',ev => {
             const anchor = ev.target,
                 href = (anchor as HTMLAnchorElement).href,
                 origin = document.location.origin,

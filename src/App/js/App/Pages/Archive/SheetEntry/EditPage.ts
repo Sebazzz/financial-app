@@ -1,4 +1,4 @@
-﻿import FormPage from 'AppFramework/Forms/FormPage';
+import FormPage from 'AppFramework/Forms/FormPage';
 import {IPageRegistration} from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import NowRouteProvider from '../../../Services/NowRoute';
@@ -15,7 +15,6 @@ import * as category from '../../../ServerApi/Category';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 
 import {State} from 'router5';
-
 
 class EditPage extends FormPage {
     private categoryApi = new category.Api();
@@ -191,7 +190,7 @@ export default {
         {
             name: 'now.add',
             path: '/add',
-            canActivate: (router) => {
+            canActivate:router => {
                 return (toState: State) => {
                     if (toState.name !== 'now.add') {
                         // Derived route - always OK
@@ -203,9 +202,9 @@ export default {
                     router.cancel();
                     router.navigate('archive.sheet.entry.add', nowRoute.getParams());
                     return false;
-                }
+                };
             }
         }
     ],
-    createPage: (appContext) => new EditPage(appContext)
+    createPage:appContext => new EditPage(appContext)
 } as IPageRegistration;

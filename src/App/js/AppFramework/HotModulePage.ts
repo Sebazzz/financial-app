@@ -1,4 +1,4 @@
-﻿import { Page, IPageRegistration } from './Page';
+import { Page, IPageRegistration } from './Page';
 import AppContext from './AppContext';
 
 class HotModuleReplacementPage extends Page {
@@ -30,5 +30,5 @@ export default {
     id: module.id,
     templateName: 'page-loader',
     routingTable: { name: 'hmr-proxy', path: '/hmr-proxy' },
-    createPage: (appContext) => new HotModuleReplacementPage(appContext)
+    createPage:appContext => new HotModuleReplacementPage(appContext)
 } as IPageRegistration;

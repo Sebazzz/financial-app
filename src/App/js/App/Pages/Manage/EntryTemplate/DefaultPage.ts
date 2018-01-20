@@ -1,5 +1,5 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page'
-import AppContext from 'AppFramework/AppContext'
+import {Page, IPageRegistration} from 'AppFramework/Page';
+import AppContext from 'AppFramework/AppContext';
 import * as entry from '../../../ServerApi/RecurringSheetEntry';
 import {AccountType} from '../../../ServerApi/SheetEntry';
 import * as ko from 'knockout';
@@ -40,7 +40,7 @@ class DefaultPage extends Page {
         }
     }
 
-    public mutateSortOrderHandler(entry : entry.IRecurringSheetEntryListing, mutation : entry.SortOrderMutationType) {
+    public mutateSortOrderHandler(entry: entry.IRecurringSheetEntryListing, mutation: entry.SortOrderMutationType) {
         return async () => {
             try {
                 await this.api.mutateOrder(entry.id, mutation);
@@ -57,5 +57,5 @@ export default {
     id: module.id,
     templateName: 'manage/entry-template/default',
     routingTable: { name: 'manage.entry-template', path: '/entry-template' },
-    createPage: (appContext) => new DefaultPage(appContext)
+    createPage:appContext => new DefaultPage(appContext)
 } as IPageRegistration;

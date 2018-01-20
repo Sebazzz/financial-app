@@ -1,4 +1,4 @@
-﻿import * as framework from 'AppFramework/Panel';
+import * as framework from 'AppFramework/Panel';
 import AppContext from 'AppFramework/AppContext';
 
 class Loader extends framework.Panel {

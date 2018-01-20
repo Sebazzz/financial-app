@@ -1,4 +1,4 @@
-﻿import AppContext from 'AppFramework/AppContext';
+import AppContext from 'AppFramework/AppContext';
 import {IPageRegistration} from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as category from '../../../ServerApi/Category';
@@ -76,11 +76,11 @@ export class EditViewModel extends validate.ValidateableViewModel {
 
     public hasMonthlyBudget = ko.computed({
         read: () => this.monthlyBudget() !== null,
-        write: (val) => this.monthlyBudget(val ? (this.monthlyBudget() || 0) : null)
+        write:val => this.monthlyBudget(val ? (this.monthlyBudget() || 0) : null)
     });
     public isIncome = ko.computed({
         read: () => this.hasMonthlyBudget() && (this.monthlyBudget() || 0) >= 0,
-        write: (val) => {
+        write:val => {
             const currentBudget = this.monthlyBudget();
             if (currentBudget === null) {
                 return;
@@ -100,10 +100,10 @@ export class EditViewModel extends validate.ValidateableViewModel {
             if (amount === null) {
                 return null;
             }
- 
+
             return amount * factor;
         },
-        write: (val) => {
+        write:val => {
             if (val === null) {
                 this.monthlyBudget(null);
             } else if (val >= 0) {
@@ -125,5 +125,5 @@ export default {
         { name: 'manage.category.edit', path: '/edit/:id' },
         { name: 'manage.category.add', path: '/add'}
     ],
-    createPage: (appContext) => new EditPage(appContext)
+    createPage:appContext => new EditPage(appContext)
 } as IPageRegistration;

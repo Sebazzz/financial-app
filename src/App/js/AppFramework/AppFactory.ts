@@ -1,4 +1,4 @@
-﻿import AppContext from './AppContext';
+import AppContext from './AppContext';
 import { registerPageLoader, IPageRegistration } from './Page';
 import { Router } from './Router';
 import * as $ from 'jquery';
@@ -39,7 +39,7 @@ export class App implements IPageRepository {
     }
 
     public addPages(pages: IPageRegistration[]) {
-        const uniquePageIds : Array<string> = [];
+        const uniquePageIds: string[] = [];
 
         for (const page of pages) {
             this.pages.push(page);
@@ -128,7 +128,7 @@ function bind(app: App) {
     ko.applyBindings(app, element);
 }
 
-function registerComponents(appContext : AppContext) {
+function registerComponents(appContext: AppContext) {
     registerLoadingBar(appContext);
     registerModal();
     registerPopover();
@@ -137,7 +137,7 @@ function registerComponents(appContext : AppContext) {
 function registerGlobals() {
     // For development it is *very* useful to have some globals available
 
-    (window as any)['ko'] = ko;
+    (window as any).ko = ko;
 }
 
 function setCultureInformation(app: App) {
@@ -151,7 +151,8 @@ function applyJsonDateHook() {
     JSON.useDateParser();
 
     // At this time of initialization, jquery is already initialized and we have to manually apply the hook there
-    $.ajaxPrefilter('text json', (options) => {
+    $.ajaxPrefilter('text json',options => {
+        // tslint:disable-next-line:no-unused-expression
         options.converters && (options.converters['text json'] = JSON.parse);
     });
     ($ as any).parseJSON = JSON.parse;

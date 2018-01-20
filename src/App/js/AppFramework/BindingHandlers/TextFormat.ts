@@ -1,7 +1,7 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import * as $ from 'jquery';
 
-ko.bindingHandlers['formatText'] = {
+ko.bindingHandlers.formatText = {
     init(element: HTMLElement, valueAccessor: () => any | undefined, allBindingsAccessor: KnockoutAllBindingsAccessor) {
         const $element = $(element);
 
@@ -12,6 +12,6 @@ ko.bindingHandlers['formatText'] = {
                   str = isCompositeFormatString ? kendo.format(format, value) : kendo.toString(value, format);
 
             $element.text(str);
-        }).extend({ 'disposeWhenNodeIsRemoved': element });
+        }).extend({ disposeWhenNodeIsRemoved: element });
     }
-}
+};

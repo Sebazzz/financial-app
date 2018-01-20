@@ -1,4 +1,4 @@
-﻿import registerLazyBindingHandler from 'AppFramework/BindingHandlers/LazyBindingHandler';
+import registerLazyBindingHandler from 'AppFramework/BindingHandlers/LazyBindingHandler';
 import * as ko from 'knockout';
 import { IChartLoader } from '../Services/ChartLoader'; // Silence TS2686
 
@@ -35,7 +35,7 @@ function initChart(chartLoader: IChartLoader, element: HTMLCanvasElement, valueA
                 labels: data.labels,
                 datasets: data.dataSets
             },
-            options: options
+            options
         }
     );
 

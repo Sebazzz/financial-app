@@ -1,5 +1,5 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page'
-import AppContext from 'AppFramework/AppContext'
+import {Page, IPageRegistration} from 'AppFramework/Page';
+import AppContext from 'AppFramework/AppContext';
 import * as api from 'App/ServerApi/SheetStatistics';
 import { ChartOptions } from 'chart.js';
 
@@ -11,7 +11,7 @@ class ReportPage extends Page {
     public income = ko.observable<api.IReportDigest>();
     public expenses = ko.observable<api.IReportDigest>();
 
-    public chartOptions : ChartOptions = {
+    public chartOptions: ChartOptions = {
         tooltips: {
             mode: 'index',
             callbacks: {
@@ -52,7 +52,7 @@ class ReportPage extends Page {
                     labelString: 'Bedrag'
                 },
                 ticks: {
-                    callback: (value) => '€ ' + value
+                    callback:value => '€ ' + value
                 },
                 gridLines: {
                     display: false,
@@ -74,11 +74,11 @@ class ReportPage extends Page {
         this.income(report.income);
         this.expenses(report.expenses);
     }
-} 
+}
 
 export default {
     id: module.id,
     templateName: 'report/general',
     routingTable: { name: 'report.general', path: '/general' },
-    createPage: (appContext) => new ReportPage(appContext)
+    createPage:appContext => new ReportPage(appContext)
 } as IPageRegistration;

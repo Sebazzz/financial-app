@@ -1,5 +1,5 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page'
-import AppContext from 'AppFramework/AppContext'
+import {Page, IPageRegistration} from 'AppFramework/Page';
+import AppContext from 'AppFramework/AppContext';
 import * as tag from 'App/ServerApi/Tag';
 
 import * as tagReport from 'App/ServerApi/TagReport';
@@ -38,7 +38,7 @@ class TagsPage extends Page {
         return {
             bankAccount: this.calculator.calculateTotal(sheet, sheetEntry.AccountType.BankAccount),
             savingsAccount: this.calculator.calculateTotal(sheet, sheetEntry.AccountType.SavingsAccount)
-        }
+        };
     });
 
     constructor(appContext: AppContext) {
@@ -124,5 +124,5 @@ export default {
     id: module.id,
     templateName: 'report/tags',
     routingTable: { name: 'report.tags', path: '/tags' },
-    createPage: (appContext) => new TagsPage(appContext)
+    createPage:appContext => new TagsPage(appContext)
 } as IPageRegistration;

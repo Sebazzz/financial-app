@@ -1,4 +1,4 @@
-﻿import AppContext from 'AppFramework/AppContext';
+import AppContext from 'AppFramework/AppContext';
 import {IPageRegistration} from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as tag from '../../../ServerApi/Tag';
@@ -106,5 +106,5 @@ export default {
         { name: 'manage.tag.edit', path: '/edit/:id' },
         { name: 'manage.tag.add', path: '/add'}
     ],
-    createPage: (appContext) => new EditPage(appContext)
+    createPage:appContext => new EditPage(appContext)
 } as IPageRegistration;

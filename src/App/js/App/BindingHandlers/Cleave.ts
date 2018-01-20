@@ -1,9 +1,9 @@
-﻿import * as Cleave from 'cleave.js';
+import * as Cleave from 'cleave.js';
 import * as ko from 'knockout';
 import * as $ from 'jquery';
 import {App} from 'AppFramework/AppFactory';
 
-ko.bindingHandlers['cleaveNumber'] = ko.bindingHandlers['cleaveCurrency'] = {
+ko.bindingHandlers.cleaveNumber = ko.bindingHandlers.cleaveCurrency = {
     init(element: HTMLInputElement, valueAccessor: () => any, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext): void {
         const app = bindingContext && bindingContext.$root;
 
@@ -57,4 +57,4 @@ ko.bindingHandlers['cleaveNumber'] = ko.bindingHandlers['cleaveCurrency'] = {
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => cleave.destroy());
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => element.removeEventListener('blur', updateObservable));
     }
-}
+};

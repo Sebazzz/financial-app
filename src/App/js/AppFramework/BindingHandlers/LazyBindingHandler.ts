@@ -1,11 +1,11 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 
 export type ModuleLoader<T> = () => Promise<T>;
 
 export type LoadingHandler = (element: Element) => void;
 
 export interface IPartialBindingHandler<T> {
-    init: (library : T, element: any, valueAccessor: () => any, allBindingsAccessor?: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext) => void;
+    init: (library: T, element: any, valueAccessor: () => any, allBindingsAccessor?: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext) => void;
 }
 
 export default function register<T>(

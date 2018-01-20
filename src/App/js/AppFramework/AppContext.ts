@@ -1,4 +1,4 @@
-﻿import * as r from 'router5';
+import * as r from 'router5';
 import { App } from './AppFactory';
 import AuthenticationService from './AuthenticationService';
 
@@ -12,7 +12,7 @@ export default class AppContext {
 
     public culture = 'en-US';
 
-    constructor(app:App) {
+    constructor(app: App) {
         this.app = app;
     }
 }

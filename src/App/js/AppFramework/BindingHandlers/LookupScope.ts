@@ -1,19 +1,19 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 
 type PropertySelector<TSource, TIdentifier> = (item: TSource) => TIdentifier;
 
-interface ISubstituteScopeOptions<TSource,TIdentifier> {
+interface ISubstituteScopeOptions<TSource, TIdentifier> {
     data: TIdentifier[] | KnockoutObservableArray<TIdentifier> | TIdentifier | KnockoutObservable<TIdentifier>;
     source: TSource[] | KnockoutObservableArray<TSource>;
 
     selector: string | PropertySelector<TSource, TIdentifier>;
 }
 
-function makeAccessor<TSource, TIdentifier>(propertyName : string): PropertySelector<TSource, TIdentifier> {
+function makeAccessor<TSource, TIdentifier>(propertyName: string): PropertySelector<TSource, TIdentifier> {
     return el => (el as any)[propertyName] as TIdentifier;
 }
 
-ko.bindingHandlers['lookupScope'] = {
+ko.bindingHandlers.lookupScope = {
     init<TSource, TIdentifier>(element: Node, valueAccessor: () => ISubstituteScopeOptions<TSource, TIdentifier>, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
         const options = valueAccessor(),
               accessor = typeof options.selector === 'string' ? makeAccessor<TSource, TIdentifier>(options.selector) : options.selector,
@@ -27,12 +27,12 @@ ko.bindingHandlers['lookupScope'] = {
 
                     if (!$.isArray(identifiers)) {
                         const identifier = identifiers,
-                              lookup = sourceData.filter((val) => identifier === accessor(val))[0];
+                              lookup = sourceData.filter(val => identifier === accessor(val))[0];
 
                         return lookup;
                     }
 
-                    return sourceData.filter((val) => identifiers.indexOf(accessor(val)) !== -1);
+                    return sourceData.filter(val => identifiers.indexOf(accessor(val)) !== -1);
                 },
                 write: (data: TSource[] | TSource) => {
                     if (!ko.isObservable<TIdentifier | TIdentifier[]>(options.data)) {

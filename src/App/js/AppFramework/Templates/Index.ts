@@ -1,4 +1,4 @@
-﻿function installTemplate(id: string, contents: string) {
+function installTemplate(id: string, contents: string) {
     if (document.getElementById(id)) {
         return;
     }

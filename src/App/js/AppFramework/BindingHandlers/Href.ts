@@ -1,4 +1,4 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import {App} from '../AppFactory';
 
 interface IRouteOptions {
@@ -12,8 +12,8 @@ function isRouteOptions(item: string | IRouteOptions): item is IRouteOptions {
 
 type HrefOptions = KnockoutObservable<string> | string | KnockoutObservable<IRouteOptions> | IRouteOptions;
 
-ko.bindingHandlers['href'] = {
-    init(element: HTMLAnchorElement, valueAccessor: () => HrefOptions, ignored1:any, ignored2:any, bindingContext: KnockoutBindingContext) {
+ko.bindingHandlers.href = {
+    init(element: HTMLAnchorElement, valueAccessor: () => HrefOptions, ignored1: any, ignored2: any, bindingContext: KnockoutBindingContext) {
         ko.computed(() => {
             const options = ko.unwrap<IRouteOptions | string>(valueAccessor());
             if (!isRouteOptions(options)) {
@@ -31,7 +31,7 @@ ko.bindingHandlers['href'] = {
     }
 };
 
-ko.bindingHandlers['route'] = {
+ko.bindingHandlers.route = {
     init(element: HTMLAnchorElement, valueAccessor: () => HrefOptions, ignored1: any, ignored2: any, bindingContext: KnockoutBindingContext) {
         ko.computed(() => {
             let options = ko.unwrap<IRouteOptions | string>(valueAccessor());
@@ -70,4 +70,4 @@ ko.bindingHandlers['route'] = {
 
         return `'${trimmedRouteName}'`;
     }
-}
+};

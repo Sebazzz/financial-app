@@ -2,7 +2,7 @@ import * as framework from 'AppFramework/AppFactory';
 import { App } from './App';
 import '../../wwwroot/css/app.scss';
 
-export module app {
+export namespace app {
     export function init() {
         const app = new App();
         app.context.culture = 'nl-NL';

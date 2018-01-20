@@ -1,4 +1,4 @@
-﻿import AppContext from 'AppFramework/AppContext';
+import AppContext from 'AppFramework/AppContext';
 import {IPageRegistration} from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as category from '../../../ServerApi/Category';
@@ -31,7 +31,6 @@ class EditPage extends FormPage {
 
     protected async onActivate(args?: any): Promise<void> {
         const loadCategories = this.categoryApi.list();
-
 
         if (args && args.id) {
             this.id(+args.id);
@@ -109,5 +108,5 @@ export default {
         { name: 'manage.entry-template.edit', path: '/edit/:id' },
         { name: 'manage.entry-template.add', path: '/add'}
     ],
-    createPage: (appContext) => new EditPage(appContext)
+    createPage:appContext => new EditPage(appContext)
 } as IPageRegistration;

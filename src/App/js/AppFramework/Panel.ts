@@ -16,7 +16,7 @@ export interface IPanel {
 
     activate(): Promise<void>;
 
-    deactivate() : void;
+    deactivate(): void;
 }
 
 export abstract class Panel {
@@ -42,7 +42,6 @@ export abstract class Panel {
         activationPromise.catch(() => this.loadStatus(LoadingStatus.Error));
     }
 }
-
 
 export type PanelFactory<T> = (params?: any, componentInfo?: KnockoutComponentTypes.ComponentInfo) => T;
 

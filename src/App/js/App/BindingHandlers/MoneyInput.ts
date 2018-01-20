@@ -1,4 +1,4 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 
 const isMobileDevice = document.documentElement.getAttribute('data-app-mobile') !== 'false';
 
@@ -33,7 +33,7 @@ function getParseCulture(element: HTMLInputElement) {
     return 'nl-NL';
 }
 
-function parseValue(element: HTMLInputElement, culture : string) : number {
+function parseValue(element: HTMLInputElement, culture: string): number {
     if (!element.value) {
         return NaN;
     }
@@ -47,7 +47,7 @@ function parseValue(element: HTMLInputElement, culture : string) : number {
     return kendo.parseFloat(element.value, 'en-US');
 }
 
-ko.bindingHandlers['moneyInput'] = {
+ko.bindingHandlers.moneyInput = {
     init(element: HTMLInputElement, valueAccessor: () => KnockoutObservable<number> | number, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext): void {
         element.classList.add('input-money');
         element.type = 'number';
@@ -64,7 +64,7 @@ ko.bindingHandlers['moneyInput'] = {
 
         // Read from
         ko.computed(() => {
-            let value = ko.unwrap(valueAccessor());
+            const value = ko.unwrap(valueAccessor());
 
             if (isSettingValue || value === null || typeof value === 'undefined' || isNaN(value)) {
                 return;
@@ -110,4 +110,4 @@ ko.bindingHandlers['moneyInput'] = {
 
         return value;
     }
-}
+};

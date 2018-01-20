@@ -99,7 +99,7 @@ class BudgetReportPage extends Page {
             // Preselect current date
             const date = new Date();
             const sheets: sheet.ISheetListing[] = this.sheets.peek();
-            for (let sheet of sheets) {
+            for (const sheet of sheets) {
                 if (sheet.month === date.getMonth() + 1 &&
                     sheet.year === date.getFullYear()) {
                     this.selectedSheet(sheet);
@@ -108,8 +108,7 @@ class BudgetReportPage extends Page {
         }
     }
 
-
-    private async loadBudget(year : number, month: number) {
+    private async loadBudget(year: number, month: number) {
         this.budget(null);
         this.isBudgetLoading(true);
 
@@ -139,5 +138,5 @@ export default {
         { name: 'report.budget', path: '/budget' },
         { name: 'archive.sheet.budget', path: '/budget' }
     ],
-    createPage: (appContext) => new BudgetReportPage(appContext)
+    createPage:appContext => new BudgetReportPage(appContext)
 } as IPageRegistration;

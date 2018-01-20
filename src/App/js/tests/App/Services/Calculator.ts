@@ -1,11 +1,12 @@
-﻿import {ISheet} from 'App/ServerApi/Sheet';
+/* tslint:disable */
+import {ISheet} from 'App/ServerApi/Sheet';
 import { IRecurringSheetEntry } from 'App/ServerApi/RecurringSheetEntry';
 import { AccountType, ISheetEntry } from 'App/ServerApi/SheetEntry';
 import * as calculators from 'App/Services/Calculator';
 import { expect } from 'chai';
 
 let id = 0, sortOrder = 0;
-function createEntry(delta: number, type: AccountType) : ISheetEntry{
+function createEntry(delta: number, type: AccountType): ISheetEntry {
     return {
         source: 'fake',
         categoryId: 0,
@@ -13,7 +14,7 @@ function createEntry(delta: number, type: AccountType) : ISheetEntry{
         createTimestamp: new Date().toString(),
         updateTimestamp: new Date().toString(),
         account: type,
-        delta: delta,
+        delta,
         id: ++id,
         templateId: null,
         remark: null,
@@ -21,13 +22,13 @@ function createEntry(delta: number, type: AccountType) : ISheetEntry{
     };
 }
 
-function createEntryTemplate(delta: number, type: AccountType, sort?:number): IRecurringSheetEntry {
+function createEntryTemplate(delta: number, type: AccountType, sort?: number): IRecurringSheetEntry {
     return {
         source: 'fake',
         categoryId: 0,
         sortOrder: sort || ++sortOrder,
         account: type,
-        delta: delta,
+        delta,
         id: ++id,
         remark: null
     };
@@ -36,7 +37,7 @@ function createEntryTemplate(delta: number, type: AccountType, sort?:number): IR
 // ReSharper disable WrongExpressionStatement
 describe('SheetTotalCalculationService calculates totals of sheet', () => {
     const calculator = new calculators.SheetTotalCalculationService();
-     
+
     describe('empty sheet', () => {
         it('returns zero result', () => {
             const sheet: ISheet = {

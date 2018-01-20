@@ -1,8 +1,8 @@
-﻿import AppContext from './AppContext';
+import AppContext from './AppContext';
 import { Router, State } from 'router5';
 import { RoutingTable } from './Router';
 
-import {Panel,ActivationPromise} from './Panel';
+import {Panel, ActivationPromise} from './Panel';
 import * as ko from 'knockout';
 
 export interface IPageRegistration {
@@ -61,6 +61,7 @@ export abstract class Page extends Panel {
         const bag = (this as any);
 
         // ReSharper disable once MissingHasOwnPropertyInForeach
+        // tslint:disable-next-line:forin
         for (const property in bag) {
             const item = bag[property];
 
@@ -85,7 +86,7 @@ class PageTemplateManager {
         }
     }
 
-    public async loadTemplate(page : PageRegistration, reloadCallback ?: (template:string)=>void): Promise<string> {
+    public async loadTemplate(page: PageRegistration, reloadCallback?: (template: string) => void): Promise<string> {
         const templateName = page.templateName;
 
         if (!templateName) {
@@ -190,8 +191,9 @@ export class RouterUtils {
     }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 class PageComponentModel {
-    private templateManager : PageTemplateManager;
+    private templateManager: PageTemplateManager;
 
     public templateName = ko.observable<string>(defaultTemplateName).extend({ notify: 'always' });
     public page = ko.observable<Page | null>(null);
@@ -275,7 +277,7 @@ class PageComponentModel {
             const koUtils = (ko.utils as any),
                 currentErrorHandler = koUtils.deferError;
 
-            koUtils.deferError = (e:Error) => {
+            koUtils.deferError = (e: Error) => {
                 console.error('HMR: Unable to apply updated template');
                 console.error(e);
 
@@ -314,24 +316,25 @@ class PageComponentModel {
     }
 }
 
+// tslint:disable-next-line:max-classes-per-file
 class PageComponent implements KnockoutComponentTypes.ComponentConfig {
-    private appContext : AppContext;
+    private appContext: AppContext;
     public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
         createViewModel: () => {
             return new PageComponentModel(this.appContext);
         }
     };
 
-    public template : string;
+    public template: string;
     public synchronous = true;
 
     constructor(appContext: AppContext) {
         this.appContext = appContext;
 
-        this.template = `<div data-bind="template: { name: $component.templateName, data: $component.page }"></div>`;
+        this.template = '<div data-bind="template: { name: $component.templateName, data: $component.page }"></div>';
     }
 }
 
-export function registerPageLoader(appContext : AppContext) {
+export function registerPageLoader(appContext: AppContext) {
     ko.components.register('page-container', new PageComponent(appContext));
 }

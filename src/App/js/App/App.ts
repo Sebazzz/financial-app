@@ -1,9 +1,9 @@
-﻿import * as af from 'AppFramework/AppFactory'
-import pageFactory from './PageFactory'
-import * as topMenu from './Components/TopMenu'
-import * as loader from './Components/Loader'
-import './Components/ScrollNub'
-import './BindingHandlers/All'
+import * as af from 'AppFramework/AppFactory';
+import pageFactory from './PageFactory';
+import * as topMenu from './Components/TopMenu';
+import * as loader from './Components/Loader';
+import './Components/ScrollNub';
+import './BindingHandlers/All';
 import 'bootstrap';
 
 const setupMode = document.documentElement.getAttribute('data-app-setup-mode') === 'true';
@@ -27,7 +27,7 @@ export class App extends af.App {
         if (setupMode) {
             // Redirect any path to setup if setup is not complete
             this.context.router.useMiddleware(router => {
-                return (toState) => {
+                return toState => {
                     if (toState.name.indexOf('hmr-proxy') !== 0 &&
                         toState.name.indexOf('default') !== 0 &&
                         toState.name.indexOf('setup') !== 0) {
@@ -58,4 +58,3 @@ export class App extends af.App {
         loader.register(this.context);
     }
 }
-

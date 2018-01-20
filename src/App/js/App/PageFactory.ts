@@ -1,4 +1,4 @@
-﻿  
+/* tslint:disable */
 import {IPageRepository} from 'AppFramework/AppFactory';
 import DefaultPageRegistration from './Pages/DefaultPage';
 import Archive_DefaultPageRegistration from './Pages/Archive/DefaultPage';
@@ -25,7 +25,7 @@ import Report_TagsPageRegistration from './Pages/Report/TagsPage';
 import Setup_DefaultRegistration from './Pages/Setup/Default';
 
 const pageFactory = {
-	replacePages(repository : IPageRepository) : void {
+	replacePages(repository: IPageRepository): void {
 		repository.replacePage(require('./Pages/DefaultPage').default);
 		repository.replacePage(require('./Pages/Archive/DefaultPage').default);
 		repository.replacePage(require('./Pages/Archive/SheetPage').default);
@@ -51,7 +51,7 @@ const pageFactory = {
 		repository.replacePage(require('./Pages/Setup/Default').default);
 },
 
-	installPages(repository : IPageRepository) : void {
+	installPages(repository: IPageRepository): void {
 		const pages = [
 			DefaultPageRegistration,
 			Archive_DefaultPageRegistration,
@@ -80,7 +80,7 @@ const pageFactory = {
 
 		repository.addPages(pages);
 	}
-}
+};
 
 export default pageFactory;
-
+

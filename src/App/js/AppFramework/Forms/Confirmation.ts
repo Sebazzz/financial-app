@@ -1,24 +1,24 @@
-﻿import * as $ from 'jquery';
+import * as $ from 'jquery';
 import * as ko from 'knockout';
 
 /**
  * Shows a bootstrap confirmation dialog
- * 
+ *
  * @param text Text to show
  * @param title Title, optional
  * @param isDanger Whether to show a "dangerous" button
- * @param confirmButtonText 
- * @param rejectButtonText 
- * @returns {} 
+ * @param confirmButtonText
+ * @param rejectButtonText
+ * @returns {}
  */
 export default function confirmAsync(text: string, title?: string, isDanger = false, confirmButtonText = 'Ja', rejectButtonText = 'Nee'): Promise<boolean> {
     const template = require('./templates/confirmation.html');
 
     const viewModel = {
-        text: text,
-        title: title,
-        confirmButtonText: confirmButtonText,
-        rejectButtonText: rejectButtonText,
+        text,
+        title,
+        confirmButtonText,
+        rejectButtonText,
         primaryCssClass: isDanger ? 'btn-outline-danger' : 'btn-primary'
     };
 
@@ -31,10 +31,10 @@ export default function confirmAsync(text: string, title?: string, isDanger = fa
     const $modalContainer = $(modalContainer),
           $modal = $modalContainer.children('.modal');
 
-    return new Promise<boolean>((resolve) => {
+    return new Promise<boolean>(resolve => {
         let result = false;
 
-        $modal.on('click', '.btn-primary, .btn-outline-danger', (ev) => {
+        $modal.on('click', '.btn-primary, .btn-outline-danger',ev => {
             ev.preventDefault();
 
             result = true;

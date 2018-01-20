@@ -1,4 +1,4 @@
-﻿import { default as ApiBase } from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase } from 'AppFramework/ServerApi/ApiBase';
 import { IRecurringSheetEntry } from './RecurringSheetEntry';
 import { ISheetEntry } from './SheetEntry';
 
@@ -12,7 +12,7 @@ export interface ISheetListing {
     name: string|null;
 
     updateTimestamp: DateTime;
-    createTimestamp: DateTime; 
+    createTimestamp: DateTime;
 
     totals: {
         savingAccount: Decimal | null;
@@ -26,7 +26,7 @@ export interface ISheet {
     subject: DateTime;
     name: string | null;
 
-    updateTimestamp: DateTime; 
+    updateTimestamp: DateTime;
     createTimestamp: DateTime;
 
     entries: ISheetEntry[];
@@ -35,7 +35,7 @@ export interface ISheet {
     offset: {
         savingsAccountOffset: Decimal|null;
         bankAccountOffset: Decimal|null;
-    }
+    };
 }
 
 export interface ISheetGlobalStatistics {
@@ -59,7 +59,7 @@ export class Api extends ApiBase {
     }
 
     public list() {
-        return this.execGet<Array<ISheetListing>>();
+        return this.execGet<ISheetListing[]>();
     }
 
     public get(number: number) {
@@ -71,6 +71,6 @@ export class Api extends ApiBase {
     }
 
     public getAllStatistics() {
-        return this.execGet<Array<ISheetGlobalStatistics>>();
+        return this.execGet<ISheetGlobalStatistics[]>();
     }
 }

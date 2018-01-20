@@ -1,5 +1,5 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page'
-import AppContext from 'AppFramework/AppContext'
+import {Page, IPageRegistration} from 'AppFramework/Page';
+import AppContext from 'AppFramework/AppContext';
 import * as user from '../../ServerApi/User';
 import * as userImpersonate from '../../ServerApi/UserImpersonate';
 import * as ko from 'knockout';
@@ -32,5 +32,5 @@ export default {
     id: module.id,
     templateName: 'manage/impersonate',
     routingTable: { name: 'manage.impersonate', path: '/impersonate' },
-    createPage: (appContext) => new ImpersonatePage(appContext)
+    createPage:appContext => new ImpersonatePage(appContext)
 } as IPageRegistration;

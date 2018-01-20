@@ -1,4 +1,4 @@
-﻿import AppContext from 'AppFramework/AppContext';
+import AppContext from 'AppFramework/AppContext';
 import {IPageRegistration} from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as user from '../../../ServerApi/User';
@@ -89,5 +89,5 @@ export default {
         { name: 'manage.user.edit', path: '/edit/:id' },
         { name: 'manage.user.add', path: '/add'}
     ],
-    createPage: (appContext) => new EditPage(appContext)
+    createPage:appContext => new EditPage(appContext)
 } as IPageRegistration;

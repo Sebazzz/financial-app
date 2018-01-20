@@ -1,15 +1,15 @@
-﻿import { Router, Plugin as RouterPlugin, PluginFactory, State } from 'router5';
+import { Router, Plugin as RouterPlugin, PluginFactory, State } from 'router5';
 import { RouterUtils } from './Page';
 import * as auth from './ServerApi/Authentication';
 
-function applicationInsightsAvailable() : boolean {
+function applicationInsightsAvailable(): boolean {
     return ('appInsights' in window);
 }
 
 class TelemetryPlugin implements RouterPlugin {
-    private currentTimestamp : number|undefined;
+    private currentTimestamp: number|undefined;
 
-    constructor(private appInsights: Microsoft.ApplicationInsights.IAppInsights, private router : Router) {
+    constructor(private appInsights: Microsoft.ApplicationInsights.IAppInsights, private router: Router) {
         this.onTransitionStart = this.onTransitionStart.bind(this);
         this.onTransitionSuccess = this.onTransitionSuccess.bind(this);
         this.onTransitionError = this.onTransitionError.bind(this);

@@ -1,20 +1,20 @@
 // Karma configuration
 // Generated on Sat Oct 21 2017 12:42:48 GMT+0200 (W. Europe Daylight Time)
 
-const webpackConfig = require('./webpack.config.common.js');
+const webpackConfig = require("./webpack.config.common.js");
 
 module.exports = function(config) {
     config.set({
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '.',
+        basePath: ".",
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ['mocha', 'chai'],
+        frameworks: ["mocha", "chai"],
 
         // list of files / patterns to load in the browser
         files: [
-          'js/tests/**/*.ts'
+          "js/tests/**/*.ts",
         ],
 
         // list of files to exclude
@@ -22,19 +22,19 @@ module.exports = function(config) {
         ],
 
         mime: {
-            'text/x-typescript': ['ts', 'tsx']
+            "text/x-typescript": ["ts", "tsx"],
         },
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'js/tests/**/*.ts': ['webpack', 'sourcemap']
+            "js/tests/**/*.ts": ["webpack", "sourcemap"],
         },
 
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['mocha'],
+        reporters: ["mocha"],
 
         // web server port
         port: 9876,
@@ -51,7 +51,7 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ['Firefox'],
+        browsers: ["Firefox"],
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
@@ -62,21 +62,21 @@ module.exports = function(config) {
         concurrency: Infinity,
 
         webpack: {
-            devtool: 'inline-source-map',
+            devtool: "inline-source-map",
             resolve: webpackConfig.resolve,
             module: {
                 rules: [
                     {
                         test: /\.ts?$/,
-                        use: 'ts-loader',
-                        exclude: /node_modules/
-                    }
-                ]
-            }
+                        use: "ts-loader",
+                        exclude: /node_modules/,
+                    },
+                ],
+            },
         },
 
         webpackMiddleware: {
-            stats: 'errors-only'
-        }
+            stats: "errors-only",
+        },
   });
-}
+};
