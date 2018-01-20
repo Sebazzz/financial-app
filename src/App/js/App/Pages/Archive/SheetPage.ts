@@ -1,4 +1,4 @@
-﻿import FormPage from 'AppFramework/Forms/FormPage';
+import FormPage from 'AppFramework/Forms/FormPage';
 import {IPageRegistration} from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import NowRouteProvider from 'App/Services/NowRoute';
@@ -69,12 +69,12 @@ class SheetPage extends FormPage {
         return {
             bankAccount: this.totalCalculator.calculateTotal(dataObject, sheetEntry.AccountType.BankAccount),
             savingsAccount: this.totalCalculator.calculateTotal(dataObject, sheetEntry.AccountType.SavingsAccount)
-        }
+        };
     });
 
     constructor(appContext: AppContext) {
         super(appContext);
-        
+
         this.title('Financiën');
 
         // bind "this"
@@ -154,7 +154,7 @@ class SheetPage extends FormPage {
         return null;
     }
 
-    public async editRemarksOfEntry(sheetEntry: SheetEntry, event : Event) {
+    public async editRemarksOfEntry(sheetEntry: SheetEntry, event: Event) {
         event.preventDefault();
 
         const controller = new RemarksModel(sheetEntry),
@@ -483,8 +483,8 @@ export default {
         {
             name: 'now',
             path: '/now',
-            canActivate: (router) => {
-                return (toState) => {
+            canActivate:router => {
+                return toState => {
                     if (toState.name !== 'now') {
                         // Derived route - always OK
                         return true;
@@ -495,9 +495,9 @@ export default {
                     router.cancel();
                     router.navigate('archive.sheet', nowRoute.getParams());
                     return false;
-                }
+                };
             }
         }
     ],
-    createPage: (appContext) => new SheetPage(appContext)
+    createPage:appContext => new SheetPage(appContext)
 } as IPageRegistration;

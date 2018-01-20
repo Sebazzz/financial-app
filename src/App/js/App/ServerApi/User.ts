@@ -1,13 +1,13 @@
-﻿import { default as ApiBase, ICreatedResult} from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase, ICreatedResult} from 'AppFramework/ServerApi/ApiBase';
 
 export interface IAppUserListing {
-    email : string;
+    email: string;
     userName: string;
-    id : number;
+    id: number;
 }
 
 export interface IAppUserMutate extends IAppUserListing {
-    currentPassword:string;
+    currentPassword: string;
     newPassword: string;
 }
 
@@ -19,7 +19,7 @@ export class Api extends ApiBase {
     }
 
     public list() {
-        return this.execGet<Array<IAppUserListing>>();
+        return this.execGet<IAppUserListing[]>();
     }
 
     public delete(id: number) {

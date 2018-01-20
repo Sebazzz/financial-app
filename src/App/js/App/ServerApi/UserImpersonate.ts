@@ -1,9 +1,9 @@
-﻿import ApiBase from 'AppFramework/ServerApi/ApiBase';
+import ApiBase from 'AppFramework/ServerApi/ApiBase';
 import {IAuthenticationInfo} from 'AppFramework/ServerApi/Authentication';
-import * as dto from './User'
+import * as dto from './User';
 
 export class Api extends ApiBase {
-    public getListing(): Promise<Array<dto.IAppUserListing>> {
+    public getListing(): Promise<dto.IAppUserListing[]> {
         return this.httpClient.get('/api/user/impersonate');
     }
 

@@ -1,7 +1,7 @@
-﻿import ApiBase from 'AppFramework/ServerApi/ApiBase';
+import ApiBase from 'AppFramework/ServerApi/ApiBase';
 
 export interface ISheetGlobalStatistics {
-    totalExpenses:number;
+    totalExpenses: number;
     totalSavings: number;
     totalIncome: number;
     sheetSubject: Date;
@@ -9,7 +9,7 @@ export interface ISheetGlobalStatistics {
 }
 
 export interface ISheetCategoryStatistics {
-    categoryName:string;
+    categoryName: string;
     delta: number;
 }
 

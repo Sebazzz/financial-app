@@ -1,10 +1,10 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import {Page} from '../Page';
 import {ValidateableViewModel} from '../Forms/ValidateableViewModel';
-import {IFormPage} from '../Forms/FormPage'
+import {IFormPage} from '../Forms/FormPage';
 
-function findPage(bindingContext: KnockoutBindingContext) : IFormPage {
-    let currentBindingContext : KnockoutBindingContext | undefined = bindingContext,
+function findPage(bindingContext: KnockoutBindingContext): IFormPage {
+    let currentBindingContext: KnockoutBindingContext | undefined = bindingContext,
         viewModel = bindingContext.$data;
 
     while (!(viewModel instanceof Page) && viewModel) {
@@ -21,7 +21,7 @@ function findPage(bindingContext: KnockoutBindingContext) : IFormPage {
 }
 
 export interface IFormOptions {
-    handler: (viewModel : ValidateableViewModel) => Promise<void>;
+    handler: (viewModel: ValidateableViewModel) => Promise<void>;
     isBusy: KnockoutObservable<boolean>;
 }
 
@@ -31,13 +31,13 @@ export interface IFormOptions {
  * - Auto-binding of submit button to save handler
  * - Set/unset busy flags
  */
-ko.bindingHandlers['form'] = {
+ko.bindingHandlers.form = {
     init(element: HTMLElement, valueAccessor: () => IFormOptions|undefined, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ValidateableViewModel, bindingContext: KnockoutBindingContext) {
         const $element = $(element),
               page = findPage(bindingContext),
               options = valueAccessor() || { handler: page.save, isBusy: page.isBusy };
 
-        const handler = async (ev : any) => {
+        const handler = async (ev: any) => {
             ev.preventDefault();
 
             console.group('Form: Submit');
@@ -71,6 +71,6 @@ ko.bindingHandlers['form'] = {
         }
 
         const $buttons = $(element).find('button');
-        ko.computed(() => $buttons.prop('disabled', options.isBusy())).extend({ 'disposeWhenNodeIsRemoved': element });
+        ko.computed(() => $buttons.prop('disabled', options.isBusy())).extend({ disposeWhenNodeIsRemoved: element });
     }
 };

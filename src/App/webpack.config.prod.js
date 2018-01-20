@@ -1,24 +1,24 @@
-﻿/// <binding />
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+/// <binding />
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
-const webpack = require('webpack');
+const webpack = require("webpack");
 
 // Extract compiled CSS into a seperate file
 const extractSass = new ExtractTextPlugin({
-    filename: 'app.css'
+    filename: "app.css",
 });
 
 module.exports = {
-    stats: 'detailed',
+    stats: "detailed",
     plugins: [
         extractSass,
 
         // Ensure modules name change when the contents change (cache busting)
         new webpack.HashedModuleIdsPlugin({
-            hashFunction: 'sha256',
-            hashDigest: 'hex',
-            hashDigestLength: 20
+            hashFunction: "sha256",
+            hashDigest: "hex",
+            hashDigestLength: 20,
         }),
 
         // Minification
@@ -31,18 +31,18 @@ module.exports = {
                     drop_debugger: true,
                     global_defs: {
                         DEBUG: false,
-                        'module.hot': false
+                        "module.hot": false,
                     },
                     passes: 2,
-                    warnings: true
+                    warnings: true,
                 },
                 output: {
-                    beautify: false
+                    beautify: false,
                 },
-                ecma: 5
+                ecma: 5,
             },
-            warningsFilter: () => true
-        })
+            warningsFilter: () => true,
+        }),
     ],
     module: {
         rules: [
@@ -51,35 +51,35 @@ module.exports = {
                 use: extractSass.extract({
                     use: [
                         {
-                            loader: 'css-loader',
+                            loader: "css-loader",
                             options: {
-                                sourceMap: true
-                            }
+                                sourceMap: true,
+                            },
                         },
                         {
-                            loader: 'postcss-loader',
+                            loader: "postcss-loader",
                             options: {
-                                plugins: function () {
+                                plugins: function() {
                                     return [
-                                        require('autoprefixer')
+                                        require("autoprefixer"),
                                     ];
                                 },
-                                sourceMap: true
-                            }
+                                sourceMap: true,
+                            },
                         },
                         {
-                            loader: 'sass-loader',
+                            loader: "sass-loader",
                             options: {
                                 includePaths: [
-                                    './node_modules'
+                                    "./node_modules",
                                 ],
-                                sourceMap: true
-                            }
-                        }
+                                sourceMap: true,
+                            },
+                        },
                     ],
-                    fallback: 'style-loader'
-                })
-            }
-        ]
-    }
+                    fallback: "style-loader",
+                }),
+            },
+        ],
+    },
 };

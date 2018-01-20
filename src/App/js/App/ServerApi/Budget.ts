@@ -1,4 +1,4 @@
-﻿import { default as ApiBase } from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase } from 'AppFramework/ServerApi/ApiBase';
 
 export interface IBudget {
     rows: ICategoryBudgetRow[];
@@ -6,12 +6,12 @@ export interface IBudget {
 }
 
 export interface IBudgetRow {
-    currentMonth : number;
+    currentMonth: number;
     lastMonth: number;
     averageSixMonths: number;
     totalSixMonths: number;
     averageYear: number;
-    totalYear:number;
+    totalYear: number;
 }
 
 export interface ICategoryBudgetRow extends IBudgetRow {
@@ -19,13 +19,12 @@ export interface ICategoryBudgetRow extends IBudgetRow {
     categoryName: string;
 
     monthlyBudget: number;
-    isOverBudget:boolean;
+    isOverBudget: boolean;
 }
 
 export interface ITotalBudgetRow extends IBudgetRow {
-    budgetTotal:number;
+    budgetTotal: number;
 }
-
 
 export class Api extends ApiBase {
     constructor() {

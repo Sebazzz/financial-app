@@ -33,6 +33,8 @@
     "compileOnSave": false,
     "exclude": [
         "node_modules",
-        "wwwroot"
+        "wwwroot",
+        "webpack.*",
+        "karma.conf.js"
     ]
 }

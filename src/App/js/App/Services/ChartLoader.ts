@@ -1,4 +1,4 @@
-﻿import { Chart, ChartDataSets } from 'chart.js';
+import { Chart, ChartDataSets } from 'chart.js';
 
 const offwhite = '#f8f9fa',
     globalOptions = Chart.defaults.global,
@@ -22,9 +22,9 @@ export function applyDefaultColors(dataSets: ChartDataSets[]) {
         const color = defaultColors[index % defaultColors.length],
               dataSet = dataSets[index];
 
-        if (!dataSet.backgroundColor) dataSet.backgroundColor = color;
-        if (!dataSet.borderColor) dataSet.borderColor = color;
-        if (!dataSet.fill) dataSet.fill = false;
+        if (!dataSet.backgroundColor) { dataSet.backgroundColor = color; }
+        if (!dataSet.borderColor) { dataSet.borderColor = color; }
+        if (!dataSet.fill) { dataSet.fill = false; }
 
         if (dataSets.length === 1 && dataSet.data) {
             const colors: string[] = [];
@@ -40,12 +40,12 @@ export function applyDefaultColors(dataSets: ChartDataSets[]) {
 
 export interface IChartLoader {
     chartConstructor: typeof Chart;
-    applyDefaultColors(dataSets: ChartDataSets[]) : void;
+    applyDefaultColors(dataSets: ChartDataSets[]): void;
 }
 
 const chartLoader: IChartLoader = {
     chartConstructor: Chart,
-    applyDefaultColors: applyDefaultColors
+    applyDefaultColors
 };
 
 export { Chart };

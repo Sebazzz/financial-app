@@ -1,4 +1,4 @@
-﻿import AppContext from '../AppContext';
+import AppContext from '../AppContext';
 import * as ko from 'knockout';
 import * as $ from 'jquery';
 import {default as HttpClient, IHttpInterceptor} from '../ServerApi/HttpClient';
@@ -11,16 +11,16 @@ const settings = {
 };
 
 class LoadingBarComponentModel implements IHttpInterceptor {
-    private $element : JQuery;
+    private $element: JQuery;
     private status = 0;
-    private increaseTimeoutHandle : number = 0;
+    private increaseTimeoutHandle: number = 0;
     private completeTimeoutHandle: number = 0;
 
     private requestCounters = {
         totalRequests: 0,
         completedRequests: 0,
     };
-    private startAnimationHandle : number = 0;
+    private startAnimationHandle: number = 0;
 
     public widthPercentageString = ko.observable<string>('0%');
     public show = ko.observable<boolean>(false);
@@ -107,17 +107,17 @@ class LoadingBarComponentModel implements IHttpInterceptor {
     }
 
     /**
-      * Increments the loading bar by a random amount
-      * but slows down as it progresses
-      */
+     * Increments the loading bar by a random amount
+     * but slows down as it progresses
+     */
     private increase() {
         if (this.status >= 1) {
             return;
         }
 
-        var rnd = 0;
+        let rnd = 0;
 
-        var stat = this.status;
+        const stat = this.status;
         if (stat >= 0 && stat < 0.25) {
             // Start out between 3 - 6% increments
             rnd = (Math.random() * (5 - 3 + 1) + 3) / 100;
@@ -135,7 +135,7 @@ class LoadingBarComponentModel implements IHttpInterceptor {
             rnd = 0;
         }
 
-        var percentage = this.status + rnd;
+        const percentage = this.status + rnd;
         this.set(percentage);
     }
 
@@ -163,7 +163,7 @@ class LoadingBarComponentModel implements IHttpInterceptor {
 
 class LoadingBarComponent implements KnockoutComponentTypes.ComponentConfig {
     private appContext: AppContext;
-    
+
     public template = require<string>('./templates/loading-bar.html');
 
     public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
@@ -182,6 +182,6 @@ class LoadingBarComponent implements KnockoutComponentTypes.ComponentConfig {
     }
 }
 
-export default function register(appContext : AppContext) {
+export default function register(appContext: AppContext) {
     ko.components.register('loading-bar', new LoadingBarComponent(appContext));
 }

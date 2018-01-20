@@ -1,4 +1,4 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import {Page} from '../Page';
 import AppContext from '../AppContext';
 

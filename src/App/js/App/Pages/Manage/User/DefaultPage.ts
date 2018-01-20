@@ -1,5 +1,5 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page'
-import AppContext from 'AppFramework/AppContext'
+import {Page, IPageRegistration} from 'AppFramework/Page';
+import AppContext from 'AppFramework/AppContext';
 import * as user from '../../../ServerApi/User';
 import * as ko from 'knockout';
 import confirmAsync from 'AppFramework/Forms/Confirmation';
@@ -32,5 +32,5 @@ export default {
     id: module.id,
     templateName: 'manage/user/default',
     routingTable: { name: 'manage.user', path: '/user' },
-    createPage: (appContext) => new DefaultPage(appContext)
+    createPage:appContext => new DefaultPage(appContext)
 } as IPageRegistration;

@@ -1,4 +1,4 @@
-﻿import * as framework from 'AppFramework/Panel';
+import * as framework from 'AppFramework/Panel';
 import {State} from 'router5';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
@@ -37,7 +37,7 @@ class TopMenu extends framework.Panel {
         return Promise.resolve();
     }
 
-    private handleAuthenticationChange(isAuthenticated : boolean) {
+    private handleAuthenticationChange(isAuthenticated: boolean) {
         if (!isAuthenticated) {
             console.info('TopMenu: Stopping activity service.');
             this.activityService.stop();
@@ -50,10 +50,13 @@ class TopMenu extends framework.Panel {
     constructor(appContext: AppContext) {
         super(appContext);
 
-        const menuPlugin : any = () => {
+        const menuPlugin: any = () => {
             return {
                 onTransitionSuccess: (toState: State) => {
+                    // tslint:disable-next-line:no-unused-expression
                     toState && this.path(toState.path);
+
+                    // tslint:disable-next-line:no-unused-expression
                     toState && this.routeNode(toState.name);
                 }
             };
@@ -78,7 +81,7 @@ class TopMenu extends framework.Panel {
             const param = ko.unwrap(paramRaw),
                   matchRouteNode = param.indexOf('/') === -1;
 
-            let isMatch : boolean;
+            let isMatch: boolean;
             if (!matchRouteNode) {
                 const path = this.path(),
                       hasPath = path && path.indexOf(param) !== -1;
@@ -156,6 +159,6 @@ class UserActivityService {
     }
 }
 
-export function register(appContext : AppContext) {
+export function register(appContext: AppContext) {
     framework.createPanelComponent('top-menu', require('~/ko-templates/widgets/top-menu.html'), () => new TopMenu(appContext));
 }

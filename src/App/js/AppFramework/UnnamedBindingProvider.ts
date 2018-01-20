@@ -1,34 +1,37 @@
-﻿import extendBindingContext from './BindingContextExtender';
+import extendBindingContext from './BindingContextExtender';
 import * as ko from 'knockout';
 
-type BindingAccessors = { [key: string]: string; };
-type Bindings = {};
+interface IBindingAccessors { [key: string]: string; }
+// tslint:disable-next-line:no-empty-interface
+interface IBindings {}
 type BindingMap = Array<{ key: string, value: string }>;
-type PreprocessBindings = (bindings: BindingMap|string, options: {valueAccessors:boolean})=>string;
+type PreprocessBindings = (bindings: BindingMap|string, options: {valueAccessors: boolean}) => string;
 
-type BindingsFactory = (bindingContext: KnockoutBindingContext, node: Node) => BindingAccessors;
+type BindingsFactory = (bindingContext: KnockoutBindingContext, node: Node) => IBindingAccessors;
 
-type ParsedAttributeBinding = [string, Array<string>];
+type ParsedAttributeBinding = [string, string[]];
 
 interface INestedPropertyBinding {
-     [key: string]: INestedPropertyBinding | string
-};
+     [key: string]: INestedPropertyBinding | string;
+}
 
 const defaultBindingProvider = ko.bindingProvider.instance,
       attributePrefix = 'ko-',
       bindingCache: { [key: string]: BindingsFactory; } = {},
       propertyBindingCache: { [key: string]: ParsedAttributeBinding } = {};
 
-function isElement(node: Node) : node is Element {
+function isElement(node: Node): node is Element {
     return node.nodeType === 1;
 }
 
-function nodeHasBindings(node: Node) : boolean {
+function nodeHasBindings(node: Node): boolean {
     if (!isElement(node) || !node.hasAttributes()) {
         return false;
     }
 
     const attributes = node.attributes;
+
+    // tslint:disable-next-line:prefer-for-of - not array like
     for (let index = 0; index < attributes.length; index++) {
         const attribute = attributes[index];
 
@@ -56,11 +59,11 @@ function getBindingsEvaluator(bindings: BindingMap, cacheKey: string): BindingsF
 
 function getBindingInfo(attributeName: string): ParsedAttributeBinding {
     // Attributes in HTML are case insensitive, so we will not be able to represent
-    // a binding for "textInput" as "ko-textInput", so we will need to represent it 
+    // a binding for "textInput" as "ko-textInput", so we will need to represent it
     // as "ko-text-input" instead.
 
     // Subproperties may be represented using a colon:
-    // These attributes: 
+    // These attributes:
     //   ko-css:required="true"
     //   ko-css:invalid="true"
     // Will yield this binding:
@@ -72,7 +75,6 @@ function getBindingInfo(attributeName: string): ParsedAttributeBinding {
     // Yields:
     //   data-bind="css: { 'is-required: true }"
 
-
     const subPropertyCharacter = ':',
           camelCaseEscapeCharacter = '*',
           camelCaseCharacter = '-',
@@ -83,13 +85,13 @@ function getBindingInfo(attributeName: string): ParsedAttributeBinding {
     }
 
     let bindingName = attributeName.toLowerCase();
-    
+
     // ... Split into properties
     const subProperties = bindingName.split(subPropertyCharacter);
 
     for (let index = 0; index < subProperties.length; index++) {
-        let subProperty = subProperties[index],
-            skipCamelCaseTransformation = subProperty.indexOf(camelCaseEscapeCharacter) === 0;
+        let subProperty = subProperties[index];
+        const skipCamelCaseTransformation = subProperty.indexOf(camelCaseEscapeCharacter) === 0;
 
         if (skipCamelCaseTransformation) {
             subProperty = subProperty.substr(1);
@@ -101,6 +103,7 @@ function getBindingInfo(attributeName: string): ParsedAttributeBinding {
 
         if (!skipCamelCaseTransformation) {
             let dashIndex = 0;
+            // tslint:disable-next-line:no-conditional-assignment
             while ((dashIndex = subProperty.indexOf(camelCaseCharacter, dashIndex)) !== -1) {
                 if (dashIndex + 1 >= subProperty.length) {
                     throw new Error(`Invalid attribute name: ${attributeName}`);
@@ -112,10 +115,10 @@ function getBindingInfo(attributeName: string): ParsedAttributeBinding {
 
         subProperties[index] = subProperty;
     }
-    
+
     bindingName = subProperties.shift() || bindingName;
 
-    const result : ParsedAttributeBinding = [bindingName, subProperties];
+    const result: ParsedAttributeBinding = [bindingName, subProperties];
     propertyBindingCache[attributeName] = result;
 
     return result;
@@ -123,13 +126,13 @@ function getBindingInfo(attributeName: string): ParsedAttributeBinding {
 
 /**
  * Build bindings from nested properties
- * 
+ *
  * @param subPropertyBindings
  * @param bindingMap
  */
 function flattenNestedProperties(subPropertyBindings: INestedPropertyBinding, bindingMap: BindingMap) {
     function createBindingValue(propertyBindings: INestedPropertyBinding): string {
-        let keyValues : string[] = [];
+        const keyValues: string[] = [];
 
         for (const propName of Object.keys(propertyBindings)) {
             const propValue = propertyBindings[propName],
@@ -149,7 +152,7 @@ function flattenNestedProperties(subPropertyBindings: INestedPropertyBinding, bi
     }
 }
 
-function getEscapedPropertyValue(bindingName: string, bindingValue: string) : [string,string]|null {
+function getEscapedPropertyValue(bindingName: string, bindingValue: string): [string, string]|null {
     const escapePropertyMarker = '#',
           escape = '\'',
           lastIndex = bindingName.length - 1;
@@ -162,7 +165,7 @@ function getEscapedPropertyValue(bindingName: string, bindingValue: string) : [s
     return null;
 }
 
-function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext): BindingAccessors|null {
+function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext): IBindingAccessors|null {
     if (!isElement(node) || !node.hasAttributes()) {
         return {};
     }
@@ -172,6 +175,7 @@ function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext)
           subPropertyBindings: INestedPropertyBinding = {};
 
     let cacheKey = '';
+    // tslint:disable-next-line:prefer-for-of
     for (let index = 0; index < attributes.length; index++) {
         const attribute = attributes[index],
               attributeName = attribute.name;
@@ -197,7 +201,7 @@ function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext)
                     const subProperty = subProperties[propertyIndex],
                           isLastProperty = propertyIndex + 1 === subProperties.length;
 
-                    const subItem : any = item[subProperty];
+                    const subItem: any = item[subProperty];
 
                     if (typeof subItem === 'string') {
                         throw new Error(`Invalid binding: ${attributeName}. Nested properties on different levels found.`);
@@ -249,11 +253,11 @@ class UnnamedBindingProvider implements KnockoutBindingProvider {
         return nodeHasBindings(node);
     }
 
-    public getBindings(node: Node, bindingContext: KnockoutBindingContext): Bindings {
+    public getBindings(node: Node, bindingContext: KnockoutBindingContext): IBindings {
         throw new Error('getBindings: not implemented');
     }
 
-    public getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext): BindingAccessors {
+    public getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext): IBindingAccessors {
         extendBindingContext(bindingContext);
 
         if (defaultBindingProvider.nodeHasBindings(node)) {
@@ -274,7 +278,6 @@ class UnnamedBindingProvider implements KnockoutBindingProvider {
 
     public static instance = new UnnamedBindingProvider();
 }
-
 
 export default function() {
     ko.bindingProvider.instance = new UnnamedBindingProvider();

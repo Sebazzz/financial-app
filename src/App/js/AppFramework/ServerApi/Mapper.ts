@@ -1,4 +1,4 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import 'reflect-metadata';
 
 // Ref: https://damsteen.nl/blog/2016/06/12/typescript-json-to-knockout-mapping
@@ -16,7 +16,7 @@ export interface IJsonMetaData<T> {
 
     /**
      * Factory method for class
-     * @returns {} 
+     * @returns {}
      */
     clazzFactory?: () => T;
 }
@@ -31,7 +31,7 @@ export function JsonProperty<T>(metadata?: IJsonMetaData<T> | string): any {
             clazz: undefined
         });
     } else {
-        const metadataObj = <IJsonMetaData<T>>metadata;
+        const metadataObj = metadata as IJsonMetaData<T>;
 
         if (!metadataObj) {
             return Reflect.metadata(jsonMetadataKey, { name: undefined, clazz: undefined, clazzFactory: undefined });
@@ -99,7 +99,7 @@ export class MapUtils {
 
     private static deserializeToObject<T>(obj: T, jsonObject: any): T {
         Object.keys(obj).forEach((key: string) => {
-            var item = (obj as any)[key],
+            const item = (obj as any)[key],
                 itemIsObservable = ko.isObservable(item),
                 itemIsWritableObservable = ko.isWriteableObservable(item),
                 itemHasArrayType = itemIsObservable && MapUtils.isArray(item.peek()) || MapUtils.isArray(item);
@@ -109,7 +109,7 @@ export class MapUtils {
                 return;
             }
 
-            var propertyAccessor = itemIsObservable ? KnockoutPropertyAccessor.instance : RegularPropertyAccessor.instance;
+            const propertyAccessor = itemIsObservable ? KnockoutPropertyAccessor.instance : RegularPropertyAccessor.instance;
 
             const getChildObject: (x: IJsonMetaData<any>) => any = (propertyMetadata: IJsonMetaData<any>) => {
                 const propertyName = propertyMetadata.name || key;
@@ -157,12 +157,12 @@ export class MapUtils {
 }
 
 interface IPropertyAccessor {
-    set(object: Object, name: string, value: any) : void;
+    set(object: Object, name: string, value: any): void;
 }
 
 class KnockoutPropertyAccessor implements IPropertyAccessor {
-    public set(object: Object, name: string, value : any) {
-        const observable = <KnockoutObservable<any>>(object as any)[name];
+    public set(object: Object, name: string, value: any) {
+        const observable = (object as any)[name] as KnockoutObservable<any>;
 
         observable(value);
     }
@@ -171,7 +171,7 @@ class KnockoutPropertyAccessor implements IPropertyAccessor {
 }
 
 class RegularPropertyAccessor implements IPropertyAccessor {
-    public set(object: Object, name: string, value : any) {
+    public set(object: Object, name: string, value: any) {
         (object as any)[name] = value;
     }
 

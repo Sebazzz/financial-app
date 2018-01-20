@@ -1,7 +1,7 @@
 ﻿import * as ko from 'knockout';
 import * as $ from 'jquery';
 
-export class PopoverController<T=any> {
+export class PopoverController<T= any> {
     private $component: PopoverComponentComponentModel;
 
     /**
@@ -21,7 +21,7 @@ export class PopoverController<T=any> {
         this.$component = $component;
     }
 
-    public async show(model: T, element : Element) : Promise<void> {
+    public async show(model: T, element: Element): Promise<void> {
         this.popoverViewModel(model);
         try {
             await this.$component.show(element);
@@ -33,7 +33,7 @@ export class PopoverController<T=any> {
 
 class PopoverComponentComponentModel {
     private template: string = '';
-    private instances:JQuery[]=[];
+    private instances: JQuery[] = [];
 
     public controller: PopoverController;
 
@@ -46,7 +46,7 @@ class PopoverComponentComponentModel {
         this.controller.setComponent(this);
 
         this.loadTemplate();
-        
+
     }
 
     private loadTemplate() {
@@ -61,8 +61,8 @@ class PopoverComponentComponentModel {
         this.template = require('./templates/popover.html');
     }
 
-    public show(element : Element):Promise<void> {
-        return new Promise<void>((resolve) => {
+    public show(element: Element): Promise<void> {
+        return new Promise<void>(resolve => {
             const $popover = $(element),
                   needsInitialization = !$popover.data('bs.popover'),
                   eventHandlerName = 'click.bs-popover-auto-hide-' + this.instances.length;
@@ -104,7 +104,7 @@ class PopoverComponentComponentModel {
 
                 $popover.data('bs.popover.controller', this.controller);
 
-                $(document.body).on(eventHandlerName, (ev) => {
+                $(document.body).on(eventHandlerName,ev => {
                     if (!isShown) {
                         return;
                     }
@@ -159,7 +159,7 @@ class PopoverComponent implements KnockoutComponentTypes.ComponentConfig {
         }
     };
 
-    public synchronous = true;  
+    public synchronous = true;
 }
 
 export type DataFactory = (viewModel: any) => any;
@@ -167,8 +167,8 @@ export type DataFactory = (viewModel: any) => any;
 export default function register() {
     ko.components.register('popover', new PopoverComponent());
 
-    ko.bindingHandlers['popover'] = {
-        init(element: Element, valueAccessor: () => { controller: PopoverController, data: any | DataFactory}, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext: KnockoutBindingContext): void {
+    ko.bindingHandlers.popover = {
+        init(element: Element, valueAccessor: () => { controller: PopoverController, data: any | DataFactory}, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void {
             const options = valueAccessor(),
                   controller = options.controller;
 

@@ -1,4 +1,4 @@
-﻿import { Page, IPageRegistration }  from 'AppFramework/Page';
+import { Page, IPageRegistration }  from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import { ChartOptions } from 'chart.js';
 
@@ -124,5 +124,5 @@ export default {
             forwardTo: 'archive.sheet.statistics'
         }
     ],
-    createPage: (appContext) => new SheetStatisticsPage(appContext)
+    createPage:appContext => new SheetStatisticsPage(appContext)
 } as IPageRegistration;

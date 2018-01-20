@@ -1,5 +1,5 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page'
-import AppContext from 'AppFramework/AppContext'
+import {Page, IPageRegistration} from 'AppFramework/Page';
+import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 
 class AuthLoginPage extends Page {
@@ -44,7 +44,7 @@ class AuthLoginPage extends Page {
                     this.persist.peek()
                 );
 
-            this.errorMessage(result.isAuthenticated? null: 'Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
+            this.errorMessage(result.isAuthenticated ? null : 'Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
 
             if (result.isAuthenticated) {
                 this.success(true);
@@ -67,7 +67,7 @@ class AuthLoginPage extends Page {
             }
         } catch (e) {
             this.errorMessage('Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
-        }finally {
+        } finally {
             this.isBusy(false);
         }
     }
@@ -80,5 +80,5 @@ export default {
         { name: 'auth', path: '/auth', forwardTo: '/auth/login' },
         { name: 'auth.login', path: '/login' }
     ],
-    createPage: (appContext) => new AuthLoginPage(appContext)
+    createPage:appContext => new AuthLoginPage(appContext)
 } as IPageRegistration;

@@ -1,7 +1,7 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import * as $ from 'jquery';
 
-export class ModalController<T=any> {
+export class ModalController<T= any> {
     private $component: ModalComponentComponentModel;
 
     /**
@@ -39,7 +39,7 @@ export class ModalController<T=any> {
         this.$component = $component;
     }
 
-    public async showDialog(model : T): Promise<DialogResult> {
+    public async showDialog(model: T): Promise<DialogResult> {
         this.modalViewModel(model);
 
         try {
@@ -74,12 +74,12 @@ class ModalComponentComponentModel {
     }
 
     public showDialog(): Promise<DialogResult> {
-        return new Promise<DialogResult>((resolve) => {
+        return new Promise<DialogResult>(resolve => {
             const $modal = this.$modal();
 
             let dialogResult = DialogResult.Other;
 
-            $modal.on('click.modal-component', '.modal-footer .btn, .modal-header [data-dismiss]', (ev) => {
+            $modal.on('click.modal-component', '.modal-footer .btn, .modal-header [data-dismiss]',ev => {
                 ev.preventDefault();
 
                 if (((ev.target as any) as Element).classList.contains('btn-primary')) {

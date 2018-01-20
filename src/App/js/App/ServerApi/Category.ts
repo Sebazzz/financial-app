@@ -1,4 +1,4 @@
-﻿import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
 
 export interface ICategoryListing {
     id: number;
@@ -22,7 +22,7 @@ export class Api extends ApiBase {
     }
 
     public list() {
-        return this.execGet<Array<ICategoryListing>>();
+        return this.execGet<ICategoryListing[]>();
     }
 
     public delete(id: number) {

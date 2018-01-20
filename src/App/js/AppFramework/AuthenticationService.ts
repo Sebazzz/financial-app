@@ -1,4 +1,4 @@
-﻿import * as auth from './ServerApi/Authentication';
+import * as auth from './ServerApi/Authentication';
 import * as ko from 'knockout';
 import { MiddlewareFactory, Middleware, Router, State } from 'router5';
 import { trackLogin, trackLogout } from './Telemetry';
@@ -16,7 +16,6 @@ const allowedRoutes = [
 ];
 
 function middleware(router: Router, authenticationService: AuthenticationService): Middleware {
-    
 
     return (toState: State) => {
         const path = toState.path,
@@ -42,7 +41,7 @@ function middleware(router: Router, authenticationService: AuthenticationService
             console.log('AuthenticationMiddleware: Path %s rejected: not logged in', path);
 
             router.cancel();
-            router.navigate('auth.login', { returnUrl: returnUrl });
+            router.navigate('auth.login', { returnUrl });
             return Promise.reject<boolean>('unauthenticated');
         }
 
@@ -58,7 +57,7 @@ function middleware(router: Router, authenticationService: AuthenticationService
                 } else {
                     reject('unauthenticated');
                     router.cancel();
-                    router.navigate('auth.login', { returnUrl: returnUrl });
+                    router.navigate('auth.login', { returnUrl });
                 }
             });
         });
@@ -70,7 +69,7 @@ function middleware(router: Router, authenticationService: AuthenticationService
 export default class AuthenticationService {
     private api = new auth.Api();
 
-    public currentAuthentication = ko.observable<auth.IAuthenticationInfo>(AuthenticationService.getPersistedAuthenticationInfo() || defaultAuthInfo).extend({ notify: 'always' });;
+    public currentAuthentication = ko.observable<auth.IAuthenticationInfo>(AuthenticationService.getPersistedAuthenticationInfo() || defaultAuthInfo).extend({ notify: 'always' });
     public isAuthenticated = ko.pureComputed(() => this.currentAuthentication() && this.currentAuthentication().isAuthenticated);
     public isCheckingAuthentication = false;
 
@@ -93,7 +92,7 @@ export default class AuthenticationService {
     }
 
     public checkAuthentication() {
-        return new Promise<boolean>((resolve) => {
+        return new Promise<boolean>(resolve => {
             if (!this.isCheckingAuthentication) {
                 resolve(this.isAuthenticated.peek());
                 return;
@@ -109,9 +108,9 @@ export default class AuthenticationService {
 
     public async authenticate(userName: string, password: string, persistent: boolean) {
         const loginInfo: auth.ILoginModel = {
-            userName: userName,
-            password: password,
-            persistent: persistent
+            userName,
+            password,
+            persistent
         };
 
         const authInfo = await this.api.login(loginInfo);
@@ -133,7 +132,7 @@ export default class AuthenticationService {
 
     private static persistedAuthInfoKey = 'app_currentAuthentication';
 
-    // By persisting the authentication information, we can tell 
+    // By persisting the authentication information, we can tell
     // in advance whether an user is authenticated or not
     private static getPersistedAuthenticationInfo(): auth.IAuthenticationInfo|null {
         try {

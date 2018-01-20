@@ -1,10 +1,10 @@
-﻿/// <binding />
-const webpack = require('webpack');
+/// <binding />
+const webpack = require("webpack");
 
 module.exports = {
-    devtool: 'inline-source-map',
+    devtool: "inline-source-map",
     plugins: [
-        new webpack.NamedModulesPlugin()
+        new webpack.NamedModulesPlugin(),
     ],
     module: {
         rules: [
@@ -13,36 +13,36 @@ module.exports = {
                 use: [
                     {
                         // CSS is outputted in the JS file to support HMR
-                        loader: 'style-loader'
+                        loader: "style-loader",
                     },
                     {
-                        loader: 'css-loader',
+                        loader: "css-loader",
                         options: {
-                            sourceMap: true
-                        }
+                            sourceMap: true,
+                        },
                     },
                     {
-                        loader: 'postcss-loader',
+                        loader: "postcss-loader",
                         options: {
-                            plugins: function () {
+                            plugins: function() {
                                 return [
-                                    require('autoprefixer')
+                                    require("autoprefixer"),
                                 ];
                             },
-                            sourceMap: true
-                        }
+                            sourceMap: true,
+                        },
                     },
                     {
-                        loader: 'sass-loader',
+                        loader: "sass-loader",
                         options: {
                             includePaths: [
-                                './node_modules'
+                                "./node_modules",
                             ],
-                            sourceMap: true
-                        }
-                    }
-                ]
-            }
-        ]
-    }
+                            sourceMap: true,
+                        },
+                    },
+                ],
+            },
+        ],
+    },
 };

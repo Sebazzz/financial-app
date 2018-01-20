@@ -1,10 +1,10 @@
-﻿import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
 
 export interface ITag {
     id: number;
     name: string;
     description: string;
-    hexColorCode:string|null;
+    hexColorCode: string|null;
 }
 
 function correctColorCode(entity: ITag) {
@@ -23,7 +23,7 @@ export class Api extends ApiBase {
     }
 
     public list() {
-        return this.execGet<Array<ITag>>();
+        return this.execGet<ITag[]>();
     }
 
     public delete(id: number) {
@@ -32,7 +32,7 @@ export class Api extends ApiBase {
 
     public async get(number: number) {
         const tag = await this.execGet<ITag>(number);
-        if (tag.hexColorCode) tag.hexColorCode = '#' + tag.hexColorCode;
+        if (tag.hexColorCode) { tag.hexColorCode = '#' + tag.hexColorCode; }
         return tag;
     }
 

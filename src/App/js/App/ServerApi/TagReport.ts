@@ -1,8 +1,8 @@
-﻿import { default as ApiBase } from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase } from 'AppFramework/ServerApi/ApiBase';
 import { ISheetEntry } from './SheetEntry';
 
 export interface ITagReportSheetEntry extends ISheetEntry {
-    sheetSubject : Date;
+    sheetSubject: Date;
 }
 
 export class Api extends ApiBase {
@@ -12,8 +12,8 @@ export class Api extends ApiBase {
         this.baseUrl = '/api/report/tag';
     }
 
-    public entries(tagId : number) {
-        return this.execGet<Array<ITagReportSheetEntry>>(`${tagId}/entries`);
+    public entries(tagId: number) {
+        return this.execGet<ITagReportSheetEntry[]>(`${tagId}/entries`);
     }
 
 }

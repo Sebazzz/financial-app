@@ -1,4 +1,4 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import * as $ from 'jquery';
 
 interface ITooltipOptions {
@@ -20,8 +20,7 @@ function getTooltipOptions(input: TooltipOptions) {
     return input as ITooltipOptions;
 }
 
-
-ko.bindingHandlers['tooltip'] = {
+ko.bindingHandlers.tooltip = {
     init(element: HTMLElement, valueAccessor: () => TooltipOptions) {
         const $element = $(element);
 
@@ -38,7 +37,7 @@ ko.bindingHandlers['tooltip'] = {
             $element.tooltip('dispose');
             $element.tooltip({
                 title: text,
-                trigger: trigger
+                trigger
             });
 
             if (forceOpen) {

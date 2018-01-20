@@ -1,5 +1,5 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page'
-import AppContext from 'AppFramework/AppContext'
+import {Page, IPageRegistration} from 'AppFramework/Page';
+import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 
 class DefaultPage extends Page {
@@ -20,5 +20,5 @@ export default {
     id: module.id,
     templateName: 'default',
     routingTable: { name: 'default', path: '/' },
-    createPage: (appContext) => new DefaultPage(appContext)
+    createPage:appContext => new DefaultPage(appContext)
 } as IPageRegistration;

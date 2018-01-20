@@ -1,4 +1,4 @@
-﻿import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
 import { SortOrderMutationType } from './RecurringSheetEntry';
 
 export type DateTime = string;
@@ -12,16 +12,16 @@ export interface ISheetEntry {
     delta: number;
 
     source: string;
-    remark:string|null;
+    remark: string|null;
 
-    sortOrder : number;
+    sortOrder: number;
 
     updateTimestamp: DateTime;
     createTimestamp: DateTime;
 
     account: AccountType;
 
-    tags:number[];
+    tags: number[];
 }
 
 export enum AccountType {
@@ -33,7 +33,7 @@ export enum AccountType {
 }
 
 export class Api extends ApiBase {
-    public setContext(year : number, month : number) {
+    public setContext(year: number, month: number) {
         this.baseUrl = `/api/sheet/${year}-${month}/entries`;
     }
 

@@ -1,11 +1,11 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 
 const noImplMarker = (new Object()).toString();
 
-function getName(input: any|KnockoutObservable<any>|undefined|null) : string {
+function getName(input: any|KnockoutObservable<any>|undefined|null): string {
     const unwrapped = ko.unwrap(input);
 
-    let toString : string;
+    let toString: string;
     if (unwrapped === null) {
         toString = '(null)';
     } else if (typeof unwrapped === 'undefined') {
@@ -54,7 +54,7 @@ function logLookup(prefix: string, bindingContext: any) {
     }
 }
 
-ko.bindingHandlers['bindingContextLog'] = {
+ko.bindingHandlers.bindingContextLog = {
     init(element: Node, valueAccessor: () => string, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
         if (DEBUG === false) {
             return;
