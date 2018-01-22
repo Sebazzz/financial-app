@@ -23,6 +23,9 @@
                 cfg.ConstructServicesUsing(t => serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext.RequestServices.GetService(t));
                 cfg.AddGlobalIgnore("Owner");
 
+                cfg.DisableConstructorMapping();
+                cfg.RecognizePostfixes("Id");
+
                 cfg.CreateMap<Category,Category>()
                    .ForMember(x => x.Owner, m=> m.Ignore());
 
@@ -58,19 +61,17 @@
                 cfg.CreateMap<RecurringSheetEntry, Models.DTO.RecurringSheetEntry>(MemberList.Destination)
                     .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id));
 
-                cfg.CreateMap<Models.DTO.SheetEntry, SheetEntry>(MemberList.Source)
-                    .ForMember(x => x.Template, m => m.MapFrom(s => s.TemplateId))
-                    .ForSourceMember(x => x.TemplateId, m =>m.Ignore()) // TODO: ignore shouldn't be necessary here
-                    .ForMember(x => x.Category, m => m.MapFrom(s => s.CategoryId))
-                    .ForSourceMember(x => x.CategoryId, m =>m.Ignore()); // TODO: ignore shouldn't be necessary here
 
-                cfg.CreateMap<Models.DTO.RecurringSheetEntry, RecurringSheetEntry>(MemberList.Source)
-                    .ForMember(x => x.Category, m => m.MapFrom(s => s.CategoryId))
-                    .ForSourceMember(x => x.CategoryId, m =>m.Ignore()); // TODO: ignore shouldn't be necessary here
+                cfg.CreateMap<Models.DTO.SheetEntry, SheetEntry>(MemberList.Source);
+
+                cfg.CreateMap<Models.DTO.RecurringSheetEntry, RecurringSheetEntry>(MemberList.Source);
 
                 cfg.CreateMap<Tag,TagListing>(MemberList.Destination);
                 cfg.CreateMap<TagListing,Tag>(MemberList.Source)
                    .ForMember(x => x.IsInactive, m=>m.Ignore());
+
+                cfg.CreateMap<int, RecurringSheetEntry>().ConvertUsing<EntityResolver<RecurringSheetEntry>>();
+                cfg.CreateMap<int?, RecurringSheetEntry>().ConvertUsing<EntityResolver<RecurringSheetEntry>>();
 
                 cfg.CreateMap<int, SheetEntryTag>()
                    .ConvertUsing<SheetEntryTagConverter>();
@@ -80,7 +81,6 @@
                 cfg.CreateMap<SheetEntryTag,int>().ConvertUsing(t => t.TagId);
 
                 cfg.CreateMap<int, Category>().ConvertUsing<EntityResolver<Category>>();
-                cfg.CreateMap<int?, RecurringSheetEntry>().ConvertUsing<EntityResolver<RecurringSheetEntry>>();
             });
 
             config.AssertConfigurationIsValid();
