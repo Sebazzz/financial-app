@@ -60,6 +60,7 @@ namespace App {
                 options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
                 options.Filters.Add(typeof(ApiCachePreventionFilterAttribute));
+                options.Filters.Add(typeof(SetupRequiredFilterAttribute));
             });
 
             services.AddIdentity<AppUser, AppRole>(
@@ -128,11 +129,7 @@ namespace App {
             services.AddScoped<AutoMapperEngineFactory.SheetEntryTagConverter>();
             
             services.AddSingleton<IMapper>(AutoMapperEngineFactory.Create);
-            services.AddSingleton<IETagGenerator, ETagGenerator>();
-            services.AddSingleton<IStaticFileUrlGenerator, StaticFileUrlGenerator>();
             services.AddSingleton<IAppVersionService, AppVersionService>();
-
-            services.AddTransient<IBrowserDetector, DefaultBrowserDetector>();
 
             services.AddScoped<SetupService>();
             services.AddScoped<SetupStepFactory>();
@@ -174,16 +171,27 @@ namespace App {
                     ctx.Request.Path = "/images/tiles/manifest-microsoft.xml";
                     return next();
                 }));
+
+            app.UseWhen(
+                ctx => ctx.Request.Path.StartsWithSegments(new PathString("/sw.js")),
+                _ => _.Use((ctx, next) => {
+                    ctx.Request.Path = "/build/sw.js";
+                    return next();
+                }));
             
             app.UseStaticFiles(new StaticFileOptions {
                 OnPrepareResponse = context => {
-                    // Enable aggressive caching behavior since we differ on query string anyway.
+                    // Enable aggressive caching behavior - but be sure that requests from service workers must be properly addressed
+                    const int expireTimeInDays = 7 * 4;
+
                     ResponseHeaders headers = context.Context.Response.GetTypedHeaders();
-                    headers.Expires = DateTimeOffset.Now.AddYears(1);
+                    headers.Expires = DateTimeOffset.Now.AddDays(expireTimeInDays);
                     headers.CacheControl = new CacheControlHeaderValue {
-                        MaxAge = TimeSpan.FromDays(356),
-                        MustRevalidate = false,
-                        Public = true
+                        MaxAge = TimeSpan.FromDays(expireTimeInDays),
+                        MustRevalidate = true,
+                        Public = true,
+                        MaxStale = true,
+                        MaxStaleLimit = TimeSpan.FromSeconds(5)
                     };
                 }
             });

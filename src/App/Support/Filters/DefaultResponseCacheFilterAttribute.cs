@@ -13,8 +13,7 @@
             ResponseHeaders headers = context.HttpContext.Response.GetTypedHeaders();
 
             headers.CacheControl = new CacheControlHeaderValue {
-                MustRevalidate = false,
-                Public = true,
+                MustRevalidate = true,
                 MaxAge = TimeSpan.FromDays(1)
             };
         }

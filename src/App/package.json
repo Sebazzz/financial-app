@@ -38,6 +38,7 @@
     "popper.js": "1.12.9",
     "postcss-loader": "2.0.10",
     "sass-loader": "6.0.6",
+    "serviceworker-webpack-plugin": "^0.2.3",
     "style-loader": "0.19.1",
     "ts-loader": "3.2.0",
     "tslint": "5.9.1",

@@ -4,6 +4,7 @@
     using Support.Filters;
 
     [DefaultResponseCacheFilter]
+    [AllowDuringSetup]
     public sealed class HomeController : Controller {
         private readonly IAppVersionService _appVersionService;
         public HomeController(IAppVersionService appVersionService) {

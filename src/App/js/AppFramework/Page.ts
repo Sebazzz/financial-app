@@ -1,6 +1,7 @@
 import AppContext from './AppContext';
 import { Router, State } from 'router5';
 import { RoutingTable } from './Router';
+import isMobile from 'AppFramework/Client/BrowserDetector';
 
 import {Panel, ActivationPromise} from './Panel';
 import * as ko from 'knockout';
@@ -152,7 +153,7 @@ class PageTemplateManager {
         // We cannot check in advance whether a mobile template is available,
         // so just try to load it, and if we fail, load the regular template.
         try {
-            const isMobileDevice = document.documentElement.getAttribute('data-app-mobile') !== 'false';
+            const isMobileDevice = isMobile();
 
             if (isMobileDevice) {
                 return await import(

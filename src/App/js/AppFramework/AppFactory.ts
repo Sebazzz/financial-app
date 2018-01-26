@@ -12,6 +12,7 @@ import registerBindingProvider from './UnnamedBindingProvider';
 import hotModuleReplacementPage from './HotModulePage';
 import installDefaultTemplates from './Templates/Index';
 import { trackBindingFrameworkException } from './Telemetry';
+import isMobile from './Client/BrowserDetector';
 
 export interface IPageRepository {
     addPages(pages: IPageRegistration[]): void;
@@ -164,7 +165,7 @@ function setKnockoutErrorHandler() {
         trackBindingFrameworkException(error);
 
         // Mobile handling
-        const isMobileDevice = document.documentElement.getAttribute('data-app-mobile') !== 'false';
+        const isMobileDevice = isMobile();
 
         if (isMobileDevice) {
             alert(`Application error ${error.name}
