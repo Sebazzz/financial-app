@@ -70,6 +70,7 @@
     <None Remove="js\AppFramework\BindingContextExtender.ts" />
     <None Remove="js\AppFramework\BindingHandlers\BindingContextLog.ts" />
     <None Remove="js\AppFramework\BindingHandlers\LookupScope.ts" />
+    <None Remove="js\AppFramework\Client\BrowserDetector.ts" />
     <None Remove="js\AppFramework\Components\Popover.ts" />
     <None Remove="js\AppFramework\Components\templates\popover.html" />
     <None Remove="js\AppFramework\Telemetry.ts" />
@@ -82,6 +83,9 @@
     <None Remove="js\App\ServerApi\Budget.ts" />
     <None Remove="js\App\ServerApi\Tag.ts" />
     <None Remove="js\App\ServerApi\TagReport.ts" />
+    <None Remove="js\App\Services\SetupInterceptor.ts" />
+    <None Remove="js\App\ServiceWorker\typings\sw-runtime.d.ts" />
+    <None Remove="js\App\typings\sw-runtime.d.ts" />
     <None Remove="js\tests\AppFramework\UnnamedBindingProvider.ts" />
     <None Remove="js\tests\App\main.ts" />
     <None Remove="js\tests\main.ts" />
@@ -216,6 +220,7 @@
     <TypeScriptCompile Include="js\AppFramework\BindingContextExtender.ts" />
     <TypeScriptCompile Include="js\AppFramework\BindingHandlers\BindingContextLog.ts" />
     <TypeScriptCompile Include="js\AppFramework\BindingHandlers\LookupScope.ts" />
+    <TypeScriptCompile Include="js\AppFramework\Client\BrowserDetector.ts" />
     <TypeScriptCompile Include="js\AppFramework\Components\Popover.ts" />
     <TypeScriptCompile Include="js\AppFramework\Telemetry.ts" />
     <TypeScriptCompile Include="js\AppFramework\UnnamedBindingProvider.ts" />
@@ -255,6 +260,9 @@
     <TypeScriptCompile Include="js\App\ServerApi\Budget.ts" />
     <TypeScriptCompile Include="js\App\ServerApi\Tag.ts" />
     <TypeScriptCompile Include="js\App\ServerApi\TagReport.ts" />
+    <TypeScriptCompile Include="js\App\Services\SetupInterceptor.ts" />
+    <TypeScriptCompile Include="js\App\ServiceWorker\typings\sw-runtime.d.ts" />
+    <TypeScriptCompile Include="js\App\typings\sw-runtime.d.ts" />
     <TypeScriptCompile Include="js\tests\AppFramework\UnnamedBindingProvider.ts" />
     <TypeScriptCompile Include="js\tests\App\Services\Calculator.ts" />
     <TypeScriptCompile Include="wwwroot\js\eventsource-polyfill.js" />

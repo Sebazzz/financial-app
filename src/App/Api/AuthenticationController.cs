@@ -1,4 +1,6 @@
-﻿namespace App.Api {
+﻿using App.Support.Filters;
+
+namespace App.Api {
     using System.Linq;
     using System.Net;
     using System.Security.Claims;
@@ -22,6 +24,7 @@
 
         [HttpGet]
         [Route("check")]
+        [AllowDuringSetup]
         public AuthenticationInfo CheckAuthentication() {
             return new AuthenticationInfo() {
                 UserId = this.User.Identity.GetUserId(),

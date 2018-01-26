@@ -1,0 +1,15 @@
+{
+    "extends": "../../../tsconfig.base.json", 
+    "compilerOptions": {
+        "baseUrl": "../..",
+        "lib": [ "webworker", "es6" ],
+        "module": "none",
+        "sourceMap": false,
+        "target": "es2017",
+        "traceResolution": true,
+        "typeRoots": [
+            "./typings"
+        ]
+    },
+    "compileOnSave": false
+}

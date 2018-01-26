@@ -1,6 +1,7 @@
 import * as ko from 'knockout';
+import isMobile from 'AppFramework/Client/BrowserDetector';
 
-const isMobileDevice = document.documentElement.getAttribute('data-app-mobile') !== 'false';
+const isMobileDevice = isMobile();
 
 /**
  * Check if valueAsNumber is properly supported. Works around Microsoft Edge bug #669685.

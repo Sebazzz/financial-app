@@ -16,6 +16,7 @@ namespace App.Api {
     using Support.Setup;
 
     [SetupAuthorize]
+    [AllowDuringSetup]
     [Route("api/setup")]
     public sealed class SetupController : Controller {
         private readonly SetupService _setupService;
