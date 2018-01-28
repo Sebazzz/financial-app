@@ -76,6 +76,7 @@
     <None Remove="js\AppFramework\Telemetry.ts" />
     <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
     <None Remove="js\App\BindingHandlers\MoneyInput.ts" />
+    <None Remove="js\App\Pages\AboutPage.ts" />
     <None Remove="js\App\Pages\Manage\Tag\DefaultPage.ts" />
     <None Remove="js\App\Pages\Manage\Tag\EditPage.ts" />
     <None Remove="js\App\Pages\Report\DefaultPage.ts" />
@@ -253,6 +254,7 @@
     <TypeScriptCompile Include="js\App\Components\Loader.ts" />
     <TypeScriptCompile Include="js\App\Components\ScrollNub.ts" />
     <TypeScriptCompile Include="js\App\Components\TopMenu.ts" />
+    <TypeScriptCompile Include="js\App\Pages\AboutPage.ts" />
     <TypeScriptCompile Include="js\App\Pages\Manage\Tag\DefaultPage.ts" />
     <TypeScriptCompile Include="js\App\Pages\Manage\Tag\EditPage.ts" />
     <TypeScriptCompile Include="js\App\Pages\Report\TagsPage.ts" />

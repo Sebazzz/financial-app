@@ -23,15 +23,6 @@
         <link href="/build/app.css" rel="stylesheet" asp-append-version="true" fa-check-exists="true"/>
         
         <environment include="Development">
-            <script>
-                (function() {
-                    if (typeof EventSource === 'undefined') {
-                        var scr = document.createElement('script');
-                        scr.src = '/js/eventsource-polyfill.js?v=@ViewBag.AppVersion';
-                        document.head.appendChild(src);
-                    }
-                })();
-            </script>
             <script>var DEBUG = true; window.DEBUG = DEBUG;</script>
         </environment>
         
@@ -70,6 +61,17 @@
             </div>
         </noscript>
 
+        <environment include="Development">
+            <script>
+                (function(doc) {
+                    if (typeof EventSource === 'undefined') {
+                        var polyfill = doc.createElement('script');
+                        polyfill.src = '/js/eventsource-polyfill.js?v=@ViewBag.AppVersion';
+                        doc.head.appendChild(polyfill);
+                    }
+                })(document);
+            </script>
+        </environment>
         <script src="/build/lib.js" asp-append-version="true" defer></script>
         <script src="/build/app.js" asp-append-version="true" defer></script>
     </body>

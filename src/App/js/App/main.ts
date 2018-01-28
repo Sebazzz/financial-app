@@ -20,7 +20,11 @@ function registerServiceWorker() {
 }
 
 function enableServiceWorkerMessageHandler() {
-    window.addEventListener('message', ev => {
+    if (!('serviceWorker' in navigator)) {
+        return;
+    }
+
+    navigator.serviceWorker.addEventListener('message', ev => {
         if (ev.data === 'sw-upgrade') {
             if (confirm('We hebben een update. Wil je de applicatie herladen?')) {
                 document.location.reload(true);

@@ -99,3 +99,17 @@ input[type=color].form-control {
         display: none;
     }
 }
+
+.about-container {
+    text-align: center;
+
+    h1 {
+        margin-bottom: 1em;
+
+        > span {
+            display: inline-block;
+
+            padding-right: 70px; // visually center the header
+        }
+    }
+}

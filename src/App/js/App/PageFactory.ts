@@ -1,6 +1,8 @@
+﻿  
 /* tslint:disable */
 import {IPageRepository} from 'AppFramework/AppFactory';
 import DefaultPageRegistration from './Pages/DefaultPage';
+import AboutPageRegistration from './Pages/AboutPage';
 import Archive_DefaultPageRegistration from './Pages/Archive/DefaultPage';
 import Archive_SheetPageRegistration from './Pages/Archive/SheetPage';
 import Archive_SheetStatisticsPageRegistration from './Pages/Archive/SheetStatisticsPage';
@@ -25,8 +27,9 @@ import Report_TagsPageRegistration from './Pages/Report/TagsPage';
 import Setup_DefaultRegistration from './Pages/Setup/Default';
 
 const pageFactory = {
-	replacePages(repository: IPageRepository): void {
+	replacePages(repository : IPageRepository) : void {
 		repository.replacePage(require('./Pages/DefaultPage').default);
+		repository.replacePage(require('./Pages/AboutPage').default);
 		repository.replacePage(require('./Pages/Archive/DefaultPage').default);
 		repository.replacePage(require('./Pages/Archive/SheetPage').default);
 		repository.replacePage(require('./Pages/Archive/SheetStatisticsPage').default);
@@ -51,9 +54,10 @@ const pageFactory = {
 		repository.replacePage(require('./Pages/Setup/Default').default);
 },
 
-	installPages(repository: IPageRepository): void {
+	installPages(repository : IPageRepository) : void {
 		const pages = [
 			DefaultPageRegistration,
+			AboutPageRegistration,
 			Archive_DefaultPageRegistration,
 			Archive_SheetPageRegistration,
 			Archive_SheetStatisticsPageRegistration,
@@ -80,7 +84,7 @@ const pageFactory = {
 
 		repository.addPages(pages);
 	}
-};
+}
 
 export default pageFactory;
-
+

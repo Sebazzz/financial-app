@@ -1,0 +1,36 @@
+<div class="about-container">
+    <h1><span class="application-header" ko-text="$appContext.title"></span></h1>
+
+    <h2>Over Financial App</h2>
+
+    <p>
+        Financial App v<span ko-text="appVersion"></span>.
+
+        Online op <a href="https://github.com/sebazzz/financial-app"><span class="fa fa-github"></span> Github</a>.
+    </p>
+
+    <p>
+        <small>App version ID: <span ko-text="appVersionId"></span> | client version id: <span ko-text="clientVersionId"></span></small>
+    </p>
+
+    <h3>Offline ondersteuning</h3>
+    <p>
+        <strong>Offline ondersteuning beschikbaar:</strong>
+        <span ko-visible="serviceWorker.isSupported"><span class="fa fa-check"></span> Ja</span>
+        <span ko-hidden="serviceWorker.isSupported"><span class="fa fa-times"></span> Nee</span>
+    </p>
+    <p>
+        <strong>Offline ondersteuning geïnstalleerd:</strong>
+        <span ko-visible="serviceWorker.isInstalled"><span class="fa fa-check"></span> Ja</span>
+        <span ko-hidden="serviceWorker.isInstalled"><span class="fa fa-times"></span> Nee</span>
+    </p>
+
+    <p ko-visible="serviceWorker.isInstalled">
+        <input type="button" value="Upgrade" class="btn btn-default" ko-click="serviceWorker.update"/>
+        <input type="button" value="Deïnstalleren" class="btn btn-danger" ko-click="serviceWorker.unregister"/>
+        <input type="button" value="Herladen" class="btn btn-info" ko-click="serviceWorker.forceReload"/>
+    </p>
+    <p>
+        <input type="button" value="(Her)installeren" class="btn btn-success" ko-click="serviceWorker.register"/>
+    </p>
+</div>
