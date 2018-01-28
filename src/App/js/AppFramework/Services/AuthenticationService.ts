@@ -1,4 +1,4 @@
-import * as auth from './ServerApi/Authentication';
+import * as auth from '../ServerApi/Authentication';
 import * as ko from 'knockout';
 import { MiddlewareFactory, Middleware, Router, State } from 'router5';
 import { trackLogin, trackLogout } from './Telemetry';
@@ -19,7 +19,6 @@ function middleware(router: Router, authenticationService: AuthenticationService
 
     return (toState: State) => {
         const path = toState.path,
-              isAuthenticating = authenticationService.isCheckingAuthentication,
               currentAuthenticationObservable = authenticationService.currentAuthentication,
               currentAuthenticationValue = currentAuthenticationObservable.peek();
 
@@ -35,34 +34,14 @@ function middleware(router: Router, authenticationService: AuthenticationService
             }
         }
 
+        // Not allowed - immediately reject
         const returnUrl = router.buildPath(toState.name, toState.params);
+        console.log('AuthenticationMiddleware: Path %s rejected: not logged in', path);
 
-        if (!isAuthenticating) {
-            console.log('AuthenticationMiddleware: Path %s rejected: not logged in', path);
+        router.cancel();
+        router.navigate('auth.login', { returnUrl });
 
-            router.cancel();
-            router.navigate('auth.login', { returnUrl });
-            return Promise.reject<boolean>('unauthenticated');
-        }
-
-        console.log('AuthenticationMiddleware: Path %s checking: not logged in', path);
-
-        const promise = new Promise<boolean>((resolve, reject) => {
-            const subscription = currentAuthenticationObservable.subscribe(val => {
-                console.log('AuthenticationMiddleware: Path %s checked with result %s: not logged in', path, val.isAuthenticated);
-                subscription.dispose();
-
-                if (val.isAuthenticated) {
-                    resolve(true);
-                } else {
-                    reject('unauthenticated');
-                    router.cancel();
-                    router.navigate('auth.login', { returnUrl });
-                }
-            });
-        });
-
-        return promise;
+        return Promise.reject<boolean>('unauthenticated');
     };
 }
 
@@ -71,7 +50,6 @@ export default class AuthenticationService {
 
     public currentAuthentication = ko.observable<auth.IAuthenticationInfo>(AuthenticationService.getPersistedAuthenticationInfo() || defaultAuthInfo).extend({ notify: 'always' });
     public isAuthenticated = ko.pureComputed(() => this.currentAuthentication() && this.currentAuthentication().isAuthenticated);
-    public isCheckingAuthentication = false;
 
     public middleware: MiddlewareFactory = (router: Router) => middleware(router, this);
 
@@ -80,7 +58,6 @@ export default class AuthenticationService {
     }
 
     public initialize(): void {
-        this.checkAuthenticationCore();
         this.autoPersistAuthenticationInfo();
         this.hookupTelemetry();
     }
@@ -93,16 +70,9 @@ export default class AuthenticationService {
 
     public checkAuthentication() {
         return new Promise<boolean>(resolve => {
-            if (!this.isCheckingAuthentication) {
-                resolve(this.isAuthenticated.peek());
-                return;
-            }
-
-            const disposable = this.currentAuthentication.subscribe(() => {
-                disposable.dispose();
-
-                resolve(this.isAuthenticated.peek());
-            });
+            this.checkAuthenticationCore()
+                .then(() => resolve(this.currentAuthentication.peek().isAuthenticated))
+                .catch(() => resolve(false));
         });
     }
 
@@ -119,14 +89,12 @@ export default class AuthenticationService {
     }
 
     private async checkAuthenticationCore() {
-        this.isCheckingAuthentication = true;
         console.log('AuthenticationService: Checking authentication');
         try {
             const authInfo = await this.api.check();
             this.currentAuthentication(authInfo);
         } finally {
             console.log('AuthenticationService: Checked authentication, result: %s', this.currentAuthentication().isAuthenticated);
-            this.isCheckingAuthentication = false;
         }
     }
 
