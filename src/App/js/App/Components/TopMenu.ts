@@ -2,7 +2,7 @@ import * as framework from 'AppFramework/Panel';
 import {State} from 'router5';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
-import NowRouteProvider from '../Services/NowRoute';
+import NowRouteProvider from 'App/Services/NowRoute';
 import * as SignalR from '@aspnet/signalr-client';
 
 class TopMenu extends framework.Panel {

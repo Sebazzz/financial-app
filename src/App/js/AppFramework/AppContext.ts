@@ -1,6 +1,6 @@
 import * as r from 'router5';
 import { App } from './AppFactory';
-import AuthenticationService from './AuthenticationService';
+import AuthenticationService from './Services/AuthenticationService';
 
 export default class AppContext {
     public router: r.Router;

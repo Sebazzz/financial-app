@@ -11,8 +11,9 @@ import registerPopover from './Components/Popover';
 import registerBindingProvider from './UnnamedBindingProvider';
 import hotModuleReplacementPage from './HotModulePage';
 import installDefaultTemplates from './Templates/Index';
-import { trackBindingFrameworkException } from './Telemetry';
+import { trackBindingFrameworkException } from './Services/Telemetry';
 import isMobile from './Client/BrowserDetector';
+import registerAuthenticationInterceptor from './Services/AuthenticationInterceptor';
 
 export interface IPageRepository {
     addPages(pages: IPageRegistration[]): void;
@@ -183,6 +184,7 @@ ${error.toString()}`);
 export function createApp<TModel extends App>(app: TModel) {
     console.info('AppFactory: CreateApp');
 
+    registerAuthenticationInterceptor(app.context);
     installDefaultTemplates();
     setKnockoutErrorHandler();
     applyJsonDateHook();
