@@ -1,12 +1,4 @@
-﻿// ******************************************************************************
-//  © 2017 Ernst & Young - www.ey.com | www.beco.nl
-// 
-//  Author          : Ernst & Young - Cleantech and Sustainability
-//  File:           : SetupController.cs
-//  Project         : App
-// ******************************************************************************
-
-namespace App.Api {
+﻿namespace App.Api {
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
