@@ -1,3 +1,9 @@
-﻿$fa-font-path: "../../node_modules/font-awesome/fonts" !default;
+﻿// Fontawesome 5 includes
 
-@import "font-awesome/scss/font-awesome.scss";
+// Need to manually include fonts
+$fa-font-path: "../../node_modules/@fortawesome/fontawesome-free-webfonts/webfonts";
+
+@import "@fortawesome/fontawesome-free-webfonts/scss/fontawesome";
+@import "@fortawesome/fontawesome-free-webfonts/scss/fa-solid";
+@import "@fortawesome/fontawesome-free-webfonts/scss/fa-regular";
+@import "@fortawesome/fontawesome-free-webfonts/scss/fa-brands";

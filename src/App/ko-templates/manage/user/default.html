@@ -14,13 +14,13 @@
                    href="#"
                    ko-tooltip#="Gebruiker bewerken"
                    ko-route="manage.user.edit | { id: user.id }">
-                    <span class="fa fa-pencil"></span>
+                    <span class="far fa-edit"></span>
                 </a>
 
                 <span class="inline-block" ko-tooltip#="Gebruiker verwijderen">
                     <a class="btn btn-outline-danger"
                        ko-click="$parent.deleteUser">
-                        <span class="fa fa-trash"></span>
+                        <span class="fas fa-trash"></span>
                     </a>
                 </span>
             </div>
@@ -36,6 +36,6 @@
     </ul>
     
     <p>
-        <a href="#" ko-route="manage.user.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe gebruiker</a>
+        <a href="#" ko-route="manage.user.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuwe gebruiker</a>
     </p>
 </div>

@@ -13,20 +13,20 @@
                 <a class="btn btn-secondary"
                    href="#"
                    data-bind="route: manage.entry-template.edit | { id: entry.id }, tooltip: 'Regeltemplate bewerken'">
-                    <span class="fa fa-pencil"></span>
+                    <span class="far fa-edit"></span>
                 </a>
 
                 <button type="button" class="btn btn-secondary" data-bind="click: $parent.mutateSortOrderHandler(entry, $parent.SortOrderMutation.Decrease)">
-                    <span class="fa fa-arrow-up"></span>
+                    <span class="fas fa-arrow-up"></span>
                 </button>
                 <button type="button" class="btn btn-secondary" data-bind="click: $parent.mutateSortOrderHandler(entry, $parent.SortOrderMutation.Increase)">
-                    <span class="fa fa-arrow-down"></span>
+                    <span class="fas fa-arrow-down"></span>
                 </button>
 
                 <span class="inline-block" data-bind="tooltip: 'Regeltemplate verwijderen'">
                     <a class="btn btn-outline-danger"
                        data-bind="click: $parent.deleteEntryTemplate">
-                        <span class="fa fa-trash"></span>
+                        <span class="fas fa-trash"></span>
                     </a>
                 </span>
             </div>
@@ -43,6 +43,6 @@
     </ul>
     
     <p>
-        <a href="#" data-bind="route: manage.entry-template.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe regeltemplate</a>
+        <a href="#" data-bind="route: manage.entry-template.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuwe regeltemplate</a>
     </p>
 </div>
