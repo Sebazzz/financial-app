@@ -35,9 +35,33 @@ export class Router {
     }
 
     private initListener() {
-        $(document.body).on('click', 'a',ev => {
-            const anchor = ev.target,
-                href = (anchor as HTMLAnchorElement).href,
+        function findAnchor(element: HTMLElement): HTMLAnchorElement|null {
+            let current: HTMLElement|null = element,
+                depth = 4;
+
+            while (current) {
+                if (current.tagName === 'A' || current.tagName === 'a') {
+                    return current as HTMLAnchorElement;
+                }
+
+                current = current.parentElement;
+                depth--;
+
+                if (depth < 0) {
+                    break;
+                }
+            }
+
+            return null;
+        }
+
+        $(document).on('click', 'a, a *', ev => {
+            const anchor = findAnchor(ev.target);
+            if (!anchor) {
+                return;
+            }
+
+            const href = (anchor as HTMLAnchorElement).href,
                 origin = document.location.origin,
                 hrefWithoutOrigin = href && href.indexOf(origin) === 0 ? href.substr(origin.length) : href;
 
@@ -51,6 +75,8 @@ export class Router {
             }
 
             ev.preventDefault();
+            ev.stopPropagation();
+
             this.router.navigate(state.name, state.params);
         });
     }
