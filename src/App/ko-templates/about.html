@@ -1,6 +1,10 @@
 <div class="about-container">
     <h1><span class="application-header" ko-text="$appContext.title"></span></h1>
 
+    <p>
+        <small>Ontwikkeld door Sebastiaan Dammann | <a href="https://damsteen.nl">https://damsteen.nl</a></small>
+    </p>
+
     <h2>Over Financial App</h2>
 
     <p>
@@ -15,7 +19,7 @@
 
     <h3>Offline ondersteuning</h3>
     <p>
-        <strong>Offline ondersteuning beschikbaar:</strong>
+        <strong>Offline ondersteuning ondersteund:</strong>
         <span ko-visible="serviceWorker.isSupported"><span class="fa fa-check"></span> Ja</span>
         <span ko-hidden="serviceWorker.isSupported"><span class="fa fa-times"></span> Nee</span>
     </p>
@@ -30,7 +34,7 @@
         <input type="button" value="Deïnstalleren" class="btn btn-danger" ko-click="serviceWorker.unregister"/>
         <input type="button" value="Herladen" class="btn btn-info" ko-click="serviceWorker.forceReload"/>
     </p>
-    <p>
+    <p ko-visible="serviceWorker.isSupported">
         <input type="button" value="(Her)installeren" class="btn btn-success" ko-click="serviceWorker.register"/>
     </p>
 </div>
