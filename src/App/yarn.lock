@@ -34,16 +34,16 @@
   resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.3.tgz#251767f9a465ce06782fc07a9a5f15480939eee8"
 
 "@types/jquery@*":
-  version "3.2.17"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.2.17.tgz#01df9805dd5cf83a14cf5bfd81adced7d4fbd970"
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.0.tgz#6316ac20a1a13c5d521a2dc661befc7184f73f5b"
 
 "@types/jquery@3.2.18":
   version "3.2.18"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.2.18.tgz#a1cd262034cd8c79fa4d9b2a409d8f747ac2f72f"
 
-"@types/kendo-ui@2017.3.4":
-  version "2017.3.4"
-  resolved "https://registry.yarnpkg.com/@types/kendo-ui/-/kendo-ui-2017.3.4.tgz#8f113827c3327bb4b90be023d4c5e3c0c771a398"
+"@types/kendo-ui@2018.1.0":
+  version "2018.1.0"
+  resolved "https://registry.yarnpkg.com/@types/kendo-ui/-/kendo-ui-2018.1.0.tgz#e17c871efc873c1348bfceba31e140051d64fb20"
   dependencies:
     "@types/jquery" "*"
 
