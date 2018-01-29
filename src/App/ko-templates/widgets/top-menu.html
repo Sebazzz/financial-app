@@ -53,11 +53,13 @@
                     <a class="dropdown-item" ko-css="hasLocation('manage.tag')" ko-route="manage.tag" href="#">Labels</a>
                     <a class="dropdown-item" ko-css="hasLocation('manage.user')" ko-route="manage.user" href="#">Gebruikers</a>
                     <a class="dropdown-item" ko-css="hasLocation('manage.impersonate')" ko-route="manage.impersonate" href="#">Account wisselen</a>
-                    <a class="dropdown-item" ko-css="hasLocation('about')" ko-route="about" href="#">Over Financial App</a>
                 </div>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link" ko-css="hasLocation('auth.logoff')" ko-route="auth.logoff">Uitloggen</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link nav-link-hidden-label" ko-css="hasLocation('about')" ko-route="about" ><span class="fa fa-question-circle"></span> <span class="nav-link-label">Over Financial App</span></a>
             </li>
         </ul>
     </div>
