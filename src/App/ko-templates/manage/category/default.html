@@ -11,13 +11,13 @@
                 <a class="btn btn-secondary"
                    href="#"
                    data-bind="route: manage.category.edit | { id: category.id }, tooltip: 'Categorie bewerken'">
-                    <span class="fa fa-pencil"></span>
+                    <span class="far fa-edit"></span>
                 </a>
                 
                 <span class="inline-block" data-bind="tooltip: category.canBeDeleted ? 'Categorie verwijderen' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'">
                     <a class="btn btn-outline-danger"
                        data-bind="click: $parent.deleteCategory, css: { 'disabled': !category.canBeDeleted }">
-                        <span class="fa fa-trash"></span>
+                        <span class="fas fa-trash"></span>
                     </a>
                 </span>
             </div>
@@ -32,6 +32,6 @@
     </ul>
     
     <p>
-        <a href="#" data-bind="route: manage.category.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuwe categorie</a>
+        <a href="#" data-bind="route: manage.category.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuwe categorie</a>
     </p>
 </div>

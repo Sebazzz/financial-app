@@ -64,8 +64,9 @@
 
 form[role=form] {
     .button-bar *:last-child::after {
+        @extend .fas;
         @include fa-icon();
-        content: $fa-var-circle-o-notch;
+        content: $fa-var-circle-notch;
         animation: rotating 750ms linear infinite;
         color: $accent-color;
         margin-left: 2em;

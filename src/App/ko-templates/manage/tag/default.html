@@ -12,13 +12,13 @@
                    href="#"
                    ko-route="manage.tag.edit | { id: tag.id }"
                    ko-tooltip#="Label bewerken">
-                    <span class="fa fa-pencil"></span>
+                    <span class="far fa-edit"></span>
                 </a>
                 
                 <span class="inline-block" ko-tooltip#="Label verwijderen / inactief maken">
                     <a class="btn btn-outline-danger"
                        ko-click="$parent.deleteTag">
-                        <span class="fa fa-trash"></span>
+                        <span class="fas fa-trash"></span>
                     </a>
                 </span>
             </div>
@@ -34,6 +34,6 @@
     </ul>
     
     <p>
-        <a href="#" ko-route="manage.tag.add" class="btn btn-secondary"><span class="fa fa-plus"></span> Nieuw label</a>
+        <a href="#" ko-route="manage.tag.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuw label</a>
     </p>
 </div>

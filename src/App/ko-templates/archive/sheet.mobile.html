@@ -22,7 +22,7 @@
     <div class="btn-group btn-group-justified btn-group-sm" role="group" data-bind="visible: entries().length > 0">
         <a class="btn btn-primary" href="#" 
            data-bind="route: archive.sheet.entry.add | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
-            <span class="fa fa-plus"></span>
+            <span class="fas fa-plus"></span>
             Toevoegen
         </a>
         <div class="btn-group btn-group-sm" role="group">
@@ -37,7 +37,7 @@
     
     <div data-bind="with: $parent.expenseTrajectory">
         <div class="card text-white bg-danger mb-3" style="max-width: 40rem;" data-bind="visible: unpayableExpenses.length > 0">
-            <div class="card-header"><span class="fa fa-credit-card-alt"></span> Uitgavenwaarschuwing</div>
+            <div class="card-header"><span class="far fa-credit-card"></span> Uitgavenwaarschuwing</div>
             <div class="card-body">
                 <p class="card-text" data-bind="visible: nextIncome, if: nextIncome">
                     Let op! Er is tot de volgende inkomsten (<span data-bind="formatText: nextIncome.delta, format: 'c'"></span> via <span data-bind="text: nextIncome.source"></span>)
@@ -75,7 +75,7 @@
                 <th colspan="2">
                     <button class="pull-right btn btn-link"
                             data-bind="visible: remark() && !showRemark(), click: toggleRemark, tooltip: 'Extra notities of opmerkingen bekijken'">
-                        <span class="fa fa-arrows-alt"></span>
+                        <span class="fas fa-arrows-alt"></span>
                     </button>
 
                     <div data-bind="text: source"></div>
@@ -127,18 +127,18 @@
                 <td colspan="2" style="padding-left: 0; padding-right: 0; text-align: center;">
                     <div class="btn-group btn-group-justified btn-group-xs">
                         <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Decrease)">
-                            <span class="fa fa-arrow-up"></span>
+                            <span class="fas fa-arrow-up"></span>
                         </button>
                         <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Increase)">
-                            <span class="fa fa-arrow-down"></span>
+                            <span class="fas fa-arrow-down"></span>
                         </button>
                         <a class="btn btn-primary" href="#" 
                            data-bind="disabled: isBusy, 
                                       route: archive.sheet.entry.edit | { month: $page.date().getMonth() + 1, year: $page.date().getFullYear(), id: id }">
-                            <span class="fa fa-pencil"></span>
+                            <span class="far fa-edit"></span>
                         </a>
                         <button class="btn btn-danger" data-bind="disabled: isBusy, click: $page.deleteEntry">
-                            <span class="fa fa-trash"></span>
+                            <span class="fas fa-trash"></span>
                         </button>
                     </div>
                 </td>
@@ -149,7 +149,7 @@
     <div class="btn-group btn-group-justified" role="group">
         <a class="btn btn-primary" href="#"
            data-bind="route: archive.sheet.entry.add | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
-            <span class="fa fa-plus"></span>
+            <span class="fas fa-plus"></span>
             Toevoegen
         </a>
         <div class="btn-group" role="group">
@@ -166,7 +166,7 @@
         <a href="#"
            class="btn btn-secondary btn-block"
            data-bind="route: archive.sheet.statistics | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
-            <span class="fa fa-bar-chart"></span>
+            <span class="fas fa-chart-bar"></span>
             Rapportage
         </a>
     </p>

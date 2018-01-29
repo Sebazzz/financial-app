@@ -21,7 +21,7 @@
     
     <div data-bind="with: $parent.expenseTrajectory">
         <div class="card text-white bg-danger mb-3" style="max-width: 40rem;" data-bind="visible: unpayableExpenses.length > 0">
-            <div class="card-header"><span class="fa fa-credit-card-alt"></span> Uitgavenwaarschuwing</div>
+            <div class="card-header"><span class="far fa-credit-card"></span> Uitgavenwaarschuwing</div>
             <div class="card-body">
                 <p class="card-text" data-bind="visible: nextIncome, if: nextIncome">
                     Let op! Er is tot de volgende inkomsten (<span data-bind="formatText: nextIncome.delta, format: 'c'"></span> via <span data-bind="text: nextIncome.source"></span>)
@@ -118,13 +118,13 @@
                         <span class="input-group-append">
                             <button class="btn btn-secondary btn-sm"
                                     data-bind="click: $page.editRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bewerken'">
-                                <span class="fa fa-arrows-alt"></span>
+                                <span class="fas fa-arrows-alt"></span>
                             </button>
                             <button class="btn btn-secondary btn-sm"
                                     ko-click="$page.editTagsOfEntry"
                                     ko-visible="$page.availableTags() > 0"
                                     ko-tooltip#="Labels selecteren">
-                                <span class="fa fa-tags"></span>
+                                <span class="fas fa-tags"></span>
                             </button>
                         </span>
                     </div>
@@ -174,16 +174,16 @@
                 <td>
                     <div class="btn-group btn-group-sm">
                         <button class="btn btn-primary" data-bind="disable: isBusy">
-                            <span class="fa fa-floppy-o"></span>
+                            <span class="far fa-save"></span>
                         </button>
                         <button class="btn btn-danger" data-bind="click: $page.deleteEntry, disable: isBusy">
-                            <span class="fa fa-trash"></span>
+                            <span class="fas fa-trash"></span>
                         </button>
                         <button type="button" class="btn btn-secondary" disabled="disabled">
-                            <span class="fa fa-arrow-up"></span>
+                            <span class="fas fa-arrow-up"></span>
                         </button>
                         <button type="button" class="btn btn-secondary" disabled="disabled">
-                            <span class="fa fa-arrow-down"></span>
+                            <span class="fas fa-arrow-down"></span>
                         </button>
                     </div>
                 </td>
@@ -202,14 +202,14 @@
 
                     <a class="btn btn-link btn-sm pull-right" href="#"
                        data-bind="visible: !!remark(), click: $page.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
-                        <span class="fa fa-arrows-alt"></span>
+                        <span class="fas fa-arrows-alt"></span>
                     </a>
                     
                     <a class="btn btn-link btn-sm pull-right"
                        href="#"
                        ko-popover:controller="$page.tagViewerPopover"
                        ko-visible="tags().length > 0">
-                        <span class="fa fa-tags"></span>
+                        <span class="fas fa-tags"></span>
                     </a>
                 </td>
 
@@ -230,16 +230,16 @@
                 <td>
                     <div class="btn-group btn-group-sm" data-bind="hidden: isTransient">
                         <button class="btn btn-primary" data-bind="disable: isBusy, click: toggleEdit">
-                            <span class="fa fa-pencil"></span>
+                            <span class="far fa-edit"></span>
                         </button>
                         <button class="btn btn-danger" data-bind="disable: isBusy, click: $page.deleteEntry">
-                            <span class="fa fa-trash"></span>
+                            <span class="fas fa-trash"></span>
                         </button>
                         <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Decrease), disable: isBusy">
-                            <span class="fa fa-arrow-up"></span>
+                            <span class="fas fa-arrow-up"></span>
                         </button>
                         <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Increase), disable: isBusy">
-                            <span class="fa fa-arrow-down"></span>
+                            <span class="fas fa-arrow-down"></span>
                         </button>
                     </div>
                 </td>
@@ -278,7 +278,7 @@
             <div class="btn-group" role="group">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary" data-bind="click: $parent.addEntry">
-                        <span class="fa fa-plus"></span>
+                        <span class="fas fa-plus"></span>
 
                         Toevoegen
                     </button>
@@ -295,13 +295,13 @@
                 <a href="#"
                    class="btn btn-secondary"
                    data-bind="route: archive.sheet.statistics | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
-                    <span class="fa fa-bar-chart"></span>
+                    <span class="fas fa-chart-bar"></span>
                     Rapportage
                 </a>
                 
                 <a class="btn btn-secondary"
                    data-bind="route: archive.sheet.budget | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }, tooltip: 'Vergelijking met begroting'">
-                    <span class="fa fa-table"></span>
+                    <span class="fas fa-table"></span>
                     
                     Begroting
                 </a>
