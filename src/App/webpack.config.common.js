@@ -48,7 +48,14 @@ const libraries = [
 const serviceWorker = new ServiceWorkerPlugin({
     entry: path.join(__dirname, 'js/App/ServiceWorker/sw.ts'),
     publicPath: '/build/',
-    template: () => new Promise(resolve => resolve(`/*${new Date().toString()}*/`))
+    template: () => new Promise(resolve => resolve(`/* Generated at ${new Date().toString()}*/`)),
+    transformOptions: serviceWorkerOption => ({
+        assets: serviceWorkerOption.assets,
+
+        // This ensures the service worker is always different for every published build:
+        // It is always updated and reinstalled.
+        versionTimestamp: (new Date()).toISOString()
+    })
 });
 
 module.exports =  {
