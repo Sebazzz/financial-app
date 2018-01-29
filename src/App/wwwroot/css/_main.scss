@@ -113,3 +113,19 @@ input[type=color].form-control {
         }
     }
 }
+
+.nav-link-hidden-label {
+    .nav-link-label {
+        display: none;
+
+        @include media-breakpoint-down(md) {
+            display: inline;
+        }
+    }
+
+    &:hover {
+        .nav-link-label {
+            display: inline;
+        }
+    }
+}
