@@ -5380,9 +5380,9 @@ router5-transition-path@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/router5-transition-path/-/router5-transition-path-5.1.1.tgz#89698deeaedcf0831a5c3393d8ae16c9f06a9744"
 
-router5@5.7.2:
-  version "5.7.2"
-  resolved "https://registry.yarnpkg.com/router5/-/router5-5.7.2.tgz#049c38bacc0a9ae156c0461f9c13a80b8f3d1446"
+router5@5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/router5/-/router5-5.8.0.tgz#b9664c147efbb372dc678ffad11009016f42224b"
   dependencies:
     route-node "2.0.2"
     router5-transition-path "^5.1.1"
