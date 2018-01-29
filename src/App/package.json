@@ -62,7 +62,7 @@
     "moment": "2.20.1",
     "reflect-metadata": "0.1.12",
     "router5": "5.8.0",
-    "tslib": "1.8.1"
+    "tslib": "1.9.0"
   },
   "resolutions": {
     "jquery": "3.3.1"
