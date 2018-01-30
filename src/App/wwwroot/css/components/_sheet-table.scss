@@ -85,3 +85,9 @@ tr#sheet-offset td {
 tr#sheet-offset td + td {
     border-top: 1px dashed gray;
 }
+
+.budget-table {
+    .negative {
+        color: crimson;
+    }
+}

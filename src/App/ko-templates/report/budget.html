@@ -21,7 +21,7 @@
         Een overzicht van de begroting tegenover de daadwerkelijk gemaakte kosten wordt hieronder getoond.
     </p>
 
-    <table class="table table-condensed">
+    <table class="table table-condensed budget-table">
         <thead>
             <tr>
                 <th>Categorie</th>
@@ -36,16 +36,16 @@
             </tr>
         </thead>
         <tbody ko-foreach="rows" style="white-space: nowrap">
-            <tr>
+            <tr> 
                 <td>
                     <span ko-text="categoryName"></span>
                 </td>
                 <td ko-format-text="monthlyBudget"
                     ko-format#="c"
-                    css:negative="monthlyBudget < 0"></td>
+                    ko-css:negative="monthlyBudget < 0"></td>
                 <td ko-format-text="currentMonth"
                     ko-format#="c"
-                    css:negative="isOverBudget"></td>
+                    ko-css:negative="isOverBudget"></td>
                 <td ko-format-text="lastMonth"
                     ko-format#="c"></td>
                 <td class="col-hide-mobile"
@@ -69,7 +69,7 @@
                 </td>
                 <td ko-format-text="budgetTotal"
                     ko-format#="c"
-                    css:negative="budgetTotal"></td>
+                    ko-css:negative="budgetTotal"></td>
                 <td ko-format-text="currentMonth"
                     ko-format#="c"></td>
                 <td ko-format-text="lastMonth"
