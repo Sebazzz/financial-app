@@ -22,7 +22,7 @@ class BudgetReportPage extends Page {
 
         const selectedSheet = this.selectedSheet();
         if (selectedSheet) {
-            return new Date(selectedSheet.year, selectedSheet.month - 1);
+            return new Date(selectedSheet.year, selectedSheet.month);
         }
 
         return null;
