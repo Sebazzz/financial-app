@@ -1,6 +1,6 @@
 ﻿declare module 'serviceworker-webpack-plugin/lib/runtime' {
     export interface ServiceWorkerRuntime {
-        register():void;
+        register(options?:RegistrationOptions):void;
     }
 
     const runtime: ServiceWorkerRuntime;

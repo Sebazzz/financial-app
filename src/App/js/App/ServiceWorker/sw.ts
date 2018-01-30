@@ -90,6 +90,32 @@ async function returnPossibleCachedResponse(request: Request): Promise<Response>
     }
 }
 
+class ServiceWorkerMethods {
+    public static versionQuery() {
+        return Promise.resolve(serviceWorkerOption.versionTimestamp);
+    }
+}
+
+function invokeServiceWorkerMethod(message: any): Promise<any> {
+    if (!message || !message.method) {
+        console.error('[Service Worker] [Messaging] Unknown service worker message');
+        console.error(message);
+        return Promise.reject('unknown message');
+    }
+
+    const data = message.data,
+          method: (arg?: any) => Promise<any> = (ServiceWorkerMethods as any)[message.method];
+
+    if (!method) {
+        console.error('[Service Worker] [Messaging] Unknown service worker method: %s', message.method);
+        console.error(message);
+        return Promise.reject('unknown error');
+    }
+
+    console.info('[Service Worker] [Messaging] Invoke %s', message.method);
+    return method(data);
+}
+
 self.addEventListener('install', (event: ExtendableEvent) => {
     console.info('[Service Worker] Install');
 
@@ -102,8 +128,36 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
     event.waitUntil(cleanUpCacheAndSignal());
 });
 
-self.addEventListener('message', (event: MessageEvent) => {
-    console.log('[Service Worker] Message: %s', event.data);
+self.addEventListener('message', async (event: MessageEvent) => {
+    console.log('[Service Worker] [Messaging] Message: %s', event.data);
+
+    const data = event.data;
+    let returnValue: any|{error: any} = null;
+
+    try {
+        returnValue = await invokeServiceWorkerMethod(data);
+    } catch (e) {
+        console.error('[Service Worker] [Messaging] Error %s', e);
+
+        returnValue = {error: e};
+    }
+
+    if (event.ports && event.ports[0]) {
+        console.log('[Service Worker] [Messaging] Sending response %s', returnValue);
+
+        event.ports[0].postMessage(returnValue);
+    } else {
+        const clients = await global.clients.matchAll();
+
+        for (const client of clients) {
+            console.log('[Service Worker] ... Messaging client %s [%s]', client.id, client.url);
+
+            client.postMessage({
+                id: data && data.message,
+                response: returnValue
+            });
+        }
+    }
 });
 
 self.addEventListener('fetch', (event: FetchEvent) => {
