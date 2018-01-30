@@ -24,13 +24,13 @@ function enableServiceWorkerMessageHandler() {
         return;
     }
 
-    navigator.serviceWorker.addEventListener('message', ev => {
+    navigator.serviceWorker.onmessage = ev => {
         if (ev.data === 'sw-upgrade') {
             if (confirm('We hebben een update. Wil je de applicatie herladen?')) {
                 document.location.reload(true);
             }
         }
-    });
+    };
 }
 
 init();

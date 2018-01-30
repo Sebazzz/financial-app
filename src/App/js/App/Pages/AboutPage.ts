@@ -50,9 +50,9 @@ class ServiceWorkerController {
         }
 
         const sw = this.serviceWorkerContainer = navigator.serviceWorker;
-        const swInstance = this.serviceWorker = sw.controller;
+        this.serviceWorker = sw.controller;
 
-        this.isInstalled(swInstance !== null);
+        this.isInstalled(this.serviceWorker !== null);
 
         // bind "this"
         this.onServiceWorkerStateChange = this.onServiceWorkerStateChange.bind(this);
@@ -64,13 +64,7 @@ class ServiceWorkerController {
         this.register = this.register.bind(this);
         this.requestServiceWorkerVersion = this.requestServiceWorkerVersion.bind(this);
 
-        // event listening
-        if (swInstance !== null) {
-            swInstance.addEventListener('statechange', this.onServiceWorkerStateChange);
-            this.state(swInstance.state);
-            this.scriptUrl(swInstance.scriptURL);
-        }
-
+        this.onServiceWorkerControllerChange();
         this.checkServiceWorkerRegistrationAsync();
 
         sw.addEventListener('controllerchange', this.onServiceWorkerControllerChange);
@@ -192,8 +186,17 @@ class ServiceWorkerController {
     }
 
     private onServiceWorkerControllerChange() {
+        this.serviceWorker = this.serviceWorkerContainer.controller;
+
         this.checkServiceWorkerRegistrationAsync();
         this.requestServiceWorkerVersion();
+
+        if (this.serviceWorker !== null) {
+            this.serviceWorker.addEventListener('statechange', this.onServiceWorkerStateChange);
+
+            this.state(this.serviceWorker.state);
+            this.scriptUrl(this.serviceWorker.scriptURL);
+        }
     }
 
     public dispose() {
