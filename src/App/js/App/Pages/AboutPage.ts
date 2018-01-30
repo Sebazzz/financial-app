@@ -1,5 +1,6 @@
 ﻿import {Page, IPageRegistration} from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
+import ServiceWorkerMethods from 'App/Services/ServiceWorkerMessaging';
 import * as ko from 'knockout';
 import * as version from 'App/ServerApi/Version';
 
@@ -41,6 +42,7 @@ class ServiceWorkerController {
 
     public state = ko.observable<ServiceWorkerState>();
     public scriptUrl = ko.observable<string>();
+    public serviceWorkerVersion = ko.observable<string>();
 
     constructor() {
         if (!this.isSupported) {
@@ -60,9 +62,10 @@ class ServiceWorkerController {
         this.update = this.update.bind(this);
         this.unregister = this.unregister.bind(this);
         this.register = this.register.bind(this);
+        this.requestServiceWorkerVersion = this.requestServiceWorkerVersion.bind(this);
 
         // event listening
-        if (swInstance) {
+        if (swInstance !== null) {
             swInstance.addEventListener('statechange', this.onServiceWorkerStateChange);
             this.state(swInstance.state);
             this.scriptUrl(swInstance.scriptURL);
@@ -71,6 +74,17 @@ class ServiceWorkerController {
         this.checkServiceWorkerRegistrationAsync();
 
         sw.addEventListener('controllerchange', this.onServiceWorkerControllerChange);
+
+        this.requestServiceWorkerVersion();
+    }
+
+    public async requestServiceWorkerVersion() {
+        try {
+            this.serviceWorkerVersion(null);
+            this.serviceWorkerVersion(await ServiceWorkerMethods.versionQuery());
+        } catch (e) {
+            this.serviceWorkerVersion('Error: ' + e);
+        }
     }
 
     private async checkServiceWorkerRegistrationAsync() {
@@ -179,6 +193,7 @@ class ServiceWorkerController {
 
     private onServiceWorkerControllerChange() {
         this.checkServiceWorkerRegistrationAsync();
+        this.requestServiceWorkerVersion();
     }
 
     public dispose() {

@@ -29,11 +29,22 @@
         <span ko-hidden="serviceWorker.isInstalled"><span class="fas fa-times"></span> Nee</span>
     </p>
 
-    <p ko-visible="serviceWorker.isInstalled">
-        <input type="button" value="Upgrade" class="btn btn-default" ko-click="serviceWorker.update"/>
-        <input type="button" value="Deïnstalleren" class="btn btn-danger" ko-click="serviceWorker.unregister"/>
-        <input type="button" value="Herladen" class="btn btn-info" ko-click="serviceWorker.forceReload"/>
-    </p>
+    <div ko-visible="serviceWorker.isInstalled">
+        <p>
+            <strong>Versie: </strong> <code ko-click="serviceWorker.requestServiceWorkerVersion" ko-text="serviceWorker.serviceWorkerVersion() || 'Onbekend'"></code>
+        </p>
+
+        <p>
+            <strong>URL:</strong> <code ko-text="serviceWorker.scriptUrl || '?'"></code> | State: <code ko-text="serviceWorker.state || '?'"></code>
+        </p>
+
+        <p>
+            <input type="button" value="Upgrade" class="btn btn-default" ko-click="serviceWorker.update"/>
+            <input type="button" value="Deïnstalleren" class="btn btn-danger" ko-click="serviceWorker.unregister"/>
+            <input type="button" value="Herladen" class="btn btn-info" ko-click="serviceWorker.forceReload"/>
+        </p>
+    </div>
+
     <p ko-visible="serviceWorker.isSupported">
         <input type="button" value="(Her)installeren" class="btn btn-success" ko-click="serviceWorker.register"/>
     </p>
