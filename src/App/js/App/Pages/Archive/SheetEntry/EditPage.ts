@@ -190,7 +190,7 @@ export default {
         {
             name: 'now.add',
             path: '/add',
-            canActivate:router => {
+            canActivate: router => {
                 return (toState: State) => {
                     if (toState.name !== 'now.add') {
                         // Derived route - always OK
