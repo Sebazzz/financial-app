@@ -71,10 +71,11 @@ ko.bindingHandlers.validationProperty = {
                     element.setAttribute('required', 'required');
                 }
             } else {
+                const workaround = element as HTMLInputElement;
                 if (validationState) {
-                    element.classList.add('is-invalid');
+                    workaround.classList.add('is-invalid');
                 } else {
-                    element.classList.remove('is-invalid');
+                    workaround.classList.remove('is-invalid');
                 }
             }
         }
