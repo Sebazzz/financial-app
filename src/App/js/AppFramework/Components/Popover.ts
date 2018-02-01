@@ -2,7 +2,7 @@
 import * as $ from 'jquery';
 
 export class PopoverController<T= any> {
-    private $component: PopoverComponentComponentModel;
+    private $component: PopoverComponentComponentModel|null = null;
 
     /**
      * Sets the title. If not set, the title is hidden.
@@ -23,6 +23,11 @@ export class PopoverController<T= any> {
 
     public async show(model: T, element: Element): Promise<void> {
         this.popoverViewModel(model);
+
+        if (this.$component === null) {
+            throw new Error('Component model not set. It is supposed to be set by the component binding.');
+        }
+
         try {
             await this.$component.show(element);
         } finally {

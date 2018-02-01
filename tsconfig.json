@@ -11,6 +11,7 @@
         "preserveConstEnums": true,
         "removeComments": true,
         "strictNullChecks": true,
+        "strictPropertyInitialization": true,
         "sourceMap": true,
         "traceResolution": true
     },

@@ -2,7 +2,7 @@ import * as ko from 'knockout';
 import * as $ from 'jquery';
 
 export class ModalController<T= any> {
-    private $component: ModalComponentComponentModel;
+    private $component: ModalComponentComponentModel|null = null;
 
     /**
      * Sets the title. If not set, the title is hidden.
@@ -41,6 +41,10 @@ export class ModalController<T= any> {
 
     public async showDialog(model: T): Promise<DialogResult> {
         this.modalViewModel(model);
+
+        if (this.$component === null) {
+            throw new Error('Component model not set. It is supposed to be set by the component binding.');
+        }
 
         try {
             return await this.$component.showDialog();
