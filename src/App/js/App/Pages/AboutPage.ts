@@ -32,7 +32,7 @@ class AboutPage extends Page {
 }
 
 class ServiceWorkerController {
-    private serviceWorkerContainer: ServiceWorkerContainer;
+    private serviceWorkerContainer!: ServiceWorkerContainer;
     private serviceWorker: ServiceWorker | null = null;
 
     private currentRegistration: ServiceWorkerRegistration | null = null;
