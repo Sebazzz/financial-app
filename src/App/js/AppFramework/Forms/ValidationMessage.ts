@@ -71,6 +71,7 @@ ko.bindingHandlers.validationProperty = {
                     element.setAttribute('required', 'required');
                 }
             } else {
+                // Workaround for issue: https://github.com/Microsoft/TypeScript/issues/21517
                 const workaround = element as HTMLInputElement;
                 if (validationState) {
                     workaround.classList.add('is-invalid');
