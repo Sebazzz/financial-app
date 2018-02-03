@@ -134,10 +134,10 @@ Task("Restore-Node-Packages")
 	exitCode = 
 			StartProcess("cmd", new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("yarn install")));
+			.WithArguments(args => args.Append("/C").AppendQuoted("yarn --production=false --frozen-lockfile --non-interactive")));
 		
 	if (exitCode != 0) {
-		throw new CakeException($"'yarn install' returned exit code {exitCode} (0x{exitCode:x2})");
+		throw new CakeException($"'yarn' returned exit code {exitCode} (0x{exitCode:x2})");
 	}
 });
 
