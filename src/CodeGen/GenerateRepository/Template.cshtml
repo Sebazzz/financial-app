@@ -1,0 +1,67 @@
+﻿@using CodeGen.CodeAnalysisExtensions
+@using Microsoft.CodeAnalysis
+@model CodeGen.GenerateRepository.GenerateRepositoryModel
+
+@*  ReSharper disable All *@ 
+
+@foreach (INamedTypeSymbol entity in Model.Entities) {
+    string repositoryName = entity.Name + "Repository";
+    string namespaceName = entity.ContainingNamespace.ToFullyQualifiedName();
+    string entityName = entity.ToFullyQualifiedName();
+
+    <text>
+namespace App.Models.Domain.Repositories {
+    using @namespaceName;
+    using System.Data.Entity;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public sealed partial class @repositoryName {
+        private readonly DbContext _dbContext;
+        private readonly DbSet<@entityName> _entitySet;
+        
+        public @(repositoryName)(DbContext dbContext) {
+            this._dbContext = dbContext;
+            this._entitySet = dbContext.Set<@entityName>();
+        }
+        
+        
+        public void Add([NotNull]@entityName entity) {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+    
+            this._entitySet.Add(entity);
+        }
+    
+        public void Delete([NotNull]@entityName entity) {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+    
+            this._entitySet.Add(entity);
+        }
+    
+        public void DeleteById(int id) {
+            @entityName entity = this._entitySet.Find(id);
+    
+            if (entity != null) this.Delete(entity);
+        }
+    
+    
+        public int SaveChanges() {
+            return this._dbContext.SaveChanges();
+        }
+
+        public Task<int> SaveChangesAsync() {
+            return this._dbContext.SaveChangesAsync();
+        }
+     }
+}
+    </text>
+}
+
+@*  ReSharper restore All *@
+
+@functions {
+
+    
+
+}
