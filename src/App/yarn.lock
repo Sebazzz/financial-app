@@ -23,9 +23,9 @@
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.5.tgz#b0bab755e67ed584ac3bf75869fc12589a338a2c"
 
-"@types/bootstrap@3.3.37":
-  version "3.3.37"
-  resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-3.3.37.tgz#35a83106cb1131972977cf075a8d95cc05e895b0"
+"@types/bootstrap@3.3.38":
+  version "3.3.38"
+  resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-3.3.38.tgz#1b7e4dcc90cf72682a0a279c0480d50b659b88da"
   dependencies:
     "@types/jquery" "*"
 
@@ -33,9 +33,9 @@
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.2.tgz#f1af664769cfb50af805431c407425ed619daa21"
 
-"@types/chart.js@2.7.6":
-  version "2.7.6"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.6.tgz#144f2da83b0e39e3cfa388c62aa6245d71d16109"
+"@types/chart.js@2.7.7":
+  version "2.7.7"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.7.tgz#6127a09149437c22f86eb151ad9e9b1430ee6928"
 
 "@types/jquery@*", "@types/jquery@3.3.0":
   version "3.3.0"
@@ -47,13 +47,13 @@
   dependencies:
     "@types/jquery" "*"
 
-"@types/knockout@3.4.49":
-  version "3.4.49"
-  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.49.tgz#14b9068ae321fd55771e2d27ee050574fa25e463"
+"@types/knockout@3.4.51":
+  version "3.4.51"
+  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.51.tgz#ce1b3b3a7f6518323a9d89884aea5749ba62e616"
 
-"@types/mocha@2.2.47":
-  version "2.2.47"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.47.tgz#30bbd880834d4af0f609025f282a69b8d4458f06"
+"@types/mocha@2.2.48":
+  version "2.2.48"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.48.tgz#3523b126a0b049482e1c3c11877460f76622ffab"
 
 "@types/rx-core-binding@*":
   version "4.0.4"
