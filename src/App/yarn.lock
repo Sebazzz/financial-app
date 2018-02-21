@@ -1876,9 +1876,9 @@ es6-map@^0.1.3:
     es6-symbol "~3.1.1"
     event-emitter "~0.3.5"
 
-es6-promise@4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.2.tgz#f722d7769af88bd33bc13ec6605e1f92966b82d9"
+es6-promise@4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.4.tgz#dc4221c2b16518760bd8c39a52d8f356fc00ed29"
 
 es6-promise@^3.1.2:
   version "3.3.1"
@@ -3325,9 +3325,9 @@ karma@2.0.0:
     tmp "0.0.33"
     useragent "^2.1.12"
 
-kendo-ui-core@2018.1.131:
-  version "2018.1.131"
-  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.1.131.tgz#d015664090c635e6ee40ce31946b2ed48812223c"
+kendo-ui-core@2018.1.221:
+  version "2018.1.221"
+  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.1.221.tgz#4aee6eccfe8101fc074a84a56844cc9579ffdaf8"
   dependencies:
     jquery "<=3"
 
@@ -3892,9 +3892,9 @@ mkdirp@0.5.1, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   dependencies:
     minimist "0.0.8"
 
-mocha@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.0.0.tgz#cccac988b0bc5477119cba0e43de7af6d6ad8f4e"
+mocha@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.0.1.tgz#759b62c836b0732382a62b6b1fb245ec1bc943ac"
   dependencies:
     browser-stdout "1.3.0"
     commander "2.11.0"
@@ -5392,9 +5392,9 @@ router5-transition-path@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/router5-transition-path/-/router5-transition-path-5.1.1.tgz#89698deeaedcf0831a5c3393d8ae16c9f06a9744"
 
-router5@5.8.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/router5/-/router5-5.8.0.tgz#b9664c147efbb372dc678ffad11009016f42224b"
+router5@5.8.2:
+  version "5.8.2"
+  resolved "https://registry.yarnpkg.com/router5/-/router5-5.8.2.tgz#da6b479dc827d270989817c7601f605f612ff752"
   dependencies:
     route-node "2.0.2"
     router5-transition-path "^5.1.1"
