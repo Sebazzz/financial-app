@@ -19,7 +19,7 @@ export default function confirmAsync(text: string, title?: string, isDanger = fa
         title,
         confirmButtonText,
         rejectButtonText,
-        primaryCssClass: isDanger ? 'btn-outline-danger' : 'btn-primary'
+        primaryCssClass: isDanger ? 'btn-danger' : 'btn-primary'
     };
 
     const modalContainer = document.createElement('div');
