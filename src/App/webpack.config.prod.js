@@ -1,4 +1,5 @@
 /// <binding />
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
@@ -12,6 +13,7 @@ const extractSass = new ExtractTextPlugin({
 module.exports = {
     stats: "detailed",
     plugins: [
+        new CleanWebpackPlugin([targetDir]),
         extractSass,
 
         // Ensure modules name change when the contents change (cache busting)

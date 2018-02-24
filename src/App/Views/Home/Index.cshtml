@@ -58,17 +58,17 @@
             </div>
         </noscript>
 
+        <script>
+            function polyfill(file) {
+                var doc = document, polyfill = doc.createElement('script');
+                polyfill.src = '/build/'+file+'.js?v=@ViewBag.AppVersion';
+                doc.head.appendChild(polyfill);
+            }
+        </script>
         <environment include="Development">
-            <script>
-                (function(doc) {
-                    if (typeof EventSource === 'undefined') {
-                        var polyfill = doc.createElement('script');
-                        polyfill.src = '/js/eventsource-polyfill.js?v=@ViewBag.AppVersion';
-                        doc.head.appendChild(polyfill);
-                    }
-                })(document);
-            </script>
+            <script>window.EventSource || polyfill('eventsource-polyfill')</script>
         </environment>
+        <script>window.Promise || polyfill('es6-promise')</script>
         <script src="/build/lib.js" asp-append-version="true" defer></script>
         <script src="/build/app.js" asp-append-version="true" defer></script>
     </body>
