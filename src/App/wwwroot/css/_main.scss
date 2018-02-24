@@ -66,12 +66,6 @@ top-menu {
     }
 }
 
-.navbar-brand, .application-header {
-    background: url(../images/icons/application.svg) 10px center no-repeat;
-    background-size: contain;
-    padding-left: 70px;
-}
-
 .input-money {
     background: url(../images/icons/currency-euro.png) 10px center / 1em no-repeat $input-bg;
     padding-left: 2em;
@@ -109,21 +103,7 @@ input[type=color].form-control {
     }
 }
 
-.nav-link-hidden-label {
-    .nav-link-label {
-        display: none;
 
-        @include media-breakpoint-down(md) {
-            display: inline;
-        }
-    }
-
-    &:hover {
-        .nav-link-label {
-            display: inline;
-        }
-    }
-}
 
 .pull-right {
     float: right;

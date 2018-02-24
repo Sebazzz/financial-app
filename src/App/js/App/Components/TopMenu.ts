@@ -77,10 +77,8 @@ class TopMenu extends framework.Panel {
     }
 
     public hasLocation(paramRaw: string|KnockoutObservable<string>) {
-        return ko.pureComputed(() => {
-            const param = ko.unwrap(paramRaw),
-                  matchRouteNode = param.indexOf('/') === -1;
-
+        const isMatch = (param: string) => {
+            const matchRouteNode = param.indexOf('/') === -1;
             let isMatch: boolean;
             if (!matchRouteNode) {
                 const path = this.path(),
@@ -94,7 +92,21 @@ class TopMenu extends framework.Panel {
                 isMatch = !!isInNode;
             }
 
-            return isMatch ? 'active' : '';
+            return isMatch;
+        }
+
+        return ko.pureComputed(() => {
+            const requestingNowPath = paramRaw === this.nowPath,
+                  param = ko.unwrap(paramRaw);
+
+            let matchingParam = isMatch(param);
+
+            // if we are matching the "now path" - we can't match anything else
+            if (matchingParam && !requestingNowPath && isMatch(this.nowPath())) {
+                matchingParam = false;
+            }
+
+            return matchingParam ? 'active' : '';
         });
     }
 
