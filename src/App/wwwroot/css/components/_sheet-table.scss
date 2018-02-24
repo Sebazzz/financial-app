@@ -82,6 +82,16 @@ tr#sheet-offset td {
     padding-bottom: 0.5em;
 }
 
+.table-sheet {
+    .row-middle td {
+        vertical-align: middle;
+    }
+
+    .btn-link {
+        color: $body-color;
+    }
+}
+
 tr#sheet-offset td + td {
     border-top: 1px dashed gray;
 }
