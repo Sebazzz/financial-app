@@ -16,6 +16,10 @@ body {
     }
 }
 
+* + h2, * + h3 {
+    margin-top: 2rem;
+}
+
 h3.header-secondary {
     font-size: 1.25rem;
     font-weight: bold;
