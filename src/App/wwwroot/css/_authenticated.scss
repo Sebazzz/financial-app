@@ -13,21 +13,9 @@
     margin-top: 1em;
 }
 
-// Fix logged in message display on small screens
-@media (max-width: map-get($container-max-widths, 'xs')) {
-    .navbar .navbar-text {
-        text-align: right;
-        padding-right: 1em;
-    }
-}
-
 .logged-in-text {
     margin-right: 4em;
     font-size: 90%;
-}
-
-.navbar {
-    border-top: $navbar-top-border-width solid darken($accent-color, 15%);
 }
 
 .page-loader {
@@ -99,15 +87,7 @@ form[role=form] {
     }
 }
 
-.table-sheet {
-    .row-middle td {
-        vertical-align: middle;
-    }
 
-    .btn-link {
-        color: $body-color;
-    }
-}
 
 .btn-group-justified {
     display: flex; // inline-flex by default

@@ -1,4 +1,16 @@
 
+.navbar {
+    border-top: $navbar-top-border-width solid darken($accent-color, 15%);
+}
+
+// Fix logged in message display on small screens
+@media (max-width: map-get($container-max-widths, 'xs')) {
+    .navbar .navbar-text {
+        text-align: right;
+        padding-right: 1em;
+    }
+}
+
 .navbar-brand, .application-header {
     background: url(../images/icons/application.svg) 10px center no-repeat;
     background-size: contain;
@@ -24,13 +36,25 @@
 $nav-link-active-border-width: 2px;
 $nav-link-active-border-width-mobile: 4px;
 
-.nav-link.active, .nav-item.active {
-    border-bottom: $nav-link-active-border-width solid $accent-color;
+.nav-link, .nav-item {
     margin-bottom: (-1 * $nav-link-active-border-width);
+    border-bottom: $nav-link-active-border-width solid transparent;
 
     @include media-breakpoint-down(md) {
-        border-bottom: 0;
-        border-right: $nav-link-active-border-width-mobile solid $accent-color;
         margin-right: (-1 * $nav-link-active-border-width-mobile);
+        border-right: $nav-link-active-border-width-mobile solid transparent;
+    }
+    
+    &, > .nav-link {
+        transition: all 500ms ease-in-out;
+    }
+
+    &.active {
+        border-bottom: $nav-link-active-border-width solid $accent-color;
+            
+        @include media-breakpoint-down(md) {
+            border-bottom: 0;
+            border-right: $nav-link-active-border-width-mobile solid $accent-color;
+        }
     }
 }
