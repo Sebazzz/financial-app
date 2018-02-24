@@ -37,6 +37,9 @@ $enable-gradients: true;
 $enable-transitions: true;
 
 $modal-content-bg: $gray-900;
+$modal-footer-border-width: 0;
+$modal-footer-bg: darken($modal-content-bg, 5%);
+
 $close-color: $white;
 
 $jumbotron-padding: 1rem;
