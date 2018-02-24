@@ -16,6 +16,11 @@ body {
     }
 }
 
+h3.header-secondary {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
 .rotate {
     animation: loading-spinner 700ms linear infinite;
 }
