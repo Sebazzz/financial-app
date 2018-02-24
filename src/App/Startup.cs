@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
+using App.Support.Https;
 
 namespace App {
     using System;
@@ -151,6 +152,8 @@ namespace App {
             } else {
                 loggerFactory.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
             }
+
+            app.UseHttps();
 
             app.UseAuthentication();
 
