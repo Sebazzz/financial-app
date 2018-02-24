@@ -1,11 +1,16 @@
 /// <binding />
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const ServiceWorkerPlugin = require('serviceworker-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
 const webpack = require('webpack');
 const targetDir = path.resolve(__dirname, 'wwwroot/build');
+
+const copyPolyfill = new CopyWebpackPlugin([
+    './node_modules/es6-promise/dist/es6-promise.js',
+    './node_modules/eventsource/example/eventsource-polyfill.js'
+]);
 
 const tsProvide = new webpack.ProvidePlugin({
     __assign: ['tslib', '__assign'],
@@ -19,9 +24,7 @@ const tsProvide = new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
     "window.jQuery": 'jquery',
-    Popper: ['popper.js', 'default'],
-    Promise: 'es6-promise',
-    EventSource: 'eventsource',
+    Popper: ['popper.js', 'default']
 });
 
 const libExtract = new webpack.optimize.CommonsChunkPlugin({
@@ -41,7 +44,6 @@ const libraries = [
     'knockout',
     'cleave.js',
     'json.date-extensions',
-    'es6-promise',
     '@aspnet/signalr-client',
 ];
 
@@ -64,7 +66,7 @@ module.exports =  {
         "lib.js": libraries,
     },
     plugins: [
-        new CleanWebpackPlugin([targetDir]),
+        copyPolyfill,
         new CheckerPlugin(),
         tsProvide,
         libExtract,
