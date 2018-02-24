@@ -56,6 +56,8 @@ namespace App {
                 services.AddApplicationInsightsTelemetry(this.Configuration);
             }
 
+            services.AddResponseCompression();
+
             services.AddMvc(options => {
                 options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
@@ -164,6 +166,8 @@ namespace App {
             app.UseSignalR(builder => {
                 builder.MapHub<AppOwnerHub>("extern/connect/app-owner");
             });
+
+            app.UseResponseCompression();
 
             app.UseWhen(
                 ctx => ctx.Request.Path.StartsWithSegments(new PathString("/browserconfig.xml")),
