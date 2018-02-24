@@ -1,0 +1,13 @@
+$modal-top-border-width: 4px;
+
+.modal-content {
+    border-top: $navbar-top-border-width solid $accent-color;
+}
+
+.modal-danger .modal-content {
+    border-top-color: $negative-color;
+}
+
+.modal-footer {
+    background: $modal-footer-bg;
+}

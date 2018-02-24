@@ -31,10 +31,14 @@ export default function confirmAsync(text: string, title?: string, isDanger = fa
     const $modalContainer = $(modalContainer),
           $modal = $modalContainer.children('.modal');
 
+    if (isDanger) {
+        $modal.addClass('modal-danger');
+    }
+
     return new Promise<boolean>(resolve => {
         let result = false;
 
-        $modal.on('click', '.btn-primary, .btn-outline-danger',ev => {
+        $modal.on('click', '.btn-primary, .btn-outline-danger', ev => {
             ev.preventDefault();
 
             result = true;

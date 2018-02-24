@@ -1,5 +1,5 @@
 ﻿$navbar-top-border-width: 4px;
-$modal-top-border-width: 4px;
+
 $negative-color: darken(red, 10%);
 
 /**** Rotation animation */
@@ -14,10 +14,6 @@ body {
     top-menu {
         transition: opacity 500ms linear;
     }
-}
-
-.modal-content {
-    border-top: $navbar-top-border-width solid $accent-color;
 }
 
 .rotate {
@@ -36,7 +32,6 @@ body {
     text-align: right;
     font-size: 9pt;
 }
-
 
 span.negative, div.input-group.negative .form-control, div.negative .form-control {
     color: $negative-color;
