@@ -1,4 +1,6 @@
-﻿namespace App {
+﻿using App.Support.Https;
+
+namespace App {
     using System;
     using System.Net;
     using System.Security.AccessControl;
@@ -36,11 +38,6 @@
                     });
                 }
             });
-        }
-
-        public sealed class HttpsServerOptions {
-            public string CertificatePath { get; set; }
-            public string CertificatePassword { get; set; }
         }
     }
 }
