@@ -1,0 +1,29 @@
+
+.navbar-brand, .application-header {
+    background: url(../images/icons/application.svg) 10px center no-repeat;
+    background-size: contain;
+    padding-left: 70px;
+}
+
+.nav-link-hidden-label {
+    .nav-link-label {
+        display: none;
+
+        @include media-breakpoint-down(md) {
+            display: inline;
+        }
+    }
+
+    &:hover {
+        .nav-link-label {
+            display: inline;
+        }
+    }
+}
+
+$nav-link-active-border-width: 2px;
+
+.nav-link.active, .nav-item.active {
+    border-bottom: $nav-link-active-border-width solid $accent-color;
+    margin-bottom: (-1 * $nav-link-active-border-width);
+}
