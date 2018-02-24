@@ -22,8 +22,15 @@
 }
 
 $nav-link-active-border-width: 2px;
+$nav-link-active-border-width-mobile: 4px;
 
 .nav-link.active, .nav-item.active {
     border-bottom: $nav-link-active-border-width solid $accent-color;
     margin-bottom: (-1 * $nav-link-active-border-width);
+
+    @include media-breakpoint-down(md) {
+        border-bottom: 0;
+        border-right: $nav-link-active-border-width-mobile solid $accent-color;
+        margin-right: (-1 * $nav-link-active-border-width-mobile);
+    }
 }
