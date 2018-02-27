@@ -6,6 +6,8 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const webpack = require("webpack");
 
 // Extract compiled CSS into a seperate file
+const path = require('path');
+const targetDir = path.resolve(__dirname, 'wwwroot/build');
 const extractSass = new ExtractTextPlugin({
     filename: "app.css",
 });

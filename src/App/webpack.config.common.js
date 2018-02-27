@@ -12,7 +12,7 @@ const copyPolyfill = new CopyWebpackPlugin([
     './node_modules/eventsource/example/eventsource-polyfill.js'
 ]);
 
-const tsProvide = new webpack.ProvidePlugin({
+const globalsProvider = new webpack.ProvidePlugin({
     __assign: ['tslib', '__assign'],
     __extends: ['tslib', '__extends'],
     __await: ['tslib', '__await'],
@@ -27,16 +27,13 @@ const tsProvide = new webpack.ProvidePlugin({
     Popper: ['popper.js', 'default']
 });
 
-const libExtract = new webpack.optimize.CommonsChunkPlugin({
-    name: 'lib.js',
-});
-
 const libraries = [
     'jquery',
     'kendo-ui-core/js/kendo.core',
     'kendo-ui-core/js/cultures/kendo.culture.nl-NL',
     'router5',
     'router5/plugins/browser',
+    'router5-transition-path',
     'reflect-metadata',
     'tslib',
     'popper.js',
@@ -62,21 +59,35 @@ const serviceWorker = new ServiceWorkerPlugin({
 module.exports =  {
     devtool: 'inline-source-map',
     entry: {
-        "app.js": ['./js/App/main.ts'],
-        "lib.js": libraries,
+        'lib': libraries,
+        'app': ['./js/App/main.ts'],
     },
     plugins: [
         copyPolyfill,
         new CheckerPlugin(),
-        tsProvide,
-        libExtract,
-        serviceWorker
+        globalsProvider,
+        //serviceWorker
     ],
     output: {
-        filename: '[name]',
-        chunkFilename: 'lazy_[name].[chunkhash].js',
+        filename: '[name].js',
+        chunkFilename: '[name].js',
         path: targetDir,
         publicPath: '/build/',
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+				lib: {
+					test: function(chunk) {
+                        var request = chunk.rawRequest;
+                        return libraries.indexOf(request) !== -1;   
+                    },
+					chunks: "initial",
+					name: "lib",
+					enforce: true
+				}
+            },
+        },
     },
     resolve: {
         extensions: ['.ts', '.js'],
@@ -106,13 +117,13 @@ module.exports =  {
                     /sw\.ts/
                 ],
             },
-            {
+         /*   {
                 test: /sw\.ts$/,
                 use: 'ts-loader',
                 exclude: [
                     /node_modules/
                 ],
-            },
+            },*/
             {
                 test: /\.(png|svg|jpg|gif|ttf|eot|woff|woff2)$/,
                 use: 'url-loader?limit=8192',
@@ -126,3 +137,7 @@ module.exports =  {
         ],
     },
 };
+
+if (process.env.NODE_ENV) {
+    module.exports.mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+}
