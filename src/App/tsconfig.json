@@ -4,7 +4,7 @@
         "baseUrl": ".",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": [ "dom", "es5", "es2015.promise", "es2015.iterable", "es2015.reflect", "scripthost" ],
+        "lib": [ "dom", "es5", "es2015.core", "es2015.promise", "es2015.iterable", "es2015.reflect", "scripthost" ],
         "importHelpers": true,
         "module": "esnext",
         "moduleResolution": "node",
@@ -13,7 +13,6 @@
             "App/*": [ "js/App/*" ]
         },
         "target": "es5",
-        "traceResolution": true,
         "typeRoots": [
             "./wwwroot/js/typings",
             "./wwwroot/js/AppFramework/typings",

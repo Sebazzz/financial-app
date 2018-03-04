@@ -1,7 +1,7 @@
 import * as framework from 'AppFramework/AppFactory';
 import { App } from './App';
 import '../../wwwroot/css/app.scss';
-import runtime from 'serviceworker-webpack-plugin/lib/runtime';
+// import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
 function init() {
     const app = new App();
@@ -13,7 +13,7 @@ function init() {
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         console.info('Registering service worker...');
-        runtime.register();
+        // runtime.register();
     } else {
         console.warn('Skipping service worker registration, window.navigator does not contain "serviceWorker"');
     }

@@ -3,6 +3,7 @@ import { registerPageLoader, IPageRegistration } from './Page';
 import { Router } from './Router';
 import * as $ from 'jquery';
 import * as ko from 'knockout';
+import 'json.date-extensions';
 import * as ComponentLoader from './ComponentLoader';
 import './BindingHandlers/All';
 import registerLoadingBar from './Components/LoadingBar';
@@ -14,6 +15,9 @@ import installDefaultTemplates from './Templates/Index';
 import { trackBindingFrameworkException } from './Services/Telemetry';
 import isMobile from './Client/BrowserDetector';
 import registerAuthenticationInterceptor from './Services/AuthenticationInterceptor';
+
+import 'kendo-ui-core/js/kendo.core';
+import 'kendo-ui-core/js/cultures/kendo.culture.nl-NL';
 
 export interface IPageRepository {
     addPages(pages: IPageRegistration[]): void;
@@ -153,7 +157,7 @@ function applyJsonDateHook() {
     JSON.useDateParser();
 
     // At this time of initialization, jquery is already initialized and we have to manually apply the hook there
-    $.ajaxPrefilter('text json',options => {
+    $.ajaxPrefilter('text json', options => {
         // tslint:disable-next-line:no-unused-expression
         options.converters && (options.converters['text json'] = JSON.parse);
     });

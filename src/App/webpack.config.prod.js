@@ -11,7 +11,7 @@ const extractSass = new ExtractTextPlugin({
 });
 
 module.exports = {
-    stats: "detailed",
+    stats: {chunkModules: true},
     optimization: {
         minimizer: [
             new UglifyJsPlugin({

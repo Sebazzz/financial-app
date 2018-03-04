@@ -1,5 +1,4 @@
 /// <binding />
-const { CheckerPlugin } = require('awesome-typescript-loader');
 const ServiceWorkerPlugin = require('serviceworker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -59,14 +58,12 @@ const serviceWorker = new ServiceWorkerPlugin({
 module.exports =  {
     devtool: 'inline-source-map',
     entry: {
-        'lib': libraries,
         'app': ['./js/App/main.ts'],
     },
     plugins: [
         copyPolyfill,
-        new CheckerPlugin(),
         globalsProvider,
-        //serviceWorker
+      //  serviceWorker
     ],
     output: {
         filename: '[name].js',
@@ -75,17 +72,22 @@ module.exports =  {
         publicPath: '/build/',
     },
     optimization: {
+        occurrenceOrder: true,
+
         splitChunks: {
+            minSize:0,
+            
             cacheGroups: {
 				lib: {
 					test: function(chunk) {
                         var request = chunk.rawRequest;
                         return libraries.indexOf(request) !== -1;   
                     },
-					chunks: "initial",
-					name: "lib",
+                    //test: /node_modules/,
+					chunks: 'initial',
+					name: 'lib',
 					enforce: true
-				}
+                },
             },
         },
     },
@@ -103,7 +105,7 @@ module.exports =  {
         rules: [
             // We need to compile the service worker seperately. 
             // Therefore we exclude it from the first rule. However,
-            // it appears awesome-typescript-loader either has a optimization or
+            // it appears ts-loader either has a optimization or
             // bug that even using the second rule, it still tries to compile
             // using the root tsconfig, causing compilation to fail.
             //
@@ -111,19 +113,19 @@ module.exports =  {
             // while the rest of the application is compiled using a-t-s
             {
                 test: /\.ts$/,
-                use: 'awesome-typescript-loader',
+                use: 'ts-loader',
                 exclude: [
                     /node_modules/,
                     /sw\.ts/
                 ],
             },
-         /*   {
+            {
                 test: /sw\.ts$/,
                 use: 'ts-loader',
                 exclude: [
                     /node_modules/
                 ],
-            },*/
+            },
             {
                 test: /\.(png|svg|jpg|gif|ttf|eot|woff|woff2)$/,
                 use: 'url-loader?limit=8192',
