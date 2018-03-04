@@ -12,8 +12,7 @@
         "removeComments": true,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
-        "sourceMap": true,
-        "traceResolution": true
+        "sourceMap": true
     },
     "compileOnSave": false
 }

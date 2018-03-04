@@ -109,7 +109,7 @@ class PageTemplateManager {
 
         domElement.type = 'text/html';
         domElement.id = templateId;
-        domElement.innerHTML = content;
+        domElement.innerHTML = content.default;
 
         document.body.appendChild(domElement);
         this.loadedTemplates[templateName] = true;
@@ -142,12 +142,12 @@ class PageTemplateManager {
               domElement = document.getElementById(templateId) as HTMLScriptElement,
               newTemplate = await PageTemplateManager.importAsync(templateName);
 
-        domElement.innerHTML = newTemplate;
+        domElement.innerHTML = newTemplate.default;
 
         return newTemplate;
     }
 
-    private static async importAsync(templateName: string): Promise<string>  {
+    private static async importAsync(templateName: string): Promise<{default: string}>  {
         // TODO: Use template string once TS compiler bug has been fixed [https://github.com/Microsoft/TypeScript/issues/16763]
 
         // We cannot check in advance whether a mobile template is available,
@@ -218,7 +218,7 @@ class PageComponentModel {
         });
     }
 
-    public async handleRouteChange(toState: State, fromState?: State, done?: Function): Promise<boolean> {
+    public async handleRouteChange(toState: State, fromState?: State): Promise<boolean> {
         try {
             console.info('Route changes %s to %s: Deactivating page', fromState && fromState.name || '(null)', toState.name);
 
