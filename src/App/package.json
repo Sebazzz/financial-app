@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "@types/applicationinsights-js": "1.0.5",
-    "@types/bootstrap": "3.3.38",
+    "@types/bootstrap": "4.0.1",
     "@types/chai": "4.1.2",
     "@types/chart.js": "2.7.9",
     "@types/jquery": "3.3.0",
