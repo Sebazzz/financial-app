@@ -33,7 +33,7 @@
     "karma-typescript-preprocessor2": "1.2.1",
     "karma-webpack": "2.0.13",
     "mime": "2.2.0",
-    "mocha": "5.0.1",
+    "mocha": "5.0.4",
     "node-sass": "4.7.2",
     "popper.js": "1.14.1",
     "postcss-loader": "2.1.1",
