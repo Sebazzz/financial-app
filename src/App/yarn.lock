@@ -38,9 +38,9 @@
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.2.tgz#f1af664769cfb50af805431c407425ed619daa21"
 
-"@types/chart.js@2.7.9":
-  version "2.7.9"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.9.tgz#e6479d2bc2023702c735694ee72e46f1705e2d5f"
+"@types/chart.js@2.7.10":
+  version "2.7.10"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.10.tgz#8dd15d5b57ef3c6d4e7ef3b66b0166d950b8f0c5"
 
 "@types/jquery@*", "@types/jquery@3.3.0":
   version "3.3.0"
