@@ -42,9 +42,13 @@
   version "2.7.10"
   resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.10.tgz#8dd15d5b57ef3c6d4e7ef3b66b0166d950b8f0c5"
 
-"@types/jquery@*", "@types/jquery@3.3.0":
+"@types/jquery@*":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.0.tgz#6316ac20a1a13c5d521a2dc661befc7184f73f5b"
+
+"@types/jquery@3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.1.tgz#55758d44d422756d6329cbf54e6d41931d7ba28f"
 
 "@types/kendo-ui@2018.1.2":
   version "2018.1.2"
