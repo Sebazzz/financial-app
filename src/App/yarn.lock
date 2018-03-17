@@ -27,11 +27,12 @@
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.5.tgz#b0bab755e67ed584ac3bf75869fc12589a338a2c"
 
-"@types/bootstrap@3.3.38":
-  version "3.3.38"
-  resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-3.3.38.tgz#1b7e4dcc90cf72682a0a279c0480d50b659b88da"
+"@types/bootstrap@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-4.0.1.tgz#7eddfc4e56143cfc54de0fba573d9724ec8b2712"
   dependencies:
     "@types/jquery" "*"
+    popper.js "^1.14.1"
 
 "@types/chai@4.1.2":
   version "4.1.2"
@@ -5925,7 +5926,7 @@ pkg-dir@^2.0.0:
   dependencies:
     find-up "^2.1.0"
 
-popper.js@1.14.1:
+popper.js@1.14.1, popper.js@^1.14.1:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.1.tgz#b8815e5cda6f62fc2042e47618649f75866e6753"
 
