@@ -8,9 +8,9 @@
   dependencies:
     msgpack5 "^3.5.0"
 
-"@fortawesome/fontawesome-free-webfonts@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-webfonts/-/fontawesome-free-webfonts-1.0.3.tgz#de12e529b7224fd30926e1df17afacad73342e88"
+"@fortawesome/fontawesome-free-webfonts@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-webfonts/-/fontawesome-free-webfonts-1.0.4.tgz#bac5d89755bf3bc2d2b4deee47d92febf641bb1f"
 
 "@gulp-sourcemaps/map-sources@1.X":
   version "1.0.0"
