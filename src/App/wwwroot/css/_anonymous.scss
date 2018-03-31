@@ -1,7 +1,9 @@
 ﻿body.anonymous {
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #000;
+
+    background: url(../images/bg/login-overlay.png), center url(../images/bg/login.jpg);
+    background-size: cover;
 
     top-menu {
         opacity: 0;
