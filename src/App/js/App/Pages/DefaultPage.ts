@@ -20,5 +20,6 @@ export default {
     id: module.id,
     templateName: 'default',
     routingTable: { name: 'default', path: '/' },
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext),
+    bodyClassName: 'page-dashboard'
 } as IPageRegistration;
