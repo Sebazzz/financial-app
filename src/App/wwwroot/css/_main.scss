@@ -8,6 +8,10 @@ $negative-color: darken(red, 10%);
   100% { transform: rotate(360deg); }
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     transition: background-color 500ms linear;
 
