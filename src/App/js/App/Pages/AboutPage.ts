@@ -212,5 +212,6 @@ export default {
     id: module.id,
     templateName: 'about',
     routingTable: { name: 'about', path: '/about' },
-    createPage: appContext => new AboutPage(appContext)
+    createPage: appContext => new AboutPage(appContext),
+    bodyClassName: 'page-about'
 } as IPageRegistration;

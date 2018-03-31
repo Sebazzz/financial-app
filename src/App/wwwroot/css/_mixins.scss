@@ -1,0 +1,6 @@
+@mixin full-page-background($bg-name) {
+    $full-url: "../images/bg/#{$bg-name}.jpg";
+
+    background: url(../images/bg/login-overlay.png), center url($full-url) $body-bg;
+    background-size: cover;
+}

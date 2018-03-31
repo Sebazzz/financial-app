@@ -2,8 +2,7 @@
     padding-top: 40px;
     padding-bottom: 40px;
 
-    background: url(../images/bg/login-overlay.png), center url(../images/bg/login.jpg) $body-bg;
-    background-size: cover;
+    @include full-page-background(login);
 
     top-menu {
         opacity: 0;
