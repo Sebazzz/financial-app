@@ -56,9 +56,9 @@
   dependencies:
     "@types/jquery" "*"
 
-"@types/knockout@3.4.51":
-  version "3.4.51"
-  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.51.tgz#ce1b3b3a7f6518323a9d89884aea5749ba62e616"
+"@types/knockout@3.4.53":
+  version "3.4.53"
+  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.53.tgz#3c25b1d74f3c2b13557d0ecba4a38ad0c5ae7429"
 
 "@types/mocha@2.2.48":
   version "2.2.48"

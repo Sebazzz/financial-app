@@ -9,7 +9,7 @@
     "@types/chart.js": "2.7.10",
     "@types/jquery": "3.3.1",
     "@types/kendo-ui": "2018.1.2",
-    "@types/knockout": "3.4.51",
+    "@types/knockout": "3.4.53",
     "@types/mocha": "2.2.48",
     "@types/rx": "4.1.1",
     "aspnet-webpack": "2.0.3",

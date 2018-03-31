@@ -56,7 +56,7 @@ class EditPage extends FormPage {
         const entryTemplate = this.entryTemplate.peek();
 
         try {
-            const serialized = ko.toJS<any>(entryTemplate) as entry.IRecurringSheetEntry,
+            const serialized = ko.toJS(entryTemplate) as entry.IRecurringSheetEntry,
                   id = this.id.peek(),
                   isNew = id === 0;
 
