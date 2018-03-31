@@ -111,7 +111,7 @@ class EditPage extends FormPage {
         const entryTemplate = this.entry.peek();
 
         try {
-            const serialized = ko.toJS<any>(entryTemplate) as sheetEntry.ISheetEntry,
+            const serialized = ko.toJS(entryTemplate) as sheetEntry.ISheetEntry,
                   id = this.id.peek(),
                   isNew = id === 0;
 
@@ -206,5 +206,5 @@ export default {
             }
         }
     ],
-    createPage:appContext => new EditPage(appContext)
+    createPage: appContext => new EditPage(appContext)
 } as IPageRegistration;

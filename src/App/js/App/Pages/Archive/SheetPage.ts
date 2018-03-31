@@ -42,7 +42,7 @@ class SheetPage extends FormPage {
 
     public expenseTrajectory = ko.pureComputed(() => {
         const sheet = this.sheet(),
-              dataObject = ko.toJS<any>(sheet) as sheet.ISheet;
+              dataObject = ko.toJS(sheet) as sheet.ISheet;
 
         return this.expenseTrajectoryCalculator.calculateExpenseTrajectory(dataObject);
     }).extend({ rateLimit: 250 });
@@ -64,7 +64,7 @@ class SheetPage extends FormPage {
 
     public totals = ko.pureComputed(() => {
         const sheet = this.sheet(),
-            dataObject = ko.toJS<any>(sheet) as sheet.ISheet;
+            dataObject = ko.toJS(sheet) as sheet.ISheet;
 
         return {
             bankAccount: this.totalCalculator.calculateTotal(dataObject, sheetEntry.AccountType.BankAccount),
@@ -308,7 +308,7 @@ class SheetPage extends FormPage {
 
     public async saveEntry(entry: SheetEntry) {
         const id = entry.id.peek(),
-              dto = ko.toJS<any>(entry) as sheetEntry.ISheetEntry;
+              dto = ko.toJS(entry) as sheetEntry.ISheetEntry;
 
         this.cleanErrorState();
 
