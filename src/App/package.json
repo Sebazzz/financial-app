@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@aspnet/signalr-client": "1.0.0-alpha2-final",
-    "@fortawesome/fontawesome-free-webfonts": "^1.0.4",
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.5",
     "bootstrap": "4.0.0",
     "chart.js": "2.7.2",
     "cleave.js": "1.2.1",
