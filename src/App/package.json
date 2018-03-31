@@ -60,7 +60,7 @@
     "jquery": "3.3.1",
     "kendo-ui-core": "2018.1.328",
     "knockout": "3.4.2",
-    "moment": "2.21.0",
+    "moment": "2.22.0",
     "reflect-metadata": "0.1.12",
     "router5": "5.8.3",
     "tslib": "1.9.0"
