@@ -124,3 +124,17 @@ h1, h2, h3, h4 {
     list-style: none;
     padding-left: 0;
 }
+
+body.page-dashboard {
+    background: url(../images/bg/login-overlay.png), center url(../images/bg/dashboard.jpg);
+    background-size: cover;
+
+    .jumbotron {
+        background: rgba($body-bg, 0.7);
+        border-radius: 3px;
+    }
+
+    .bg-dark {
+        background: rgba($gray-800, 0.75) !important;
+    }
+}

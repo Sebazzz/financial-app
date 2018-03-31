@@ -40,8 +40,8 @@ export class Api extends ApiBase {
         return this.execDelete<void>(id);
     }
 
-    public get(number: number) {
-        return this.execGet<IRecurringSheetEntry>(number);
+    public get(id: number) {
+        return this.execGet<IRecurringSheetEntry>(id);
     }
 
     public create(entity: IRecurringSheetEntry) {

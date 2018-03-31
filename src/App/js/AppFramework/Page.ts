@@ -18,6 +18,11 @@ export interface IPageRegistration {
     templateName: string;
 
     /**
+     * Body class name
+     */
+    bodyClassName?: string;
+
+    /**
      * Specifies the routes that lead to the page
      */
     routingTable: RoutingTable;
@@ -200,6 +205,8 @@ class PageComponentModel {
     public page = ko.observable<Page | null>(null);
     public errorInfo = ko.observable<string | null>(null);
 
+    public bodyClassName = ko.observable<string|null>(null);
+
     public title = ko.computed(() => {
         const page = this.page(),
               pageTitle = page && page.title();
@@ -215,6 +222,21 @@ class PageComponentModel {
             const title = this.title();
 
             document.title = title ? `${title} - ${this.appContext.title}` : this.appContext.title;
+        });
+
+        let oldClassName: string|null = null;
+        ko.computed(() => {
+            const newClassName = this.bodyClassName();
+
+            if (oldClassName != null) {
+                document.body.classList.remove(oldClassName);
+            }
+
+            if (newClassName != null) {
+                document.body.classList.add(newClassName);
+            }
+
+            oldClassName = newClassName;
         });
     }
 
@@ -235,6 +257,8 @@ class PageComponentModel {
             const pageRegistration = this.findPage(toState.name),
                   page = pageRegistration.createPage(this.appContext);
 
+            this.bodyClassName(pageRegistration.bodyClassName || null);
+
             const [templateId] = await Promise.all([this.loadTemplate(pageRegistration), page.activate(toState.params)]);
 
             this.page(page);
@@ -244,6 +268,8 @@ class PageComponentModel {
             this.appContext.router.setDependency('app.page', page);
         } catch (e) {
             console.error(e);
+
+            this.bodyClassName('page-error');
 
             // Always consider the page load to be a success, even in the case of a failure. Instead,
             // we load a failed template and be done with that.
