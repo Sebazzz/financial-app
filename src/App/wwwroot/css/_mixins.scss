@@ -3,4 +3,8 @@
 
     background: url(../images/bg/login-overlay.png), center url($full-url) $body-bg;
     background-size: cover;
+
+    .bg-dark {
+        background: rgba($gray-800, 0.75) !important;
+    }
 }

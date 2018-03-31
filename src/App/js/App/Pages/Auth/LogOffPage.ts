@@ -34,5 +34,6 @@ export default {
     id: module.id,
     templateName: 'auth/logoff',
     routingTable: { name: 'auth.logoff', path: '/logoff' },
-    createPage:appContext => new AuthLogOffPage(appContext)
+    createPage: appContext => new AuthLogOffPage(appContext),
+    bodyClassName: 'page-logoff'
 } as IPageRegistration;

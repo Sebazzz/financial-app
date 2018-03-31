@@ -126,18 +126,21 @@ h1, h2, h3, h4 {
 }
 
 body.page-dashboard {
-    @include full-page-background(dashboard);
-
     .jumbotron {
         background: rgba($body-bg, 0.7);
         border-radius: 3px;
     }
-
-    .bg-dark {
-        background: rgba($gray-800, 0.75) !important;
-    }
 }
 
-body.page-about {
-    @include full-page-background(about);
+$full-page-backgrounds: (
+    about: about,
+    dashboard: dashboard,
+    impersonate: impersonate,
+    logoff: logoff
+);
+
+@each $clazz, $bg in $full-page-backgrounds {
+    body.page-#{$clazz} {
+        @include full-page-background($bg);
+    }
 }
