@@ -126,8 +126,7 @@ h1, h2, h3, h4 {
 }
 
 body.page-dashboard {
-    background: url(../images/bg/login-overlay.png), center url(../images/bg/dashboard.jpg) $body-bg;
-    background-size: cover;
+    @include full-page-background(dashboard);
 
     .jumbotron {
         background: rgba($body-bg, 0.7);
@@ -137,4 +136,8 @@ body.page-dashboard {
     .bg-dark {
         background: rgba($gray-800, 0.75) !important;
     }
+}
+
+body.page-about {
+    @include full-page-background(about);
 }
