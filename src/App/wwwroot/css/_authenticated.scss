@@ -126,7 +126,7 @@ h1, h2, h3, h4 {
 }
 
 body.page-dashboard {
-    background: url(../images/bg/login-overlay.png), center url(../images/bg/dashboard.jpg);
+    background: url(../images/bg/login-overlay.png), center url(../images/bg/dashboard.jpg) $body-bg;
     background-size: cover;
 
     .jumbotron {
