@@ -32,5 +32,6 @@ export default {
     id: module.id,
     templateName: 'manage/impersonate',
     routingTable: { name: 'manage.impersonate', path: '/impersonate' },
-    createPage:appContext => new ImpersonatePage(appContext)
+    createPage: appContext => new ImpersonatePage(appContext),
+    bodyClassName: 'page-impersonate'
 } as IPageRegistration;
