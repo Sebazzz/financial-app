@@ -4,6 +4,7 @@ export interface IAuthenticationInfo {
     userId: number;
     userName: string | null;
     isAuthenticated: boolean;
+    isLockedOut: boolean;
     roles: string[];
 }
 

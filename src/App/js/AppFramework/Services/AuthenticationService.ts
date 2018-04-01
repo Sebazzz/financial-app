@@ -7,6 +7,7 @@ const defaultAuthInfo: auth.IAuthenticationInfo = {
     userId: 0,
     userName: null,
     isAuthenticated: false,
+    isLockedOut: false,
     roles: []
 };
 
