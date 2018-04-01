@@ -80,5 +80,6 @@ export default {
         { name: 'auth', path: '/auth', forwardTo: '/auth/login' },
         { name: 'auth.login', path: '/login' }
     ],
-    createPage:appContext => new AuthLoginPage(appContext)
+    createPage: appContext => new AuthLoginPage(appContext),
+    bodyClassName: 'page-login'
 } as IPageRegistration;
