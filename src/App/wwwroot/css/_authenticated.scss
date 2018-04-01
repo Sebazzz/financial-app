@@ -136,7 +136,8 @@ $full-page-backgrounds: (
     about: about,
     dashboard: dashboard,
     impersonate: impersonate,
-    logoff: logoff
+    logoff: logoff,
+    login: login
 );
 
 @each $clazz, $bg in $full-page-backgrounds {
