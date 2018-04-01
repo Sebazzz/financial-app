@@ -46,6 +46,10 @@ class AuthLoginPage extends Page {
 
             this.errorMessage(result.isAuthenticated ? null : 'Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
 
+            if (result.isLockedOut) {
+                this.errorMessage('Je bent tijdelijk uitgesloten van het systeem. Probeer over 15 minuten opnieuw in te loggen.');
+            }
+
             if (result.isAuthenticated) {
                 this.success(true);
 

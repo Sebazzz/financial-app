@@ -7,6 +7,9 @@
         public bool IsAuthenticated { get; set; }
 
         [DataMember]
+        public bool IsLockedOut {get;set;}
+
+        [DataMember]
         public int UserId { get; set; }
 
         [DataMember]

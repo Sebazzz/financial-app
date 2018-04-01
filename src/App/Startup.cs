@@ -71,6 +71,11 @@ namespace App {
                         options.Password.RequireDigit = false;
                         options.Password.RequireLowercase = false;
                         options.Password.RequireNonAlphanumeric = false;
+
+                        options.Lockout.AllowedForNewUsers = true;
+                        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                        options.Lockout.MaxFailedAccessAttempts = 5;
+
                     })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders()

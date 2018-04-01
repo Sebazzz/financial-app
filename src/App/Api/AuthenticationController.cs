@@ -43,10 +43,11 @@ namespace App.Api {
 
             AppUser user = await this._appUserManager.FindByNameAsync(parameters.UserName).EnsureNotNull(HttpStatusCode.Forbidden);
 
-            SignInResult result = await this._authenticationManager.PasswordSignInAsync(user, parameters.Password, true, false);
+            SignInResult result = await this._authenticationManager.PasswordSignInAsync(user, parameters.Password, true, true);
             if (result.Succeeded == false) {
                 return this.Ok(new AuthenticationInfo {
-                    IsAuthenticated = false
+                    IsAuthenticated = false,
+                    IsLockedOut = result.IsLockedOut
                 });
             }
 
