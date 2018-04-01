@@ -30,17 +30,19 @@
         </ul>
         
         <ul class="navbar-nav">
-            <li class="navbar-text logged-in-text" 
+            <li class="nav-item logged-in-text" 
                 ko-visible="$appContext.authentication.isAuthenticated">
-                Ingelogd als <span ko-text="currentUserName"></span>
+                <a href="#" class="nav-link" ko-route="my-account">
+                    Ingelogd als <span ko-text="currentUserName"></span>
                 
-                <span class="badge badge-info" 
-                      ko-text="activeClientCount"
-                      ko-tooltip:text="activeClientTooltip"
-                      ko-tooltip:force-open="showActiveClientTooltip"
-                      ko-visible="isConnected() && activeClientCount() > 1">0</span>
-                
-                <span class="roles-indicator" ko-visible="roles" ko-text="roles"></span>
+                    <span class="badge badge-info" 
+                        ko-text="activeClientCount"
+                        ko-tooltip:text="activeClientTooltip"
+                        ko-tooltip:force-open="showActiveClientTooltip"
+                        ko-visible="isConnected() &amp;&amp; activeClientCount() > 1">0</span>
+                    
+                    <span class="roles-indicator" ko-visible="roles" ko-text="roles"></span>
+                </a>
             </li>
             <li class="nav-item dropdown">
                 <a href="javascript:void(0)"

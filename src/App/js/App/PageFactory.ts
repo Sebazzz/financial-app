@@ -3,6 +3,7 @@
 import {IPageRepository} from 'AppFramework/AppFactory';
 import DefaultPageRegistration from './Pages/DefaultPage';
 import AboutPageRegistration from './Pages/AboutPage';
+import MyAccountPageRegistration from './Pages/MyAccountPage';
 import Archive_DefaultPageRegistration from './Pages/Archive/DefaultPage';
 import Archive_SheetPageRegistration from './Pages/Archive/SheetPage';
 import Archive_SheetStatisticsPageRegistration from './Pages/Archive/SheetStatisticsPage';
@@ -30,6 +31,7 @@ const pageFactory = {
 	replacePages(repository : IPageRepository) : void {
 		repository.replacePage(require('./Pages/DefaultPage').default);
 		repository.replacePage(require('./Pages/AboutPage').default);
+		repository.replacePage(require('./Pages/MyAccountPage').default);
 		repository.replacePage(require('./Pages/Archive/DefaultPage').default);
 		repository.replacePage(require('./Pages/Archive/SheetPage').default);
 		repository.replacePage(require('./Pages/Archive/SheetStatisticsPage').default);
@@ -58,6 +60,7 @@ const pageFactory = {
 		const pages = [
 			DefaultPageRegistration,
 			AboutPageRegistration,
+			MyAccountPageRegistration,
 			Archive_DefaultPageRegistration,
 			Archive_SheetPageRegistration,
 			Archive_SheetStatisticsPageRegistration,

@@ -73,6 +73,7 @@
     <None Remove="js\AppFramework\Client\BrowserDetector.ts" />
     <None Remove="js\AppFramework\Components\Popover.ts" />
     <None Remove="js\AppFramework\Components\templates\popover.html" />
+    <None Remove="js\AppFramework\ServerApi\Account.ts" />
     <None Remove="js\AppFramework\Telemetry.ts" />
     <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
     <None Remove="js\App\BindingHandlers\MoneyInput.ts" />
@@ -224,6 +225,7 @@
     <TypeScriptCompile Include="js\AppFramework\BindingHandlers\LookupScope.ts" />
     <TypeScriptCompile Include="js\AppFramework\Client\BrowserDetector.ts" />
     <TypeScriptCompile Include="js\AppFramework\Components\Popover.ts" />
+    <TypeScriptCompile Include="js\AppFramework\ServerApi\Account.ts" />
     <TypeScriptCompile Include="js\AppFramework\Telemetry.ts" />
     <TypeScriptCompile Include="js\AppFramework\UnnamedBindingProvider.ts" />
     <TypeScriptCompile Include="js\App\App.ts" />
