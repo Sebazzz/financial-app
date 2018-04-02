@@ -1,5 +1,5 @@
 ﻿<div class="jumbotron" ko-with="authInfo">
-    <h2 class="display-4" ko-text="$page.title"></h2>
+    <h2 ko-text="$page.title"></h2>
     <p>
         Ingelogd als <span ko-text="userName"></span>.
     </p>
@@ -11,5 +11,85 @@
     <p>
         <strong>Groep:</strong> <span ko-text="groupName"></span>
     </p>
+
+    <h3>Verificatie in twee stappen</h3>
+
+    <div ko-with="$page.twoFactorAuthentication">
+        <div ko-if="isEnabled">
+            <p ko-hidden="recoveryCodes">
+                Verificatie in twee stappen is ingeschakeld voor je account.
+            </p>
+
+            <div class="alert alert-success" ko-visible="recoveryCodes">
+                <strong>Bedankt!</strong> Je hebt verificatie in twee stappen ingeschakeld!
+            </div>
+
+            <div ko-visible="recoveryCodes">
+                <p>
+                    Hieronder vindt je herstelsleutels voor verificatie in twee stappen. Raak deze niet kwijt.
+                </p>
+
+                <ol data-bind="foreach: recoveryCodes">
+                    <li><code ko-text="$data"></code></li>
+                </ol>
+
+                <p>
+                    <button class="btn btn-primary" ko-click="confirmEnable" ko-disable="isBusy">Klaar</button>
+                </p>
+            </div>
+
+            <p>
+                <button class="btn btn-danger" ko-click="disable" ko-disable="isBusy">Verificatie in twee stappen uitschakelen</button>
+            </p>
+        </div>
+
+        <div ko-ifnot="isEnabled">
+            <div ko-ifnot="isEnabling">
+                <p>
+                    Verificatie in twee stappen is niet ingeschakeld.
+                </p>
+
+                <div class="alert alert-danger" data-bind="visible: errorMessage">
+                    <strong>Oeps!</strong> <span data-bind="text: errorMessage"></span>
+                </div>
+    
+                <p>
+                    <button class="btn btn-primary" ko-click="preEnable" ko-disable="isBusy">Verificatie in twee stappen inschakelen</button>
+                </p> 
+            </div>
+            <div ko-if="isEnabling">
+                <p>
+                    Voer de onderstaande QR-code in je twee-staps verificatieapp in.
+                </p>
+
+                <div class="two-factor-authentication-enabler">
+                    <img 
+                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                        alt="QR-code"
+                        ko-attr:alt="preEnableInfo().secretKey"
+                        ko-attr:src="'data:image/png;base64,' + preEnableInfo().qrCode"
+                        class="two-factor-authentication-enabler__qr-code"
+                        />
+
+                    <p class="two-factor-authentication-enabler__secret-key">
+                        <kbd ko-text="preEnableInfo().secretKey"></kbd>
+                    </p>
+                </div>
+
+                <div class="alert alert-danger" data-bind="visible: errorMessage">
+                    <strong>Oeps!</strong> <span data-bind="text: errorMessage"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="tfa-verification-code">Code uit de twee-staps verificatieapp</label>
+                    <input id="tfa-verification-code" type="text" maxlength="10" ko-value="twoStepVerificationCode" class="form-control form-control-lg two-factor-authentication-enabler__input" placeholder="000 000"/>
+                </div>
+                
+                <p>
+                    <button class="btn btn-primary" ko-click="enable" ko-disable="isBusy">Code bevestigen</button>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 

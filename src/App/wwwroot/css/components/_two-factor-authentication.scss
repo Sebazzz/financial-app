@@ -1,0 +1,16 @@
+.two-factor-authentication-enabler {
+    text-align: center;
+    margin-bottom: 1.5em;
+
+    &__qr-code {
+        margin: 5px;
+    }
+
+    &__secret-key {
+        margin: 5px;
+    }
+
+    &__input {
+        max-width: 12em;
+    }
+}
