@@ -85,7 +85,7 @@ namespace App.Api {
                     });
                 }
             } else {
-                var result = await this._authenticationManager.TwoFactorAuthenticatorSignInAsync(code, true, true);
+                var result = await this._authenticationManager.TwoFactorAuthenticatorSignInAsync(code, true, parameters.RememberClient);
 
                 if (!result.Succeeded) {
                     return this.Ok(new AuthenticationInfo {

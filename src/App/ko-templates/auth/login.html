@@ -21,7 +21,7 @@
                    class="form-control form-control-lg" 
                    placeholder="Gebruikersnaam"
                    ko-text-input="userName"
-                   ko-disabled="disableForm"
+                   ko-disable="disableForm"
                    required autofocus>
         </div>
         
@@ -30,7 +30,7 @@
                    class="form-control form-control-lg" 
                    placeholder="Wachtwoord" 
                    ko-text-input="password"
-                   ko-disabled="disableForm"
+                   ko-disable="disableForm"
                    required>
         </div>
     
@@ -38,12 +38,12 @@
             <input type="checkbox" 
                    value="remember-me" 
                    ko-value="persist"
-                   ko-disabled="disableForm"> Login onthouden
+                   ko-disable="disableForm"> Login onthouden
         </label>
     
         <button class="btn btn-lg btn-primary btn-block"
                 ko-click="login"
-                ko-disabled="disableForm">
+                ko-disable="disableForm">
             Inloggen
         </button>
     </div>
@@ -53,27 +53,60 @@
             Voer de twee-staps verificatiecode in uit je app.
         </p>
 
+        <!-- ko ifnot: isEnteringRecoveryCode -->
         <div class="form-group">
             <input type="text" 
                    class="form-control form-control-lg" 
                    placeholder="000 000"
                    ko-text-input="twoFactorVerificationCode"
-                   ko-disabled="disableForm"
+                   ko-disable="disableForm"
                    required autofocus>
         </div>
 
-        <div class="form-group" ko-visible="errorMessage">
+        <div class="form-group">
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" ko-checked="isEnteringRecoveryCode" id="isEnteringRecoveryCode">
-                <label class="custom-control-label" for="isEnteringRecoveryCode">Ik voer een herstelcode in</label>
+                <input type="checkbox" class="custom-control-input" ko-checked="rememberMachine" id="rememberMachine">
+                <label class="custom-control-label" for="rememberMachine">Deze machine onthouden</label>
             </div>
         </div>
 
         <button class="btn btn-lg btn-primary btn-block"
                 ko-click="loginTwoFactorAuthentication"
-                ko-disabled="disableForm">
+                ko-disable="disableForm">
             Inloggen
         </button>
+
+        <div class="form-group" ko-visible="errorMessage">
+            <p class="login-button-spacer">
+                <button type="button" ko-click="enableEnterRecoveryCode" ko-disable="disableForm" class="btn btn-secondary btn-sm">Herstelcode invoeren</button>
+            </p>
+        </div>
+
+        <p class="login-button-spacer">
+            <button type="button" ko-click="cancelTwoFactorAuthentication" ko-disable="disableForm" class="btn btn-secondary btn-sm">Annuleren</button>
+        </p>
+
+        <!-- /ko -->
+        <!-- ko if: isEnteringRecoveryCode -->
+        <div class="form-group">
+            <input type="text" 
+                   class="form-control form-control-lg" 
+                   placeholder=""
+                   ko-text-input="twoFactorVerificationCode"
+                   ko-disable="disableForm"
+                   required autofocus>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block"
+                ko-click="loginTwoFactorAuthentication"
+                ko-disable="disableForm">
+            Doorgaan met herstelcode
+        </button>
+
+        <p class="login-button-spacer">
+            <button type="button" ko-click="cancelTwoFactorAuthentication" ko-disable="disableForm" class="btn btn-secondary btn-sm">Annuleren</button>
+        </p>
+        <!-- /ko -->
     </div>   
     
     <small ko-visible="disableForm">Bezig met inloggen...</small>

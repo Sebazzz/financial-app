@@ -25,5 +25,8 @@
 
         [DataMember]
         public bool IsRecoveryCode { get; set; }
+
+        [DataMember]
+        public bool RememberClient { get;set; }
     }
 }
