@@ -1,6 +1,7 @@
 import {Page, IPageRegistration} from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
+import { IAuthenticationInfo } from 'AppFramework/ServerApi/Authentication';
 
 class AuthLoginPage extends Page {
     public userName = ko.observable<string>();
@@ -15,6 +16,12 @@ class AuthLoginPage extends Page {
     public returnUrl = ko.observable<string | null>(null);
     public returnUrlIsDefaultPage = ko.pureComputed(() => this.appContext.router.buildPath('default', {}) === this.returnUrl());
     public needsLoginAfterRedirect = ko.pureComputed(() => !!this.returnUrl() && !this.returnUrlIsDefaultPage() && !this.errorMessage() && !this.success());
+
+    public requireTwoFactorAuthentication = ko.observable<boolean>(false);
+    public twoFactorVerificationCode = ko.observable<string>();
+    public isEnteringRecoveryCode = ko.observable<boolean>(false);
+
+    public disableForm = ko.pureComputed(() => this.isBusy() || this.success());
 
     constructor(appContext: AppContext) {
         super(appContext);
@@ -36,6 +43,7 @@ class AuthLoginPage extends Page {
 
     public async login() {
         this.isBusy(true);
+        this.errorMessage(null);
 
         try {
             const result = await this.appContext.authentication.authenticate(
@@ -44,35 +52,70 @@ class AuthLoginPage extends Page {
                     this.persist.peek()
                 );
 
+            if (result.isTwoFactorAuthenticationRequired) {
+                this.requireTwoFactorAuthentication(true);
+                return;
+            }
+
             this.errorMessage(result.isAuthenticated ? null : 'Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
 
-            if (result.isLockedOut) {
-                this.errorMessage('Je bent tijdelijk uitgesloten van het systeem. Probeer over 15 minuten opnieuw in te loggen.');
-            }
-
-            if (result.isAuthenticated) {
-                this.success(true);
-
-                setTimeout(() => {
-                        const router = this.appContext.router,
-                              returnUrl = this.returnUrl();
-
-                        if (returnUrl) {
-                            const state = router.matchPath(returnUrl);
-                            if (state) {
-                                router.navigate(state.name, state.params);
-                                return;
-                            }
-                        }
-
-                        router.navigateToDefault();
-                    },
-                    1000);
-            }
+            this.handleAuthenticationResult(result);
         } catch (e) {
             this.errorMessage('Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
         } finally {
             this.isBusy(false);
+        }
+    }
+
+    public async loginTwoFactorAuthentication() {
+        this.isBusy(true);
+
+        try {
+            const verificationCode = this.twoFactorVerificationCode.peek();
+            const result = await (this.isEnteringRecoveryCode.peek() ? this.appContext.authentication.authenticateTwoFactorRecover(verificationCode) : this.appContext.authentication.authenticateTwoFactor(verificationCode, this.persist.peek()));
+
+            if (!result.isAuthenticated) {
+                this.errorMessage('Deze verificatiecode is niet correct. Probeer het opnieuw.');
+                return;
+            }
+
+            this.handleAuthenticationResult(result);
+        } catch (e) {
+            this.errorMessage('Voer een verificatiecode in uit je app');
+        } finally {
+            this.isBusy(false);
+            this.twoFactorVerificationCode(null);
+        }
+    }
+
+    public cancelTwoFactorAuthentication() {
+        this.requireTwoFactorAuthentication(false);
+    }
+
+    private handleAuthenticationResult(result: IAuthenticationInfo) {
+        if (result.isLockedOut) {
+            this.errorMessage('Je bent tijdelijk uitgesloten van het systeem. Probeer over 15 minuten opnieuw in te loggen.');
+        }
+
+        if (result.isAuthenticated) {
+            this.errorMessage(null);
+            this.success(true);
+
+            setTimeout(() => {
+                    const router = this.appContext.router,
+                          returnUrl = this.returnUrl();
+
+                    if (returnUrl) {
+                        const state = router.matchPath(returnUrl);
+                        if (state) {
+                            router.navigate(state.name, state.params);
+                            return;
+                        }
+                    }
+
+                    router.navigateToDefault();
+                },
+                1000);
         }
     }
 }

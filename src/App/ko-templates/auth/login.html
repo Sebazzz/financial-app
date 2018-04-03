@@ -2,49 +2,79 @@
     <h1 class="application-header" ko-text="$appContext.title"></h1>
 
     <h2 class="form-signin-heading">Inloggen</h2>
-    
+
     <div class="alert alert-info" role="alert" ko-visible="needsLoginAfterRedirect">
-        Je moet opnieuw inloggen want we herkenden je niet.
-    </div>
+            Je moet opnieuw inloggen want we herkenden je niet.
+        </div>
+        
+        <div class="alert alert-danger" role="alert" ko-visible="errorMessage">
+            <span ko-text="errorMessage"></span>
+        </div>
     
-    <div class="alert alert-danger" role="alert" ko-visible="errorMessage">
-        <span ko-text="errorMessage"></span>
-    </div>
-
-    <div class="alert alert-success" role="alert" ko-visible="success">
-        <strong>Welkom terug!</strong> Je bent ingelogd en wordt doorverwezen...
-    </div>
-
-    <div class="form-group">
-        <input type="text" 
-               class="form-control form-control-lg" 
-               placeholder="Gebruikersnaam"
-               ko-value="userName"
-               ko-disabled="isBusy"
-               required autofocus>
-    </div>
+        <div class="alert alert-success" role="alert" ko-visible="success">
+            <strong>Welkom terug!</strong> Je bent ingelogd en wordt doorverwezen...
+        </div>
     
-    <div class="form-group">
-        <input type="password" 
-               class="form-control form-control-lg" 
-               placeholder="Wachtwoord" 
-               ko-value="password"
-               ko-disabled="isBusy"
-               required>
+    <div ko-ifnot="requireTwoFactorAuthentication">
+        <div class="form-group">
+            <input type="text" 
+                   class="form-control form-control-lg" 
+                   placeholder="Gebruikersnaam"
+                   ko-text-input="userName"
+                   ko-disabled="disableForm"
+                   required autofocus>
+        </div>
+        
+        <div class="form-group">
+            <input type="password" 
+                   class="form-control form-control-lg" 
+                   placeholder="Wachtwoord" 
+                   ko-text-input="password"
+                   ko-disabled="disableForm"
+                   required>
+        </div>
+    
+        <label class="invisible">
+            <input type="checkbox" 
+                   value="remember-me" 
+                   ko-value="persist"
+                   ko-disabled="disableForm"> Login onthouden
+        </label>
+    
+        <button class="btn btn-lg btn-primary btn-block"
+                ko-click="login"
+                ko-disabled="disableForm">
+            Inloggen
+        </button>
     </div>
 
-    <label class="invisible">
-        <input type="checkbox" 
-               value="remember-me" 
-               ko-value="persist"
-               ko-disabled="isBusy"> Login onthouden
-    </label>
+    <div ko-if="requireTwoFactorAuthentication">
+        <p>
+            Voer de twee-staps verificatiecode in uit je app.
+        </p>
 
-    <button class="btn btn-lg btn-primary btn-block"
-            ko-click="login"
-            ko-disabled="isBusy">
-        Inloggen
-    </button>
+        <div class="form-group">
+            <input type="text" 
+                   class="form-control form-control-lg" 
+                   placeholder="000 000"
+                   ko-text-input="twoFactorVerificationCode"
+                   ko-disabled="disableForm"
+                   required autofocus>
+        </div>
+
+        <div class="form-group" ko-visible="errorMessage">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" ko-checked="isEnteringRecoveryCode" id="isEnteringRecoveryCode">
+                <label class="custom-control-label" for="isEnteringRecoveryCode">Ik voer een herstelcode in</label>
+            </div>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block"
+                ko-click="loginTwoFactorAuthentication"
+                ko-disabled="disableForm">
+            Inloggen
+        </button>
+    </div>   
     
-    <small ko-visible="isBusy">Bezig met inloggen...</small>
+    <small ko-visible="disableForm">Bezig met inloggen...</small>
 </form>
