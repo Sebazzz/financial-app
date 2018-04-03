@@ -1,6 +1,7 @@
 ﻿using App.Support.Filters;
 
 namespace App.Api {
+    using System;
     using System.Linq;
     using System.Net;
     using System.Security.Claims;
@@ -22,8 +23,7 @@ namespace App.Api {
             this._authenticationManager = authenticationManager;
         }
 
-        [HttpGet]
-        [Route("check")]
+        [HttpGet("check")]
         [AllowDuringSetup]
         public AuthenticationInfo CheckAuthentication() {
             return new AuthenticationInfo() {
@@ -34,8 +34,7 @@ namespace App.Api {
             };
         }
 
-        [HttpPost]
-        [Route("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LoginModel parameters) {
             if (!this.ModelState.IsValid) {
                 return this.BadRequest(this.ModelState);
@@ -47,7 +46,8 @@ namespace App.Api {
             if (result.Succeeded == false) {
                 return this.Ok(new AuthenticationInfo {
                     IsAuthenticated = false,
-                    IsLockedOut = result.IsLockedOut
+                    IsLockedOut = result.IsLockedOut,
+                    IsTwoFactorAuthenticationRequired = result.RequiresTwoFactor
                 });
             }
 
@@ -59,8 +59,52 @@ namespace App.Api {
             });
         }
 
-        [HttpPost]
-        [Route("logoff")]
+        [HttpPost("login-two-factor-authentication")]
+        public async Task<IActionResult> LoginTwoFactorAuthentication([FromBody] LoginTwoFactorAuthenticationModel parameters) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser user = await this._authenticationManager.GetTwoFactorAuthenticationUserAsync();
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            string code = parameters.VerificationCode?.Replace(" ", String.Empty).Replace("-", String.Empty);
+            
+            if (parameters.IsRecoveryCode) {
+                var result = await this._authenticationManager.TwoFactorRecoveryCodeSignInAsync(code);
+                
+                if (!result.Succeeded) {
+                    return this.Ok(new AuthenticationInfo {
+                        IsAuthenticated = false,
+                        IsLockedOut = result.IsLockedOut,
+                        IsTwoFactorAuthenticationRequired = result.RequiresTwoFactor
+                    });
+                }
+            } else {
+                var result = await this._authenticationManager.TwoFactorAuthenticatorSignInAsync(code, true, true);
+
+                if (!result.Succeeded) {
+                    return this.Ok(new AuthenticationInfo {
+                        IsAuthenticated = false,
+                        IsLockedOut = result.IsLockedOut,
+                        IsTwoFactorAuthenticationRequired = result.RequiresTwoFactor
+                    });
+                }
+            }
+
+            return this.Ok(new AuthenticationInfo {
+                IsAuthenticated = true,
+                UserId = user.Id,
+                UserName = user.UserName,
+                Roles = await (await this._appUserManager.GetRolesAsync(user)).ToAsyncEnumerable().ToArray()
+            });
+        }
+
+        [HttpPost("logoff")]
         public async Task<AuthenticationInfo> LogOff() {
             await this._authenticationManager.SignOutAsync();
 

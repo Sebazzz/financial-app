@@ -10,6 +10,9 @@
         public bool IsLockedOut {get;set;}
 
         [DataMember]
+        public bool IsTwoFactorAuthenticationRequired {get;set;}
+
+        [DataMember]
         public int UserId { get; set; }
 
         [DataMember]

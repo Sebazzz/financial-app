@@ -8,6 +8,7 @@ const defaultAuthInfo: auth.IAuthenticationInfo = {
     userName: null,
     isAuthenticated: false,
     isLockedOut: false,
+    isTwoFactorAuthenticationRequired: false,
     roles: []
 };
 
@@ -85,6 +86,30 @@ export default class AuthenticationService {
         };
 
         const authInfo = await this.api.login(loginInfo);
+        this.currentAuthentication(authInfo);
+        return authInfo;
+    }
+
+    public async authenticateTwoFactor(verificationCode: string, persistent: boolean) {
+        const parameters: auth.ILoginTwoFactorAuthenticationModel = {
+            verificationCode,
+            isRecoveryCode: false,
+            persistent
+        };
+
+        const authInfo = await this.api.loginTwoFactorAuthentication(parameters);
+        this.currentAuthentication(authInfo);
+        return authInfo;
+    }
+
+    public async authenticateTwoFactorRecover(verificationCode: string) {
+        const parameters: auth.ILoginTwoFactorAuthenticationModel = {
+            verificationCode,
+            isRecoveryCode: true,
+            persistent: false
+        };
+
+        const authInfo = await this.api.loginTwoFactorAuthentication(parameters);
         this.currentAuthentication(authInfo);
         return authInfo;
     }
