@@ -7,6 +7,7 @@ class AuthLoginPage extends Page {
     public userName = ko.observable<string>();
     public password = ko.observable<string>();
     public persist = ko.observable<boolean>(true);
+    public rememberMachine = ko.observable<boolean>(false);
 
     public success = ko.observable<boolean>(false);
 
@@ -72,7 +73,13 @@ class AuthLoginPage extends Page {
 
         try {
             const verificationCode = this.twoFactorVerificationCode.peek();
-            const result = await (this.isEnteringRecoveryCode.peek() ? this.appContext.authentication.authenticateTwoFactorRecover(verificationCode) : this.appContext.authentication.authenticateTwoFactor(verificationCode, this.persist.peek()));
+
+            let result: IAuthenticationInfo;
+            if (this.isEnteringRecoveryCode.peek()) {
+                result = await this.appContext.authentication.authenticateTwoFactorRecover(verificationCode);
+            } else {
+                result = await this.appContext.authentication.authenticateTwoFactor(verificationCode, this.persist.peek(), this.rememberMachine.peek());
+            }
 
             if (!result.isAuthenticated) {
                 this.errorMessage('Deze verificatiecode is niet correct. Probeer het opnieuw.');
@@ -88,8 +95,13 @@ class AuthLoginPage extends Page {
         }
     }
 
+    public enableEnterRecoveryCode() {
+        this.isEnteringRecoveryCode(true);
+    }
+
     public cancelTwoFactorAuthentication() {
         this.requireTwoFactorAuthentication(false);
+        this.errorMessage(null);
     }
 
     private handleAuthenticationResult(result: IAuthenticationInfo) {

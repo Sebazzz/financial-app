@@ -19,6 +19,7 @@ export interface ILoginTwoFactorAuthenticationModel {
     persistent: boolean;
     isRecoveryCode: boolean;
     verificationCode: string;
+    rememberClient: boolean;
 }
 
 export class Api extends ApiBase {

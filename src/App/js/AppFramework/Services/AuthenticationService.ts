@@ -90,11 +90,12 @@ export default class AuthenticationService {
         return authInfo;
     }
 
-    public async authenticateTwoFactor(verificationCode: string, persistent: boolean) {
+    public async authenticateTwoFactor(verificationCode: string, persistent: boolean, rememberMachine: boolean) {
         const parameters: auth.ILoginTwoFactorAuthenticationModel = {
             verificationCode,
             isRecoveryCode: false,
-            persistent
+            persistent,
+            rememberClient: rememberMachine
         };
 
         const authInfo = await this.api.loginTwoFactorAuthentication(parameters);
@@ -106,7 +107,8 @@ export default class AuthenticationService {
         const parameters: auth.ILoginTwoFactorAuthenticationModel = {
             verificationCode,
             isRecoveryCode: true,
-            persistent: false
+            persistent: false,
+            rememberClient: false
         };
 
         const authInfo = await this.api.loginTwoFactorAuthentication(parameters);
