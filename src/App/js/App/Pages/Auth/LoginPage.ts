@@ -88,10 +88,10 @@ class AuthLoginPage extends Page {
 
             this.handleAuthenticationResult(result);
         } catch (e) {
+            this.twoFactorVerificationCode(null);
             this.errorMessage('Voer een verificatiecode in uit je app');
         } finally {
             this.isBusy(false);
-            this.twoFactorVerificationCode(null);
         }
     }
 

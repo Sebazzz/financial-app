@@ -51,7 +51,7 @@ class TwoFactorAuthenticationController {
     public isBusy = ko.observable<boolean>(false);
 
     public preEnableInfo = ko.observable<account.ITwoFactorPreEnableInfo>();
-    public twoStepVerificationCode = ko.observable<string>();
+    public twoFactorVerificationCode = ko.observable<string>();
     public errorMessage = ko.observable<string>();
 
     public recoveryCodes = ko.observable<string[]>();
@@ -86,7 +86,7 @@ class TwoFactorAuthenticationController {
 
         (async () => {
             try {
-                const response = await this.api.enable({verificationCode: this.twoStepVerificationCode.peek() });
+                const response = await this.api.enable({verificationCode: this.twoFactorVerificationCode.peek() });
 
                 this.recoveryCodes(response.recoveryCodes);
 

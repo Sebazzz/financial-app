@@ -82,7 +82,13 @@
 
                 <div class="form-group">
                     <label for="tfa-verification-code">Code uit de twee-staps verificatieapp</label>
-                    <input id="tfa-verification-code" type="text" maxlength="10" ko-value="twoStepVerificationCode" class="form-control form-control-lg two-factor-authentication-enabler__input" placeholder="000 000"/>
+                    <input id="tfa-verification-code" 
+                           type="text" 
+                           maxlength="10" 
+                           ko-cleave="twoFactorVerificationCode"
+                           ko-cleave-options:blocks="[3,3]"
+                           class="form-control form-control-lg two-factor-authentication-enabler__input" 
+                           placeholder="000 000"/>
                 </div>
                 
                 <p>
