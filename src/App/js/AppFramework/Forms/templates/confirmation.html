@@ -1,18 +1,27 @@
 ﻿<div class="modal">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header" data-bind="visible: title">
-                <h5 class="modal-title" data-bind="text: title"></h5>
+            <div class="modal-header"
+                ko-visible="title">
+                <h5 class="modal-title" 
+                    ko-text="title"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p data-bind="text: text"></p>
+                <p ko-text="text"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn" data-bind="text: confirmButtonText, css: primaryCssClass"></button>
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" data-bind="text: rejectButtonText"></button>
+                <button type="button" 
+                        class="btn"
+                        ko-text="confirmButtonText"
+                        ko-css="primaryCssClass"></button>
+
+                <button type="button" 
+                        class="btn btn-outline-secondary" 
+                        data-dismiss="modal"
+                        ko-text="rejectButtonText"></button>
             </div>
         </div>
     </div>

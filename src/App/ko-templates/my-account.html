@@ -20,11 +20,11 @@
                 Verificatie in twee stappen is ingeschakeld voor je account.
             </p>
 
-            <div class="alert alert-success" ko-visible="recoveryCodes">
-                <strong>Bedankt!</strong> Je hebt verificatie in twee stappen ingeschakeld!
-            </div>
+            <div ko-visible="justEnabledTwoFactorAuthentication"> 
+                <div class="alert alert-success">
+                    <strong>Bedankt!</strong> Je hebt verificatie in twee stappen ingeschakeld!
+                </div>
 
-            <div ko-visible="recoveryCodes">
                 <p>
                     Hieronder vindt je herstelsleutels voor verificatie in twee stappen. Raak deze niet kwijt.
                 </p>
@@ -41,6 +41,31 @@
             <p>
                 <button class="btn btn-danger" ko-click="disable" ko-disable="isBusy">Verificatie in twee stappen uitschakelen</button>
             </p>
+
+            <div ko-hidden="justEnabledTwoFactorAuthentication">
+                <h3>Herstelsleutels</h3>
+
+                <div class="alert alert-warning"
+                     ko-visible="twoFactorInfo().recoveryCodeCount &lt; 3 &amp;&amp; twoFactorInfo().recoveryCodeCount !== 0">
+                    <strong>Let op!</strong> Je hebt slechts <span ko-text="twoFactorInfo().recoveryCodeCount"></span> herstelsleutels over.
+                </div>
+
+                <div class="alert alert-danger"
+                     ko-visible="twoFactorInfo().recoveryCodeCount === 0">
+                    <strong>Let op!</strong> Je hebt geen herstelsleutels over.
+                </div>
+
+                <p>
+                    Je hebt <span ko-text="twoFactorInfo().recoveryCodeCount"></span> herstelsleutels over. Je kan nieuwe
+                    herstelsleutels maken. Je huidige herstelsleutels worden dan ongeldig.
+                </p>
+
+                <p>
+                    <button class="btn btn-warning"
+                            ko-click="generateNewRecoveryKeys"
+                            ko-disable="isBusy">Nieuwe herstelsleutels aanmaken</button>
+                </p>
+            </div>
         </div>
 
         <div ko-ifnot="isEnabled">
@@ -99,3 +124,19 @@
     </div>
 </div>
 
+<modal params="controller: twoFactorAuthentication.recoveryKeysDisplayModal">
+    <!-- ko ifnot: recoveryKeys() -->
+    <p>
+        Bezig met het ophalen van de herstelsleutels...
+    </p>
+    <!-- /ko -->
+    <!-- ko if: recoveryKeys() -->
+    <p>
+        Hieronder vindt je herstelsleutels voor verificatie in twee stappen. Raak deze niet kwijt.
+    </p>
+
+    <ol data-bind="foreach: recoveryKeys">
+        <li><code ko-text="$data"></code></li>
+    </ol>
+    <!-- /ko -->
+</modal>
