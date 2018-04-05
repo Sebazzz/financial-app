@@ -35,7 +35,7 @@
     "mime": "2.2.2",
     "mocha": "5.0.5",
     "node-sass": "4.8.3",
-    "popper.js": "1.14.1",
+    "popper.js": "1.14.3",
     "postcss-loader": "2.1.3",
     "sass-loader": "6.0.7",
     "serviceworker-webpack-plugin": "^0.2.3",
