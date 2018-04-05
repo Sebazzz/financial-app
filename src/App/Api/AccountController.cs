@@ -56,7 +56,8 @@ namespace App.Api
 
                 TwoFactorAuthentication = new {
                     IsEnabled = await this._appUserManager.GetTwoFactorEnabledAsync(currentUser),
-                    IsAuthenticatorAppEnabled = (await this._appUserManager.GetAuthenticatorKeyAsync(currentUser)) != null
+                    IsAuthenticatorAppEnabled = (await this._appUserManager.GetAuthenticatorKeyAsync(currentUser)) != null,
+                    RecoveryCodeCount = await this._appUserManager.CountRecoveryCodesAsync(currentUser)
                 },
             });
         }
@@ -69,6 +70,17 @@ namespace App.Api
             return this.Ok(new {
                 QrCode = CreateBase64QRCode(key, currentUser),
                 SecretKey = FormatKey(key)
+            });
+        }
+
+        [HttpPost("two-factor-authentication/reset-recovery-keys")]
+        public async Task<IActionResult> ResetRecoveryKeys() {
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+
+            string[] recoveryCodes = (await this._appUserManager.GenerateNewTwoFactorRecoveryCodesAsync(currentUser, 10)).ToArray();
+
+            return this.Ok(new {
+                RecoveryCodes = recoveryCodes
             });
         }
 
@@ -116,7 +128,7 @@ namespace App.Api
 
             Base64QRCode qrCode = new Base64QRCode(qrCodeData);
 
-            return qrCode.GetGraphic(10);
+            return qrCode.GetGraphic(5);
         }
 
         private async Task<string> GetTwoFactorKeyAsync(AppUser user) {

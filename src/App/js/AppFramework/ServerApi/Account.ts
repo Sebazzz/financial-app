@@ -11,6 +11,7 @@ export interface IAccountInfo {
 export interface IAccountTwoFactorInfo {
     isEnabled: boolean;
     isAuthenticatorAppEnabled: boolean;
+    recoveryCodeCount: number;
 }
 
 export interface ITwoFactorPreEnableInfo {
@@ -43,6 +44,10 @@ export class Api extends ApiBase {
 
     public enable(input: ITwoFactorEnableInput) {
         return this.execPost<ITwoFactorRecoveryCodes>('two-factor-authentication', input);
+    }
+
+    public resetRecoveryKeys() {
+        return this.execPost<ITwoFactorRecoveryCodes>('two-factor-authentication/reset-recovery-keys');
     }
 
     public disable() {
