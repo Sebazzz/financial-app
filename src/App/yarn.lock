@@ -4487,9 +4487,9 @@ karma@2.0.0:
     tmp "0.0.33"
     useragent "^2.1.12"
 
-kendo-ui-core@2018.1.328:
-  version "2018.1.328"
-  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.1.328.tgz#33bf6554d0ae10b2ba806faece9860ab4e89adbb"
+kendo-ui-core@2018.1.403:
+  version "2018.1.403"
+  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.1.403.tgz#9095552805ec1fb086eade0fa2a6139e17b65916"
   dependencies:
     jquery "<=3"
 
