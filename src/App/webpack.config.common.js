@@ -6,12 +6,18 @@ const path = require('path');
 const webpack = require('webpack');
 const targetDir = path.resolve(__dirname, 'wwwroot/build');
 
+// Production mode depending on NODE_ENV var. Assume development until otherwise set.
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Copy polyfills to output directory for downlevel browser support (primarily IE11)
 const copyPolyfill = new CopyWebpackPlugin([
     './node_modules/es6-promise/dist/es6-promise.js',
     './node_modules/eventsource/example/eventsource-polyfill.js'
 ]);
 
+// Globals for non-ES compliant scripts
 const globalsProvider = new webpack.ProvidePlugin({
+    // Typescript runtime environment
     __assign: ['tslib', '__assign'],
     __extends: ['tslib', '__extends'],
     __await: ['tslib', '__await'],
@@ -20,12 +26,15 @@ const globalsProvider = new webpack.ProvidePlugin({
     __asyncGenerator: ['tslib', '__asyncGenerator'],
     __asyncDelegator: ['tslib', '__asyncDelegator'],
     __asyncValues: ['tslib', '__asyncValues'],
+
+    // Bootstrap
     $: 'jquery',
     jQuery: 'jquery',
     "window.jQuery": 'jquery',
     Popper: ['popper.js', 'default']
 });
 
+// Explicitly define libraries to extract to common pending webpack#6666
 const libraries = [
     'jquery',
     'kendo-ui-core/js/kendo.core',
@@ -43,6 +52,60 @@ const libraries = [
     '@aspnet/signalr-client',
 ];
 
+// Define SCSS rules for SCSS extraction or loading
+const scssRules =  [
+    {
+        loader: "css-loader",
+        options: {
+            sourceMap: true,
+        },
+    },
+    {
+        loader: "postcss-loader",
+        options: {
+            plugins: function() {
+                return [
+                    require("autoprefixer"),
+                ];
+            },
+            sourceMap: true,
+        },
+    },
+    {
+        loader: "sass-loader",
+        options: {
+            includePaths: [
+                "./node_modules",
+            ],
+            sourceMap: true,
+        },
+    },
+];
+
+// ... Take different action in PROD or DEV
+if (!isProduction) {
+    scssRules.unshift({
+        // CSS is outputted in the JS file to support HMR
+        loader: "style-loader",
+    });
+} else {
+    // In production, extract CSS to seperate file to prevent FOUC
+    scssRules.unshift(
+        {
+            loader: "file-loader",
+            options: {
+                name: '[name].css'
+            }
+        },
+        {
+            loader: "extract-loader",
+            options: {
+                publicPath: '/build/'
+            }
+        });
+}
+
+// SPA Service Worker
 const serviceWorker = new ServiceWorkerPlugin({
     entry: path.join(__dirname, 'js/App/ServiceWorker/sw.ts'),
     template: () => new Promise(resolve => resolve(`/* Generated at ${new Date().toString()}*/`)),
@@ -63,7 +126,7 @@ module.exports =  {
     plugins: [
         copyPolyfill,
         globalsProvider,
-      //  serviceWorker
+        //  serviceWorker // disabled pending webpack4 compat
     ],
     output: {
         filename: '[name].js',
@@ -91,6 +154,7 @@ module.exports =  {
             },
         },
     },
+    
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
@@ -101,6 +165,7 @@ module.exports =  {
             "App": path.resolve(__dirname, 'js/App'),
         },
     },
+
     module: {
         rules: [
             // We need to compile the service worker seperately. 
@@ -136,10 +201,12 @@ module.exports =  {
                     loader: 'html-loader',
                 },
             },
+            {
+                test: /\.scss$/,
+                use: scssRules,
+            },
         ],
     },
 };
 
-if (process.env.NODE_ENV) {
-    module.exports.mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
-}
+module.exports.mode = isProduction ? 'production' : 'development';
