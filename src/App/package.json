@@ -57,6 +57,7 @@
     "chart.js": "2.7.2",
     "cleave.js": "1.2.1",
     "es6-promise": "4.2.4",
+    "extract-loader": "^2.0.1",
     "jquery": "3.3.1",
     "kendo-ui-core": "2018.1.403",
     "knockout": "3.4.2",

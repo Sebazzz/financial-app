@@ -1,14 +1,10 @@
 /// <binding />
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 // Extract compiled CSS into a seperate file
 const path = require('path');
 const targetDir = path.resolve(__dirname, 'wwwroot/build');
-const extractSass = new ExtractTextPlugin({
-    filename: "app.css",
-});
 
 module.exports = {
     stats: {chunkModules: true},
@@ -38,44 +34,52 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin([targetDir]),
-        extractSass
+        new CleanWebpackPlugin([targetDir])
     ],
     module: {
         rules: [
             {
                 test: /\.scss$/,
-                use: extractSass.extract({
-                    use: [
-                        {
-                            loader: "css-loader",
-                            options: {
-                                sourceMap: true,
-                            },
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: '[name].css'
+                        }
+                    },
+                    {
+                        loader: "extract-loader",
+                        options: {
+                            publicPath: '/build/'
+                        }
+                    },
+                    {
+                        loader: "css-loader",
+                        options: {
+                            sourceMap: true,
                         },
-                        {
-                            loader: "postcss-loader",
-                            options: {
-                                plugins: function() {
-                                    return [
-                                        require("autoprefixer"),
-                                    ];
-                                },
-                                sourceMap: true,
+                    },
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            plugins: function() {
+                                return [
+                                    require("autoprefixer"),
+                                ];
                             },
+                            sourceMap: true,
                         },
-                        {
-                            loader: "sass-loader",
-                            options: {
-                                includePaths: [
-                                    "./node_modules",
-                                ],
-                                sourceMap: true,
-                            },
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            includePaths: [
+                                "./node_modules",
+                            ],
+                            sourceMap: true,
                         },
-                    ],
-                    fallback: "style-loader",
-                }),
+                    },
+                ],
             },
         ],
     },
