@@ -37,7 +37,7 @@
             </strong><br />
 
             <small>
-                <span data-bind="text: entry.account === $parent.AccountType.BankAccount ? 'Betaalrekening' : 'Spaarrekening'"></span>, categorie <span data-bind="text: entry.categoryName"></span>.
+                {{entry.account === $parent.AccountType.BankAccount ? 'Betaalrekening' : 'Spaarrekening'}}, categorie {{entry.categoryName}}.
             </small>
         </li>
     </ul>
