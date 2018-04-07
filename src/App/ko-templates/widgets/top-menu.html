@@ -33,7 +33,7 @@
             <li class="nav-item logged-in-text" 
                 ko-visible="$appContext.authentication.isAuthenticated">
                 <a href="#" class="nav-link" ko-route="my-account">
-                    Ingelogd als <span ko-text="currentUserName"></span>
+                    Ingelogd als {{currentUserName}}
                 
                     <span class="badge badge-info" 
                         ko-text="activeClientCount"
