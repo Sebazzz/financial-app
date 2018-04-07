@@ -221,6 +221,10 @@ describe('UnnamedBindingProvider', () => {
 
             occupation: {
                 industry: 'finance'
+            },
+
+            toString() {
+                return this.name;
             }
         };
 
@@ -232,6 +236,12 @@ describe('UnnamedBindingProvider', () => {
 
         it('template binding only', () => {
             invokeBindings(`{{name}}`, viewModel);
+
+            expectInnerText().to.be.eq('John Doe');
+        });
+
+        it('template binding variable', () => {
+            invokeBindings(`{{$data}}`, viewModel);
 
             expectInnerText().to.be.eq('John Doe');
         });
