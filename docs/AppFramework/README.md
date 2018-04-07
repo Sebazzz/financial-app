@@ -29,7 +29,7 @@ Please see the [binding handlers](BindingHandlers.md) documentation for more inf
 ## Binding syntax
 The *Unnamed* framework offers a custom binding syntax. This is a syntax that you can use if the regular data-bind bindings become unmaintainable long. The syntax does not get in the way if you do not use it.
 
-Please see the [binding syntax](BindingSyntax.md) documentation for more information.
+Please see the [binding syntax](BindingSyntax.md) and [inline templating syntax](InlineTemplating.md) documentation for more information.
 
 ## Forms and validation
 The framework has built-in support for server-side validation of filled in forms. 
