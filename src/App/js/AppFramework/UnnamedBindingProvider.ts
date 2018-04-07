@@ -32,6 +32,10 @@ function isElement(node: Node): node is Element {
  *    Hello I am <!-- ko text: name --><!-- /ko --> and I love the weather!
  *
  * This means one Text node is transformed to two Text nodes and two Comment nodes.
+ *
+ * Possible future extensions:
+ * - Allow foreaching using the {{#array}} {{/array}} syntax (I'm personally not so fond of this syntax)
+ * - Allow inserting html using the {{{variable}}} or {{&variable}} syntax
  */
 function transformInnerTextNodes(node: Node) {
     const nodeArray = node.childNodes;
@@ -53,6 +57,7 @@ function transformInnerTextNodes(node: Node) {
 
         // We will now loop and create new nodes as necessary
         let strIndex = 0, lastIndex = 0;
+
         const nuggetBoundaryLength = 2;
         while (strIndex < textContent.length && strIndex !== -1) {
             strIndex = textContent.indexOf('{{', strIndex);
