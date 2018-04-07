@@ -24,14 +24,151 @@ function isElement(node: Node): node is Element {
     return node.nodeType === 1;
 }
 
+/**
+ * Transform this:
+ *    Hello I am {{name}} and I love the weather!
+ *
+ * To:
+ *    Hello I am <!-- ko text: name --><!-- /ko --> and I love the weather!
+ *
+ * This means one Text node is transformed to two Text nodes and two Comment nodes.
+ */
+function transformInnerTextNodes(node: Node) {
+    const nodeArray = node.childNodes;
+
+    // Iterate all nodes in reverse. This makes it easier to add nodes and correct the index.
+    for (let childNodeIndex = nodeArray.length - 1; childNodeIndex >= 0; childNodeIndex--) {
+        const childNode = nodeArray[childNodeIndex];
+        if (!(childNode instanceof Text)) {
+            continue;
+        }
+
+        const textContent = childNode.textContent;
+        if (!textContent) {
+            continue;
+        }
+
+        const newNodes: Node[] = [],
+              nodeFactory = document;
+
+        // We will now loop and create new nodes as necessary
+        let strIndex = 0, lastIndex = 0;
+        const nuggetBoundaryLength = 2;
+        while (strIndex < textContent.length && strIndex !== -1) {
+            strIndex = textContent.indexOf('{{', strIndex);
+
+            if (strIndex === -1) {
+                if (lastIndex > 0) {
+                    // We have one additional text node to create: the "leftover" from the previous iteration
+                    const substr = textContent.substr(lastIndex);
+
+                    if (substr.length > 0) {
+                        newNodes.push(nodeFactory.createTextNode(substr));
+                    }
+                }
+
+                break;
+            }
+
+            // Find the first bracket
+            const initialIndex = strIndex + nuggetBoundaryLength;
+            strIndex = textContent.indexOf('}}', initialIndex);
+
+            if (strIndex === -1) {
+                const nugget = textContent.substr(initialIndex);
+                throw new UnnamedBindingProviderError(`Unterminated inline template nugget:
+{{${nugget}
+
+In string literal:
+${textContent}`);
+            }
+
+            // Find the final bracket
+            const nugget = textContent.substring(initialIndex, strIndex);
+            if (nugget.length === 0) {
+                throw new UnnamedBindingProviderError(`Empty inline template nugget, in string literal:
+${textContent}`);
+            }
+
+            // Now we have a template nugget, we can split it:
+            // - The part before, until the last index until the start of the nugget becomes one node
+            // - The part after the nugget becomes one node (we don't now how far it goes, so we just increase the strIndex)
+            // - The nugget itself comes a inline comment node of knockout (<!-- ko text: nugget --></-- /ko -->)
+            const beforeTextContent = textContent.substring(lastIndex, Math.max(initialIndex - nuggetBoundaryLength, 0));
+            if (beforeTextContent.length > 0) {
+                newNodes.push(nodeFactory.createTextNode(beforeTextContent));
+            }
+
+            // ... Create the comment nodes for the nugget itself
+            newNodes.push(nodeFactory.createComment(` ko text: ${nugget} `));
+            newNodes.push(nodeFactory.createComment(' /ko '));
+
+            // Correct the indices for the nugget boundary length
+            strIndex += nuggetBoundaryLength;
+            lastIndex = strIndex;
+        }
+
+        // If we not have modified any nodes, we can skip to the next node, which will be the previous node in the DOM
+        if (newNodes.length === 0) {
+            continue;
+        }
+
+        const nextChildNode = childNode.nextSibling;
+        for (const newNode of newNodes) {
+            if (nextChildNode) {
+                node.insertBefore(newNode, nextChildNode);
+            } else {
+                node.appendChild(newNode);
+            }
+        }
+
+        // ... Complete the replacement
+        node.removeChild(childNode);
+
+        // Because we added the nodes after the current node
+        // we don't need to correct the index. The current index
+        // points to the first new node, and we will continue to the next
+        // node, which would be childNode.previousSibling
+    }
+}
+
+function nodeHasTemplatableInnerText(node: Node): boolean {
+    for (let childNodeIndex = 0, nodeArray = node.childNodes; childNodeIndex < nodeArray.length; childNodeIndex++) {
+        const childNode = nodeArray[childNodeIndex];
+        if (!(childNode instanceof Text)) {
+            continue;
+        }
+
+        const textContent = childNode.textContent;
+        if (!textContent) {
+            continue;
+        }
+
+        const bracketIndex = textContent.indexOf('{{');
+        if (bracketIndex !== -1) {
+            if (textContent.indexOf('}}', bracketIndex) !== -1) {
+                // This appears to contain at least one valid binding
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 function nodeHasBindings(node: Node): boolean {
-    if (!isElement(node) || !node.hasAttributes()) {
+    if (!isElement(node)) {
+        // We cannot process non-elements
         return false;
+    }
+
+    if (!node.hasAttributes()) {
+        return nodeHasTemplatableInnerText(node);
     }
 
     const attributes = node.attributes;
 
-    // tslint:disable-next-line:prefer-for-of - not array like
+    // tslint:disable-next-line:prefer-for-of - rationale: object is not array-like
     for (let index = 0; index < attributes.length; index++) {
         const attribute = attributes[index];
 
@@ -40,7 +177,7 @@ function nodeHasBindings(node: Node): boolean {
         }
     }
 
-    return false;
+    return nodeHasTemplatableInnerText(node);
 }
 
 function getBindingsEvaluator(bindings: BindingMap, cacheKey: string): BindingsFactory {
@@ -98,7 +235,7 @@ function getBindingInfo(attributeName: string): ParsedAttributeBinding {
         }
 
         if (!subProperty) {
-            throw new Error(`Invalid attribute name: ${attributeName}`);
+            throw new UnnamedBindingProviderError(`Invalid attribute name: ${attributeName}`);
         }
 
         if (!skipCamelCaseTransformation) {
@@ -106,7 +243,7 @@ function getBindingInfo(attributeName: string): ParsedAttributeBinding {
             // tslint:disable-next-line:no-conditional-assignment
             while ((dashIndex = subProperty.indexOf(camelCaseCharacter, dashIndex)) !== -1) {
                 if (dashIndex + 1 >= subProperty.length) {
-                    throw new Error(`Invalid attribute name: ${attributeName}`);
+                    throw new UnnamedBindingProviderError(`Invalid attribute name: ${attributeName}`);
                 }
 
                 subProperty = subProperty.substr(0, dashIndex) + subProperty.substr(dashIndex + 1, 1).toUpperCase() + subProperty.substr(dashIndex + 2);
@@ -259,6 +396,7 @@ class UnnamedBindingProvider implements KnockoutBindingProvider {
 
     public getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext): IBindingAccessors {
         extendBindingContext(bindingContext);
+        transformInnerTextNodes(node);
 
         if (defaultBindingProvider.nodeHasBindings(node)) {
             const defaultMethod = defaultBindingProvider.getBindingAccessors;
@@ -281,4 +419,10 @@ class UnnamedBindingProvider implements KnockoutBindingProvider {
 
 export default function() {
     ko.bindingProvider.instance = new UnnamedBindingProvider();
+}
+
+export class UnnamedBindingProviderError extends Error {
+    constructor(message: string) {
+        super(message);
+    }
 }
