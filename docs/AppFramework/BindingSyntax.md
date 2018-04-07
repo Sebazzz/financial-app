@@ -1,6 +1,6 @@
 # The *Unnamed* application framework documentation
 ## Binding syntax
-The *Unnamed* framework offers a custom binding syntax. This is a syntax that you can use if the regular data-bind bindings become unmaintainable long. The syntax does not get in the way if you do not use it.
+The *Unnamed* framework offers a custom binding syntax. This is a syntax that you can use if the regular data-bind bindings become unmaintainable long. The syntax does not get in the way if you do not use it: it is optional.
 
 Regular data-bind syntax may become cumbersome if you have many bindings to apply to an element. Either the attribute gets very long:
 
