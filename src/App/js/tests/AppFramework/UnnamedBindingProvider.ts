@@ -1,10 +1,13 @@
 /* tslint:disable */
 import { expect } from 'chai';
 import * as ko from 'knockout';
-import register from 'AppFramework/UnnamedBindingProvider';
+import {default as register} from 'AppFramework/UnnamedBindingProvider';
+
+(window as any)['DEBUG'] = true;
 
 let currentBindingValue: any | null | undefined = null;
 let bindingWasInvoked = false;
+let element : HTMLDivElement;
 
 const viewModel = {
     prop: Math.random()
@@ -14,8 +17,8 @@ interface Attributes { [key: string]: string }
 
 // ReSharper disable WrongExpressionStatement
 
-function invokeBindings(attributes: Attributes|string) {
-    const element = document.createElement('div');
+function invokeBindings(attributes: Attributes|string, viewModelObject ?: any|null) {
+    element = document.createElement('div');
 
     if (typeof attributes === 'string') {
         element.innerHTML = attributes;
@@ -30,7 +33,7 @@ function invokeBindings(attributes: Attributes|string) {
         }
     }
 
-    ko.applyBindings(viewModel, element);
+    ko.applyBindings(viewModelObject || viewModel, element);
 }
 
 function expectBindingToBeInvoked() {
@@ -43,6 +46,10 @@ function expectBindingNotToBeInvoked() {
 
 function expectBindingValue() {
     return expect(currentBindingValue, 'Expect binding value to have been set');
+}
+
+function expectInnerText() {
+    return expect(element.textContent || element.innerText, 'Expect inner text to be set');
 }
 
 describe('UnnamedBindingProvider', () => {
@@ -204,6 +211,101 @@ describe('UnnamedBindingProvider', () => {
                                  ko-test-binding:inner:*is-required#="true"></div>`);
 
             expectBindingValue().to.deep.eq({ inner: { 'base': viewModel.prop, 'is-required': 'true' } });
+        });
+    });
+
+    describe('inline templating', () => {
+        const viewModel = {
+            name: 'John Doe',
+            age: 10,
+
+            occupation: {
+                industry: 'finance'
+            }
+        };
+
+        it('template no binding', () => {
+            invokeBindings(`Hello I am name`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am name');
+        });
+
+        it('template binding only', () => {
+            invokeBindings(`{{name}}`, viewModel);
+
+            expectInnerText().to.be.eq('John Doe');
+        });
+
+        it('template binding sibling', () => {
+            invokeBindings(`{{name}}{{occupation.industry}}`, viewModel);
+
+            expectInnerText().to.be.eq('John Doefinance');
+        });
+
+        it('template binding sibling spaced', () => {
+            invokeBindings(`{{name}} {{occupation.industry}}`, viewModel);
+
+            expectInnerText().to.be.eq('John Doe finance');
+        });
+
+        it('template simple inner text', () => {
+            invokeBindings(`Hello I am {{name}}!`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am John Doe!');
+        });
+
+        it('template simple spaced inner text', () => {
+            invokeBindings(`Hello I am {{  name  }}!`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am John Doe!');
+        });
+
+        it('template nested expression', () => {
+            invokeBindings(`Hello I am {{name}} and I work in {{occupation.industry.toUpperCase()}}!`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am John Doe and I work in FINANCE!');
+        });
+
+        it('template expression', () => {
+            invokeBindings(`Hello I am {{name.toUpperCase()}}!`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am JOHN DOE!');
+        });
+
+        it('template multiple nuggets', () => {
+            invokeBindings(`Hello I am {{name}} and I am {{age}} years old.`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am John Doe and I am 10 years old.');
+        });
+
+        it('template nested inner text', () => {
+            invokeBindings(`Hello I am <strong>{{name}}</strong>!`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am John Doe!');
+        });
+
+        it('template comment in inner text', () => {
+            invokeBindings(`Hello I am <!-- comment -->{{name}}<!-- end comment -->!`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am John Doe!');
+        });
+
+        it('template comment in inner scope', () => {
+            invokeBindings(`Hello I am <!-- comment -->{{name}}<!-- end comment --> and I work in <!-- ko with: occupation -->{{industry}}<!-- /ko -->!`, viewModel);
+
+            expectInnerText().to.be.eq('Hello I am John Doe and I work in finance!');
+        });
+
+        it('invalid: unterminated nugget', () => {
+            const html = `Hello! I am {{name!`;
+
+            expect(() => invokeBindings(html)).to.throw(Error, /nugget/);
+        });
+
+        it('invalid: empty nugget', () => {
+            const html = `Hello! I am {{}}!`;
+
+            expect(() => invokeBindings(html)).to.throw(Error, /nugget/);
         });
     });
 });
