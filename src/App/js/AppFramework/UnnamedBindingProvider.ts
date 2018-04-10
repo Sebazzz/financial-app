@@ -48,7 +48,7 @@ function transformInnerTextNodes(node: Node) {
         }
 
         const textContent = childNode.textContent;
-        if (!textContent) {
+        if (!textContent  || textContent.length === 0) {
             continue;
         }
 
