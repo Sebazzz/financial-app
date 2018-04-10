@@ -44,6 +44,7 @@ For QR code support in two-factor-authentication:
 To use HTTPs, use the following environment variables:
 
 `HTTPS__CERTIFICATEPATH`: Path to pfx file.
+
 `HTTPS__CERTIFICATEPASSWORD`: Password for pfx file.
 
 The server will automatically start on port 80 and 443.
