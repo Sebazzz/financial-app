@@ -57,6 +57,8 @@ namespace App {
                 services.AddApplicationInsightsTelemetry(this.Configuration);
             }
 
+            services.Configure<HttpsServerOptions>(Configuration.GetSection("server").GetSection("https"));
+
             services.AddResponseCompression();
 
             services.AddMvc(options => {
