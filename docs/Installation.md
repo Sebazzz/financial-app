@@ -31,6 +31,12 @@ For Ubuntu 14.x:
 For Ubuntu 17.x:
 
 	sudo apt-get install libicu57
+	
+For QR code support in two-factor-authentication:
+
+        sudo apt-get install libgdiplus
+        cd /usr/lib
+        sudo ln -s libgdiplus.so gdiplus.dll
 
 ## Installation
 
@@ -38,6 +44,7 @@ For Ubuntu 17.x:
 To use HTTPs, use the following environment variables:
 
 `HTTPS__CERTIFICATEPATH`: Path to pfx file.
+
 `HTTPS__CERTIFICATEPASSWORD`: Password for pfx file.
 
 The server will automatically start on port 80 and 443.
