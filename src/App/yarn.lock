@@ -7852,9 +7852,9 @@ trim-right@^1.0.1:
   dependencies:
     glob "^6.0.4"
 
-ts-loader@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-4.1.0.tgz#6216e75600941df3270bc4a7125e20aefb2dc5ea"
+ts-loader@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-4.2.0.tgz#c380c399fc81f82cad0e3044f9c1f775ecde6efa"
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"
@@ -8303,9 +8303,9 @@ webpack-dev-middleware@^2.0.6:
     url-join "^2.0.2"
     webpack-log "^1.0.1"
 
-webpack-hot-middleware@2.21.2:
-  version "2.21.2"
-  resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.21.2.tgz#2e2aa65563b8b32546b67e53b5a9667dcd80f327"
+webpack-hot-middleware@2.22.0:
+  version "2.22.0"
+  resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.22.0.tgz#db58c9dd2bd78e7f3868cccb42a20d24b00a7ade"
   dependencies:
     ansi-html "0.0.7"
     html-entities "^1.2.0"
