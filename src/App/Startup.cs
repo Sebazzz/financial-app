@@ -59,7 +59,10 @@ namespace App {
 
             services.Configure<HttpsServerOptions>(Configuration.GetSection("server").GetSection("https"));
 
-            services.AddResponseCompression();
+            services.AddResponseCompression(opts => {
+                // Note the possible dangers for HTTPS: https://docs.microsoft.com/en-us/aspnet/core/performance/response-compression?tabs=aspnetcore2x#compression-with-secure-protocol
+                opts.EnableForHttps = true;
+            });
 
             services.AddMvc(options => {
                 options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
