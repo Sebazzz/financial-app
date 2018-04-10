@@ -8,6 +8,7 @@ const targetDir = path.resolve(__dirname, 'wwwroot/build');
 
 // Production mode depending on NODE_ENV var. Assume development until otherwise set.
 const isProduction = process.env.NODE_ENV === 'production';
+const generateSourceMaps = !isProduction;
 
 // Copy polyfills to output directory for downlevel browser support (primarily IE11)
 const copyPolyfill = new CopyWebpackPlugin([
@@ -57,7 +58,7 @@ const scssRules =  [
     {
         loader: "css-loader",
         options: {
-            sourceMap: true,
+            sourceMap: generateSourceMaps,
         },
     },
     {
@@ -74,7 +75,7 @@ const scssRules =  [
 
                 return plugins;
             },
-            sourceMap: true,
+            sourceMap: generateSourceMaps,
         },
     },
     {
@@ -83,7 +84,7 @@ const scssRules =  [
             includePaths: [
                 "./node_modules",
             ],
-            sourceMap: true,
+            sourceMap: generateSourceMaps,
         },
     },
 ];
