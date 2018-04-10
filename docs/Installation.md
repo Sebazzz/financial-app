@@ -31,6 +31,12 @@ For Ubuntu 14.x:
 For Ubuntu 17.x:
 
 	sudo apt-get install libicu57
+	
+For QR code support in two-factor-authentication:
+
+        sudo apt-get install libgdiplus
+        cd /usr/lib
+        sudo ln -s libgdiplus.so gdiplus.dll
 
 ## Installation
 
