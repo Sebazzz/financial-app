@@ -25,9 +25,8 @@
         
         @Html.Raw(JavaScriptSnippet.FullScript)
     </head>
-    <body
-        ko-css:anonymous="!context.authentication.isAuthenticated()"
-        ko-css:authenticated="context.authentication.isAuthenticated">
+    <body ko-css:anonymous="!context.authentication.isAuthenticated()"
+          ko-css:authenticated="context.authentication.isAuthenticated">
         <loading-bar></loading-bar>
 
         <top-menu></top-menu>
@@ -60,17 +59,18 @@
             </div>
         </noscript>
 
-        <script>
-            function polyfill(file) {
-                var doc = document, polyfill = doc.createElement('script');
-                polyfill.src = '/build/'+file+'.js?v=@ViewBag.AppVersion';
-                doc.head.appendChild(polyfill);
+        <script fa-minify="true">
+            function pf(file) {
+                var d = document, s = d.createElement('script');
+                s.src = file;
+                s.defer = !0;
+                d.head.appendChild(s);
             }
         </script>
         <environment include="Development">
-            <script>window.EventSource || polyfill('eventsource-polyfill')</script>
+            <script src="/build/eventsource-polyfill.js" fa-polyfill-test="window.EventSource"></script>
         </environment>
-        <script>window.Promise || polyfill('es6-promise')</script>
+        <script src="/build/es6-promise.js" fa-polyfill-test="window.Promise"></script>
         <script src="/build/lib.js" asp-append-version="true" defer></script>
         <script src="/build/app.js" asp-append-version="true" defer></script>
     </body>
