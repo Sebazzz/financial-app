@@ -25,7 +25,9 @@
         
         @Html.Raw(JavaScriptSnippet.FullScript)
     </head>
-    <body data-bind="css: { 'anonymous': !context.authentication.isAuthenticated(), 'authenticated': context.authentication.isAuthenticated }">
+    <body
+        ko-css:anonymous="!context.authentication.isAuthenticated()"
+        ko-css:authenticated="context.authentication.isAuthenticated">
         <loading-bar></loading-bar>
 
         <top-menu></top-menu>
