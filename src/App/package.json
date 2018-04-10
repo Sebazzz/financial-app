@@ -54,7 +54,7 @@
     "@fortawesome/fontawesome-free-webfonts": "^1.0.5",
     "bootstrap": "4.0.0",
     "chart.js": "2.7.2",
-    "cleave.js": "1.2.1",
+    "cleave.js": "1.3.3",
     "cssnano": "^3.10.0",
     "es6-promise": "4.2.4",
     "extract-loader": "^2.0.1",
