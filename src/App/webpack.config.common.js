@@ -64,9 +64,15 @@ const scssRules =  [
         loader: "postcss-loader",
         options: {
             plugins: function() {
-                return [
-                    require("autoprefixer"),
+                const plugins = [
+                    require("autoprefixer")
                 ];
+
+                if (isProduction) {
+                    plugins.push(require('cssnano')({preset: 'default'}));
+                }
+
+                return plugins;
             },
             sourceMap: true,
         },

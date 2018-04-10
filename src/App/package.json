@@ -55,6 +55,7 @@
     "bootstrap": "4.0.0",
     "chart.js": "2.7.2",
     "cleave.js": "1.2.1",
+    "cssnano": "^3.10.0",
     "es6-promise": "4.2.4",
     "extract-loader": "^2.0.1",
     "jquery": "3.3.1",
