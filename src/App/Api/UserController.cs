@@ -99,7 +99,7 @@
         public async Task<IActionResult> Put(int id, [FromBody] AppUserMutate value) {
             AppUser currentUser = await this.GetUser(id);
 
-            if (value.UserName != null) this.EnsureNotCurrentUser(id);
+            if (value.UserName != currentUser.UserName) this.EnsureNotCurrentUser(id);
             if (value.CurrentPassword != null) {
                 await this.ValidatePasswordInformation(value, currentUser);
             }
