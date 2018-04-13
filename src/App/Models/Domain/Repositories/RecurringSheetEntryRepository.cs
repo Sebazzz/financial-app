@@ -12,6 +12,10 @@
         }
 
         public int FindNextSortOrder(int ownerId) {
+            if (!this._entitySet.Any(x => x.Owner.Id == ownerId)) {
+                return 1;
+            }
+            
             return this._entitySet.Where(x => x.Owner.Id == ownerId).Max(x => x.SortOrder) + 1;
         }
     }
