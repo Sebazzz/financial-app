@@ -1,5 +1,5 @@
 /// <binding />
-const ServiceWorkerPlugin = require('serviceworker-webpack-plugin');
+const ServiceWorkerPlugin = require('@dr-kobros/serviceworker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
@@ -133,7 +133,7 @@ module.exports =  {
     plugins: [
         copyPolyfill,
         globalsProvider,
-        //  serviceWorker // disabled pending webpack4 compat
+        serviceWorker
     ],
     output: {
         filename: '[name].js',

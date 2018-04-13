@@ -1,6 +1,7 @@
 ﻿import {Page, IPageRegistration} from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import ServiceWorkerMethods from 'App/Services/ServiceWorkerMessaging';
+import { initialize as initializeServiceWorker } from 'App/Services/ServiceWorkerManager';
 import * as ko from 'knockout';
 import * as version from 'App/ServerApi/Version';
 
@@ -44,6 +45,9 @@ class ServiceWorkerController {
     public scriptUrl = ko.observable<string>();
     public serviceWorkerVersion = ko.observable<string>();
 
+    public serviceWorkerConsole = ko.observableArray<string>();
+    public isServiceWorkerConsoleVisible = ko.pureComputed(() => this.serviceWorkerConsole().length > 0);
+
     constructor() {
         if (!this.isSupported) {
             return;
@@ -77,6 +81,7 @@ class ServiceWorkerController {
             this.serviceWorkerVersion(null);
             this.serviceWorkerVersion(await ServiceWorkerMethods.versionQuery());
         } catch (e) {
+            this.appendConsole('Error retrieving version: ' + (e.message || e.toString()));
             this.serviceWorkerVersion('Error: ' + e);
         }
     }
@@ -85,11 +90,16 @@ class ServiceWorkerController {
         const registration = await this.serviceWorkerContainer.getRegistration();
 
         if (!registration) {
+            this.appendConsole('Service worker not registered');
+            this.isInstalled(false);
+
             return;
         }
 
         this.isInstalled(true);
         this.currentRegistration = registration;
+
+        this.requestServiceWorkerVersion();
     }
 
     private onServiceWorkerStateChange() {
@@ -97,11 +107,14 @@ class ServiceWorkerController {
             return; // This will not happen, but is to satisfy the type checker
         }
 
+        this.appendConsole(`statechange: ${this.serviceWorker.state}`);
         this.state(this.serviceWorker.state);
     }
 
     public register(ignored: never, event: MouseEvent) {
         const element = event.target as HTMLInputElement;
+
+        this.appendConsole('invoked: register');
 
         (async () => {
             if (element) {
@@ -109,13 +122,13 @@ class ServiceWorkerController {
             }
 
             try {
-                await this.serviceWorkerContainer.register('/sw.js');
-                alert('register() success');
+                await initializeServiceWorker();
+                this.appendConsole('register() success');
 
                 await this.checkServiceWorkerRegistrationAsync();
-                alert('check() success');
+                this.appendConsole('check() success');
             } catch (e) {
-                alert('Niet gelukt: ' + e.toString());
+                this.appendConsole('Niet gelukt: ' + e.toString());
             } finally {
                 if (element) {
                     element.disabled = false;
@@ -126,11 +139,13 @@ class ServiceWorkerController {
 
     public unregister(ignored: never, event: MouseEvent) {
         this.executeAction(async reg => {
+            this.appendConsole('invoked: unregister()');
+
             const result = await reg.unregister();
             if (result) {
-                alert('unregister() success');
+                this.appendConsole('unregister() success');
             } else {
-                alert('unregister() failure');
+                this.appendConsole('unregister() failure');
             }
 
             await this.checkServiceWorkerRegistrationAsync();
@@ -150,8 +165,9 @@ class ServiceWorkerController {
 
     public update(ignored: never, event: MouseEvent) {
         this.executeAction(async reg => {
+            this.appendConsole('invoked: update()');
             await reg.update();
-            alert('update() success');
+            this.appendConsole('update() success');
         }, event);
     }
 
@@ -160,7 +176,7 @@ class ServiceWorkerController {
               element = event.target as HTMLInputElement;
 
         if (!reg) {
-            alert('Niet mogelijk');
+            this.appendConsole('Niet mogelijk');
 
             this.checkServiceWorkerRegistrationAsync();
             return false;
@@ -174,7 +190,7 @@ class ServiceWorkerController {
             try {
                 await action(reg);
             } catch (e) {
-                alert('Niet gelukt: ' + e.toString());
+                this.appendConsole('Niet gelukt: ' + (e.message) + ' ' + e.toString());
             } finally {
                 if (element) {
                     element.disabled = false;
@@ -186,6 +202,8 @@ class ServiceWorkerController {
     }
 
     private onServiceWorkerControllerChange() {
+        this.appendConsole('Service controller: changed');
+
         this.serviceWorker = this.serviceWorkerContainer.controller;
 
         this.checkServiceWorkerRegistrationAsync();
@@ -205,6 +223,10 @@ class ServiceWorkerController {
         }
 
         this.serviceWorkerContainer.removeEventListener('controllerchange', this.onServiceWorkerControllerChange);
+    }
+
+    private appendConsole(input: string) {
+        this.serviceWorkerConsole.push(input);
     }
 }
 

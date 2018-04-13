@@ -49,6 +49,12 @@
         <input type="button" value="(Her)installeren" class="btn btn-success" ko-click="serviceWorker.register"/>
     </p>
 
+    <div class="service-worker-console"
+         ko-visible="serviceWorker.isServiceWorkerConsoleVisible">
+        <div class="service-worker-console__header">Console</div>
+        <ul class="service-worker-console__body" ko-foreach="serviceWorker.serviceWorkerConsole"><li ko-text="$data"></li></ul>
+    </div>
+
     <h2>Attribution</h2>
     <p>
         <strong>Login background:</strong>

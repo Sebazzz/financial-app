@@ -37,7 +37,6 @@
     "popper.js": "1.14.3",
     "postcss-loader": "2.1.3",
     "sass-loader": "6.0.7",
-    "serviceworker-webpack-plugin": "^0.2.3",
     "style-loader": "0.20.3",
     "ts-loader": "4.2.0",
     "tslint": "5.9.1",
@@ -51,6 +50,7 @@
   },
   "dependencies": {
     "@aspnet/signalr-client": "1.0.0-alpha2-final",
+    "@dr-kobros/serviceworker-webpack-plugin": "^0.1.1",
     "@fortawesome/fontawesome-free-webfonts": "^1.0.5",
     "bootstrap": "4.1.0",
     "chart.js": "2.7.2",
