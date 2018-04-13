@@ -8,6 +8,12 @@
   dependencies:
     msgpack5 "^3.5.0"
 
+"@dr-kobros/serviceworker-webpack-plugin@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@dr-kobros/serviceworker-webpack-plugin/-/serviceworker-webpack-plugin-0.1.1.tgz#26a7f67ee460c7687538ed82dd7447f6f299098a"
+  dependencies:
+    minimatch "^3.0.3"
+
 "@fortawesome/fontawesome-free-webfonts@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-webfonts/-/fontawesome-free-webfonts-1.0.5.tgz#3b9e023b6230cdb144204f08e77178c7694e9045"
@@ -7053,12 +7059,6 @@ semver@~5.3.0:
 serialize-javascript@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.4.0.tgz#7c958514db6ac2443a8abc062dc9f7886a7f6005"
-
-serviceworker-webpack-plugin@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/serviceworker-webpack-plugin/-/serviceworker-webpack-plugin-0.2.3.tgz#1873ed6fc83c873ac8240fac443c615d374feeb2"
-  dependencies:
-    minimatch "^3.0.3"
 
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
