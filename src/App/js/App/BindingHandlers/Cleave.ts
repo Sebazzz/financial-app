@@ -36,6 +36,7 @@ ko.bindingHandlers.cleave = {
             }
         }
 
+        element.addEventListener('input', updateObservable);
         element.addEventListener('blur', updateObservable);
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => cleave.destroy());
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => element.removeEventListener('blur', updateObservable));
