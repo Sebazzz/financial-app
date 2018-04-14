@@ -23,6 +23,7 @@ function findPage(bindingContext: KnockoutBindingContext): IFormPage {
 export interface IFormOptions {
     handler: (viewModel: ValidateableViewModel) => Promise<void>;
     isBusy: KnockoutObservable<boolean>;
+    errorMessage?: KnockoutObservable<string>;
 }
 
 /**
@@ -35,7 +36,13 @@ ko.bindingHandlers.form = {
     init(element: HTMLElement, valueAccessor: () => IFormOptions|undefined, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ValidateableViewModel, bindingContext: KnockoutBindingContext) {
         const $element = $(element),
               page = findPage(bindingContext),
-              options = valueAccessor() || { handler: page.save, isBusy: page.isBusy };
+              options = valueAccessor() || { handler: page.save, isBusy: page.isBusy, errorMessage: page.errorMessage };
+
+        function setErrorMessage(msg: string|null) {
+            if (options.errorMessage) {
+                options.errorMessage(msg);
+            }
+        }
 
         const handler = async (ev: any) => {
             ev.preventDefault();
@@ -46,12 +53,12 @@ ko.bindingHandlers.form = {
                 element.classList.remove('was-validated');
                 element.classList.add('is-busy');
 
-                page.errorMessage(null);
                 options.isBusy(true);
+                setErrorMessage(null);
 
                 await options.handler(viewModel);
             } catch (e) {
-                page.errorMessage('Dat ging niet goed. Probeer het nog eens.');
+                setErrorMessage('Dat ging niet goed. Probeer het nog eens.');
 
                 console.error('Form: Caught exception: %s', e);
                 console.error(e);
