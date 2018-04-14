@@ -17,4 +17,12 @@
 
         public string CurrentPassword { get; set; }
     }
+
+    public class ChangePasswordModel {
+        [Required(ErrorMessage = "Voer een nieuw wachtwoord in")]
+        public string NewPassword { get; set; }
+
+        [Required(ErrorMessage = "Voer je huidige wachtwoord in")]
+        public string CurrentPassword { get; set; }
+    }
 }
