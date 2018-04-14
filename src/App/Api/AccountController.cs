@@ -13,7 +13,9 @@ using System.Threading.Tasks;
 using App.Api.Extensions;
 using App.Models.Domain.Identity;
 using App.Models.Domain.Repositories;
+using App.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
 using static QRCoder.PayloadGenerator;
@@ -60,6 +62,22 @@ namespace App.Api
                     RecoveryCodeCount = await this._appUserManager.CountRecoveryCodesAsync(currentUser)
                 },
             });
+        }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel input) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+            IdentityResult result = await this._appUserManager.ChangePasswordAsync(currentUser, input.CurrentPassword, input.NewPassword);
+
+            if (!result.Succeeded) {
+                return this.BadRequest(result.Errors);
+            }
+
+            return this.NoContent();
         }
 
         [HttpPost("two-factor-authentication/pre-enable")]

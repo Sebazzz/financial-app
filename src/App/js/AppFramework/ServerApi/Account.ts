@@ -27,6 +27,11 @@ export interface ITwoFactorRecoveryCodes {
     recoveryCodes: string[];
 }
 
+export interface IChangePasswordModel {
+    currentPassword: string;
+    newPassword: string;
+}
+
 export class Api extends ApiBase {
     constructor() {
         super();
@@ -52,5 +57,9 @@ export class Api extends ApiBase {
 
     public disable() {
         return this.execDelete('two-factor-authentication');
+    }
+
+    public changePassword(input: IChangePasswordModel) {
+        return this.execPost('change-password', input);
     }
 }
