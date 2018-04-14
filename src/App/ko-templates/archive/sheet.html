@@ -122,7 +122,7 @@
                             </button>
                             <button class="btn btn-secondary btn-sm"
                                     ko-click="$page.editTagsOfEntry"
-                                    ko-visible="$page.availableTags() > 0"
+                                    ko-visible="$page.availableTags().length !== 0"
                                     ko-tooltip#="Labels selecteren">
                                 <span class="fas fa-tags"></span>
                             </button>
@@ -208,7 +208,7 @@
                     <a class="btn btn-link btn-sm pull-right"
                        href="#"
                        ko-popover:controller="$page.tagViewerPopover"
-                       ko-visible="tags().length > 0">
+                       ko-visible="tags().length !== 0">
                         <span class="fas fa-tags"></span>
                     </a>
                 </td>
@@ -318,7 +318,7 @@
         ko-foreach:as#="tag"
         class="tag-list">
         <li>
-            <label class="custom-control custom-checkbox tag-item" ko-style:*background-color="'#' + hexColorCode">
+            <label class="custom-control custom-checkbox tag-item" ko-tag-styling="tag">
                 <input type="checkbox" class="custom-control-input"
                        ko-checked-value="$data"
                        ko-checked="$parentContext.$lookup">
@@ -338,7 +338,7 @@
         class="tag-list">
         <li>
             <span class="tag-item"
-                  ko-style:*background-color="tag.hexColorCode ? '#' + tag.hexColorCode : 'transparent'"
+                  ko-tag-styling="tag"
                   ko-text="tag.name"
                   ko-tooltip="tag.description">
             </span>
