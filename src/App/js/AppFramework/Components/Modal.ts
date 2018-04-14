@@ -52,6 +52,14 @@ export class ModalController<T= any> {
             this.modalViewModel(null);
         }
     }
+
+    public closeDialog() {
+        if (this.$component === null) {
+            throw new Error('Component model not set. It is supposed to be set by the component binding.');
+        }
+
+        this.$component.closeDialog();
+    }
 }
 
 export enum DialogResult {
@@ -68,6 +76,9 @@ class ModalComponentComponentModel {
 
     public controller: ModalController;
 
+    public bodyNodes: Node[] = [];
+    public footerNodes: Node[] = [];
+
     constructor(parameters: IModalParams, public contentNodes: Node[], public renderElement: Element) {
         if (!parameters || !parameters.controller || !(parameters.controller instanceof ModalController)) {
             throw new Error('Modal: Please set an instance of ModalParameters as the argument');
@@ -75,6 +86,106 @@ class ModalComponentComponentModel {
 
         this.controller = parameters.controller;
         this.controller.setComponent(this);
+
+        for (const contentNode of contentNodes) {
+            if (!(contentNode instanceof HTMLElement)) {
+                // Unknown nodes always considered body nodes. This works for the scenario where modal body
+                // and modal footer are not explicitly defined
+                this.bodyNodes.push(contentNode);
+                continue;
+            }
+
+            if (contentNode.tagName === 'MODAL-BODY') {
+                // Clear body & attrs
+                const myBody = renderElement.querySelector('.modal-body'),
+                      myBodyAttributes = myBody && myBody.attributes;
+                if (!(myBody && myBodyAttributes)) {
+                    throw new Error('Unable to find modal body');
+                }
+
+                while (myBodyAttributes.length > 0) {
+                    const attr = myBodyAttributes.item(0);
+                    if (attr) {
+                        myBody.removeAttribute(attr.name);
+                    }
+                }
+
+                // Write new bindings (we have just deleted the original data-bind)
+                myBody.setAttribute('ko-template:data', '$component.controller.modalViewModel');
+                myBody.setAttribute('ko-template:if', '$component.controller.modalViewModel');
+                myBody.setAttribute('ko-template:nodes', '$component.bodyNodes');
+
+                myBody.classList.add('modal-body');
+
+                // Copy any attributes
+                let attrIndex = 0;
+                while (attrIndex < contentNode.attributes.length) {
+                    const attr = contentNode.attributes.item(attrIndex);
+                    if (attr) {
+                        myBody.setAttribute(attr.name, attr.value);
+                    }
+
+                    attrIndex++;
+                }
+
+                // Register all child nodes as a body node
+                this.bodyNodes.length = 0;
+                while (contentNode.childNodes.length > 0) {
+                    const childNode = contentNode.childNodes.item(0);
+                    contentNode.removeChild(childNode);
+                    this.bodyNodes.push(childNode);
+                }
+
+                continue;
+            }
+
+            if (contentNode.tagName === 'MODAL-FOOTER') {
+                // Clear body & attrs
+                const myFooter = renderElement.querySelector('.modal-footer'),
+                      myFooterAttributes = myFooter && myFooter.attributes;
+                if (!(myFooter && myFooterAttributes)) {
+                    throw new Error('Unable to find modal body');
+                }
+
+                while (myFooterAttributes.length > 0) {
+                    const attr = myFooterAttributes.item(0);
+                    if (attr) {
+                        myFooter.removeAttribute(attr.name);
+                    }
+                }
+
+                // Write new bindings (we have just deleted the original data-bind)
+                myFooter.setAttribute('ko-template:data', '$component.controller.modalViewModel');
+                myFooter.setAttribute('ko-template:if', '$component.controller.modalViewModel');
+                myFooter.setAttribute('ko-template:nodes', '$component.footerNodes');
+
+                myFooter.classList.add('modal-footer');
+
+                // Copy any attributes
+                let attrIndex = 0;
+                while (attrIndex < contentNode.attributes.length) {
+                    const attr = contentNode.attributes.item(attrIndex);
+                    if (attr) {
+                        myFooter.setAttribute(attr.name, attr.value);
+                    }
+
+                    attrIndex++;
+                }
+
+                // Register all child nodes as a footer node
+                this.footerNodes.length = 0;
+                while (contentNode.childNodes.length > 0) {
+                    const childNode = contentNode.childNodes.item(0);
+                    contentNode.removeChild(childNode);
+                    this.footerNodes.push(childNode);
+                }
+
+                continue;
+            }
+
+            // Push any unknown node to the body
+            this.bodyNodes.push(contentNode);
+        }
     }
 
     public showDialog(): Promise<DialogResult> {
@@ -83,13 +194,17 @@ class ModalComponentComponentModel {
 
             let dialogResult = DialogResult.Other;
 
-            $modal.on('click.modal-component', '.modal-footer .btn, .modal-header [data-dismiss]',ev => {
-                ev.preventDefault();
-
+            $modal.on('click.modal-component', '.modal-footer .btn, .modal-header [data-dismiss]', ev => {
                 if (((ev.target as any) as Element).classList.contains('btn-primary')) {
+                    if (ev.target.classList.contains('btn-modal-ignore')) {
+                        return;
+                    }
+
                     dialogResult = DialogResult.PrimaryButton;
                     $modal.modal('hide');
                 }
+
+                ev.preventDefault();
             });
 
             $modal.one('hidden.bs.modal', () => {
@@ -104,6 +219,11 @@ class ModalComponentComponentModel {
                 $modal.modal('show');
             }
         });
+    }
+
+    public closeDialog() {
+        const $modal = this.$modal();
+        $modal.modal('hide');
     }
 
     public dispose() {
@@ -145,4 +265,8 @@ class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
 
 export default function register() {
     ko.components.register('modal', new ModalComponent());
+
+    // Register for older browsers (IE11)
+    document.createElement('modal-body');
+    document.createElement('modal-footer');
 }

@@ -14,6 +14,7 @@ using App.Api.Extensions;
 using App.Models.Domain.Identity;
 using App.Models.Domain.Repositories;
 using App.Models.DTO;
+using App.Support;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -74,7 +75,8 @@ namespace App.Api
             IdentityResult result = await this._appUserManager.ChangePasswordAsync(currentUser, input.CurrentPassword, input.NewPassword);
 
             if (!result.Succeeded) {
-                return this.BadRequest(result.Errors);
+                this.ModelState.AppendIdentityResult(result, _ => nameof(input.NewPassword));
+                return this.BadRequest(this.ModelState);
             }
 
             return this.NoContent();

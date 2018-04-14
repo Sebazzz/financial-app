@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
+    using App.Support;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Extensions;
@@ -112,7 +113,8 @@
             currentUser.Email = value.Email ?? currentUser.Email;
             IdentityResult result = await this._appUserManager.UpdateAsync(currentUser);
             if (!result.Succeeded) {
-                return this.BadRequest(result.Errors);
+                this.ModelState.AppendIdentityResult(result, _ => nameof(value.NewPassword));
+                return this.BadRequest(this.ModelState);
             }
 
             if (value.NewPassword != null) {
@@ -127,7 +129,8 @@
                 }
 
                 if (!result.Succeeded) {
-                    return this.BadRequest(result.Errors);
+                    this.ModelState.AppendIdentityResult(result, _ => nameof(value.NewPassword));
+                    return this.BadRequest(this.ModelState);
                 }
             }
 

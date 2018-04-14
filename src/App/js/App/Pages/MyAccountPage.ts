@@ -2,6 +2,8 @@ import {Page, IPageRegistration} from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as account from 'AppFramework/ServerApi/Account';
 import * as modal from 'AppFramework/Components/Modal';
+import * as validate from 'AppFramework/Forms/ValidateableViewModel';
+import {IFormPage} from 'AppFramework/Forms/FormPage';
 
 import * as ko from 'knockout';
 import confirmAsync from 'AppFramework/Forms/Confirmation';
@@ -13,12 +15,16 @@ class MyAccountPage extends Page {
     public authInfo = ko.observable<account.IAccountInfo>();
     public twoFactorAuthentication: TwoFactorAuthenticationController;
 
+    public changePasswordModal = new modal.ModalController<ChangePasswordModel>('Wachtwoord wijzigen');
+
     constructor(appContext: AppContext) {
         super(appContext);
 
         this.title('Mijn account');
 
         this.refresh = this.refresh.bind(this);
+        this.invokePasswordChange = this.invokePasswordChange.bind(this);
+
         this.twoFactorAuthentication = new TwoFactorAuthenticationController(this.refresh);
     }
 
@@ -40,6 +46,40 @@ class MyAccountPage extends Page {
             ko.tasks.runEarly();
         } finally {
            this.isRefreshing = false;
+        }
+    }
+
+    public invokePasswordChange() {
+        this.changePasswordModal.showDialog(new ChangePasswordModel(this.changePasswordModal));
+    }
+}
+
+class ChangePasswordModel extends validate.ValidateableViewModel implements IFormPage {
+    private api = new account.Api();
+
+    public currentPassword = ko.observable<string>();
+    public newPassword = ko.observable<string>();
+    public errorMessage = ko.observable<string>();
+
+    public isBusy = ko.observable<boolean>();
+
+    constructor(private controller: modal.ModalController<ChangePasswordModel>) {
+        super();
+
+        this.save = this.save.bind(this);
+    }
+
+    public async save(): Promise<void> {
+        try {
+            await this.api.changePassword({currentPassword: this.currentPassword.peek(), newPassword: this.newPassword.peek()});
+
+            this.controller.closeDialog();
+        } catch (e) {
+            const xhr = e as JQueryXHR;
+
+            if (!validate.tryExtractValidationError(xhr, this)) {
+                throw e;
+            }
         }
     }
 }
