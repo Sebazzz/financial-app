@@ -1,6 +1,7 @@
 import {Page, IPageRegistration} from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as tag from 'App/ServerApi/Tag';
+import {styleHtmlElement as styleTagHtmlElement} from 'App/Utils/TagColor';
 
 import * as tagReport from 'App/ServerApi/TagReport';
 import * as sheet from 'App/ServerApi/Sheet';
@@ -67,17 +68,7 @@ class TagsPage extends Page {
 
     public tagSelectionRendered(option: HTMLOptionElement, item: tag.ITag) {
         if (item && item.hexColorCode) {
-            option.style.backgroundColor = '#' + item.hexColorCode;
-
-            const r = parseInt(item.hexColorCode.substr(0, 2), 16),
-                  g = parseInt(item.hexColorCode.substr(2, 2), 16),
-                  b = parseInt(item.hexColorCode.substr(4, 2), 16),
-                  // ref: https://stackoverflow.com/a/596243/646215
-                  lightness = (0.299 * r + 0.587 * g + 0.114 * b);
-
-            if (lightness < 90) {
-                option.style.color = '#FFF';
-            }
+            styleTagHtmlElement(option, item);
         }
     }
 
@@ -124,5 +115,5 @@ export default {
     id: module.id,
     templateName: 'report/tags',
     routingTable: { name: 'report.tags', path: '/tags' },
-    createPage:appContext => new TagsPage(appContext)
+    createPage: appContext => new TagsPage(appContext)
 } as IPageRegistration;

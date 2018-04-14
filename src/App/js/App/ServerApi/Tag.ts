@@ -30,8 +30,8 @@ export class Api extends ApiBase {
         return this.execDelete<void>(id);
     }
 
-    public async get(number: number) {
-        const tag = await this.execGet<ITag>(number);
+    public async get(id: number) {
+        const tag = await this.execGet<ITag>(id);
         if (tag.hexColorCode) { tag.hexColorCode = '#' + tag.hexColorCode; }
         return tag;
     }
