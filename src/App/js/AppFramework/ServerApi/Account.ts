@@ -30,6 +30,7 @@ export interface ITwoFactorRecoveryCodes {
 export interface IChangePasswordModel {
     currentPassword: string;
     newPassword: string;
+    newPasswordConfirm: string;
 }
 
 export class Api extends ApiBase {

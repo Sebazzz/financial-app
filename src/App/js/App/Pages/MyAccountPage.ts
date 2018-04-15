@@ -59,6 +59,7 @@ class ChangePasswordModel extends validate.ValidateableViewModel implements IFor
 
     public currentPassword = ko.observable<string>();
     public newPassword = ko.observable<string>();
+    public newPasswordConfirm = ko.observable<string>();
     public errorMessage = ko.observable<string>();
 
     public isBusy = ko.observable<boolean>();
@@ -71,7 +72,7 @@ class ChangePasswordModel extends validate.ValidateableViewModel implements IFor
 
     public async save(): Promise<void> {
         try {
-            await this.api.changePassword({currentPassword: this.currentPassword.peek(), newPassword: this.newPassword.peek()});
+            await this.api.changePassword({currentPassword: this.currentPassword.peek(), newPassword: this.newPassword.peek(), newPasswordConfirm: this.newPasswordConfirm.peek()});
 
             this.controller.closeDialog();
         } catch (e) {

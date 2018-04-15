@@ -1,4 +1,6 @@
-﻿namespace App.Models.DTO {
+﻿using System;
+
+namespace App.Models.DTO {
     using System.ComponentModel.DataAnnotations;
 
     public class AppUserListing {
@@ -10,19 +12,5 @@
         public string UserName { get; set; }
 
         public int Id { get; set; }
-    }
-
-    public class AppUserMutate : AppUserListing {
-        public string NewPassword { get; set; }
-
-        public string CurrentPassword { get; set; }
-    }
-
-    public class ChangePasswordModel {
-        [Required(ErrorMessage = "Voer een nieuw wachtwoord in")]
-        public string NewPassword { get; set; }
-
-        [Required(ErrorMessage = "Voer je huidige wachtwoord in")]
-        public string CurrentPassword { get; set; }
     }
 }
