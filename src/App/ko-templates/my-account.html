@@ -153,22 +153,30 @@
               ko-form:handler="save"
               ko-form:error-message="errorMessage"
               ko-form:is-busy="isBusy">
+
             <div class="alert alert-danger" ko-visible="errorMessage">
                 <strong>Oeps!</strong> <span ko-text="errorMessage"></span>
             </div>
 
             <div class="form-group">
+                <label for="currentPassword">Huidig wachtwoord:</label>
+                <input id="currentPassword" name="currentPassword" type="password" class="form-control" ko-value="currentPassword" maxlength="150" />
+
+                <div ko-validation-message="currentPassword"></div>
+            </div>
+
+            <div class="form-group">
                 <label for="newPassword">Nieuw wachtwoord:</label>
                 <input id="newPassword" name="newPassword" type="password" class="form-control" ko-value="newPassword" maxlength="150" />
-    
+
                 <div ko-validation-message="newPassword"></div>
             </div>
 
             <div class="form-group">
-                <label for="currentPassword">Huidig wachtwoord:</label>
-                <input id="currentPassword" name="currentPassword" type="password" class="form-control" ko-value="currentPassword" maxlength="150" />
-    
-                <div ko-validation-message="currentPassword"></div>
+                <label for="newPasswordConfirm">Nieuw wachtwoord (bevestigen):</label>
+                <input id="newPasswordConfirm" name="newPasswordConfirm" type="password" class="form-control" ko-value="newPasswordConfirm" maxlength="150" />
+
+                <div ko-validation-message="newPasswordConfirm"></div>
             </div>
         </form>
     </modal-body>
