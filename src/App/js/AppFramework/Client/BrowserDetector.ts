@@ -12,6 +12,11 @@ function isMobileInternal(): boolean {
         return false;
     }
 
+    if (window.matchMedia('(max-width: 768px)').matches) {
+        // Bootstrap md media breakpoint
+        return true;
+    }
+
     for (const indicator of detectionStrings) {
         if (userAgent.indexOf(indicator) !== -1) {
             return true;
