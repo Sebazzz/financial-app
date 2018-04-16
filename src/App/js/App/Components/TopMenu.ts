@@ -1,5 +1,6 @@
 import * as framework from 'AppFramework/Panel';
 import {State} from 'router5';
+import {Plugin, PluginFactory} from 'router5/core/plugins';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import NowRouteProvider from 'App/Services/NowRoute';
@@ -50,8 +51,12 @@ class TopMenu extends framework.Panel {
     constructor(appContext: AppContext) {
         super(appContext);
 
-        const menuPlugin: any = () => {
+        const menuPlugin = (() => {
             return {
+                onTransitionStart: () => {
+                    // collapse menu
+                    TopMenu.collapse();
+                },
                 onTransitionSuccess: (toState: State) => {
                     // tslint:disable-next-line:no-unused-expression
                     toState && this.path(toState.path);
@@ -59,8 +64,8 @@ class TopMenu extends framework.Panel {
                     // tslint:disable-next-line:no-unused-expression
                     toState && this.routeNode(toState.name);
                 }
-            };
-        };
+            } as Plugin;
+        }) as any as PluginFactory;
 
         menuPlugin.pluginName = 'top-menu-plugin';
         appContext.router.usePlugin(menuPlugin);
@@ -74,6 +79,14 @@ class TopMenu extends framework.Panel {
             this.showActiveClientTooltip(true);
             window.setTimeout(() => this.showActiveClientTooltip(false), 2000);
         });
+    }
+
+    public static collapse() {
+        const $navbarToggler = $('.navbar-toggler'), $topMenu = $('#top-menu-content');
+
+        if ($topMenu.hasClass('show') && !$topMenu.hasClass('collapsing')) {
+            $navbarToggler.click();
+        }
     }
 
     public hasLocation(paramRaw: string|KnockoutObservable<string>) {
@@ -93,7 +106,7 @@ class TopMenu extends framework.Panel {
             }
 
             return isMatch;
-        }
+        };
 
         return ko.pureComputed(() => {
             const requestingNowPath = paramRaw === this.nowPath,
