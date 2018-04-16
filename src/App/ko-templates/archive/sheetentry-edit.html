@@ -57,10 +57,11 @@
         </div>
 
         <div class="form-group"
-             ko-visible="$page.availableTags() > 0">
+             ko-visible="$page.availableTags().length > 0">
             <label for="tagIds">Labels</label> <br />
 
             <select id="tagIds"
+                    class="form-contol"
                     ko-selected-options="tags"
                     ko-options="$page.availableTags"
                     ko-options-text#="name"
