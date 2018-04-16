@@ -21,7 +21,7 @@ function findPage(bindingContext: KnockoutBindingContext): IFormPage {
 }
 
 export interface IFormOptions {
-    handler: (viewModel: ValidateableViewModel) => Promise<void>;
+    handler: (viewModel: ValidateableViewModel, submissionName?: string|null) => Promise<void>;
     isBusy: KnockoutObservable<boolean>;
     errorMessage?: KnockoutObservable<string>;
 }
@@ -56,7 +56,13 @@ ko.bindingHandlers.form = {
                 options.isBusy(true);
                 setErrorMessage(null);
 
-                await options.handler(viewModel);
+                // This is the fun/odd part: When a submit event is captured, we cannot actually find out
+                // which button has caused the submit, other than checking which buttons has the current focus
+                const focusedElement = document.activeElement;
+                console.debug(focusedElement);
+
+                const submissionName: string|null = focusedElement && focusedElement.getAttribute('name') || null;
+                await options.handler(viewModel, submissionName);
             } catch (e) {
                 setErrorMessage('Dat ging niet goed. Probeer het nog eens.');
 
