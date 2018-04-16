@@ -25,7 +25,7 @@
             <span class="fas fa-plus"></span>
             Toevoegen
         </a>
-        <div class="btn-group btn-group-sm" role="group">
+        <div class="btn-group btn-group-sm" role="group" ko-visible="unusedTemplates().length !== 0">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Van template
             </button>
@@ -152,7 +152,7 @@
             <span class="fas fa-plus"></span>
             Toevoegen
         </a>
-        <div class="btn-group" role="group">
+        <div class="btn-group" role="group" ko-visible="unusedTemplates().length !== 0">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Van template
             </button>
