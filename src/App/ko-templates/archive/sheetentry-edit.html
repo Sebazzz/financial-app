@@ -106,7 +106,10 @@
         </div>
 
         <p class="button-bar">
-            <button class="btn btn-primary">Opslaan</button>
+            <div class="btn-group">
+                <button class="btn btn-primary" name="save">Opslaan</button>
+                <button class="btn btn-secondary" name="save-and-continue">Opslaan en nieuw</button>
+            </div>
             <a href="#" data-bind="route: archive.sheet | $parent.sheetRouteParams()" class="btn btn-link">Annuleren</a>
         </p>
     </form>

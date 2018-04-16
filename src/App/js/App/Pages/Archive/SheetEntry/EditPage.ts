@@ -107,7 +107,7 @@ class EditPage extends FormPage {
         }
     }
 
-    public async save(): Promise<void> {
+    public async save(_: never, submissionName: string|null): Promise<void> {
         const entryTemplate = this.entry.peek();
 
         try {
@@ -121,7 +121,15 @@ class EditPage extends FormPage {
                 await this.api.update(id, serialized);
             }
 
-            this.appContext.router.navigate('archive.sheet', this.sheetRouteParams());
+            switch (submissionName) {
+                case 'save-and-continue':
+                    this.entry(new EditViewModel());
+                    break;
+
+                default:
+                    this.appContext.router.navigate('archive.sheet', this.sheetRouteParams());
+                    break;
+            }
         } catch (e) {
             const xhr = e as JQueryXHR;
 
