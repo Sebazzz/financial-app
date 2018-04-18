@@ -35,6 +35,8 @@ class SheetPage extends FormPage {
     public availableCategories = ko.observableArray<category.ICategoryListing>();
     public sheet = ko.observable<Sheet>();
 
+    public sourceAutocompletionData = ko.observableArray<string>();
+
     public remarksEditModal = new modal.ModalController<RemarksModel>('Opmerkingen bewerken');
     public remarksDisplayModal = new modal.ModalController<RemarksModel>('Opmerkingen bekijken', null, 'Sluiten');
     public tagSelectionPopover = new popover.PopoverController<SheetEntry>('Labels selecteren');
@@ -105,6 +107,13 @@ class SheetPage extends FormPage {
 
         this.sheetEntryApi.setContext(year, month);
 
+        // We can pull in autocompletion data concurrently, but we won't wait
+        // for it because it is not essential to the functionality of this page
+        this.api.getSourceAutocompletionData(year, month)
+            .then(data => this.sourceAutocompletionData(data),
+                  err => console.error(err));
+
+        // Parallel data loading
         const [category, tag, sheet] = await Promise.all([
             this.categoryApi.list(),
             this.tagApi.list(),
@@ -483,7 +492,7 @@ export default {
         {
             name: 'now',
             path: '/now',
-            canActivate:router => {
+            canActivate: router => {
                 return toState => {
                     if (toState.name !== 'now') {
                         // Derived route - always OK
@@ -499,5 +508,5 @@ export default {
             }
         }
     ],
-    createPage:appContext => new SheetPage(appContext)
+    createPage: appContext => new SheetPage(appContext)
 } as IPageRegistration;

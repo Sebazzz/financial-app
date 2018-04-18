@@ -114,7 +114,9 @@
                                 placeholder="(winkel, vaste lasten, etc)"
                                 class="form-control form-control-sm"
                                 data-bind="value: source"
-                                required maxlength="250"/>
+                                maxlength="250"
+                                list="source-autocompletion"
+                                required/>
                         <span class="input-group-append">
                             <button class="btn btn-secondary btn-sm"
                                     data-bind="click: $page.editRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bewerken'">
@@ -354,3 +356,6 @@
 <modal params="controller: remarksDisplayModal">
     <p data-bind="text: content" class="preserve-whitespace"></p>
 </modal>
+
+<datalist id="source-autocompletion"
+          ko-data-list="$page.sourceAutocompletionData"></datalist>

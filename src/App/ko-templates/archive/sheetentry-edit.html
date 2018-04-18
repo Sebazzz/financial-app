@@ -22,6 +22,7 @@
                        maxlength="250"
                        placeholder="(winkel, vaste lasten, etc)"
                        data-bind="value: source"
+                       list="source-autocompletion"
                        required>
 
                 <span class="input-group-append">
@@ -115,3 +116,6 @@
         </p>
     </form>
 </div>
+
+<datalist id="source-autocompletion"
+          ko-data-list="$page.sourceAutocompletionData"></datalist>
