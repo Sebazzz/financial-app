@@ -62,12 +62,16 @@ export class Api extends ApiBase {
         return this.execGet<ISheetListing[]>();
     }
 
-    public get(number: number) {
-        return this.execGet<ISheet>(number);
+    public get(id: number) {
+        return this.execGet<ISheet>(id);
     }
 
     public getBySubject(year: number, month: number) {
         return this.execGet<ISheet>(`${year}-${month}`);
+    }
+
+    public getSourceAutocompletionData(year: number, month: number) {
+        return this.execGet<string[]>(`${year}-${month}/source-autocompletion-data`);
     }
 
     public getAllStatistics() {

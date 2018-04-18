@@ -8,6 +8,7 @@ import * as ko from 'knockout';
 import * as mapper from 'AppFramework/ServerApi/Mapper';
 
 import * as entryTemplate from '../../../ServerApi/RecurringSheetEntry';
+import * as sheet from '../../../ServerApi/Sheet';
 import * as sheetEntry from '../../../ServerApi/SheetEntry';
 import * as tag from 'App/ServerApi/Tag';
 import * as category from '../../../ServerApi/Category';
@@ -20,6 +21,7 @@ class EditPage extends FormPage {
     private categoryApi = new category.Api();
     private templateApi = new entryTemplate.Api();
     private tagApi = new tag.Api();
+    private sheetApi = new sheet.Api();
     private api = new sheetEntry.Api();
 
     public id = ko.observable<number>(0);
@@ -27,6 +29,8 @@ class EditPage extends FormPage {
     public entry = ko.observable<EditViewModel>(new EditViewModel());
     public availableCategories = ko.observableArray<category.ICategoryListing>();
     public availableTags = ko.observableArray<tag.ITag>();
+
+    public sourceAutocompletionData = ko.observableArray<string>();
 
     public date = ko.observable<Date>();
 
@@ -56,6 +60,12 @@ class EditPage extends FormPage {
 
         this.date(date);
         this.api.setContext(year, month);
+
+        // We can pull in autocompletion data concurrently, but we won't wait
+        // for it because it is not essential to the functionality of this page
+        this.sheetApi.getSourceAutocompletionData(year, month)
+            .then(data => this.sourceAutocompletionData(data),
+                  err => console.error(err));
 
         const baseTitle = `Financiën ${kendo.toString(date, 'MMMM yyyy')}`;
 

@@ -61,6 +61,28 @@
             return dto;
         }
 
+        [HttpGet("{year:int:max(2100):min(2000)}-{month:int:max(12):min(1)}/source-autocompletion-data")]
+        public string[] SourceAutoCompletionData(int month, int year) {
+            HashSet<string> sources = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+
+            sources.UnionWith(
+                from sheet in this._sheetRepository.GetByDatePart(month, year, this.OwnerId)
+                from sheetEntry in sheet.Entries
+                select sheetEntry.Source
+            );
+
+            DateTime previousSheetDate = (new DateTime(year, month, 1)).AddMonths(-1);
+            int previousMonth = previousSheetDate.Month, previousYear = previousSheetDate.Year;
+            
+            sources.UnionWith(
+                from sheet in this._sheetRepository.GetByDatePart(previousMonth, previousYear, this.OwnerId)
+                from sheetEntry in sheet.Entries
+                select sheetEntry.Source
+            );
+
+            return sources.ToArray();
+        }
+
         [HttpGet("")]
         public IEnumerable<SheetListing> GetAll() {
             IEnumerable<SheetListing> allSheets = this._sheetRetrievalService.GetAll(this.OwnerId);
