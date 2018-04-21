@@ -73,8 +73,10 @@
   "scripts": {
     "start": "webpack",
     "build": "webpack",
+    "build-mailtemplates": "powershell -File Email/Build.ps1",
     "test": "karma start --single-run",
     "test-watch": "karma start --no-single-run",
+    "test-mailtemplates": "powershell -File Email/Build.ps1 -ArgumentList -LocalTesting",
     "webpack-stats": "webpack --json > webpack-stats.json",
     "watch": "webpack --watch"
   }

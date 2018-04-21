@@ -168,6 +168,20 @@ void PublishSelfContained(string platform, string folder) {
         DotNetCorePublish($"./src/App/App.csproj", settings);
 }
 
+Task("Build-MailTemplates")
+	.IsDependentOn("Restore-Node-Packages")
+	.IsDependentOn("Set-NodeEnvironment")
+	.Does(() => {
+		var exitCode = 
+			StartProcess("cmd", new ProcessSettings()
+			.UseWorkingDirectory(mainProjectPath)
+			.WithArguments(args => args.Append("/C").AppendQuoted("yarn run build-mailtemplates")));
+		
+		if (exitCode != 0) {
+			throw new CakeException($"'yarn run build-mailtemplates' returned exit code {exitCode} (0x{exitCode:x2})");
+		}
+	});
+
 Task("Run-Webpack")
 	.IsDependentOn("Restore-Node-Packages")
 	.IsDependentOn("Set-NodeEnvironment")
@@ -186,7 +200,8 @@ Task("Publish-Common")
 	.Description("Internal task - do not use")
     .IsDependentOn("Rebuild")
     .IsDependentOn("Generate-MigrationScript")
-	.IsDependentOn("Run-Webpack");
+	.IsDependentOn("Run-Webpack")
+	.IsDependentOn("Build-MailTemplates");
 
 var windowsAllPublishTask = Task("Publish-Windows");
 
