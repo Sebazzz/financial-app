@@ -2,6 +2,8 @@
     [Switch] $LocalTesting
 )
 
+Set-Location $PSScriptRoot
+
 $BuildDir = Join-Path $PSScriptRoot "build"
 $ReplacementMap = @{ };
 
