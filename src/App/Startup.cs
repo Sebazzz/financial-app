@@ -13,6 +13,7 @@ namespace App {
     using App.Models.Domain;
     using App.Models.Domain.Identity;
     using App.Support.Integration;
+    using App.Support.Mailing;
     using AutoMapper;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
@@ -58,6 +59,7 @@ namespace App {
             }
 
             services.Configure<HttpsServerOptions>(Configuration.GetSection("server").GetSection("https"));
+            services.Configure<MailSettings>(Configuration.GetSection("mail"));
 
             services.AddResponseCompression(opts => {
                 // Note the possible dangers for HTTPS: https://docs.microsoft.com/en-us/aspnet/core/performance/response-compression?tabs=aspnetcore2x#compression-with-secure-protocol
