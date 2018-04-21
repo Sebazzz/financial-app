@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
@@ -20,149 +19,15 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules\**\*" />
-    <Content Remove="wwwroot\js\App.ts" />
-    <Content Remove="js\AppFramework\AppFactory.ts" />
-    <Content Remove="js\AppFramework\AuthenticationService.ts" />
-    <Content Remove="js\AppFramework\BindingHandlers.ts" />
-    <Content Remove="js\AppFramework\BindingHandlers\All.ts" />
-    <Content Remove="js\AppFramework\BindingHandlers\Hidden.ts" />
-    <Content Remove="js\AppFramework\BindingHandlers\TextFormat.ts" />
-    <Content Remove="js\AppFramework\ComponentLoader.ts" />
-    <Content Remove="js\AppFramework\Components\Modal.ts" />
-    <Content Remove="js\AppFramework\DefaultPages.ts" />
-    <Content Remove="js\AppFramework\Forms\Confirmation.ts" />
-    <Content Remove="js\AppFramework\Forms\ValidationMessage.ts" />
-    <Content Remove="js\AppFramework\HotModulePage.ts" />
-    <Content Remove="js\AppFramework\HttpClient.ts" />
-    <Content Remove="js\AppFramework\ServerApi\Authentication.ts" />
-    <Content Remove="js\AppFramework\ServerApi\Mapper.ts" />
-    <Content Remove="js\AppFramework\Forms\ValidateableViewModel.ts" />
-    <Content Remove="js\App\BindingHandlers\All.ts" />
-    <Content Remove="js\App\BindingHandlers\Cleave.ts" />
-    <Content Remove="js\App\BindingHandlers\LazyBindingHandler.ts" />
-    <Content Remove="js\App\Components\Loader.ts" />
-    <Content Remove="js\App\Components\ScrollNub.ts" />
-    <Content Remove="js\App\Components\TopMenu.ts" />
-    <Content Remove="wwwroot\js\PageFactory.ts" />
-    <Content Remove="js\App\Pages\Archive\SheetEntry\DefaultPage.ts" />
-    <Content Remove="js\App\Pages\Archive\SheetEntry\EditPage.ts" />
-    <Content Remove="js\App\Pages\Archive\SheetPage.ts" />
-    <Content Remove="js\App\Pages\Archive\SheetStatisticsPage.ts" />
-    <Content Remove="js\App\Pages\AuthLogOffPage.ts" />
-    <Content Remove="js\App\Pages\DefaultPage.ts" />
-    <Content Remove="js\App\Pages\Manage\ImpersonatePage.ts" />
-    <Content Remove="js\App\Pages\Manage\User\EditPage.ts" />
-    <Content Remove="js\App\Pages\ReportPage.ts" />
-    <Content Remove="js\App\ServerApi\RecurringSheetEntry.ts" />
-    <Content Remove="js\App\ServerApi\Setup.ts" />
-    <Content Remove="js\App\ServerApi\Sheet.ts" />
-    <Content Remove="js\App\ServerApi\SheetEntry.ts" />
-    <Content Remove="js\App\ServerApi\User.ts" />
-    <Content Remove="js\App\ServerApi\UserImpersonate.ts" />
-    <Content Remove="js\App\Services\Calculator.ts" />
-    <Content Remove="js\App\Services\ChartLoader.ts" />
-    <Content Remove="js\App\Services\NowRoute.ts" />
-    <Content Remove="js\App\typings\assets.d.ts" />
-    <Content Remove="js\App\typings\cleave.d.ts" />
-    <Content Remove="js\App\typings\hmr.d.ts" />
-    <Content Remove="js\App\typings\json.date-extensions.d.ts" />
-    <Content Remove="js\App\typings\webpack.d.ts" />
-    <None Remove="js\AppFramework\BindingContextExtender.ts" />
-    <None Remove="js\AppFramework\BindingHandlers\BindingContextLog.ts" />
-    <None Remove="js\AppFramework\BindingHandlers\LookupScope.ts" />
-    <None Remove="js\AppFramework\Client\BrowserDetector.ts" />
-    <None Remove="js\AppFramework\Components\Popover.ts" />
-    <None Remove="js\AppFramework\Components\templates\popover.html" />
-    <None Remove="js\AppFramework\ServerApi\Account.ts" />
-    <None Remove="js\AppFramework\Telemetry.ts" />
-    <None Remove="js\AppFramework\UnnamedBindingProvider.ts" />
-    <None Remove="js\App\BindingHandlers\MoneyInput.ts" />
-    <None Remove="js\App\Pages\AboutPage.ts" />
-    <None Remove="js\App\Pages\Manage\Tag\DefaultPage.ts" />
-    <None Remove="js\App\Pages\Manage\Tag\EditPage.ts" />
-    <None Remove="js\App\Pages\Report\DefaultPage.ts" />
-    <None Remove="js\App\Pages\Report\TagsPage.ts" />
-    <None Remove="js\App\ServerApi\Budget.ts" />
-    <None Remove="js\App\ServerApi\Tag.ts" />
-    <None Remove="js\App\ServerApi\TagReport.ts" />
-    <None Remove="js\App\Services\SetupInterceptor.ts" />
-    <None Remove="js\App\ServiceWorker\typings\sw-runtime.d.ts" />
-    <None Remove="js\App\typings\sw-runtime.d.ts" />
-    <None Remove="js\tests\AppFramework\UnnamedBindingProvider.ts" />
-    <None Remove="js\tests\App\main.ts" />
-    <None Remove="js\tests\main.ts" />
-    <None Remove="js\tests\App\Services\Calculator.ts" />
-    <None Remove="ko-templates\manage\tag\default.html" />
-    <None Remove="ko-templates\manage\tag\edit.html" />
-    <None Remove="Models\Domain\Repositories\Repositories.tt" />
-    <Content Include="js\AppFramework\AppContext.ts" />
-    <Content Include="js\AppFramework\BindingHandlers\Form.ts" />
-    <Content Include="js\AppFramework\BindingHandlers\Href.ts" />
-    <Content Include="js\AppFramework\BindingHandlers\LazyBindingHandler.ts" />
-    <Content Include="js\AppFramework\BindingHandlers\Tooltip.ts" />
-    <Content Include="js\AppFramework\Components\LoadingBar.ts" />
-    <Content Include="js\AppFramework\Components\templates\loading-bar.html" />
-    <Content Include="js\AppFramework\Components\templates\popover.html" />
-    <Content Include="js\AppFramework\Components\templates\modal.html" />
-    <Content Include="js\AppFramework\Forms\FormPage.ts" />
-    <Content Include="js\AppFramework\Forms\templates\confirmation.html" />
-    <Content Include="js\AppFramework\Page.ts" />
-    <Content Include="js\AppFramework\Panel.ts" />
-    <Content Include="js\AppFramework\Router.ts" />
-    <Content Include="js\AppFramework\ServerApi\ApiBase.ts" />
-    <Content Include="js\AppFramework\ServerApi\HttpClient.ts" />
-    <Content Include="js\AppFramework\Templates\Index.ts" />
-    <Content Include="js\AppFramework\Templates\page-error.html" />
-    <Content Include="js\AppFramework\Templates\page-loader.html" />
-    <Content Include="js\App\BindingHandlers\ChartHandler.ts" />
-    <Content Include="js\App\main.ts" />
     <Content Include="js\App\PageFactory.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PageFactory.ts</LastGenOutput>
     </Content>
-    <Content Include="js\App\Pages\Archive\DefaultPage.ts" />
-    <Content Include="js\App\Pages\Auth\LoginPage.ts" />
-    <Content Include="js\App\Pages\Auth\LogOffPage.ts" />
-    <Content Include="js\App\Pages\Manage\Category\DefaultPage.ts" />
-    <Content Include="js\App\Pages\Manage\Category\EditPage.ts" />
-    <Content Include="js\App\Pages\Manage\DefaultPage.ts" />
-    <Content Include="js\App\Pages\Manage\EntryTemplate\DefaultPage.ts" />
-    <Content Include="js\App\Pages\Manage\EntryTemplate\EditPage.ts" />
-    <Content Include="js\App\Pages\Manage\User\DefaultPage.ts" />
-    <Content Include="js\App\Pages\Setup\Default.ts" />
-    <Content Include="js\App\ServerApi\Category.ts" />
-    <Content Include="js\App\ServerApi\SheetStatistics.ts" />
-    <Content Include="ko-templates\archive\default.html" />
-    <Content Include="ko-templates\archive\sheet-stats.html" />
-    <Content Include="ko-templates\archive\sheet.html" />
-    <Content Include="ko-templates\archive\sheet.mobile.html" />
-    <Content Include="ko-templates\archive\sheetentry-edit.html" />
-    <Content Include="ko-templates\auth\login.html" />
-    <Content Include="ko-templates\auth\logoff.html" />
-    <Content Include="ko-templates\ConnectionFailure.html" />
-    <Content Include="ko-templates\default.html" />
-    <Content Include="ko-templates\default.mobile.html" />
-    <Content Include="ko-templates\manage\tag\default.html" />
-    <Content Include="ko-templates\manage\tag\edit.html" />
-    <Content Include="ko-templates\manage\category\default.html" />
-    <Content Include="ko-templates\manage\category\edit.html" />
-    <Content Include="ko-templates\manage\entry-template\default.html" />
-    <Content Include="ko-templates\manage\entry-template\edit.html" />
-    <Content Include="ko-templates\manage\impersonate.html" />
-    <Content Include="ko-templates\manage\user\default.html" />
-    <Content Include="ko-templates\manage\user\edit.html" />
-    <Content Include="ko-templates\offline.html" />
-    <Content Include="ko-templates\report\general.html" />
-    <Content Include="ko-templates\setup\default.html" />
-    <Content Include="ko-templates\widgets\loader.html" />
-    <Content Include="ko-templates\widgets\top-menu.html" />
+   
     <Content Include="Models\Domain\Repositories\Repositories.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Repositories.generated.cs</LastGenOutput>
     </Content>
-    <None Update="wwwroot\**\*;Views\**\*">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
     <None Update="**.user;.\wwwroot\build\**\*.ts;.\wwwroot\js\**\*;.\wwwroot\css\**\*;.\wwwroot\bower_components\**\*;**\*.ts;**.vspscc">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
@@ -216,96 +81,6 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="js\AppFramework\BindingContextExtender.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\BindingContextLog.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\LookupScope.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Client\BrowserDetector.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Components\Popover.ts" />
-    <TypeScriptCompile Include="js\AppFramework\ServerApi\Account.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Telemetry.ts" />
-    <TypeScriptCompile Include="js\AppFramework\UnnamedBindingProvider.ts" />
-    <TypeScriptCompile Include="js\App\App.ts" />
-    <TypeScriptCompile Include="js\AppFramework\AppFactory.ts" />
-    <TypeScriptCompile Include="js\AppFramework\AuthenticationService.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\All.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\Form.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\Hidden.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\TextFormat.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\Tooltip.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\Href.ts" />
-    <TypeScriptCompile Include="js\AppFramework\ComponentLoader.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Components\Modal.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Templates\Index.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Forms\Confirmation.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Forms\FormPage.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Forms\ValidationMessage.ts" />
-    <TypeScriptCompile Include="js\AppFramework\HotModulePage.ts" />
-    <TypeScriptCompile Include="js\AppFramework\ServerApi\ApiBase.ts" />
-    <TypeScriptCompile Include="js\AppFramework\ServerApi\Authentication.ts" />
-    <TypeScriptCompile Include="js\AppFramework\ServerApi\HttpClient.ts" />
-    <TypeScriptCompile Include="js\AppFramework\ServerApi\Mapper.ts" />
-    <TypeScriptCompile Include="js\AppFramework\Forms\ValidateableViewModel.ts" />
-    <TypeScriptCompile Include="js\App\BindingHandlers\All.ts" />
-    <TypeScriptCompile Include="js\App\BindingHandlers\ChartHandler.ts" />
-    <TypeScriptCompile Include="js\App\BindingHandlers\Cleave.ts" />
-    <TypeScriptCompile Include="js\AppFramework\BindingHandlers\LazyBindingHandler.ts" />
-    <TypeScriptCompile Include="js\App\BindingHandlers\MoneyInput.ts" />
-    <TypeScriptCompile Include="js\App\Components\Loader.ts" />
-    <TypeScriptCompile Include="js\App\Components\ScrollNub.ts" />
-    <TypeScriptCompile Include="js\App\Components\TopMenu.ts" />
-    <TypeScriptCompile Include="js\App\Pages\AboutPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\Tag\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\Tag\EditPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Report\TagsPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Report\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\Budget.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\Tag.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\TagReport.ts" />
-    <TypeScriptCompile Include="js\App\Services\SetupInterceptor.ts" />
-    <TypeScriptCompile Include="js\App\ServiceWorker\typings\sw-runtime.d.ts" />
-    <TypeScriptCompile Include="js\App\typings\sw-runtime.d.ts" />
-    <TypeScriptCompile Include="js\tests\AppFramework\UnnamedBindingProvider.ts" />
-    <TypeScriptCompile Include="js\tests\App\Services\Calculator.ts" />
-    <TypeScriptCompile Include="wwwroot\js\eventsource-polyfill.js" />
-    <TypeScriptCompile Include="js\App\PageFactory.ts">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PageFactory.tt</DependentUpon>
-    </TypeScriptCompile>
-    <TypeScriptCompile Include="js\App\Pages\Archive\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Archive\SheetEntry\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Archive\SheetEntry\EditPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Archive\SheetPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Archive\SheetStatisticsPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Auth\LogOffPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\Category\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\Category\EditPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\EntryTemplate\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\EntryTemplate\EditPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\ImpersonatePage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\User\DefaultPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Manage\User\EditPage.ts" />
-    <TypeScriptCompile Include="js\App\Pages\Report\GeneralPage.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\Category.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\RecurringSheetEntry.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\Setup.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\Sheet.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\SheetEntry.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\User.ts" />
-    <TypeScriptCompile Include="js\App\ServerApi\UserImpersonate.ts" />
-    <TypeScriptCompile Include="js\App\Services\Calculator.ts" />
-    <TypeScriptCompile Include="js\App\Services\ChartLoader.ts" />
-    <TypeScriptCompile Include="js\App\Services\NowRoute.ts" />
-    <TypeScriptCompile Include="js\App\typings\assets.d.ts" />
-    <TypeScriptCompile Include="js\App\typings\cleave.d.ts" />
-    <TypeScriptCompile Include="js\App\typings\hmr.d.ts" />
-    <TypeScriptCompile Include="js\App\typings\json.date-extensions.d.ts" />
-    <TypeScriptCompile Include="js\App\typings\webpack.d.ts" />
   </ItemGroup>
 
   <ItemGroup>
