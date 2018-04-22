@@ -15,6 +15,7 @@ To run the application you'Il need:
    * If using Windows, install on Windows Server 2012 or higher.
    * If using Linux, install on Ubuntu 16.x or higher.
 * Microsoft SQL Server for the database. The free SQL Server Express also works.
+* E-mail (SMTP) server if you want account recovery e-mails etc. to work
 
 On Ubuntu install:
 
@@ -48,6 +49,24 @@ To use HTTPs, use the following environment variables:
 `HTTPS__CERTIFICATEPASSWORD`: Password for pfx file.
 
 The server will automatically start on port 80 and 443.
+
+### E-mail configuration
+To configure e-mail settings your can use the following environment variables:
+
+`MAIL__HOST`: SMTP host name
+
+`MAIL__ENABLESSL`: Enable SSL when connecting to SMTP `true`/`false`
+
+`MAIL__PORT`: SMTP port number
+
+`MAIL__USERNAME`: User name
+
+`MAIL__PASSWORD`: Password
+
+`MAIL__FROMADDRESS`: Source e-mail address used for sending e-mail
+
+`MAIL__FROMDISPLAYNAME`: Display name to use and shown in repicient mailbox
+
 
 ### Database set-up
 Create an new empty database with a case insensitive collation (`SQL_Latin1_General_CP1_CI_AS` is preferred).
