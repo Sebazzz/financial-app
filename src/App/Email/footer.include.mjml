@@ -1,0 +1,16 @@
+<mjml>
+    <mj-body>
+        <mj-section background-color="#242424">
+            <mj-column>
+                <mj-text align="left" line-height="1.5">
+                Financial App v{version}
+                </mj-text>
+            </mj-column>
+            <mj-column>
+                <mj-text align="right" line-height="1.5">
+                Deze e-mail is automatisch verstuurd en kan niet op gereageerd worden.
+                </mj-text>
+            </mj-column>
+        </mj-section>
+    </mj-body>
+</mjml>

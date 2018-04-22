@@ -1,0 +1,9 @@
+<mjml>
+    <mj-head>
+         <mj-attributes>
+            <mj-button background-color="#389fc5" color="#f8f9fa " font-weight="bold"/>
+            <mj-section background-color="#2B2B2B" />
+            <mj-all font-family="Calibri, Arial" color="#f8f9fa"/>
+        </mj-attributes>
+    </mj-head>
+</mjml>
