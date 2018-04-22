@@ -20,9 +20,12 @@ Write-Host "Building files in $PSScriptRoot to $BuildDir" -ForegroundColor Gray
 Remove-Item $buildDir -Recurse -Force -Verbose -ErrorAction SilentlyContinue
 New-Item $buildDir -ItemType Directory -Verbose | Out-Null
 
+# Collect files
+$Files = $(Get-ChildItem *.mjml -Exclude *.include.mjml -Name)
+
 # Run Command and evaluate result
 $Cmd = "mjml"
-$Arguments = @("-o", $BuildDir, "-r", "*.mjml")
+$Arguments = @("-o", $BuildDir, "-l", "strict", "-r") + $Files
 
 Write-Host $Cmd $Arguments -ForegroundColor Gray
 & $Cmd $Arguments

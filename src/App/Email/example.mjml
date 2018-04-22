@@ -3,25 +3,10 @@
     <mj-preview>Welkom bij Financial App!</mj-preview>
     <mj-title>Welkom bij Financial App!</mj-title>
 
-    <mj-attributes>
-      <mj-button background-color="#389fc5" color="#000" font-weight="bold"/>
-      <mj-section background-color="#2B2B2B" />
-      <mj-all font-family="Calibri, Arial" color="#f8f9fa"/>
-    </mj-attributes>
+    <mj-include path="./common.include.mjml" />
   </mj-head>
   <mj-body background-color="#222">
-
-    <!-- Company Header -->
-    <mj-section background-color="#2B2B2B" >
-      <mj-column>
-        <mj-text font-size="20px" align="center">
-          <h1>
-            <img width="50" src="../wwwroot/images/icons/email/application.png" valign="-10px"/>
-            Financial App
-          </h1>
-        </mj-text>
-      </mj-column>
-    </mj-section>
+    <mj-include path="./header.include.mjml" />
 
     <mj-hero background-url="../wwwroot/images/bg/email/welcome.jpg"
       mode="fixed-height"
@@ -33,17 +18,10 @@
       <mj-button href="">Nu starten</mj-button>
     </mj-hero>
 
-    <!-- Image Header -->
-    <mj-section background-color="#2B2B2B"></mj-section>
-
-    <!-- Introduction Text -->
     <mj-section background-color="#2B2B2B">
-      <mj-column>
-      <mj-text>
-        Een Financial App account is aangemaakt voor jou. Je mag inloggen met de gebruikersnaam <strong>Example</strong>.
-      </mj-text>
-      </mj-column>
+       <mj-column><mj-text>(insert welcome text)</mj-text></mj-column>
     </mj-section>
 
+    <mj-include path="./footer.include.mjml" />
   </mj-body>
 </mjml>
