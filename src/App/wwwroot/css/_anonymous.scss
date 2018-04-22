@@ -36,7 +36,6 @@
     text-align: right;
 }
 
-
 body.anonymous .progress-indicator-bar {
   background: #FFF;
 }
@@ -58,4 +57,8 @@ body.anonymous .progress-indicator-spinner {
             font-size: 1.5rem;
         }
     }
+}
+
+body.anonymous .invalid-feedback {
+    text-shadow: black 0px 0px 5px;
 }
