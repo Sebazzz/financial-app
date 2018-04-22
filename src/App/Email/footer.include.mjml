@@ -8,7 +8,15 @@
             </mj-column>
             <mj-column>
                 <mj-text align="right" line-height="1.5">
-                Deze e-mail is automatisch verstuurd en kan niet op gereageerd worden.
+                Deze e-mail is automatisch verstuurd. Op deze e-mail kan geen reactie gegeven worden.
+                </mj-text>
+            </mj-column>
+        </mj-section>
+
+        <mj-section background-color="" padding-top="0" padding-bottom="0">
+            <mj-column>
+                <mj-text align="center" line-height="1.5" font-size="10px">
+                    Copyright © Damsteen.nl 2018
                 </mj-text>
             </mj-column>
         </mj-section>

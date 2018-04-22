@@ -2,11 +2,13 @@
     <mj-body>
         <mj-section background-color="#2B2B2B" padding-top="0px" padding-bottom="0px">
             <mj-column>
-                <mj-text font-size="20px" align="center">
-                <h1>
-                    <img width="50" src="../wwwroot/images/icons/email/application.png" valign="-10px"/>
-                    Financial App
-                </h1>
+                <mj-text font-size="20px" align="center" line-height="50px">
+                    <table border="0" align="center">
+                        <tr>
+                        <td valign="middle"><img width="50" src="../wwwroot/images/icons/email/application.png"/></td>
+                        <td valign="middle"><h1>Financial App</h1></td>
+                        </tr>
+                    </table>
                 </mj-text>
             </mj-column>
         </mj-section>
