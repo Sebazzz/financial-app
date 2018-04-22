@@ -11,7 +11,7 @@ If you like to build Financial App from sources, you can follow the instructions
 
 Environment:
 
-* Ensure `npm` and `node` are in your `PATH`.
+* Ensure `yarn` and `node` are in your `PATH`.
 * Ensure `dotnet` is in your `PATH`.
 
 For running the build script:
@@ -43,3 +43,18 @@ After you've build the application once you can start developing.
 To develop, just run the application using `dotnet run`. The webpack development middleware will automatically compile and serve any frontend dependencies.
 
 If you have not created a database yet, please run `build -Target Generation-MigrationScript` to generate a migration script and run it on a local database.
+
+### Editors
+
+Both Visual Studio and Visual Studio Code work well with the project. 
+
+Recommended extensions for Visual Studio:
+
+- ReSharper
+- TSLint
+
+Recommende extensions for Visual Studio Code:
+
+- TSLint
+- vscode-mjml
+- mjml-syntax
