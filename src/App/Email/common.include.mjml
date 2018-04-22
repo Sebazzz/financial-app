@@ -3,13 +3,29 @@
          <mj-attributes>
             <mj-button background-color="#389fc5" color="#f8f9fa " font-weight="bold"/>
             <mj-section background-color="#2B2B2B" />
-            <mj-all font-family="Calibri, Arial" color="#f8f9fa"/>
+            <mj-all font-family="Roboto, 'Segoe UI', 'Helvetica Neue', Calibri, Arial" color="#f8f9fa"/>
         </mj-attributes>
+
+        <mj-font name="Roboto" href="https://fonts.googleapis.com/css?family=Roboto" />
 
         <mj-style inline="inline">
         .long-link {
             overflow-wrap: break-word;
             word-break: break-all;
+            max-width: 90%;
+            width: 90%;
+        }
+
+        a, a:link, a:hover, a:visited, a:active {
+            color: #389fc5;
+        }
+
+        a:hover {
+            color: #ffffff;
+        }
+
+        .hero-text {
+            text-shadow: black 0px 0px 15px;
         }
         </mj-style>
     </mj-head>
