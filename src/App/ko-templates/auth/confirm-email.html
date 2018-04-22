@@ -1,0 +1,44 @@
+<div ko-with="$page.model">
+    <form class="form-signin" role="form" ko-form novalidate>
+        <h1 class="application-header" ko-text="$appContext.title"></h1>
+
+        <h2 class="form-signin-heading">E-mail adres bevestigen</h2>
+
+        <p>
+            Bevestig dat het onderstaande e-mail adres klopt.
+        </p>
+    
+        <div class="alert alert-danger" role="alert" ko-visible="$page.errorMessage">
+            {{$page.errorMessage}}
+        </div>
+    
+        <div class="alert alert-success" role="alert" ko-visible="$page.success">
+            <strong>Gelukt!</strong> Je e-mail adres is bevestigd.
+        </div>
+    
+        <div class="form-group" ko-hidden="$page.success">
+            <input type="text" 
+                    class="form-control form-control-lg" 
+                    placeholder="E-mail adres"
+                    ko-text-input="key"
+                    ko-disable="true"
+                    required autofocus>
+
+            <div ko-validation-message="key"></div>
+        </div>
+        
+        <button class="btn btn-lg btn-primary btn-block"
+                type="submit"
+                ko-disable="$page.disableForm"
+                ko-hidden="$page.success">
+            Bevestigen
+        </button>
+
+        <a href="#" 
+           ko-route="auth.login"
+           ko-visible="$page.success"
+           class="btn btn-lg btn-primary btn-block">
+            Inloggen
+        </a>
+    </form>
+</div>

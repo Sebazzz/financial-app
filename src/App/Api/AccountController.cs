@@ -156,7 +156,7 @@ namespace App.Api
             return await this._appUserManager.GetAuthenticatorKeyAsync(user);
         }
 
-        private string FormatKey(string unformattedKey)
+        private static string FormatKey(string unformattedKey)
         {
             var result = new StringBuilder();
             int currentPosition = 0;

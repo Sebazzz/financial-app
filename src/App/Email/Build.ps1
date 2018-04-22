@@ -2,7 +2,7 @@
     [Switch] $LocalTesting
 )
 
-Set-Location $PSScriptRoot
+Push-Location $PSScriptRoot
 
 $BuildDir = Join-Path $PSScriptRoot "build"
 $ReplacementMap = @{ };
@@ -33,6 +33,7 @@ Write-Host $Cmd $Arguments -ForegroundColor Gray
 if ($LASTEXITCODE -eq 0) {
     Write-Host "Success... postprocessing" -ForegroundColor Green
 } else {
+    Pop-Location
     Exit $LASTEXITCODE    
 }
 
@@ -51,3 +52,4 @@ foreach ($Item in Get-ChildItem -Path $BuildDir) {
 }
 
 Write-Host "Done!" -ForegroundColor Green
+Pop-Location

@@ -122,6 +122,9 @@ namespace App {
 
             services.AddSignalR(options => options.JsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
+            // Needed for TemplateProvider
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             // DI
             services.AddScoped<AppDbContext>();
             services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContext>());
@@ -152,6 +155,12 @@ namespace App {
             services.AddSingleton<AppSetupState>();
 
             services.AddSingleton<IAuthorizationHandler, SetupNotRunAuthorizationHandler>();
+
+            services.AddScoped<MailService>();
+            services.AddScoped<TemplateProvider>();
+
+            services.AddScoped<ForgotPasswordMailer>();
+            services.AddScoped<ConfirmEmailMailer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

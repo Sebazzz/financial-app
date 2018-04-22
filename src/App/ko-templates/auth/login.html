@@ -4,16 +4,16 @@
     <h2 class="form-signin-heading">Inloggen</h2>
 
     <div class="alert alert-info" role="alert" ko-visible="needsLoginAfterRedirect">
-            Je moet opnieuw inloggen want we herkenden je niet.
-        </div>
-        
-        <div class="alert alert-danger" role="alert" ko-visible="errorMessage">
-            {{errorMessage}}
-        </div>
+        Je moet opnieuw inloggen want we herkenden je niet.
+    </div>
     
-        <div class="alert alert-success" role="alert" ko-visible="success">
-            <strong>Welkom terug!</strong> Je bent ingelogd en wordt doorverwezen...
-        </div>
+    <div class="alert alert-danger" role="alert" ko-visible="errorMessage">
+        {{errorMessage}}
+    </div>
+
+    <div class="alert alert-success" role="alert" ko-visible="success">
+        <strong>Welkom terug <strong>{{userName}}</strong>!</strong> Je bent ingelogd en wordt doorverwezen...
+    </div>
     
     <div ko-ifnot="requireTwoFactorAuthentication">
         <div class="form-group">
@@ -46,6 +46,14 @@
                 ko-disable="disableForm">
             Inloggen
         </button>
+
+        <p>
+            <small class="pull-right">
+                <a href="/auth/forgot-password"
+                   ko-href:route#="auth.forgotPassword"
+                   ko-href:params:user="userName">Wachtwoord vergeten?</a>
+            </small>
+        </p>
     </div>
 
     <div ko-if="requireTwoFactorAuthentication">

@@ -9,8 +9,11 @@ import Archive_SheetPageRegistration from './Pages/Archive/SheetPage';
 import Archive_SheetStatisticsPageRegistration from './Pages/Archive/SheetStatisticsPage';
 import Archive_SheetEntry_DefaultPageRegistration from './Pages/Archive/SheetEntry/DefaultPage';
 import Archive_SheetEntry_EditPageRegistration from './Pages/Archive/SheetEntry/EditPage';
+import Auth_ConfirmEmailPageRegistration from './Pages/Auth/ConfirmEmailPage';
+import Auth_ForgotPasswordPageRegistration from './Pages/Auth/ForgotPasswordPage';
 import Auth_LoginPageRegistration from './Pages/Auth/LoginPage';
 import Auth_LogOffPageRegistration from './Pages/Auth/LogOffPage';
+import Auth_ResetPasswordPageRegistration from './Pages/Auth/ResetPasswordPage';
 import Manage_DefaultPageRegistration from './Pages/Manage/DefaultPage';
 import Manage_ImpersonatePageRegistration from './Pages/Manage/ImpersonatePage';
 import Manage_Category_DefaultPageRegistration from './Pages/Manage/Category/DefaultPage';
@@ -37,8 +40,11 @@ const pageFactory = {
 		repository.replacePage(require('./Pages/Archive/SheetStatisticsPage').default);
 		repository.replacePage(require('./Pages/Archive/SheetEntry/DefaultPage').default);
 		repository.replacePage(require('./Pages/Archive/SheetEntry/EditPage').default);
+		repository.replacePage(require('./Pages/Auth/ConfirmEmailPage').default);
+		repository.replacePage(require('./Pages/Auth/ForgotPasswordPage').default);
 		repository.replacePage(require('./Pages/Auth/LoginPage').default);
 		repository.replacePage(require('./Pages/Auth/LogOffPage').default);
+		repository.replacePage(require('./Pages/Auth/ResetPasswordPage').default);
 		repository.replacePage(require('./Pages/Manage/DefaultPage').default);
 		repository.replacePage(require('./Pages/Manage/ImpersonatePage').default);
 		repository.replacePage(require('./Pages/Manage/Category/DefaultPage').default);
@@ -66,8 +72,11 @@ const pageFactory = {
 			Archive_SheetStatisticsPageRegistration,
 			Archive_SheetEntry_DefaultPageRegistration,
 			Archive_SheetEntry_EditPageRegistration,
+			Auth_ConfirmEmailPageRegistration,
+			Auth_ForgotPasswordPageRegistration,
 			Auth_LoginPageRegistration,
 			Auth_LogOffPageRegistration,
+			Auth_ResetPasswordPageRegistration,
 			Manage_DefaultPageRegistration,
 			Manage_ImpersonatePageRegistration,
 			Manage_Category_DefaultPageRegistration,

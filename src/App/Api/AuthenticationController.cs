@@ -7,20 +7,28 @@ namespace App.Api {
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Extensions;
-
+    using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Domain.Identity;
     using Models.DTO;
+    using Support;
+    using Support.Mailing;
     using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
     [Route("api/authentication")]
     public class AuthenticationController : Controller {
         private readonly SignInManager<AppUser> _authenticationManager;
         private readonly AppUserManager _appUserManager;
-        public AuthenticationController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager) {
+
+        private readonly ConfirmEmailMailer _confirmEmailMailer;
+        private readonly ForgotPasswordMailer _forgotPasswordMailer;
+
+        public AuthenticationController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, ConfirmEmailMailer confirmEmailMailer, ForgotPasswordMailer forgotPasswordMailer) {
             this._appUserManager = appUserManager;
             this._authenticationManager = authenticationManager;
+            this._forgotPasswordMailer = forgotPasswordMailer;
+            this._confirmEmailMailer = confirmEmailMailer;
         }
 
         [HttpGet("check")]
@@ -109,6 +117,107 @@ namespace App.Api {
             await this._authenticationManager.SignOutAsync();
 
             return new AuthenticationInfo();
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel argument) {
+            await Task.Delay(2000);
+            
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser user = await this._appUserManager.FindByNameAsync(argument.User).EnsureNotNull(HttpStatusCode.Forbidden);
+
+            if (String.IsNullOrEmpty(user.Email)) {
+                this.ModelState.AddModelError(nameof(argument.User), "Je account heeft geen e-mail adres.");
+                return this.BadRequest(this.ModelState);
+            }
+
+            string baseUrl = this.Request.GetUri().GetLeftPart(UriPartial.Authority);
+
+            if (!user.EmailConfirmed) {
+                this.ModelState.AddModelError(nameof(argument.User), "Het e-mail adres van je account is niet bevestigd. We hebben je een e-mail gestuurd om je e-mail adres te bevestigen. Hierna kan je het opnieuw proberen.");
+
+                string confirmationToken = await this._appUserManager.GenerateEmailConfirmationTokenAsync(user);
+                await this._confirmEmailMailer.SendAsync(user.Email, baseUrl, confirmationToken, user.UserName);
+
+                return this.BadRequest(this.ModelState);
+            }
+
+            string resetToken = await this._appUserManager.GeneratePasswordResetTokenAsync(user);
+            await this._forgotPasswordMailer.SendAsync(user.Email, baseUrl, resetToken);
+
+            return this.NoContent();
+        }
+
+        [HttpPost("email-confirm")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] TokenModel token) {
+            await Task.Delay(2000);
+            
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser user = await this._appUserManager.FindByEmailAsync(token.Key).EnsureNotNull(HttpStatusCode.Forbidden);
+            if (user.EmailConfirmed) {
+                return this.Ok(new {ok = true});
+            }
+
+            IdentityResult result = await this._appUserManager.ConfirmEmailAsync(user, token.Token);
+            if (!result.Succeeded) {
+                this.ModelState.AppendIdentityResult(result, _ => nameof(token.Key));
+                return this.BadRequest("Unknown token");
+            }
+
+            return this.Ok(new {ok = true});
+        }
+
+        [HttpPost("reset-password-validate")]
+        public async Task<IActionResult> ResetPasswordValidate([FromBody] TokenModel token) {
+            await Task.Delay(2000);
+            
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser user = await this._appUserManager.FindByEmailAsync(token.Key).EnsureNotNull(HttpStatusCode.Forbidden);
+
+            bool result = await this._appUserManager.VerifyResetTokenAsync(user, token.Token);
+            if (!result) {
+                return this.BadRequest("Unknown token");
+            }
+
+            return this.Ok(new {ok = true});
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel resetPasswordModel) {
+            await Task.Delay(2000);
+            
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser user = await this._appUserManager.FindByEmailAsync(resetPasswordModel.Key).EnsureNotNull(HttpStatusCode.Forbidden);
+
+            {
+                IdentityResult result = await this._appUserManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.NewPassword);
+                if (!result.Succeeded) {
+                    this.ModelState.AppendIdentityResult(result, _ => nameof(resetPasswordModel.NewPassword));
+                    return this.BadRequest(this.ModelState);
+                }
+            }
+
+            {
+                IdentityResult result = await this._appUserManager.UpdateSecurityStampAsync(user);
+                if (!result.Succeeded) {
+                    this.ModelState.AppendIdentityResult(result, _ => nameof(resetPasswordModel.NewPassword));
+                    return this.BadRequest(this.ModelState);
+                }
+            }
+
+            return this.NoContent();
         }
     }
 }

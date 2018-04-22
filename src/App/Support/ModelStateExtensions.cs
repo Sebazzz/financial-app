@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace App.Support
 {
+    using System.Collections.Generic;
+
     /// <summary>
     ///     Extensions for interop between model state and identity
     /// </summary>
@@ -19,9 +21,16 @@ namespace App.Support
         public static void AppendIdentityResult(this ModelStateDictionary modelState, IdentityResult identityResult,
                                                 Func<string, string> propertySelector = null)
         {
+            HashSet<string> uniqueErrors = new HashSet<string>();
+
             foreach (IdentityError identityError in identityResult.Errors)
             {
                 string code = identityError.Code;
+
+                if (!uniqueErrors.Add(code)) {
+                    continue;
+                }
+                
                 string propertyName = propertySelector?.Invoke(code);
 
                 modelState.AddModelError(propertyName, identityError.Description);

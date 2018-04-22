@@ -5,5 +5,12 @@
             <mj-section background-color="#2B2B2B" />
             <mj-all font-family="Calibri, Arial" color="#f8f9fa"/>
         </mj-attributes>
+
+        <mj-style inline="inline">
+        .long-link {
+            overflow-wrap: break-word;
+            word-break: break-all;
+        }
+        </mj-style>
     </mj-head>
 </mjml>
