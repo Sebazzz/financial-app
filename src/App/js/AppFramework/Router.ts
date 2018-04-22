@@ -14,18 +14,40 @@ export interface IRouteProvider {
 export class Router {
     private router: RouterImpl = createRouter.call(window, undefined, { defaultRoute: 'default' });
 
+    private pendingRoutes: Routes = [];
+
     constructor() {
         this.router.usePlugin(loggerPlugin);
         this.router.usePlugin(browserPlugin({}));
         this.router.usePlugin(telemetryPlugin);
     }
 
+    /**
+     * Appends one or more routes to the buffer, to be flushed later in @{flush}
+     * @param routes Route or routes to add
+     */
     public add(routes: RoutingTable | Route) {
         if (Array.isArray(routes)) {
-            this.router.add(routes);
+            this.pendingRoutes.push(...routes);
         } else {
-            this.router.add([routes]);
+            this.pendingRoutes.push(routes);
         }
+    }
+
+    /**
+     * Flush all pending routes added in @{add}
+     */
+    public flush() {
+        // Add all routes at once, and sort them to prevent issues where the parent route is not yet recognized
+        // IMHO this is a limitation in router5, where at some point before the first routing the actual compilation
+        // of the routes should be done, but it is how it is.
+
+        this.pendingRoutes.sort((a, b) => a.name > b.name ? 1 : -1);
+
+        console.info('Router: flushing %d routes', this.pendingRoutes.length);
+
+        this.router.add(this.pendingRoutes);
+        this.pendingRoutes.length = 0;
     }
 
     public start() {
