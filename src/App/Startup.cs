@@ -159,6 +159,8 @@ namespace App {
             services.AddScoped<MailService>();
             services.AddScoped<TemplateProvider>();
 
+            services.AddScoped<TwoFactorChangeNotificationMailer>();
+            services.AddScoped<PasswordChangeNotificationMailer>();
             services.AddScoped<ForgotPasswordMailer>();
             services.AddScoped<ConfirmEmailMailer>();
         }

@@ -12,6 +12,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using Support.Mailing;
 
     public sealed class AppUserValidator : UserValidator<AppUser> {
         public AppUserValidator(IdentityErrorDescriber errors = null) : base(errors) {
@@ -25,7 +26,13 @@
     }
 
     public sealed class AppUserManager : AspNetUserManager<AppUser> {
-        public AppUserManager(IUserStore<AppUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<AppUser> passwordHasher, IEnumerable<IUserValidator<AppUser>>  userValidators, IEnumerable<IPasswordValidator<AppUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, Microsoft.Extensions.Logging.ILogger<UserManager<AppUser>>  logger) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger) {}
+        private readonly PasswordChangeNotificationMailer _passwordChangeNotificationMailer;
+        private readonly TwoFactorChangeNotificationMailer _twoFactorChangeNotificationMailer;
+
+        public AppUserManager(IUserStore<AppUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<AppUser> passwordHasher, IEnumerable<IUserValidator<AppUser>>  userValidators, IEnumerable<IPasswordValidator<AppUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, Microsoft.Extensions.Logging.ILogger<UserManager<AppUser>>  logger, PasswordChangeNotificationMailer passwordChangeNotificationMailer, TwoFactorChangeNotificationMailer twoFactorChangeNotificationMailer) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger) {
+            this._passwordChangeNotificationMailer = passwordChangeNotificationMailer;
+            this._twoFactorChangeNotificationMailer = twoFactorChangeNotificationMailer;
+        }
 
         public override async Task<IList<Claim>> GetClaimsAsync(AppUser user) {
             IList<Claim> claims = await base.GetClaimsAsync(user);
@@ -49,6 +56,36 @@
 
         private async Task<IList<AppUser>> GetUsersForAppOwnerGroup(int id) {
             return await this.Users.Where(x => x.GroupId == id).ToListAsync();
+        }
+
+        public override async Task<IdentityResult> ChangePasswordAsync(AppUser user, string currentPassword, string newPassword) {
+            IdentityResult result = await base.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (result.Succeeded && !String.IsNullOrEmpty(user.Email)) {
+                try {
+                    await this._passwordChangeNotificationMailer.SendAsync(user.Email, user.UserName);
+                }
+                catch (Exception ex) {
+                    this.Logger.LogError(ex, "Unable to send password change notification e-mail");
+                }
+            }
+
+            return result;
+        }
+
+        public override async Task<IdentityResult> SetTwoFactorEnabledAsync(AppUser user, bool enabled) {
+            IdentityResult result = await base.SetTwoFactorEnabledAsync(user, enabled);
+
+            if (result.Succeeded && !String.IsNullOrEmpty(user.Email)) {
+                try {
+                    await this._twoFactorChangeNotificationMailer.SendAsync(user.Email, user.UserName, enabled);
+                }
+                catch (Exception ex) {
+                    this.Logger.LogError(ex, "Unable to send two-factor change notification e-mail");
+                }
+            }
+
+            return result;
         }
     }
 
