@@ -23,7 +23,7 @@ Usage (1):
 
 Usage (2):
 
-    <a data-bind="href: { route: 'edit', options: { id: 3 }}" href=""></a>
+    <a data-bind="href: { route: 'edit', params: { id: 3 }}" href=""></a>
 
 
 ### `route`
