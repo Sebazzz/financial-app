@@ -114,6 +114,8 @@ function initRouter(app: App) {
     for (const page of app.pages) {
         app.router.add(page.routingTable);
     }
+
+    app.router.flush();
 }
 
 function startUp(app: App) {
