@@ -15,6 +15,9 @@ namespace App {
     using App.Support.Integration;
     using App.Support.Mailing;
     using AutoMapper;
+    using Hangfire;
+    using Hangfire.Dashboard;
+    using Hangfire.MemoryStorage;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
@@ -42,6 +45,8 @@ namespace App {
 
     using LogLevel = Microsoft.Extensions.Logging.LogLevel;
     using Microsoft.AspNetCore.SpaServices.Webpack;
+    using Support.Diagnostics;
+
     public class Startup
     {
         public Startup(IConfiguration env)
@@ -58,8 +63,9 @@ namespace App {
                 services.AddApplicationInsightsTelemetry(this.Configuration);
             }
 
-            services.Configure<HttpsServerOptions>(Configuration.GetSection("server").GetSection("https"));
-            services.Configure<MailSettings>(Configuration.GetSection("mail"));
+            services.Configure<HttpsServerOptions>(this.Configuration.GetSection("server").GetSection("https"));
+            services.Configure<MailSettings>(this.Configuration.GetSection("mail"));
+            services.Configure<DiagnosticsOptions>(this.Configuration.GetSection("diagnostics"));
 
             services.AddResponseCompression(opts => {
                 // Note the possible dangers for HTTPS: https://docs.microsoft.com/en-us/aspnet/core/performance/response-compression?tabs=aspnetcore2x#compression-with-secure-protocol
@@ -121,6 +127,14 @@ namespace App {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
 
             services.AddSignalR(options => options.JsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
+            services.AddHangfire(c => {
+#if DEBUG
+                c.UseMemoryStorage();
+#else
+                c.UseSqlServerStorage(this.Configuration["Data:AppDbConnection:ConnectionString"]);
+#endif
+            });
 
             // Needed for TemplateProvider
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -239,6 +253,17 @@ namespace App {
                 });
             });
 
+            // Hangfire
+            app.UseHangfireServer();
+            app.UseHangfireDashboard("/_internal/jobs", new DashboardOptions {
+                AppPath = "/",
+                DisplayStorageConnectionString = false,
+                Authorization = new IDashboardAuthorizationFilter [] {
+                    new DiagnosticsHangfireDashboardAuthorizationFilter(), 
+                }
+            });
+
+            // SPA bootstrapper
             app.UseMvc(routes => {
                 // If we still reached this at this point the ko-template was not found:
                 // Trigger an failure instead of sending the app bootstrapper which causes all kinds of havoc.
@@ -248,11 +273,9 @@ namespace App {
                 // Any non-matched web api calls should fail as well
                 routes.MapFailedRoute("api/{*.}");
 
-
                 // We only match one controller since we will want
                 // all requests to go to the controller which renders
-                // the initial view.
-                
+                // the initial view / SPA bootstrapper.
                 routes.MapRoute(
                     name: "default",
                     template: "{*.}",
