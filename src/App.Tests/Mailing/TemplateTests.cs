@@ -73,11 +73,32 @@ namespace App.Tests.Mailing {
 
             // When
             template.AddReplacement("subject", "World");
-            template.HideSection("MY-HIDE-SECTION");
+            template.RemoveSection("MY-HIDE-SECTION");
             StringifiedTemplate output = template.Stringify();
 
             // Then
             Assert.That(output.Title, Is.EqualTo("Hello World"));
+            Assert.That(output.Body, Is.EqualTo(FileOpener.GetMailExample("Expected")));
+        }
+
+        [Test]
+        public void Template_InputHtml_RepeatSection_DuplicatesInHtml() {
+            // Given
+            Template template = new Template(FileOpener.GetMailExample("Input"));
+            (string name, int age)[] dataList = {
+                ("John Doe", 32),
+                ("Jane Doe", 26)
+            };
+
+            // When
+            template.RepeatSection(
+                "MY-REPEAT-SECTION",
+                dataList,
+                (item, subTemplate) => subTemplate.Replace("name", item.name).Replace("age", item.age.ToString())
+            );
+            StringifiedTemplate output = template.Stringify();
+
+            // Then
             Assert.That(output.Body, Is.EqualTo(FileOpener.GetMailExample("Expected")));
         }
     }

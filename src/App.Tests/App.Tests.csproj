@@ -20,6 +20,12 @@
     <None Update="Mailing\Examples\Template_InputHtml_HideSection_RemovesFromHtml.Expected.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Mailing\Examples\Template_InputHtml_RepeatSection_DuplicatesInHtml.Input.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mailing\Examples\Template_InputHtml_RepeatSection_DuplicatesInHtml.Expected.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Mailing\Examples\Template_InputHtml_HideSection_RemovesFromHtml.Input.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
