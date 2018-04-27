@@ -12,27 +12,23 @@ namespace App.Support.Mailing {
     using System.Text.RegularExpressions;
 
     public sealed class Template {
-        private readonly string _contents;
-        private readonly Dictionary<string, string> _replacements = new Dictionary<string, string>();
+        private readonly StringBuilder _contents;
 
         public Template(string contents) {
-            this._contents = contents;
+            this._contents = new StringBuilder(contents);
         }
 
         public Template AddReplacement(string search, string replacement) {
             if (string.IsNullOrEmpty(search)) throw new ArgumentException(nameof(search));
 
-            this._replacements['{' + search + '}'] = replacement;
+            string searchToken = '{' + search + '}';
+            this._contents.Replace(searchToken, replacement);
 
             return this;
         }
 
         public StringifiedTemplate Stringify() {
-            StringBuilder sb = new StringBuilder(this._contents);
-
-            foreach (var item in this._replacements) sb.Replace(item.Key, item.Value);
-
-            string body = sb.ToString();
+            string body = this._contents.ToString();
             string title = Regex.Match(body, "<title>(?<content>.*)</title>", RegexOptions.IgnoreCase).Groups["content"]?.Value.Trim();
 
             return new StringifiedTemplate {
@@ -42,7 +38,7 @@ namespace App.Support.Mailing {
         }
 
         public override string ToString() {
-            return this._contents;
+            return this._contents.ToString();
         }
     }
 
