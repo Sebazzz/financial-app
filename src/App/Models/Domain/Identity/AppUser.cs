@@ -12,11 +12,17 @@
         public virtual int Id { get; set; }
     }
 
+    public class AppUserPreferences {
+        public bool EnableWeeklyDigest { get; set; }
+    }
+
     public class AppUser : IdentityUser<int> {
         private ICollection<AppUserTrustedUser> _trustedUsers;
 
         [Required]
         public virtual AppOwner Group { get; set; }
+
+        public AppUserPreferences Preferences { get; set; }
 
         public int GroupId { get; set; }
 

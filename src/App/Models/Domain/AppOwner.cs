@@ -1,4 +1,5 @@
 ﻿namespace App.Models.Domain {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,11 @@
 
         [Required]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets the last date a weekly digest was sent. 
+        /// </summary>
+        public DateTime LastWeeklyDigestTimestamp { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
