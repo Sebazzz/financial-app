@@ -9,6 +9,7 @@ namespace App.Tests.Mailing {
     using System;
     using NUnit.Framework;
     using Support.Mailing;
+    using TestSupport;
 
     [TestFixture]
     public sealed class TemplateTests {
@@ -63,6 +64,21 @@ namespace App.Tests.Mailing {
             // Then
             Assert.That(output.Title, Is.EqualTo("Hello World"));
             Assert.That(output.Body, Is.EqualTo("<html><head><title>Hello World</title></head><body>Hi World!</body></html>"));
+        }
+
+        [Test]
+        public void Template_InputHtml_HideSection_RemovesFromHtml() {
+            // Given
+            Template template = new Template(FileOpener.GetMailExample("Input"));
+
+            // When
+            template.AddReplacement("subject", "World");
+            template.HideSection("MY-HIDE-SECTION");
+            StringifiedTemplate output = template.Stringify();
+
+            // Then
+            Assert.That(output.Title, Is.EqualTo("Hello World"));
+            Assert.That(output.Body, Is.EqualTo(FileOpener.GetMailExample("Expected")));
         }
     }
 }
