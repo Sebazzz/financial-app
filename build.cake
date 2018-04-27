@@ -165,7 +165,7 @@ void PublishSelfContained(string platform, string folder) {
 				 Runtime = platform
 			 };
 	
-        DotNetCorePublish($"./src/App/App.csproj", settings);
+    DotNetCorePublish($"./src/App/App.csproj", settings);
 }
 
 Task("Build-MailTemplates")
@@ -273,8 +273,14 @@ Task("Test-JS")
 		}
 	});
 
+Task("Test-CS")
+	.IsDependentOn("Restore-NuGet-Packages")
+    .Description("Test backend-end compiled code")
+	.Does(() => DotNetCoreTest($"./src/App.Tests/App.Tests.csproj"));
+
 Task("Test")
-    .IsDependentOn("Test-JS")
+    .IsDependentOn("Test-CS")
+	.IsDependentOn("Test-JS")
     .Description("Run all tests");
 
 //////////////////////////////////////////////////////////////////////
