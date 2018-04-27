@@ -18,13 +18,15 @@ namespace App.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("App.Models.Domain.AppOwner", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("LastWeeklyDigestTimestamp");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -418,6 +420,20 @@ namespace App.Migrations
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("App.Models.Domain.Identity.AppUserPreferences", "Preferences", b1 =>
+                        {
+                            b1.Property<int>("AppUserId");
+
+                            b1.Property<bool>("EnableWeeklyDigest");
+
+                            b1.ToTable("AspNetUsers");
+
+                            b1.HasOne("App.Models.Domain.Identity.AppUser")
+                                .WithOne("Preferences")
+                                .HasForeignKey("App.Models.Domain.Identity.AppUserPreferences", "AppUserId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 
             modelBuilder.Entity("App.Models.Domain.Identity.AppUserTrustedUser", b =>

@@ -20,6 +20,10 @@
             // owner groups
             modelBuilder.Entity<AppOwner>();
 
+            // users
+            modelBuilder.Entity<AppUser>()
+                        .OwnsOne(x => x.Preferences);
+
             // impersonation
             modelBuilder.Entity<AppUserTrustedUser>()
                         .ToTable("AppUserTrustedUsers");
