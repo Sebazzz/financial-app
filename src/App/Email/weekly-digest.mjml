@@ -1,0 +1,37 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Je hebt €{expense-total} uitgegeven, dit is {expense-total-change-percentage}% meer dan vorige week</mj-preview>
+    <mj-title>{app-owner-name} - Week {week-number} overzicht - Financial App</mj-title>
+
+    <mj-include path="./common.include.mjml" />
+
+    <mj-style inline="inline">
+      .major-figure {
+        font-size: 50px;
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#222">
+    <mj-include path="./header.include.mjml" />
+
+    <mj-hero background-url="../wwwroot/images/bg/email/welcome.jpg"
+      mode="fixed-height"
+      background-width="600px"
+      background-height="669px"
+      background-color="#2a3448"
+      padding="50px 0px">
+      <mj-text align="center" color="#FFF" css-class="hero-text" font-weight="bold" font-size="40px">Week {week-number} overzicht</mj-text>
+    </mj-hero>
+
+    <mj-section background-color="#2B2B2B">
+       <mj-group>
+          <mj-column>
+            <mj-text align="center" color="red" css-class="major-figure">↑ €90</mj-text>
+            <mj-text align="center" color="red" css-class="major-figure">meer uitgegeven</mj-text>
+          </mj-column>
+       </mj-group>     
+    </mj-section>
+
+    <mj-include path="./footer.include.mjml" />
+  </mj-body>
+</mjml>
