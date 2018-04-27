@@ -24,9 +24,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets the last date a weekly digest was sent. 
+        /// Gets the last date a monthly digest was sent. 
         /// </summary>
-        public DateTime LastWeeklyDigestTimestamp { get; set; }
+        public DateTime LastMonthlyDigestTimestamp { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.

@@ -26,7 +26,7 @@ namespace App.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("LastWeeklyDigestTimestamp");
+                    b.Property<DateTime>("LastMonthlyDigestTimestamp");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -425,7 +425,7 @@ namespace App.Migrations
                         {
                             b1.Property<int>("AppUserId");
 
-                            b1.Property<bool>("EnableWeeklyDigest");
+                            b1.Property<bool>("EnableMonthlyDigest");
 
                             b1.ToTable("AspNetUsers");
 

@@ -1,0 +1,107 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Je hebt €{expense-total} uitgegeven, dit is {expense-total-change-percentage}% meer dan vorige maand</mj-preview>
+    <mj-title>{app-owner-name} - Maand {month-name} overzicht - Financial App</mj-title>
+
+    <mj-include path="./common.include.mjml" />
+
+    <mj-style inline="inline">
+      .major-figure {
+        font-size: 50px;
+      }
+
+      .comparison-figure {
+        font-style: italic;
+      }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#222">
+    <mj-include path="./header.include.mjml" />
+
+    <mj-hero background-url="../wwwroot/images/bg/email/welcome.jpg"
+      mode="fixed-height"
+      background-width="600px"
+      background-height="669px"
+      background-color="#2a3448"
+      padding="50px 0px">
+      <mj-text align="center" color="#FFF" css-class="hero-text" font-weight="bold" font-size="40px">{month-name} overzicht</mj-text>
+    </mj-hero>
+
+    <mj-section background-color="#2B2B2B" padding-bottom="0">
+       <mj-group>
+          <mj-column>
+            <mj-text align="center" color="red" font-size="30px" css-class="major-figure">{fig-expense}</mj-text>
+            <mj-text align="center" color="red" css-class="major-figure">uitgegeven</mj-text>
+            <mj-text align="center" color="red" font-size="10px" css-class="comparison-figure">{comp-fig-expense}</mj-text>
+          </mj-column>
+
+          <mj-column>
+            <mj-text align="center" color="green" font-size="30px" css-class="major-figure">{fig-income}</mj-text>
+            <mj-text align="center" color="green" css-class="major-figure">inkomen</mj-text>
+            <mj-text align="center" color="green" font-size="10px" css-class="comparison-figure">{comp-fig-income}</mj-text>
+          </mj-column>
+
+          <mj-column>
+            <mj-text align="center" color="lightblue" font-size="30px" css-class="major-figure">{fig-savings}</mj-text>
+            <mj-text align="center" color="lightblue" css-class="major-figure">gespaard</mj-text>
+            <mj-text align="center" color="lightblue" font-size="10px" css-class="comparison-figure">{comp-fig-savings}</mj-text>
+          </mj-column>
+       </mj-group>     
+    </mj-section>
+
+    <mj-section background-color="#2B2B2B">
+        <mj-column>
+           <mj-divider border-width="1px" border-style="dotted" border-color="#666666" />
+
+           <mj-text font-size="10px" align="center"><h2>Grootste uitgaven</h2></mj-text>
+
+           <!-- Assuming at least one expense here -->
+           <mj-table>
+              <tr style="border-bottom:1px solid #ecedee;text-align:left;padding:15px 0;">
+                <th style="padding: 0 15px 0 0;">Bron</th>
+                <th style="padding: 0 15px;">Bedrag</th>
+                <th style="padding: 0 0 0 15px;">Categorie</th>
+              </tr>
+              
+              <!-- EXPENSE-TABLE-ROW -->
+              <tr>
+                <td style="padding: 0 15px 0 0;">{expense-source}</td>
+                <td style="padding: 0 15px;">{expense-amount}</td>
+                <td style="padding: 0 0 0 15px;">{expense-category}</td>
+              </tr>
+              <!-- /EXPENSE-TABLE-ROW -->
+          </mj-table>
+        </mj-column>
+    </mj-section>
+
+    <mj-raw><!-- UPCOMING-EXPENSE-TABLE --></mj-raw>
+    <mj-section background-color="#2B2B2B">
+        <mj-column>
+
+           <mj-divider border-width="1px" border-style="dotted" border-color="#666666" />
+
+           <mj-text font-size="10px" align="center"><h2>Eerstvolgende uitgaven</h2></mj-text>
+
+           <!-- Assuming at least one recurring sheet entry here -->
+           <mj-table>
+              <tr style="border-bottom:1px solid #ecedee;text-align:left;padding:15px 0;">
+                <th style="padding: 0 15px 0 0;">Bron</th>
+                <th style="padding: 0 15px;">Bedrag</th>
+                <th style="padding: 0 0 0 15px;">Categorie</th>
+              </tr>
+              
+              <!-- UPCOMING-EXPENSE-TABLE-ROW -->
+              <tr>
+                <td style="padding: 0 15px 0 0;">{expense-source}</td>
+                <td style="padding: 0 15px;">{expense-amount}</td>
+                <td style="padding: 0 0 0 15px;">{expense-category}</td>
+              </tr>
+              <!-- /UPCOMING-EXPENSE-TABLE-ROW -->
+          </mj-table>
+        </mj-column>
+    </mj-section>
+    <mj-raw><!-- /UPCOMING-EXPENSE-TABLE --></mj-raw>
+
+    <mj-include path="./footer.include.mjml" />
+  </mj-body>
+</mjml>
