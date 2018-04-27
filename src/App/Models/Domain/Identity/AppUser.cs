@@ -13,7 +13,7 @@
     }
 
     public class AppUserPreferences {
-        public bool EnableWeeklyDigest { get; set; }
+        public bool EnableMonthlyDigest { get; set; }
     }
 
     public class AppUser : IdentityUser<int> {
