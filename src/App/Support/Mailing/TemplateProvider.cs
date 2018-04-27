@@ -29,16 +29,20 @@ namespace App.Support.Mailing {
         }
 
         public async Task<Template> GetTemplateAsync(string name) {
-            var nameWithExtension = Path.ChangeExtension(name, "html");
-            var fullPath = TemplatePath + nameWithExtension;
+            string nameWithExtension = Path.ChangeExtension(name, "html");
+            string fullPath = TemplatePath + nameWithExtension;
 
-            var file = this._fileProvider.GetFileInfo(fullPath);
+            IFileInfo file = this._fileProvider.GetFileInfo(fullPath);
             if (!file.Exists)
                 throw new ArgumentException($"Template [{name}] at path [{fullPath}] does not exist", nameof(name));
 
             try {
-                using (var sr = new StreamReader(file.CreateReadStream())) {
-                    return new Template(await sr.ReadToEndAsync()).AddReplacement("base-url", this._baseUrl).AddReplacement("version", this._appVersionService.GetVersion());
+                using (StreamReader sr = new StreamReader(file.CreateReadStream())) {
+                    Template template = new Template(await sr.ReadToEndAsync());
+                    template.AddReplacement("base-url", this._baseUrl);
+                    template.AddReplacement("version", this._appVersionService.GetVersion());
+
+                    return template;
                 }
             }
             catch (Exception ex) {

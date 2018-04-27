@@ -16,4 +16,13 @@
     <ProjectReference Include="..\App\App.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Mailing\Examples\Template_InputHtml_HideSection_RemovesFromHtml.Expected.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Mailing\Examples\Template_InputHtml_HideSection_RemovesFromHtml.Input.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
