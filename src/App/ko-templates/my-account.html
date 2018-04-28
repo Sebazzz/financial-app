@@ -4,6 +4,27 @@
         Ingelogd als <span ko-text="userName"></span>.
     </p>
 
+    <h3>Je voorkeuren</h3>
+    <div ko-with="preferences">
+        <form role="form"
+              id="form-preferences"
+              novalidate
+              ko-form:handler="save"
+              ko-form:error-message="errorMessage"
+              ko-form:is-busy="isBusy">
+            <div class="form-group">
+                <label class="custom-control custom-checkbox">
+                    <input type="checkbox" ko-checked="enableMonthlyDigest" class="custom-control-input"/> 
+                    <span class="custom-control-label">Stuur mij elke maand een e-mail met de samenvatting van afgelopen maand</span>
+                </label>
+            </div>
+
+            <p>
+                <input type="submit" class="btn btn-primary" value="Opslaan">
+            </p>
+        </form>
+    </div>
+
     <h3>Je gegevens</h3>
     <p>
         <strong>Email:</strong> <span ko-text="email"></span>

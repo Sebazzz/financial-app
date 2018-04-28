@@ -33,6 +33,11 @@ export interface IChangePasswordModel {
     newPasswordConfirm: string;
 }
 
+// tslint:disable-next-line:no-empty-interface
+export interface IPreferencesModel {
+    // Extended elsewhere
+}
+
 export class Api extends ApiBase {
     constructor() {
         super();
@@ -62,5 +67,13 @@ export class Api extends ApiBase {
 
     public changePassword(input: IChangePasswordModel) {
         return this.execPost('change-password', input);
+    }
+
+    public getPreferences<T extends IPreferencesModel>() {
+        return this.execGet<T>('preferences');
+    }
+
+    public setPreferences<T extends IPreferencesModel>(preferences: T) {
+        return this.execPut<T>('preferences', preferences);
     }
 }

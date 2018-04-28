@@ -4,9 +4,10 @@ import * as account from 'AppFramework/ServerApi/Account';
 import * as modal from 'AppFramework/Components/Modal';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 import {IFormPage} from 'AppFramework/Forms/FormPage';
-
-import * as ko from 'knockout';
 import confirmAsync from 'AppFramework/Forms/Confirmation';
+
+import {IPreferencesModel} from 'App/ServerApi/Account';
+import * as ko from 'knockout';
 
 class MyAccountPage extends Page {
     private api = new account.Api();
@@ -16,6 +17,8 @@ class MyAccountPage extends Page {
     public twoFactorAuthentication: TwoFactorAuthenticationController;
 
     public changePasswordModal = new modal.ModalController<ChangePasswordModel>('Wachtwoord wijzigen');
+
+    public preferences = new PreferencesModel();
 
     constructor(appContext: AppContext) {
         super(appContext);
@@ -29,7 +32,10 @@ class MyAccountPage extends Page {
     }
 
     protected async onActivate(args?: any): Promise<void> {
-        await this.refresh();
+        await Promise.all([
+            this.refresh(),
+            this.preferences.load()
+        ]);
     }
 
     private async refresh() {
@@ -51,6 +57,37 @@ class MyAccountPage extends Page {
 
     public invokePasswordChange() {
         this.changePasswordModal.showDialog(new ChangePasswordModel(this.changePasswordModal));
+    }
+}
+
+class PreferencesModel extends validate.ValidateableViewModel implements IFormPage {
+    private api = new account.Api();
+
+    public isBusy = ko.observable<boolean>();
+    public errorMessage = ko.observable<string>();
+
+    public enableMonthlyDigest = ko.observable<boolean>();
+
+    public async save(): Promise<void> {
+        try {
+            const data: IPreferencesModel = {
+                enableMonthlyDigest: this.enableMonthlyDigest.peek()
+            };
+
+            await this.api.setPreferences(data);
+        } catch (e) {
+            const xhr = e as JQueryXHR;
+
+            if (!validate.tryExtractValidationError(xhr, this)) {
+                throw e;
+            }
+        }
+    }
+
+    public async load() {
+        const data = await this.api.getPreferences<IPreferencesModel>();
+
+        this.enableMonthlyDigest(data.enableMonthlyDigest);
     }
 }
 
