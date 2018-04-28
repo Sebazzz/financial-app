@@ -18,7 +18,7 @@ namespace App.Migrations
                 table: "AppOwner",
                 newName: "LastMonthlyDigestTimestamp");
 
-            migrationBuilder.Sql("UPDATE dbo.AspNetUsers SET Preferences_EnableWeeklyDigest = 1");
+            migrationBuilder.Sql("UPDATE dbo.AspNetUsers SET Preferences_EnableMonthlyDigest = 1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
