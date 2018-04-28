@@ -5,13 +5,18 @@
     </p>
 
     <h3>Je voorkeuren</h3>
-    <div ko-with="preferences">
+    <div ko-with="$page.preferences">
         <form role="form"
               id="form-preferences"
               novalidate
               ko-form:handler="save"
               ko-form:error-message="errorMessage"
               ko-form:is-busy="isBusy">
+            
+            <div class="alert alert-success" ko-visible="saveSuccess">
+                <strong>Gelukt!</strong> Je voorkeuren zijn opgeslagen.
+            </div>
+
             <div class="form-group">
                 <label class="custom-control custom-checkbox">
                     <input type="checkbox" ko-checked="enableMonthlyDigest" class="custom-control-input"/> 

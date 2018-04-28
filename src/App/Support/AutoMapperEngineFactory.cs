@@ -26,6 +26,8 @@
                 cfg.DisableConstructorMapping();
                 cfg.RecognizePostfixes("Id");
 
+                cfg.CreateMap<PreferencesModel, AppUserPreferences>().ReverseMap();
+
                 cfg.CreateMap<Category,Category>()
                    .ForMember(x => x.Owner, m=> m.Ignore());
 
