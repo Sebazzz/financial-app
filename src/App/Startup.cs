@@ -18,6 +18,7 @@ namespace App {
     using Hangfire;
     using Hangfire.Dashboard;
     using Hangfire.MemoryStorage;
+    using Jobs.MonthlyDigest;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
@@ -63,6 +64,7 @@ namespace App {
                 services.AddApplicationInsightsTelemetry(this.Configuration);
             }
 
+            services.Configure<ServerOptions>(this.Configuration.GetSection("server"));
             services.Configure<HttpsServerOptions>(this.Configuration.GetSection("server").GetSection("https"));
             services.Configure<MailSettings>(this.Configuration.GetSection("mail"));
             services.Configure<DiagnosticsOptions>(this.Configuration.GetSection("diagnostics"));
@@ -136,8 +138,7 @@ namespace App {
 #endif
             });
 
-            // Needed for TemplateProvider
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
 
             // DI
             services.AddScoped<AppDbContext>();
@@ -170,27 +171,45 @@ namespace App {
 
             services.AddSingleton<IAuthorizationHandler, SetupNotRunAuthorizationHandler>();
 
+            // ... Mail
             services.AddScoped<MailService>();
             services.AddScoped<TemplateProvider>();
-
+            
+            // Needed for TemplateProvider
+            services.AddSingleton<ISiteUrlDetectionService, SiteUrlDetectionService>();
+            
+            // ... Mailers
             services.AddScoped<TwoFactorChangeNotificationMailer>();
             services.AddScoped<PasswordChangeNotificationMailer>();
             services.AddScoped<ForgotPasswordMailer>();
             services.AddScoped<ConfirmEmailMailer>();
+
+            // ... Monthly digest
+            services.AddScoped<MonthlyDigestInvocationJob>();
+            services.AddScoped<MonthlyDigestForAppOwnerJob>();
+            services.AddScoped<MonthlyDigestMailer>();
+            services.AddScoped<MonthlyDigestDataFactory>();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            // Logging
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             
             if (env.IsDevelopment()) {
                 loggerFactory.AddDebug(LogLevel.Debug);
             } else {
+                loggerFactory.AddApplicationInsights(app.ApplicationServices);
+
                 loggerFactory.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
             }
 
+            // HTTP pipeline configuration
             app.UseHttps();
+            app.UseMiddleware<SiteUrlDetectionService.Middleware>();
 
             app.UseAuthentication();
 
@@ -284,6 +303,9 @@ namespace App {
                         action = "Index"
                     });
             });
+
+            // Configure recurring jobs
+            RecurringJob.AddOrUpdate<MonthlyDigestInvocationJob>(x => x.Execute(), Cron.Daily(10));
         }
     }
 }

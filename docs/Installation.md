@@ -40,13 +40,18 @@ For QR code support in two-factor-authentication:
         sudo ln -s libgdiplus.so gdiplus.dll
 
 ## Installation
+You can configure the application via environment variables or configuration files. Environment variables are more update-friendly.
+
+### General configuration
+
+`SERVER__BASEURL`: Base URL used for mailing. If not set, auto-detection is attempted.
 
 ### HTTPS configuration
 To use HTTPs, use the following environment variables:
 
-`HTTPS__CERTIFICATEPATH`: Path to pfx file.
+`SERVER__HTTPS__CERTIFICATEPATH`: Path to pfx file.
 
-`HTTPS__CERTIFICATEPASSWORD`: Password for pfx file.
+`SERVER__HTTPS__CERTIFICATEPASSWORD`: Password for pfx file.
 
 The server will automatically start on port 80 and 443.
 

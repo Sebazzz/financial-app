@@ -9,23 +9,21 @@ namespace App.Support.Mailing {
     using System;
     using System.IO;
     using System.Threading.Tasks;
-    using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.FileProviders;
 
     public sealed class TemplateProvider {
         private const string TemplatePath = "Email/build/";
+
         private readonly string _baseUrl;
         private readonly IFileProvider _fileProvider;
         private readonly IAppVersionService _appVersionService;
 
-        public TemplateProvider(IHostingEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IAppVersionService appVersionService) {
+        public TemplateProvider(IHostingEnvironment hostingEnvironment, ISiteUrlDetectionService siteUrlDetectionService, IAppVersionService appVersionService) {
             this._appVersionService = appVersionService;
             this._fileProvider = hostingEnvironment.ContentRootFileProvider;
 
-            HttpRequest request = httpContextAccessor.HttpContext.Request;
-            this._baseUrl = request.GetUri().GetLeftPart(UriPartial.Authority);
+            this._baseUrl = siteUrlDetectionService.GetSiteUrl();
         }
 
         public async Task<Template> GetTemplateAsync(string name) {
