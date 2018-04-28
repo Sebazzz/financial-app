@@ -1,15 +1,14 @@
-﻿using App.Support.Https;
-
+﻿
 namespace App {
-    using System;
     using System.Net;
-    using System.Security.AccessControl;
 
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Server.Kestrel.Core;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+
+    using App.Support.Https;
 
     public class Program {
         public static void Main(string[] args) {

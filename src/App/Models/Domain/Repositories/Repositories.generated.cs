@@ -328,7 +328,6 @@ namespace App.Models.Domain.Repositories {
             return this._entitySet.FirstOrDefault(x => x.Id == id);
         }
 
-        [CanBeNull]
         public Task<App.Models.Domain.AppOwner> FindByIdAsync(int id) {
             return this._entitySet.FirstOrDefaultAsync(x => x.Id == id);
         }

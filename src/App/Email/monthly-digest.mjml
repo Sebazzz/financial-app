@@ -1,6 +1,6 @@
 <mjml>
   <mj-head>
-    <mj-preview>Je hebt €{expense-total} uitgegeven, dit is {expense-total-change-percentage}% meer dan vorige maand</mj-preview>
+    <mj-preview>Je hebt {fig-expense} uitgegeven, dit is {fig-expense-change-percentage} dan vorige maand</mj-preview>
     <mj-title>{app-owner-name} - Maand {month-name} overzicht - Financial App</mj-title>
 
     <mj-include path="./common.include.mjml" />
@@ -32,23 +32,24 @@
           <mj-column>
             <mj-text align="center" color="red" font-size="30px" css-class="major-figure">{fig-expense}</mj-text>
             <mj-text align="center" color="red" css-class="major-figure">uitgegeven</mj-text>
-            <mj-text align="center" color="red" font-size="10px" css-class="comparison-figure">{comp-fig-expense}</mj-text>
+            <mj-text align="center" color="red" font-size="10px" css-class="comparison-figure">{comp-fig-expense} vorige maand</mj-text>
           </mj-column>
 
           <mj-column>
             <mj-text align="center" color="green" font-size="30px" css-class="major-figure">{fig-income}</mj-text>
             <mj-text align="center" color="green" css-class="major-figure">inkomen</mj-text>
-            <mj-text align="center" color="green" font-size="10px" css-class="comparison-figure">{comp-fig-income}</mj-text>
+            <mj-text align="center" color="green" font-size="10px" css-class="comparison-figure">{comp-fig-income} vorige maand</mj-text>
           </mj-column>
 
           <mj-column>
             <mj-text align="center" color="lightblue" font-size="30px" css-class="major-figure">{fig-savings}</mj-text>
             <mj-text align="center" color="lightblue" css-class="major-figure">gespaard</mj-text>
-            <mj-text align="center" color="lightblue" font-size="10px" css-class="comparison-figure">{comp-fig-savings}</mj-text>
+            <mj-text align="center" color="lightblue" font-size="10px" css-class="comparison-figure">{comp-fig-savings} vorige maand</mj-text>
           </mj-column>
        </mj-group>     
     </mj-section>
 
+    <mj-raw><!-- EXPENSE-TABLE --></mj-raw>
     <mj-section background-color="#2B2B2B">
         <mj-column>
            <mj-divider border-width="1px" border-style="dotted" border-color="#666666" />
@@ -73,6 +74,7 @@
           </mj-table>
         </mj-column>
     </mj-section>
+    <mj-raw><!-- /EXPENSE-TABLE --></mj-raw>
 
     <mj-raw><!-- UPCOMING-EXPENSE-TABLE --></mj-raw>
     <mj-section background-color="#2B2B2B">
