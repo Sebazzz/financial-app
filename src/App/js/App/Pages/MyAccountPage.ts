@@ -64,17 +64,22 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
     private api = new account.Api();
 
     public isBusy = ko.observable<boolean>();
+    public saveSuccess = ko.observable<boolean>();
     public errorMessage = ko.observable<string>();
 
     public enableMonthlyDigest = ko.observable<boolean>();
 
     public async save(): Promise<void> {
         try {
+            this.saveSuccess(false);
+
             const data: IPreferencesModel = {
                 enableMonthlyDigest: this.enableMonthlyDigest.peek()
             };
 
             await this.api.setPreferences(data);
+
+            this.saveSuccess(true);
         } catch (e) {
             const xhr = e as JQueryXHR;
 
@@ -88,6 +93,12 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
         const data = await this.api.getPreferences<IPreferencesModel>();
 
         this.enableMonthlyDigest(data.enableMonthlyDigest);
+    }
+
+    constructor() {
+        super();
+
+        this.save = this.save.bind(this);
     }
 }
 

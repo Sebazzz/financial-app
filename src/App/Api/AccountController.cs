@@ -24,24 +24,29 @@ using static QRCoder.PayloadGenerator.OneTimePassword;
 
 namespace App.Api
 {
+    using System.Net;
+    using AutoMapper;
+
     [Route("api/account")]
     [Authorize]
     public class AccountController : Controller
     {
         private readonly AppUserManager _appUserManager;
         private readonly AppOwnerRepository _appOwnerRepository;
+        private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public AccountController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository)
+        public AccountController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository, IMapper mapper)
         {
             this._appUserManager = appUserManager;
             this._appOwnerRepository = appOwnerRepository;
+            this._mapper = mapper;
         }
 
         [HttpGet("my-info")]
         public async Task<IActionResult> MyInfo()
         {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
 
             if (currentUser == null)
             {
@@ -49,7 +54,7 @@ namespace App.Api
             }
 
             // Fix not lazily loaded property
-            currentUser.Group = await this._appOwnerRepository.FindByIdAsync(currentUser.GroupId);
+            currentUser.Group = (await this._appOwnerRepository.FindByIdAsync(currentUser.GroupId)).EnsureNotNull(HttpStatusCode.Unauthorized);
 
             return this.Ok(new
             {
@@ -71,7 +76,7 @@ namespace App.Api
                 return this.BadRequest(this.ModelState);
             }
 
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
             IdentityResult result = await this._appUserManager.ChangePasswordAsync(currentUser, input.CurrentPassword, input.NewPassword);
 
             if (!result.Succeeded) {
@@ -84,7 +89,7 @@ namespace App.Api
 
         [HttpPost("two-factor-authentication/pre-enable")]
         public async Task<IActionResult> PreEnable() {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
             string key = await this.GetTwoFactorKeyAsync(currentUser);
 
             return this.Ok(new {
@@ -95,7 +100,7 @@ namespace App.Api
 
         [HttpPost("two-factor-authentication/reset-recovery-keys")]
         public async Task<IActionResult> ResetRecoveryKeys() {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
 
             string[] recoveryCodes = (await this._appUserManager.GenerateNewTwoFactorRecoveryCodesAsync(currentUser, 10)).ToArray();
 
@@ -106,7 +111,7 @@ namespace App.Api
 
         [HttpPost("two-factor-authentication")]
         public async Task<IActionResult> Enable([FromBody] TwoFactorAuthenticationEnableInfo input) {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
             
             string token = input.VerificationCode?.Replace("-", "").Replace(" ", "");
             if (String.IsNullOrEmpty(token)) {
@@ -130,8 +135,30 @@ namespace App.Api
 
         [HttpDelete("two-factor-authentication")]
         public async Task<IActionResult> Disable(){
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
             await this._appUserManager.SetTwoFactorEnabledAsync(currentUser, false);
+            return this.NoContent();
+        }
+
+        [HttpGet("preferences")]
+        public async Task<PreferencesModel> GetPreferences() {
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+
+            return this._mapper.Map<PreferencesModel>(currentUser.Preferences);
+        }
+
+        [HttpPut("preferences")]
+        public async Task<IActionResult> SetPreferences([FromBody] PreferencesModel preferences) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
+
+            this._mapper.Map(preferences, currentUser.Preferences);
+
+            await this._appUserManager.UpdateAsync(currentUser);
+
             return this.NoContent();
         }
 
