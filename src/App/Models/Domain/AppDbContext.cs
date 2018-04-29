@@ -41,9 +41,7 @@
 
             // sheet
             modelBuilder.Entity<Sheet>()
-                .HasOne(x => x.CalculationOptions)
-                .WithOne()
-                .HasForeignKey<CalculationOptions>(x => x.SheetId);
+                .OwnsOne(x => x.CalculationOptions); // component
 
             modelBuilder.Entity<Sheet>()
                         .HasMany(x => x.ApplicableTemplates)
@@ -53,8 +51,6 @@
                 .HasOne(x => x.Template)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<CalculationOptions>();
             
             modelBuilder.Entity<SheetEntry>()
                         .HasOne(x => x.Category)

@@ -4,9 +4,6 @@
 
     [DataContract]
     public sealed class CalculationOptions {
-        [Key]
-        public int SheetId { get; set; }
-
         [DataMember]
         public decimal? SavingsAccountOffset { get; set; }
 

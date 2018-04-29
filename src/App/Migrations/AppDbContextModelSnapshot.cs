@@ -36,19 +36,6 @@ namespace App.Migrations
                     b.ToTable("AppOwner");
                 });
 
-            modelBuilder.Entity("App.Models.Domain.CalculationOptions", b =>
-                {
-                    b.Property<int>("SheetId");
-
-                    b.Property<decimal?>("BankAccountOffset");
-
-                    b.Property<decimal?>("SavingsAccountOffset");
-
-                    b.HasKey("SheetId");
-
-                    b.ToTable("CalculationOptions");
-                });
-
             modelBuilder.Entity("App.Models.Domain.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -420,14 +407,6 @@ namespace App.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("App.Models.Domain.CalculationOptions", b =>
-                {
-                    b.HasOne("App.Models.Domain.Sheet")
-                        .WithOne("CalculationOptions")
-                        .HasForeignKey("App.Models.Domain.CalculationOptions", "SheetId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("App.Models.Domain.Category", b =>
                 {
                     b.HasOne("App.Models.Domain.AppOwner", "Owner")
@@ -498,6 +477,22 @@ namespace App.Migrations
                         .WithMany()
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.OwnsOne("App.Models.Domain.CalculationOptions", "CalculationOptions", b1 =>
+                        {
+                            b1.Property<int>("SheetId");
+
+                            b1.Property<decimal?>("BankAccountOffset");
+
+                            b1.Property<decimal?>("SavingsAccountOffset");
+
+                            b1.ToTable("Sheet");
+
+                            b1.HasOne("App.Models.Domain.Sheet")
+                                .WithOne("CalculationOptions")
+                                .HasForeignKey("App.Models.Domain.CalculationOptions", "SheetId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
                 });
 
             modelBuilder.Entity("App.Models.Domain.SheetEntry", b =>
