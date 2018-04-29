@@ -31,10 +31,10 @@ export class App implements IPageRepository {
 
     public start(): void {}
     public bind(): void {}
-    public initRouter(): void { }
-    public registerComponents(): void { }
+    public initRouter(): void {}
+    public registerComponents(): void {}
 
-    public findPage(routeName: string): IPageRegistration|null {
+    public findPage(routeName: string): IPageRegistration | null {
         for (const page of this.pages) {
             if (this.router.matchRoutingTable(routeName, page.routingTable)) {
                 return page;
@@ -51,7 +51,10 @@ export class App implements IPageRepository {
             this.pages.push(page);
 
             if (uniquePageIds.indexOf(page.id) !== -1) {
-                console.error('Page with id %s already exists in the loaded pages. App behaviour will be undefined.', page.id);
+                console.error(
+                    'Page with id %s already exists in the loaded pages. App behaviour will be undefined.',
+                    page.id
+                );
             }
 
             uniquePageIds.push(page.id);
@@ -74,7 +77,10 @@ export class App implements IPageRepository {
             }
 
             if (JSON.stringify(page.routingTable) !== JSON.stringify(replacement.routingTable)) {
-                console.warn('Routing table for page %s has changed: This is not supported. Reload the application to allow routing changes to apply.', replacement.id);
+                console.warn(
+                    'Routing table for page %s has changed: This is not supported. Reload the application to allow routing changes to apply.',
+                    replacement.id
+                );
                 return;
             }
 
@@ -82,13 +88,16 @@ export class App implements IPageRepository {
 
             // Check if this is the current page
             const currentState = this.context.router.getState(),
-                  routingTable = Array.isArray(page.routingTable) ? page.routingTable : [page.routingTable];
+                routingTable = Array.isArray(page.routingTable) ? page.routingTable : [page.routingTable];
 
             if (routingTable.some(route => route.name === currentState.name)) {
                 console.log('%s is the current loaded page. Reloading via HMR proxy page.', replacement.id);
                 this.context.router.navigate(
                     'hmr-proxy',
-                    { name: currentState.name, params: currentState.params ? JSON.stringify(currentState.params) : {} },
+                    {
+                        name: currentState.name,
+                        params: currentState.params ? JSON.stringify(currentState.params) : {}
+                    },
                     { replace: true },
                     () => console.log('Loading of HMR proxy for %s completed', replacement.id)
                 );
@@ -100,7 +109,10 @@ export class App implements IPageRepository {
             return;
         }
 
-        console.error('Unable to find page %s. Possibly the module name has changed. Reload the application.', replacement.id);
+        console.error(
+            'Unable to find page %s. Possibly the module name has changed. Reload the application.',
+            replacement.id
+        );
     }
 }
 

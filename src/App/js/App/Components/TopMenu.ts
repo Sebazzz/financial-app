@@ -1,6 +1,6 @@
 import * as framework from 'AppFramework/Panel';
-import {State} from 'router5';
-import {Plugin, PluginFactory} from 'router5/core/plugins';
+import { State } from 'router5';
+import { Plugin, PluginFactory } from 'router5/core/plugins';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import NowRouteProvider from 'App/Services/NowRoute';
@@ -22,7 +22,9 @@ class TopMenu extends framework.Panel {
     public activeClientCount = this.activityService.activeClientCount;
     public isConnected = this.activityService.isConnected;
     public showActiveClientTooltip = ko.observable<boolean>(false);
-    public activeClientTooltip = ko.pureComputed(() => 'Ingelogde gebruikers: ' + this.activityService.activeClients().join(','));
+    public activeClientTooltip = ko.pureComputed(
+        () => 'Ingelogde gebruikers: ' + this.activityService.activeClients().join(',')
+    );
 
     public deactivate(): void {
         this.activityService.stop();
@@ -51,7 +53,7 @@ class TopMenu extends framework.Panel {
     constructor(appContext: AppContext) {
         super(appContext);
 
-        const menuPlugin = (() => {
+        const menuPlugin = ((() => {
             return {
                 onTransitionStart: () => {
                     // collapse menu
@@ -65,7 +67,7 @@ class TopMenu extends framework.Panel {
                     toState && this.routeNode(toState.name);
                 }
             } as Plugin;
-        }) as any as PluginFactory;
+        }) as any) as PluginFactory;
 
         menuPlugin.pluginName = 'top-menu-plugin';
         appContext.router.usePlugin(menuPlugin);
@@ -82,25 +84,26 @@ class TopMenu extends framework.Panel {
     }
 
     public static collapse() {
-        const $navbarToggler = $('.navbar-toggler'), $topMenu = $('#top-menu-content');
+        const $navbarToggler = $('.navbar-toggler'),
+            $topMenu = $('#top-menu-content');
 
         if ($topMenu.hasClass('show') && !$topMenu.hasClass('collapsing')) {
             $navbarToggler.click();
         }
     }
 
-    public hasLocation(paramRaw: string|KnockoutObservable<string>) {
+    public hasLocation(paramRaw: string | KnockoutObservable<string>) {
         const isMatch = (param: string) => {
             const matchRouteNode = param.indexOf('/') === -1;
             let isMatch: boolean;
             if (!matchRouteNode) {
                 const path = this.path(),
-                      hasPath = path && path.indexOf(param) !== -1;
+                    hasPath = path && path.indexOf(param) !== -1;
 
                 isMatch = !!hasPath;
             } else {
                 const routeNode = this.routeNode(),
-                      isInNode = routeNode && routeNode.indexOf(param) === 0;
+                    isInNode = routeNode && routeNode.indexOf(param) === 0;
 
                 isMatch = !!isInNode;
             }
@@ -110,7 +113,7 @@ class TopMenu extends framework.Panel {
 
         return ko.pureComputed(() => {
             const requestingNowPath = paramRaw === this.nowPath,
-                  param = ko.unwrap(paramRaw);
+                param = ko.unwrap(paramRaw);
 
             let matchingParam = isMatch(param);
 
@@ -122,7 +125,6 @@ class TopMenu extends framework.Panel {
             return matchingParam ? 'active' : '';
         });
     }
-
 }
 
 class UserActivityService {
@@ -147,7 +149,9 @@ class UserActivityService {
 
     public async start() {
         if (this.isConnecting() || this.isConnected()) {
-            console.log('UserActivityService: start request ignored - either the connection is started or the connection is starting');
+            console.log(
+                'UserActivityService: start request ignored - either the connection is started or the connection is starting'
+            );
             return;
         }
 
@@ -185,5 +189,9 @@ class UserActivityService {
 }
 
 export function register(appContext: AppContext) {
-    framework.createPanelComponent('top-menu', require('~/ko-templates/widgets/top-menu.html'), () => new TopMenu(appContext));
+    framework.createPanelComponent(
+        'top-menu',
+        require('~/ko-templates/widgets/top-menu.html'),
+        () => new TopMenu(appContext)
+    );
 }

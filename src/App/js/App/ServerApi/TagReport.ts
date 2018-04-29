@@ -15,5 +15,4 @@ export class Api extends ApiBase {
     public entries(tagId: number) {
         return this.execGet<ITagReportSheetEntry[]>(`${tagId}/entries`);
     }
-
 }

@@ -16,10 +16,11 @@ class HotModuleReplacementPage extends Page {
             }
 
             const nextState = args.params ? JSON.parse(args.params) : {},
-                  name = args.name;
+                name = args.name;
 
-            this.appContext.router.navigate(name, nextState, { replace: true },
-                () => console.info('Replaced page and redirected to %s', name));
+            this.appContext.router.navigate(name, nextState, { replace: true }, () =>
+                console.info('Replaced page and redirected to %s', name)
+            );
         });
 
         return Promise.resolve();
@@ -30,5 +31,5 @@ export default {
     id: module.id,
     templateName: 'page-loader',
     routingTable: { name: 'hmr-proxy', path: '/hmr-proxy' },
-    createPage:appContext => new HotModuleReplacementPage(appContext)
+    createPage: appContext => new HotModuleReplacementPage(appContext)
 } as IPageRegistration;

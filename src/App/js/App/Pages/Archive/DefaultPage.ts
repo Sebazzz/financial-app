@@ -1,4 +1,4 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as sheet from 'App/ServerApi/Sheet';
 import * as ko from 'knockout';
@@ -29,5 +29,5 @@ export default {
     id: module.id,
     templateName: 'archive/default',
     routingTable: { name: 'archive', path: '/archive' },
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext)
 } as IPageRegistration;

@@ -1,13 +1,13 @@
 /// <binding />
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 // Extract compiled CSS into a seperate file
 const path = require('path');
 const targetDir = path.resolve(__dirname, 'wwwroot/build');
 
 module.exports = {
-    stats: {chunkModules: true},
+    stats: { chunkModules: true },
     optimization: {
         minimizer: [
             new UglifyJsPlugin({
@@ -19,21 +19,19 @@ module.exports = {
                         drop_debugger: true,
                         global_defs: {
                             DEBUG: false,
-                            "module.hot": false,
+                            'module.hot': false
                         },
                         passes: 2,
-                        warnings: true,
+                        warnings: true
                     },
                     output: {
-                        beautify: false,
+                        beautify: false
                     },
-                    ecma: 5,
+                    ecma: 5
                 },
-                warningsFilter: () => true,
+                warningsFilter: () => true
             })
         ]
     },
-    plugins: [
-        new CleanWebpackPlugin([targetDir])
-    ],
+    plugins: [new CleanWebpackPlugin([targetDir])]
 };

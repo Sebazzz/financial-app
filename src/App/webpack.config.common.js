@@ -31,7 +31,7 @@ const globalsProvider = new webpack.ProvidePlugin({
     // Bootstrap
     $: 'jquery',
     jQuery: 'jquery',
-    "window.jQuery": 'jquery',
+    'window.jQuery': 'jquery',
     Popper: ['popper.js', 'default']
 });
 
@@ -50,66 +50,63 @@ const libraries = [
     'knockout',
     'cleave.js',
     'json.date-extensions',
-    '@aspnet/signalr-client',
+    '@aspnet/signalr-client'
 ];
 
 // Define SCSS rules for SCSS extraction or loading
-const scssRules =  [
+const scssRules = [
     {
-        loader: "css-loader",
+        loader: 'css-loader',
         options: {
-            sourceMap: generateSourceMaps,
-        },
+            sourceMap: generateSourceMaps
+        }
     },
     {
-        loader: "postcss-loader",
+        loader: 'postcss-loader',
         options: {
             plugins: function() {
-                const plugins = [
-                    require("autoprefixer")
-                ];
+                const plugins = [require('autoprefixer')];
 
                 if (isProduction) {
-                    plugins.push(require('cssnano')({preset: 'default'}));
+                    plugins.push(require('cssnano')({ preset: 'default' }));
                 }
 
                 return plugins;
             },
-            sourceMap: generateSourceMaps,
-        },
+            sourceMap: generateSourceMaps
+        }
     },
     {
-        loader: "sass-loader",
+        loader: 'sass-loader',
         options: {
-            includePaths: [
-                "./node_modules",
-            ],
-            sourceMap: generateSourceMaps,
-        },
-    },
+            includePaths: ['./node_modules'],
+            sourceMap: generateSourceMaps
+        }
+    }
 ];
 
 // ... Take different action in PROD or DEV
 if (!isProduction) {
     scssRules.unshift({
         // CSS is outputted in the JS file to support HMR
-        loader: "style-loader",
+        loader: 'style-loader'
     });
 } else {
     // In production, extract CSS to seperate file to prevent FOUC
     scssRules.unshift(
         {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
                 name: '[name].css'
             }
         },
         {
-            loader: "extract-loader",
+            loader: 'extract-loader',
             options: {
                 publicPath: '/build/'
             }
-        });
+        }
+    );
 }
 
 // SPA Service Worker
@@ -121,61 +118,57 @@ const serviceWorker = new ServiceWorkerPlugin({
 
         // This ensures the service worker is always different for every published build:
         // It is always updated and reinstalled.
-        versionTimestamp: (new Date()).toISOString()
+        versionTimestamp: new Date().toISOString()
     })
 });
 
-module.exports =  {
+module.exports = {
     devtool: 'inline-source-map',
     entry: {
-        'app': ['./js/App/main.ts'],
+        app: ['./js/App/main.ts']
     },
-    plugins: [
-        copyPolyfill,
-        globalsProvider,
-        serviceWorker
-    ],
+    plugins: [copyPolyfill, globalsProvider, serviceWorker],
     output: {
         filename: '[name].js',
         chunkFilename: '[name].js',
         path: targetDir,
-        publicPath: '/build/',
+        publicPath: '/build/'
     },
     optimization: {
         occurrenceOrder: true,
 
         splitChunks: {
-            minSize:0,
-            
+            minSize: 0,
+
             cacheGroups: {
-				lib: {
-					test: function(chunk) {
+                lib: {
+                    test: function(chunk) {
                         var request = chunk.rawRequest;
-                        return libraries.indexOf(request) !== -1;   
+                        return libraries.indexOf(request) !== -1;
                     },
                     //test: /node_modules/,
-					chunks: 'initial',
-					name: 'lib',
-					enforce: true
-                },
-            },
-        },
+                    chunks: 'initial',
+                    name: 'lib',
+                    enforce: true
+                }
+            }
+        }
     },
-    
+
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
-            "@aspnet/signalr-client": '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha2-final.js',
-            "mocha": 'mocha/mocha.js',
-            "~": path.resolve(__dirname),
-            "AppFramework": path.resolve(__dirname, 'js/AppFramework'),
-            "App": path.resolve(__dirname, 'js/App'),
-        },
+            '@aspnet/signalr-client': '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha2-final.js',
+            mocha: 'mocha/mocha.js',
+            '~': path.resolve(__dirname),
+            AppFramework: path.resolve(__dirname, 'js/AppFramework'),
+            App: path.resolve(__dirname, 'js/App')
+        }
     },
 
     module: {
         rules: [
-            // We need to compile the service worker seperately. 
+            // We need to compile the service worker seperately.
             // Therefore we exclude it from the first rule. However,
             // it appears ts-loader either has a optimization or
             // bug that even using the second rule, it still tries to compile
@@ -186,34 +179,29 @@ module.exports =  {
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
-                exclude: [
-                    /node_modules/,
-                    /sw\.ts/
-                ],
+                exclude: [/node_modules/, /sw\.ts/]
             },
             {
                 test: /sw\.ts$/,
                 use: 'ts-loader',
-                exclude: [
-                    /node_modules/
-                ],
+                exclude: [/node_modules/]
             },
             {
                 test: /\.(png|svg|jpg|gif|ttf|eot|woff|woff2)$/,
-                use: 'url-loader?limit=8192',
+                use: 'url-loader?limit=8192'
             },
             {
                 test: /\.(html)$/,
                 use: {
-                    loader: 'html-loader',
-                },
+                    loader: 'html-loader'
+                }
             },
             {
                 test: /\.scss$/,
-                use: scssRules,
-            },
-        ],
-    },
+                use: scssRules
+            }
+        ]
+    }
 };
 
 module.exports.mode = isProduction ? 'production' : 'development';

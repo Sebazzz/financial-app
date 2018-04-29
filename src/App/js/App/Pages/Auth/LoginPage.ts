@@ -1,4 +1,4 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import { IAuthenticationInfo } from 'AppFramework/ServerApi/Authentication';
@@ -15,8 +15,12 @@ class AuthLoginPage extends Page {
     public errorMessage = ko.observable<string>(null);
 
     public returnUrl = ko.observable<string | null>(null);
-    public returnUrlIsDefaultPage = ko.pureComputed(() => this.appContext.router.buildPath('default', {}) === this.returnUrl());
-    public needsLoginAfterRedirect = ko.pureComputed(() => !!this.returnUrl() && !this.returnUrlIsDefaultPage() && !this.errorMessage() && !this.success());
+    public returnUrlIsDefaultPage = ko.pureComputed(
+        () => this.appContext.router.buildPath('default', {}) === this.returnUrl()
+    );
+    public needsLoginAfterRedirect = ko.pureComputed(
+        () => !!this.returnUrl() && !this.returnUrlIsDefaultPage() && !this.errorMessage() && !this.success()
+    );
 
     public requireTwoFactorAuthentication = ko.observable<boolean>(false);
     public twoFactorVerificationCode = ko.observable<string>();
@@ -48,17 +52,19 @@ class AuthLoginPage extends Page {
 
         try {
             const result = await this.appContext.authentication.authenticate(
-                    this.userName.peek(),
-                    this.password.peek(),
-                    this.persist.peek()
-                );
+                this.userName.peek(),
+                this.password.peek(),
+                this.persist.peek()
+            );
 
             if (result.isTwoFactorAuthenticationRequired) {
                 this.requireTwoFactorAuthentication(true);
                 return;
             }
 
-            this.errorMessage(result.isAuthenticated ? null : 'Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.');
+            this.errorMessage(
+                result.isAuthenticated ? null : 'Sorry, we konden je gebruikersnaam of wachtwoord niet bevestigen.'
+            );
 
             this.handleAuthenticationResult(result);
         } catch (e) {
@@ -78,7 +84,11 @@ class AuthLoginPage extends Page {
             if (this.isEnteringRecoveryCode.peek()) {
                 result = await this.appContext.authentication.authenticateTwoFactorRecover(verificationCode);
             } else {
-                result = await this.appContext.authentication.authenticateTwoFactor(verificationCode, this.persist.peek(), this.rememberMachine.peek());
+                result = await this.appContext.authentication.authenticateTwoFactor(
+                    verificationCode,
+                    this.persist.peek(),
+                    this.rememberMachine.peek()
+                );
             }
 
             if (!result.isAuthenticated) {
@@ -106,7 +116,9 @@ class AuthLoginPage extends Page {
 
     private handleAuthenticationResult(result: IAuthenticationInfo) {
         if (result.isLockedOut) {
-            this.errorMessage('Je bent tijdelijk uitgesloten van het systeem. Probeer over 15 minuten opnieuw in te loggen.');
+            this.errorMessage(
+                'Je bent tijdelijk uitgesloten van het systeem. Probeer over 15 minuten opnieuw in te loggen.'
+            );
         }
 
         if (result.isAuthenticated) {
@@ -114,20 +126,19 @@ class AuthLoginPage extends Page {
             this.success(true);
 
             setTimeout(() => {
-                    const router = this.appContext.router,
-                          returnUrl = this.returnUrl();
+                const router = this.appContext.router,
+                    returnUrl = this.returnUrl();
 
-                    if (returnUrl) {
-                        const state = router.matchPath(returnUrl);
-                        if (state) {
-                            router.navigate(state.name, state.params);
-                            return;
-                        }
+                if (returnUrl) {
+                    const state = router.matchPath(returnUrl);
+                    if (state) {
+                        router.navigate(state.name, state.params);
+                        return;
                     }
+                }
 
-                    router.navigateToDefault();
-                },
-                1000);
+                router.navigateToDefault();
+            }, 1000);
         }
     }
 }
@@ -135,10 +146,7 @@ class AuthLoginPage extends Page {
 export default {
     id: module.id,
     templateName: 'auth/login',
-    routingTable: [
-        { name: 'auth', path: '/auth', forwardTo: '/auth/login' },
-        { name: 'auth.login', path: '/login' }
-    ],
+    routingTable: [{ name: 'auth', path: '/auth', forwardTo: '/auth/login' }, { name: 'auth.login', path: '/login' }],
     createPage: appContext => new AuthLoginPage(appContext),
     bodyClassName: 'page-login'
 } as IPageRegistration;

@@ -1,4 +1,4 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as category from '../../../ServerApi/Category';
 import * as ko from 'knockout';
@@ -22,7 +22,9 @@ class DefaultPage extends Page {
     }
 
     public async deleteCategory(category: category.ICategoryListing) {
-        if (await confirmAsync(`Weet je zeker dat je ${category.id} wilt verwijderen?`, 'Categorie verwijderen', true)) {
+        if (
+            await confirmAsync(`Weet je zeker dat je ${category.id} wilt verwijderen?`, 'Categorie verwijderen', true)
+        ) {
             this.categories.remove(category);
             await this.api.delete(category.id);
         }
@@ -33,5 +35,5 @@ export default {
     id: module.id,
     templateName: 'manage/category/default',
     routingTable: { name: 'manage.category', path: '/category' },
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext)
 } as IPageRegistration;

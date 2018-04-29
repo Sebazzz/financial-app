@@ -22,8 +22,8 @@ class DefaultPage extends FormPage {
     public currentStepIndex = ko.pureComputed(() => this.currentStep().order);
     public currentStepHandler = ko.pureComputed(() => {
         const currentStep = this.currentStep(),
-              handlerFactory = this.setupStepHandlerFactory[currentStep.order],
-              handler = handlerFactory();
+            handlerFactory = this.setupStepHandlerFactory[currentStep.order],
+            handler = handlerFactory();
 
         handler.name(currentStep.name);
 
@@ -54,7 +54,7 @@ class DefaultPage extends FormPage {
     public stepCssClass(displayStep: api.ISetupStepDescriptor) {
         return ko.computed(() => {
             const activeStepIndex = this.currentStep().order,
-                  displayStepIndex = displayStep.order;
+                displayStepIndex = displayStep.order;
 
             if (activeStepIndex === displayStepIndex) {
                 return 'active';
@@ -74,7 +74,7 @@ class DefaultPage extends FormPage {
 
     public async nextStep() {
         const stepHandler = this.currentStepHandler(),
-              currentStep = this.currentStep();
+            currentStep = this.currentStep();
 
         try {
             this.isBusy(true);
@@ -135,13 +135,15 @@ abstract class SetupStepHandler extends validate.ValidateableViewModel {
     }
 }
 
-class DefaultSetupStepHandler extends SetupStepHandler { }
+class DefaultSetupStepHandler extends SetupStepHandler {}
 
 class DatabaseConnectionSetupStepHandler extends SetupStepHandler {
     public handleError(xhr: JQueryXHR, setupWizard: FormPage): boolean {
         super.handleError(xhr, setupWizard);
 
-        setupWizard.errorMessage('We kunnen geen verbinding maken met de database. Controleer de connection string en probeer het opnieuw.');
+        setupWizard.errorMessage(
+            'We kunnen geen verbinding maken met de database. Controleer de connection string en probeer het opnieuw.'
+        );
         return true;
     }
 }
@@ -150,7 +152,9 @@ class DatabaseMigrationStepHandler extends SetupStepHandler {
     public handleError(xhr: JQueryXHR, setupWizard: FormPage): boolean {
         super.handleError(xhr, setupWizard);
 
-        setupWizard.errorMessage('De database kan niet geïnitialiseerd worden. Controleer de rechten en probeer het opnieuw.');
+        setupWizard.errorMessage(
+            'De database kan niet geïnitialiseerd worden. Controleer de rechten en probeer het opnieuw.'
+        );
         return true;
     }
 }

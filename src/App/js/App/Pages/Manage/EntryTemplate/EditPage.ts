@@ -1,5 +1,5 @@
 import AppContext from 'AppFramework/AppContext';
-import {IPageRegistration} from 'AppFramework/Page';
+import { IPageRegistration } from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as category from '../../../ServerApi/Category';
 import * as entry from '../../../ServerApi/RecurringSheetEntry';
@@ -17,9 +17,9 @@ class EditPage extends FormPage {
     public entryTemplate = ko.observable<EditViewModel>(new EditViewModel());
     public availableCategories = ko.observableArray<category.ICategoryListing>();
 
-// ReSharper disable InconsistentNaming
+    // ReSharper disable InconsistentNaming
     public AccountType = AccountType;
-// ReSharper restore InconsistentNaming
+    // ReSharper restore InconsistentNaming
 
     constructor(appContext: AppContext) {
         super(appContext);
@@ -57,8 +57,8 @@ class EditPage extends FormPage {
 
         try {
             const serialized = ko.toJS(entryTemplate) as entry.IRecurringSheetEntry,
-                  id = this.id.peek(),
-                  isNew = id === 0;
+                id = this.id.peek(),
+                isNew = id === 0;
 
             if (isNew) {
                 await this.api.create(serialized);
@@ -106,7 +106,7 @@ export default {
     templateName: 'manage/entry-template/edit',
     routingTable: [
         { name: 'manage.entry-template.edit', path: '/edit/:id' },
-        { name: 'manage.entry-template.add', path: '/add'}
+        { name: 'manage.entry-template.add', path: '/add' }
     ],
-    createPage:appContext => new EditPage(appContext)
+    createPage: appContext => new EditPage(appContext)
 } as IPageRegistration;

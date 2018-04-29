@@ -34,7 +34,11 @@ export function JsonProperty<T>(metadata?: IJsonMetaData<T> | string): any {
         const metadataObj = metadata as IJsonMetaData<T>;
 
         if (!metadataObj) {
-            return Reflect.metadata(jsonMetadataKey, { name: undefined, clazz: undefined, clazzFactory: undefined });
+            return Reflect.metadata(jsonMetadataKey, {
+                name: undefined,
+                clazz: undefined,
+                clazzFactory: undefined
+            });
         }
 
         if ('clazz' in metadataObj && typeof metadataObj.clazz !== 'function') {
@@ -44,7 +48,10 @@ export function JsonProperty<T>(metadata?: IJsonMetaData<T> | string): any {
         return Reflect.metadata(jsonMetadataKey, {
             name: metadataObj.name,
             clazz: metadataObj.clazz,
-            clazzFactory: typeof metadataObj.clazz !== 'function' ? metadataObj.clazzFactory : () => metadataObj.clazz && new metadataObj.clazz()
+            clazzFactory:
+                typeof metadataObj.clazz !== 'function'
+                    ? metadataObj.clazzFactory
+                    : () => metadataObj.clazz && new metadataObj.clazz()
         });
     }
 }
@@ -57,7 +64,14 @@ export class MapUtils {
             case 'boolean':
                 return true;
         }
-        return obj instanceof String || obj === String || obj instanceof Number || obj === Number || obj instanceof Boolean || obj === Boolean;
+        return (
+            obj instanceof String ||
+            obj === String ||
+            obj instanceof Number ||
+            obj === Number ||
+            obj instanceof Boolean ||
+            obj === Boolean
+        );
     }
 
     private static isArray(object: any) {
@@ -70,7 +84,7 @@ export class MapUtils {
         } else if (typeof Array.isArray === 'function') {
             return Array.isArray(object);
         } else {
-            return (object instanceof Array);
+            return object instanceof Array;
         }
     }
 
@@ -86,7 +100,7 @@ export class MapUtils {
     }
 
     public static deserialize<T>(ctor: { new (): T }, jsonObject: any): T | undefined {
-        if ((ctor === undefined) || (jsonObject === undefined)) {
+        if (ctor === undefined || jsonObject === undefined) {
             return undefined;
         }
 
@@ -102,14 +116,16 @@ export class MapUtils {
             const item = (obj as any)[key],
                 itemIsObservable = ko.isObservable(item),
                 itemIsWritableObservable = ko.isWriteableObservable(item),
-                itemHasArrayType = itemIsObservable && MapUtils.isArray(item.peek()) || MapUtils.isArray(item);
+                itemHasArrayType = (itemIsObservable && MapUtils.isArray(item.peek())) || MapUtils.isArray(item);
 
             if (itemIsObservable && !itemIsWritableObservable) {
                 // ignore this prop
                 return;
             }
 
-            const propertyAccessor = itemIsObservable ? KnockoutPropertyAccessor.instance : RegularPropertyAccessor.instance;
+            const propertyAccessor = itemIsObservable
+                ? KnockoutPropertyAccessor.instance
+                : RegularPropertyAccessor.instance;
 
             const getChildObject: (x: IJsonMetaData<any>) => any = (propertyMetadata: IJsonMetaData<any>) => {
                 const propertyName = propertyMetadata.name || key;
@@ -123,9 +139,7 @@ export class MapUtils {
                         if (innerJson && MapUtils.isArray(innerJson)) {
                             const clazzFactory = metadata.clazzFactory || (() => ({}));
 
-                            return innerJson.map(
-                                (item: any) => MapUtils.deserializeToObject(clazzFactory(), item)
-                            );
+                            return innerJson.map((item: any) => MapUtils.deserializeToObject(clazzFactory(), item));
                         } else {
                             return undefined;
                         }
@@ -146,7 +160,7 @@ export class MapUtils {
                 propertyAccessor.set(obj, key, propertyValue);
             } else {
                 // No metadata, lookup Json property by property name
-                if (jsonObject && (key in jsonObject)) {
+                if (jsonObject && key in jsonObject) {
                     propertyAccessor.set(obj, key, jsonObject[key]);
                 }
             }

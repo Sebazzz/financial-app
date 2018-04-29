@@ -1,4 +1,4 @@
-import {IPageRegistration} from 'AppFramework/Page';
+import { IPageRegistration } from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
@@ -34,13 +34,16 @@ class AuthConfirmEmailModelPage extends FormPage {
             this.appContext.router.navigateToDefault();
         }
 
-        this.model.key(args && args.key || null);
-        this.model.token = (args && args.token || null);
+        this.model.key((args && args.key) || null);
+        this.model.token = (args && args.token) || null;
     }
 
     public async save(viewModel: validate.ValidateableViewModel) {
         try {
-            await this.api.confirmEmail({ key: this.model.key(), token: this.model.token });
+            await this.api.confirmEmail({
+                key: this.model.key(),
+                token: this.model.token
+            });
 
             this.success(true);
         } catch (e) {
@@ -56,9 +59,7 @@ class AuthConfirmEmailModelPage extends FormPage {
 export default {
     id: module.id,
     templateName: 'auth/confirm-email',
-    routingTable: [
-        { name: 'auth.confirmEmail', path: '/confirm-email' }
-    ],
+    routingTable: [{ name: 'auth.confirmEmail', path: '/confirm-email' }],
     createPage: appContext => new AuthConfirmEmailModelPage(appContext),
     bodyClassName: 'page-login'
 } as IPageRegistration;

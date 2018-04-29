@@ -9,7 +9,7 @@ export { IRecurringSheetEntry };
 export interface ISheetListing {
     month: number;
     year: number;
-    name: string|null;
+    name: string | null;
 
     updateTimestamp: DateTime;
     createTimestamp: DateTime;
@@ -33,8 +33,8 @@ export interface ISheet {
     applicableTemplates: IRecurringSheetEntry[];
 
     offset: {
-        savingsAccountOffset: Decimal|null;
-        bankAccountOffset: Decimal|null;
+        savingsAccountOffset: Decimal | null;
+        bankAccountOffset: Decimal | null;
     };
 }
 

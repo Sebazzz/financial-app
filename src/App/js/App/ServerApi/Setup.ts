@@ -11,7 +11,7 @@ export interface ISetupState {
     steps: ISetupStepDescriptor[];
 }
 
-export interface ISetupInvocation<TData= undefined> {
+export interface ISetupInvocation<TData = undefined> {
     setupStepNumber: number;
 
     data: TData;

@@ -12,7 +12,7 @@ export interface ISheetEntry {
     delta: number;
 
     source: string;
-    remark: string|null;
+    remark: string | null;
 
     sortOrder: number;
 
@@ -55,7 +55,7 @@ export class Api extends ApiBase {
 
     public mutateOrder(id: number, mutation: SortOrderMutationType) {
         const mutationString = SortOrderMutationType[mutation].toLowerCase(),
-              url = `${id}/order/${mutationString}`;
+            url = `${id}/order/${mutationString}`;
 
         return this.execPost<void>(url);
     }

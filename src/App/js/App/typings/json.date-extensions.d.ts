@@ -1,4 +1,4 @@
 ﻿interface JSON {
-    useDateParser() : void;
+    useDateParser(): void;
     dateParser: JSON;
 }

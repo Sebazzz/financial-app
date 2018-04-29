@@ -1,6 +1,8 @@
 ﻿const global = self as ServiceWorkerGlobalScope;
 
-const assets = [...serviceWorkerOption.assets, '/', '/favicon.ico'].map(x => new URL(x, location.toString()).toString());
+const assets = [...serviceWorkerOption.assets, '/', '/favicon.ico'].map(x =>
+    new URL(x, location.toString()).toString()
+);
 
 const CACHE_NAME = 'fa-app-' + Date.now();
 
@@ -71,7 +73,10 @@ async function returnPossibleCachedResponse(request: Request): Promise<Response>
         }
 
         if (request.mode === 'navigate') {
-            console.log('[Service Worker] [Fetch] Not matching request %s in cache. Returning bootstrapper HTML.', request.url);
+            console.log(
+                '[Service Worker] [Fetch] Not matching request %s in cache. Returning bootstrapper HTML.',
+                request.url
+            );
 
             return caches.match('/');
         }
@@ -80,7 +85,10 @@ async function returnPossibleCachedResponse(request: Request): Promise<Response>
         return await fetch(request);
     } catch (e) {
         if (request.mode === 'navigate') {
-            console.log('[Service Worker] [Fetch] Not matching request %s in cache. Returning bootstrapper HTML.', request.url);
+            console.log(
+                '[Service Worker] [Fetch] Not matching request %s in cache. Returning bootstrapper HTML.',
+                request.url
+            );
 
             return caches.match('/');
         }
@@ -104,7 +112,7 @@ function invokeServiceWorkerMethod(message: any): Promise<any> {
     }
 
     const data = message.data,
-          method: (arg?: any) => Promise<any> = (ServiceWorkerMethods as any)[message.method];
+        method: (arg?: any) => Promise<any> = (ServiceWorkerMethods as any)[message.method];
 
     if (!method) {
         console.error('[Service Worker] [Messaging] Unknown service worker method: %s', message.method);
@@ -132,14 +140,14 @@ self.addEventListener('message', async (event: MessageEvent) => {
     console.log('[Service Worker] [Messaging] Message: %s', event.data);
 
     const data = event.data;
-    let returnValue: any|{error: any} = null;
+    let returnValue: any | { error: any } = null;
 
     try {
         returnValue = await invokeServiceWorkerMethod(data);
     } catch (e) {
         console.error('[Service Worker] [Messaging] Error %s', e);
 
-        returnValue = {error: e};
+        returnValue = { error: e };
     }
 
     if (event.ports && event.ports[0]) {
@@ -175,7 +183,11 @@ self.addEventListener('fetch', (event: FetchEvent) => {
         return;
     }
 
-    const excludedPaths = ['/js/' /*eventsource polyfill*/, '/images/' /*tiles and icons*/, '_internal/' /*diagnostics*/];
+    const excludedPaths = [
+        '/js/' /*eventsource polyfill*/,
+        '/images/' /*tiles and icons*/,
+        '_internal/' /*diagnostics*/
+    ];
     if (excludedPaths.find(val => requestUrl.pathname.startsWith(val)) !== undefined) {
         console.log('[Service Worker] [Fetch] Ignore excluded request %s %s', request.method, request.url);
         return;
@@ -190,20 +202,17 @@ self.addEventListener('fetch', (event: FetchEvent) => {
         console.log('[Service Worker] [Fetch] Rewriting request to version string %s', requestUrl.toString());
 
         requestUrl.search = '';
-        request = new Request(
-            requestUrl.toString(),
-            {
-                headers: request.headers,
-                cache: request.cache,
-                credentials: request.credentials,
-                integrity: request.integrity,
-                method: request.method,
-                redirect: request.redirect,
-                mode: request.mode,
-                referrer: request.referrer,
-                referrerPolicy: request.referrerPolicy
-            }
-        );
+        request = new Request(requestUrl.toString(), {
+            headers: request.headers,
+            cache: request.cache,
+            credentials: request.credentials,
+            integrity: request.integrity,
+            method: request.method,
+            redirect: request.redirect,
+            mode: request.mode,
+            referrer: request.referrer,
+            referrerPolicy: request.referrerPolicy
+        });
     }
 
     event.respondWith(returnPossibleCachedResponse(request));

@@ -1,5 +1,5 @@
 import FormPage from 'AppFramework/Forms/FormPage';
-import {IPageRegistration} from 'AppFramework/Page';
+import { IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import NowRouteProvider from 'App/Services/NowRoute';
 
@@ -42,12 +42,14 @@ class SheetPage extends FormPage {
     public tagSelectionPopover = new popover.PopoverController<SheetEntry>('Labels selecteren');
     public tagViewerPopover = new popover.PopoverController<SheetEntry>('Labels bekijken');
 
-    public expenseTrajectory = ko.pureComputed(() => {
-        const sheet = this.sheet(),
-              dataObject = ko.toJS(sheet) as sheet.ISheet;
+    public expenseTrajectory = ko
+        .pureComputed(() => {
+            const sheet = this.sheet(),
+                dataObject = ko.toJS(sheet) as sheet.ISheet;
 
-        return this.expenseTrajectoryCalculator.calculateExpenseTrajectory(dataObject);
-    }).extend({ rateLimit: 250 });
+            return this.expenseTrajectoryCalculator.calculateExpenseTrajectory(dataObject);
+        })
+        .extend({ rateLimit: 250 });
 
     public previousDate = ko.pureComputed(() => {
         // TODO: workaround TS bug https://github.com/Microsoft/TypeScript/issues/20215
@@ -59,7 +61,10 @@ class SheetPage extends FormPage {
 
     public previousSheetRoute = ko.pureComputed(() => {
         const date = this.previousDate(),
-            routeArgs = { month: date.getMonth() + 1, year: date.getFullYear() };
+            routeArgs = {
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+            };
 
         return this.appContext.app.router.getRoute('archive.sheet', routeArgs);
     });
@@ -97,8 +102,10 @@ class SheetPage extends FormPage {
             throw new Error('Invalid argument');
         }
 
-        const month = +args.month, year = +args.year, date = new Date(year, month - 1);
-        if (date.getMonth() !== (month - 1) || date.getFullYear() !== year) {
+        const month = +args.month,
+            year = +args.year,
+            date = new Date(year, month - 1);
+        if (date.getMonth() !== month - 1 || date.getFullYear() !== year) {
             throw new Error('Unable to validate parameters: Not a valid month/year');
         }
 
@@ -109,16 +116,16 @@ class SheetPage extends FormPage {
 
         // We can pull in autocompletion data concurrently, but we won't wait
         // for it because it is not essential to the functionality of this page
-        this.api.getSourceAutocompletionData(year, month)
-            .then(data => this.sourceAutocompletionData(data),
-                  err => console.error(err));
+        this.api
+            .getSourceAutocompletionData(year, month)
+            .then(data => this.sourceAutocompletionData(data), err => console.error(err));
 
         // Parallel data loading
         const [category, tag, sheet] = await Promise.all([
             this.categoryApi.list(),
             this.tagApi.list(),
             this.api.getBySubject(year, month)
-            ]);
+        ]);
 
         this.availableCategories(category);
         this.availableTags(tag);
@@ -143,7 +150,7 @@ class SheetPage extends FormPage {
         this.sheet(vm);
     }
 
-    public categoryNameById(id: number): string|null {
+    public categoryNameById(id: number): string | null {
         for (const category of this.availableCategories()) {
             if (category.id === id) {
                 return category.name;
@@ -167,7 +174,7 @@ class SheetPage extends FormPage {
         event.preventDefault();
 
         const controller = new RemarksModel(sheetEntry),
-              dialogResult = await this.remarksEditModal.showDialog(controller);
+            dialogResult = await this.remarksEditModal.showDialog(controller);
 
         if (dialogResult === modal.DialogResult.PrimaryButton) {
             controller.applyChanges();
@@ -200,12 +207,12 @@ class SheetPage extends FormPage {
     public mutateSortOrderHandler(currentItem: SheetEntry, mutation: sheetEntry.SortOrderMutationType) {
         return async () => {
             const sheet = this.sheet(),
-                  currentIndex = sheet.entries.indexOf(currentItem),
-                  sortOrderOffset = mutation === sheetEntry.SortOrderMutationType.Increase ? 1 : -1,
-                  swapIndex = currentIndex + sortOrderOffset,
-                  swapItem = sheet.entries()[swapIndex],
-                  currentSortOrder = currentItem.sortOrder(),
-                  swapSortOrder = swapItem.sortOrder();
+                currentIndex = sheet.entries.indexOf(currentItem),
+                sortOrderOffset = mutation === sheetEntry.SortOrderMutationType.Increase ? 1 : -1,
+                swapIndex = currentIndex + sortOrderOffset,
+                swapItem = sheet.entries()[swapIndex],
+                currentSortOrder = currentItem.sortOrder(),
+                swapSortOrder = swapItem.sortOrder();
 
             if (!swapItem) {
                 // This happens when we try to increase sort order at the end,
@@ -265,17 +272,17 @@ class SheetPage extends FormPage {
 
     public addEntryTemplate(template: entryTemplate.IRecurringSheetEntry) {
         const basis = {
-            id: 0,
-            sortOrder: this.sheet().getNextSortOrder(),
-            account: template.account,
-            categoryId: template.categoryId,
-            createTimestamp: new Date(),
-            delta: template.delta,
-            remark: template.remark,
-            source: template.source,
-            updateTimestamp: new Date(),
-            templateId: template.id
-        },
+                id: 0,
+                sortOrder: this.sheet().getNextSortOrder(),
+                account: template.account,
+                categoryId: template.categoryId,
+                createTimestamp: new Date(),
+                delta: template.delta,
+                remark: template.remark,
+                source: template.source,
+                updateTimestamp: new Date(),
+                templateId: template.id
+            },
             model = mapper.MapUtils.deserialize<SheetEntry>(SheetEntry, basis);
 
         if (!model) {
@@ -317,7 +324,7 @@ class SheetPage extends FormPage {
 
     public async saveEntry(entry: SheetEntry) {
         const id = entry.id.peek(),
-              dto = ko.toJS(entry) as sheetEntry.ISheetEntry;
+            dto = ko.toJS(entry) as sheetEntry.ISheetEntry;
 
         this.cleanErrorState();
 
@@ -391,7 +398,7 @@ export class SheetEntry extends validate.ValidateableViewModel {
 
     public tooltip = ko.pureComputed(() => {
         const isTransient = this.isTransient(),
-              userName = this.userName();
+            userName = this.userName();
 
         return isTransient && userName ? `Wordt nu bewerkt door ${userName}` : null;
     });
@@ -438,9 +445,9 @@ export class Sheet {
 
     public unusedTemplates = ko.pureComputed(() => {
         const templates = this.applicableTemplates(),
-              entries = this.entries(),
-              usedTemplateIds = entries.filter(x => x.templateId() !== null).map(x => x.templateId()),
-              unusedTemplates = templates.filter(x => usedTemplateIds.indexOf(x.id) === -1);
+            entries = this.entries(),
+            usedTemplateIds = entries.filter(x => x.templateId() !== null).map(x => x.templateId()),
+            unusedTemplates = templates.filter(x => usedTemplateIds.indexOf(x.id) === -1);
 
         return unusedTemplates;
     });
@@ -448,7 +455,7 @@ export class Sheet {
     public offset: {
         savingsAccountOffset: sheet.Decimal | null;
         bankAccountOffset: sheet.Decimal | null;
-    } = { savingsAccountOffset: null, bankAccountOffset : null};
+    } = { savingsAccountOffset: null, bankAccountOffset: null };
 
     public getNextSortOrder() {
         let maxSortOrder = 0;
@@ -466,7 +473,7 @@ export class Sheet {
 }
 
 export class RemarksModel {
-    public content = ko.observable<string|null>();
+    public content = ko.observable<string | null>();
     public editMode: KnockoutObservable<boolean>;
 
     constructor(private sheetEntry: SheetEntry) {
@@ -483,7 +490,10 @@ export default {
     id: module.id,
     templateName: 'archive/sheet',
     routingTable: [
-        { name: 'archive.sheet', path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>' },
+        {
+            name: 'archive.sheet',
+            path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>'
+        },
         {
             name: 'sheet',
             path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>',

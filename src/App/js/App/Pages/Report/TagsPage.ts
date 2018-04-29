@@ -1,7 +1,7 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as tag from 'App/ServerApi/Tag';
-import {styleHtmlElement as styleTagHtmlElement} from 'App/Utils/TagColor';
+import { styleHtmlElement as styleTagHtmlElement } from 'App/Utils/TagColor';
 
 import * as tagReport from 'App/ServerApi/TagReport';
 import * as sheet from 'App/ServerApi/Sheet';
@@ -79,8 +79,7 @@ class TagsPage extends Page {
                 return;
             }
 
-            this.refresh(selectedTag.id)
-                .catch(reason => console.error(reason));
+            this.refresh(selectedTag.id).catch(reason => console.error(reason));
         });
     }
 

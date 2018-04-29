@@ -1,5 +1,5 @@
 import AppContext from 'AppFramework/AppContext';
-import {IPageRegistration} from 'AppFramework/Page';
+import { IPageRegistration } from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as user from '../../../ServerApi/User';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
@@ -14,7 +14,7 @@ class EditPage extends FormPage {
 
     public isCurrentUser = ko.pureComputed(() => {
         const id = this.id(),
-              currentUser = this.appContext.authentication.currentAuthentication();
+            currentUser = this.appContext.authentication.currentAuthentication();
 
         return id === currentUser.userId;
     });
@@ -46,8 +46,8 @@ class EditPage extends FormPage {
 
         try {
             const serialized = ko.toJS(user) as user.IAppUserMutate,
-                  id = this.id.peek(),
-                  isNew = id === 0;
+                id = this.id.peek(),
+                isNew = id === 0;
 
             if (isNew) {
                 await this.api.create(serialized);
@@ -85,9 +85,6 @@ export class EditViewModel extends validate.ValidateableViewModel {
 export default {
     id: module.id,
     templateName: 'manage/user/edit',
-    routingTable: [
-        { name: 'manage.user.edit', path: '/edit/:id' },
-        { name: 'manage.user.add', path: '/add'}
-    ],
-    createPage:appContext => new EditPage(appContext)
+    routingTable: [{ name: 'manage.user.edit', path: '/edit/:id' }, { name: 'manage.user.add', path: '/add' }],
+    createPage: appContext => new EditPage(appContext)
 } as IPageRegistration;

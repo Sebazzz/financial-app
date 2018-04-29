@@ -1,12 +1,12 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as account from 'AppFramework/ServerApi/Account';
 import * as modal from 'AppFramework/Components/Modal';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
-import {IFormPage} from 'AppFramework/Forms/FormPage';
+import { IFormPage } from 'AppFramework/Forms/FormPage';
 import confirmAsync from 'AppFramework/Forms/Confirmation';
 
-import {IPreferencesModel} from 'App/ServerApi/Account';
+import { IPreferencesModel } from 'App/ServerApi/Account';
 import * as ko from 'knockout';
 
 class MyAccountPage extends Page {
@@ -32,10 +32,7 @@ class MyAccountPage extends Page {
     }
 
     protected async onActivate(args?: any): Promise<void> {
-        await Promise.all([
-            this.refresh(),
-            this.preferences.load()
-        ]);
+        await Promise.all([this.refresh(), this.preferences.load()]);
     }
 
     private async refresh() {
@@ -51,7 +48,7 @@ class MyAccountPage extends Page {
 
             ko.tasks.runEarly();
         } finally {
-           this.isRefreshing = false;
+            this.isRefreshing = false;
         }
     }
 
@@ -123,7 +120,11 @@ class ChangePasswordModel extends validate.ValidateableViewModel implements IFor
 
     public async save(): Promise<void> {
         try {
-            await this.api.changePassword({currentPassword: this.currentPassword.peek(), newPassword: this.newPassword.peek(), newPasswordConfirm: this.newPasswordConfirm.peek()});
+            await this.api.changePassword({
+                currentPassword: this.currentPassword.peek(),
+                newPassword: this.newPassword.peek(),
+                newPasswordConfirm: this.newPasswordConfirm.peek()
+            });
 
             this.controller.closeDialog();
         } catch (e) {
@@ -151,7 +152,11 @@ class TwoFactorAuthenticationController {
     public recoveryCodes = ko.observable<string[]>();
     public justEnabledTwoFactorAuthentication = ko.observable<boolean>(false);
 
-    public recoveryKeysDisplayModal = new modal.ModalController<RecoveryKeysModel>('Nieuwe herstelsleutels', 'Sluiten', null);
+    public recoveryKeysDisplayModal = new modal.ModalController<RecoveryKeysModel>(
+        'Nieuwe herstelsleutels',
+        'Sluiten',
+        null
+    );
 
     constructor(private refreshCallback: () => Promise<void>) {
         this.preEnable = this.preEnable.bind(this);
@@ -183,7 +188,9 @@ class TwoFactorAuthenticationController {
 
         (async () => {
             try {
-                const response = await this.api.enable({verificationCode: this.twoFactorVerificationCode.peek() });
+                const response = await this.api.enable({
+                    verificationCode: this.twoFactorVerificationCode.peek()
+                });
 
                 this.recoveryCodes(response.recoveryCodes);
                 this.justEnabledTwoFactorAuthentication(true);
@@ -193,7 +200,9 @@ class TwoFactorAuthenticationController {
             } catch (e) {
                 console.log(e);
 
-                this.errorMessage('Dit lijkt niet de correcte code te zijn. Controleer de tijd van je mobiele telefoon en probeer het opnieuw.');
+                this.errorMessage(
+                    'Dit lijkt niet de correcte code te zijn. Controleer de tijd van je mobiele telefoon en probeer het opnieuw.'
+                );
             } finally {
                 this.isBusy(false);
             }
@@ -205,13 +214,23 @@ class TwoFactorAuthenticationController {
 
         (async () => {
             try {
-                if (await confirmAsync('Weet je zeker dat je verificatie in twee stappen wilt uitschakelen? Hierdoor wordt je account onveiliger.', 'Verificatie in twee stappen uitschakelen', true, 'Ja', 'Annuleren')) {
+                if (
+                    await confirmAsync(
+                        'Weet je zeker dat je verificatie in twee stappen wilt uitschakelen? Hierdoor wordt je account onveiliger.',
+                        'Verificatie in twee stappen uitschakelen',
+                        true,
+                        'Ja',
+                        'Annuleren'
+                    )
+                ) {
                     await this.api.disable();
 
                     await this.refreshCallback();
                 }
             } catch (e) {
-                this.errorMessage('Het is niet gelukt om verificatie in twee stappen uit te schakelen. Probeer het later opnieuw.');
+                this.errorMessage(
+                    'Het is niet gelukt om verificatie in twee stappen uit te schakelen. Probeer het later opnieuw.'
+                );
             } finally {
                 this.isBusy(false);
             }
@@ -228,11 +247,19 @@ class TwoFactorAuthenticationController {
 
         (async () => {
             try {
-                if (await confirmAsync('Weet je zeker dat je nieuwe herstelsleutels wilt genereren? Je bestaande herstelsleutels worden dan ongeldig.', 'Nieuwe herstelsleutels maken', true, 'Ja', 'Nee')) {
+                if (
+                    await confirmAsync(
+                        'Weet je zeker dat je nieuwe herstelsleutels wilt genereren? Je bestaande herstelsleutels worden dan ongeldig.',
+                        'Nieuwe herstelsleutels maken',
+                        true,
+                        'Ja',
+                        'Nee'
+                    )
+                ) {
                     const model = new RecoveryKeysModel();
 
                     const resultAwaitable = this.api.resetRecoveryKeys(),
-                          modalDialog = this.recoveryKeysDisplayModal.showDialog(model);
+                        modalDialog = this.recoveryKeysDisplayModal.showDialog(model);
 
                     model.recoveryKeys((await resultAwaitable).recoveryCodes);
 
@@ -240,7 +267,9 @@ class TwoFactorAuthenticationController {
                 }
             } catch (e) {
                 console.error(e);
-                this.errorMessage('Het is niet gelukt om nieuwe herstelsleutels te genereren. Probeer het later opnieuw.');
+                this.errorMessage(
+                    'Het is niet gelukt om nieuwe herstelsleutels te genereren. Probeer het later opnieuw.'
+                );
             } finally {
                 this.isBusy(false);
             }

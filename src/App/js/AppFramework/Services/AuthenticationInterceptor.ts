@@ -31,7 +31,7 @@ class AuthenticationInterceptor implements http.IHttpInterceptor {
 
         const state = this.appContext.router.getState();
         const returnUrl = this.appContext.router.buildPath(state.name, state.params);
-        this.appContext.router.navigate('auth.login', {returnUrl});
+        this.appContext.router.navigate('auth.login', { returnUrl });
     }
 }
 

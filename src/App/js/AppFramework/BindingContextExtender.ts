@@ -1,4 +1,4 @@
-import {Page} from './Page';
+import { Page } from './Page';
 
 const bindingContextPreprocessMarker = '__unnamedBindingContextExtender';
 
@@ -18,7 +18,7 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
         let ctx: KnockoutBindingContext | undefined = bindingContext;
         while (ctx) {
             if (ctx.$data instanceof Page) {
-                return page = ctx.$data;
+                return (page = ctx.$data);
             }
 
             ctx = ctx.$parentContext;
@@ -55,7 +55,7 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
 
     // Ensure child binding contexts will always get the new properties applied ASAP
     const extend = bindingContext.extend,
-          createChildContext = bindingContext.createChildContext;
+        createChildContext = bindingContext.createChildContext;
 
     writeableBindingContext.extend = function() {
         const newContext = extend.apply(this, arguments);

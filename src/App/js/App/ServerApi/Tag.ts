@@ -4,7 +4,7 @@ export interface ITag {
     id: number;
     name: string;
     description: string;
-    hexColorCode: string|null;
+    hexColorCode: string | null;
 }
 
 function correctColorCode(entity: ITag) {
@@ -32,7 +32,9 @@ export class Api extends ApiBase {
 
     public async get(id: number) {
         const tag = await this.execGet<ITag>(id);
-        if (tag.hexColorCode) { tag.hexColorCode = '#' + tag.hexColorCode; }
+        if (tag.hexColorCode) {
+            tag.hexColorCode = '#' + tag.hexColorCode;
+        }
         return tag;
     }
 

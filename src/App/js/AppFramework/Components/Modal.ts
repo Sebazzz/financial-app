@@ -1,8 +1,8 @@
 import * as ko from 'knockout';
 import * as $ from 'jquery';
 
-export class ModalController<T= any> {
-    private $component: ModalComponentComponentModel|null = null;
+export class ModalController<T = any> {
+    private $component: ModalComponentComponentModel | null = null;
 
     /**
      * Sets the title. If not set, the title is hidden.
@@ -17,7 +17,7 @@ export class ModalController<T= any> {
     /**
      * Text of close button. If not set, the close button is hidden.
      */
-    public dismissButtonText = ko.observable<string|null>('Annuleren');
+    public dismissButtonText = ko.observable<string | null>('Annuleren');
 
     public modalViewModel = ko.observable<T | null>();
 
@@ -98,7 +98,7 @@ class ModalComponentComponentModel {
             if (contentNode.tagName === 'MODAL-BODY') {
                 // Clear body & attrs
                 const myBody = renderElement.querySelector('.modal-body'),
-                      myBodyAttributes = myBody && myBody.attributes;
+                    myBodyAttributes = myBody && myBody.attributes;
                 if (!(myBody && myBodyAttributes)) {
                     throw new Error('Unable to find modal body');
                 }
@@ -142,7 +142,7 @@ class ModalComponentComponentModel {
             if (contentNode.tagName === 'MODAL-FOOTER') {
                 // Clear body & attrs
                 const myFooter = renderElement.querySelector('.modal-footer'),
-                      myFooterAttributes = myFooter && myFooter.attributes;
+                    myFooterAttributes = myFooter && myFooter.attributes;
                 if (!(myFooter && myFooterAttributes)) {
                     throw new Error('Unable to find modal body');
                 }
@@ -240,7 +240,11 @@ class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
 
     public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
         createViewModel: (params: IModalParams, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
-            return new ModalComponentComponentModel(params, componentInfo.templateNodes, componentInfo.element as Element);
+            return new ModalComponentComponentModel(
+                params,
+                componentInfo.templateNodes,
+                componentInfo.element as Element
+            );
         }
     };
 
@@ -253,7 +257,9 @@ class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
             module.hot.accept('./templates/modal.html', () => {
                 this.loadTemplate();
 
-                console.warn('Modal: New template has been loaded, but re-rendering of component is required to apply changes');
+                console.warn(
+                    'Modal: New template has been loaded, but re-rendering of component is required to apply changes'
+                );
             });
         }
     }

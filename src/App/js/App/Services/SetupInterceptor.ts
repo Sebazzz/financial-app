@@ -2,15 +2,15 @@
 import AppContext from 'AppFramework/AppContext';
 
 const serviceNotAvailable = 503;
-const reasonHeaderName = 'X-Reason', reasonHeaderValue = 'Setup';
+const reasonHeaderName = 'X-Reason',
+    reasonHeaderValue = 'Setup';
 
 function isSetupRequiredRequest(xhr: JQuery.jqXHR) {
     if (!xhr) {
         return false;
     }
 
-    return xhr.status === serviceNotAvailable &&
-           xhr.getResponseHeader(reasonHeaderName) === reasonHeaderValue;
+    return xhr.status === serviceNotAvailable && xhr.getResponseHeader(reasonHeaderName) === reasonHeaderValue;
 }
 
 class SetupInterceptor implements http.IHttpInterceptor {

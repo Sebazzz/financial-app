@@ -1,5 +1,5 @@
 import ApiBase from 'AppFramework/ServerApi/ApiBase';
-import {IAuthenticationInfo} from 'AppFramework/ServerApi/Authentication';
+import { IAuthenticationInfo } from 'AppFramework/ServerApi/Authentication';
 import * as dto from './User';
 
 export class Api extends ApiBase {

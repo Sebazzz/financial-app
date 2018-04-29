@@ -49,13 +49,19 @@ function parseValue(element: HTMLInputElement, culture: string): number {
 }
 
 ko.bindingHandlers.moneyInput = {
-    init(element: HTMLInputElement, valueAccessor: () => KnockoutObservable<number> | number, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext): void {
+    init(
+        element: HTMLInputElement,
+        valueAccessor: () => KnockoutObservable<number> | number,
+        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        viewModel?: any,
+        bindingContext?: KnockoutBindingContext
+    ): void {
         element.classList.add('input-money');
         element.type = 'number';
         element.step = '0.01';
 
         const isValueAsNumberSupported = supportsValueAsNumber(element),
-              parseCulture = getParseCulture(element);
+            parseCulture = getParseCulture(element);
         if (!isValueAsNumberSupported) {
             // Force consistent behavior in Edge
             element.lang = parseCulture;
@@ -64,19 +70,23 @@ ko.bindingHandlers.moneyInput = {
         let isSettingValue = false;
 
         // Read from
-        ko.computed(() => {
-            const value = ko.unwrap(valueAccessor());
+        ko.computed(
+            () => {
+                const value = ko.unwrap(valueAccessor());
 
-            if (isSettingValue || value === null || typeof value === 'undefined' || isNaN(value)) {
-                return;
-            }
+                if (isSettingValue || value === null || typeof value === 'undefined' || isNaN(value)) {
+                    return;
+                }
 
-            if (isValueAsNumberSupported) {
-                element.valueAsNumber = value;
-            } else {
-                element.value = kendo.toString(value, 'g', parseCulture);
-            }
-        }, this, { disposeWhenNodeIsRemoved: element });
+                if (isValueAsNumberSupported) {
+                    element.valueAsNumber = value;
+                } else {
+                    element.value = kendo.toString(value, 'g', parseCulture);
+                }
+            },
+            this,
+            { disposeWhenNodeIsRemoved: element }
+        );
 
         // Write to
         element.addEventListener('change', () => {

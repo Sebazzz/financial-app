@@ -1,4 +1,4 @@
-import {IPageRegistration} from 'AppFramework/Page';
+import { IPageRegistration } from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
@@ -33,7 +33,7 @@ class AuthForgotPasswordPage extends FormPage {
             this.appContext.router.navigateToDefault();
         }
 
-        this.model.user(args && args.user || null);
+        this.model.user((args && args.user) || null);
     }
 
     public async save(viewModel: validate.ValidateableViewModel) {
@@ -54,9 +54,7 @@ class AuthForgotPasswordPage extends FormPage {
 export default {
     id: module.id,
     templateName: 'auth/forgot-password',
-    routingTable: [
-        { name: 'auth.forgotPassword', path: '/forgot-password' }
-    ],
+    routingTable: [{ name: 'auth.forgotPassword', path: '/forgot-password' }],
     createPage: appContext => new AuthForgotPasswordPage(appContext),
     bodyClassName: 'page-login'
 } as IPageRegistration;

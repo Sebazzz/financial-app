@@ -1,4 +1,4 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as user from '../../../ServerApi/User';
 import * as ko from 'knockout';
@@ -21,7 +21,9 @@ class DefaultPage extends Page {
     }
 
     public async deleteUser(user: user.IAppUserListing) {
-        if (await confirmAsync(`Weet je zeker dat je ${user.userName} wilt verwijderen?`, 'Gebruiker verwijderen', true)) {
+        if (
+            await confirmAsync(`Weet je zeker dat je ${user.userName} wilt verwijderen?`, 'Gebruiker verwijderen', true)
+        ) {
             await this.api.delete(user.id);
             this.users.remove(user);
         }
@@ -32,5 +34,5 @@ export default {
     id: module.id,
     templateName: 'manage/user/default',
     routingTable: { name: 'manage.user', path: '/user' },
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext)
 } as IPageRegistration;

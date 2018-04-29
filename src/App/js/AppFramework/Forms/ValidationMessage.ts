@@ -1,12 +1,12 @@
 import * as ko from 'knockout';
 import * as v from './ValidateableViewModel';
-import {Page} from '../Page';
+import { Page } from '../Page';
 
-function findValidateableViewModel(bindingContext: KnockoutBindingContext): v.ValidateableViewModel|null {
+function findValidateableViewModel(bindingContext: KnockoutBindingContext): v.ValidateableViewModel | null {
     let currentBindingContext: KnockoutBindingContext | undefined = bindingContext,
         viewModel = bindingContext.$data;
 
-    while (!(viewModel instanceof v.ValidateableViewModel) && viewModel && !(viewModel instanceof Page /* too far */)) {
+    while (!(viewModel instanceof v.ValidateableViewModel) && viewModel && !(viewModel instanceof Page) /* too far */) {
         currentBindingContext = currentBindingContext && currentBindingContext.$parentContext;
 
         viewModel = currentBindingContext && currentBindingContext.$data;
@@ -20,10 +20,16 @@ function findValidateableViewModel(bindingContext: KnockoutBindingContext): v.Va
 }
 
 ko.bindingHandlers.validationMessage = {
-    init(element: HTMLElement, valueAccessor: () => string, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
+    init(
+        element: HTMLElement,
+        valueAccessor: () => string,
+        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        viewModel: any,
+        bindingContext: KnockoutBindingContext
+    ) {
         const validatable = findValidateableViewModel(bindingContext),
-              property = valueAccessor(),
-              $element = $(element);
+            property = valueAccessor(),
+            $element = $(element);
 
         if (!validatable) {
             return;
@@ -32,19 +38,21 @@ ko.bindingHandlers.validationMessage = {
         element.classList.add('invalid-feedback');
         element.classList.add('invalid-feedback-list');
 
-        ko.computed(() => {
-            const modelState = validatable.modelState();
-            if (!modelState) {
-                return;
-            }
+        ko
+            .computed(() => {
+                const modelState = validatable.modelState();
+                if (!modelState) {
+                    return;
+                }
 
-            const propertyState = modelState[property];
-            if (!propertyState) {
-                $element.text('');
-            } else {
-                $element.text(propertyState.join('\r\n'));
-            }
-        }).extend({ disposeWhenNodeIsRemoved: element });
+                const propertyState = modelState[property];
+                if (!propertyState) {
+                    $element.text('');
+                } else {
+                    $element.text(propertyState.join('\r\n'));
+                }
+            })
+            .extend({ disposeWhenNodeIsRemoved: element });
     },
 
     preprocess(value: string) {
@@ -53,7 +61,13 @@ ko.bindingHandlers.validationMessage = {
 };
 
 ko.bindingHandlers.validationProperty = {
-    init(element: HTMLInputElement, valueAccessor: () => string, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
+    init(
+        element: HTMLInputElement,
+        valueAccessor: () => string,
+        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        viewModel: any,
+        bindingContext: KnockoutBindingContext
+    ) {
         const validatable = findValidateableViewModel(bindingContext),
             property = valueAccessor();
 
@@ -61,7 +75,7 @@ ko.bindingHandlers.validationProperty = {
             return;
         }
 
-        function mark(validationState: string|undefined) {
+        function mark(validationState: string | undefined) {
             if ('setCustomValidity' in element) {
                 element.setCustomValidity(validationState ? validationState : '');
 
@@ -81,19 +95,21 @@ ko.bindingHandlers.validationProperty = {
             }
         }
 
-        ko.computed(() => {
-            const modelState = validatable.modelState();
-            if (!modelState) {
-                return;
-            }
+        ko
+            .computed(() => {
+                const modelState = validatable.modelState();
+                if (!modelState) {
+                    return;
+                }
 
-            const propertyState = modelState[property];
-            if (!propertyState) {
-                mark(undefined);
-            } else {
-                mark(propertyState.join('\r\n'));
-            }
-        }).extend({ disposeWhenNodeIsRemoved: element });
+                const propertyState = modelState[property];
+                if (!propertyState) {
+                    mark(undefined);
+                } else {
+                    mark(propertyState.join('\r\n'));
+                }
+            })
+            .extend({ disposeWhenNodeIsRemoved: element });
     },
 
     preprocess(value: string) {
@@ -103,9 +119,13 @@ ko.bindingHandlers.validationProperty = {
 
 function handleByConvention(bindingHandlerName: string): void {
     const bindingHandler = ko.bindingHandlers[bindingHandlerName],
-          existingPreprocess = bindingHandler.preprocess;
+        existingPreprocess = bindingHandler.preprocess;
 
-    bindingHandler.preprocess = (value: string, name: string, addBindingCallback: (name: string, value: string) => void) => {
+    bindingHandler.preprocess = (
+        value: string,
+        name: string,
+        addBindingCallback: (name: string, value: string) => void
+    ) => {
         addBindingCallback('validationProperty', value);
 
         return existingPreprocess ? existingPreprocess(value, name, addBindingCallback) : value;

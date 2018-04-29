@@ -1,4 +1,4 @@
-import { default as ApiBase, ICreatedResult} from 'AppFramework/ServerApi/ApiBase';
+import { default as ApiBase, ICreatedResult } from 'AppFramework/ServerApi/ApiBase';
 
 export interface IAppUserListing {
     email: string;

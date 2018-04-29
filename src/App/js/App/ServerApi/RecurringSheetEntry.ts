@@ -16,7 +16,7 @@ export interface IRecurringSheetEntry {
     delta: number;
     sortOrder: number;
     source: string;
-    remark: string|null;
+    remark: string | null;
     account: AccountType;
 }
 
@@ -54,7 +54,7 @@ export class Api extends ApiBase {
 
     public mutateOrder(id: number, mutation: SortOrderMutationType) {
         const mutationString = SortOrderMutationType[mutation].toLowerCase(),
-              url = `${id}/order/${mutationString}`;
+            url = `${id}/order/${mutationString}`;
 
         return this.execPost<void>(url);
     }
