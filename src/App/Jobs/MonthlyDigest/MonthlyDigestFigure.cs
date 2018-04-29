@@ -21,6 +21,8 @@ namespace App.Jobs.MonthlyDigest {
             }
         }
 
+        public decimal Difference => this.Amount - this.PreviousAmount;
+
         public decimal PreviousAmount { get; set; }
     }
 }

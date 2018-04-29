@@ -33,7 +33,7 @@ namespace App.Support {
 
 
         public void Update(HttpContext httpContext) {
-            if (this._siteUrl != null) {
+            if (this._siteUrl == null) {
                 this._logger.LogWarning("You have not set an explicit base URL of the application via the [Server:BaseUrl] option. The base URL is now automatically detected. This detection is possibly insecure, and can lead to incorrect results.");
 
                 HttpRequest request = httpContext.Request;

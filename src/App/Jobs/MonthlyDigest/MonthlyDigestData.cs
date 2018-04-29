@@ -18,5 +18,7 @@ namespace App.Jobs.MonthlyDigest {
 
         public List<ExpenseModel> UpcomingExpenses { get; } = new List<ExpenseModel>();
         public List<ExpenseModel> LargestExpenses { get; } = new List<ExpenseModel>();
+
+        public MonthlyDigestWealthData Wealth { get; } = new MonthlyDigestWealthData();
     }
 }
