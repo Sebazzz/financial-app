@@ -64,8 +64,8 @@ namespace App.Jobs.MonthlyDigest {
 
             this._logger.LogInformation($"Completed job for app owner #{appOwnerId}: Sent digest to {users.Count} users");
 
-            //appOwner.LastMonthlyDigestTimestamp = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-            //await this._appOwnerRepository.SaveChangesAsync();
+            appOwner.LastMonthlyDigestTimestamp = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            await this._appOwnerRepository.SaveChangesAsync();
         }
 
         private async Task SendDigestInternal(AppOwner appOwner, List<AppUser> users) {
