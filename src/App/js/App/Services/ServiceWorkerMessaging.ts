@@ -3,9 +3,8 @@ export interface IServiceWorkerMethod<TData> {
     data?: TData;
 }
 
-class ServiceWorkerMethod<T= never> implements IServiceWorkerMethod<T> {
-    constructor(public method: string, public data?: T) {
-    }
+class ServiceWorkerMethod<T = never> implements IServiceWorkerMethod<T> {
+    constructor(public method: string, public data?: T) {}
 
     public toString() {
         if (this.data) {
@@ -31,14 +30,18 @@ export class ServiceWorkerMessaging {
 
     public static sendMessageAsync<TResult, TMessage>(message: TMessage): Promise<TResult> {
         return new Promise((resolve, reject) => {
-            const messageString = message && message.toString() || JSON.stringify(message);
+            const messageString = (message && message.toString()) || JSON.stringify(message);
 
             console.info('[ServiceWorkerMessaging] Sending message %s', messageString);
 
             const messageChannel = new MessageChannel();
             messageChannel.port1.onmessage = (event: MessageEvent) => {
                 if (event.data.error) {
-                    console.error('[ServiceWorkerMessaging] Message %s -> Response error [%s]', messageString, event.data.error);
+                    console.error(
+                        '[ServiceWorkerMessaging] Message %s -> Response error [%s]',
+                        messageString,
+                        event.data.error
+                    );
 
                     reject(event.data.error);
                 } else {

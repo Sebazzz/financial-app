@@ -5,23 +5,36 @@ export type ModuleLoader<T> = () => Promise<T>;
 export type LoadingHandler = (element: Element) => void;
 
 export interface IPartialBindingHandler<T> {
-    init: (library: T, element: any, valueAccessor: () => any, allBindingsAccessor?: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext) => void;
+    init: (
+        library: T,
+        element: any,
+        valueAccessor: () => any,
+        allBindingsAccessor?: KnockoutAllBindingsAccessor,
+        viewModel?: any,
+        bindingContext?: KnockoutBindingContext
+    ) => void;
 }
 
 export default function register<T>(
-        name: string,
-        loader: ModuleLoader<T>,
-        initBindingHandler: IPartialBindingHandler<T>,
-        loadingHandler?: LoadingHandler
-    ) {
+    name: string,
+    loader: ModuleLoader<T>,
+    initBindingHandler: IPartialBindingHandler<T>,
+    loadingHandler?: LoadingHandler
+) {
     ko.bindingHandlers[name] = {
-        init(element: Element, valueAccessor: () => any, allBindingsAccessor?: KnockoutAllBindingsAccessor, viewModel?: any, bindingContext?: KnockoutBindingContext) {
+        init(
+            element: Element,
+            valueAccessor: () => any,
+            allBindingsAccessor?: KnockoutAllBindingsAccessor,
+            viewModel?: any,
+            bindingContext?: KnockoutBindingContext
+        ) {
             const initInternal = async () => {
                 let disposed = false;
 
                 loadingHandler && loadingHandler(element);
 
-                ko.utils.domNodeDisposal.addDisposeCallback(element, () => disposed = true);
+                ko.utils.domNodeDisposal.addDisposeCallback(element, () => (disposed = true));
                 const module = await loader();
                 if (disposed) {
                     return;

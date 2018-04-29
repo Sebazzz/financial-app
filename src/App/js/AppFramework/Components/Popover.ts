@@ -1,8 +1,8 @@
 ﻿import * as ko from 'knockout';
 import * as $ from 'jquery';
 
-export class PopoverController<T= any> {
-    private $component: PopoverComponentComponentModel|null = null;
+export class PopoverController<T = any> {
+    private $component: PopoverComponentComponentModel | null = null;
 
     /**
      * Sets the title. If not set, the title is hidden.
@@ -51,7 +51,6 @@ class PopoverComponentComponentModel {
         this.controller.setComponent(this);
 
         this.loadTemplate();
-
     }
 
     private loadTemplate() {
@@ -59,7 +58,9 @@ class PopoverComponentComponentModel {
             module.hot.accept('./templates/popover.html', () => {
                 this.loadTemplate();
 
-                console.warn('Popover: New template has been loaded, but re-rendering of component is required to apply changes');
+                console.warn(
+                    'Popover: New template has been loaded, but re-rendering of component is required to apply changes'
+                );
             });
         }
 
@@ -69,8 +70,8 @@ class PopoverComponentComponentModel {
     public show(element: Element): Promise<void> {
         return new Promise<void>(resolve => {
             const $popover = $(element),
-                  needsInitialization = !$popover.data('bs.popover'),
-                  eventHandlerName = 'click.bs-popover-auto-hide-' + this.instances.length;
+                needsInitialization = !$popover.data('bs.popover'),
+                eventHandlerName = 'click.bs-popover-auto-hide-' + this.instances.length;
 
             let isShown = false;
 
@@ -78,13 +79,13 @@ class PopoverComponentComponentModel {
                 $popover.on('inserted.bs.popover', () => {
                     try {
                         const template = $popover.data('bs.popover').getTipElement() as Element,
-                              root = template.querySelector('.ko-root') as Element,
-                              bindingContext = ko.contextFor(element) as KnockoutBindingContext,
-                              childBindingContext = bindingContext.extend({
-                                  $component: this.controller,
-                                  $viewModel: ko.utils.peekObservable(this.controller.popoverViewModel),
-                                  $nodes: this.contentNodes
-                              });
+                            root = template.querySelector('.ko-root') as Element,
+                            bindingContext = ko.contextFor(element) as KnockoutBindingContext,
+                            childBindingContext = bindingContext.extend({
+                                $component: this.controller,
+                                $viewModel: ko.utils.peekObservable(this.controller.popoverViewModel),
+                                $nodes: this.contentNodes
+                            });
 
                         root.innerHTML = this.template;
 
@@ -109,12 +110,12 @@ class PopoverComponentComponentModel {
 
                 $popover.data('bs.popover.controller', this.controller);
 
-                $(document.body).on(eventHandlerName,ev => {
+                $(document.body).on(eventHandlerName, ev => {
                     if (!isShown) {
                         return;
                     }
 
-                    if ((ev.target as Element === element) || $.contains(element, ev.target as Element)) {
+                    if ((ev.target as Element) === element || $.contains(element, ev.target as Element)) {
                         ev.preventDefault();
                         return;
                     }
@@ -160,7 +161,11 @@ class PopoverComponent implements KnockoutComponentTypes.ComponentConfig {
 
     public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
         createViewModel: (params: IPopoverParams, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
-            return new PopoverComponentComponentModel(params, componentInfo.templateNodes, componentInfo.element as Element);
+            return new PopoverComponentComponentModel(
+                params,
+                componentInfo.templateNodes,
+                componentInfo.element as Element
+            );
         }
     };
 
@@ -173,9 +178,18 @@ export default function register() {
     ko.components.register('popover', new PopoverComponent());
 
     ko.bindingHandlers.popover = {
-        init(element: Element, valueAccessor: () => { controller: PopoverController, data: any | DataFactory}, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext): void {
+        init(
+            element: Element,
+            valueAccessor: () => {
+                controller: PopoverController;
+                data: any | DataFactory;
+            },
+            allBindingsAccessor: KnockoutAllBindingsAccessor,
+            viewModel: any,
+            bindingContext: KnockoutBindingContext
+        ): void {
             const options = valueAccessor(),
-                  controller = options.controller;
+                controller = options.controller;
 
             function onHoverIn() {
                 let data = typeof options.data === 'function' ? options.data(viewModel) : options.data;
@@ -183,8 +197,7 @@ export default function register() {
                     data = bindingContext.$data;
                 }
 
-                controller.show(data, element)
-                          .catch(reason => console.error(reason));
+                controller.show(data, element).catch(reason => console.error(reason));
             }
 
             function onHoverOut() {

@@ -5,17 +5,17 @@ import * as recurring from '../ServerApi/RecurringSheetEntry';
 export class SheetTotalCalculationService {
     public calculateTotal(sheet: sheet.ISheet, accountType: sheetEntry.AccountType) {
         let total = 0;
-        sheet.entries.forEach(item => total += (item.account === accountType ? item.delta : 0));
+        sheet.entries.forEach(item => (total += item.account === accountType ? item.delta : 0));
 
         if (accountType === sheetEntry.AccountType.BankAccount) {
-            total += (sheet.offset.bankAccountOffset || 0);
+            total += sheet.offset.bankAccountOffset || 0;
         }
 
         if (accountType === sheetEntry.AccountType.SavingsAccount) {
-            total += (sheet.offset.savingsAccountOffset || 0);
+            total += sheet.offset.savingsAccountOffset || 0;
         }
 
-        return total || 0.00;
+        return total || 0.0;
     }
 }
 
@@ -27,7 +27,9 @@ export class SheetExpensesCalculationService {
         // until the first income
         const sheetTotal = this.sheetTotalCalculation.calculateTotal(sheet, sheetEntry.AccountType.BankAccount),
             existingRecurringExpenses = sheet.entries.filter(x => x.templateId !== null).map(x => x.templateId),
-            orderedExpectedExpenses = sheet.applicableTemplates.filter(x => existingRecurringExpenses.indexOf(x.id) === -1).sort((x, y) => x.sortOrder - y.sortOrder),
+            orderedExpectedExpenses = sheet.applicableTemplates
+                .filter(x => existingRecurringExpenses.indexOf(x.id) === -1)
+                .sort((x, y) => x.sortOrder - y.sortOrder),
             unpayableExpenses: recurring.IRecurringSheetEntry[] = [];
 
         let nextIncome: recurring.IRecurringSheetEntry | null = null,
@@ -63,6 +65,6 @@ export class SheetExpensesCalculationService {
 export interface ISheetExpenseTrajectory {
     totalBankWithExpense: number;
 
-    nextIncome: recurring.IRecurringSheetEntry|null;
+    nextIncome: recurring.IRecurringSheetEntry | null;
     unpayableExpenses: recurring.IRecurringSheetEntry[];
 }

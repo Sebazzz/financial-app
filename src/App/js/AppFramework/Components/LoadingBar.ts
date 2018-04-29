@@ -1,7 +1,7 @@
 import AppContext from '../AppContext';
 import * as ko from 'knockout';
 import * as $ from 'jquery';
-import {default as HttpClient, IHttpInterceptor} from '../ServerApi/HttpClient';
+import { default as HttpClient, IHttpInterceptor } from '../ServerApi/HttpClient';
 
 const settings = {
     completionTimeOut: 500,
@@ -18,7 +18,7 @@ class LoadingBarComponentModel implements IHttpInterceptor {
 
     private requestCounters = {
         totalRequests: 0,
-        completedRequests: 0,
+        completedRequests: 0
     };
     private startAnimationHandle: number = 0;
 
@@ -123,10 +123,10 @@ class LoadingBarComponentModel implements IHttpInterceptor {
             rnd = (Math.random() * (5 - 3 + 1) + 3) / 100;
         } else if (stat >= 0.25 && stat < 0.65) {
             // increment between 0 - 3%
-            rnd = (Math.random() * 3) / 100;
+            rnd = Math.random() * 3 / 100;
         } else if (stat >= 0.65 && stat < 0.9) {
             // increment between 0 - 2%
-            rnd = (Math.random() * 2) / 100;
+            rnd = Math.random() * 2 / 100;
         } else if (stat >= 0.9 && stat < 0.99) {
             // finally, increment it .5 %
             rnd = 0.005;
@@ -144,8 +144,8 @@ class LoadingBarComponentModel implements IHttpInterceptor {
             return;
         }
 
-        const percentageString = (percentage * 100) + '%';
-        this.$element.animate({width: percentageString},  'fast', 'swing');
+        const percentageString = percentage * 100 + '%';
+        this.$element.animate({ width: percentageString }, 'fast', 'swing');
 
         this.status = percentage;
 

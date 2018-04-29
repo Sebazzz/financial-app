@@ -2,9 +2,9 @@
 
 declare namespace webpack {
     interface Module {
-        loaded:boolean;
-        id : string;
-        DEBUG : boolean;
+        loaded: boolean;
+        id: string;
+        DEBUG: boolean;
     }
 
     export type IRequireCallback = (require: IRequire) => void;
@@ -13,12 +13,17 @@ declare namespace webpack {
         /**
          * Import the specified asset
          */
-        <T=any>(input: string): T;
+        <T = any>(input: string): T;
 
         /*
          * Import the specified asset lazily
          */
-        ensure(dependencies: string[]|string, callback: IRequireCallback, error: IRequireCallback, chunkName : string) : void;
+        ensure(
+            dependencies: string[] | string,
+            callback: IRequireCallback,
+            error: IRequireCallback,
+            chunkName: string
+        ): void;
     }
 }
 

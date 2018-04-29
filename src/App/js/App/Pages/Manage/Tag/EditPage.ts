@@ -1,5 +1,5 @@
 import AppContext from 'AppFramework/AppContext';
-import {IPageRegistration} from 'AppFramework/Page';
+import { IPageRegistration } from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as tag from '../../../ServerApi/Tag';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
@@ -39,8 +39,8 @@ class EditPage extends FormPage {
 
         try {
             const serialized = ko.toJS(tag) as tag.ITag,
-                  id = this.id.peek(),
-                  isNew = id === 0;
+                id = this.id.peek(),
+                isNew = id === 0;
 
             if (isNew) {
                 await this.api.create(serialized);
@@ -94,17 +94,13 @@ export class EditViewModel extends validate.ValidateableViewModel {
             } else {
                 this.disableColorSelection();
             }
-        },
-        100);
+        }, 100);
     }
 }
 
 export default {
     id: module.id,
     templateName: 'manage/tag/edit',
-    routingTable: [
-        { name: 'manage.tag.edit', path: '/edit/:id' },
-        { name: 'manage.tag.add', path: '/add'}
-    ],
-    createPage:appContext => new EditPage(appContext)
+    routingTable: [{ name: 'manage.tag.edit', path: '/edit/:id' }, { name: 'manage.tag.add', path: '/add' }],
+    createPage: appContext => new EditPage(appContext)
 } as IPageRegistration;

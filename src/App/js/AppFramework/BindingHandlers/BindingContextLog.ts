@@ -1,8 +1,8 @@
 import * as ko from 'knockout';
 
-const noImplMarker = (new Object()).toString();
+const noImplMarker = new Object().toString();
 
-function getName(input: any|KnockoutObservable<any>|undefined|null): string {
+function getName(input: any | KnockoutObservable<any> | undefined | null): string {
     const unwrapped = ko.unwrap(input);
 
     let toString: string;
@@ -55,37 +55,45 @@ function logLookup(prefix: string, bindingContext: any) {
 }
 
 ko.bindingHandlers.bindingContextLog = {
-    init(element: Node, valueAccessor: () => string, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: any, bindingContext: KnockoutBindingContext) {
+    init(
+        element: Node,
+        valueAccessor: () => string,
+        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        viewModel: any,
+        bindingContext: KnockoutBindingContext
+    ) {
         if (DEBUG === false) {
             return;
         }
 
         const marker = valueAccessor();
 
-        ko.computed(() => {
-            try {
-                console.group('bindingContext ' + marker);
+        ko
+            .computed(() => {
+                try {
+                    console.group('bindingContext ' + marker);
 
-                logProperty('$data', bindingContext.$data);
-                logProperty('$component', bindingContext.$component);
-                logProperty('$index', bindingContext.$index);
-                logProperty('$root', bindingContext.$root);
-                logProperty('$parent', bindingContext.$parent);
-                logLookup('', bindingContext);
+                    logProperty('$data', bindingContext.$data);
+                    logProperty('$component', bindingContext.$component);
+                    logProperty('$index', bindingContext.$index);
+                    logProperty('$root', bindingContext.$root);
+                    logProperty('$parent', bindingContext.$parent);
+                    logLookup('', bindingContext);
 
-                const parentContext = bindingContext.$parentContext;
-                if (parentContext) {
-                    logProperty('$parentContext.$data', parentContext.$data);
-                    logProperty('$parentContext.$component', parentContext.$component);
-                    logProperty('$parentContext.$index', parentContext.$index);
-                    logProperty('$parentContext.$root', parentContext.$root);
-                    logProperty('$parentContext.$parent', parentContext.$parent);
-                    logLookup('$parentContext.', parentContext);
+                    const parentContext = bindingContext.$parentContext;
+                    if (parentContext) {
+                        logProperty('$parentContext.$data', parentContext.$data);
+                        logProperty('$parentContext.$component', parentContext.$component);
+                        logProperty('$parentContext.$index', parentContext.$index);
+                        logProperty('$parentContext.$root', parentContext.$root);
+                        logProperty('$parentContext.$parent', parentContext.$parent);
+                        logLookup('$parentContext.', parentContext);
+                    }
+                } finally {
+                    console.groupEnd();
                 }
-            } finally {
-                console.groupEnd();
-            }
-        }).extend({ disposeWhenNodeIsRemoved: element});
+            })
+            .extend({ disposeWhenNodeIsRemoved: element });
     }
 };
 ko.virtualElements.allowedBindings.bindingContextLog = true;

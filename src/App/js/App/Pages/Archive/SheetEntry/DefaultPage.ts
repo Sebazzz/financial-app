@@ -1,4 +1,4 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 
 class DefaultPage extends Page {
@@ -6,16 +6,23 @@ class DefaultPage extends Page {
         super(appContext);
     }
 
-    protected async onActivate(args?: any): Promise<void> {
-    }
+    protected async onActivate(args?: any): Promise<void> {}
 }
 
 export default {
     id: module.id,
     templateName: 'default',
     routingTable: [
-        { name: 'sheet.entry', path: '/entry', forwardTo: 'archive.sheet.entry' },
-        { name: 'archive.sheet.entry', path: '/entry', forwardTo: 'archive.sheet' }
+        {
+            name: 'sheet.entry',
+            path: '/entry',
+            forwardTo: 'archive.sheet.entry'
+        },
+        {
+            name: 'archive.sheet.entry',
+            path: '/entry',
+            forwardTo: 'archive.sheet'
+        }
     ],
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext)
 } as IPageRegistration;

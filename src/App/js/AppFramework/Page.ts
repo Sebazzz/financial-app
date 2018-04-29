@@ -3,7 +3,7 @@ import { Router, State } from 'router5';
 import { RoutingTable } from './Router';
 import isMobile from 'AppFramework/Client/BrowserDetector';
 
-import {Panel, ActivationPromise} from './Panel';
+import { Panel, ActivationPromise } from './Panel';
 import * as ko from 'knockout';
 
 export interface IPageRegistration {
@@ -64,7 +64,7 @@ export abstract class Page extends Panel {
 
     private disposeObservables() {
         // Proactively dispose any computed properties to prevent memory leaks
-        const bag = (this as any);
+        const bag = this as any;
 
         // ReSharper disable once MissingHasOwnPropertyInForeach
         // tslint:disable-next-line:forin
@@ -79,11 +79,13 @@ export abstract class Page extends Panel {
 }
 
 const defaultTemplateName = 'page-loader',
-      errorTemplateName = 'page-error',
-      magicTemplates = [defaultTemplateName, errorTemplateName];
+    errorTemplateName = 'page-error',
+    magicTemplates = [defaultTemplateName, errorTemplateName];
 
 class PageTemplateManager {
-    private loadedTemplates: { [template: string]: boolean | null | undefined } = {};
+    private loadedTemplates: {
+        [template: string]: boolean | null | undefined;
+    } = {};
 
     constructor() {
         // Provided by app implementor
@@ -107,8 +109,8 @@ class PageTemplateManager {
 
         console.log('TemplateManager: Loading template from %s as %s', templateName, templateId);
 
-        const content = (await PageTemplateManager.importAsync(templateName)),
-              domElement = document.createElement('script') as HTMLScriptElement;
+        const content = await PageTemplateManager.importAsync(templateName),
+            domElement = document.createElement('script') as HTMLScriptElement;
 
         console.log('TemplateManager: Loaded template from %s', templateName, templateId);
 
@@ -144,15 +146,15 @@ class PageTemplateManager {
 
     public async reload(templateName: string) {
         const templateId = PageTemplateManager.templateId(templateName),
-              domElement = document.getElementById(templateId) as HTMLScriptElement,
-              newTemplate = await PageTemplateManager.importAsync(templateName);
+            domElement = document.getElementById(templateId) as HTMLScriptElement,
+            newTemplate = await PageTemplateManager.importAsync(templateName);
 
         domElement.innerHTML = newTemplate.default;
 
         return newTemplate;
     }
 
-    private static async importAsync(templateName: string): Promise<{default: string}>  {
+    private static async importAsync(templateName: string): Promise<{ default: string }> {
         // TODO: Use template string once TS compiler bug has been fixed [https://github.com/Microsoft/TypeScript/issues/16763]
 
         // We cannot check in advance whether a mobile template is available,
@@ -161,22 +163,19 @@ class PageTemplateManager {
             const isMobileDevice = isMobile();
 
             if (isMobileDevice) {
-                return await import(
-                    /* webpackChunkName: "templates" */
-                    /* webpackMode: "lazy" */
-                    '~/ko-templates/' + templateName + '.mobile.html');
+                return await import(/* webpackChunkName: "templates" */
+                /* webpackMode: "lazy" */
+                '~/ko-templates/' + templateName + '.mobile.html');
             }
             console.log('~/ko-templates/' + templateName + '.html');
-            return await import(
-                /* webpackChunkName: "templates" */
-                /* webpackMode: "lazy" */
-                '~/ko-templates/' + templateName + '.html');
+            return await import(/* webpackChunkName: "templates" */
+            /* webpackMode: "lazy" */
+            '~/ko-templates/' + templateName + '.html');
         } catch (e) {
             console.log('~/ko-templates/' + templateName + '.html');
-            return await import(
-                /* webpackChunkName: "templates" */
-                /* webpackMode: "lazy" */
-                '~/ko-templates/' + templateName + '.html');
+            return await import(/* webpackChunkName: "templates" */
+            /* webpackMode: "lazy" */
+            '~/ko-templates/' + templateName + '.html');
         }
     }
 
@@ -190,10 +189,10 @@ class PageTemplateManager {
 }
 
 export class RouterUtils {
-    public static getPage(router: Router): Page|null {
+    public static getPage(router: Router): Page | null {
         const deps = router.getDependencies();
 
-        return deps && deps['app.page'] || null;
+        return (deps && deps['app.page']) || null;
     }
 }
 
@@ -205,11 +204,11 @@ class PageComponentModel {
     public page = ko.observable<Page | null>(null);
     public errorInfo = ko.observable<string | null>(null);
 
-    public bodyClassName = ko.observable<string|null>(null);
+    public bodyClassName = ko.observable<string | null>(null);
 
     public title = ko.computed(() => {
         const page = this.page(),
-              pageTitle = page && page.title();
+            pageTitle = page && page.title();
 
         return pageTitle;
     });
@@ -224,7 +223,7 @@ class PageComponentModel {
             document.title = title ? `${title} - ${this.appContext.title}` : this.appContext.title;
         });
 
-        let oldClassName: string|null = null;
+        let oldClassName: string | null = null;
         ko.computed(() => {
             const newClassName = this.bodyClassName();
 
@@ -242,7 +241,11 @@ class PageComponentModel {
 
     public async handleRouteChange(toState: State, fromState?: State): Promise<boolean> {
         try {
-            console.info('Route changes %s to %s: Deactivating page', fromState && fromState.name || '(null)', toState.name);
+            console.info(
+                'Route changes %s to %s: Deactivating page',
+                (fromState && fromState.name) || '(null)',
+                toState.name
+            );
 
             const currentPage = this.page();
             if (currentPage) {
@@ -252,14 +255,21 @@ class PageComponentModel {
             this.templateName(defaultTemplateName);
             this.page(null);
 
-            console.info('Route changes %s to %s: Activating page / loading template', fromState && fromState.name || '(null)', toState.name);
+            console.info(
+                'Route changes %s to %s: Activating page / loading template',
+                (fromState && fromState.name) || '(null)',
+                toState.name
+            );
 
             const pageRegistration = this.findPage(toState.name),
-                  page = pageRegistration.createPage(this.appContext);
+                page = pageRegistration.createPage(this.appContext);
 
             this.bodyClassName(pageRegistration.bodyClassName || null);
 
-            const [templateId] = await Promise.all([this.loadTemplate(pageRegistration), page.activate(toState.params)]);
+            const [templateId] = await Promise.all([
+                this.loadTemplate(pageRegistration),
+                page.activate(toState.params)
+            ]);
 
             this.page(page);
             this.templateName(templateId);
@@ -301,7 +311,7 @@ class PageComponentModel {
 
             console.group('Reloading template... ' + templateId);
 
-            const koUtils = (ko.utils as any),
+            const koUtils = ko.utils as any,
                 currentErrorHandler = koUtils.deferError;
 
             koUtils.deferError = (e: Error) => {

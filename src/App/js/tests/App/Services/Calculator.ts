@@ -1,11 +1,12 @@
 /* tslint:disable */
-import {ISheet} from 'App/ServerApi/Sheet';
+import { ISheet } from 'App/ServerApi/Sheet';
 import { IRecurringSheetEntry } from 'App/ServerApi/RecurringSheetEntry';
 import { AccountType, ISheetEntry } from 'App/ServerApi/SheetEntry';
 import * as calculators from 'App/Services/Calculator';
 import { expect } from 'chai';
 
-let id = 0, sortOrder = 0;
+let id = 0,
+    sortOrder = 0;
 function createEntry(delta: number, type: AccountType): ISheetEntry {
     return {
         source: 'fake',
@@ -60,17 +61,17 @@ describe('SheetTotalCalculationService calculates totals of sheet', () => {
 
         it('returns result corrected with offset from previous month', () => {
             const sheet: ISheet = {
-                    id: 0,
-                    subject: new Date(),
-                    name: null,
-                    updateTimestamp: new Date(),
-                    createTimestamp: new Date(),
+                id: 0,
+                subject: new Date(),
+                name: null,
+                updateTimestamp: new Date(),
+                createTimestamp: new Date(),
 
-                    // The properties that reaully matter
-                    offset: { savingsAccountOffset: 1600, bankAccountOffset: 323 },
-                    entries: [],
-                    applicableTemplates: []
-                };
+                // The properties that reaully matter
+                offset: { savingsAccountOffset: 1600, bankAccountOffset: 323 },
+                entries: [],
+                applicableTemplates: []
+            };
 
             const result = calculator.calculateTotal(sheet, AccountType.SavingsAccount);
 
@@ -81,20 +82,17 @@ describe('SheetTotalCalculationService calculates totals of sheet', () => {
     describe('filled sheet', () => {
         it('returns result for selected type', () => {
             const sheet: ISheet = {
-                    id: 0,
-                    subject: new Date(),
-                    name: null,
-                    updateTimestamp: new Date(),
-                    createTimestamp: new Date(),
+                id: 0,
+                subject: new Date(),
+                name: null,
+                updateTimestamp: new Date(),
+                createTimestamp: new Date(),
 
-                    // The properties that reaully matter
-                    offset: { savingsAccountOffset: null, bankAccountOffset: null },
-                    entries: [
-                            createEntry(100, AccountType.SavingsAccount),
-                            createEntry(500, AccountType.BankAccount)
-                        ],
-                    applicableTemplates: []
-                };
+                // The properties that reaully matter
+                offset: { savingsAccountOffset: null, bankAccountOffset: null },
+                entries: [createEntry(100, AccountType.SavingsAccount), createEntry(500, AccountType.BankAccount)],
+                applicableTemplates: []
+            };
 
             const result = calculator.calculateTotal(sheet, AccountType.BankAccount);
 
@@ -103,20 +101,17 @@ describe('SheetTotalCalculationService calculates totals of sheet', () => {
 
         it('returns result corrected with offset from previous month', () => {
             const sheet: ISheet = {
-                    id: 0,
-                    subject: new Date(),
-                    name: null,
-                    updateTimestamp: new Date(),
-                    createTimestamp: new Date(),
+                id: 0,
+                subject: new Date(),
+                name: null,
+                updateTimestamp: new Date(),
+                createTimestamp: new Date(),
 
-                    // The properties that reaully matter
-                    offset: { savingsAccountOffset: 1600, bankAccountOffset: null },
-                    entries: [
-                            createEntry(100, AccountType.SavingsAccount),
-                            createEntry(500, AccountType.BankAccount)
-                        ],
-                    applicableTemplates: []
-                };
+                // The properties that reaully matter
+                offset: { savingsAccountOffset: 1600, bankAccountOffset: null },
+                entries: [createEntry(100, AccountType.SavingsAccount), createEntry(500, AccountType.BankAccount)],
+                applicableTemplates: []
+            };
 
             const result = calculator.calculateTotal(sheet, AccountType.SavingsAccount);
 
@@ -160,12 +155,8 @@ describe('SheetExpensesCalculationService calculates expense trajectory', () => 
 
                 // The properties that reaully matter
                 offset: { savingsAccountOffset: null, bankAccountOffset: 500 },
-                entries: [
-                    createEntry(250, AccountType.BankAccount)
-                ],
-                applicableTemplates: [
-                    createEntryTemplate(-350, AccountType.BankAccount)
-                ]
+                entries: [createEntry(250, AccountType.BankAccount)],
+                applicableTemplates: [createEntryTemplate(-350, AccountType.BankAccount)]
             };
 
             const result = calculator.calculateExpenseTrajectory(sheet);
@@ -211,9 +202,7 @@ describe('SheetExpensesCalculationService calculates expense trajectory', () => 
 
                 // The properties that reaully matter
                 offset: { savingsAccountOffset: null, bankAccountOffset: 500 },
-                entries: [
-                    createEntry(250, AccountType.BankAccount)
-                ],
+                entries: [createEntry(250, AccountType.BankAccount)],
                 applicableTemplates: [income]
             };
 
@@ -235,9 +224,7 @@ describe('SheetExpensesCalculationService calculates expense trajectory', () => 
 
                 // The properties that reaully matter
                 offset: { savingsAccountOffset: null, bankAccountOffset: 500 },
-                entries: [
-                    createEntry(-750, AccountType.BankAccount)
-                ],
+                entries: [createEntry(-750, AccountType.BankAccount)],
                 applicableTemplates: [income]
             };
 
@@ -255,19 +242,17 @@ describe('SheetExpensesCalculationService calculates expense trajectory', () => 
             const expense = createEntryTemplate(-1000, AccountType.BankAccount, 2);
 
             const sheet: ISheet = {
-                    id: 0,
-                    subject: new Date(),
-                    name: null,
-                    updateTimestamp: new Date(),
-                    createTimestamp: new Date(),
+                id: 0,
+                subject: new Date(),
+                name: null,
+                updateTimestamp: new Date(),
+                createTimestamp: new Date(),
 
-                    // The properties that reaully matter
-                    offset: { savingsAccountOffset: null, bankAccountOffset: 500 },
-                    entries: [
-                        createEntry(-50, AccountType.BankAccount)
-                    ],
-                    applicableTemplates: [income, expense]
-                };
+                // The properties that reaully matter
+                offset: { savingsAccountOffset: null, bankAccountOffset: 500 },
+                entries: [createEntry(-50, AccountType.BankAccount)],
+                applicableTemplates: [income, expense]
+            };
 
             const result = calculator.calculateExpenseTrajectory(sheet);
 
@@ -289,9 +274,7 @@ describe('SheetExpensesCalculationService calculates expense trajectory', () => 
 
                 // The properties that reaully matter
                 offset: { savingsAccountOffset: null, bankAccountOffset: 500 },
-                entries: [
-                    createEntry(-50, AccountType.BankAccount)
-                ],
+                entries: [createEntry(-50, AccountType.BankAccount)],
                 applicableTemplates: [income, expense]
             };
 

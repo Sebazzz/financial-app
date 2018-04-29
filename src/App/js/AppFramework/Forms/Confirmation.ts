@@ -11,7 +11,13 @@ import * as ko from 'knockout';
  * @param rejectButtonText
  * @returns {}
  */
-export default function confirmAsync(text: string, title?: string, isDanger = false, confirmButtonText = 'Ja', rejectButtonText = 'Nee'): Promise<boolean> {
+export default function confirmAsync(
+    text: string,
+    title?: string,
+    isDanger = false,
+    confirmButtonText = 'Ja',
+    rejectButtonText = 'Nee'
+): Promise<boolean> {
     const template = require('./templates/confirmation.html');
 
     const viewModel = {
@@ -29,7 +35,7 @@ export default function confirmAsync(text: string, title?: string, isDanger = fa
     ko.applyBindings(viewModel, modalContainer);
 
     const $modalContainer = $(modalContainer),
-          $modal = $modalContainer.children('.modal');
+        $modal = $modalContainer.children('.modal');
 
     if (isDanger) {
         $modal.addClass('modal-danger');

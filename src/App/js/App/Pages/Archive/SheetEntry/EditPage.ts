@@ -1,5 +1,5 @@
 import FormPage from 'AppFramework/Forms/FormPage';
-import {IPageRegistration} from 'AppFramework/Page';
+import { IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import NowRouteProvider from '../../../Services/NowRoute';
 import { AccountType } from '../../../ServerApi/SheetEntry';
@@ -15,7 +15,7 @@ import * as category from '../../../ServerApi/Category';
 
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 
-import {State} from 'router5';
+import { State } from 'router5';
 
 class EditPage extends FormPage {
     private categoryApi = new category.Api();
@@ -53,8 +53,10 @@ class EditPage extends FormPage {
             throw new Error('Invalid argument');
         }
 
-        const month = +args.month, year = +args.year, date = new Date(year, month - 1);
-        if (date.getMonth() !== (month - 1) || date.getFullYear() !== year) {
+        const month = +args.month,
+            year = +args.year,
+            date = new Date(year, month - 1);
+        if (date.getMonth() !== month - 1 || date.getFullYear() !== year) {
             throw new Error('Unable to validate parameters: Not a valid month/year');
         }
 
@@ -63,14 +65,14 @@ class EditPage extends FormPage {
 
         // We can pull in autocompletion data concurrently, but we won't wait
         // for it because it is not essential to the functionality of this page
-        this.sheetApi.getSourceAutocompletionData(year, month)
-            .then(data => this.sourceAutocompletionData(data),
-                  err => console.error(err));
+        this.sheetApi
+            .getSourceAutocompletionData(year, month)
+            .then(data => this.sourceAutocompletionData(data), err => console.error(err));
 
         const baseTitle = `Financiën ${kendo.toString(date, 'MMMM yyyy')}`;
 
         const loadCategories = this.categoryApi.list(),
-              loadTags = this.tagApi.list();
+            loadTags = this.tagApi.list();
 
         if (args && args.id) {
             this.id(+args.id);
@@ -80,7 +82,8 @@ class EditPage extends FormPage {
             const [entity, tags, categories] = await Promise.all([
                 this.api.get(this.id.peek()),
                 loadTags,
-                loadCategories]);
+                loadCategories
+            ]);
             this.set(entity);
             this.availableCategories(categories);
             this.availableTags(tags);
@@ -88,7 +91,7 @@ class EditPage extends FormPage {
             this.title(`Regel "${this.entry().source()}" bewerken - ${baseTitle}`);
         } else {
             const templateId = +(args && args.templateId),
-                  model = new EditViewModel();
+                model = new EditViewModel();
 
             if (!isNaN(templateId) && templateId !== 0) {
                 try {
@@ -109,21 +112,19 @@ class EditPage extends FormPage {
             this.entry(model);
             this.title(`Regel aanmaken - ${baseTitle}`);
 
-            const [tags, categories] = await Promise.all([
-                loadTags,
-                loadCategories]);
+            const [tags, categories] = await Promise.all([loadTags, loadCategories]);
             this.availableTags(tags);
             this.availableCategories(categories);
         }
     }
 
-    public async save(_: never, submissionName: string|null): Promise<void> {
+    public async save(_: never, submissionName: string | null): Promise<void> {
         const entryTemplate = this.entry.peek();
 
         try {
             const serialized = ko.toJS(entryTemplate) as sheetEntry.ISheetEntry,
-                  id = this.id.peek(),
-                  isNew = id === 0;
+                id = this.id.peek(),
+                isNew = id === 0;
 
             if (isNew) {
                 await this.api.create(serialized);
@@ -163,10 +164,10 @@ class EditPage extends FormPage {
             option.style.backgroundColor = '#' + item.hexColorCode;
 
             const r = parseInt(item.hexColorCode.substr(0, 2), 16),
-                  g = parseInt(item.hexColorCode.substr(2, 2), 16),
-                  b = parseInt(item.hexColorCode.substr(4, 2), 16),
-                  // ref: https://stackoverflow.com/a/596243/646215
-                  lightness = (0.299 * r + 0.587 * g + 0.114 * b);
+                g = parseInt(item.hexColorCode.substr(2, 2), 16),
+                b = parseInt(item.hexColorCode.substr(4, 2), 16),
+                // ref: https://stackoverflow.com/a/596243/646215
+                lightness = 0.299 * r + 0.587 * g + 0.114 * b;
 
             if (lightness < 90) {
                 option.style.color = '#FFF';
@@ -200,8 +201,16 @@ export default {
     id: module.id,
     templateName: 'archive/sheetentry-edit',
     routingTable: [
-        { name: 'sheet.entry.add', path: '/add', forwardTo: 'archive.sheet.entry.add' },
-        { name: 'sheet.entry.edit', path: '/edit/:id', forwardTo: 'archive.sheet.entry.edit' },
+        {
+            name: 'sheet.entry.add',
+            path: '/add',
+            forwardTo: 'archive.sheet.entry.add'
+        },
+        {
+            name: 'sheet.entry.edit',
+            path: '/edit/:id',
+            forwardTo: 'archive.sheet.entry.edit'
+        },
 
         { name: 'archive.sheet.entry.edit', path: '/edit/:id' },
         { name: 'archive.sheet.entry.add', path: '/add' },

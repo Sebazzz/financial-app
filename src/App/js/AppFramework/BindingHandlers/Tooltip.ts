@@ -12,7 +12,7 @@ function getTooltipOptions(input: TooltipOptions) {
     const textMaybeString = ko.unwrap<string | ITooltipOptions>(input);
     if (typeof textMaybeString === 'string') {
         return {
-            text: input as (KnockoutObservable<string> | string),
+            text: input as KnockoutObservable<string> | string,
             forceOpen: false
         };
     }
@@ -24,27 +24,29 @@ ko.bindingHandlers.tooltip = {
     init(element: HTMLElement, valueAccessor: () => TooltipOptions) {
         const $element = $(element);
 
-        ko.computed(() => {
-            const options = getTooltipOptions(valueAccessor());
-            const text = options && ko.unwrap(options.text);
-            if (!text) {
-                return;
-            }
+        ko
+            .computed(() => {
+                const options = getTooltipOptions(valueAccessor());
+                const text = options && ko.unwrap(options.text);
+                if (!text) {
+                    return;
+                }
 
-            const forceOpen = ko.unwrap(options.forceOpen);
-            const trigger = forceOpen ? 'manual' : 'hover focus';
+                const forceOpen = ko.unwrap(options.forceOpen);
+                const trigger = forceOpen ? 'manual' : 'hover focus';
 
-            $element.tooltip('dispose');
-            $element.tooltip({
-                title: text,
-                trigger
-            });
+                $element.tooltip('dispose');
+                $element.tooltip({
+                    title: text,
+                    trigger
+                });
 
-            if (forceOpen) {
-                $element.tooltip('show');
-            }
-        }).extend({
-            disposeWhenNodeIsRemoved: element
+                if (forceOpen) {
+                    $element.tooltip('show');
+                }
+            })
+            .extend({
+                disposeWhenNodeIsRemoved: element
             });
 
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => {

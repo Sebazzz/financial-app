@@ -1,4 +1,4 @@
-﻿import {Page, IPageRegistration} from 'AppFramework/Page';
+﻿import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import ServiceWorkerMethods from 'App/Services/ServiceWorkerMessaging';
 import { initialize as initializeServiceWorker } from 'App/Services/ServiceWorkerManager';
@@ -39,7 +39,7 @@ class ServiceWorkerController {
     private currentRegistration: ServiceWorkerRegistration | null = null;
 
     public isInstalled = ko.observable(false);
-    public isSupported = ('serviceWorker' in navigator);
+    public isSupported = 'serviceWorker' in navigator;
 
     public state = ko.observable<ServiceWorkerState>();
     public scriptUrl = ko.observable<string>();
@@ -53,7 +53,7 @@ class ServiceWorkerController {
             return;
         }
 
-        const sw = this.serviceWorkerContainer = navigator.serviceWorker;
+        const sw = (this.serviceWorkerContainer = navigator.serviceWorker);
         this.serviceWorker = sw.controller;
 
         this.isInstalled(this.serviceWorker !== null);
@@ -173,7 +173,7 @@ class ServiceWorkerController {
 
     private executeAction(action: (reg: ServiceWorkerRegistration) => Promise<void>, event: Event) {
         const reg = this.currentRegistration,
-              element = event.target as HTMLInputElement;
+            element = event.target as HTMLInputElement;
 
         if (!reg) {
             this.appendConsole('Niet mogelijk');
@@ -190,7 +190,7 @@ class ServiceWorkerController {
             try {
                 await action(reg);
             } catch (e) {
-                this.appendConsole('Niet gelukt: ' + (e.message) + ' ' + e.toString());
+                this.appendConsole('Niet gelukt: ' + e.message + ' ' + e.toString());
             } finally {
                 if (element) {
                     element.disabled = false;

@@ -2,11 +2,17 @@ import * as $ from 'jquery';
 
 interface IRequestFormat {
     dataType: string;
-    contentType: string|undefined|false;
+    contentType: string | undefined | false;
 }
 
-const jsonRequest: IRequestFormat = { dataType: 'json', contentType: 'application/json' };
-const textRequest: IRequestFormat = { dataType: 'text', contentType: undefined };
+const jsonRequest: IRequestFormat = {
+    dataType: 'json',
+    contentType: 'application/json'
+};
+const textRequest: IRequestFormat = {
+    dataType: 'text',
+    contentType: undefined
+};
 const interceptors: IHttpInterceptor[] = [];
 
 export type RequestHandler<T> = (promise: Promise<T>) => void;

@@ -1,6 +1,6 @@
 ﻿declare namespace sw {
     export interface IAssetList {
-        assets: string[];,
+        assets: string[];
         versionTimestamp: string;
     }
 }

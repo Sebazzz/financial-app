@@ -1,7 +1,7 @@
 import * as ko from 'knockout';
-import {Page} from '../Page';
-import {ValidateableViewModel} from '../Forms/ValidateableViewModel';
-import {IFormPage} from '../Forms/FormPage';
+import { Page } from '../Page';
+import { ValidateableViewModel } from '../Forms/ValidateableViewModel';
+import { IFormPage } from '../Forms/FormPage';
 
 function findPage(bindingContext: KnockoutBindingContext): IFormPage {
     let currentBindingContext: KnockoutBindingContext | undefined = bindingContext,
@@ -21,7 +21,7 @@ function findPage(bindingContext: KnockoutBindingContext): IFormPage {
 }
 
 export interface IFormOptions {
-    handler: (viewModel: ValidateableViewModel, submissionName?: string|null) => Promise<void>;
+    handler: (viewModel: ValidateableViewModel, submissionName?: string | null) => Promise<void>;
     isBusy: KnockoutObservable<boolean>;
     errorMessage?: KnockoutObservable<string>;
 }
@@ -33,12 +33,22 @@ export interface IFormOptions {
  * - Set/unset busy flags
  */
 ko.bindingHandlers.form = {
-    init(element: HTMLElement, valueAccessor: () => IFormOptions|undefined, allBindingsAccessor: KnockoutAllBindingsAccessor, viewModel: ValidateableViewModel, bindingContext: KnockoutBindingContext) {
+    init(
+        element: HTMLElement,
+        valueAccessor: () => IFormOptions | undefined,
+        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        viewModel: ValidateableViewModel,
+        bindingContext: KnockoutBindingContext
+    ) {
         const $element = $(element),
-              page = findPage(bindingContext),
-              options = valueAccessor() || { handler: page.save, isBusy: page.isBusy, errorMessage: page.errorMessage };
+            page = findPage(bindingContext),
+            options = valueAccessor() || {
+                handler: page.save,
+                isBusy: page.isBusy,
+                errorMessage: page.errorMessage
+            };
 
-        function setErrorMessage(msg: string|null) {
+        function setErrorMessage(msg: string | null) {
             if (options.errorMessage) {
                 options.errorMessage(msg);
             }
@@ -61,7 +71,7 @@ ko.bindingHandlers.form = {
                 const focusedElement = document.activeElement;
                 console.debug(focusedElement);
 
-                const submissionName: string|null = focusedElement && focusedElement.getAttribute('name') || null;
+                const submissionName: string | null = (focusedElement && focusedElement.getAttribute('name')) || null;
                 await options.handler(viewModel, submissionName);
             } catch (e) {
                 setErrorMessage('Dat ging niet goed. Probeer het nog eens.');

@@ -12,7 +12,9 @@ export interface IRouteProvider {
 }
 
 export class Router {
-    private router: RouterImpl = createRouter.call(window, undefined, { defaultRoute: 'default' });
+    private router: RouterImpl = createRouter.call(window, undefined, {
+        defaultRoute: 'default'
+    });
 
     private pendingRoutes: Routes = [];
 
@@ -42,7 +44,7 @@ export class Router {
         // IMHO this is a limitation in router5, where at some point before the first routing the actual compilation
         // of the routes should be done, but it is how it is.
 
-        this.pendingRoutes.sort((a, b) => a.name > b.name ? 1 : -1);
+        this.pendingRoutes.sort((a, b) => (a.name > b.name ? 1 : -1));
 
         console.info('Router: flushing %d routes', this.pendingRoutes.length);
 
@@ -57,8 +59,8 @@ export class Router {
     }
 
     private initListener() {
-        function findAnchor(element: HTMLElement): HTMLAnchorElement|null {
-            let current: HTMLElement|null = element,
+        function findAnchor(element: HTMLElement): HTMLAnchorElement | null {
+            let current: HTMLElement | null = element,
                 depth = 4;
 
             while (current) {
@@ -103,7 +105,9 @@ export class Router {
         });
     }
 
-    public getInternalInstance(): RouterImpl { return this.router; }
+    public getInternalInstance(): RouterImpl {
+        return this.router;
+    }
 
     public matchRoutingTable(routeName: string, routes: RoutingTable): boolean {
         if (!Array.isArray(routes)) {

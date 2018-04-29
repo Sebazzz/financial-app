@@ -1,10 +1,5 @@
 ﻿let isMobile: boolean | null = null;
-const detectionStrings = [
-    'Windows Phone',
-    'Android',
-    'Mobile',
-    'IEMobile'
-];
+const detectionStrings = ['Windows Phone', 'Android', 'Mobile', 'IEMobile'];
 
 function isMobileInternal(): boolean {
     const userAgent = navigator.userAgent;

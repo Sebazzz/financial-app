@@ -1,4 +1,4 @@
-import { Page, IPageRegistration }  from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import { ChartOptions } from 'chart.js';
 
@@ -40,7 +40,10 @@ class SheetStatisticsPage extends Page {
 
     public currentSheetRoute = ko.pureComputed(() => {
         const date = this.date(),
-              routeArgs = { month: date.getMonth() + 1, year: date.getFullYear() };
+            routeArgs = {
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+            };
 
         return this.appContext.app.router.getRoute('archive.sheet', routeArgs);
     });
@@ -55,7 +58,10 @@ class SheetStatisticsPage extends Page {
 
     public previousSheetStatisticsRoute = ko.pureComputed(() => {
         const date = this.previousDate(),
-              routeArgs = { month: date.getMonth() + 1, year: date.getFullYear() };
+            routeArgs = {
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+            };
 
         return this.appContext.app.router.getRoute('archive.sheet.statistics', routeArgs);
     });
@@ -70,14 +76,17 @@ class SheetStatisticsPage extends Page {
 
     public hasNextMonth = ko.pureComputed(() => {
         const now = new Date(),
-              date = this.nextDate();
+            date = this.nextDate();
 
         return now > date;
     });
 
     public nextSheetStatisticsRoute = ko.pureComputed(() => {
         const date = this.nextDate(),
-              routeArgs = { month: date.getMonth() + 1, year: date.getFullYear() };
+            routeArgs = {
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+            };
 
         return this.appContext.app.router.getRoute('archive.sheet.statistics', routeArgs);
     });
@@ -94,8 +103,10 @@ class SheetStatisticsPage extends Page {
             throw new Error('Invalid argument');
         }
 
-        const month = +args.month, year = +args.year, date = new Date(year, month - 1);
-        if (date.getMonth() !== (month - 1) || date.getFullYear() !== year) {
+        const month = +args.month,
+            year = +args.year,
+            date = new Date(year, month - 1);
+        if (date.getMonth() !== month - 1 || date.getFullYear() !== year) {
             throw new Error('Unable to validate parameters: Not a valid month/year');
         }
 
@@ -124,5 +135,5 @@ export default {
             forwardTo: 'archive.sheet.statistics'
         }
     ],
-    createPage:appContext => new SheetStatisticsPage(appContext)
+    createPage: appContext => new SheetStatisticsPage(appContext)
 } as IPageRegistration;

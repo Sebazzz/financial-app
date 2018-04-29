@@ -12,17 +12,13 @@ const defaultAuthInfo: auth.IAuthenticationInfo = {
     roles: []
 };
 
-const allowedRoutes = [
-    /^\/auth\//i,
-    /^\/hmr-proxy/i
-];
+const allowedRoutes = [/^\/auth\//i, /^\/hmr-proxy/i];
 
 function middleware(router: Router, authenticationService: AuthenticationService): Middleware {
-
     return (toState: State) => {
         const path = toState.path,
-              currentAuthenticationObservable = authenticationService.currentAuthentication,
-              currentAuthenticationValue = currentAuthenticationObservable.peek();
+            currentAuthenticationObservable = authenticationService.currentAuthentication,
+            currentAuthenticationValue = currentAuthenticationObservable.peek();
 
         if (currentAuthenticationValue && currentAuthenticationValue.isAuthenticated) {
             return Promise.resolve(true);
@@ -50,8 +46,12 @@ function middleware(router: Router, authenticationService: AuthenticationService
 export default class AuthenticationService {
     private api = new auth.Api();
 
-    public currentAuthentication = ko.observable<auth.IAuthenticationInfo>(AuthenticationService.getPersistedAuthenticationInfo() || defaultAuthInfo).extend({ notify: 'always' });
-    public isAuthenticated = ko.pureComputed(() => this.currentAuthentication() && this.currentAuthentication().isAuthenticated);
+    public currentAuthentication = ko
+        .observable<auth.IAuthenticationInfo>(AuthenticationService.getPersistedAuthenticationInfo() || defaultAuthInfo)
+        .extend({ notify: 'always' });
+    public isAuthenticated = ko.pureComputed(
+        () => this.currentAuthentication() && this.currentAuthentication().isAuthenticated
+    );
 
     public middleware: MiddlewareFactory = (router: Router) => middleware(router, this);
 
@@ -122,7 +122,10 @@ export default class AuthenticationService {
             const authInfo = await this.api.check();
             this.currentAuthentication(authInfo);
         } finally {
-            console.log('AuthenticationService: Checked authentication, result: %s', this.currentAuthentication().isAuthenticated);
+            console.log(
+                'AuthenticationService: Checked authentication, result: %s',
+                this.currentAuthentication().isAuthenticated
+            );
         }
     }
 
@@ -130,7 +133,7 @@ export default class AuthenticationService {
 
     // By persisting the authentication information, we can tell
     // in advance whether an user is authenticated or not
-    private static getPersistedAuthenticationInfo(): auth.IAuthenticationInfo|null {
+    private static getPersistedAuthenticationInfo(): auth.IAuthenticationInfo | null {
         try {
             const rawData = localStorage.getItem(this.persistedAuthInfoKey);
             if (!rawData) {

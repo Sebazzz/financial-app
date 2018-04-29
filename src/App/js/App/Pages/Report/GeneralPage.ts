@@ -1,4 +1,4 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as api from 'App/ServerApi/SheetStatistics';
 import { ChartOptions } from 'chart.js';
@@ -34,31 +34,35 @@ class ReportPage extends Page {
             intersect: true
         },
         scales: {
-            xAxes: [{
-                display: true,
-                scaleLabel: {
+            xAxes: [
+                {
                     display: true,
-                    labelString: 'Maand / jaar'
-                },
-                gridLines: {
-                    display: false,
-                    color: offwhite
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Maand / jaar'
+                    },
+                    gridLines: {
+                        display: false,
+                        color: offwhite
+                    }
                 }
-            }],
-            yAxes: [{
-                display: true,
-                scaleLabel: {
+            ],
+            yAxes: [
+                {
                     display: true,
-                    labelString: 'Bedrag'
-                },
-                ticks: {
-                    callback:value => '€ ' + value
-                },
-                gridLines: {
-                    display: false,
-                    color: offwhite
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Bedrag'
+                    },
+                    ticks: {
+                        callback: value => '€ ' + value
+                    },
+                    gridLines: {
+                        display: false,
+                        color: offwhite
+                    }
                 }
-            }]
+            ]
         }
     };
 
@@ -80,5 +84,5 @@ export default {
     id: module.id,
     templateName: 'report/general',
     routingTable: { name: 'report.general', path: '/general' },
-    createPage:appContext => new ReportPage(appContext)
+    createPage: appContext => new ReportPage(appContext)
 } as IPageRegistration;

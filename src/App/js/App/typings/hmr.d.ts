@@ -24,42 +24,46 @@ declare namespace webpack.hmr {
     type StatusHandler = (status: HotModuleStatus) => void;
 
     interface ApplyInfo {
-        type: 'self-declined' | 'declined' |
-              'unaccepted' | 'accepted' |
-              'disposed' | 'accept-errored' |
-              'self-accept-errored' | 'self-accept-error-handler-errored';
+        type:
+            | 'self-declined'
+            | 'declined'
+            | 'unaccepted'
+            | 'accepted'
+            | 'disposed'
+            | 'accept-errored'
+            | 'self-accept-errored'
+            | 'self-accept-error-handler-errored';
 
-        moduleId:number;
+        moduleId: number;
         dependencyId: number;
         chain: number[];
         parentId: number;
         outdatedModules: number[];
         outdatedDependencies: number[][];
-        error?:Error;
+        error?: Error;
         originalError?: Error;
     }
 
     interface ApplyOptions {
-        ignoreUnaccepted ?: boolean;
-        ignoreDeclined ?: boolean;
-        ignoreErrored ?: boolean;
+        ignoreUnaccepted?: boolean;
+        ignoreDeclined?: boolean;
+        ignoreErrored?: boolean;
 
         onDeclined?: ApplyNotifier;
-        onUnaccepted ?: ApplyNotifier;
-        onAccepted ?: ApplyNotifier;
-        onDisposed ?: ApplyNotifier;
-        onErrored ?: ApplyNotifier;
-
+        onUnaccepted?: ApplyNotifier;
+        onAccepted?: ApplyNotifier;
+        onDisposed?: ApplyNotifier;
+        onErrored?: ApplyNotifier;
     }
 
     interface IHotModule {
         /**
-         * 
+         *
          */
-        data?:any;
+        data?: any;
 
-        accept(dependencies?: ModuleDependencies, callback ?: Function) : void;
-        accept(callback ?: Function) : void;
+        accept(dependencies?: ModuleDependencies, callback?: Function): void;
+        accept(callback?: Function): void;
         decline(dependencies: ModuleDependencies): void;
 
         /**
@@ -85,7 +89,7 @@ declare namespace webpack.hmr {
         /**
          * Test all loaded modules for updates and, if updates exist, apply them.
          * @param autoApply The autoApply parameter can either be a boolean or options to pass to the apply method when called.
-         * @returns {} 
+         * @returns {}
          */
         check(autoApply: boolean): Promise<ModuleDependencies>;
 

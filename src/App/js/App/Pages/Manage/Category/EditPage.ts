@@ -1,5 +1,5 @@
 import AppContext from 'AppFramework/AppContext';
-import {IPageRegistration} from 'AppFramework/Page';
+import { IPageRegistration } from 'AppFramework/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as category from '../../../ServerApi/Category';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
@@ -39,8 +39,8 @@ class EditPage extends FormPage {
 
         try {
             const serialized = ko.toJS(category) as category.ICategory,
-                  id = this.id.peek(),
-                  isNew = id === 0;
+                id = this.id.peek(),
+                isNew = id === 0;
 
             if (isNew) {
                 await this.api.create(serialized);
@@ -72,58 +72,57 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public id = 0;
     public name = ko.observable<string>();
     public description = ko.observable<string>();
-    public monthlyBudget = ko.observable<number|null>(null).extend({ notify: 'always' });
+    public monthlyBudget = ko.observable<number | null>(null).extend({ notify: 'always' });
 
     public hasMonthlyBudget = ko.computed({
         read: () => this.monthlyBudget() !== null,
-        write:val => this.monthlyBudget(val ? (this.monthlyBudget() || 0) : null)
+        write: val => this.monthlyBudget(val ? this.monthlyBudget() || 0 : null)
     });
     public isIncome = ko.computed({
         read: () => this.hasMonthlyBudget() && (this.monthlyBudget() || 0) >= 0,
-        write:val => {
+        write: val => {
             const currentBudget = this.monthlyBudget();
             if (currentBudget === null) {
                 return;
             }
 
-            if (val && currentBudget < 0 || !val && currentBudget > 0) {
+            if ((val && currentBudget < 0) || (!val && currentBudget > 0)) {
                 this.monthlyBudget(-1 * currentBudget);
             }
         }
     });
 
-    public normalizedMonthlyBudget = ko.computed( {
-        read: () => {
-            const factor = this.isIncome() ? 1 : -1,
-                  amount = this.monthlyBudget();
+    public normalizedMonthlyBudget = ko
+        .computed({
+            read: () => {
+                const factor = this.isIncome() ? 1 : -1,
+                    amount = this.monthlyBudget();
 
-            if (amount === null) {
-                return null;
+                if (amount === null) {
+                    return null;
+                }
+
+                return amount * factor;
+            },
+            write: val => {
+                if (val === null) {
+                    this.monthlyBudget(null);
+                } else if (val >= 0) {
+                    this.monthlyBudget(val);
+                } else if (val < 0) {
+                    console.log('Value less than zero (%d) - resetting', val);
+
+                    const factor = this.isIncome() ? 1 : -1;
+                    this.monthlyBudget(val * factor);
+                }
             }
-
-            return amount * factor;
-        },
-        write:val => {
-            if (val === null) {
-                this.monthlyBudget(null);
-            } else if (val >= 0) {
-                this.monthlyBudget(val);
-            } else if (val < 0) {
-                console.log('Value less than zero (%d) - resetting', val);
-
-                const factor = this.isIncome() ? 1 : -1;
-                this.monthlyBudget(val * factor);
-            }
-        }
-    }).extend({ notify: 'always' });
+        })
+        .extend({ notify: 'always' });
 }
 
 export default {
     id: module.id,
     templateName: 'manage/category/edit',
-    routingTable: [
-        { name: 'manage.category.edit', path: '/edit/:id' },
-        { name: 'manage.category.add', path: '/add'}
-    ],
-    createPage:appContext => new EditPage(appContext)
+    routingTable: [{ name: 'manage.category.edit', path: '/edit/:id' }, { name: 'manage.category.add', path: '/add' }],
+    createPage: appContext => new EditPage(appContext)
 } as IPageRegistration;

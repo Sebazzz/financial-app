@@ -1,4 +1,4 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as tag from '../../../ServerApi/Tag';
 import * as ko from 'knockout';
@@ -22,7 +22,13 @@ class DefaultPage extends Page {
     }
 
     public async deleteTag(tag: tag.ITag) {
-        if (await confirmAsync(`Weet je zeker dat je ${tag.id} wilt verwijderen? De tag zal inactief worden gemaakt.`, 'Tag verwijderen', true)) {
+        if (
+            await confirmAsync(
+                `Weet je zeker dat je ${tag.id} wilt verwijderen? De tag zal inactief worden gemaakt.`,
+                'Tag verwijderen',
+                true
+            )
+        ) {
             this.tags.remove(tag);
             await this.api.delete(tag.id);
         }
@@ -33,5 +39,5 @@ export default {
     id: module.id,
     templateName: 'manage/tag/default',
     routingTable: { name: 'manage.tag', path: '/tag' },
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext)
 } as IPageRegistration;

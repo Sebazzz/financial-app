@@ -1,7 +1,7 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as entry from '../../../ServerApi/RecurringSheetEntry';
-import {AccountType} from '../../../ServerApi/SheetEntry';
+import { AccountType } from '../../../ServerApi/SheetEntry';
 import * as ko from 'knockout';
 import confirmAsync from 'AppFramework/Forms/Confirmation';
 
@@ -11,10 +11,10 @@ class DefaultPage extends Page {
     public entryTemplates = ko.observableArray<entry.IRecurringSheetEntryListing>();
 
     // Pass the types below to the view
-// ReSharper disable InconsistentNaming
+    // ReSharper disable InconsistentNaming
     public SortOrderMutation = entry.SortOrderMutationType;
     public AccountType = AccountType;
-// ReSharper restore InconsistentNaming
+    // ReSharper restore InconsistentNaming
 
     constructor(appContext: AppContext) {
         super(appContext);
@@ -34,7 +34,13 @@ class DefaultPage extends Page {
     }
 
     public async deleteEntryTemplate(entryTemplate: entry.IRecurringSheetEntryListing) {
-        if (await confirmAsync(`Weet je zeker dat je ${entryTemplate.source} wilt verwijderen?`, 'Regeltemplate verwijderen', true)) {
+        if (
+            await confirmAsync(
+                `Weet je zeker dat je ${entryTemplate.source} wilt verwijderen?`,
+                'Regeltemplate verwijderen',
+                true
+            )
+        ) {
             this.entryTemplates.remove(entryTemplate);
             await this.api.delete(entryTemplate.id);
         }
@@ -57,5 +63,5 @@ export default {
     id: module.id,
     templateName: 'manage/entry-template/default',
     routingTable: { name: 'manage.entry-template', path: '/entry-template' },
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext)
 } as IPageRegistration;

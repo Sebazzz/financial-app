@@ -3,11 +3,11 @@ import { RouterUtils } from '../Page';
 import * as auth from '../ServerApi/Authentication';
 
 function applicationInsightsAvailable(): boolean {
-    return ('appInsights' in window);
+    return 'appInsights' in window;
 }
 
 class TelemetryPlugin implements RouterPlugin {
-    private currentTimestamp: number|undefined;
+    private currentTimestamp: number | undefined;
 
     constructor(private appInsights: Microsoft.ApplicationInsights.IAppInsights, private router: Router) {
         this.onTransitionStart = this.onTransitionStart.bind(this);
@@ -20,7 +20,8 @@ class TelemetryPlugin implements RouterPlugin {
     }
 
     public onTransitionSuccess(): void {
-        const duration = typeof this.currentTimestamp !== 'undefined' ? performance.now() - this.currentTimestamp : undefined;
+        const duration =
+            typeof this.currentTimestamp !== 'undefined' ? performance.now() - this.currentTimestamp : undefined;
 
         const page = RouterUtils.getPage(this.router);
         if (!page) {
@@ -69,5 +70,9 @@ export function trackBindingFrameworkException(error: Error) {
         return;
     }
 
-    appInsights.trackException(error, 'knockout', { bindingFrameworkError: 'yes', location: document.location.href, documentTitle: document.title });
+    appInsights.trackException(error, 'knockout', {
+        bindingFrameworkError: 'yes',
+        location: document.location.href,
+        documentTitle: document.title
+    });
 }

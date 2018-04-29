@@ -1,4 +1,4 @@
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as user from '../../ServerApi/User';
 import * as userImpersonate from '../../ServerApi/UserImpersonate';

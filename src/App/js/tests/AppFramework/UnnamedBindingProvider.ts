@@ -1,23 +1,25 @@
 /* tslint:disable */
 import { expect } from 'chai';
 import * as ko from 'knockout';
-import {default as register} from 'AppFramework/UnnamedBindingProvider';
+import { default as register } from 'AppFramework/UnnamedBindingProvider';
 
 (window as any)['DEBUG'] = true;
 
 let currentBindingValue: any | null | undefined = null;
 let bindingWasInvoked = false;
-let element : HTMLDivElement;
+let element: HTMLDivElement;
 
 const viewModel = {
     prop: Math.random()
 };
 
-interface Attributes { [key: string]: string }
+interface Attributes {
+    [key: string]: string;
+}
 
 // ReSharper disable WrongExpressionStatement
 
-function invokeBindings(attributes: Attributes|string, viewModelObject ?: any|null) {
+function invokeBindings(attributes: Attributes | string, viewModelObject?: any | null) {
     element = document.createElement('div');
 
     if (typeof attributes === 'string') {
@@ -71,7 +73,7 @@ describe('UnnamedBindingProvider', () => {
 
     describe('backwards compatibility', () => {
         it('data-bind attribute works as usual: undefined value', () => {
-            invokeBindings({ 'data-bind': 'testBinding'});
+            invokeBindings({ 'data-bind': 'testBinding' });
 
             expectBindingToBeInvoked();
         });
@@ -84,7 +86,10 @@ describe('UnnamedBindingProvider', () => {
         });
 
         it('data-bind is invoked over custom binding', () => {
-            invokeBindings({ 'data-bind': 'testBinding: 4321', 'ko-test-binding': '1234' });
+            invokeBindings({
+                'data-bind': 'testBinding: 4321',
+                'ko-test-binding': '1234'
+            });
 
             expectBindingToBeInvoked();
             expectBindingValue().to.be.eq(4321);
@@ -127,9 +132,11 @@ describe('UnnamedBindingProvider', () => {
         });
 
         it('complex object', () => {
-            invokeBindings({ 'ko-test-binding': '{required: true, num: NaN }' });
+            invokeBindings({
+                'ko-test-binding': '{required: true, num: NaN }'
+            });
 
-            expectBindingValue().to.deep.equal({required: true, num: NaN});
+            expectBindingValue().to.deep.equal({ required: true, num: NaN });
         });
 
         it('from view model', () => {
@@ -182,35 +189,46 @@ describe('UnnamedBindingProvider', () => {
             invokeBindings(`<div ko-test-binding:inner="prop"
                                  ko-test-binding:second="true"></div>`);
 
-            expectBindingValue().to.deep.eq({ inner: viewModel.prop, second: true });
+            expectBindingValue().to.deep.eq({
+                inner: viewModel.prop,
+                second: true
+            });
         });
 
         it('single-prop multi-level multi-property', () => {
             invokeBindings(`<div ko-test-binding:inner:base="prop"
                                  ko-test-binding:inner:nested="'test'"></div>`);
 
-            expectBindingValue().to.deep.eq({ inner: { base: viewModel.prop, nested: 'test'} });
+            expectBindingValue().to.deep.eq({
+                inner: { base: viewModel.prop, nested: 'test' }
+            });
         });
 
         it('single-prop multi-level multi-property - literal', () => {
             invokeBindings(`<div ko-test-binding:inner:base="prop"
                                  ko-test-binding:inner:nested#="test"></div>`);
 
-            expectBindingValue().to.deep.eq({ inner: { base: viewModel.prop, nested: 'test' } });
+            expectBindingValue().to.deep.eq({
+                inner: { base: viewModel.prop, nested: 'test' }
+            });
         });
 
         it('single-prop multi-level multi-property: escaped', () => {
             invokeBindings(`<div ko-test-binding:inner:base="prop"
                                  ko-test-binding:inner:*is-required="true"></div>`);
 
-            expectBindingValue().to.deep.eq({ inner: { 'base': viewModel.prop, 'is-required': true } });
+            expectBindingValue().to.deep.eq({
+                inner: { base: viewModel.prop, 'is-required': true }
+            });
         });
 
         it('single-prop multi-level multi-property: escaped and literal', () => {
             invokeBindings(`<div ko-test-binding:inner:base="prop"
                                  ko-test-binding:inner:*is-required#="true"></div>`);
 
-            expectBindingValue().to.deep.eq({ inner: { 'base': viewModel.prop, 'is-required': 'true' } });
+            expectBindingValue().to.deep.eq({
+                inner: { base: viewModel.prop, 'is-required': 'true' }
+            });
         });
     });
 
@@ -301,7 +319,10 @@ describe('UnnamedBindingProvider', () => {
         });
 
         it('template comment in inner scope', () => {
-            invokeBindings(`Hello I am <!-- comment -->{{name}}<!-- end comment --> and I work in <!-- ko with: occupation -->{{industry}}<!-- /ko -->!`, viewModel);
+            invokeBindings(
+                `Hello I am <!-- comment -->{{name}}<!-- end comment --> and I work in <!-- ko with: occupation -->{{industry}}<!-- /ko -->!`,
+                viewModel
+            );
 
             expectInnerText().to.be.eq('Hello I am John Doe and I work in finance!');
         });

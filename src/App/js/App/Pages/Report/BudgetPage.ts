@@ -1,5 +1,5 @@
 import AppContext from 'AppFramework/AppContext';
-import {Page, IPageRegistration} from 'AppFramework/Page';
+import { Page, IPageRegistration } from 'AppFramework/Page';
 import * as sheet from 'App/ServerApi/Sheet';
 import * as budget from 'App/ServerApi/Budget';
 import * as ko from 'knockout';
@@ -30,7 +30,10 @@ class BudgetReportPage extends Page {
 
     public currentSheetRoute = ko.pureComputed(() => {
         const date = this.preselectedDate as any,
-            routeArgs = { month: date.getMonth() + 1, year: date.getFullYear() };
+            routeArgs = {
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+            };
 
         return this.appContext.app.router.getRoute('archive.sheet', routeArgs);
     });
@@ -45,7 +48,10 @@ class BudgetReportPage extends Page {
 
     public previousSheetStatisticsRoute = ko.pureComputed(() => {
         const date = this.previousDate(),
-            routeArgs = { month: date.getMonth() + 1, year: date.getFullYear() };
+            routeArgs = {
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+            };
 
         return this.appContext.app.router.getRoute('archive.sheet.budget', routeArgs);
     });
@@ -67,7 +73,10 @@ class BudgetReportPage extends Page {
 
     public nextSheetStatisticsRoute = ko.pureComputed(() => {
         const date = this.nextDate(),
-            routeArgs = { month: date.getMonth() + 1, year: date.getFullYear() };
+            routeArgs = {
+                month: date.getMonth() + 1,
+                year: date.getFullYear()
+            };
 
         return this.appContext.app.router.getRoute('archive.sheet.budget', routeArgs);
     });
@@ -83,12 +92,15 @@ class BudgetReportPage extends Page {
     }
 
     protected async onActivate(args?: any): Promise<void> {
-        const year = args && +args.year, month = args && +args.month;
+        const year = args && +args.year,
+            month = args && +args.month;
         if (year && month) {
-            const date = this.preselectedDate = new Date(year, month - 1);
+            const date = (this.preselectedDate = new Date(year, month - 1));
 
-            if (date.getMonth() !== (month - 1) || date.getFullYear() !== year) {
-                throw new Error(`Unable to validate parameters: Not a valid month/year ${month}/${year} vs ${date.getMonth()}/${date.getFullYear()}`);
+            if (date.getMonth() !== month - 1 || date.getFullYear() !== year) {
+                throw new Error(
+                    `Unable to validate parameters: Not a valid month/year ${month}/${year} vs ${date.getMonth()}/${date.getFullYear()}`
+                );
             }
 
             this.title(`Rapportage - begroting - ${kendo.toString(date, 'MMMM yyyy')}`);
@@ -100,8 +112,7 @@ class BudgetReportPage extends Page {
             const date = new Date();
             const sheets: sheet.ISheetListing[] = this.sheets.peek();
             for (const sheet of sheets) {
-                if (sheet.month === date.getMonth() + 1 &&
-                    sheet.year === date.getFullYear()) {
+                if (sheet.month === date.getMonth() + 1 && sheet.year === date.getFullYear()) {
                     this.selectedSheet(sheet);
                 }
             }
@@ -134,9 +145,6 @@ class BudgetReportPage extends Page {
 export default {
     id: module.id,
     templateName: 'report/budget',
-    routingTable: [
-        { name: 'report.budget', path: '/budget' },
-        { name: 'archive.sheet.budget', path: '/budget' }
-    ],
-    createPage:appContext => new BudgetReportPage(appContext)
+    routingTable: [{ name: 'report.budget', path: '/budget' }, { name: 'archive.sheet.budget', path: '/budget' }],
+    createPage: appContext => new BudgetReportPage(appContext)
 } as IPageRegistration;
