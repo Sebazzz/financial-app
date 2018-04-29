@@ -169,5 +169,5 @@ export default {
     id: module.id,
     templateName: 'setup/default',
     routingTable: { name: 'setup', path: '/setup' },
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext)
 } as IPageRegistration;

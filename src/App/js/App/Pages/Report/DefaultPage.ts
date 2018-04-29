@@ -15,5 +15,5 @@ export default {
     id: module.id,
     templateName: 'default',
     routingTable: { name: 'report', path: '/report', forwardTo: 'report.general' },
-    createPage:appContext => new DefaultPage(appContext)
+    createPage: appContext => new DefaultPage(appContext)
 } as IPageRegistration;
