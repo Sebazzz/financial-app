@@ -80,7 +80,7 @@ class DefaultPage extends FormPage {
             this.isBusy(true);
 
             if (currentStep.isDone) {
-                this.appContext.router.navigateToDefault(() => document.location.reload(true));
+                document.location.pathname = '/';
                 return;
             }
 
