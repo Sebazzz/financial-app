@@ -15,7 +15,7 @@
     ],
     "member-ordering": false,
     "max-classes-per-file": [true, 6],
-    "max-line-length": [true, 250],
+    "max-line-length": [true, 80],
     "no-empty": false,
     "one-variable-per-declaration": false,
     "no-console": false,

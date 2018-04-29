@@ -1,6 +1,6 @@
 {
   "parser": "typescript",
-  "printWidth": 250,
+  "printWidth": 80,
   "semi": true,
   "singleQuote": true,
   "arrowParens": "avoid"
