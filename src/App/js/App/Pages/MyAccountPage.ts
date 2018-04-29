@@ -68,13 +68,15 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
     public errorMessage = ko.observable<string>();
 
     public enableMonthlyDigest = ko.observable<boolean>();
+    public enableLoginNotifications = ko.observable<boolean>();
 
     public async save(): Promise<void> {
         try {
             this.saveSuccess(false);
 
             const data: IPreferencesModel = {
-                enableMonthlyDigest: this.enableMonthlyDigest.peek()
+                enableMonthlyDigest: this.enableMonthlyDigest.peek(),
+                enableLoginNotifications: this.enableLoginNotifications.peek()
             };
 
             await this.api.setPreferences(data);
@@ -93,6 +95,7 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
         const data = await this.api.getPreferences<IPreferencesModel>();
 
         this.enableMonthlyDigest(data.enableMonthlyDigest);
+        this.enableLoginNotifications(data.enableLoginNotifications);
     }
 
     constructor() {

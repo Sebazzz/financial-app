@@ -2,4 +2,5 @@ import {IPreferencesModel as IFrameworkPreferencesModel} from 'AppFramework/Serv
 
 export interface IPreferencesModel extends IFrameworkPreferencesModel {
     enableMonthlyDigest: boolean;
+    enableLoginNotifications: boolean;
 }

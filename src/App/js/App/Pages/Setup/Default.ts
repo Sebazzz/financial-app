@@ -80,7 +80,7 @@ class DefaultPage extends FormPage {
             this.isBusy(true);
 
             if (currentStep.isDone) {
-                document.location.reload(true);
+                this.appContext.router.navigateToDefault(() => document.location.reload(true));
                 return;
             }
 

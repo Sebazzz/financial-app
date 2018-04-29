@@ -38,7 +38,6 @@
             IList<Claim> claims = await base.GetClaimsAsync(user);
 
             claims.Add(new Claim("AppOwnerGroup", user.GroupId.ToString(CultureInfo.InvariantCulture), typeof(Int32).FullName));
-
             return claims;
         }
 
