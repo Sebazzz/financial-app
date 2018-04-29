@@ -1,7 +1,7 @@
 <mjml>
   <mj-head>
-    <mj-preview>Het wachtwoord van je account is veranderd.</mj-preview>
-    <mj-title>Wachtwoord veranderd</mj-title>
+    <mj-preview>Met je account is ingelogd op een nieuwe computer. Controleer of jij dit was.</mj-preview>
+    <mj-title>Ingelogd op nieuwe computer</mj-title>
 
     <mj-include path="./common.include.mjml" />
   </mj-head>
@@ -14,7 +14,7 @@
       background-height="669px"
       background-color="#2a3448"
       padding="100px 0px">
-      <mj-text align="center" color="#FFF" font-weight="bold" css-class="hero-text" font-size="40px">Wachtwoord veranderd</mj-text>
+      <mj-text align="center" color="#FFF" font-weight="bold" css-class="hero-text" font-size="40px">Ingelogd op nieuwe computer</mj-text>
     </mj-hero>
 
     <!-- Introduction Text -->
@@ -22,9 +22,12 @@
       <mj-column>
       <mj-text font-size="20px" align="justify" line-height="1.5">
         Hallo <strong>{user-name}</strong>! <br/>
-        Het wachtwoord van je account <strong>{user-name}</strong> is zojuist veranderd.<br/>
-        <br/>
-        Heb je je wachtwoord niet verandert? Herstel dan zo snel mogelijk toegang tot je account.
+        Iemand is zojuist ingelogd op je account <strong>{user-name}</strong> vanaf een nieuwe of onbekende computer.<br/>
+      </mj-text>
+      <mj-text font-size="10px" align="justify" line-height="1.5">
+        IP-adres: <code>{ip-address}</code><br>
+        Browser: {user-agent}<br>
+        Datum: {timestamp}
       </mj-text>
       </mj-column>
     </mj-section>

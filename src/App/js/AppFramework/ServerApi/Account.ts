@@ -6,6 +6,13 @@ export interface IAccountInfo {
     groupName: string;
 
     twoFactorAuthentication: IAccountTwoFactorInfo;
+    lastLoginEvents: ILoginEvent[];
+}
+
+export interface ILoginEvent {
+    ipAddress: string;
+    userAgent: string;
+    timestamp: Date;
 }
 
 export interface IAccountTwoFactorInfo {

@@ -13,6 +13,7 @@
 
     public class AppUserPreferences {
         public bool EnableMonthlyDigest { get; set; }
+        public bool EnableLoginNotifications { get; set; }
     }
 
     public class AppUser : IdentityUser<int> {

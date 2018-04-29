@@ -23,6 +23,13 @@
                     <span class="custom-control-label">Stuur mij elke maand een e-mail met de samenvatting van afgelopen maand</span>
                 </label>
             </div>
+            
+            <div class="form-group">
+                <label class="custom-control custom-checkbox">
+                    <input type="checkbox" ko-checked="enableLoginNotifications" class="custom-control-input"/> 
+                    <span class="custom-control-label">Stuur mij een bericht wanneer op een nieuwe computer wordt ingelogd met mijn account</span>
+                </label>
+            </div>
 
             <p>
                 <input type="submit" class="btn btn-primary" value="Opslaan">
@@ -151,6 +158,38 @@
                 </p>
             </div>
         </div>
+    </div>
+
+    <div ko-visible="lastLoginEvents.length > 0">
+        <h3>Laatste inloggebeurtenissen</h3>
+        <p>
+            Hieronder vind je de laatste keren dat ingelogd is op je account. Indien je mogelijk ongeldige toegang
+            tot je account ziet, kan je je <a href="#" ko-click="$page.invokePasswordChange">wachtwoord veranderen</a>.
+        </p>
+
+        <table class="table table-condensed">
+            <tr>
+                <th>Datum</th>
+                <th>Internetadres</th>
+                <th>Browser</th>
+            </tr>
+            <!-- ko foreach: lastLoginEvents -->
+            <tr>
+                <td ko-format-text="timestamp" ko-format#="F"></td>
+                <td>
+                    <a href="#"
+                       target="_blank"
+                       rel="noopener noreferer"
+                       ko-href="'http://www.dereferer.org/?https%3A%2F%2Fwww%2Egeoiptool%2Ecom%2Fen%2F%3Fip%3D' + encodeURIComponent(ipAddress)">
+                        <code ko-text="ipAddress"></code>
+                    </a>
+                </td>
+                <td>
+                    <span ko-text="userAgent"></span>
+                </td>
+            </tr>
+            <!-- /ko -->
+        </table>
     </div>
 </div>
 

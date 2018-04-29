@@ -10,6 +10,7 @@ namespace App.Api {
     using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Domain;
     using Models.Domain.Identity;
     using Models.DTO;
     using Support;
@@ -23,11 +24,13 @@ namespace App.Api {
 
         private readonly ConfirmEmailMailer _confirmEmailMailer;
         private readonly ForgotPasswordMailer _forgotPasswordMailer;
+        private readonly AppUserLoginEventService _appUserLoginEventService;
 
-        public AuthenticationController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, ConfirmEmailMailer confirmEmailMailer, ForgotPasswordMailer forgotPasswordMailer) {
+        public AuthenticationController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, ConfirmEmailMailer confirmEmailMailer, ForgotPasswordMailer forgotPasswordMailer, AppUserLoginEventService appUserLoginEventService) {
             this._appUserManager = appUserManager;
             this._authenticationManager = authenticationManager;
             this._forgotPasswordMailer = forgotPasswordMailer;
+            this._appUserLoginEventService = appUserLoginEventService;
             this._confirmEmailMailer = confirmEmailMailer;
         }
 
@@ -58,6 +61,8 @@ namespace App.Api {
                     IsTwoFactorAuthenticationRequired = result.RequiresTwoFactor
                 });
             }
+
+            await this._appUserLoginEventService.HandleUserLoginAsync(user, this.HttpContext);
 
             return this.Ok(new AuthenticationInfo {
                 IsAuthenticated = true,
@@ -103,6 +108,8 @@ namespace App.Api {
                     });
                 }
             }
+
+            await this._appUserLoginEventService.HandleUserLoginAsync(user, this.HttpContext);
 
             return this.Ok(new AuthenticationInfo {
                 IsAuthenticated = true,

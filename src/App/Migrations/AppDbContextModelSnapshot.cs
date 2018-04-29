@@ -150,6 +150,28 @@ namespace App.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("App.Models.Domain.Identity.AppUserLoginEvent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("IPAddress")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Timestamp");
+
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(4096);
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AppUserLoginEvent");
+                });
+
             modelBuilder.Entity("App.Models.Domain.Identity.AppUserTrustedUser", b =>
                 {
                     b.Property<int>("Id")
@@ -425,6 +447,8 @@ namespace App.Migrations
                         {
                             b1.Property<int>("AppUserId");
 
+                            b1.Property<bool>("EnableLoginNotifications");
+
                             b1.Property<bool>("EnableMonthlyDigest");
 
                             b1.ToTable("AspNetUsers");
@@ -434,6 +458,14 @@ namespace App.Migrations
                                 .HasForeignKey("App.Models.Domain.Identity.AppUserPreferences", "AppUserId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
+                });
+
+            modelBuilder.Entity("App.Models.Domain.Identity.AppUserLoginEvent", b =>
+                {
+                    b.HasOne("App.Models.Domain.Identity.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("App.Models.Domain.Identity.AppUserTrustedUser", b =>

@@ -24,6 +24,9 @@
             modelBuilder.Entity<AppUser>()
                         .OwnsOne(x => x.Preferences);
 
+            // login event keeping
+            modelBuilder.Entity<AppUserLoginEvent>();
+
             // impersonation
             modelBuilder.Entity<AppUserTrustedUser>()
                         .ToTable("AppUserTrustedUsers");

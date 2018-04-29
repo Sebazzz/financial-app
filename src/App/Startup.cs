@@ -190,7 +190,10 @@ namespace App {
             services.AddScoped<MonthlyDigestMailer>();
             services.AddScoped<MonthlyDigestDataFactory>();
 
-            
+            // ... App login notification
+            services.AddScoped<AppUserLoginEventRepository>();
+            services.AddScoped<AppUserLoginEventService>();
+            services.AddScoped<AppUserLoginEventMailer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

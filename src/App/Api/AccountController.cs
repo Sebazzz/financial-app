@@ -33,14 +33,16 @@ namespace App.Api
     {
         private readonly AppUserManager _appUserManager;
         private readonly AppOwnerRepository _appOwnerRepository;
+        private readonly AppUserLoginEventRepository _appUserLoginEventRepository;
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public AccountController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository, IMapper mapper)
+        public AccountController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository, IMapper mapper, AppUserLoginEventRepository appUserLoginEventRepository)
         {
             this._appUserManager = appUserManager;
             this._appOwnerRepository = appOwnerRepository;
             this._mapper = mapper;
+            this._appUserLoginEventRepository = appUserLoginEventRepository;
         }
 
         [HttpGet("my-info")]
@@ -67,6 +69,15 @@ namespace App.Api
                     IsAuthenticatorAppEnabled = (await this._appUserManager.GetAuthenticatorKeyAsync(currentUser)) != null,
                     RecoveryCodeCount = await this._appUserManager.CountRecoveryCodesAsync(currentUser)
                 },
+
+                LastLoginEvents = (
+                    from ev in this._appUserLoginEventRepository.GetByUser(currentUser.Id).Take(5)
+                    select new {
+                        ev.IPAddress,
+                        ev.UserAgent,
+                        ev.Timestamp
+                    }
+                )
             });
         }
 
