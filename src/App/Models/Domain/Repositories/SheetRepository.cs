@@ -10,11 +10,11 @@
                                                        x.Subject.Year == year &&
                                                        x.Owner.Id == appOwnerId);
 
-            return q.Include(x => x.CalculationOptions).Include(x => x.Entries);
+            return q.Include(x => x.Entries);
         }
 
         public IQueryable<Sheet> FindByIdInclude(int id) {
-            return this._entitySet.Where(x => x.Id == id).Include(x => x.CalculationOptions).Include(x => x.Entries);
+            return this._entitySet.Where(x => x.Id == id).Include(x => x.Entries);
         }
 
         public IQueryable<SheetEntry> GetOfSheetBeforeThreshold(int ownerId, DateTime threshold) {

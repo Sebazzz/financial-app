@@ -271,7 +271,7 @@ namespace App.Models.Domain.Repositories {
 
         [NotNull]
         public IQueryable<App.Models.Domain.Sheet> GetAll() {
-            return this._entitySet.Include(x => x.Owner).Include(x => x.CalculationOptions);
+            return this._entitySet.Include(x => x.Owner);
         }
 
         
