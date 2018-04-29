@@ -104,6 +104,29 @@
     </mj-section>
     <mj-raw><!-- /UPCOMING-EXPENSE-TABLE --></mj-raw>
 
+    <mj-section background-color="#2B2B2B" padding-bottom="0">
+      <mj-column>
+        <mj-divider border-width="1px" border-style="dotted" border-color="#666666" />
+      
+        <mj-text font-size="10px" align="center"><h2>Vermogen</h2></mj-text>
+      </mj-column>
+    </mj-section>    
+
+    <mj-section background-color="#2B2B2B">
+       <mj-group>
+          <mj-column>
+            <mj-text align="center" font-size="30px" css-class="major-figure">{fig-wealth-bankaccount-diff-human}</mj-text>
+            <mj-text align="center" css-class="major-figure">bankrekening</mj-text>
+            <mj-text align="center" font-size="10px" css-class="comparison-figure">Dit is {fig-wealth-bankaccount-change-percentage}</mj-text>
+          </mj-column>
+          <mj-column>
+            <mj-text align="center" color="{fig-wealth-savings-color}" font-size="30px" css-class="major-figure">{fig-wealth-savings-diff-human}</mj-text>
+            <mj-text align="center" color="{fig-wealth-savings-color}" css-class="major-figure">spaarrekening</mj-text>
+            <mj-text align="center" color="{fig-wealth-savings-color}" font-size="10px" css-class="comparison-figure">Dit is  {fig-wealth-savings-change-percentage}</mj-text>
+          </mj-column>
+       </mj-group>
+    </mj-section>
+
     <mj-include path="./footer.include.mjml" />
   </mj-body>
 </mjml>

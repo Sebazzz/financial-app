@@ -29,9 +29,30 @@ namespace App.Jobs.MonthlyDigest {
             template.AddReplacement("app-owner-name", monthlyDigest.AppOwnerName);
 
             AddFigures(monthlyDigest, template);
+            AddWealth(monthlyDigest, template);
             AddExpenses(template, monthlyDigest);
 
             await this._mailService.SendAsync(to, template);
+        }
+
+        private void AddWealth(MonthlyDigestData monthlyDigest, Template template) {
+            void AddWealth(MonthlyDigestFigure figure, string id) {
+                string diffString = Math.Abs(figure.Difference).ToString("C");
+                diffString += figure.Difference < 0 ? " minder" : " meer";
+
+                string color = figure.Difference < 0 ? "red" : "green";
+
+                template.AddReplacement($"fig-wealth-{id}-diff", diffString);
+                template.AddReplacement($"fig-wealth-{id}-color", color);
+
+                var changePercentage = figure.ChangeQuotient.ToString("P");
+                var changePercentageText =
+                    figure.ChangeQuotient < 0 ? $"{changePercentage} minder" : $"{changePercentage} meer";
+                template.AddReplacement($"fig-wealth-{id}-change-percentage", changePercentageText);
+            }
+
+            AddWealth(monthlyDigest.Wealth.BankAccount, "bankaccount");
+            AddWealth(monthlyDigest.Wealth.SavingsAccount, "savings");
         }
 
         private static void AddExpenses(Template template, MonthlyDigestData monthlyDigest) {
