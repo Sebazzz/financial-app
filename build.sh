@@ -10,7 +10,7 @@
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TOOLS_DIR=$SCRIPT_DIR/tools
 NUGET_EXE=$TOOLS_DIR/nuget.exe
-CAKE_EXE=$TOOLS_DIR/Cake.CoreCLR/Cake.dll
+CAKE_EXE=$TOOLS_DIR/Cake/Cake.exe
 PACKAGES_CONFIG=$TOOLS_DIR/packages.config
 PACKAGES_CONFIG_MD5=$TOOLS_DIR/packages.config.md5sum
 
@@ -74,7 +74,7 @@ fi
 # Restore tools from NuGet.
 pushd "$TOOLS_DIR" >/dev/null
 if [ ! -f $PACKAGES_CONFIG_MD5 ] || [ "$( cat $PACKAGES_CONFIG_MD5 | sed 's/\r$//' )" != "$( $MD5_EXE $PACKAGES_CONFIG | awk '{ print $1 }' )" ]; then
-    find . -type d ! -name . | xargs rm -rf
+    rm -rf $TOOLS_DIR/packages
 fi
 
 mono "$NUGET_EXE" install -ExcludeVersion
@@ -95,7 +95,7 @@ fi
 
 # Start Cake
 if $SHOW_VERSION; then
-    exec dotnet "$CAKE_EXE" -version
+    exec mono "$CAKE_EXE" -version
 else
-    exec dotnet "$CAKE_EXE" $SCRIPT -verbosity=$VERBOSITY -configuration=$CONFIGURATION -target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
+    exec mono "$CAKE_EXE" $SCRIPT -verbosity=$VERBOSITY -configuration=$CONFIGURATION -target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
 fi

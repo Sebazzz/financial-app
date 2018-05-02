@@ -8,6 +8,10 @@
 .vs
 project.lock.json
 
+# *nix build req
+tools/Cake
+tools/GitVersion.CommandLine
+
 # Build results
 artifacts
 [Dd]ebug/

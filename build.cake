@@ -20,6 +20,12 @@ var assemblyInfoFile = Directory($"./src/{baseName}/Properties") + File("Assembl
 var nodeEnv = configuration == "Release" ? "production" : "development";
 var mainProjectPath = Directory("./src/App");
 
+int p = (int) Environment.OSVersion.Platform;
+bool isUnix = (p == 4) || (p == 6) || (p == 128);
+
+var cmd = isUnix ? "bash" : "cmd";
+var cmdArg = isUnix ? "-c" : "/C";
+
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -39,13 +45,15 @@ Task("Rebuild")
 void CheckToolVersion(string name, string executable, string argument, Version wantedVersion) {
 	try {
 		Information($"Checking {name} version...");
-	
+		
+
 		var processSettings = new ProcessSettings()
-			.WithArguments(args => args.Append("/C").AppendQuoted(executable + " " + argument))
+			.WithArguments(args => args.Append(cmdArg).AppendQuoted(executable + " " + argument))
 			.SetRedirectStandardOutput(true)
 		;
 		
-		var process = StartAndReturnProcess("cmd", processSettings);
+
+		var process = StartAndReturnProcess(cmd, processSettings);
 		
 		process.WaitForExit();
 		
@@ -132,9 +140,9 @@ Task("Restore-Node-Packages")
 	Information("Trying to restore packages using yarn");
 	
 	exitCode = 
-			StartProcess("cmd", new ProcessSettings()
+			StartProcess(cmd, new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("yarn --production=false --frozen-lockfile --non-interactive")));
+			.WithArguments(args => args.Append(cmdArg).AppendQuoted("yarn --production=false --frozen-lockfile --non-interactive")));
 		
 	if (exitCode != 0) {
 		throw new CakeException($"'yarn' returned exit code {exitCode} (0x{exitCode:x2})");
@@ -173,9 +181,9 @@ Task("Build-MailTemplates")
 	.IsDependentOn("Set-NodeEnvironment")
 	.Does(() => {
 		var exitCode = 
-			StartProcess("cmd", new ProcessSettings()
+			StartProcess(cmd, new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("yarn run build-mailtemplates")));
+			.WithArguments(args => args.Append(cmdArg).AppendQuoted("yarn run build-mailtemplates")));
 		
 		if (exitCode != 0) {
 			throw new CakeException($"'yarn run build-mailtemplates' returned exit code {exitCode} (0x{exitCode:x2})");
@@ -187,9 +195,9 @@ Task("Run-Webpack")
 	.IsDependentOn("Set-NodeEnvironment")
 	.Does(() => {
 		var exitCode = 
-			StartProcess("cmd", new ProcessSettings()
+			StartProcess(cmd, new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("yarn run build")));
+			.WithArguments(args => args.Append(cmd).AppendQuoted("yarn run build")));
 		
 		if (exitCode != 0) {
 			throw new CakeException($"'yarn run build' returned exit code {exitCode} (0x{exitCode:x2})");

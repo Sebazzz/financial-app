@@ -5,9 +5,16 @@ If you like to build Financial App from sources, you can follow the instructions
 ## Prequisites
 
 *   [.NET Core 2.0 SDK](https://www.microsoft.com/net/download/core).
-*   [Node.js 6.10](https://www.microsoft.com/net/download/core) or higher (Node.js 8.x is supported too).
+*   [Node.js 8.x](https://nodejs.org/en/download/) or higher (Node.js 10.x is supported too).
 *   [Yarn 1.3.2](https://yarnpkg.com/en/docs/install) or higher
-*   Powershell
+
+### Additional prequisites on Windows
+
+*   Powershell 5.x
+
+### Additional prequisites on Linux (Ubuntu)
+
+*   Mono (latest)
 
 Environment:
 
