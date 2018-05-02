@@ -1,23 +1,29 @@
-Financial Management App
+Financial App
 =============
 
-Financial management application application meant for households created using ASP.NET Core, Knockout.js and Entity Framework.
+Financial management progressive web application meant for households created using ASP.NET Core, Knockout.js and Entity Framework. Installable as a web app on mobile devices. 
+
+[![Build status](https://ci.appveyor.com/api/projects/status/p31vw84asaq445h5?svg=true)](https://ci.appveyor.com/project/Sebazzz/financial-app)
 
 ### Features
 
   * Manage your financial data on month-by-month basis
   * Split your financial data in different categories
   * Prediction of monthly balance
+  * Monthly digest via e-mail
+  * Follows security best practices, includes two-factor authentication
   * Statistics and analysis (*to be refined*)
+  * Responsive: Works very well on both computer, tablet and mobile phone
 
 ### Browser Support
 
-Currently being tested on:
+Developed and tested on:
 
   * Internet Explorer 11
-  * Microsoft Edge (Mobile and Desktop)
+  * Microsoft Edge
   * Google Chrome
   * Mozilla Firefox
+  * Safari (iOS)
 
 ## Download and installation
 
