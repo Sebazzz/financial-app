@@ -1,0 +1,13 @@
+language: csharp
+node_js:
+  - "lts/*"
+mono:
+  - latest
+dotnet: 2.1.105
+cache:
+  yarn: true
+install:
+  - ./build.sh --target restore-nuget-packages
+  - ./build.sh --target restore-node-packages
+script:
+  - ./build.sh --target test
