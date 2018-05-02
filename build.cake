@@ -1,4 +1,4 @@
-#addin nuget:?package=Cake.Compression&version=0.1.4
+#addin nuget:?package=Cake.Compression&version=0.1.6
 #addin nuget:?package=SharpZipLib
 
 //////////////////////////////////////////////////////////////////////
