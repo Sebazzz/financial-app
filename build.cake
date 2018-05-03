@@ -197,7 +197,7 @@ Task("Run-Webpack")
 		var exitCode = 
 			StartProcess(cmd, new ProcessSettings()
 			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append(cmd).AppendQuoted("yarn run build")));
+			.WithArguments(args => args.Append(cmdArg).AppendQuoted("yarn run build")));
 		
 		if (exitCode != 0) {
 			throw new CakeException($"'yarn run build' returned exit code {exitCode} (0x{exitCode:x2})");
