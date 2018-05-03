@@ -6,6 +6,8 @@ mono:
 dotnet: 2.1.105
 cache:
   yarn: true
+  directories:
+    - /home/travis/.nuget/packages/
 install:
   - ./build.sh --target restore-nuget-packages
   - ./build.sh --target restore-node-packages
