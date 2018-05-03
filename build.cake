@@ -261,9 +261,17 @@ UbuntuPublishTask("16.10-x64", "ubuntu.16.10-x64", "Ubuntu 16.10/17.04 64-bit");
 Task("Publish")
     .IsDependentOn("Publish-Windows")
     .IsDependentOn("Publish-Ubuntu");
+	
+Task("Set-HeadlessEnvironment")
+	.Does(() => {
+		Information("Setting MOZ_HEADLESS to MOZ_HEADLESS");
+		
+		System.Environment.SetEnvironmentVariable("MOZ_HEADLESS", "MOZ_HEADLESS");
+	});
 
 Task("Test-JS")
     .IsDependentOn("Run-Webpack")
+	.IsDependentOn("Set-HeadlessEnvironment")
     .Description("Test javascript front-end code")
     .Does(() => {
 		var exitCode = StartProjectDirProcess("yarn run test");
