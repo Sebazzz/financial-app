@@ -77,6 +77,12 @@ void CheckToolVersion(string name, string executable, string argument, Version w
 		throw new CakeException($"Unable to check {name} version. Please check whether {name} is available in the current %PATH%.", e);
 	}
 }
+
+int StartProjectDirProcess(string processCommandLine) {
+	return StartProcess(cmd, new ProcessSettings()
+			.UseWorkingDirectory(mainProjectPath)
+			.WithArguments(args => args.Append(cmdArg).AppendQuoted(processCommandLine)));
+}
 	
 Task("Check-Node-Version")
 	.Does(() => {
@@ -119,9 +125,7 @@ Task("Generate-MigrationScript")
 		}
 	
 	}
-	
-	);
-	//.Does(() => StartProcess());
+);
 
 Task("Set-NodeEnvironment")
 	.Does(() => {
@@ -139,10 +143,7 @@ Task("Restore-Node-Packages")
 	
 	Information("Trying to restore packages using yarn");
 	
-	exitCode = 
-			StartProcess(cmd, new ProcessSettings()
-			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append(cmdArg).AppendQuoted("yarn --production=false --frozen-lockfile --non-interactive")));
+	exitCode = StartProjectDirProcess("yarn --production=false --frozen-lockfile --non-interactive");
 		
 	if (exitCode != 0) {
 		throw new CakeException($"'yarn' returned exit code {exitCode} (0x{exitCode:x2})");
@@ -180,10 +181,7 @@ Task("Build-MailTemplates")
 	.IsDependentOn("Restore-Node-Packages")
 	.IsDependentOn("Set-NodeEnvironment")
 	.Does(() => {
-		var exitCode = 
-			StartProcess(cmd, new ProcessSettings()
-			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append(cmdArg).AppendQuoted("yarn run build-mailtemplates")));
+		var exitCode = StartProjectDirProcess("yarn run build-mailtemplates");
 		
 		if (exitCode != 0) {
 			throw new CakeException($"'yarn run build-mailtemplates' returned exit code {exitCode} (0x{exitCode:x2})");
@@ -194,10 +192,7 @@ Task("Run-Webpack")
 	.IsDependentOn("Restore-Node-Packages")
 	.IsDependentOn("Set-NodeEnvironment")
 	.Does(() => {
-		var exitCode = 
-			StartProcess(cmd, new ProcessSettings()
-			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append(cmdArg).AppendQuoted("yarn run build")));
+		var exitCode = StartProjectDirProcess("yarn run build");
 		
 		if (exitCode != 0) {
 			throw new CakeException($"'yarn run build' returned exit code {exitCode} (0x{exitCode:x2})");
@@ -271,10 +266,7 @@ Task("Test-JS")
     .IsDependentOn("Run-Webpack")
     .Description("Test javascript front-end code")
     .Does(() => {
-		var exitCode = 
-			StartProcess("cmd", new ProcessSettings()
-			.UseWorkingDirectory(mainProjectPath)
-			.WithArguments(args => args.Append("/C").AppendQuoted("yarn run test")));
+		var exitCode = StartProjectDirProcess("yarn run test");
 		
 		if (exitCode != 0) {
 			throw new CakeException($"'yarn run test' returned exit code {exitCode} (0x{exitCode:x2})");
