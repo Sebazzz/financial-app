@@ -264,9 +264,9 @@ Task("Publish")
 	
 Task("Set-HeadlessEnvironment")
 	.Does(() => {
-		Information("Setting MOZ_HEADLESS to MOZ_HEADLESS");
+		Information("Setting MOZ_HEADLESS to 1");
 		
-		System.Environment.SetEnvironmentVariable("MOZ_HEADLESS", "MOZ_HEADLESS");
+		System.Environment.SetEnvironmentVariable("MOZ_HEADLESS", "1");
 	});
 
 Task("Test-JS")
