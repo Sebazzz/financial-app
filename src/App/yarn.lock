@@ -6277,11 +6277,11 @@ path-parse@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.5.tgz#3c1adf871ea9cd6c9431b6ea2bd74a0ff055c4c1"
 
-path-parser@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/path-parser/-/path-parser-3.0.1.tgz#90abf7d98af74b1f7da6d312786591a51c887619"
+path-parser@4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/path-parser/-/path-parser-4.0.4.tgz#ba9cb1d9b38d924a640bec2d93b403050d060fe6"
   dependencies:
-    search-params "~1.3.0"
+    search-params "2.1.2"
 
 path-proxy@~1.0.0:
   version "1.0.0"
@@ -7375,23 +7375,24 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^2.0.0"
     inherits "^2.0.1"
 
-route-node@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/route-node/-/route-node-2.0.3.tgz#f1da1fb058313820994086df984aa6103abdbc9e"
+route-node@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/route-node/-/route-node-3.1.1.tgz#c7b33c9a9044918f131b9c31a7afc48de375044d"
   dependencies:
-    path-parser "3.0.1"
-    search-params "~1.3.0"
+    path-parser "4.0.4"
+    search-params "2.1.2"
 
-router5-transition-path@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/router5-transition-path/-/router5-transition-path-5.1.1.tgz#89698deeaedcf0831a5c3393d8ae16c9f06a9744"
+router5-transition-path@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/router5-transition-path/-/router5-transition-path-5.3.0.tgz#113f7e09dffee5e22c7275c20fe25969c0bc1599"
 
-router5@5.8.3:
-  version "5.8.3"
-  resolved "https://registry.yarnpkg.com/router5/-/router5-5.8.3.tgz#fd4f61051f1d2c15db435972be828c3abbd447f0"
+router5@6.1.3:
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/router5/-/router5-6.1.3.tgz#918e8f4d2b4b871d5148642e1cfaf2d53a6e6174"
   dependencies:
-    route-node "2.0.3"
-    router5-transition-path "^5.1.1"
+    route-node "3.1.1"
+    router5-transition-path "^5.3.0"
+    symbol-observable "1.2.0"
 
 run-async@^2.0.0, run-async@^2.2.0:
   version "2.3.0"
@@ -7479,9 +7480,9 @@ scss-tokenizer@^0.2.3:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
 
-search-params@~1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/search-params/-/search-params-1.3.0.tgz#ba1e1c01dcbd8a2e41a25236f602f2cbf710d688"
+search-params@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/search-params/-/search-params-2.1.2.tgz#e0107b7e6f2e973d7991b8fbffc8b6664bc96edd"
 
 "semver@2 || 3 || 4 || 5", semver@^5.0.1, semver@^5.1.0, semver@^5.3.0, semver@^5.5.0:
   version "5.5.0"
@@ -8067,6 +8068,10 @@ svgo@^0.7.0:
 symbol-observable@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.1.tgz#8340fc4702c3122df5d22288f88283f513d3fdd4"
+
+symbol-observable@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
 
 symbol-observable@^0.2.2:
   version "0.2.4"
