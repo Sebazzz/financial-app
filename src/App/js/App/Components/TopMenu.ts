@@ -4,7 +4,7 @@ import { Plugin, PluginFactory } from 'router5/core/plugins';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import NowRouteProvider from 'App/Services/NowRoute';
-import * as SignalR from '@aspnet/signalr-client';
+import * as SignalR from '@aspnet/signalr';
 
 class TopMenu extends framework.Panel {
     private activityService = new UserActivityService();

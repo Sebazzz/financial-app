@@ -2,11 +2,9 @@
 # yarn lockfile v1
 
 
-"@aspnet/signalr-client@1.0.0-alpha2-final":
-  version "1.0.0-alpha2-final"
-  resolved "https://registry.yarnpkg.com/@aspnet/signalr-client/-/signalr-client-1.0.0-alpha2-final.tgz#6bcf7d0102875df8aa6f03a107487c93f4f1feb4"
-  dependencies:
-    msgpack5 "^3.5.0"
+"@aspnet/signalr@^1.0.0-preview2-final":
+  version "1.0.0-preview2-final"
+  resolved "https://registry.yarnpkg.com/@aspnet/signalr/-/signalr-1.0.0-preview2-final.tgz#77652fd0b5a22de6444a5e97455ce7bffbc92116"
 
 "@dr-kobros/serviceworker-webpack-plugin@^0.1.1":
   version "0.1.1"
@@ -1208,12 +1206,6 @@ bitsyntax@~0.0.4:
   resolved "https://registry.yarnpkg.com/bitsyntax/-/bitsyntax-0.0.4.tgz#eb10cc6f82b8c490e3e85698f07e83d46e0cba82"
   dependencies:
     buffer-more-ints "0.0.2"
-
-bl@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.1.tgz#cac328f7bee45730d404b692203fcb590e172d5e"
-  dependencies:
-    readable-stream "^2.0.5"
 
 bl@~1.1.2:
   version "1.1.2"
@@ -5748,15 +5740,6 @@ ms@0.7.1:
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
-
-msgpack5@^3.5.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/msgpack5/-/msgpack5-3.6.0.tgz#13912ee47cb0ad037f70def7924ebf38afa19b4f"
-  dependencies:
-    bl "^1.2.1"
-    inherits "^2.0.3"
-    readable-stream "^2.3.3"
-    safe-buffer "^5.1.1"
 
 multimatch@^2.0.0:
   version "2.1.0"
