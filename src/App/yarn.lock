@@ -45,9 +45,9 @@
     "@types/jquery" "*"
     popper.js "^1.14.1"
 
-"@types/chai@4.1.2":
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.2.tgz#f1af664769cfb50af805431c407425ed619daa21"
+"@types/chai@4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.3.tgz#b8a74352977a23b604c01aa784f5b793443fb7dc"
 
 "@types/chart.js@2.7.11":
   version "2.7.11"
@@ -71,9 +71,9 @@
   version "3.4.53"
   resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.53.tgz#3c25b1d74f3c2b13557d0ecba4a38ad0c5ae7429"
 
-"@types/mocha@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.0.0.tgz#a3014921991066193f6c8e47290d4d598dfd19e6"
+"@types/mocha@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.0.tgz#b3c8e69f038835db1a7fdc0b3d879fc50506e29e"
 
 "@types/rx-core-binding@*":
   version "4.0.4"
