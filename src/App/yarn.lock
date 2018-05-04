@@ -13,8 +13,8 @@
     minimatch "^3.0.3"
 
 "@fortawesome/fontawesome-free-webfonts@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-webfonts/-/fontawesome-free-webfonts-1.0.5.tgz#3b9e023b6230cdb144204f08e77178c7694e9045"
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-webfonts/-/fontawesome-free-webfonts-1.0.8.tgz#07d9497904dc036d81f697356932dfeb50e5921f"
 
 "@gulp-sourcemaps/map-sources@1.X":
   version "1.0.0"
@@ -1250,9 +1250,9 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
-bootstrap@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.0.tgz#110b05c31a236d56dbc9adcda6dd16f53738a28a"
+bootstrap@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.1.tgz#3aec85000fa619085da8d2e4983dfd67cf2114cb"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -4512,9 +4512,9 @@ karma@2.0.2:
     tmp "0.0.33"
     useragent "2.2.1"
 
-kendo-ui-core@2018.1.403:
-  version "2018.1.403"
-  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.1.403.tgz#9095552805ec1fb086eade0fa2a6139e17b65916"
+kendo-ui-core@2018.1.503:
+  version "2018.1.503"
+  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.1.503.tgz#41c4ce626f328326470969f03de0e2ac74a8f785"
   dependencies:
     jquery "<=3"
 
@@ -5591,9 +5591,9 @@ mocha@5.1.1:
     mkdirp "0.5.1"
     supports-color "4.4.0"
 
-moment@2.22.0:
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.0.tgz#7921ade01017dd45186e7fee5f424f0b8663a730"
+moment@2.22.1:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
 
 moment@^2.10.2:
   version "2.21.0"
