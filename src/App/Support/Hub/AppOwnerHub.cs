@@ -22,11 +22,11 @@
 
             this._logger.LogInformation("Connection incoming, user: {0} of group {1}", identity, group);
 
-            await this.Groups.AddAsync(this.Context.ConnectionId, group);
+            await this.Groups.AddToGroupAsync(this.Context.ConnectionId, group);
 
             string[] groupInfo = this._groupContext.AlterAndReturn(group, s => s.Add(identity)).ToArray();
-            await this.Clients.Client(this.Context.ConnectionId).InvokeAsync("setInitialClientList", new object[] {groupInfo});
-            await this.Clients.Group(group).InvokeAsync("pushClient", this.Context.User.Identity.Name);
+            await this.Clients.Client(this.Context.ConnectionId).SendAsync("setInitialClientList", new object[] {groupInfo});
+            await this.Clients.Group(group).SendAsync("pushClient", this.Context.User.Identity.Name);
 
             await base.OnConnectedAsync();
         }
@@ -39,7 +39,7 @@
 
             string group = this.GetGroupName();
 
-            await this.Clients.Group(group).InvokeAsync("popClient", this.Context.User.Identity.Name);
+            await this.Clients.Group(group).SendAsync("popClient", this.Context.User.Identity.Name);
 
             await base.OnDisconnectedAsync(exception);
         }

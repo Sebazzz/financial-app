@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using App.Support.Https;
+using Microsoft.AspNetCore.Mvc;
 
 namespace App {
     using System;
@@ -79,7 +80,7 @@ namespace App {
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
                 options.Filters.Add(typeof(ApiCachePreventionFilterAttribute));
                 options.Filters.Add(typeof(SetupRequiredFilterAttribute));
-            });
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddIdentity<AppUser, AppRole>(
                     options => {
@@ -128,7 +129,8 @@ namespace App {
 
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
 
-            services.AddSignalR(options => options.JsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+            services.AddSignalR()
+                    .AddJsonProtocol(options => options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             services.AddHangfire(c => {
 #if DEBUG
@@ -226,7 +228,7 @@ namespace App {
             }
 
             app.UseSignalR(builder => {
-                builder.MapHub<AppOwnerHub>("extern/connect/app-owner");
+                builder.MapHub<AppOwnerHub>("/extern/connect/app-owner");
             });
 
             app.UseResponseCompression();
