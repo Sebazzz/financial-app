@@ -50,9 +50,9 @@
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.1.tgz#55758d44d422756d6329cbf54e6d41931d7ba28f"
 
-"@types/kendo-ui@2018.1.2":
-  version "2018.1.2"
-  resolved "https://registry.yarnpkg.com/@types/kendo-ui/-/kendo-ui-2018.1.2.tgz#2928cb2f3cbf2ced307d13d0258bb8f369ddd34c"
+"@types/kendo-ui@2018.2.2":
+  version "2018.2.2"
+  resolved "https://registry.yarnpkg.com/@types/kendo-ui/-/kendo-ui-2018.2.2.tgz#34c8d3fd31c9cd8015516d83226b7a115c0ac4e9"
   dependencies:
     "@types/jquery" "*"
 
@@ -3613,9 +3613,9 @@ karma@2.0.2:
     tmp "0.0.33"
     useragent "2.2.1"
 
-kendo-ui-core@2018.1.503:
-  version "2018.1.503"
-  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.1.503.tgz#41c4ce626f328326470969f03de0e2ac74a8f785"
+kendo-ui-core@2018.2.613:
+  version "2018.2.613"
+  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.2.613.tgz#906036986425393c6b5ebd9dd7e90b80613e7003"
   dependencies:
     jquery "<=3"
 
