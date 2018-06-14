@@ -6,7 +6,7 @@
         "@types/applicationinsights-js": "1.0.5",
         "@types/bootstrap": "4.1.0",
         "@types/chai": "4.1.4",
-        "@types/chart.js": "2.7.15",
+        "@types/chart.js": "2.7.22",
         "@types/jquery": "3.3.2",
         "@types/kendo-ui": "2018.2.2",
         "@types/knockout": "3.4.53",
