@@ -127,8 +127,15 @@ class TopMenu extends framework.Panel {
     }
 }
 
+function buildSignalRConnection() {
+    return new SignalR.HubConnectionBuilder()
+        .withUrl('/extern/connect/app-owner')
+        .configureLogging(DEBUG ? SignalR.LogLevel.Information : SignalR.LogLevel.Error)
+        .build();
+}
+
 class UserActivityService {
-    private connection = new SignalR.HubConnection('/extern/connect/app-owner');
+    private connection = buildSignalRConnection();
 
     public activeClients = ko.observableArray<string>();
     public activeClientCount = ko.pureComputed(() => this.activeClients().length);
