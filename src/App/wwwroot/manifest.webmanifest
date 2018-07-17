@@ -1,0 +1,39 @@
+{
+    "name": "Financial App",
+    "short_name": "Financial App",
+    "start_url": ".",
+    "display": "fullscreen",
+    "background_color": "#2B2B2B",
+    "description": "Financial App: Manage your household expenses",
+    "lang": "nl-NL",
+    "orientation": "any",
+    "theme_color": "#389fc5",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "images/tiles/70x70.png",
+            "sizes": "70x70",
+            "type": "image/png"
+        },
+        {
+            "src": "images/tiles/150x150.png",
+            "sizes": "150x150",
+            "type": "image/png"
+        },
+        {
+            "src": "images/tiles/310x310.png",
+            "sizes": "310x310",
+            "type": "image/png"
+        },
+        {
+            "src": "images/tiles/tile-base.png",
+            "sizes": "600x600",
+            "type": "image/png"
+        },
+        {
+            "src": "images/tiles/apple-tile.png",
+            "sizes": "114x114",
+            "type": "image/png"
+        }
+    ]
+  }
