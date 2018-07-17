@@ -5404,9 +5404,9 @@ path-parse@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.5.tgz#3c1adf871ea9cd6c9431b6ea2bd74a0ff055c4c1"
 
-path-parser@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/path-parser/-/path-parser-4.1.1.tgz#2cec1eb1251428aa48774a2ef49dddd46083a18b"
+path-parser@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/path-parser/-/path-parser-4.2.0.tgz#2fbb3df2d49659a9a4cac88be7d8d5f4666814fb"
   dependencies:
     search-params "2.1.3"
 
@@ -6413,22 +6413,22 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^2.0.0"
     inherits "^2.0.1"
 
-route-node@3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/route-node/-/route-node-3.2.1.tgz#be0fccbf663be055c8909c1649a004bba22c437b"
+route-node@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/route-node/-/route-node-3.3.0.tgz#df3e4436ae0cc0c3620d43cc28ee9ca098301cbb"
   dependencies:
-    path-parser "4.1.1"
+    path-parser "4.2.0"
     search-params "2.1.3"
 
 router5-transition-path@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/router5-transition-path/-/router5-transition-path-5.3.0.tgz#113f7e09dffee5e22c7275c20fe25969c0bc1599"
 
-router5@6.2.4:
-  version "6.2.4"
-  resolved "https://registry.yarnpkg.com/router5/-/router5-6.2.4.tgz#daa921063cbf93d7961fdab6bc3b8cbc28ee5ad4"
+router5@6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/router5/-/router5-6.3.0.tgz#7396e73012dc828858d64f372f8bc40f117606ce"
   dependencies:
-    route-node "3.2.1"
+    route-node "3.3.0"
     router5-transition-path "^5.3.0"
     symbol-observable "1.2.0"
 
