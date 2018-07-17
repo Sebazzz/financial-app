@@ -74,7 +74,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public id = 0;
     public name = ko.observable<string>();
     public description = ko.observable<string>();
-    public hexColorCode = ko.observable<string>(EditViewModel.defaultColorCode);
+    public hexColorCode = ko.observable<string | null>(EditViewModel.defaultColorCode);
 
     public noColor = ko.computed(() => this.hexColorCode() === null);
 

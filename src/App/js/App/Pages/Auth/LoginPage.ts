@@ -4,8 +4,8 @@ import * as ko from 'knockout';
 import { IAuthenticationInfo } from 'AppFramework/ServerApi/Authentication';
 
 class AuthLoginPage extends Page {
-    public userName = ko.observable<string>();
-    public password = ko.observable<string>();
+    public userName = ko.observable<string>(null);
+    public password = ko.observable<string>(null);
     public persist = ko.observable<boolean>(true);
     public rememberMachine = ko.observable<boolean>(false);
 
@@ -23,7 +23,7 @@ class AuthLoginPage extends Page {
     );
 
     public requireTwoFactorAuthentication = ko.observable<boolean>(false);
-    public twoFactorVerificationCode = ko.observable<string>();
+    public twoFactorVerificationCode = ko.observable<string>(null);
     public isEnteringRecoveryCode = ko.observable<boolean>(false);
 
     public disableForm = ko.pureComputed(() => this.isBusy() || this.success());
@@ -52,8 +52,8 @@ class AuthLoginPage extends Page {
 
         try {
             const result = await this.appContext.authentication.authenticate(
-                this.userName.peek(),
-                this.password.peek(),
+                this.userName.peek()!,
+                this.password.peek()!,
                 this.persist.peek()
             );
 
@@ -78,7 +78,7 @@ class AuthLoginPage extends Page {
         this.isBusy(true);
 
         try {
-            const verificationCode = this.twoFactorVerificationCode.peek();
+            const verificationCode = this.twoFactorVerificationCode.peek()!;
 
             let result: IAuthenticationInfo;
             if (this.isEnteringRecoveryCode.peek()) {

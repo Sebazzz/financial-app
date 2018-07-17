@@ -11,7 +11,7 @@ const settings = {
 };
 
 class LoadingBarComponentModel implements IHttpInterceptor {
-    private $element: JQuery;
+    private $element: JQuery<Element>;
     private status = 0;
     private increaseTimeoutHandle: number = 0;
     private completeTimeoutHandle: number = 0;
@@ -123,10 +123,10 @@ class LoadingBarComponentModel implements IHttpInterceptor {
             rnd = (Math.random() * (5 - 3 + 1) + 3) / 100;
         } else if (stat >= 0.25 && stat < 0.65) {
             // increment between 0 - 3%
-            rnd = Math.random() * 3 / 100;
+            rnd = (Math.random() * 3) / 100;
         } else if (stat >= 0.65 && stat < 0.9) {
             // increment between 0 - 2%
-            rnd = Math.random() * 2 / 100;
+            rnd = (Math.random() * 2) / 100;
         } else if (stat >= 0.9 && stat < 0.99) {
             // finally, increment it .5 %
             rnd = 0.005;

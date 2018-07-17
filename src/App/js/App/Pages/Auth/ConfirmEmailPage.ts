@@ -6,7 +6,7 @@ import { Api as AuthApi } from 'AppFramework/ServerApi/Authentication';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 
 class ConfirmEmailModel extends validate.ValidateableViewModel {
-    public key = ko.observable<string>();
+    public key = ko.observable<string>(null);
     public token = '';
 }
 
@@ -41,7 +41,7 @@ class AuthConfirmEmailModelPage extends FormPage {
     public async save(viewModel: validate.ValidateableViewModel) {
         try {
             await this.api.confirmEmail({
-                key: this.model.key(),
+                key: this.model.key()!,
                 token: this.model.token
             });
 

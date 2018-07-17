@@ -38,7 +38,7 @@ class AuthForgotPasswordPage extends FormPage {
 
     public async save(viewModel: validate.ValidateableViewModel) {
         try {
-            await this.api.forgotPassword({ user: this.model.user() });
+            await this.api.forgotPassword({ user: this.model.user()! });
 
             this.success(true);
         } catch (e) {

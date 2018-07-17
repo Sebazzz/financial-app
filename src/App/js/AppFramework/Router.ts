@@ -80,7 +80,7 @@ export class Router {
         }
 
         $(document).on('click', 'a, a *', ev => {
-            const anchor = findAnchor(ev.target);
+            const anchor = findAnchor(ev.target as any);
             if (!anchor) {
                 return;
             }

@@ -19,9 +19,9 @@ class DefaultPage extends FormPage {
 
     public steps = ko.observableArray<api.ISetupStepDescriptor>();
     public currentStep = ko.observable<api.ISetupStepDescriptor>();
-    public currentStepIndex = ko.pureComputed(() => this.currentStep().order);
+    public currentStepIndex = ko.pureComputed(() => this.currentStep()!.order);
     public currentStepHandler = ko.pureComputed(() => {
-        const currentStep = this.currentStep(),
+        const currentStep = this.currentStep()!,
             handlerFactory = this.setupStepHandlerFactory[currentStep.order],
             handler = handlerFactory();
 
@@ -30,7 +30,7 @@ class DefaultPage extends FormPage {
         return handler;
     });
 
-    public isBusy = ko.observable<boolean>();
+    public isBusy = ko.observable<boolean>(false);
 
     constructor(appContext: AppContext) {
         super(appContext);
@@ -38,7 +38,7 @@ class DefaultPage extends FormPage {
         this.title('Setup wizard');
 
         this.currentStep.subscribe(step => {
-            this.title(`${step.name} - Setup wizard`);
+            this.title(`${step!.name} - Setup wizard`);
         });
 
         this.nextStep = this.nextStep.bind(this);
@@ -53,7 +53,7 @@ class DefaultPage extends FormPage {
 
     public stepCssClass(displayStep: api.ISetupStepDescriptor) {
         return ko.computed(() => {
-            const activeStepIndex = this.currentStep().order,
+            const activeStepIndex = this.currentStep()!.order,
                 displayStepIndex = displayStep.order;
 
             if (activeStepIndex === displayStepIndex) {
@@ -68,7 +68,7 @@ class DefaultPage extends FormPage {
         return ko.pureComputed(() => {
             const currentStep = this.currentStep();
 
-            return currentStep.order === index ? this.currentStepHandler() : null;
+            return currentStep!.order === index ? this.currentStepHandler() : null;
         });
     }
 
@@ -79,7 +79,7 @@ class DefaultPage extends FormPage {
         try {
             this.isBusy(true);
 
-            if (currentStep.isDone) {
+            if (currentStep!.isDone) {
                 document.location.pathname = '/';
                 return;
             }
@@ -109,7 +109,7 @@ class DefaultPage extends FormPage {
 
             throw e;
         } finally {
-            this.isBusy(currentStep.isDone);
+            this.isBusy(currentStep!.isDone);
         }
     }
 

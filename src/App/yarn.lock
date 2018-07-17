@@ -2,15 +2,9 @@
 # yarn lockfile v1
 
 
-"@aspnet/signalr@^1.0.0-preview2-final":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@aspnet/signalr/-/signalr-1.0.0.tgz#26b10a32014a65c540cc5053cffa883c320788ce"
-
-"@dr-kobros/serviceworker-webpack-plugin@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@dr-kobros/serviceworker-webpack-plugin/-/serviceworker-webpack-plugin-0.1.1.tgz#26a7f67ee460c7687538ed82dd7447f6f299098a"
-  dependencies:
-    minimatch "^3.0.3"
+"@aspnet/signalr@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@aspnet/signalr/-/signalr-1.0.2.tgz#c9b328db7d01b6d07e7532f130b4a32d9159506a"
 
 "@fortawesome/fontawesome-free-webfonts@^1.0.9":
   version "1.0.9"
@@ -27,9 +21,9 @@
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.5.tgz#b0bab755e67ed584ac3bf75869fc12589a338a2c"
 
-"@types/bootstrap@4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-4.1.0.tgz#b6504125870c5fc96225d9d461f06e5545e6b827"
+"@types/bootstrap@4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-4.1.2.tgz#3d6a3ea111e88ca926803a0e02b1f3d4c9913a5b"
   dependencies:
     "@types/jquery" "*"
     popper.js "^1.14.1"
@@ -38,17 +32,17 @@
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.4.tgz#5ca073b330d90b4066d6ce18f60d57f2084ce8ca"
 
-"@types/chart.js@2.7.22":
-  version "2.7.22"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.22.tgz#1a6d695362d4368ad7f4e79f0249f9c6fa05dac1"
+"@types/chart.js@2.7.28":
+  version "2.7.28"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.28.tgz#4ef7d0a850b81f4a9727017f6c730b15ad7a5949"
 
 "@types/jquery@*":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.0.tgz#6316ac20a1a13c5d521a2dc661befc7184f73f5b"
 
-"@types/jquery@3.3.2":
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.2.tgz#8700226bdde24b6f98e3a60126dbaab3b2a3ab41"
+"@types/jquery@3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.4.tgz#f1850fb9a70041a14ace4f81a7ed782db8548317"
 
 "@types/kendo-ui@2018.2.2":
   version "2018.2.2"
@@ -56,13 +50,13 @@
   dependencies:
     "@types/jquery" "*"
 
-"@types/knockout@3.4.54":
-  version "3.4.54"
-  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.54.tgz#499993796d1db157797d6812424557d68cc8459b"
+"@types/knockout@3.4.58":
+  version "3.4.58"
+  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.58.tgz#a7cbb98b5b13ebd47936d9c826f4a9f7270694ba"
 
-"@types/mocha@5.2.2":
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.2.tgz#202d2b8fe1364c5b617b439b26a54f0e75eac0a7"
+"@types/mocha@5.2.5":
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.5.tgz#8a4accfc403c124a0bafe8a9fc61a05ec1032073"
 
 "@types/rx-core-binding@*":
   version "4.0.4"
@@ -6236,6 +6230,12 @@ semver@~5.3.0:
 serialize-javascript@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.4.0.tgz#7c958514db6ac2443a8abc062dc9f7886a7f6005"
+
+serviceworker-webpack-plugin@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/serviceworker-webpack-plugin/-/serviceworker-webpack-plugin-0.2.3.tgz#1873ed6fc83c873ac8240fac443c615d374feeb2"
+  dependencies:
+    minimatch "^3.0.3"
 
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
