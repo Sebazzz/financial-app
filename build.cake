@@ -86,12 +86,12 @@ int StartProjectDirProcess(string processCommandLine) {
 	
 Task("Check-Node-Version")
 	.Does(() => {
-	CheckToolVersion("node.js", "node", "--version", new Version(6,1,0));
+	CheckToolVersion("node.js", "node", "--version", new Version(8,9,0));
 });
 
 Task("Check-Yarn-Version")
 	.Does(() => {
-	CheckToolVersion("yarn package manager", "yarn", "--version", new Version(1,3,2));
+	CheckToolVersion("yarn package manager", "yarn", "--version", new Version(1,7,0));
 });
 
 Task("Restore-NuGet-Packages")
