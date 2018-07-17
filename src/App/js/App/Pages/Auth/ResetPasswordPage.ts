@@ -6,8 +6,8 @@ import { Api as AuthApi } from 'AppFramework/ServerApi/Authentication';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 
 class ResetPasswordModel extends validate.ValidateableViewModel {
-    public newPassword = ko.observable<string>();
-    public newPasswordConfirm = ko.observable<string>();
+    public newPassword = ko.observable<string>(null);
+    public newPasswordConfirm = ko.observable<string>(null);
 
     public key: string = '';
     public token: string = '';
@@ -60,8 +60,8 @@ class AuthResetPasswordPage extends FormPage {
             await this.api.resetPassword({
                 key: this.model.key,
                 token: this.model.token,
-                newPassword: this.model.newPassword(),
-                newPasswordConfirm: this.model.newPasswordConfirm()
+                newPassword: this.model.newPassword()!,
+                newPasswordConfirm: this.model.newPasswordConfirm()!
             });
 
             this.success(true);

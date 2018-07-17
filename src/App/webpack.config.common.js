@@ -1,5 +1,5 @@
 /// <binding />
-const ServiceWorkerPlugin = require('@dr-kobros/serviceworker-webpack-plugin');
+const ServiceWorkerPlugin = require('serviceworker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const path = require('path');
@@ -127,7 +127,7 @@ module.exports = {
     entry: {
         app: ['./js/App/main.ts']
     },
-    plugins: [copyPolyfill, globalsProvider, serviceWorker],
+    plugins: [copyPolyfill, globalsProvider /*, serviceWorker*/],
     output: {
         filename: '[name].js',
         chunkFilename: '[name].js',
@@ -181,11 +181,11 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: [/node_modules/, /sw\.ts/]
             },
-            {
+            /*{
                 test: /sw\.ts$/,
                 use: 'ts-loader',
                 exclude: [/node_modules/]
-            },
+            },*/
             {
                 test: /\.(png|svg|jpg|gif|ttf|eot|woff|woff2)$/,
                 use: 'url-loader?limit=8192'

@@ -33,7 +33,7 @@ class SheetPage extends FormPage {
 
     public availableTags = ko.observableArray<tag.ITag>();
     public availableCategories = ko.observableArray<category.ICategoryListing>();
-    public sheet = ko.observable<Sheet>();
+    public sheet = ko.observable<Sheet>(null);
 
     public sourceAutocompletionData = ko.observableArray<string>();
 
@@ -206,7 +206,7 @@ class SheetPage extends FormPage {
 
     public mutateSortOrderHandler(currentItem: SheetEntry, mutation: sheetEntry.SortOrderMutationType) {
         return async () => {
-            const sheet = this.sheet(),
+            const sheet = this.sheet()!,
                 currentIndex = sheet.entries.indexOf(currentItem),
                 sortOrderOffset = mutation === sheetEntry.SortOrderMutationType.Increase ? 1 : -1,
                 swapIndex = currentIndex + sortOrderOffset,
@@ -250,7 +250,7 @@ class SheetPage extends FormPage {
     public addEntry() {
         const basis = {
                 id: 0,
-                sortOrder: this.sheet().getNextSortOrder(),
+                sortOrder: this.sheet()!.getNextSortOrder(),
                 account: sheetEntry.AccountType.BankAccount,
                 categoryId: null,
                 createTimestamp: new Date(),
@@ -267,13 +267,13 @@ class SheetPage extends FormPage {
         }
 
         model.editMode(true);
-        this.sheet().entries.push(model);
+        this.sheet()!.entries.push(model);
     }
 
     public addEntryTemplate(template: entryTemplate.IRecurringSheetEntry) {
         const basis = {
                 id: 0,
-                sortOrder: this.sheet().getNextSortOrder(),
+                sortOrder: this.sheet()!.getNextSortOrder(),
                 account: template.account,
                 categoryId: template.categoryId,
                 createTimestamp: new Date(),
@@ -290,7 +290,7 @@ class SheetPage extends FormPage {
         }
 
         model.editMode(true);
-        this.sheet().entries.push(model);
+        this.sheet()!.entries.push(model);
     }
 
     public async deleteEntry(entry: SheetEntry, event: Event) {
@@ -302,7 +302,7 @@ class SheetPage extends FormPage {
 
         this.cleanErrorState();
 
-        const sheet = this.sheet();
+        const sheet = this.sheet()!;
 
         entry.isBusy(true);
 
@@ -380,10 +380,10 @@ export class SheetEntry extends validate.ValidateableViewModel {
 
     public delta = ko.observable<number>();
 
-    public source = ko.observable<string>();
-    public remark = ko.observable<string>();
+    public source = ko.observable<string>(null);
+    public remark = ko.observable<string>(null);
 
-    public sortOrder = ko.observable<number>();
+    public sortOrder = ko.observable<number>(0);
 
     public updateTimestamp = ko.observable<sheetEntry.DateTime>();
     public createTimestamp = ko.observable<sheetEntry.DateTime>();
@@ -473,7 +473,7 @@ export class Sheet {
 }
 
 export class RemarksModel {
-    public content = ko.observable<string | null>();
+    public content = ko.observable<string | null>(null);
     public editMode: KnockoutObservable<boolean>;
 
     constructor(private sheetEntry: SheetEntry) {

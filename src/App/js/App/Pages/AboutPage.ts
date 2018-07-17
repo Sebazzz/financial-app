@@ -43,7 +43,7 @@ class ServiceWorkerController {
 
     public state = ko.observable<ServiceWorkerState>();
     public scriptUrl = ko.observable<string>();
-    public serviceWorkerVersion = ko.observable<string>();
+    public serviceWorkerVersion = ko.observable<string | null>();
 
     public serviceWorkerConsole = ko.observableArray<string>();
     public isServiceWorkerConsoleVisible = ko.pureComputed(() => this.serviceWorkerConsole().length > 0);

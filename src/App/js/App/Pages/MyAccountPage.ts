@@ -44,7 +44,7 @@ class MyAccountPage extends Page {
             this.isRefreshing = true;
 
             this.authInfo(await this.api.getInfo());
-            this.twoFactorAuthentication.twoFactorInfo(this.authInfo.peek().twoFactorAuthentication);
+            this.twoFactorAuthentication.twoFactorInfo(this.authInfo.peek()!.twoFactorAuthentication);
 
             ko.tasks.runEarly();
         } finally {
@@ -60,12 +60,12 @@ class MyAccountPage extends Page {
 class PreferencesModel extends validate.ValidateableViewModel implements IFormPage {
     private api = new account.Api();
 
-    public isBusy = ko.observable<boolean>();
+    public isBusy = ko.observable<boolean>(false);
     public saveSuccess = ko.observable<boolean>();
-    public errorMessage = ko.observable<string>();
+    public errorMessage = ko.observable<string>(null);
 
-    public enableMonthlyDigest = ko.observable<boolean>();
-    public enableLoginNotifications = ko.observable<boolean>();
+    public enableMonthlyDigest = ko.observable<boolean>(false);
+    public enableLoginNotifications = ko.observable<boolean>(false);
 
     public async save(): Promise<void> {
         try {
@@ -105,12 +105,12 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
 class ChangePasswordModel extends validate.ValidateableViewModel implements IFormPage {
     private api = new account.Api();
 
-    public currentPassword = ko.observable<string>();
-    public newPassword = ko.observable<string>();
-    public newPasswordConfirm = ko.observable<string>();
-    public errorMessage = ko.observable<string>();
+    public currentPassword = ko.observable<string>(null);
+    public newPassword = ko.observable<string>(null);
+    public newPasswordConfirm = ko.observable<string>(null);
+    public errorMessage = ko.observable<string>(null);
 
-    public isBusy = ko.observable<boolean>();
+    public isBusy = ko.observable<boolean>(false);
 
     constructor(private controller: modal.ModalController<ChangePasswordModel>) {
         super();
@@ -121,9 +121,9 @@ class ChangePasswordModel extends validate.ValidateableViewModel implements IFor
     public async save(): Promise<void> {
         try {
             await this.api.changePassword({
-                currentPassword: this.currentPassword.peek(),
-                newPassword: this.newPassword.peek(),
-                newPasswordConfirm: this.newPasswordConfirm.peek()
+                currentPassword: this.currentPassword.peek()!,
+                newPassword: this.newPassword.peek()!,
+                newPasswordConfirm: this.newPasswordConfirm.peek()!
             });
 
             this.controller.closeDialog();
@@ -140,16 +140,16 @@ class ChangePasswordModel extends validate.ValidateableViewModel implements IFor
 class TwoFactorAuthenticationController {
     private api = new account.Api();
 
-    public twoFactorInfo = ko.observable<account.IAccountTwoFactorInfo>();
+    public twoFactorInfo = ko.observable<account.IAccountTwoFactorInfo>(null);
     public isEnabling = ko.observable<boolean>(false);
-    public isEnabled = ko.pureComputed(() => this.twoFactorInfo() && this.twoFactorInfo().isEnabled);
+    public isEnabled = ko.pureComputed(() => this.twoFactorInfo() && this.twoFactorInfo()!.isEnabled);
     public isBusy = ko.observable<boolean>(false);
 
     public preEnableInfo = ko.observable<account.ITwoFactorPreEnableInfo>();
     public twoFactorVerificationCode = ko.observable<string>();
-    public errorMessage = ko.observable<string>();
+    public errorMessage = ko.observable<string>(null);
 
-    public recoveryCodes = ko.observable<string[]>();
+    public recoveryCodes = ko.observable<string[]>(null);
     public justEnabledTwoFactorAuthentication = ko.observable<boolean>(false);
 
     public recoveryKeysDisplayModal = new modal.ModalController<RecoveryKeysModel>(
@@ -189,7 +189,7 @@ class TwoFactorAuthenticationController {
         (async () => {
             try {
                 const response = await this.api.enable({
-                    verificationCode: this.twoFactorVerificationCode.peek()
+                    verificationCode: this.twoFactorVerificationCode.peek()!
                 });
 
                 this.recoveryCodes(response.recoveryCodes);

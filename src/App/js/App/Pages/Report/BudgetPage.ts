@@ -12,7 +12,7 @@ class BudgetReportPage extends Page {
     public hasPreselectedDate = ko.pureComputed(() => this.preselectedDate !== null);
 
     public sheets = ko.observableArray<sheet.ISheetListing>();
-    public budget = ko.observable<budget.IBudget>();
+    public budget = ko.observable<budget.IBudget>(null);
 
     public selectedSheet = ko.observable<sheet.ISheetListing>();
     public selectedDate = ko.pureComputed(() => {
@@ -88,7 +88,7 @@ class BudgetReportPage extends Page {
         super(appContext);
 
         this.title('Rapportage - begroting');
-        this.selectedSheet.subscribe(sheet => this.handleSelectedSheetChanged(sheet));
+        this.selectedSheet.subscribe(sheet => this.handleSelectedSheetChanged(sheet!));
     }
 
     protected async onActivate(args?: any): Promise<void> {

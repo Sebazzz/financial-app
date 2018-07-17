@@ -39,7 +39,7 @@ class SheetStatisticsPage extends Page {
     public date = ko.observable<Date>();
 
     public currentSheetRoute = ko.pureComputed(() => {
-        const date = this.date(),
+        const date = this.date()!,
             routeArgs = {
                 month: date.getMonth() + 1,
                 year: date.getFullYear()

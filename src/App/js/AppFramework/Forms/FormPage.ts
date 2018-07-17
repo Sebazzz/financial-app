@@ -12,12 +12,12 @@ export interface IFormPage {
      */
     save(viewModel: ValidateableViewModel, submissionName?: string | null): Promise<void>;
 
-    errorMessage: KnockoutObservable<string>;
+    errorMessage: KnockoutObservable<string | null>;
 }
 
 export default abstract class FormPage extends Page implements IFormPage {
     public isBusy = ko.observable<boolean>(false);
-    public errorMessage = ko.observable<string>();
+    public errorMessage = ko.observable<string | null>(null);
 
     public abstract save(viewModel: ValidateableViewModel, submissionName?: string | null): Promise<void>;
 

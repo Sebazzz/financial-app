@@ -23,7 +23,7 @@ function findPage(bindingContext: KnockoutBindingContext): IFormPage {
 export interface IFormOptions {
     handler: (viewModel: ValidateableViewModel, submissionName?: string | null) => Promise<void>;
     isBusy: KnockoutObservable<boolean>;
-    errorMessage?: KnockoutObservable<string>;
+    errorMessage?: KnockoutObservable<string | null>;
 }
 
 /**

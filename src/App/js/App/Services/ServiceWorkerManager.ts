@@ -1,5 +1,5 @@
 import confirmAsync from 'AppFramework/Forms/Confirmation';
-import runtime from '@dr-kobros/serviceworker-webpack-plugin/lib/runtime';
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
 async function registerServiceWorker() {
     if ('serviceWorker' in navigator) {

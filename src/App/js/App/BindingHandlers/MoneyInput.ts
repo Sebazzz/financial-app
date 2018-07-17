@@ -51,7 +51,7 @@ function parseValue(element: HTMLInputElement, culture: string): number {
 ko.bindingHandlers.moneyInput = {
     init(
         element: HTMLInputElement,
-        valueAccessor: () => KnockoutObservable<number> | number,
+        valueAccessor: () => KnockoutObservable<number | null> | number | null,
         allBindingsAccessor: KnockoutAllBindingsAccessor,
         viewModel?: any,
         bindingContext?: KnockoutBindingContext

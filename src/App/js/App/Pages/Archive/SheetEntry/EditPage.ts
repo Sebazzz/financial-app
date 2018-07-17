@@ -35,7 +35,7 @@ class EditPage extends FormPage {
     public date = ko.observable<Date>();
 
     public sheetRouteParams = ko.pureComputed(() => {
-        const date = this.date();
+        const date = this.date()!;
         return { month: date.getMonth() + 1, year: date.getFullYear() };
     });
 
@@ -182,7 +182,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public delta = ko.observable<number>();
     public source = ko.observable<string>();
     public sortOrder = ko.observable<number>(0);
-    public remark = ko.observable<string>();
+    public remark = ko.observable<string>(null);
     public account = ko.observable<AccountType>();
     public templateId = ko.observable<number>();
     public tags = ko.observableArray<number>();
