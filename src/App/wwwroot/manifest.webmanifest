@@ -34,7 +34,8 @@
         {
             "src": "images/tiles/apple-tile.png",
             "sizes": "114x114",
-            "type": "image/png"
+            "type": "image/png",
+             "platform": "itunes"
         }
     ],
     "serviceworker": {
