@@ -35,5 +35,9 @@
             "sizes": "114x114",
             "type": "image/png"
         }
-    ]
+    ],
+    "serviceworker": {
+        "src": "sw.js",
+        "scope": "/"
+      }
   }
