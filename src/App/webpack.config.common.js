@@ -127,7 +127,7 @@ module.exports = {
     entry: {
         app: ['./js/App/main.ts']
     },
-    plugins: [copyPolyfill, globalsProvider /*, serviceWorker*/],
+    plugins: [copyPolyfill, globalsProvider, serviceWorker],
     output: {
         filename: '[name].js',
         chunkFilename: '[name].js',
@@ -169,23 +169,17 @@ module.exports = {
     module: {
         rules: [
             // We need to compile the service worker seperately.
-            // Therefore we exclude it from the first rule. However,
-            // it appears ts-loader either has a optimization or
-            // bug that even using the second rule, it still tries to compile
-            // using the root tsconfig, causing compilation to fail.
-            //
-            // So, the service worker is compiled using the regular ts-loader
-            // while the rest of the application is compiled using a-t-s
+            // Therefore we exclude it from the first rule.
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
                 exclude: [/node_modules/, /sw\.ts/]
             },
-            /*{
+            {
                 test: /sw\.ts$/,
                 use: 'ts-loader',
                 exclude: [/node_modules/]
-            },*/
+            },
             {
                 test: /\.(png|svg|jpg|gif|ttf|eot|woff|woff2)$/,
                 use: 'url-loader?limit=8192'

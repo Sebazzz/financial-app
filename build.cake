@@ -26,6 +26,8 @@ bool isUnix = (p == 4) || (p == 6) || (p == 128);
 var cmd = isUnix ? "bash" : "cmd";
 var cmdArg = isUnix ? "-c" : "/C";
 
+var fixScriptCmd = isUnix ? "bash fix-serviceworker-webpack-plugin.sh" : "powershell -File fix-serviceworker-webpack-plugin.ps1";
+
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -41,6 +43,17 @@ Task("Clean")
 Task("Rebuild")
 	.IsDependentOn("Clean")
 	.IsDependentOn("Build");
+	
+void RunCmd(string command) {
+	var processSettings = new ProcessSettings()
+		.WithArguments(args => args.Append(cmdArg).AppendQuoted(command))
+	;
+	
+
+	var process = StartAndReturnProcess(cmd, processSettings);
+	
+	process.WaitForExit();
+}
 	
 void CheckToolVersion(string name, string executable, string argument, Version wantedVersion) {
 	try {
@@ -148,6 +161,8 @@ Task("Restore-Node-Packages")
 	if (exitCode != 0) {
 		throw new CakeException($"'yarn' returned exit code {exitCode} (0x{exitCode:x2})");
 	}
+	
+	RunCmd(fixScriptCmd);
 });
 
 Task("Build")
