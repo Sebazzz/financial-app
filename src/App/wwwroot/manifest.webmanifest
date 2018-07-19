@@ -9,6 +9,7 @@
     "orientation": "any",
     "theme_color": "#389fc5",
     "prefer_related_applications": false,
+    "categories": ["finance", "utilities"],
     "icons": [
         {
             "src": "images/tiles/70x70.png",
