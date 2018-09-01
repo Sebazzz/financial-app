@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@aspnet/signalr@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@aspnet/signalr/-/signalr-1.0.2.tgz#c9b328db7d01b6d07e7532f130b4a32d9159506a"
+"@aspnet/signalr@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@aspnet/signalr/-/signalr-1.0.3.tgz#1beba4a1df727b0958bcb315c63a9e1e33f63e71"
 
 "@fortawesome/fontawesome-free-webfonts@^1.0.9":
   version "1.0.9"
@@ -17,9 +17,9 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@types/applicationinsights-js@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.5.tgz#b0bab755e67ed584ac3bf75869fc12589a338a2c"
+"@types/applicationinsights-js@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.6.tgz#c3191d02f7d4f721bb1265775ed5d13beb5af030"
 
 "@types/bootstrap@4.1.2":
   version "4.1.2"
@@ -32,21 +32,21 @@
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.4.tgz#5ca073b330d90b4066d6ce18f60d57f2084ce8ca"
 
-"@types/chart.js@2.7.28":
-  version "2.7.28"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.28.tgz#4ef7d0a850b81f4a9727017f6c730b15ad7a5949"
+"@types/chart.js@2.7.31":
+  version "2.7.31"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.31.tgz#fe2c28d3defa461f5d5cd01f1fac635df649472b"
 
 "@types/jquery@*":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.0.tgz#6316ac20a1a13c5d521a2dc661befc7184f73f5b"
 
-"@types/jquery@3.3.4":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.4.tgz#f1850fb9a70041a14ace4f81a7ed782db8548317"
+"@types/jquery@3.3.6":
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.6.tgz#5932ead926307ca21e5b36808257f7c926b06565"
 
-"@types/kendo-ui@2018.2.2":
-  version "2018.2.2"
-  resolved "https://registry.yarnpkg.com/@types/kendo-ui/-/kendo-ui-2018.2.2.tgz#34c8d3fd31c9cd8015516d83226b7a115c0ac4e9"
+"@types/kendo-ui@2018.2.4":
+  version "2018.2.4"
+  resolved "https://registry.yarnpkg.com/@types/kendo-ui/-/kendo-ui-2018.2.4.tgz#c295aafef6d64b7b4abd0b14a34bba0782487b52"
   dependencies:
     "@types/jquery" "*"
 
