@@ -2300,9 +2300,9 @@ events@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
 
-eventsource@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-1.0.5.tgz#1f012c9df0bd8832fd6b1744fea00ccdd479f046"
+eventsource@1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-1.0.7.tgz#8fbc72c93fcd34088090bc0a4e64f4b5cee6d8d0"
   dependencies:
     original "^1.0.0"
 
@@ -3915,9 +3915,9 @@ karma@2.0.4:
     tmp "0.0.33"
     useragent "2.2.1"
 
-kendo-ui-core@2018.2.704:
-  version "2018.2.704"
-  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.2.704.tgz#6b45af4c932bf3b71a7d57dc40682bc4a273a466"
+kendo-ui-core@2018.2.822:
+  version "2018.2.822"
+  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.2.822.tgz#af6afba3868edd638166e82f678d08b50e4e57db"
   dependencies:
     jquery "<=3"
 
