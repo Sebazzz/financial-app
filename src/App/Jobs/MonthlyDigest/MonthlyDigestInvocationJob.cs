@@ -5,7 +5,8 @@
 //  Project         : App
 // ******************************************************************************
 
-namespace App.Jobs.MonthlyDigest {
+namespace App.Jobs.MonthlyDigest
+{
     using System;
     using System.Linq;
     using Hangfire;
@@ -16,25 +17,30 @@ namespace App.Jobs.MonthlyDigest {
     /// <summary>
     /// This job adds a job for each app owner to send the weekly digest
     /// </summary>
-    public class MonthlyDigestInvocationJob {
+    public class MonthlyDigestInvocationJob
+    {
         private readonly AppOwnerRepository _appOwnerRepository;
         private readonly IBackgroundJobClient _backgroundJobClient;
 
         private readonly ILogger<MonthlyDigestInvocationJob> _logger;
 
-        public MonthlyDigestInvocationJob(AppOwnerRepository appOwnerRepository, IBackgroundJobClient backgroundJobClient, ILogger<MonthlyDigestInvocationJob> logger) {
+        public MonthlyDigestInvocationJob(AppOwnerRepository appOwnerRepository, IBackgroundJobClient backgroundJobClient, ILogger<MonthlyDigestInvocationJob> logger)
+        {
             this._appOwnerRepository = appOwnerRepository;
             this._backgroundJobClient = backgroundJobClient;
             this._logger = logger;
         }
 
-        public void Execute() {
+        public void Execute()
+        {
+            // Round off to one month
             DateTime invocationThreshold = DateTime.Now.AddMonths(-1);
             invocationThreshold = new DateTime(invocationThreshold.Year, invocationThreshold.Month, 1);
 
             IQueryable<AppOwner> allAppOwners = this._appOwnerRepository.GetAll().Where(x => x.LastMonthlyDigestTimestamp < invocationThreshold);
 
-            foreach (AppOwner appOwner in allAppOwners) {
+            foreach (AppOwner appOwner in allAppOwners)
+            {
                 int appOwnerId = appOwner.Id;
 
                 this._logger.LogInformation($"Invoking {nameof(MonthlyDigestForAppOwnerJob)} for app owner #{appOwnerId}");
