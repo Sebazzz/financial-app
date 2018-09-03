@@ -18,7 +18,7 @@ class DefaultPage extends Page {
     }
 
     public displayName(sheet: sheet.ISheetListing) {
-        const dateString = kendo.toString(new Date(sheet.year, sheet.month), 'MMMM yyyy');
+        const dateString = kendo.toString(new Date(sheet.year, sheet.month - 1 /* Yeah, JS dates */), 'MMMM yyyy');
         const nameSuffix = sheet.name ? ` (${sheet.name})` : '';
 
         return dateString + nameSuffix;
