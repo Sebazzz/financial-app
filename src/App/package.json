@@ -67,7 +67,7 @@
         "knockout": "3.4.2",
         "moment": "2.22.2",
         "reflect-metadata": "0.1.12",
-        "router5": "6.3.0",
+        "router5": "6.4.2",
         "serviceworker-webpack-plugin": "1.0.1",
         "tslib": "1.9.3"
     },
