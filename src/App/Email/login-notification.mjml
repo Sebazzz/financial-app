@@ -7,28 +7,20 @@
   </mj-head>
   <mj-body background-color="#222">
     <mj-include path="./header.include.mjml" />
-    
-    <mj-hero background-url="../wwwroot/images/bg/email/auth.jpg"
-      mode="fixed-height"
-      background-width="600px"
-      background-height="669px"
-      background-color="#2a3448"
-      padding="100px 0px">
+
+    <mj-hero background-url="../wwwroot/images/bg/email/auth.jpg" mode="fixed-height" background-width="600px" background-height="669px" background-color="#2a3448" padding="100px 0px">
       <mj-text align="center" color="#FFF" font-weight="bold" css-class="hero-text" font-size="40px">Ingelogd op nieuwe computer</mj-text>
     </mj-hero>
 
     <!-- Introduction Text -->
     <mj-section>
       <mj-column>
-      <mj-text font-size="20px" align="justify" line-height="1.5">
-        Hallo <strong>{user-name}</strong>! <br/>
-        Iemand is zojuist ingelogd op je account <strong>{user-name}</strong> vanaf een nieuwe of onbekende computer.<br/>
-      </mj-text>
-      <mj-text font-size="10px" align="justify" line-height="1.5">
-        IP-adres: <code>{ip-address}</code><br>
-        Browser: {user-agent}<br>
-        Datum: {timestamp}
-      </mj-text>
+        <mj-text font-size="20px" align="justify" line-height="150%">
+          Hallo <strong>{user-name}</strong>! <br/> Iemand is zojuist ingelogd op je account <strong>{user-name}</strong> vanaf een nieuwe of onbekende computer.<br/>
+        </mj-text>
+        <mj-text font-size="10px" align="justify" line-height="150%">
+          IP-adres: <code>{ip-address}</code><br> Browser: {user-agent}<br> Datum: {timestamp}
+        </mj-text>
       </mj-column>
     </mj-section>
 

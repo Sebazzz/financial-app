@@ -1,42 +1,35 @@
 <mjml>
   <mj-head>
-    <mj-preview>Gefeliciteerd! Je hebt verificatie in twee stappen ingeschakeld.</mj-preview>
-    <mj-title>Verificatie in twee stappen ingeschakeld</mj-title>
+    <mj-preview>Je bent je wachtwoord vergeten en hebt aangevraagd om toegang tot je account te herstellen!</mj-preview>
+    <mj-title>Wachtwoord vergeten</mj-title>
 
     <mj-include path="./common.include.mjml" />
   </mj-head>
   <mj-body background-color="#222">
     <mj-include path="./header.include.mjml" />
-    
-    <mj-hero background-url="../wwwroot/images/bg/email/auth.jpg"
-      mode="fixed-height"
-      background-width="600px"
-      background-height="669px"
-      background-color="#2a3448"
-      padding="100px 0px">
-      <mj-text align="center" color="#FFF" css-class="hero-text" font-weight="bold" font-size="40px">Verificatie in twee stappen ingeschakeld</mj-text>
+
+    <mj-hero background-url="../wwwroot/images/bg/email/auth.jpg" mode="fixed-height" background-width="600px" background-height="669px" background-color="#2a3448" background-position="bottom center" padding="100px 0px">
+      <mj-text align="center" color="#FFF" font-weight="bold" font-size="40px" css-class="hero-text">Accounttoegang herstellen</mj-text>
+      <mj-button href="{forgot-password-link}">Nieuw wachtwoord instellen</mj-button>
     </mj-hero>
 
     <!-- Introduction Text -->
-    <mj-section>
+    <mj-section background-color="#2B2B2B" padding-bottom="0">
       <mj-column>
-      <mj-text font-size="20px" align="justify" line-height="1.5">
-        Hallo <strong>{user-name}</strong>! <br/>
-        Gefeliciteerd, je hebt voor je account <strong>{user-name}</strong> verificatie in twee stappen ingeschakeld. <br/>
-        <br/>
-        We zullen bij inloggen voortaan om een beveiligingscode vragen. Vergeet niet om de herstelsleutels op te slaan!
-      </mj-text>
+        <mj-text font-size="20px" align="justify" line-height="150%">
+          Je bent je wachtwoord vergeten en hebt aangevraagd de toegang tot je account te herstellen. Klik op de bovenstaande knop om een nieuw wachtwoord in te stellen - of kopieer de onderstaande link in je webbrowser.
+        </mj-text>
       </mj-column>
     </mj-section>
 
-    <mj-section>
+    <mj-section background-color="#2B2B2B" padding-top="0">
       <mj-column>
-        <mj-button href="{base-url}">Inloggen</mj-button>
-      </mj-column>
-      <mj-column>
-        <mj-button href="{base-url}/my-account">Accountinstellingen</mj-button>
+        <mj-text font-size="10px" align="center" line-height="150%" css-class="long-link">
+          <a href="{forgot-password-link}">{forgot-password-link}</a>
+        </mj-text>
       </mj-column>
     </mj-section>
+
 
     <mj-include path="./footer.include.mjml" />
   </mj-body>
