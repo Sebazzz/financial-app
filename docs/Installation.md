@@ -1,21 +1,22 @@
 # Financial App installation guide
 
-This guide will help you in installation of the application. The application is a ASP.NET Core web application and will in the basis only require `libuv` and a SQL Server database server to get up and running.
+This guide will help you in installation of the application. The application is a ASP.NET Core web application and will in the basis only require a SQL Server database server to get up and running.
 
-**Note:** This installation guide covers very basic installation, just enough to get the application up and running. It does *not* cover installation of the application as a systemd or Windows Service, nor setting it up behind any reverse proxy. Please refer to [hosting as a Windows service](https://docs.microsoft.com/nl-nl/aspnet/core/hosting/windows-service), [hosting in Windows IIS](https://docs.microsoft.com/nl-nl/aspnet/core/publishing/iis?tabs=aspnetcore2x) or [hosting on Linux](https://docs.microsoft.com/nl-nl/aspnet/core/publishing/linuxproduction?tabs=aspnetcore2x) pages on the official Microsoft docs for more information.
+**Note:** This installation guide covers very basic installation, just enough to get the application up and running. It does _not_ cover installation of the application as a systemd or Windows Service, nor setting it up behind any reverse proxy. Please refer to [hosting as a Windows service](https://docs.microsoft.com/nl-nl/aspnet/core/hosting/windows-service), [hosting in Windows IIS](https://docs.microsoft.com/nl-nl/aspnet/core/publishing/iis?tabs=aspnetcore2x) or [hosting on Linux](https://docs.microsoft.com/nl-nl/aspnet/core/publishing/linuxproduction?tabs=aspnetcore2x) pages on the official Microsoft docs for more information.
 
 ## Getting a release
+
 Download a release from the [releases](https://github.com/Sebazzz/financial-app/releases) tab. You may also [build the application from sources](Building-from-sources.md) if you like.
 
 ## Prequisites
 
 To run the application you'Il need:
 
-* A virtual machine or Azure website to deploy it to.
-   * If using Windows, install on Windows Server 2012 or higher.
-   * If using Linux, install on Ubuntu 16.x or higher.
-* Microsoft SQL Server for the database. The free SQL Server Express also works.
-* E-mail (SMTP) server if you want account recovery e-mails etc. to work
+-   A virtual machine or Azure website to deploy it to.
+    -   If using Windows, install on Windows Server 2012 or higher.
+    -   If using Linux, install on Ubuntu 16.x or higher.
+-   Microsoft SQL Server for the database. The free SQL Server Express also works.
+-   E-mail (SMTP) server if you want account recovery e-mails etc. to work
 
 On Ubuntu install:
 
@@ -23,16 +24,16 @@ On Ubuntu install:
 
 In addition, for Ubuntu 16.x:
 
-	sudo apt-get install libicu55
+    sudo apt-get install libicu55
 
 For Ubuntu 14.x:
 
-	sudo apt-get install libicu52
+    sudo apt-get install libicu52
 
 For Ubuntu 17.x:
 
-	sudo apt-get install libicu57
-	
+    sudo apt-get install libicu57
+
 For QR code support in two-factor-authentication:
 
         sudo apt-get install libgdiplus
@@ -40,6 +41,7 @@ For QR code support in two-factor-authentication:
         sudo ln -s libgdiplus.so gdiplus.dll
 
 ## Installation
+
 You can configure the application via environment variables or configuration files. Environment variables are more update-friendly.
 
 ### General configuration
@@ -47,6 +49,7 @@ You can configure the application via environment variables or configuration fil
 `SERVER__BASEURL`: Base URL used for mailing. If not set, auto-detection is attempted.
 
 ### HTTPS configuration
+
 To use HTTPs, use the following environment variables:
 
 `SERVER__HTTPS__CERTIFICATEPATH`: Path to pfx file.
@@ -56,6 +59,7 @@ To use HTTPs, use the following environment variables:
 The server will automatically start on port 80 and 443.
 
 ### E-mail configuration
+
 To configure e-mail settings your can use the following environment variables:
 
 `MAIL__HOST`: SMTP host name
@@ -72,11 +76,12 @@ To configure e-mail settings your can use the following environment variables:
 
 `MAIL__FROMDISPLAYNAME`: Display name to use and shown in repicient mailbox
 
-
 ### Database set-up
+
 Create an new empty database with a case insensitive collation (`SQL_Latin1_General_CP1_CI_AS` is preferred).
 
 ### Application installation
+
 Unpack the application on any location, for instance `/opt/fa-app`.
 
 Modify the connection string in `launch.conf`.
@@ -94,10 +99,11 @@ View other options:
     ./launch --help
 
 ### Run
+
 To run the application after installation, simply run:
 
     ./launch start
 
-The application will launch at the URL specified in `launch.conf`. 
+The application will launch at the URL specified in `launch.conf`.
 
-You will be greeted with a setup wizard, in which you will be able to set-up an administrator user. 
+You will be greeted with a setup wizard, in which you will be able to set-up an administrator user.

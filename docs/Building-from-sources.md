@@ -4,26 +4,26 @@ If you like to build Financial App from sources, you can follow the instructions
 
 ## Prequisites
 
-*   [.NET Core 2.0 SDK](https://www.microsoft.com/net/download/core).
-*   [Node.js 8.x](https://nodejs.org/en/download/) or higher (Node.js 10.x is supported too).
-*   [Yarn 1.3.2](https://yarnpkg.com/en/docs/install) or higher
+-   [.NET Core 2.1 SDK](https://www.microsoft.com/net/download/core).
+-   [Node.js LTS](https://nodejs.org/en/download/) or higher (Node.js 10.x is supported too).
+-   [Yarn](https://yarnpkg.com/en/docs/install) or higher
 
 ### Additional prequisites on Windows
 
-*   Powershell 5.x
+-   Powershell 5.x
 
 ### Additional prequisites on Linux (Ubuntu)
 
-*   Mono (latest)
+-   Mono (latest)
 
 Environment:
 
-*   Ensure `yarn` and `node` are in your `PATH`.
-*   Ensure `dotnet` is in your `PATH`.
+-   Ensure `yarn` and `node` are in your `PATH`.
+-   Ensure `dotnet` is in your `PATH`.
 
 For running the build script:
 
-*   Ensure the Powershell execution policy is set to [**RemoteSigned**](https://technet.microsoft.com/en-us/library/ee176961.aspx).
+-   Ensure the Powershell execution policy is set to [**RemoteSigned**](https://technet.microsoft.com/en-us/library/ee176961.aspx).
 
 ## Check-out
 
@@ -61,18 +61,18 @@ Both Visual Studio and Visual Studio Code work well with the project.
 
 Recommended extensions for Visual Studio:
 
-*   ReSharper
-*   TSLint
-*   [Prettier](https://github.com/madskristensen/JavaScriptPrettier)
+-   ReSharper
+-   TSLint
+-   [Prettier](https://github.com/madskristensen/JavaScriptPrettier)
 
 Recommende extensions for Visual Studio Code:
 
-*   Editor support
-    *   csharp
-*   Code formatting and linting
-    *   tslint
-    *   vscode-prettier
-    *   vscode-status-bar-format-toggle
-*   Email template editing:
-    *   vscode-mjml
-    *   mjml-syntax
+-   Editor support
+    -   csharp
+-   Code formatting and linting
+    -   tslint
+    -   vscode-prettier
+    -   vscode-status-bar-format-toggle
+-   Email template editing:
+    -   vscode-mjml
+    -   mjml-syntax
