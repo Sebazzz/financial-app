@@ -17,9 +17,9 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@types/applicationinsights-js@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.6.tgz#c3191d02f7d4f721bb1265775ed5d13beb5af030"
+"@types/applicationinsights-js@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.7.tgz#b98f6298860fcc71009b7c14cf7f4b6ced115c3e"
 
 "@types/bootstrap@4.1.2":
   version "4.1.2"
@@ -32,9 +32,9 @@
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.4.tgz#5ca073b330d90b4066d6ce18f60d57f2084ce8ca"
 
-"@types/chart.js@2.7.31":
-  version "2.7.31"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.31.tgz#fe2c28d3defa461f5d5cd01f1fac635df649472b"
+"@types/chart.js@2.7.33":
+  version "2.7.33"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.33.tgz#d19dc5fbe214e32e762c061eb99d59e40e24860b"
 
 "@types/jquery@*":
   version "3.3.0"
@@ -50,9 +50,9 @@
   dependencies:
     "@types/jquery" "*"
 
-"@types/knockout@3.4.58":
-  version "3.4.58"
-  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.58.tgz#a7cbb98b5b13ebd47936d9c826f4a9f7270694ba"
+"@types/knockout@3.4.59":
+  version "3.4.59"
+  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.59.tgz#87911eee72222141c76f6fc7c63115815b049fef"
 
 "@types/mocha@5.2.5":
   version "5.2.5"
