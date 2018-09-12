@@ -26,8 +26,6 @@ bool isUnix = (p == 4) || (p == 6) || (p == 128);
 var cmd = isUnix ? "bash" : "cmd";
 var cmdArg = isUnix ? "-c" : "/C";
 
-var fixScriptCmd = isUnix ? "bash fix-serviceworker-webpack-plugin.sh" : "powershell -File fix-serviceworker-webpack-plugin.ps1";
-
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -161,8 +159,6 @@ Task("Restore-Node-Packages")
 	if (exitCode != 0) {
 		throw new CakeException($"'yarn' returned exit code {exitCode} (0x{exitCode:x2})");
 	}
-	
-	RunCmd(fixScriptCmd);
 });
 
 Task("Build")
