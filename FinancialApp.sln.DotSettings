@@ -118,4 +118,5 @@ module FinancialApp {&#xD;
 	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=D9C45594A310434288AEFA9751390F45/CustomPatternPlaceholder/=databind/Type/@EntryValue">HtmlAttributeValuePlaceholder</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=D9C45594A310434288AEFA9751390F45/LanguageName/@EntryValue">HTML</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=D9C45594A310434288AEFA9751390F45/MatchCatchClauseWithoutExceptionFilter/@EntryValue">False</s:Boolean>
-	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=D9C45594A310434288AEFA9751390F45/SearchPattern/@EntryValue">data-bind="$databind$"</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=D9C45594A310434288AEFA9751390F45/SearchPattern/@EntryValue">data-bind="$databind$"</s:String>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Hangfire/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

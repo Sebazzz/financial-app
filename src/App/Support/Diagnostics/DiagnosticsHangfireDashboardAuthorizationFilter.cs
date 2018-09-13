@@ -8,8 +8,10 @@
 namespace App.Support.Diagnostics {
     using System;
     using Hangfire.Dashboard;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
+    using Models.Domain.Identity;
 
     public sealed class DiagnosticsHangfireDashboardAuthorizationFilter : IDashboardAuthorizationFilter {
         private readonly LocalRequestsOnlyAuthorizationFilter _localFilter = new LocalRequestsOnlyAuthorizationFilter();
@@ -18,14 +20,22 @@ namespace App.Support.Diagnostics {
             if (this._localFilter.Authorize(context)) return true;
 
             if (context is AspNetCoreDashboardContext aspNetCoreContext) {
-                var diagOptions = aspNetCoreContext.HttpContext.RequestServices
-                    .GetRequiredService<IOptionsSnapshot<DiagnosticsOptions>>();
-
-                var ipAddresses = diagOptions.Value?.AllowedIPAddresses;
-                return ipAddresses != null && Array.IndexOf(ipAddresses, context.Request.RemoteIpAddress) != -1;
+                return CheckIpAddress(context, aspNetCoreContext) || CheckAdministratorRole(aspNetCoreContext.HttpContext);
             }
 
             return false;
+        }
+
+        private static bool CheckAdministratorRole(HttpContext httpContext) {
+            return httpContext.User.IsInRole(AppRole.KnownRoles.Administrator);
+        }
+
+        private static bool CheckIpAddress(DashboardContext context, AspNetCoreDashboardContext aspNetCoreContext) {
+            IOptionsSnapshot<DiagnosticsOptions> diagOptions = aspNetCoreContext.HttpContext.RequestServices
+                .GetRequiredService<IOptionsSnapshot<DiagnosticsOptions>>();
+
+            string[] ipAddresses = diagOptions.Value?.AllowedIPAddresses;
+            return ipAddresses != null && Array.IndexOf(ipAddresses, context.Request.RemoteIpAddress) != -1;
         }
     }
 }
