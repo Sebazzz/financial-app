@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using App.Support.Https;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App {
@@ -310,6 +311,7 @@ namespace App {
             });
 
             // Configure recurring jobs
+            AppInsightsJobFilterAttribute.Register(app.ApplicationServices.GetService<TelemetryClient>());
             RecurringJob.AddOrUpdate<MonthlyDigestInvocationJob>(x => x.Execute(), Cron.Daily(10));
         }
     }
