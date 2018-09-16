@@ -19,28 +19,18 @@ namespace App.Support.Https
 
         public Task Invoke(HttpContext context)
         {
-            if (this._httpsServerOptions == null || !this._httpsServerOptions.EnableRedirect) return this._next.Invoke(context);
+            if (this._httpsServerOptions == null) return this._next.Invoke(context);
 
             HttpRequest request = context.Request;
             HttpResponse response = context.Response;
-            if (!request.IsHttps)
+            if (request.IsHttps)
             {
-                var uri = new UriBuilder(request.GetUri())
-                {
-                    Scheme = "https",
-                    Port = 443
-                };
+                if (this._httpsServerOptions.UseStrongHttps) {
+                    int maxAge = (int)TimeSpan.FromDays(1).TotalSeconds;
+                    response.Headers.Append("Strict-Transport-Security", $"max-age={maxAge}");
 
-                response.Redirect(uri.ToString(), true);
-                return Task.CompletedTask;
-            }
-
-            if (this._httpsServerOptions.UseStrongHttps)
-            {
-                int maxAge = (int) TimeSpan.FromDays(1).TotalSeconds;
-                response.Headers.Append("Strict-Transport-Security", $"max-age={maxAge}");
-
-                response.Headers.Append("Content-Security-Policy", "upgrade-insecure-requests");
+                    response.Headers.Append("Content-Security-Policy", "upgrade-insecure-requests");
+                }
             }
 
             return this._next.Invoke(context);
