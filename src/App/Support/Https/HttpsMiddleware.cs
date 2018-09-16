@@ -27,7 +27,8 @@ namespace App.Support.Https
             {
                 var uri = new UriBuilder(request.GetUri())
                 {
-                    Scheme = "https"
+                    Scheme = "https",
+                    Port = 443
                 };
 
                 response.Redirect(uri.ToString(), true);
