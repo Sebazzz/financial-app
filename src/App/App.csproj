@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules\**\*" />
+    <Content Include="Email\build\**\*" />
     <Content Include="js\App\PageFactory.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PageFactory.ts</LastGenOutput>
