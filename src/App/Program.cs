@@ -37,7 +37,6 @@ namespace App {
                             }
 
                         })
-                       .UseKestrel()
                        .UseStartup<Startup>()
                        .Build();
 
