@@ -42,7 +42,7 @@ For QR code support in two-factor-authentication:
 
 ## Installation
 
-You can configure the application via environment variables or configuration files. Environment variables are more update-friendly.
+You can configure the application via environment variables or configuration files. Environment variables are more update-friendly. The configurations shown below are environment variables (you can set them in bash by `export NAME=VALUE` and in Powershell via `$ENV:NAME = "VALUE"`).
 
 ### General configuration
 
@@ -58,27 +58,37 @@ To use HTTPs, use the following environment variables:
 
 The server will automatically start on port 80 and 443.
 
+### Logging configuration
+
+To configure logging to a file:
+
+`LOGGING__FILE`: Path to log file,
+
 ### E-mail configuration
 
 To configure e-mail settings your can use the following environment variables:
 
-`MAIL__HOST`: SMTP host name
+`MAIL__HOST`: SMTP host name.
 
-`MAIL__ENABLESSL`: Enable SSL when connecting to SMTP `true`/`false`
+`MAIL__ENABLESSL`: Enable SSL when connecting to SMTP `true`/`false`.
 
-`MAIL__PORT`: SMTP port number
+`MAIL__PORT`: SMTP port number.
 
-`MAIL__USERNAME`: User name
+`MAIL__USERNAME`: User name.
 
-`MAIL__PASSWORD`: Password
+`MAIL__PASSWORD`: Password.
 
-`MAIL__FROMADDRESS`: Source e-mail address used for sending e-mail
+`MAIL__FROMADDRESS`: Source e-mail address used for sending e-mail.
 
-`MAIL__FROMDISPLAYNAME`: Display name to use and shown in repicient mailbox
+`MAIL__FROMDISPLAYNAME`: Display name to use and shown in repicient mailbox.
 
 ### Database set-up
 
 Create an new empty database with a case insensitive collation (`SQL_Latin1_General_CP1_CI_AS` is preferred).
+
+Set the connection string using:
+
+`DATA__APPDBCONNECTION__CONNECTIONSTRING`: Connection string used to connection to the database. Usually: `Server=myserver;Integrated Security=true;Database=mydatabase;MultipleActiveResultSets=true`. Please ensure that `MultipleActiveResultSets=true` is present in the connection string.
 
 ### Application installation
 
