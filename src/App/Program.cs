@@ -1,5 +1,8 @@
 ﻿
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using Microsoft.Extensions.Logging;
 
 namespace App {
@@ -33,7 +36,27 @@ namespace App {
                             }
                             else
                             {
-                                logging.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
+                                string file = config.GetSection("Logging").GetValue<string>("file");
+                                
+                                try {
+                                    if (!string.IsNullOrEmpty(file))
+                                    {
+                                        logging.AddTraceSource(new SourceSwitch("Financial-App"),
+                                                               new TextWriterTraceListener
+                                                               {
+                                                                   Writer = new StreamWriter(file, true, Encoding.UTF8)
+                                                               });
+                                    }
+                                    else
+                                    {
+                                        logging.AddTraceSource(new SourceSwitch("Financial-App"),
+                                                               new DefaultTraceListener());
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($"Failed to add file log to path [{file}]: {ex}");
+                                }
                             }
 
                         })
