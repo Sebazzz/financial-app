@@ -202,15 +202,10 @@ namespace App {
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // Logging
-            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            
-            if (env.IsDevelopment()) {
-                loggerFactory.AddDebug(LogLevel.Debug);
-            } else {
+            // Logging (TODO: until app insights can use ILoggingBuilder)
+            if (!env.IsDevelopment())
+            {
                 loggerFactory.AddApplicationInsights(app.ApplicationServices);
-
-                loggerFactory.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
             }
 
             // HTTP pipeline configuration

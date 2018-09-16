@@ -1,4 +1,7 @@
 ﻿
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+
 namespace App {
     using System.Net;
 
@@ -16,6 +19,24 @@ namespace App {
                 WebHost.CreateDefaultBuilder(args)
                        .ConfigureServices(ConfigureServerOptions)
                        .ConfigureAppConfiguration(cfg => cfg.AddApplicationInsightsSettings())
+                       .ConfigureLogging((wc, logging) =>
+                        {
+                            var env = wc.HostingEnvironment;
+                            var config = wc.Configuration;
+
+                            logging.AddConfiguration(config.GetSection("Logging"));
+                            logging.AddConsole();
+
+                            if (env.IsDevelopment())
+                            {
+                                logging.AddDebug();
+                            }
+                            else
+                            {
+                                logging.AddTraceSource(new SourceSwitch("Financial-App"), new DefaultTraceListener());
+                            }
+
+                        })
                        .UseKestrel()
                        .UseStartup<Startup>()
                        .Build();
