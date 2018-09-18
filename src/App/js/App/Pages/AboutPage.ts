@@ -4,6 +4,7 @@ import ServiceWorkerMethods from 'App/Services/ServiceWorkerMessaging';
 import { initialize as initializeServiceWorker } from 'App/Services/ServiceWorkerManager';
 import * as ko from 'knockout';
 import * as version from 'App/ServerApi/Version';
+import mobileDetection from 'AppFramework/Client/BrowserDetector';
 
 class AboutPage extends Page {
     private api = new version.Api();
@@ -11,6 +12,7 @@ class AboutPage extends Page {
     public appVersionId: string = '?';
     public appVersion: string = '?';
     public clientVersionId: string = '?';
+    public isMobileMode: boolean = false;
 
     public serviceWorker = new ServiceWorkerController();
 
@@ -22,11 +24,12 @@ class AboutPage extends Page {
         this.title('Over Financial App');
     }
 
-    protected async onActivate(args?: any): Promise<void> {
+    protected async onActivate(): Promise<void> {
         const version = await this.api.get();
 
         this.appVersion = version.appVersion;
         this.appVersionId = version.appVersionId;
+        this.isMobileMode = mobileDetection();
 
         this.clientVersionId = document.documentElement.getAttribute('data-app-version') || '???';
     }
