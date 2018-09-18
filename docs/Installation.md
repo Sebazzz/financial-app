@@ -62,7 +62,11 @@ The server will automatically start on port 80 and 443.
 
 To configure logging to a file:
 
-`LOGGING__FILE`: Path to log file,
+`LOGGING__FILE__PATH`: Path to log file.
+
+`LOGGING__FILE__FILESIZELIMITBYTES`: Maximum size of log file in bytes. 0 for unlimited.
+
+`LOGGING__FILE__MAXROLLINGFILES`: Maximum file rollover. 0 for unlimited.
 
 ### E-mail configuration
 

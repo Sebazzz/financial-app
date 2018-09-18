@@ -5,7 +5,8 @@ using System.IO;
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace App {
+namespace App
+{
     using System.Net;
 
     using Microsoft.AspNetCore;
@@ -16,9 +17,11 @@ namespace App {
 
     using App.Support.Https;
 
-    public class Program {
-        public static void Main(string[] args) {
-            IWebHost host = 
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            IWebHost host =
                 WebHost.CreateDefaultBuilder(args)
                        .ConfigureServices(ConfigureServerOptions)
                        .ConfigureAppConfiguration(cfg => cfg.AddApplicationInsightsSettings())
@@ -36,47 +39,44 @@ namespace App {
                             }
                             else
                             {
-                                string file = config.GetSection("Logging").GetValue<string>("file");
-                                
-                                try {
-                                    if (!string.IsNullOrEmpty(file))
-                                    {
-                                        logging.AddTraceSource(new SourceSwitch("Financial-App"),
-                                                               new TextWriterTraceListener
-                                                               {
-                                                                   Writer = new StreamWriter(file, true, Encoding.UTF8)
-                                                               });
-                                    }
-                                    else
-                                    {
-                                        logging.AddTraceSource(new SourceSwitch("Financial-App"),
-                                                               new DefaultTraceListener());
-                                    }
-                                }
-                                catch (Exception ex)
+                                var fileSection = config.GetSection("Logging").GetSection("File");
+                                var fileName = fileSection?.GetValue<string>("Path");
+
+                                if (!string.IsNullOrEmpty(fileName))
                                 {
-                                    Console.WriteLine($"Failed to add file log to path [{file}]: {ex}");
+                                    try
+                                    {
+                                        logging.AddFile(fileSection);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine($"Failed to add file log to path [{fileName}]: {ex}");
+                                    }
                                 }
                             }
 
                         })
-                       
+
                        .UseStartup<Startup>()
                        .Build();
 
             host.Run();
         }
 
-        private static void ConfigureServerOptions(WebHostBuilderContext wc, IServiceCollection sc) {
-            sc.Configure<KestrelServerOptions>(options => {
+        private static void ConfigureServerOptions(WebHostBuilderContext wc, IServiceCollection sc)
+        {
+            sc.Configure<KestrelServerOptions>(options =>
+            {
                 options.AddServerHeader = false;
                 options.UseSystemd();
-                
+
                 HttpsServerOptions httpsOptions = wc.Configuration.GetSection("server").GetSection("https").Get<HttpsServerOptions>();
 
-                if (httpsOptions?.CertificatePath != null) {
+                if (httpsOptions?.CertificatePath != null)
+                {
                     options.Listen(IPAddress.Any, 80);
-                    options.Listen(IPAddress.Any, 443, opts => {
+                    options.Listen(IPAddress.Any, 443, opts =>
+                    {
                         opts.UseHttps(httpsOptions.CertificatePath, httpsOptions.CertificatePassword);
                     });
                 }
