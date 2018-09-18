@@ -4,11 +4,16 @@ $negative-color: darken(red, 10%);
 
 /**** Rotation animation */
 @keyframes loading-spinner {
-    0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -20,7 +25,8 @@ body {
     }
 }
 
-* + h2, * + h3 {
+* + h2,
+* + h3 {
     margin-top: 2rem;
 }
 
@@ -34,7 +40,12 @@ h3.header-secondary {
 }
 
 /*** Required for AngularJS Bootstrap UI */
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav,
+.pagination,
+.carousel,
+.panel-title a {
+    cursor: pointer;
+}
 
 .inline-block {
     display: inline-block !important;
@@ -46,7 +57,9 @@ h3.header-secondary {
     font-size: 9pt;
 }
 
-span.negative, div.input-group.negative .form-control, div.negative .form-control {
+span.negative,
+div.input-group.negative .form-control,
+div.negative .form-control {
     color: $negative-color;
 }
 
@@ -61,7 +74,9 @@ span.negative, div.input-group.negative .form-control, div.negative .form-contro
 }
 
 // Custom elements
-top-menu, page-container, loading-bar {
+top-menu,
+page-container,
+loading-bar {
     display: block;
 }
 
@@ -74,7 +89,8 @@ top-menu {
 }
 
 .btn {
-    &.disabled, &[disabled] {
+    &.disabled,
+    &[disabled] {
         cursor: not-allowed;
     }
 }
@@ -84,7 +100,7 @@ top-menu {
     padding-left: 2em;
 }
 
-input[type=color].form-control {
+input[type='color'].form-control {
     display: block;
     width: 150px;
     padding: 5px;
@@ -108,9 +124,12 @@ input[type=color].form-control {
     h1 {
         margin-bottom: 1em;
 
+        @include media-breakpoint-down(sm) {
+            font-size: 1.9rem;
+        }
+
         > span {
             display: inline-block;
-
             padding-right: 70px; // visually center the header
         }
     }
@@ -119,4 +138,3 @@ input[type=color].form-control {
 .pull-right {
     float: right;
 }
-

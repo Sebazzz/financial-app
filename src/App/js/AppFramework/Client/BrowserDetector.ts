@@ -1,13 +1,17 @@
-﻿let isMobile: boolean | null = null;
-const detectionStrings = ['Windows Phone', 'Android', 'Mobile', 'IEMobile'];
+﻿const detectionStrings = ['Windows Phone', 'Android', 'Mobile', 'IEMobile'];
+let mobileQueryMatch: MediaQueryList | null = null;
 
 function isMobileInternal(): boolean {
     const userAgent = navigator.userAgent;
-    if (!userAgent) {
+    if (!userAgent || !window.matchMedia) {
         return false;
     }
 
-    if (window.matchMedia('(max-width: 768px)').matches) {
+    if (!mobileQueryMatch) {
+        mobileQueryMatch = window.matchMedia('(max-width: 768px)');
+    }
+
+    if (mobileQueryMatch.matches) {
         // Bootstrap md media breakpoint
         return true;
     }
@@ -22,9 +26,5 @@ function isMobileInternal(): boolean {
 }
 
 export default function detectMobile() {
-    if (isMobile === null) {
-        isMobile = isMobileInternal();
-    }
-
-    return isMobile;
+    return isMobileInternal();
 }
