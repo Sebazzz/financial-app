@@ -198,7 +198,8 @@ self.addEventListener('fetch', (event: FetchEvent) => {
     const excludedPaths = [
         '/js/' /*eventsource polyfill*/,
         '/images/' /*tiles and icons*/,
-        '_internal/' /*diagnostics*/
+        '/_internal/' /*diagnostics*/,
+        '/manifest.webmanifest' /*app manifest*/
     ];
     if (excludedPaths.find(val => requestUrl.pathname.startsWith(val)) !== undefined) {
         console.log('[Service Worker] [Fetch] Ignore excluded request %s %s', request.method, request.url);

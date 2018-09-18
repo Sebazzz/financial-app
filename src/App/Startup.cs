@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using App.Support.Https;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace App {
     using System;
@@ -241,8 +242,11 @@ namespace App {
                     ctx.Request.Path = "/build/sw.js";
                     return next();
                 }));
-            
+
             app.UseStaticFiles(new StaticFileOptions {
+                ContentTypeProvider = new FileExtensionContentTypeProvider {
+                    Mappings = { [".webmanifest"] = "application/manifest+json" }
+                },
                 OnPrepareResponse = context => {
                     // Enable aggressive caching behavior - but be sure that requests from service workers must be properly addressed
                     const int expireTimeInDays = 7 * 4;
