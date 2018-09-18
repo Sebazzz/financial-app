@@ -78,7 +78,7 @@ async function returnPossibleCachedResponse(request: Request): Promise<Response>
                 request.url
             );
 
-            return caches.match('/');
+            return (await caches.match('/')) || (await fetch(request));
         }
 
         console.warn('[Service Worker] [Fetch] Not matching request %s in cache - requesting', request.url);
@@ -90,7 +90,7 @@ async function returnPossibleCachedResponse(request: Request): Promise<Response>
                 request.url
             );
 
-            return caches.match('/');
+            return (await caches.match('/')) || (await fetch(request));
         }
 
         console.error('[Service Worker] [Fetch] Not matching request %s in cache - fail', request.url);
@@ -171,8 +171,18 @@ self.addEventListener('message', async (event: MessageEvent) => {
 self.addEventListener('fetch', (event: FetchEvent) => {
     let request = event.request;
 
+    /**
+     * Pass-through the request. Though not required by [Firefox, Chrome and Edge], Safari will complain
+     * if the service worker does not return the response itself.
+     */
+    function passThrough() {
+        event.respondWith(fetch(request));
+    }
+
     if (request.method !== 'GET') {
         console.log('[Service Worker] [Fetch] Ignore non-GET request %s %s', request.method, request.url);
+
+        passThrough();
         return;
     }
 
@@ -180,6 +190,8 @@ self.addEventListener('fetch', (event: FetchEvent) => {
 
     if (requestUrl.pathname.startsWith('/api/')) {
         console.log('[Service Worker] [Fetch] Ignore API request %s %s', request.method, request.url);
+
+        passThrough();
         return;
     }
 
@@ -190,17 +202,22 @@ self.addEventListener('fetch', (event: FetchEvent) => {
     ];
     if (excludedPaths.find(val => requestUrl.pathname.startsWith(val)) !== undefined) {
         console.log('[Service Worker] [Fetch] Ignore excluded request %s %s', request.method, request.url);
+
+        passThrough();
         return;
     }
 
     if (requestUrl.origin !== location.origin) {
         console.log('[Service Worker] [Fetch] Ignore mismatch in origin of request %s %s', request.method, request.url);
+
+        passThrough();
         return;
     }
 
     if (requestUrl.search && requestUrl.search.indexOf('v=') !== -1 /*ASP.NET Core version string*/) {
         console.log('[Service Worker] [Fetch] Rewriting request to version string %s', requestUrl.toString());
 
+        // Rebuild request without the query string
         requestUrl.search = '';
         request = new Request(requestUrl.toString(), {
             headers: request.headers,
