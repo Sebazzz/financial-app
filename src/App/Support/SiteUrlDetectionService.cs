@@ -29,6 +29,18 @@ namespace App.Support {
             if (String.IsNullOrEmpty(this._siteUrl)) {
                 this._siteUrl = null;
             }
+            else
+            {
+                try
+                {
+                    this._siteUrl = new Uri(this._siteUrl, UriKind.Absolute).GetLeftPart(UriPartial.Authority);
+
+                    this._logger.LogInformation("Normalized base URL: {0}", this._siteUrl);
+                } catch (Exception ex)
+                {
+                    this._logger.LogError(ex, "Unable to normalize base url");
+                }
+            }
         }
 
 
