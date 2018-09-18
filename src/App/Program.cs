@@ -60,6 +60,7 @@ namespace App {
                             }
 
                         })
+                       
                        .UseStartup<Startup>()
                        .Build();
 
