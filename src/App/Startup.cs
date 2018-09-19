@@ -284,6 +284,7 @@ namespace App {
             });
 
             // Hangfire
+            app.UseHangfireServer();
             app.UseHangfireDashboard("/_internal/jobs", new DashboardOptions {
                 AppPath = "/",
                 DisplayStorageConnectionString = false,
@@ -317,8 +318,6 @@ namespace App {
             // Configure recurring jobs
             AppInsightsJobFilterAttribute.Register(app.ApplicationServices.GetService<TelemetryClient>());
             RecurringJob.AddOrUpdate<MonthlyDigestInvocationJob>(x => x.Execute(), Cron.Daily(10));
-
-            app.UseHangfireServer();
         }
     }
 }
