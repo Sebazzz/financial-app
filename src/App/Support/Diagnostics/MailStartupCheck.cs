@@ -20,8 +20,7 @@ namespace App.Support.Diagnostics {
         }
 
         public StartupCheckResult Run() {
-            if (this._mailSettings == null || this._mailSettings.Port == 0 ||
-                string.IsNullOrEmpty(this._mailSettings.FromAddress))
+            if (this._mailSettings == null || this._mailSettings.Port == 0 || string.IsNullOrEmpty(this._mailSettings.FromAddress))
                 return StartupCheckResult.Success("SMTP settings are not set");
 
             try {
