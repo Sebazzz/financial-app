@@ -92,7 +92,7 @@ Create an new empty database with a case insensitive collation (`SQL_Latin1_Gene
 
 Set the connection string using:
 
-`DATA__APPDBCONNECTION__CONNECTIONSTRING`: Connection string used to connection to the database. Usually: `Server=myserver;Integrated Security=true;Database=mydatabase;MultipleActiveResultSets=true`. Please ensure that `MultipleActiveResultSets=true` is present in the connection string.
+`DATABASE__CONNECTIONSTRING`: Connection string used to connection to the database. Usually: `Server=myserver;Integrated Security=true;Database=mydatabase;MultipleActiveResultSets=true`. Please ensure that `MultipleActiveResultSets=true` is present in the connection string.
 
 ### Application installation
 

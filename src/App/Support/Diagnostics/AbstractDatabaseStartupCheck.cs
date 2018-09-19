@@ -9,7 +9,7 @@ namespace App.Support.Diagnostics {
     using Microsoft.Extensions.Configuration;
 
     internal abstract class AbstractDatabaseStartupCheck : IStartupCheck {
-        protected const string ConfigurationKey = "Data:AppDbConnection:ConnectionString";
+        protected const string ConfigurationKey = "Database:ConnectionString";
 
         private readonly IConfiguration _configuration;
 

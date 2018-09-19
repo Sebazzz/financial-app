@@ -26,7 +26,7 @@ namespace App.Support.Diagnostics {
 
             try {
                 using (var smtpClient = this.CreateSmtpClient()) {
-                    smtpClient.Send(this._mailSettings.FromAddress, "void@example.com", "Test e-mail", "Startup-check");
+                    smtpClient.Send(this._mailSettings.FromAddress, this._mailSettings.TestMailTarget ?? "void@example.com", "Test e-mail", "Startup-check");
                 }
             }
             catch (Exception ex) {
