@@ -12,6 +12,7 @@ namespace App.Support.Mailing {
         public string Host { get; set; }
         public string FromAddress { get; set; }
         public string FromDisplayName { get; set; }
+        public string TestMailTarget { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
     }

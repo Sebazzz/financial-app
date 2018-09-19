@@ -46,7 +46,6 @@ namespace App {
     using Support.Setup;
     using Support.Setup.Steps;
 
-    using LogLevel = Microsoft.Extensions.Logging.LogLevel;
     using Microsoft.AspNetCore.SpaServices.Webpack;
     using Support.Diagnostics;
 
@@ -128,7 +127,7 @@ namespace App {
                 opt.AddPolicy("AppSetup", policy => policy.AddRequirements(new SetupNotRunAuthorizationRequirement()));
             });
 
-            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(this.Configuration["Data:AppDbConnection:ConnectionString"]));
+            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(this.Configuration["Database:ConnectionString"]));
 
             services.AddSignalR()
                     .AddJsonProtocol(options => options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
@@ -137,7 +136,7 @@ namespace App {
 #if DEBUG
                 c.UseMemoryStorage();
 #else
-                c.UseSqlServerStorage(this.Configuration["Data:AppDbConnection:ConnectionString"]);
+                c.UseSqlServerStorage(this.Configuration["Database:ConnectionString"]);
 #endif
             });
 
