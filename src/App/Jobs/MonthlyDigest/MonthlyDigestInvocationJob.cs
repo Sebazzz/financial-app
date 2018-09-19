@@ -37,6 +37,7 @@ namespace App.Jobs.MonthlyDigest
             DateTime invocationThreshold = DateTime.Now.AddMonths(-1);
             invocationThreshold = new DateTime(invocationThreshold.Year, invocationThreshold.Month, 1);
 
+            this._logger.LogInformation($"Checking whether we need to send the monthly digest. Filtering on timestamp smaller then {invocationThreshold}.");
             IQueryable<AppOwner> allAppOwners = this._appOwnerRepository.GetAll().Where(x => x.LastMonthlyDigestTimestamp < invocationThreshold);
 
             foreach (AppOwner appOwner in allAppOwners)
