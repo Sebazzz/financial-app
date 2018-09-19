@@ -197,6 +197,9 @@ namespace App {
             services.AddScoped<AppUserLoginEventRepository>();
             services.AddScoped<AppUserLoginEventService>();
             services.AddScoped<AppUserLoginEventMailer>();
+
+            // ... Startup health checks
+            services.AddStartupChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -206,6 +209,11 @@ namespace App {
             if (!env.IsDevelopment())
             {
                 loggerFactory.AddApplicationInsights(app.ApplicationServices);
+            }
+
+            // Startup checks
+            if (!app.RunStartupChecks()) {
+                return;
             }
 
             // HTTP pipeline configuration
@@ -277,7 +285,6 @@ namespace App {
             });
 
             // Hangfire
-            app.UseHangfireServer();
             app.UseHangfireDashboard("/_internal/jobs", new DashboardOptions {
                 AppPath = "/",
                 DisplayStorageConnectionString = false,
@@ -311,6 +318,8 @@ namespace App {
             // Configure recurring jobs
             AppInsightsJobFilterAttribute.Register(app.ApplicationServices.GetService<TelemetryClient>());
             RecurringJob.AddOrUpdate<MonthlyDigestInvocationJob>(x => x.Execute(), Cron.Daily(10));
+
+            app.UseHangfireServer();
         }
     }
 }
