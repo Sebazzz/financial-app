@@ -60,6 +60,8 @@ namespace App.Jobs.MonthlyDigest {
                 return;
             }
 
+            this._logger.LogInformation($"Starting job for app owner #{appOwnerId}: Sent digest to {users.Count} users");
+
             await this.SendDigestInternal(appOwner, users);
 
             this._logger.LogInformation($"Completed job for app owner #{appOwnerId}: Sent digest to {users.Count} users");
