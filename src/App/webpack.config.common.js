@@ -158,11 +158,21 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
-            '@aspnet/signalr': '@aspnet/signalr/dist/browser/signalr.js',
+            // SignalR: ESM version, saves some space. Still IE11 compat.
+            '@aspnet/signalr': '@aspnet/signalr/dist/esm/index.js',
+
+            // Test framework
             mocha: 'mocha/mocha.js',
-            '~': path.resolve(__dirname),
+
+            // Chart.js: Unbundled version: https://github.com/chartjs/Chart.js/issues/5235
+            'chart.js': 'chart.js/dist/Chart.js',
+
+            // Framework & app alias
             AppFramework: path.resolve(__dirname, 'js/AppFramework'),
-            App: path.resolve(__dirname, 'js/App')
+            App: path.resolve(__dirname, 'js/App'),
+
+            // ASP.NET-like virtual path
+            '~': path.resolve(__dirname)
         }
     },
 
