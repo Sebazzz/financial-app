@@ -6,28 +6,31 @@
 
     <h3>Je voorkeuren</h3>
     <div ko-with="$page.preferences">
-        <form role="form"
-              id="form-preferences"
-              novalidate
-              ko-form:handler="save"
-              ko-form:error-message="errorMessage"
-              ko-form:is-busy="isBusy">
-            
+        <form role="form" id="form-preferences" novalidate ko-form:handler="save" ko-form:error-message="errorMessage"
+            ko-form:is-busy="isBusy">
+
+            <div class="alert alert-warning" role="alert" ko-visible="!$page.authInfo().emailConfirmed && (enableLoginNotifications() || enableMonthlyDigest())">
+                <strong>Let op!</strong> Je e-mailadres is nog niet gecontroleerd. <a class="alert-link" ko-route="auth.confirmEmail">Bevestig
+                    je e-mailadres</a> om de mailing te ontvangen.
+            </div>
+
             <div class="alert alert-success" ko-visible="saveSuccess">
                 <strong>Gelukt!</strong> Je voorkeuren zijn opgeslagen.
             </div>
 
             <div class="form-group">
                 <label class="custom-control custom-checkbox">
-                    <input type="checkbox" ko-checked="enableMonthlyDigest" class="custom-control-input"/> 
-                    <span class="custom-control-label">Stuur mij elke maand een e-mail met de samenvatting van afgelopen maand</span>
+                    <input type="checkbox" ko-checked="enableMonthlyDigest" class="custom-control-input" />
+                    <span class="custom-control-label">Stuur mij elke maand een e-mail met de samenvatting van
+                        afgelopen maand</span>
                 </label>
             </div>
-            
+
             <div class="form-group">
                 <label class="custom-control custom-checkbox">
-                    <input type="checkbox" ko-checked="enableLoginNotifications" class="custom-control-input"/> 
-                    <span class="custom-control-label">Stuur mij een bericht wanneer op een nieuwe computer wordt ingelogd met mijn account</span>
+                    <input type="checkbox" ko-checked="enableLoginNotifications" class="custom-control-input" />
+                    <span class="custom-control-label">Stuur mij een bericht wanneer op een nieuwe computer wordt
+                        ingelogd met mijn account</span>
                 </label>
             </div>
 
@@ -57,7 +60,7 @@
                 Verificatie in twee stappen is ingeschakeld voor je account.
             </p>
 
-            <div ko-visible="justEnabledTwoFactorAuthentication"> 
+            <div ko-visible="justEnabledTwoFactorAuthentication">
                 <div class="alert alert-success">
                     <strong>Bedankt!</strong> Je hebt verificatie in twee stappen ingeschakeld!
                 </div>
@@ -76,31 +79,31 @@
             </div>
 
             <p>
-                <button class="btn btn-danger" ko-click="disable" ko-disable="isBusy">Verificatie in twee stappen uitschakelen</button>
+                <button class="btn btn-danger" ko-click="disable" ko-disable="isBusy">Verificatie in twee stappen
+                    uitschakelen</button>
             </p>
 
             <div ko-hidden="justEnabledTwoFactorAuthentication">
                 <h4>Herstelsleutels</h4>
 
-                <div class="alert alert-warning"
-                     ko-visible="twoFactorInfo().recoveryCodeCount &lt; 3 &amp;&amp; twoFactorInfo().recoveryCodeCount !== 0">
-                    <strong>Let op!</strong> Je hebt slechts <span ko-text="twoFactorInfo().recoveryCodeCount"></span> herstelsleutels over.
+                <div class="alert alert-warning" ko-visible="twoFactorInfo().recoveryCodeCount &lt; 3 &amp;&amp; twoFactorInfo().recoveryCodeCount !== 0">
+                    <strong>Let op!</strong> Je hebt slechts <span ko-text="twoFactorInfo().recoveryCodeCount"></span>
+                    herstelsleutels over.
                 </div>
 
-                <div class="alert alert-danger"
-                     ko-visible="twoFactorInfo().recoveryCodeCount === 0">
+                <div class="alert alert-danger" ko-visible="twoFactorInfo().recoveryCodeCount === 0">
                     <strong>Let op!</strong> Je hebt geen herstelsleutels over.
                 </div>
 
                 <p>
-                    Je hebt <span ko-text="twoFactorInfo().recoveryCodeCount"></span> herstelsleutels over. Je kan nieuwe
+                    Je hebt <span ko-text="twoFactorInfo().recoveryCodeCount"></span> herstelsleutels over. Je kan
+                    nieuwe
                     herstelsleutels maken. Je huidige herstelsleutels worden dan ongeldig.
                 </p>
 
                 <p>
-                    <button class="btn btn-warning"
-                            ko-click="generateNewRecoveryKeys"
-                            ko-disable="isBusy">Nieuwe herstelsleutels aanmaken</button>
+                    <button class="btn btn-warning" ko-click="generateNewRecoveryKeys" ko-disable="isBusy">Nieuwe
+                        herstelsleutels aanmaken</button>
                 </p>
             </div>
         </div>
@@ -114,10 +117,11 @@
                 <div class="alert alert-danger" data-bind="visible: errorMessage">
                     <strong>Oeps!</strong> <span data-bind="text: errorMessage"></span>
                 </div>
-    
+
                 <p>
-                    <button class="btn btn-primary" ko-click="preEnable" ko-disable="isBusy">Verificatie in twee stappen inschakelen</button>
-                </p> 
+                    <button class="btn btn-primary" ko-click="preEnable" ko-disable="isBusy">Verificatie in twee
+                        stappen inschakelen</button>
+                </p>
             </div>
             <div ko-if="isEnabling">
                 <p>
@@ -125,13 +129,9 @@
                 </p>
 
                 <div class="two-factor-authentication-enabler">
-                    <img 
-                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-                        alt="QR-code"
-                        ko-attr:alt="preEnableInfo().secretKey"
-                        ko-attr:src="'data:image/png;base64,' + preEnableInfo().qrCode"
-                        class="two-factor-authentication-enabler__qr-code"
-                        />
+                    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="QR-code"
+                        ko-attr:alt="preEnableInfo().secretKey" ko-attr:src="'data:image/png;base64,' + preEnableInfo().qrCode"
+                        class="two-factor-authentication-enabler__qr-code" />
 
                     <p class="two-factor-authentication-enabler__secret-key">
                         <kbd ko-text="preEnableInfo().secretKey"></kbd>
@@ -144,15 +144,11 @@
 
                 <div class="form-group">
                     <label for="tfa-verification-code">Code uit de twee-staps verificatieapp</label>
-                    <input id="tfa-verification-code" 
-                           type="text" 
-                           maxlength="10" 
-                           ko-cleave="twoFactorVerificationCode"
-                           ko-cleave-options:blocks="[3,3]"
-                           class="form-control form-control-lg two-factor-authentication-enabler__input" 
-                           placeholder="000 000"/>
+                    <input id="tfa-verification-code" type="text" maxlength="10" ko-cleave="twoFactorVerificationCode"
+                        ko-cleave-options:blocks="[3,3]" class="form-control form-control-lg two-factor-authentication-enabler__input"
+                        placeholder="000 000" />
                 </div>
-                
+
                 <p>
                     <button class="btn btn-primary" ko-click="enable" ko-disable="isBusy">Code bevestigen</button>
                 </p>
@@ -177,10 +173,7 @@
             <tr>
                 <td ko-format-text="timestamp" ko-format#="F"></td>
                 <td>
-                    <a href="#"
-                       target="_blank"
-                       rel="noopener noreferer"
-                       ko-href="'http://www.dereferer.org/?https%3A%2F%2Fwww%2Egeoiptool%2Ecom%2Fen%2F%3Fip%3D' + encodeURIComponent(ipAddress)">
+                    <a href="#" target="_blank" rel="noopener noreferer" ko-href="'http://www.dereferer.org/?https%3A%2F%2Fwww%2Egeoiptool%2Ecom%2Fen%2F%3Fip%3D' + encodeURIComponent(ipAddress)">
                         <code ko-text="ipAddress"></code>
                     </a>
                 </td>
@@ -212,12 +205,8 @@
 
 <modal params="controller: changePasswordModal">
     <modal-body>
-        <form role="form"
-              id="form-change-password"
-              novalidate
-              ko-form:handler="save"
-              ko-form:error-message="errorMessage"
-              ko-form:is-busy="isBusy">
+        <form role="form" id="form-change-password" novalidate ko-form:handler="save" ko-form:error-message="errorMessage"
+            ko-form:is-busy="isBusy">
 
             <div class="alert alert-danger" ko-visible="errorMessage">
                 <strong>Oeps!</strong> <span ko-text="errorMessage"></span>
@@ -225,32 +214,31 @@
 
             <div class="form-group">
                 <label for="currentPassword">Huidig wachtwoord:</label>
-                <input id="currentPassword" name="currentPassword" type="password" class="form-control" ko-value="currentPassword" maxlength="150" />
+                <input id="currentPassword" name="currentPassword" type="password" class="form-control" ko-value="currentPassword"
+                    maxlength="150" />
 
                 <div ko-validation-message="currentPassword"></div>
             </div>
 
             <div class="form-group">
                 <label for="newPassword">Nieuw wachtwoord:</label>
-                <input id="newPassword" name="newPassword" type="password" class="form-control" ko-value="newPassword" maxlength="150" />
+                <input id="newPassword" name="newPassword" type="password" class="form-control" ko-value="newPassword"
+                    maxlength="150" />
 
                 <div ko-validation-message="newPassword"></div>
             </div>
 
             <div class="form-group">
                 <label for="newPasswordConfirm">Nieuw wachtwoord (bevestigen):</label>
-                <input id="newPasswordConfirm" name="newPasswordConfirm" type="password" class="form-control" ko-value="newPasswordConfirm" maxlength="150" />
+                <input id="newPasswordConfirm" name="newPasswordConfirm" type="password" class="form-control" ko-value="newPasswordConfirm"
+                    maxlength="150" />
 
                 <div ko-validation-message="newPasswordConfirm"></div>
             </div>
         </form>
     </modal-body>
     <modal-footer>
-        <button type="submit"
-                form="form-change-password"
-                class="btn btn-primary btn-modal-ignore">Doorgaan</button>
-        <button type="button" 
-                class="btn btn-secondary"
-                data-dismiss="modal">Annuleren</button>
+        <button type="submit" form="form-change-password" class="btn btn-primary btn-modal-ignore">Doorgaan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
     </modal-footer>
 </modal>

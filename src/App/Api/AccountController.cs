@@ -62,9 +62,11 @@ namespace App.Api
             {
                 UserName = currentUser.UserName,
                 Email = currentUser.Email,
+                EmailConfirmed = currentUser.EmailConfirmed,
                 GroupName = currentUser.Group?.Name,
 
-                TwoFactorAuthentication = new {
+                TwoFactorAuthentication = new
+                {
                     IsEnabled = await this._appUserManager.GetTwoFactorEnabledAsync(currentUser),
                     IsAuthenticatorAppEnabled = (await this._appUserManager.GetAuthenticatorKeyAsync(currentUser)) != null,
                     RecoveryCodeCount = await this._appUserManager.CountRecoveryCodesAsync(currentUser)
@@ -72,7 +74,8 @@ namespace App.Api
 
                 LastLoginEvents = (
                     from ev in this._appUserLoginEventRepository.GetByUser(currentUser.Id).Take(5)
-                    select new {
+                    select new
+                    {
                         ev.IPAddress,
                         ev.UserAgent,
                         ev.Timestamp
@@ -82,15 +85,18 @@ namespace App.Api
         }
 
         [HttpPost("change-password")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel input) {
-            if (!this.ModelState.IsValid) {
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
                 return this.BadRequest(this.ModelState);
             }
 
             AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
             IdentityResult result = await this._appUserManager.ChangePasswordAsync(currentUser, input.CurrentPassword, input.NewPassword);
 
-            if (!result.Succeeded) {
+            if (!result.Succeeded)
+            {
                 this.ModelState.AppendIdentityResult(result, _ => nameof(input.NewPassword));
                 return this.BadRequest(this.ModelState);
             }
@@ -99,39 +105,46 @@ namespace App.Api
         }
 
         [HttpPost("two-factor-authentication/pre-enable")]
-        public async Task<IActionResult> PreEnable() {
+        public async Task<IActionResult> PreEnable()
+        {
             AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
             string key = await this.GetTwoFactorKeyAsync(currentUser);
 
-            return this.Ok(new {
+            return this.Ok(new
+            {
                 QrCode = CreateBase64QRCode(key, currentUser),
                 SecretKey = FormatKey(key)
             });
         }
 
         [HttpPost("two-factor-authentication/reset-recovery-keys")]
-        public async Task<IActionResult> ResetRecoveryKeys() {
+        public async Task<IActionResult> ResetRecoveryKeys()
+        {
             AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
 
             string[] recoveryCodes = (await this._appUserManager.GenerateNewTwoFactorRecoveryCodesAsync(currentUser, 10)).ToArray();
 
-            return this.Ok(new {
+            return this.Ok(new
+            {
                 RecoveryCodes = recoveryCodes
             });
         }
 
         [HttpPost("two-factor-authentication")]
-        public async Task<IActionResult> Enable([FromBody] TwoFactorAuthenticationEnableInfo input) {
+        public async Task<IActionResult> Enable([FromBody] TwoFactorAuthenticationEnableInfo input)
+        {
             AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
-            
+
             string token = input.VerificationCode?.Replace("-", "").Replace(" ", "");
-            if (String.IsNullOrEmpty(token)) {
+            if (String.IsNullOrEmpty(token))
+            {
                 this.ModelState.AddModelError(nameof(input.VerificationCode), "Missing verification code");
                 return this.BadRequest(this.ModelState);
             }
-            
+
             bool isVerified = await this._appUserManager.VerifyTwoFactorTokenAsync(currentUser, this._appUserManager.Options.Tokens.AuthenticatorTokenProvider, token);
-            if (!isVerified) {
+            if (!isVerified)
+            {
                 this.ModelState.AddModelError(nameof(input.VerificationCode), "Invalid verification code");
                 return this.BadRequest(this.ModelState);
             }
@@ -139,28 +152,33 @@ namespace App.Api
             await this._appUserManager.SetTwoFactorEnabledAsync(currentUser, true);
             string[] recoveryCodes = (await this._appUserManager.GenerateNewTwoFactorRecoveryCodesAsync(currentUser, 10)).ToArray();
 
-            return this.Ok(new {
+            return this.Ok(new
+            {
                 RecoveryCodes = recoveryCodes
             });
         }
 
         [HttpDelete("two-factor-authentication")]
-        public async Task<IActionResult> Disable(){
+        public async Task<IActionResult> Disable()
+        {
             AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
             await this._appUserManager.SetTwoFactorEnabledAsync(currentUser, false);
             return this.NoContent();
         }
 
         [HttpGet("preferences")]
-        public async Task<PreferencesModel> GetPreferences() {
+        public async Task<PreferencesModel> GetPreferences()
+        {
             AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId());
 
             return this._mapper.Map<PreferencesModel>(currentUser.Preferences);
         }
 
         [HttpPut("preferences")]
-        public async Task<IActionResult> SetPreferences([FromBody] PreferencesModel preferences) {
-            if (!this.ModelState.IsValid) {
+        public async Task<IActionResult> SetPreferences([FromBody] PreferencesModel preferences)
+        {
+            if (!this.ModelState.IsValid)
+            {
                 return this.BadRequest(this.ModelState);
             }
 
@@ -173,8 +191,10 @@ namespace App.Api
             return this.NoContent();
         }
 
-        private static string CreateBase64QRCode(string key, AppUser user) {
-            OneTimePassword qrPayload = new OneTimePassword {
+        private static string CreateBase64QRCode(string key, AppUser user)
+        {
+            OneTimePassword qrPayload = new OneTimePassword
+            {
                 Issuer = "Financial App",
                 Secret = key,
                 Type = OneTimePasswordAuthType.TOTP,
@@ -189,7 +209,8 @@ namespace App.Api
             return qrCode.GetGraphic(5);
         }
 
-        private async Task<string> GetTwoFactorKeyAsync(AppUser user) {
+        private async Task<string> GetTwoFactorKeyAsync(AppUser user)
+        {
             await this._appUserManager.ResetAuthenticatorKeyAsync(user);
             return await this._appUserManager.GetAuthenticatorKeyAsync(user);
         }
@@ -212,9 +233,10 @@ namespace App.Api
         }
 
         [DataContract]
-        public class TwoFactorAuthenticationEnableInfo {
-            [DataMember(Name="verificationCode")]
-            public string VerificationCode { get;set; }
+        public class TwoFactorAuthenticationEnableInfo
+        {
+            [DataMember(Name = "verificationCode")]
+            public string VerificationCode { get; set; }
         }
     }
 }

@@ -5,8 +5,10 @@
 //  Project         : App
 // ******************************************************************************
 
-namespace App.Models.DTO {
-    public class PreferencesModel {
+namespace App.Models.DTO
+{
+    public class PreferencesModel
+    {
         public bool EnableMonthlyDigest { get; set; }
         public bool EnableLoginNotifications { get; set; }
     }
