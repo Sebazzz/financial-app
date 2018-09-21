@@ -1,5 +1,6 @@
 import * as ko from 'knockout';
 import * as $ from 'jquery';
+import 'bootstrap/js/dist/tooltip';
 
 interface ITooltipOptions {
     text: KnockoutObservable<string> | string;
