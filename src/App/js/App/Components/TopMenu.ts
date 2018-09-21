@@ -128,22 +128,30 @@ class TopMenu extends framework.Panel {
     }
 }
 
-function buildSignalRConnection() {
-    return new SignalR.HubConnectionBuilder()
+async function buildSignalRConnection() {
+    const signalR = await import('@aspnet/signalr');
+
+    return new signalR.HubConnectionBuilder()
         .withUrl('/extern/connect/app-owner')
-        .configureLogging(DEBUG ? SignalR.LogLevel.Information : SignalR.LogLevel.Error)
+        .configureLogging(DEBUG ? signalR.LogLevel.Information : signalR.LogLevel.Error)
         .build();
 }
 
 class UserActivityService {
-    private connection = buildSignalRConnection();
+    private connection: SignalR.HubConnection | null = null;
 
     public activeClients = ko.observableArray<string>();
     public activeClientCount = ko.pureComputed(() => this.activeClients().length);
     public isConnected = ko.observable<boolean>();
     public isConnecting = ko.observable<boolean>();
 
-    constructor() {
+    private async initialize() {
+        if (this.connection) {
+            return;
+        }
+
+        this.connection = await buildSignalRConnection();
+
         this.connection.on('pushClient', (name: string) => this.onPushClient(name));
         this.connection.on('popClient', (name: string) => this.onPopClient(name));
         this.connection.on('setInitialClientList', (names: string[]) => this.onSetInitialClientList(names));
@@ -156,6 +164,10 @@ class UserActivityService {
     }
 
     public async start() {
+        if (!this.connection) {
+            await this.initialize();
+        }
+
         if (this.isConnecting() || this.isConnected()) {
             console.log(
                 'UserActivityService: start request ignored - either the connection is started or the connection is starting'
@@ -168,7 +180,7 @@ class UserActivityService {
             this.isConnecting(true);
             this.isConnected(false);
 
-            await this.connection.start();
+            await this.connection!.start();
             console.log('UserActivityService: started connection');
 
             this.isConnected(true);
@@ -178,6 +190,10 @@ class UserActivityService {
     }
 
     public stop() {
+        if (!this.connection) {
+            return;
+        }
+
         console.log('UserActivityService: stopping connection');
         this.connection.stop();
     }
