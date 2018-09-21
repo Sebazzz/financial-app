@@ -5,7 +5,8 @@
 //  Project         : App
 // ******************************************************************************
 
-namespace App.Models.Domain {
+namespace App.Models.Domain
+{
     using System;
     using System.Threading.Tasks;
     using Identity;
@@ -15,7 +16,8 @@ namespace App.Models.Domain {
     using Repositories;
     using Support.Mailing;
 
-    public sealed class AppUserLoginEventService {
+    public sealed class AppUserLoginEventService
+    {
         private const string MachineIdentificationCookie = nameof(MachineIdentificationCookie);
         private const string EncryptionPurpose = nameof(MachineIdentificationCookie);
 
@@ -24,24 +26,30 @@ namespace App.Models.Domain {
         private readonly IDataProtector _dataProtector;
         private readonly ILogger<AppUserLoginEventService> _logger;
 
-        public AppUserLoginEventService(AppUserLoginEventRepository appUserLoginEventRepository, IDataProtectionProvider dataProtector, AppUserLoginEventMailer appUserLoginEventMailer, ILogger<AppUserLoginEventService> logger) {
+        public AppUserLoginEventService(AppUserLoginEventRepository appUserLoginEventRepository, IDataProtectionProvider dataProtector, AppUserLoginEventMailer appUserLoginEventMailer, ILogger<AppUserLoginEventService> logger)
+        {
             this._appUserLoginEventRepository = appUserLoginEventRepository;
             this._dataProtector = dataProtector.CreateProtector(EncryptionPurpose);
             this._appUserLoginEventMailer = appUserLoginEventMailer;
             this._logger = logger;
         }
 
-        public async Task HandleUserLoginAsync(AppUser user, HttpContext httpContext) {
-            try {
+        public async Task HandleUserLoginAsync(AppUser user, HttpContext httpContext)
+        {
+            try
+            {
                 await this.HandleLoginCore(user, httpContext);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 this._logger.LogError(ex, $"Encountered error while saving login for user: {user.UserName} [#{user.Id}]");
             }
         }
 
-        private async Task HandleLoginCore(AppUser user, HttpContext httpContext) {
-            if (this.HasTrustedCookie(user, httpContext.Request)) {
+        private async Task HandleLoginCore(AppUser user, HttpContext httpContext)
+        {
+            if (this.HasTrustedCookie(user, httpContext.Request))
+            {
                 this._logger.LogInformation($"User #{user.Id} logs in with a trusted cookie");
 
                 // Refresh cookie
@@ -50,13 +58,15 @@ namespace App.Models.Domain {
             }
 
             string ipAddress = httpContext.Connection.RemoteIpAddress?.ToString();
-            if (String.IsNullOrEmpty(ipAddress)) {
+            if (String.IsNullOrEmpty(ipAddress))
+            {
                 this._logger.LogWarning($"User #{user.Id} logs in - no IP address???");
                 return;
             }
 
             string userAgent = httpContext.Request.Headers["User-Agent"];
-            if (await this.ExistsInDatabase(ipAddress, userAgent, user.Id)) {
+            if (await this.ExistsInDatabase(ipAddress, userAgent, user.Id))
+            {
                 this._logger.LogInformation($"User #{user.Id} logs in, based on IP address [{ipAddress}] and user agent [{userAgent}] this login is trusted");
 
                 // Refresh cookie
@@ -64,7 +74,8 @@ namespace App.Models.Domain {
                 return;
             }
 
-            AppUserLoginEvent loginEvent = new AppUserLoginEvent {
+            AppUserLoginEvent loginEvent = new AppUserLoginEvent
+            {
                 IPAddress = ipAddress,
                 UserAgent = userAgent,
                 Timestamp = DateTime.Now,
@@ -79,18 +90,21 @@ namespace App.Models.Domain {
 
             this._logger.LogInformation($"User #{user.Id} logs in, based on IP address [{ipAddress}] and user agent [{userAgent}] this login is new");
 
-            if (user.Preferences.EnableLoginNotifications) {
+            if (user.Preferences.EnableLoginNotifications && user.EmailConfirmed)
+            {
                 this._logger.LogInformation($"User #{user.Id} logs in, sending notification for new login");
 
                 await this._appUserLoginEventMailer.SendAsync(loginEvent);
             }
         }
 
-        private void SetTrustedResponseCookie(AppUser user, HttpContext httpContext) {
+        private void SetTrustedResponseCookie(AppUser user, HttpContext httpContext)
+        {
             string securityKey = user.SecurityStamp;
             string encryptedSecurityKey = this._dataProtector.Protect(securityKey);
 
-            CookieOptions cookieOptions = new CookieOptions {
+            CookieOptions cookieOptions = new CookieOptions
+            {
                 Expires = DateTimeOffset.UtcNow.AddDays(365),
                 HttpOnly = true,
                 Secure = httpContext.Request.IsHttps
@@ -98,8 +112,10 @@ namespace App.Models.Domain {
             httpContext.Response.Cookies.Append(MachineIdentificationCookie, encryptedSecurityKey, cookieOptions);
         }
 
-        private bool HasTrustedCookie(AppUser user, HttpRequest httpRequest) {
-            if (!httpRequest.Cookies.TryGetValue(MachineIdentificationCookie, out string encodedCookieContents) || String.IsNullOrEmpty(encodedCookieContents)) {
+        private bool HasTrustedCookie(AppUser user, HttpRequest httpRequest)
+        {
+            if (!httpRequest.Cookies.TryGetValue(MachineIdentificationCookie, out string encodedCookieContents) || String.IsNullOrEmpty(encodedCookieContents))
+            {
                 return false;
             }
 
@@ -109,7 +125,8 @@ namespace App.Models.Domain {
             return String.Equals(securityKey, userSecurityKey, StringComparison.OrdinalIgnoreCase);
         }
 
-        private async Task<bool> ExistsInDatabase(string ipAddress, string userAgent, int userId) {
+        private async Task<bool> ExistsInDatabase(string ipAddress, string userAgent, int userId)
+        {
             return await this._appUserLoginEventRepository.GetByKeyAsync(userId, ipAddress, userAgent) != null;
         }
     }
