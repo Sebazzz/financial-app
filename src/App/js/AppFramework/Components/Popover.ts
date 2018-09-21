@@ -1,5 +1,6 @@
 import * as ko from 'knockout';
 import * as $ from 'jquery';
+import 'bootstrap/js/dist/popover';
 
 export class PopoverController<T = any> {
     private $component: PopoverComponentComponentModel | null = null;

@@ -1,3 +1,6 @@
+import 'bootstrap/js/dist/alert';
+import 'bootstrap/js/dist/util';
+
 import * as af from 'AppFramework/AppFactory';
 import pageFactory from './PageFactory';
 import * as topMenu from './Components/TopMenu';
@@ -5,7 +8,6 @@ import * as loader from './Components/Loader';
 import './Components/ScrollNub';
 import './BindingHandlers/All';
 import registerSetupInterceptor from './Services/SetupInterceptor';
-import 'bootstrap';
 
 export class App extends af.App {
     constructor() {

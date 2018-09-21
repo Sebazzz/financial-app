@@ -1,5 +1,6 @@
 import * as $ from 'jquery';
 import * as ko from 'knockout';
+import 'bootstrap/js/dist/modal';
 
 /**
  * Shows a bootstrap confirmation dialog

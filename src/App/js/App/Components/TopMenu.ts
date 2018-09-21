@@ -5,6 +5,7 @@ import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import NowRouteProvider from 'App/Services/NowRoute';
 import * as SignalR from '@aspnet/signalr';
+import 'bootstrap/js/dist/dropdown';
 
 class TopMenu extends framework.Panel {
     private activityService = new UserActivityService();
