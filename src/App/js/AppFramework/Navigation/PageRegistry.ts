@@ -42,4 +42,13 @@ export default class PageRegistry {
 
         repository.addPages(allPages);
     }
+
+    public static hotReload(repository: IPageRepository, pages: PageRegistrationCollection) {
+        const allPages: PageRegistration[] = [];
+        walkPageRegistrationArray(pages, allPages);
+
+        for (const page of allPages) {
+            repository.replacePage(page);
+        }
+    }
 }
