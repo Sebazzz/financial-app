@@ -157,23 +157,26 @@ class PageTemplateManager {
     private static async importAsync(templateName: string): Promise<{ default: string }> {
         // TODO: Use template string once TS compiler bug has been fixed [https://github.com/Microsoft/TypeScript/issues/16763]
 
+        // TODO: It appears the webpackChunkName does not end up anywhere. Possible bug in webpack 4.x?
+
         // We cannot check in advance whether a mobile template is available,
         // so just try to load it, and if we fail, load the regular template.
         try {
             const isMobileDevice = isMobile();
 
             if (isMobileDevice) {
-                return await import(/* webpackChunkName: "templates" */
+                return await import(/* webpackChunkName: "templates-mobile-[request]" */
                 /* webpackMode: "lazy" */
                 '~/ko-templates/' + templateName + '.mobile.html');
             }
+
             console.log('~/ko-templates/' + templateName + '.html');
-            return await import(/* webpackChunkName: "templates" */
+            return await import(/* webpackChunkName: "templates-[request]" */
             /* webpackMode: "lazy" */
             '~/ko-templates/' + templateName + '.html');
         } catch (e) {
             console.log('~/ko-templates/' + templateName + '.html');
-            return await import(/* webpackChunkName: "templates" */
+            return await import(/* webpackChunkName: "templates-[request]" */
             /* webpackMode: "lazy" */
             '~/ko-templates/' + templateName + '.html');
         }
