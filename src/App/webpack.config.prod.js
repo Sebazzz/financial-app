@@ -8,6 +8,9 @@ const targetDir = path.resolve(__dirname, 'wwwroot/build');
 
 module.exports = {
     stats: { chunkModules: true },
+    output: {
+        chunkFilename: '[name].[chunkhash].js'
+    },
     optimization: {
         minimizer: [
             new UglifyJsPlugin({

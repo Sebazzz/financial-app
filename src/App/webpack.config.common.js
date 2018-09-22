@@ -130,7 +130,7 @@ module.exports = {
     plugins: [copyPolyfill, globalsProvider, serviceWorker],
     output: {
         filename: '[name].[hash].js',
-        chunkFilename: '[name].[chunkhash].js',
+        chunkFilename: '[id].js',
         path: targetDir,
         publicPath: '/build/'
     },
