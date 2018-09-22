@@ -1,4 +1,4 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as sheet from 'App/ServerApi/Sheet';
 import * as ko from 'knockout';
@@ -27,7 +27,6 @@ class DefaultPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'archive/default',
-    routingTable: { name: 'archive', path: '/archive' },
+    template: import(/*webpackMode: "eager"*/ 'Template/archive/default.html'),
     createPage: appContext => new DefaultPage(appContext)
-} as IPageRegistration;
+} as PageModule;

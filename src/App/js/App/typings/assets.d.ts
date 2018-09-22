@@ -9,6 +9,8 @@ declare module '*.css' {
 }
 
 declare module '*.html' {
-    const content: { default: string };
+    const content: string;
     export default content;
 }
+
+declare type HtmlModule = { default: string };

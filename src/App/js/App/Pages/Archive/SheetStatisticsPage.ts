@@ -1,10 +1,10 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import { ChartOptions } from 'chart.js';
 
 import * as ko from 'knockout';
 
-import * as sheetStatistics from '../../ServerApi/SheetStatistics';
+import * as sheetStatistics from 'App/ServerApi/SheetStatistics';
 
 class SheetStatisticsPage extends Page {
     private api = new sheetStatistics.Api();
@@ -126,14 +126,6 @@ class SheetStatisticsPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'archive/sheet-stats',
-    routingTable: [
-        { name: 'archive.sheet.statistics', path: '/statistics' },
-        {
-            name: 'sheet.stats',
-            path: '/stats',
-            forwardTo: 'archive.sheet.statistics'
-        }
-    ],
+    template: import(/*webpackMode: "eager"*/ 'Template/archive/sheet-stats.html'),
     createPage: appContext => new SheetStatisticsPage(appContext)
-} as IPageRegistration;
+} as PageModule;

@@ -1,6 +1,6 @@
 import * as ko from 'knockout';
 import * as v from './ValidateableViewModel';
-import { Page } from '../Page';
+import { Page } from 'AppFramework/Navigation/Page';
 
 function findValidateableViewModel(bindingContext: KnockoutBindingContext): v.ValidateableViewModel | null {
     let currentBindingContext: KnockoutBindingContext | undefined = bindingContext,
@@ -38,21 +38,19 @@ ko.bindingHandlers.validationMessage = {
         element.classList.add('invalid-feedback');
         element.classList.add('invalid-feedback-list');
 
-        ko
-            .computed(() => {
-                const modelState = validatable.modelState();
-                if (!modelState) {
-                    return;
-                }
+        ko.computed(() => {
+            const modelState = validatable.modelState();
+            if (!modelState) {
+                return;
+            }
 
-                const propertyState = modelState[property];
-                if (!propertyState) {
-                    $element.text('');
-                } else {
-                    $element.text(propertyState.join('\r\n'));
-                }
-            })
-            .extend({ disposeWhenNodeIsRemoved: element });
+            const propertyState = modelState[property];
+            if (!propertyState) {
+                $element.text('');
+            } else {
+                $element.text(propertyState.join('\r\n'));
+            }
+        }).extend({ disposeWhenNodeIsRemoved: element });
     },
 
     preprocess(value: string) {
@@ -95,21 +93,19 @@ ko.bindingHandlers.validationProperty = {
             }
         }
 
-        ko
-            .computed(() => {
-                const modelState = validatable.modelState();
-                if (!modelState) {
-                    return;
-                }
+        ko.computed(() => {
+            const modelState = validatable.modelState();
+            if (!modelState) {
+                return;
+            }
 
-                const propertyState = modelState[property];
-                if (!propertyState) {
-                    mark(undefined);
-                } else {
-                    mark(propertyState.join('\r\n'));
-                }
-            })
-            .extend({ disposeWhenNodeIsRemoved: element });
+            const propertyState = modelState[property];
+            if (!propertyState) {
+                mark(undefined);
+            } else {
+                mark(propertyState.join('\r\n'));
+            }
+        }).extend({ disposeWhenNodeIsRemoved: element });
     },
 
     preprocess(value: string) {

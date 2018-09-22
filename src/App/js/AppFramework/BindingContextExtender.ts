@@ -1,4 +1,4 @@
-import { Page } from './Page';
+import { Page } from 'AppFramework/Navigation/Page';
 
 const bindingContextPreprocessMarker = '__unnamedBindingContextExtender';
 

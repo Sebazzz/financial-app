@@ -1,5 +1,5 @@
 import { Router, Plugin as RouterPlugin, PluginFactory, State } from 'router5';
-import { RouterUtils } from '../Page';
+import { RouterUtils } from 'AppFramework/Navigation/Page';
 import * as auth from '../ServerApi/Authentication';
 
 function applicationInsightsAvailable(): boolean {

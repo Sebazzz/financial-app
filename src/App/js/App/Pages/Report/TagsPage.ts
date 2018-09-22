@@ -1,4 +1,4 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as tag from 'App/ServerApi/Tag';
 import { styleHtmlElement as styleTagHtmlElement } from 'App/Utils/TagColor';
@@ -112,7 +112,6 @@ export class RemarksModel {
 
 export default {
     id: module.id,
-    templateName: 'report/tags',
-    routingTable: { name: 'report.tags', path: '/tags' },
+    template: import(/*webpackMode: "eager"*/ 'Template/report/tags.html'),
     createPage: appContext => new TagsPage(appContext)
-} as IPageRegistration;
+} as PageModule;

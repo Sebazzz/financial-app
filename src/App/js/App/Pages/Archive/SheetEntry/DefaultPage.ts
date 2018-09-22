@@ -1,4 +1,4 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 
 class DefaultPage extends Page {
@@ -11,18 +11,6 @@ class DefaultPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'default',
-    routingTable: [
-        {
-            name: 'sheet.entry',
-            path: '/entry',
-            forwardTo: 'archive.sheet.entry'
-        },
-        {
-            name: 'archive.sheet.entry',
-            path: '/entry',
-            forwardTo: 'archive.sheet'
-        }
-    ],
+    template: import(/*webpackMode: "eager"*/ 'Template/default.html'),
     createPage: appContext => new DefaultPage(appContext)
-} as IPageRegistration;
+} as PageModule;

@@ -1,21 +1,18 @@
 import FormPage from 'AppFramework/Forms/FormPage';
-import { IPageRegistration } from 'AppFramework/Page';
+import { PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
-import NowRouteProvider from '../../../Services/NowRoute';
-import { AccountType } from '../../../ServerApi/SheetEntry';
+import { AccountType } from 'App/ServerApi/SheetEntry';
 
 import * as ko from 'knockout';
 import * as mapper from 'AppFramework/ServerApi/Mapper';
 
-import * as entryTemplate from '../../../ServerApi/RecurringSheetEntry';
-import * as sheet from '../../../ServerApi/Sheet';
-import * as sheetEntry from '../../../ServerApi/SheetEntry';
+import * as entryTemplate from 'App/ServerApi/RecurringSheetEntry';
+import * as sheet from 'App/ServerApi/Sheet';
+import * as sheetEntry from 'App/ServerApi/SheetEntry';
 import * as tag from 'App/ServerApi/Tag';
-import * as category from '../../../ServerApi/Category';
+import * as category from 'App/ServerApi/Category';
 
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
-
-import { State } from 'router5';
 
 class EditPage extends FormPage {
     private categoryApi = new category.Api();
@@ -199,39 +196,6 @@ export class EditViewModel extends validate.ValidateableViewModel {
 
 export default {
     id: module.id,
-    templateName: 'archive/sheetentry-edit',
-    routingTable: [
-        {
-            name: 'sheet.entry.add',
-            path: '/add',
-            forwardTo: 'archive.sheet.entry.add'
-        },
-        {
-            name: 'sheet.entry.edit',
-            path: '/edit/:id',
-            forwardTo: 'archive.sheet.entry.edit'
-        },
-
-        { name: 'archive.sheet.entry.edit', path: '/edit/:id' },
-        { name: 'archive.sheet.entry.add', path: '/add' },
-        {
-            name: 'now.add',
-            path: '/add',
-            canActivate: router => {
-                return (toState: State) => {
-                    if (toState.name !== 'now.add') {
-                        // Derived route - always OK
-                        return true;
-                    }
-
-                    const nowRoute = new NowRouteProvider();
-
-                    router.cancel();
-                    router.navigate('archive.sheet.entry.add', nowRoute.getParams());
-                    return false;
-                };
-            }
-        }
-    ],
+    template: import(/*webpackMode: "eager"*/ 'Template/archive/sheetentry-edit.html'),
     createPage: appContext => new EditPage(appContext)
-} as IPageRegistration;
+} as PageModule;

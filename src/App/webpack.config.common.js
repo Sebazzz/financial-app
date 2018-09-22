@@ -170,6 +170,7 @@ module.exports = {
             // Framework & app alias
             AppFramework: path.resolve(__dirname, 'js/AppFramework'),
             App: path.resolve(__dirname, 'js/App'),
+            Template: path.resolve(__dirname, 'ko-templates'),
 
             // ASP.NET-like virtual path
             '~': path.resolve(__dirname)

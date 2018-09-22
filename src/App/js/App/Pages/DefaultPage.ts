@@ -1,4 +1,4 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 
@@ -18,8 +18,9 @@ class DefaultPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'default',
-    routingTable: { name: 'default', path: '/' },
-    createPage: appContext => new DefaultPage(appContext),
-    bodyClassName: 'page-dashboard'
-} as IPageRegistration;
+    template: {
+        default: import(/*webpackMode: "eager"*/ 'Template/default.html'),
+        mobile: import(/*webpackMode: "eager"*/ 'Template/default.mobile.html')
+    },
+    createPage: appContext => new DefaultPage(appContext)
+} as PageModule;

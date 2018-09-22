@@ -25,10 +25,20 @@
     <Content Include="Email\build\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="js\App\PageFactory.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PageFactory.ts</LastGenOutput>
-    </Content>
+    <None Remove="js\AppFramework\Navigation\PageLoader.ts" />
+    <None Remove="js\AppFramework\Navigation\PageRegistry.ts" />
+    <None Remove="js\App\Navigation.ts" />
+    <None Remove="js\App\Pages\Archive\index.ts" />
+    <None Remove="js\App\Pages\Archive\SheetEntry\index.ts" />
+    <None Remove="js\App\Pages\Auth\index.ts" />
+    <None Remove="js\App\Pages\index.ts" />
+    <None Remove="js\App\Pages\Manage\Category\index.ts" />
+    <None Remove="js\App\Pages\Manage\EntryTemplate\index.ts" />
+    <None Remove="js\App\Pages\Manage\index.ts" />
+    <None Remove="js\App\Pages\Manage\Tag\index.ts" />
+    <None Remove="js\App\Pages\Manage\User\index.ts" />
+    <None Remove="js\App\Pages\Report\index.ts" />
+    <None Remove="js\App\Pages\Setup\index.ts" />
    
     <Content Include="Models\Domain\Repositories\Repositories.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -91,23 +101,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="js\AppFramework\Navigation\PageLoader.ts" />
+    <TypeScriptCompile Include="js\AppFramework\Navigation\PageRegistry.ts" />
+    <TypeScriptCompile Include="js\App\Navigation.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Archive\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Archive\SheetEntry\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Auth\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Manage\Category\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Manage\EntryTemplate\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Manage\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Manage\Tag\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Manage\User\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Report\index.ts" />
+    <TypeScriptCompile Include="js\App\Pages\Setup\index.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Models\Domain\Repositories\Repositories.generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="js\App\PageFactory.ts">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PageFactory.tt</DependentUpon>
-    </None>
-    <None Update="js\App\PageFactory.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PageFactory.ts</LastGenOutput>
-    </None>
   </ItemGroup>
 
 </Project>

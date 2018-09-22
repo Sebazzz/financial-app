@@ -9,7 +9,7 @@
         "noImplicitThis": true,
         "noUnusedLocals": true,
         "preserveConstEnums": true,
-        "removeComments": true,
+        "removeComments": false,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "sourceMap": true

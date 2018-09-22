@@ -1,5 +1,5 @@
 import AppContext from 'AppFramework/AppContext';
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import * as sheet from 'App/ServerApi/Sheet';
 import * as budget from 'App/ServerApi/Budget';
 import * as ko from 'knockout';
@@ -144,7 +144,6 @@ class BudgetReportPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'report/budget',
-    routingTable: [{ name: 'report.budget', path: '/budget' }, { name: 'archive.sheet.budget', path: '/budget' }],
+    template: import(/*webpackMode: "eager"*/ 'Template/report/budget.html'),
     createPage: appContext => new BudgetReportPage(appContext)
-} as IPageRegistration;
+} as PageModule;

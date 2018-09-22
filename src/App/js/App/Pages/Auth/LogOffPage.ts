@@ -1,4 +1,4 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 
@@ -32,8 +32,6 @@ class AuthLogOffPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'auth/logoff',
-    routingTable: { name: 'auth.logoff', path: '/logoff' },
-    createPage: appContext => new AuthLogOffPage(appContext),
-    bodyClassName: 'page-logoff'
-} as IPageRegistration;
+    template: import(/*webpackMode: "eager"*/ 'Template/auth/logoff.html'),
+    createPage: appContext => new AuthLogOffPage(appContext)
+} as PageModule;

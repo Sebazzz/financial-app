@@ -1,7 +1,7 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
-import * as user from '../../ServerApi/User';
-import * as userImpersonate from '../../ServerApi/UserImpersonate';
+import * as user from 'App/ServerApi/User';
+import * as userImpersonate from 'App/ServerApi/UserImpersonate';
 import * as ko from 'knockout';
 
 class ImpersonatePage extends Page {
@@ -30,8 +30,6 @@ class ImpersonatePage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'manage/impersonate',
-    routingTable: { name: 'manage.impersonate', path: '/impersonate' },
-    createPage: appContext => new ImpersonatePage(appContext),
-    bodyClassName: 'page-impersonate'
-} as IPageRegistration;
+    template: import(/*webpackMode: "eager"*/ 'Template/manage/impersonate.html'),
+    createPage: appContext => new ImpersonatePage(appContext)
+} as PageModule;

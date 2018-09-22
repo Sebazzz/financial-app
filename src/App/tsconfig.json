@@ -1,29 +1,20 @@
 {
-    "extends": "../../tsconfig.json", 
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
         "baseUrl": ".",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": [ "dom", "es5", "es2015.core", "es2015.promise", "es2015.iterable", "es2015.reflect", "scripthost" ],
+        "lib": ["dom", "es5", "es2015.core", "es2015.promise", "es2015.iterable", "es2015.reflect", "scripthost"],
         "importHelpers": true,
         "module": "esnext",
         "moduleResolution": "node",
         "paths": {
-            "AppFramework/*": [ "js/AppFramework/*" ],
-            "App/*": [ "js/App/*" ]
+            "AppFramework/*": ["js/AppFramework/*"],
+            "App/*": ["js/App/*"],
+            "Template/*": ["ko-templates/*"]
         },
         "target": "es5",
-        "typeRoots": [
-            "./wwwroot/js/typings",
-            "./wwwroot/js/AppFramework/typings",
-            "node_modules/@types"
-        ]
+        "typeRoots": ["./wwwroot/js/typings", "./wwwroot/js/AppFramework/typings", "node_modules/@types"]
     },
-    "exclude": [
-        "node_modules",
-        "wwwroot",
-        "webpack.*",
-        "karma.conf.js",
-        "js/App/ServiceWorker/**/*"
-    ]
+    "exclude": ["node_modules", "wwwroot", "webpack.*", "karma.conf.js", "js/App/ServiceWorker/**/*"]
 }

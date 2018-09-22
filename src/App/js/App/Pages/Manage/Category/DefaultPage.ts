@@ -1,6 +1,6 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
-import * as category from '../../../ServerApi/Category';
+import * as category from 'App/ServerApi/Category';
 import * as ko from 'knockout';
 import confirmAsync from 'AppFramework/Forms/Confirmation';
 
@@ -33,7 +33,6 @@ class DefaultPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'manage/category/default',
-    routingTable: { name: 'manage.category', path: '/category' },
+    template: import(/*webpackMode: "eager"*/ 'Template/manage/category/default.html'),
     createPage: appContext => new DefaultPage(appContext)
-} as IPageRegistration;
+} as PageModule;

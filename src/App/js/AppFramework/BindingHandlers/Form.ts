@@ -1,5 +1,5 @@
 import * as ko from 'knockout';
-import { Page } from '../Page';
+import { Page } from 'AppFramework/Navigation/Page';
 import { ValidateableViewModel } from '../Forms/ValidateableViewModel';
 import { IFormPage } from '../Forms/FormPage';
 
