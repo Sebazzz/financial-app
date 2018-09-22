@@ -41,7 +41,7 @@ ko.bindingHandlers.tooltip = {
                 trigger
             });
 
-            if (forceOpen) {
+            if (forceOpen && $element.is(':visible')) {
                 try {
                     $element.tooltip('show');
                 } catch (e) {
