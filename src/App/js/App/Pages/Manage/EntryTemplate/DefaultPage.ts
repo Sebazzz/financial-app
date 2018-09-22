@@ -1,7 +1,7 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
-import * as entry from '../../../ServerApi/RecurringSheetEntry';
-import { AccountType } from '../../../ServerApi/SheetEntry';
+import * as entry from 'App/ServerApi/RecurringSheetEntry';
+import { AccountType } from 'App/ServerApi/SheetEntry';
 import * as ko from 'knockout';
 import confirmAsync from 'AppFramework/Forms/Confirmation';
 
@@ -61,7 +61,6 @@ class DefaultPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'manage/entry-template/default',
-    routingTable: { name: 'manage.entry-template', path: '/entry-template' },
+    template: import(/*webpackMode: "eager"*/ 'Template/manage/entry-template/default.html'),
     createPage: appContext => new DefaultPage(appContext)
-} as IPageRegistration;
+} as PageModule;

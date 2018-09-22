@@ -1,4 +1,4 @@
-﻿import { Page, IPageRegistration } from 'AppFramework/Page';
+﻿import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import ServiceWorkerMethods from 'App/Services/ServiceWorkerMessaging';
 import { initialize as initializeServiceWorker } from 'App/Services/ServiceWorkerManager';
@@ -235,8 +235,6 @@ class ServiceWorkerController {
 
 export default {
     id: module.id,
-    templateName: 'about',
-    routingTable: { name: 'about', path: '/about' },
-    createPage: appContext => new AboutPage(appContext),
-    bodyClassName: 'page-about'
-} as IPageRegistration;
+    template: import(/*webpackMode: "eager"*/ 'Template/about.html'),
+    createPage: appContext => new AboutPage(appContext)
+} as PageModule;

@@ -1,4 +1,4 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as api from 'App/ServerApi/SheetStatistics';
 import { ChartOptions } from 'chart.js';
@@ -82,7 +82,6 @@ class ReportPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'report/general',
-    routingTable: { name: 'report.general', path: '/general' },
+    template: import(/*webpackMode: "eager"*/ 'Template/report/general.html'),
     createPage: appContext => new ReportPage(appContext)
-} as IPageRegistration;
+} as PageModule;

@@ -1,7 +1,6 @@
 import FormPage from 'AppFramework/Forms/FormPage';
-import { IPageRegistration } from 'AppFramework/Page';
+import { PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
-import NowRouteProvider from 'App/Services/NowRoute';
 
 import * as ko from 'knockout';
 import * as mapper from 'AppFramework/ServerApi/Mapper';
@@ -488,35 +487,9 @@ export class RemarksModel {
 
 export default {
     id: module.id,
-    templateName: 'archive/sheet',
-    routingTable: [
-        {
-            name: 'archive.sheet',
-            path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>'
-        },
-        {
-            name: 'sheet',
-            path: '/sheet/:year<\\d{4}>/:month<\\d{1,2}>',
-            forwardTo: 'archive.sheet'
-        },
-        {
-            name: 'now',
-            path: '/now',
-            canActivate: router => {
-                return toState => {
-                    if (toState.name !== 'now') {
-                        // Derived route - always OK
-                        return true;
-                    }
-
-                    const nowRoute = new NowRouteProvider();
-
-                    router.cancel();
-                    router.navigate('archive.sheet', nowRoute.getParams());
-                    return false;
-                };
-            }
-        }
-    ],
+    template: {
+        default: import(/*webpackMode: "eager"*/ 'Template/archive/sheet.html'),
+        mobile: import(/*webpackMode: "eager"*/ 'Template/archive/sheet.mobile.html')
+    },
     createPage: appContext => new SheetPage(appContext)
-} as IPageRegistration;
+} as PageModule;

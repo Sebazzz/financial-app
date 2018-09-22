@@ -1,7 +1,7 @@
 import AppContext from 'AppFramework/AppContext';
-import { IPageRegistration } from 'AppFramework/Page';
+import { PageModule } from 'AppFramework/Navigation/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
-import * as user from '../../../ServerApi/User';
+import * as user from 'App/ServerApi/User';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 import * as mapper from 'AppFramework/ServerApi/Mapper';
 import * as ko from 'knockout';
@@ -84,7 +84,6 @@ export class EditViewModel extends validate.ValidateableViewModel {
 
 export default {
     id: module.id,
-    templateName: 'manage/user/edit',
-    routingTable: [{ name: 'manage.user.edit', path: '/edit/:id' }, { name: 'manage.user.add', path: '/add' }],
+    template: import(/*webpackMode: "eager"*/ 'Template/manage/user/edit.html'),
     createPage: appContext => new EditPage(appContext)
-} as IPageRegistration;
+} as PageModule;

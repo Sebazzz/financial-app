@@ -1,4 +1,4 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import { IAuthenticationInfo } from 'AppFramework/ServerApi/Authentication';
@@ -145,8 +145,6 @@ class AuthLoginPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'auth/login',
-    routingTable: [{ name: 'auth', path: '/auth', forwardTo: '/auth/login' }, { name: 'auth.login', path: '/login' }],
-    createPage: appContext => new AuthLoginPage(appContext),
-    bodyClassName: 'page-login'
-} as IPageRegistration;
+    template: import(/*webpackMode: "eager"*/ 'Template/auth/login.html'),
+    createPage: appContext => new AuthLoginPage(appContext)
+} as PageModule;

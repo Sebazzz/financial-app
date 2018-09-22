@@ -1,4 +1,4 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import * as account from 'AppFramework/ServerApi/Account';
 import * as modal from 'AppFramework/Components/Modal';
@@ -283,7 +283,6 @@ export class RecoveryKeysModel {
 
 export default {
     id: module.id,
-    templateName: 'my-account',
-    routingTable: { name: 'my-account', path: '/my-account' },
+    template: import(/*webpackMode: "eager"*/ 'Template/my-account.html'),
     createPage: appContext => new MyAccountPage(appContext)
-} as IPageRegistration;
+} as PageModule;

@@ -1,6 +1,6 @@
-import { Page, IPageRegistration } from 'AppFramework/Page';
+import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
-import * as user from '../../../ServerApi/User';
+import * as user from 'App/ServerApi/User';
 import * as ko from 'knockout';
 import confirmAsync from 'AppFramework/Forms/Confirmation';
 class DefaultPage extends Page {
@@ -32,7 +32,6 @@ class DefaultPage extends Page {
 
 export default {
     id: module.id,
-    templateName: 'manage/user/default',
-    routingTable: { name: 'manage.user', path: '/user' },
+    template: import(/*webpackMode: "eager"*/ 'Template/manage/user/default.html'),
     createPage: appContext => new DefaultPage(appContext)
-} as IPageRegistration;
+} as PageModule;

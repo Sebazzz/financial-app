@@ -1,4 +1,4 @@
-import { IPageRegistration } from 'AppFramework/Page';
+import { PageModule } from 'AppFramework/Navigation/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
@@ -58,8 +58,6 @@ class AuthConfirmEmailModelPage extends FormPage {
 
 export default {
     id: module.id,
-    templateName: 'auth/confirm-email',
-    routingTable: [{ name: 'auth.confirmEmail', path: '/confirm-email' }],
-    createPage: appContext => new AuthConfirmEmailModelPage(appContext),
-    bodyClassName: 'page-login'
-} as IPageRegistration;
+    template: import(/*webpackMode: "eager"*/ 'Template/auth/confirm-email.html'),
+    createPage: appContext => new AuthConfirmEmailModelPage(appContext)
+} as PageModule;

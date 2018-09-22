@@ -1,4 +1,4 @@
-import { IPageRegistration } from 'AppFramework/Page';
+import { PageModule } from 'AppFramework/Navigation/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
@@ -79,8 +79,6 @@ class AuthResetPasswordPage extends FormPage {
 
 export default {
     id: module.id,
-    templateName: 'auth/reset-password',
-    routingTable: [{ name: 'auth.resetPassword', path: '/reset-password' }],
-    createPage: appContext => new AuthResetPasswordPage(appContext),
-    bodyClassName: 'page-login'
-} as IPageRegistration;
+    template: import(/*webpackMode: "eager"*/ 'Template/auth/reset-password.html'),
+    createPage: appContext => new AuthResetPasswordPage(appContext)
+} as PageModule;

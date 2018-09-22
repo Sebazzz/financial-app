@@ -1,4 +1,4 @@
-import { IPageRegistration } from 'AppFramework/Page';
+import { PageModule } from 'AppFramework/Navigation/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
 import * as api from '../../ServerApi/Setup';
 import AppContext from 'AppFramework/AppContext';
@@ -171,7 +171,6 @@ class DatabaseInitialUserStepHandler extends SetupStepHandler {
 
 export default {
     id: module.id,
-    templateName: 'setup/default',
-    routingTable: { name: 'setup', path: '/setup' },
+    template: import(/*webpackMode: "eager"*/ 'Template/setup/default.html'),
     createPage: appContext => new DefaultPage(appContext)
-} as IPageRegistration;
+} as PageModule;

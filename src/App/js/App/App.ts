@@ -2,7 +2,7 @@ import 'bootstrap/js/dist/alert';
 import 'bootstrap/js/dist/util';
 
 import * as af from 'AppFramework/AppFactory';
-import pageFactory from './PageFactory';
+import installPages from './Navigation';
 import * as topMenu from './Components/TopMenu';
 import * as loader from './Components/Loader';
 import './Components/ScrollNub';
@@ -17,13 +17,7 @@ export class App extends af.App {
     }
 
     public initRouter() {
-        pageFactory.installPages(this);
-
-        if (module.hot) {
-            module.hot.accept('./PageFactory', () => {
-                pageFactory.replacePages(this);
-            });
-        }
+        installPages(this);
     }
 
     public bind(): void {

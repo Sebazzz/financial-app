@@ -1,4 +1,4 @@
-import { Router } from 'AppFramework/Router';
+import { Router } from 'AppFramework/Navigation/Router';
 
 export default class NowRouteProvider {
     public getParams() {

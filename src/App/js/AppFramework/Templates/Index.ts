@@ -7,6 +7,7 @@ function installTemplate(id: string, contents: string) {
     template.type = 'text/html';
     template.id = id;
     template.innerHTML = contents;
+
     document.body.appendChild(template);
 }
 

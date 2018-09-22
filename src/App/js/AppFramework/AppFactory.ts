@@ -1,6 +1,7 @@
 import AppContext from './AppContext';
-import { registerPageLoader, IPageRegistration } from './Page';
-import { Router } from './Router';
+import { IPageRegistration } from 'AppFramework/Navigation/Page';
+import registerPageLoader from 'AppFramework/Navigation/PageLoader';
+import { Router } from 'AppFramework/Navigation/Router';
 import * as $ from 'jquery';
 import * as ko from 'knockout';
 import 'json.date-extensions';
@@ -10,7 +11,6 @@ import registerLoadingBar from './Components/LoadingBar';
 import registerModal from './Components/Modal';
 import registerPopover from './Components/Popover';
 import registerBindingProvider from './UnnamedBindingProvider';
-import hotModuleReplacementPage from './HotModulePage';
 import installDefaultTemplates from './Templates/Index';
 import { trackBindingFrameworkException } from './Services/Telemetry';
 import isMobile from './Client/BrowserDetector';
@@ -52,7 +52,7 @@ export class App implements IPageRepository {
 
             if (uniquePageIds.indexOf(page.id) !== -1) {
                 console.error(
-                    'Page with id %s already exists in the loaded pages. App behaviour will be undefined.',
+                    'Page with id %s already exists in the loaded pages. Ensure that all page ids are unique. App behaviour will be undefined.',
                     page.id
                 );
             }
@@ -121,7 +121,6 @@ function initRouter(app: App) {
     app.context.router.useMiddleware(app.context.authentication.middleware);
 
     app.initRouter();
-    app.addPages([hotModuleReplacementPage]);
 
     for (const page of app.pages) {
         app.router.add(page.routingTable);

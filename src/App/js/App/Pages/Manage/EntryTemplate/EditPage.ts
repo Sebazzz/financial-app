@@ -1,12 +1,12 @@
 import AppContext from 'AppFramework/AppContext';
-import { IPageRegistration } from 'AppFramework/Page';
+import { PageModule } from 'AppFramework/Navigation/Page';
 import FormPage from 'AppFramework/Forms/FormPage';
-import * as category from '../../../ServerApi/Category';
-import * as entry from '../../../ServerApi/RecurringSheetEntry';
+import * as category from 'App/ServerApi/Category';
+import * as entry from 'App/ServerApi/RecurringSheetEntry';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 import * as mapper from 'AppFramework/ServerApi/Mapper';
 import * as ko from 'knockout';
-import { AccountType } from '../../../ServerApi/SheetEntry';
+import { AccountType } from 'App/ServerApi/SheetEntry';
 
 class EditPage extends FormPage {
     private categoryApi = new category.Api();
@@ -103,10 +103,6 @@ export class EditViewModel extends validate.ValidateableViewModel {
 
 export default {
     id: module.id,
-    templateName: 'manage/entry-template/edit',
-    routingTable: [
-        { name: 'manage.entry-template.edit', path: '/edit/:id' },
-        { name: 'manage.entry-template.add', path: '/add' }
-    ],
+    template: import(/*webpackMode: "eager"*/ 'Template/manage/entry-template/edit.html'),
     createPage: appContext => new EditPage(appContext)
-} as IPageRegistration;
+} as PageModule;
