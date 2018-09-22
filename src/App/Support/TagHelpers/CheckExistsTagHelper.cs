@@ -11,7 +11,7 @@ namespace App.Support.TagHelpers
         private readonly IHostingEnvironment _hostingEnvironment;
 
         public CheckExistsTagHelper(IHostingEnvironment hostingEnvironment) {
-            _hostingEnvironment = hostingEnvironment;
+            this._hostingEnvironment = hostingEnvironment;
         }
 
         [HtmlAttributeName(CheckExistsAttribute)]
@@ -24,7 +24,7 @@ namespace App.Support.TagHelpers
                 return;
             }
 
-            string relativeSrc = MakeContentRelativePath(GetUrl(context));
+            string relativeSrc = this.MakeContentRelativePath(this.GetUrl(context));
             bool exists = this._hostingEnvironment.WebRootFileProvider.GetFileInfo(relativeSrc).Exists;
 
             if (!exists)

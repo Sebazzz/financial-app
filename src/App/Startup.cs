@@ -166,6 +166,9 @@ namespace App {
             services.AddSingleton<IMapper>(AutoMapperEngineFactory.Create);
             services.AddSingleton<IAppVersionService, AppVersionService>();
 
+            services.AddSingleton<IBuildAssetVersionCache, BuildAssetVersionCache>();
+
+            // ... Setup
             services.AddScoped<SetupService>();
             services.AddScoped<SetupStepFactory>();
             services.AddScoped<RequestAppSetupState>();
@@ -249,6 +252,8 @@ namespace App {
                     ctx.Request.Path = "/build/sw.js";
                     return next();
                 }));
+
+            app.AddWildcardPatternRewrite("/build");
 
             app.UseStaticFiles(new StaticFileOptions {
                 ContentTypeProvider = new FileExtensionContentTypeProvider {
