@@ -4,7 +4,8 @@ import {
     PageRegistration,
     PageModule,
     PageTemplateReference,
-    IPageTemplates
+    IPageTemplates,
+    IPageRegistration
 } from 'AppFramework/Navigation/Page';
 import { State } from 'router5';
 import isMobile from 'AppFramework/Client/BrowserDetector';
@@ -12,9 +13,19 @@ import isMobile from 'AppFramework/Client/BrowserDetector';
 const defaultTemplateName = 'page-loader',
     errorTemplateName = 'page-error';
 
-type Module<T> = { default: T };
+interface IModule<T> {
+    /**
+     * Default export of module
+     */
+    default: T;
+}
 
-function unwrapModule<T>(input: Module<T>): T {
+/**
+ * Helper class to unwrap module export
+ *
+ * @param input Module export object
+ */
+function unwrapModule<T>(input: IModule<T>): T {
     return input.default;
 }
 
@@ -57,19 +68,88 @@ class PageTemplateManager {
             return templateId;
         }
 
-        console.log('TemplateManager: Loading template of page %s as %s', page.id, templateId);
-
-        const domElement = document.createElement('script') as HTMLScriptElement;
-        domElement.type = 'text/html';
-        domElement.id = templateId;
-        domElement.innerHTML = unwrapModule<string>(await templateReference);
-
-        document.body.appendChild(domElement);
-        this.loadedTemplates[templateId] = true;
-
-        console.log('TemplateManager: Loaded template of page %s as %s', page.id, templateId);
+        this.loadTemplateToDom(page.id, templateId, await templateReference);
 
         return templateId;
+    }
+
+    /**
+     * Reloads templates, returns a value whether the replacement has actually different templates
+     *
+     * @param currentPageModule
+     * @param replacementPageModule
+     */
+    public async reloadTemplate(
+        currentPageModule: PageModule,
+        replacementPageModule: PageModule
+    ): Promise<{ templateId: string; hasChanged: boolean }> {
+        const currentTemplates = PageTemplateManager.getPageModule(currentPageModule),
+            replacementTemplates = PageTemplateManager.getPageModule(replacementPageModule),
+            currentTemplateReference = PageTemplateManager.selectTemplate(currentTemplates),
+            replacementTemplateReference = PageTemplateManager.selectTemplate(replacementTemplates);
+
+        if (typeof replacementTemplateReference === 'string') {
+            // Magic reference reload not supported
+            return { templateId: replacementTemplateReference, hasChanged: false };
+        }
+
+        if (typeof currentTemplateReference === 'string') {
+            // Magic reference reload not supported
+            return { templateId: currentTemplateReference, hasChanged: false };
+        }
+
+        // Get the ids, these should yield the same, but if they don't this means isMobile() is returning a different value
+        const currentTemplateId = PageTemplateManager.templateId(
+                currentPageModule.id,
+                !!currentTemplates.mobile /*hasMobileTemplate*/
+            ),
+            replacementTemplateId = PageTemplateManager.templateId(
+                replacementPageModule.id,
+                !!replacementTemplates.mobile /*hasMobileTemplate*/
+            );
+
+        if (currentTemplateId !== replacementTemplateId) {
+            this.loadTemplateToDom(replacementPageModule.id, replacementTemplateId, await replacementTemplateReference);
+
+            // Still, force reload of page since we don't know what else might have changed
+            return { templateId: replacementTemplateId, hasChanged: false };
+        }
+
+        // Load the templates, compare the strings
+        const [currentTemplate, replacementTemplate] = await Promise.all([
+            currentTemplateReference,
+            replacementTemplateReference
+        ]);
+
+        if (unwrapModule(currentTemplate) !== unwrapModule(replacementTemplate)) {
+            // The strings have not changed
+            return { templateId: replacementTemplateId, hasChanged: false };
+        }
+
+        // Strings have changed, so reload it
+        this.loadTemplateToDom(replacementPageModule.id, replacementTemplateId, replacementTemplate);
+
+        return { templateId: replacementTemplateId, hasChanged: true };
+    }
+
+    private loadTemplateToDom(pageId: string, templateId: string, templateReference: HtmlModule) {
+        console.log('TemplateManager: Loading template of page %s as %s', pageId, templateId);
+
+        const domElement =
+            (document.getElementById(templateId) as HTMLScriptElement) ||
+            (document.createElement('script') as HTMLScriptElement);
+        domElement.type = 'text/html';
+        domElement.id = templateId;
+        domElement.innerHTML = unwrapModule<string>(templateReference);
+
+        // Check if we need to attach to DOM
+        if (!domElement.parentElement) {
+            document.body.appendChild(domElement);
+        }
+
+        this.loadedTemplates[templateId] = true;
+
+        console.log('TemplateManager: Loaded template of page %s as %s', pageId, templateId);
     }
 
     private static selectTemplate(templates: IPageTemplates): PageTemplateReference {
@@ -84,6 +164,9 @@ class PageTemplateManager {
             .replace('.', '')}`;
     }
 }
+
+// TODO: Is there a better way instead of keeping a global?
+let pageComponentInstance: PageComponentModel | null = null;
 
 // tslint:disable-next-line:max-classes-per-file
 class PageComponentModel {
@@ -126,6 +209,8 @@ class PageComponentModel {
 
             oldClassName = newClassName;
         });
+
+        pageComponentInstance = this;
     }
 
     public async handleRouteChange(toState: State, fromState?: State): Promise<boolean> {
@@ -158,7 +243,10 @@ class PageComponentModel {
             const pageModule = unwrapModule(await pageRegistration.loadAsync()),
                 page = pageModule.createPage(this.appContext);
 
-            const [templateId] = await Promise.all([this.loadTemplate(pageModule), page.activate(toState.params)]);
+            const [templateId] = await Promise.all([
+                this.templateManager.loadTemplate(pageModule),
+                page.activate(toState.params)
+            ]);
 
             this.page(page);
             this.templateName(templateId);
@@ -185,51 +273,81 @@ class PageComponentModel {
         return true;
     }
 
-    private loadTemplate(page: PageModule): Promise<string> {
-        // The handler below will be called if the current template is available for hot reloading.
-        // We hack the knockout error async error mechanism so that errors are immediately returned,
-        // and we show an error page if the template cannot be applied.
-        //
-        // In the happy path, the template is immediately applied to the model so we allow a very efficient
-        // developer experience where templates can immediately be applied.
-        const hotReload = (templateId: string) => {
-            const currentTemplate = this.templateName.peek();
-            if (templateId !== currentTemplate && currentTemplate !== errorTemplateName) {
-                return;
+    public async tryReloadTemplate(
+        currentPageRegistration: IPageRegistration,
+        replacementPageRegistration: IPageRegistration
+    ): Promise<boolean> {
+        try {
+            const [currentPageModule, replacementPageModule] = await Promise.all([
+                currentPageRegistration.loadAsync().then(x => unwrapModule(x)),
+                replacementPageRegistration.loadAsync().then(x => unwrapModule(x))
+            ]);
+
+            const { templateId, hasChanged } = await this.templateManager.reloadTemplate(
+                currentPageModule,
+                replacementPageModule
+            );
+
+            if (!hasChanged) {
+                console.debug('Page %s did not have a changed template', currentPageRegistration.id);
+                return false;
             }
 
-            console.group('Reloading template... ' + templateId);
+            console.debug('Page %s does have a changed template', currentPageRegistration.id);
+            this.hotReloadRunningTemplate(templateId);
+            return true;
+        } catch (e) {
+            console.error('Error reloading templates, returning false.');
+            console.error(e);
 
-            const koUtils = ko.utils as any,
-                currentErrorHandler = koUtils.deferError;
+            return false;
+        }
+    }
 
-            koUtils.deferError = (e: Error) => {
-                console.error('HMR: Unable to apply updated template');
-                console.error(e);
+    /**
+     * The handler below will be called if the current template is available for hot reloading.
+     * We hack the knockout error async error mechanism so that errors are immediately returned,
+     * and we show an error page if the template cannot be applied.
+     *
+     * In the happy path, the template is immediately applied to the model so we allow a very efficient
+     * developer experience where templates can immediately be applied.
+     *
+     * @param templateId The template id to reload
+     */
+    private hotReloadRunningTemplate(templateId: string) {
+        const currentTemplate = this.templateName.peek();
+        if (templateId !== currentTemplate && currentTemplate !== errorTemplateName) {
+            return;
+        }
 
-                this.templateName(errorTemplateName);
-            };
+        console.group('Reloading template... ' + templateId);
 
-            try {
-                this.templateName(templateId);
+        const koUtils = ko.utils as any,
+            currentErrorHandler = koUtils.deferError;
 
-                // Ensure multi-layered templates are applied immediately
-                ko.tasks.runEarly();
-                ko.tasks.runEarly();
-                ko.tasks.runEarly();
-            } catch (e) {
-                console.error('HMR: Unable to apply updated template');
-                console.error(e);
+        koUtils.deferError = (e: Error) => {
+            console.error('HMR: Unable to apply updated template');
+            console.error(e);
 
-                this.templateName(errorTemplateName);
-            } finally {
-                koUtils.deferError = currentErrorHandler;
-                console.groupEnd();
-            }
+            this.templateName(errorTemplateName);
         };
-        console.log(hotReload.name);
 
-        return this.templateManager.loadTemplate(page);
+        try {
+            this.templateName(templateId);
+
+            // Ensure multi-layered templates are applied immediately
+            ko.tasks.runEarly();
+            ko.tasks.runEarly();
+            ko.tasks.runEarly();
+        } catch (e) {
+            console.error('HMR: Unable to apply updated template');
+            console.error(e);
+
+            this.templateName(errorTemplateName);
+        } finally {
+            koUtils.deferError = currentErrorHandler;
+            console.groupEnd();
+        }
     }
 
     private findPage(routeName: string): PageRegistration {
@@ -264,4 +382,22 @@ class PageComponent implements KnockoutComponentTypes.ComponentConfig {
 
 export default function registerPageLoader(appContext: AppContext) {
     ko.components.register('page-container', new PageComponent(appContext));
+}
+
+/**
+ * Reloads the template of the current page. Returns true in the case the template was found to be changed, returns false in the case
+ * of either failure or when the template was not changed between versions.
+ *
+ * @param currentPageRegistration The current page registration
+ * @param replacementPageRegistration The new page registration
+ */
+export function tryReloadTemplate(
+    currentPageRegistration: PageRegistration,
+    replacementPageRegistration: IPageRegistration
+): Promise<boolean> {
+    if (pageComponentInstance === null) {
+        throw new Error('Application not initialized');
+    }
+
+    return pageComponentInstance.tryReloadTemplate(currentPageRegistration, replacementPageRegistration);
 }
