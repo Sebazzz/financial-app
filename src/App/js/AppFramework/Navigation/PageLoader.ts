@@ -401,7 +401,7 @@ export default function registerPageLoader(appContext: AppContext) {
 
 /**
  * Reloads the template of the current page. Returns true in the case the template was found to be changed, returns false in the case
- * of either failure or when the template was not changed between versions.
+ * of either failure or when the template was not changed between versions. This means a page reload is required in that case.
  *
  * @param currentPageRegistration The current page registration
  * @param replacementPageRegistration The new page registration
