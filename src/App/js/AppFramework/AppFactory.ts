@@ -1,6 +1,6 @@
 import AppContext from './AppContext';
 import { IPageRegistration } from 'AppFramework/Navigation/Page';
-import registerPageLoader from 'AppFramework/Navigation/PageLoader';
+import { default as registerPageLoader, tryReloadTemplate } from 'AppFramework/Navigation/PageLoader';
 import { Router } from 'AppFramework/Navigation/Router';
 import * as $ from 'jquery';
 import * as ko from 'knockout';
@@ -61,8 +61,8 @@ export class App implements IPageRepository {
         }
     }
 
-    public replacePage(replacement: IPageRegistration): void {
-        console.info('App HMR support: Replacing page %s', replacement.id);
+    public async replacePage(replacement: IPageRegistration): Promise<void> {
+        console.info('App HMR support: Replacing page %s (async)', replacement.id);
 
         // Find matching page
         for (let index = 0; index < this.pages.length; index++) {
@@ -72,6 +72,7 @@ export class App implements IPageRepository {
                 continue;
             }
 
+            // TODO: this is unlikely to be true?
             if (page === replacement) {
                 return;
             }
@@ -81,6 +82,13 @@ export class App implements IPageRepository {
                     'Routing table for page %s has changed: This is not supported. Reload the application to allow routing changes to apply.',
                     replacement.id
                 );
+                return;
+            }
+
+            // Replace the template, if we have found that the template has changed, we assume the page class
+            // itself has not changed and don't do further reloading. It is not guaranteed of course, but usually
+            // the compilation time is faster than a developer can change both template and page module class.
+            if (await tryReloadTemplate(page, replacement)) {
                 return;
             }
 

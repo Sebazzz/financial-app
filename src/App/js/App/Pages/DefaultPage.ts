@@ -11,7 +11,7 @@ class DefaultPage extends Page {
         this.title('Welkom');
     }
 
-    protected onActivate(args?: any): Promise<void> {
+    protected onActivate(): Promise<void> {
         return Promise.resolve();
     }
 }
