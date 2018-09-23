@@ -80,12 +80,10 @@ class PageTemplateManager {
      * @param replacementPageModule
      */
     public async reloadTemplate(
-        currentPageModule: PageModule,
+        currentPageModuleId: string,
         replacementPageModule: PageModule
     ): Promise<{ templateId: string; hasChanged: boolean }> {
-        const currentTemplates = PageTemplateManager.getPageModule(currentPageModule),
-            replacementTemplates = PageTemplateManager.getPageModule(replacementPageModule),
-            currentTemplateReference = PageTemplateManager.selectTemplate(currentTemplates),
+        const replacementTemplates = PageTemplateManager.getPageModule(replacementPageModule),
             replacementTemplateReference = PageTemplateManager.selectTemplate(replacementTemplates);
 
         if (typeof replacementTemplateReference === 'string') {
@@ -93,15 +91,10 @@ class PageTemplateManager {
             return { templateId: replacementTemplateReference, hasChanged: false };
         }
 
-        if (typeof currentTemplateReference === 'string') {
-            // Magic reference reload not supported
-            return { templateId: currentTemplateReference, hasChanged: false };
-        }
-
         // Get the ids, these should yield the same, but if they don't this means isMobile() is returning a different value
         const currentTemplateId = PageTemplateManager.templateId(
-                currentPageModule.id,
-                !!currentTemplates.mobile /*hasMobileTemplate*/
+                currentPageModuleId,
+                !!replacementTemplates.mobile /*hasMobileTemplate*/
             ),
             replacementTemplateId = PageTemplateManager.templateId(
                 replacementPageModule.id,
@@ -116,12 +109,18 @@ class PageTemplateManager {
         }
 
         // Load the templates, compare the strings
-        const [currentTemplate, replacementTemplate] = await Promise.all([
-            currentTemplateReference,
-            replacementTemplateReference
-        ]);
+        const replacementTemplate = await replacementTemplateReference,
+            currentTemplateElement = document.getElementById(currentTemplateId);
 
-        if (unwrapModule(currentTemplate) !== unwrapModule(replacementTemplate)) {
+        if (!currentTemplateElement) {
+            // This shouldn't happen. We did load the template but the DOM element does not exist?
+            // Return failure, and the regular path should fix this mess.
+            return { templateId: replacementTemplateId, hasChanged: false };
+        }
+
+        // Compare the strings to check if the template HTML has changed. We are comparing the "innerHTML",
+        // so not sure what the cross-browser behavior is here, but for the browsers I develop in this works fine.
+        if (currentTemplateElement.innerHTML === unwrapModule(replacementTemplate)) {
             // The strings have not changed
             return { templateId: replacementTemplateId, hasChanged: false };
         }
@@ -171,6 +170,10 @@ let pageComponentInstance: PageComponentModel | null = null;
 // tslint:disable-next-line:max-classes-per-file
 class PageComponentModel {
     private templateManager: PageTemplateManager;
+
+    private pageRegistrationToPageIdMap: {
+        [pageRegistrationId: string]: string | null | undefined;
+    } = {};
 
     public templateName = ko.observable<string>(defaultTemplateName).extend({ notify: 'always' });
     public page = ko.observable<Page | null>(null);
@@ -243,6 +246,8 @@ class PageComponentModel {
             const pageModule = unwrapModule(await pageRegistration.loadAsync()),
                 page = pageModule.createPage(this.appContext);
 
+            this.pageRegistrationToPageIdMap[pageRegistration.id] = pageModule.id;
+
             const [templateId] = await Promise.all([
                 this.templateManager.loadTemplate(pageModule),
                 page.activate(toState.params)
@@ -278,22 +283,32 @@ class PageComponentModel {
         replacementPageRegistration: IPageRegistration
     ): Promise<boolean> {
         try {
-            const [currentPageModule, replacementPageModule] = await Promise.all([
-                currentPageRegistration.loadAsync().then(x => unwrapModule(x)),
-                replacementPageRegistration.loadAsync().then(x => unwrapModule(x))
-            ]);
+            const currentPageModuleId = this.pageRegistrationToPageIdMap[currentPageRegistration.id];
+            if (!currentPageModuleId) {
+                // We have never loaded this page, we cannot reload the templates. Good optimization.
+                console.debug('Page %s was not loaded yet. Skipping template reload.', currentPageRegistration.id);
+                return false;
+            }
+
+            const replacementPageModule = unwrapModule(await replacementPageRegistration.loadAsync());
 
             const { templateId, hasChanged } = await this.templateManager.reloadTemplate(
-                currentPageModule,
+                currentPageModuleId,
                 replacementPageModule
             );
 
             if (!hasChanged) {
-                console.debug('Page %s did not have a changed template', currentPageRegistration.id);
+                console.debug(
+                    'Page %s did not have a changed template. Skipping template reload.',
+                    currentPageRegistration.id
+                );
                 return false;
             }
 
-            console.debug('Page %s does have a changed template', currentPageRegistration.id);
+            console.debug(
+                'Page %s does have a changed template. Template has been reloaded.',
+                currentPageRegistration.id
+            );
             this.hotReloadRunningTemplate(templateId);
             return true;
         } catch (e) {
