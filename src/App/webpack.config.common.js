@@ -38,8 +38,6 @@ const globalsProvider = new webpack.ProvidePlugin({
 // Explicitly define libraries to extract to common pending webpack#6666
 const libraries = [
     'jquery',
-    'kendo-ui-core/js/kendo.core',
-    'kendo-ui-core/js/cultures/kendo.culture.nl-NL',
     'router5',
     'router5/plugins/browser',
     'router5-transition-path',
