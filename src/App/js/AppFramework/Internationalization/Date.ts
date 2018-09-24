@@ -31,7 +31,7 @@ export function getDateFormat() {
     return dateFormat;
 }
 
-export function settDateFormat(culture: Culture) {
+export function setDateFormat(culture: Culture) {
     createFormatters(culture);
     dateFormat = culture;
 }
