@@ -2,6 +2,12 @@ import * as Cleave from 'cleave.js';
 import * as ko from 'knockout';
 import * as $ from 'jquery';
 import { App } from 'AppFramework/AppFactory';
+import {
+    getNumberFormat as getCurrentNumberFormat,
+    currencyFormats,
+    currencyFormat,
+    Parse as NumberParse
+} from 'AppFramework/Internationalization/Number';
 
 ko.bindingHandlers.cleave = {
     init(
@@ -69,15 +75,16 @@ ko.bindingHandlers.cleaveNumber = ko.bindingHandlers.cleaveCurrency = {
             throw new Error('Unable to find application view model');
         }
 
-        const cultureInfo = kendo.culture();
+        const cultureInfo = getCurrentNumberFormat(),
+            currentCurrencyFormat = currencyFormats[currencyFormat];
 
         const isCurrency = !!allBindingsAccessor.get('cleaveCurrency'),
             cleaveOptions = {
                 numeral: true,
                 numeralDecimalScale: allBindingsAccessor.get('cleaveNumberScale') || 2,
-                prefix: isCurrency ? cultureInfo.numberFormat.currency.symbol + ' ' : undefined,
-                numeralDecimalMark: (cultureInfo.numberFormat as any)['.'],
-                delimiter: (cultureInfo.numberFormat as any)[',']
+                prefix: isCurrency ? currentCurrencyFormat.symbol() + ' ' : undefined,
+                numeralDecimalMark: cultureInfo.decimalSeperator,
+                delimiter: cultureInfo.thousandSeperator
             },
             cleave = new Cleave(element, cleaveOptions);
 
@@ -107,7 +114,7 @@ ko.bindingHandlers.cleaveNumber = ko.bindingHandlers.cleaveCurrency = {
                     rawValue = null;
                 } else {
                     rawValue = rawValue.substr(cleaveOptions.prefix ? cleaveOptions.prefix.length : 0);
-                    rawValue = kendo.parseFloat(rawValue, cultureInfo.name);
+                    rawValue = NumberParse.float(rawValue);
                     console.assert(!isNaN(rawValue), 'Error parsing value');
                 }
 
