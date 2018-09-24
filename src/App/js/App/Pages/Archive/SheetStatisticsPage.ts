@@ -1,6 +1,8 @@
 import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import { ChartOptions } from 'chart.js';
+import { Format as DateFormat } from 'AppFramework/Internationalization/Date';
+import { Format as NumberFormat } from 'AppFramework/Internationalization/Number';
 
 import * as ko from 'knockout';
 
@@ -29,7 +31,7 @@ class SheetStatisticsPage extends Page {
                         return '';
                     }
 
-                    return `${dataSet.label}: ${kendo.toString(+(dataSet.data[value.index || 0] || 0), 'c')}`;
+                    return `${dataSet.label}: ${NumberFormat.currency(+(dataSet.data[value.index || 0] || 0))}`;
                 }
             }
         }
@@ -111,7 +113,7 @@ class SheetStatisticsPage extends Page {
         }
 
         this.date(date);
-        this.title(`Statistieken financiën ${kendo.toString(date, 'MMMM yyyy')}`);
+        this.title(`Statistieken financiën ${DateFormat.monthYear(date)}`);
 
         this.api.setContext(year, month);
 
