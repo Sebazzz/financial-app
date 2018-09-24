@@ -34,18 +34,18 @@ export const currencyFormat: CurrencyFormatIdentifier = defaultCurrencyFormat;
 export const defaultNumberFormatKey: Culture = Culture.Dutch;
 export const numberFormats: { [lang: string]: INumberFormat } = {
     'en-US': {
-        decimalSeperator: ',',
-        thousandSeperator: '.',
+        decimalSeperator: '.',
+        thousandSeperator: ',',
         identifier: Culture.USEnglish
     },
     'en-GB': {
-        decimalSeperator: ',',
-        thousandSeperator: '.',
+        decimalSeperator: '.',
+        thousandSeperator: ',',
         identifier: Culture.GBEnglish
     },
     nl: {
-        decimalSeperator: '.',
-        thousandSeperator: ',',
+        decimalSeperator: ',',
+        thousandSeperator: '.',
         identifier: Culture.Dutch
     }
 };
@@ -64,9 +64,9 @@ export function setNumberFormat(culture: Culture) {
 
     currentNumberFormat = newNumberFormat;
     numberFormatters = {
-        currency: new Intl.NumberFormat(culture, { style: 'decimal' }),
-        decimal: new Intl.NumberFormat(culture, { style: 'currency', currency: currencyFormat }),
-        percent: new Intl.NumberFormat(culture, { style: 'percent' })
+        decimal: new Intl.NumberFormat(culture, { style: 'decimal', useGrouping: true, maximumFractionDigits: 10 }),
+        currency: new Intl.NumberFormat(culture, { style: 'currency', currency: currencyFormat, useGrouping: true }),
+        percent: new Intl.NumberFormat(culture, { style: 'percent', useGrouping: true, maximumFractionDigits: 10 })
     };
 }
 
@@ -96,7 +96,7 @@ function getNumberFormatter(type: NumberFormatType) {
 function formatNumberCore(input: number, formatter: Intl.NumberFormat, numberOfDecimals?: number) {
     let currentFormatter = formatter;
 
-    if (numberOfDecimals) {
+    if (typeof numberOfDecimals === 'number') {
         const formatterOptions = formatter.resolvedOptions();
         formatterOptions.maximumFractionDigits = numberOfDecimals;
         formatterOptions.minimumFractionDigits = numberOfDecimals;
@@ -136,7 +136,8 @@ export class Parse {
         }
 
         const transformedInput = input
-            .replace(currentNumberFormat.thousandSeperator, ' ')
+            .split(currentNumberFormat.thousandSeperator)
+            .join('')
             .replace(currentNumberFormat.decimalSeperator, '.')
             .replace('\u00A0', ' ')
             .replace('$', ' ')

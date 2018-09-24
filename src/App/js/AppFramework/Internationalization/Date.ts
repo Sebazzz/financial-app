@@ -17,7 +17,7 @@ function createFormatters(culture: Culture) {
         MMMM: new Intl.DateTimeFormat(culture, { month: 'long' }),
         F: new Intl.DateTimeFormat(culture, {
             // dddd, MMMM dd, yyyy h:mm:ss tt
-            day: 'full',
+            day: 'numeric',
             month: 'long',
             year: 'numeric',
             hour: 'numeric',
