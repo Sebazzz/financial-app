@@ -2,6 +2,7 @@ import FormPage from 'AppFramework/Forms/FormPage';
 import { PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
 import { AccountType } from 'App/ServerApi/SheetEntry';
+import { Format as DateFormat } from 'AppFramework/Internationalization/Date';
 
 import * as ko from 'knockout';
 import * as mapper from 'AppFramework/ServerApi/Mapper';
@@ -66,7 +67,7 @@ class EditPage extends FormPage {
             .getSourceAutocompletionData(year, month)
             .then(data => this.sourceAutocompletionData(data), err => console.error(err));
 
-        const baseTitle = `Financiën ${kendo.toString(date, 'MMMM yyyy')}`;
+        const baseTitle = `Financiën ${DateFormat.monthYear(date)}`;
 
         const loadCategories = this.categoryApi.list(),
             loadTags = this.tagApi.list();

@@ -1,4 +1,6 @@
 import { Page, PageModule } from 'AppFramework/Navigation/Page';
+import { Format as NumberFormat } from 'AppFramework/Internationalization/Number';
+
 import AppContext from 'AppFramework/AppContext';
 import * as api from 'App/ServerApi/SheetStatistics';
 import { ChartOptions } from 'chart.js';
@@ -25,7 +27,7 @@ class ReportPage extends Page {
                         return '';
                     }
 
-                    return `${dataSet.label}: ${kendo.toString(+(value.yLabel || 0), 'c')}`;
+                    return `${dataSet.label}: ${NumberFormat.currency(+(value.yLabel || 0))}`;
                 }
             }
         },

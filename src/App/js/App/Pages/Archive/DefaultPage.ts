@@ -1,7 +1,9 @@
 import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
+import { Format as DateFormat } from 'AppFramework/Internationalization/Date';
 import * as sheet from 'App/ServerApi/Sheet';
 import * as ko from 'knockout';
+
 class DefaultPage extends Page {
     private api = new sheet.Api();
 
@@ -18,7 +20,7 @@ class DefaultPage extends Page {
     }
 
     public displayName(sheet: sheet.ISheetListing) {
-        const dateString = kendo.toString(new Date(sheet.year, sheet.month - 1 /* Yeah, JS dates */), 'MMMM yyyy');
+        const dateString = DateFormat.monthYear(new Date(sheet.year, sheet.month - 1 /* Yeah, JS dates */));
         const nameSuffix = sheet.name ? ` (${sheet.name})` : '';
 
         return dateString + nameSuffix;

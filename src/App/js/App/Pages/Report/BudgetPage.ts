@@ -1,5 +1,7 @@
 import AppContext from 'AppFramework/AppContext';
 import { Page, PageModule } from 'AppFramework/Navigation/Page';
+import { Format as DateFormat } from 'AppFramework/Internationalization/Date';
+
 import * as sheet from 'App/ServerApi/Sheet';
 import * as budget from 'App/ServerApi/Budget';
 import * as ko from 'knockout';
@@ -103,7 +105,7 @@ class BudgetReportPage extends Page {
                 );
             }
 
-            this.title(`Rapportage - begroting - ${kendo.toString(date, 'MMMM yyyy')}`);
+            this.title(`Rapportage - begroting - ${DateFormat.monthYear(date)}`);
             await this.loadBudget(year, month);
         } else {
             this.sheets(await this.sheetApi.list());
@@ -131,7 +133,7 @@ class BudgetReportPage extends Page {
     }
 
     public displayName(sheet: sheet.ISheetListing) {
-        const dateString = kendo.toString(new Date(sheet.year, sheet.month), 'MMMM yyyy');
+        const dateString = DateFormat.monthYear(new Date(sheet.year, sheet.month));
         const nameSuffix = sheet.name ? ` (${sheet.name})` : '';
 
         return dateString + nameSuffix;
