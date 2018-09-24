@@ -15,9 +15,7 @@ import installDefaultTemplates from './Templates/Index';
 import { trackBindingFrameworkException } from './Services/Telemetry';
 import isMobile from './Client/BrowserDetector';
 import registerAuthenticationInterceptor from './Services/AuthenticationInterceptor';
-
-import 'kendo-ui-core/js/kendo.core';
-import 'kendo-ui-core/js/cultures/kendo.culture.nl-NL';
+import * as i18n from 'AppFramework/Internationalization';
 
 export interface IPageRepository {
     addPages(pages: IPageRegistration[]): void;
@@ -168,7 +166,10 @@ function registerGlobals() {
 }
 
 function setCultureInformation(app: App) {
-    kendo.culture(app.context.culture);
+    const culture = app.context.culture as i18n.Culture;
+
+    i18n.setNumberFormat(culture);
+    i18n.setDateFormat(culture);
 }
 
 /**
