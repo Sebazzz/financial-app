@@ -67,7 +67,8 @@
         "reflect-metadata": "0.1.12",
         "router5": "6.5.0",
         "serviceworker-webpack-plugin": "1.0.1",
-        "tslib": "1.9.3"
+        "tslib": "1.9.3",
+        "webpack-visualizer-plugin": "^0.1.11"
     },
     "resolutions": {
         "jquery": "3.3.1"

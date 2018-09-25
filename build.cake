@@ -214,6 +214,10 @@ Task("Generate-Webpack-Statistics")
 	.IsDependentOn("Restore-Node-Packages")
 	.IsDependentOn("Set-NodeEnvironment")
 	.Does(() => {
+		Information("Setting WEBPACK_ENABLE_VISUALIZER to {0}", "true");
+		
+		System.Environment.SetEnvironmentVariable("WEBPACK_ENABLE_VISUALIZER", "true");
+		
 		var exitCode = StartProjectDirProcess(@"yarn run webpack-stats");
 		
 		if (exitCode != 0) {
