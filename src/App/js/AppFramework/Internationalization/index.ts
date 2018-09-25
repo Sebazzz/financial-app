@@ -10,3 +10,5 @@ export {
     CurrencyFormatIdentifier,
     Parse as NumberParse
 } from './Number';
+
+export { compositeFormat, toString as formatValue, toString as valueToString } from './String';

@@ -127,8 +127,29 @@ export class Format {
     }
 
     public static decimal(input: number, numberOfDecimals?: number, culture?: Culture) {
-        const formatters = typeof culture !== 'undefined' ? createNumberFormatters(culture) : numberFormatters;
+        const formatters =
+            typeof culture !== 'undefined' && culture !== currentCulture
+                ? createNumberFormatters(culture)
+                : numberFormatters;
         return formatNumberCore(input, formatters.decimal, numberOfDecimals);
+    }
+
+    public static toString(input: number, format: string) {
+        function formatN() {
+            return Format.decimal(input, parseInt(format.substr(1), 10));
+        }
+
+        const formatFirstLetter = format[0];
+        switch (formatFirstLetter) {
+            case 'n':
+                return formatN();
+
+            case 'c':
+                return this.currency(input);
+
+            default:
+                throw new Error(`Number formatting: Unsupported format '${format}'`);
+        }
     }
 }
 
