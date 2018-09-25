@@ -81,7 +81,7 @@
         "test-watch": "karma start --no-single-run",
         "test-mailtemplates": "powershell -File Email/Build.ps1 -ArgumentList -LocalTesting",
         "tslint-check": "tslint-config-prettier-check ./tslint.json",
-        "webpack-stats": "webpack --json > webpack-stats.json",
+        "webpack-stats": "webpack --json > ../../build/webpack-stats.json",
         "watch": "webpack --watch"
     }
 }

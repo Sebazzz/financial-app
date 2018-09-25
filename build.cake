@@ -210,6 +210,17 @@ Task("Run-Webpack")
 		}
 	});
 
+Task("Generate-Webpack-Statistics")
+	.IsDependentOn("Restore-Node-Packages")
+	.IsDependentOn("Set-NodeEnvironment")
+	.Does(() => {
+		var exitCode = StartProjectDirProcess(@"yarn run webpack-stats");
+		
+		if (exitCode != 0) {
+			throw new CakeException($"'yarn run webpack-stats' returned exit code {exitCode} (0x{exitCode:x2})");
+		}
+	});
+
 Task("Publish-Common")
 	.Description("Internal task - do not use")
     .IsDependentOn("Rebuild")
