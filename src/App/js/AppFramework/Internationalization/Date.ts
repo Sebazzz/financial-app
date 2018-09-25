@@ -4,6 +4,7 @@ let dateFormat: Culture = Culture.Dutch;
 let formatters: {
     'MMMM yyyy': Intl.DateTimeFormat;
     'd MMMM': Intl.DateTimeFormat;
+    t: Intl.DateTimeFormat;
     MMMM: Intl.DateTimeFormat;
     F: Intl.DateTimeFormat;
 };
@@ -16,6 +17,7 @@ function createFormatters(culture: Culture) {
     formatters = {
         'MMMM yyyy': new Intl.DateTimeFormat(culture, { year: 'numeric', month: 'long' }),
         'd MMMM': new Intl.DateTimeFormat(culture, { day: 'numeric', month: 'long' }),
+        t: new Intl.DateTimeFormat(culture, { hour: 'numeric', minute: 'numeric' }),
         MMMM: new Intl.DateTimeFormat(culture, { month: 'long' }),
         F: new Intl.DateTimeFormat(culture, {
             // dddd, MMMM dd, yyyy h:mm:ss tt

@@ -11,18 +11,21 @@ describe('DateFormat', () => {
             'month-year': 'juli 2015',
             month: 'mei',
             monthDay: '1 mei',
+            time: '22:59',
             full: '1 mei 2017 22:59:00'
         },
         'en-GB': {
             'month-year': 'July 2015',
             month: 'May',
             monthDay: '1 May',
+            time: '22:59',
             full: '1 May 2017, 22:59:00'
         },
         'en-US': {
             'month-year': 'July 2015',
             month: 'May',
             monthDay: 'May 1',
+            time: '10:59 PM',
             full: 'May 1, 2017, 10:59:00 PM'
         }
     };
@@ -43,9 +46,21 @@ describe('DateFormat', () => {
                 expect(str).to.be.equal(set['month-year']);
             });
 
+            it('formats time only', () => {
+                // Given
+                const date = new Date(2017, 4, 1, 22, 59);
+                setCulture(culture as i18n.Culture);
+
+                // When
+                const str = i18n.DateFormat.predefined(date, 't');
+
+                // Then
+                expect(str).to.be.equal(set.time);
+            });
+
             it('formats month only', () => {
                 // Given
-                const date = new Date(2017, 4, 1, 22, 60);
+                const date = new Date(2017, 4, 1, 22, 59);
                 setCulture(culture as i18n.Culture);
 
                 // When
@@ -57,7 +72,7 @@ describe('DateFormat', () => {
 
             it('formats month/day only', () => {
                 // Given
-                const date = new Date(2017, 4, 1, 22, 60);
+                const date = new Date(2017, 4, 1, 22, 59);
                 setCulture(culture as i18n.Culture);
 
                 // When
