@@ -54,4 +54,12 @@ export class Format {
     public static monthYear(input: Date) {
         return this.predefined(input, 'MMMM yyyy');
     }
+
+    public static toString(date: Date, format: string) {
+        try {
+            return this.predefined(date, format as any);
+        } catch (e) {
+            throw new Error(`Date format not supported: ${format} (${e.message})`);
+        }
+    }
 }
