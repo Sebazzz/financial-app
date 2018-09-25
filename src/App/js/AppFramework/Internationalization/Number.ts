@@ -50,10 +50,19 @@ export const numberFormats: { [lang: string]: INumberFormat } = {
     }
 };
 
-let currentNumberFormat: INumberFormat,
+let currentCulture: Culture,
+    currentNumberFormat: INumberFormat,
     numberFormatters: { currency: Intl.NumberFormat; decimal: Intl.NumberFormat; percent: Intl.NumberFormat };
 
 setNumberFormat(defaultNumberFormatKey);
+
+function createNumberFormatters(culture: Culture) {
+    return {
+        decimal: new Intl.NumberFormat(culture, { style: 'decimal', useGrouping: true, maximumFractionDigits: 10 }),
+        currency: new Intl.NumberFormat(culture, { style: 'currency', currency: currencyFormat, useGrouping: true }),
+        percent: new Intl.NumberFormat(culture, { style: 'percent', useGrouping: true, maximumFractionDigits: 10 })
+    };
+}
 
 export function setNumberFormat(culture: Culture) {
     const newNumberFormat = numberFormats[culture];
@@ -62,12 +71,9 @@ export function setNumberFormat(culture: Culture) {
         throw new Error('Unknown culture: ' + culture);
     }
 
+    currentCulture = culture;
     currentNumberFormat = newNumberFormat;
-    numberFormatters = {
-        decimal: new Intl.NumberFormat(culture, { style: 'decimal', useGrouping: true, maximumFractionDigits: 10 }),
-        currency: new Intl.NumberFormat(culture, { style: 'currency', currency: currencyFormat, useGrouping: true }),
-        percent: new Intl.NumberFormat(culture, { style: 'percent', useGrouping: true, maximumFractionDigits: 10 })
-    };
+    numberFormatters = createNumberFormatters(culture);
 }
 
 export function getNumberFormat() {
@@ -120,13 +126,14 @@ export class Format {
         return formatNumberCore(input, numberFormatters.percent, numberOfDecimals);
     }
 
-    public static decimal(input: number, numberOfDecimals?: number) {
-        return formatNumberCore(input, numberFormatters.decimal, numberOfDecimals);
+    public static decimal(input: number, numberOfDecimals?: number, culture?: Culture) {
+        const formatters = typeof culture !== 'undefined' ? createNumberFormatters(culture) : numberFormatters;
+        return formatNumberCore(input, formatters.decimal, numberOfDecimals);
     }
 }
 
 export class Parse {
-    public static float(input: string): number {
+    public static float(input: string, culture?: Culture): number {
         // While the JS standard library does have number formatting nowadays, it is still
         // lacking proper number parsing. This is not a problem, this just means we got to
         // transform the input into international number formatting
@@ -135,10 +142,12 @@ export class Parse {
             return NaN;
         }
 
+        const numberFormat = (typeof culture !== 'undefined' && numberFormats[culture]) || currentNumberFormat;
+
         const transformedInput = input
-            .split(currentNumberFormat.thousandSeperator)
+            .split(numberFormat.thousandSeperator)
             .join('')
-            .replace(currentNumberFormat.decimalSeperator, '.')
+            .replace(numberFormat.decimalSeperator, '.')
             .replace('\u00A0', ' ')
             .replace('$', ' ')
             .replace('€', ' ')

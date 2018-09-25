@@ -1,4 +1,5 @@
 import * as ko from 'knockout';
+import { NumberParse, NumberFormat, Culture } from 'AppFramework/Internationalization';
 import isMobile from 'AppFramework/Client/BrowserDetector';
 
 const isMobileDevice = isMobile();
@@ -19,7 +20,7 @@ function supportsValueAsNumber(element: HTMLInputElement) {
     }
 }
 
-function getParseCulture(element: HTMLInputElement) {
+function getParseCulture(element: HTMLInputElement): Culture {
     const val = '12,23';
     element.value = val;
 
@@ -27,35 +28,29 @@ function getParseCulture(element: HTMLInputElement) {
         // Happens in Edge
         element.value = '';
 
-        return 'en-US';
+        return Culture.USEnglish;
     }
 
     element.value = '';
-    return 'nl-NL';
+    return Culture.Dutch;
 }
 
-function parseValue(element: HTMLInputElement, culture: string): number {
+function parseValue(element: HTMLInputElement, culture: Culture): number {
     if (!element.value) {
         return NaN;
     }
 
-    const parsedValue = kendo.parseFloat(element.value, culture);
-    if (kendo.toString(parsedValue, 'g') === element.value) {
+    const parsedValue = NumberParse.float(element.value, culture);
+    if (NumberFormat.decimal(parsedValue) === element.value) {
         return parsedValue;
     }
 
     // ultimate fallback
-    return kendo.parseFloat(element.value, 'en-US');
+    return NumberParse.float(element.value, Culture.USEnglish);
 }
 
 ko.bindingHandlers.moneyInput = {
-    init(
-        element: HTMLInputElement,
-        valueAccessor: () => KnockoutObservable<number | null> | number | null,
-        allBindingsAccessor: KnockoutAllBindingsAccessor,
-        viewModel?: any,
-        bindingContext?: KnockoutBindingContext
-    ): void {
+    init(element: HTMLInputElement, valueAccessor: () => KnockoutObservable<number | null> | number | null): void {
         element.classList.add('input-money');
         element.type = 'number';
         element.step = '0.01';
@@ -81,7 +76,7 @@ ko.bindingHandlers.moneyInput = {
                 if (isValueAsNumberSupported) {
                     element.valueAsNumber = value;
                 } else {
-                    element.value = kendo.toString(value, 'g', parseCulture);
+                    element.value = NumberFormat.decimal(value, undefined, parseCulture);
                 }
             },
             this,
