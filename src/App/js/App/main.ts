@@ -5,7 +5,7 @@ import '../../wwwroot/css/app.scss';
 
 function init() {
     const app = new App();
-    app.context.culture = 'nl-NL';
+    app.context.culture = 'nl';
 
     framework.createApp(app);
 }
