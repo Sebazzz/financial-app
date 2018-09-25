@@ -10,16 +10,19 @@ describe('DateFormat', () => {
         nl: {
             'month-year': 'juli 2015',
             month: 'mei',
+            monthDay: '1 mei',
             full: '1 mei 2017 22:59:00'
         },
         'en-GB': {
             'month-year': 'July 2015',
             month: 'May',
+            monthDay: '1 May',
             full: '1 May 2017, 22:59:00'
         },
         'en-US': {
             'month-year': 'July 2015',
             month: 'May',
+            monthDay: 'May 1',
             full: 'May 1, 2017, 10:59:00 PM'
         }
     };
@@ -50,6 +53,18 @@ describe('DateFormat', () => {
 
                 // Then
                 expect(str).to.be.equal(set.month);
+            });
+
+            it('formats month/day only', () => {
+                // Given
+                const date = new Date(2017, 4, 1, 22, 60);
+                setCulture(culture as i18n.Culture);
+
+                // When
+                const str = i18n.DateFormat.predefined(date, 'd MMMM');
+
+                // Then
+                expect(str).to.be.equal(set.monthDay);
             });
 
             it('formats full date', () => {
