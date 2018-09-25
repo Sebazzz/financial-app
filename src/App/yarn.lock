@@ -44,12 +44,6 @@
   version "3.3.6"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.6.tgz#5932ead926307ca21e5b36808257f7c926b06565"
 
-"@types/kendo-ui@2018.2.4":
-  version "2018.2.4"
-  resolved "https://registry.yarnpkg.com/@types/kendo-ui/-/kendo-ui-2018.2.4.tgz#c295aafef6d64b7b4abd0b14a34bba0782487b52"
-  dependencies:
-    "@types/jquery" "*"
-
 "@types/knockout@3.4.59":
   version "3.4.59"
   resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.59.tgz#87911eee72222141c76f6fc7c63115815b049fef"
@@ -3446,7 +3440,7 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
-jquery@3.3.1, jquery@<=3:
+jquery@3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -3627,12 +3621,6 @@ karma@3.0.0:
     source-map "^0.6.1"
     tmp "0.0.33"
     useragent "2.2.1"
-
-kendo-ui-core@2018.3.911:
-  version "2018.3.911"
-  resolved "https://registry.yarnpkg.com/kendo-ui-core/-/kendo-ui-core-2018.3.911.tgz#57686dfaf45b91b2ea8218c084229beba65cfb9b"
-  dependencies:
-    jquery "<=3"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
