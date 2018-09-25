@@ -21,4 +21,3 @@ install:
     - ./build.sh --target restore-node-packages
 script:
     - ./build.sh --target test
-    - ./build.sh --target generate-webpack-statistics

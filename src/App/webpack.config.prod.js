@@ -1,10 +1,14 @@
 /// <binding />
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const Visualizer = require('webpack-visualizer-plugin');
 
 // Extract compiled CSS into a seperate file
 const path = require('path');
 const targetDir = path.resolve(__dirname, 'wwwroot/build');
+
+// Visualization
+const visualizationOutputPath = '../../../../build/bundle-statistics.html';
 
 module.exports = {
     stats: { chunkModules: true },
@@ -38,3 +42,8 @@ module.exports = {
     },
     plugins: [new CleanWebpackPlugin([targetDir])]
 };
+
+// If we need to visualize, it must be set in the WEBPACK_ENABLE_VISUALIZER var
+if (process.env.WEBPACK_ENABLE_VISUALIZER) {
+    module.exports.plugins.push(new Visualizer({ filename: visualizationOutputPath }));
+}
