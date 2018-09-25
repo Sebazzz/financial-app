@@ -1,20 +1,22 @@
 version: 2.0.0.{build}
 image: Visual Studio 2017
 dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
+    patch: true
+    file: '**\*.csproj'
+    version: '{version}'
+    package_version: '{version}'
+    assembly_version: '{version}'
+    file_version: '{version}'
+    informational_version: '{version}'
 install:
-  - ps: Install-Product node LTS x64
+    - ps: Install-Product node LTS x64
 cache: '%LOCALAPPDATA%\Yarn'
 build_script:
-  - cmd: build.cmd -Target Publish
+    - cmd: build.cmd -Target Publish
+    - cmd: build.cmd -Target Generate-Webpack-Statistics
 after_build:
-  - ps: Get-ChildItem ./build/publish/* -File | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+    - ps: Get-ChildItem ./build/publish/* -File | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+    - ps: Get-ChildItem ./build/ -Filter *.json -File | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 test_script:
-  - cmd: build.cmd -Target Test
+    - cmd: build.cmd -Target Test
 deploy: off

@@ -1,23 +1,24 @@
 language: csharp
 node_js:
-  - "node"
-  - "lts/*"
+    - 'node'
+    - 'lts/*'
 mono:
-  - latest
+    - latest
 group: edge
 dotnet: 2.1.300
 cache:
-  yarn: true
-  directories:
-    - /home/travis/.nuget/packages/
+    yarn: true
+    directories:
+        - /home/travis/.nuget/packages/
 before_install:
-  - nvm install --lts
-  - nvm use --lts
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.9.4
-  - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn --version
+    - nvm install --lts
+    - nvm use --lts
+    - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.9.4
+    - export PATH=$HOME/.yarn/bin:$PATH
+    - yarn --version
 install:
-  - ./build.sh --target restore-nuget-packages
-  - ./build.sh --target restore-node-packages
+    - ./build.sh --target restore-nuget-packages
+    - ./build.sh --target restore-node-packages
 script:
-  - ./build.sh --target test
+    - ./build.sh --target test
+    - ./build.sh --target generate-webpack-statistics
