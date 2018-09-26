@@ -91,6 +91,24 @@ namespace App.Tests
         }
 
         [Test]
+        public void BuildVersionCache_MatchesLatestNonHashFile_FromHashlessPath() {
+            // Given
+            IBuildAssetVersionCache cache = GetSharedCacheObject(out TestFileStructure fileStructure);
+            const string path = "/build/lib.js";
+
+            SetFileWriteTime(fileStructure, "lib.abcd.js", DateTime.Now.AddHours(-2));
+            SetFileWriteTime(fileStructure, "lib.efgh.js", DateTime.Now.AddHours(-1));
+            SetFileWriteTime(fileStructure, "lib.js", DateTime.Now.AddHours(-0.5));
+            SetFileWriteTime(fileStructure, "lib.hijk.js", DateTime.Now.AddHours(-3));
+
+            // When
+            string match = cache.MatchFile(path);
+
+            // Then
+            Assert.That(match, Is.EqualTo("build/lib.efgh.js"));
+        }
+
+        [Test]
         public void BuildVersionCache_MatchesDirectFile_FromExistingPath()
         {
             // Given

@@ -86,5 +86,8 @@ namespace App.Support.TagHelpers
                     this.ViewContext.HttpContext.Request.PathBase);
             }
         }
+
+        // We need this tag helper to execute as last
+        public override int Order => 1000;
     }
 }
