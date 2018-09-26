@@ -101,7 +101,7 @@ function makeTargetSpecificConfig(targetName, generateServiceWorker) {
             {
                 loader: 'extract-loader',
                 options: {
-                    publicPath: `/build/${targetName}`
+                    publicPath: `/build/${targetName}/`
                 }
             }
         );
@@ -131,7 +131,7 @@ function makeTargetSpecificConfig(targetName, generateServiceWorker) {
         output: {
             filename: '[name].[hash].js',
             path: targetDir,
-            publicPath: `/build/${targetName}`
+            publicPath: `/build/${targetName}/`
         },
         optimization: {
             occurrenceOrder: true,
