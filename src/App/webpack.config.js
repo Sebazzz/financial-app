@@ -9,4 +9,12 @@ const isProduction = process.env.NODE_ENV === 'production',
 const commonConfig = require('./webpack.config.common.js'),
     envConfig = require(envFile);
 
-module.exports = merge(commonConfig, envConfig);
+function makeConfig(...params) {
+    return merge(commonConfig.makeTargetSpecificConfig(...params), envConfig.makeTargetSpecificConfig(...params));
+}
+
+// Export to multiple targets under the 'build' directory:
+// - ES5: ultimate fallback
+// - ES2015: 'yield' (generators) support
+// - ES2017: 'async/await' support
+module.exports = [makeConfig('es5'), makeConfig('es6'), makeConfig('es2017')];
