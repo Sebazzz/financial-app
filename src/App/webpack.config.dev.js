@@ -1,4 +1,11 @@
 /// <binding />
 module.exports = {
-    devtool: 'inline-source-map'
+    makeTargetSpecificConfig: () => {
+        return {
+            devtool: 'inline-source-map',
+            output: {
+                chunkFilename: '[id].js'
+            }
+        };
+    }
 };
