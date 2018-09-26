@@ -23,7 +23,8 @@ export default [
     {
         id: 'DefaultPage',
         routingTable: { name: 'default', path: '/' },
-        loadAsync: () => import('./DefaultPage')
+        loadAsync: () => import('./DefaultPage'),
+        bodyClassName: 'page-dashboard'
     },
     {
         id: 'MyAccountPage',
