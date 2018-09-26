@@ -239,20 +239,11 @@ namespace App {
 
             app.UseResponseCompression();
 
-            app.UseWhen(
-                ctx => ctx.Request.Path.StartsWithSegments(new PathString("/browserconfig.xml")),
-                _ => _.Use((ctx, next) => {
-                    ctx.Request.Path = "/images/tiles/manifest-microsoft.xml";
-                    return next();
-                }));
-
-            app.UseWhen(
-                ctx => ctx.Request.Path.StartsWithSegments(new PathString("/sw.js")),
-                _ => _.Use((ctx, next) => {
-                    ctx.Request.Path = "/build/sw.js";
-                    return next();
-                }));
-
+            app.UseSimpleUrlRemap("/browserconfig.xml", "/images/tiles/manifest-microsoft.xml");
+            app.UseSimpleUrlRemap("/sw-es5.js", "/build/es5/sw-es5.js");
+            app.UseSimpleUrlRemap("/sw-es6.js", "/build/es5/sw-es6.js");
+            app.UseSimpleUrlRemap("/sw-es2017.js", "/build/es5/sw-es2017.js");
+            
             app.AddWildcardPatternRewrite("/build");
 
             app.UseStaticFiles(new StaticFileOptions {

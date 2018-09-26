@@ -110,6 +110,7 @@ function makeTargetSpecificConfig(targetName, generateServiceWorker) {
     // SPA Service Worker
     const serviceWorker = new ServiceWorkerPlugin({
         entry: path.join(__dirname, 'js/App/ServiceWorker/sw.ts'),
+        filename: `sw-${targetName}.js`,
         template: () => new Promise(resolve => resolve(`/* Generated at ${new Date().toString()}*/`)),
         transformOptions: serviceWorkerOption => ({
             assets: serviceWorkerOption.assets.map(x => `/build/${targetName}${x}`),
