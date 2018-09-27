@@ -17,7 +17,29 @@
             await Html.RenderPartialAsync("_appmeta");
         }
 
-        <link href="/build/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true"/>
+        <script fa-minify="true">
+            function ss(file) {
+                var d = document, s = d.createElement('link');
+                s.href = file; s.rel='stylesheet';
+                d.head.appendChild(s);
+            };
+            function pf(file) {
+                var d = document, s = d.createElement('script');
+                s.src = file; s.defer=true; s.async=false;
+                d.body.appendChild(s);
+            };
+            function sx(s,p) {
+                try {
+                    window[p] = new Function(s);
+                } catch(e){}
+            }
+            sx('(function*(){})','es6');
+            sx('(async function(){})','es2017');
+        </script>
+
+        <link href="/build/es5/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="window.es2017||window.es6"/>
+        <link href="/build/es6/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="window.es2017"/>
+        <link href="/build/es2017/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="!window.es2017"/>
         
         <environment include="Development">
             <script>var DEBUG = true; window.DEBUG = DEBUG;</script>
@@ -59,20 +81,6 @@
             </div>
         </noscript>
 
-        <script fa-minify="true">
-            function pf(file) {
-                var d = document, s = d.createElement('script');
-                s.src = file; s.defer=true; s.async=false;
-                d.head.appendChild(s);
-            };
-            function sx(s,p) {
-                try {
-                    window[p] = new Function(s);
-                } catch(e){}
-            }
-            sx('(function*(){})','es6');
-            sx('(async function(){})','es2017');
-        </script>
         <environment include="Development">
             <script src="/build/es5/eventsource-polyfill.js" fa-polyfill-test="window.EventSource"></script>
         </environment>
