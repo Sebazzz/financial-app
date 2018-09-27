@@ -47,7 +47,7 @@ export interface IPageModule {
     /**
      * Gets the unique id of the page module. Should be equal to `module.id`
      */
-    id: string;
+    id: string | number; // Can be number when in production mode
 
     /**
      * Gets the template content for the page

@@ -131,7 +131,7 @@ class PageTemplateManager {
         return { templateId: replacementTemplateId, hasChanged: true };
     }
 
-    private loadTemplateToDom(pageId: string, templateId: string, templateReference: HtmlModule) {
+    private loadTemplateToDom(pageId: string | number, templateId: string, templateReference: HtmlModule) {
         console.log('TemplateManager: Loading template of page %s as %s', pageId, templateId);
 
         const domElement =
@@ -155,10 +155,11 @@ class PageTemplateManager {
         return isMobile() ? templates.mobile || templates.default : templates.default;
     }
 
-    private static templateId(pageId: string, hasMobileTemplate: boolean) {
+    private static templateId(pageId: string | number, hasMobileTemplate: boolean) {
         const isMobileTemplateId = hasMobileTemplate && isMobile();
 
         return `template-page-${isMobileTemplateId ? 'mobile' : 'default'}type-${pageId
+            .toString()
             .replace('/', '-')
             .replace('.', '')}`;
     }
@@ -246,7 +247,7 @@ class PageComponentModel {
             const pageModule = unwrapModule(await pageRegistration.loadAsync()),
                 page = pageModule.createPage(this.appContext);
 
-            this.pageRegistrationToPageIdMap[pageRegistration.id] = pageModule.id;
+            this.pageRegistrationToPageIdMap[pageRegistration.id] = pageModule.id.toString();
 
             const [templateId] = await Promise.all([
                 this.templateManager.loadTemplate(pageModule),
