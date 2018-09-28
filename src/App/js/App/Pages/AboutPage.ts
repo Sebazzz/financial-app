@@ -70,13 +70,17 @@ class ServiceWorkerController {
         this.update = this.update.bind(this);
         this.unregister = this.unregister.bind(this);
         this.register = this.register.bind(this);
+
         this.requestServiceWorkerVersion = this.requestServiceWorkerVersion.bind(this);
+        this.requestServiceWorkerBuildType = this.requestServiceWorkerBuildType.bind(this);
 
         this.onServiceWorkerControllerChange();
         this.checkServiceWorkerRegistrationAsync();
 
         sw.addEventListener('controllerchange', this.onServiceWorkerControllerChange);
+    }
 
+    private updateServiceWorkerInformation() {
         this.requestServiceWorkerVersion();
         this.requestServiceWorkerBuildType();
     }
@@ -114,7 +118,7 @@ class ServiceWorkerController {
         this.isInstalled(true);
         this.currentRegistration = registration;
 
-        this.requestServiceWorkerVersion();
+        this.updateServiceWorkerInformation();
     }
 
     private onServiceWorkerStateChange() {
@@ -222,7 +226,7 @@ class ServiceWorkerController {
         this.serviceWorker = this.serviceWorkerContainer.controller;
 
         this.checkServiceWorkerRegistrationAsync();
-        this.requestServiceWorkerVersion();
+        this.updateServiceWorkerInformation();
 
         if (this.serviceWorker !== null) {
             this.serviceWorker.addEventListener('statechange', this.onServiceWorkerStateChange);

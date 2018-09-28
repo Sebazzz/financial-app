@@ -23,8 +23,6 @@ async function initCache(): Promise<void> {
 
 async function initCacheAndActivate(): Promise<void> {
     await initCache();
-
-    global.skipWaiting();
 }
 
 async function cleanUpCache(): Promise<boolean> {
@@ -130,6 +128,8 @@ function invokeServiceWorkerMethod(message: any): Promise<any> {
 
 self.addEventListener('install', (event: ExtendableEvent) => {
     console.info('[Service Worker] Install');
+
+    global.skipWaiting();
 
     event.waitUntil(initCacheAndActivate());
 });
