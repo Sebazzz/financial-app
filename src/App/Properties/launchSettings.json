@@ -19,7 +19,8 @@
             "commandName": "Project",
             "launchUrl": "http://localhost:5000",
             "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Production"
+                "ASPNETCORE_ENVIRONMENT": "Production",
+                "ASPNETCORE_FORCE_USERSECRETS": "Production"
             }
         },
         "IIS Express": {
