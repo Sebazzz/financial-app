@@ -4,7 +4,7 @@ const assets = [...serviceWorkerOption.assets, '/', '/favicon.ico'].map(x =>
     new URL(x, location.toString()).toString()
 );
 
-const CACHE_NAME = 'fa-app-' + Date.now();
+const CACHE_NAME = 'fa-app-' + serviceWorkerOption.versionTimestamp;
 
 async function initCache(): Promise<void> {
     try {
