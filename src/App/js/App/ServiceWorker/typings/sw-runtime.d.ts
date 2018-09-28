@@ -2,6 +2,11 @@
     export interface IAssetList {
         assets: string[];
         versionTimestamp: string;
+
+        /**
+         * Build target type
+         */
+        targetName: string;
     }
 }
 

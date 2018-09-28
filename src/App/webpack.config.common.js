@@ -50,7 +50,7 @@ const libraries = [
     '@aspnet/signalr-client'
 ];
 
-function makeTargetSpecificConfig(targetName, generateServiceWorker) {
+function makeTargetSpecificConfig(targetName) {
     // Define SCSS rules for SCSS extraction or loading
     const scssRules = [
         {
@@ -117,7 +117,9 @@ function makeTargetSpecificConfig(targetName, generateServiceWorker) {
 
             // This ensures the service worker is always different for every published build:
             // It is always updated and reinstalled.
-            versionTimestamp: new Date().toISOString()
+            versionTimestamp: new Date().toISOString(),
+
+            buildTarget: targetName
         })
     });
 

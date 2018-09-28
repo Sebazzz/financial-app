@@ -102,6 +102,10 @@ class ServiceWorkerMethods {
     public static versionQuery() {
         return Promise.resolve(serviceWorkerOption.versionTimestamp);
     }
+
+    public static buildTypeQuery() {
+        return Promise.resolve(serviceWorkerOption.versionTimestamp);
+    }
 }
 
 function invokeServiceWorkerMethod(message: any): Promise<any> {
