@@ -47,6 +47,7 @@ class ServiceWorkerController {
     public state = ko.observable<ServiceWorkerState>();
     public scriptUrl = ko.observable<string>();
     public serviceWorkerVersion = ko.observable<string | null>();
+    public serviceWorkerBuildType = ko.observable<string | null>();
 
     public serviceWorkerConsole = ko.observableArray<string>();
     public isServiceWorkerConsoleVisible = ko.pureComputed(() => this.serviceWorkerConsole().length > 0);
@@ -77,6 +78,7 @@ class ServiceWorkerController {
         sw.addEventListener('controllerchange', this.onServiceWorkerControllerChange);
 
         this.requestServiceWorkerVersion();
+        this.requestServiceWorkerBuildType();
     }
 
     public async requestServiceWorkerVersion() {
@@ -86,6 +88,16 @@ class ServiceWorkerController {
         } catch (e) {
             this.appendConsole('Error retrieving version: ' + (e.message || e.toString()));
             this.serviceWorkerVersion('Error: ' + e);
+        }
+    }
+
+    public async requestServiceWorkerBuildType() {
+        try {
+            this.serviceWorkerBuildType(null);
+            this.serviceWorkerBuildType(await ServiceWorkerMethods.buildTypeQuery());
+        } catch (e) {
+            this.appendConsole('Error retrieving version: ' + (e.message || e.toString()));
+            this.serviceWorkerBuildType('Error: ' + e);
         }
     }
 

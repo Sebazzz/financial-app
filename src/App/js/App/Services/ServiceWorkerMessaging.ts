@@ -63,4 +63,8 @@ export default class ServiceWorkerMethods {
     public static versionQuery() {
         return ServiceWorkerMessaging.invokeParameterlessMethod<string>('versionQuery');
     }
+
+    public static buildTypeQuery() {
+        return ServiceWorkerMessaging.invokeParameterlessMethod<string>('buildTypeQuery');
+    }
 }
