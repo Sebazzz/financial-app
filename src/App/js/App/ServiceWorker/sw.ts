@@ -46,7 +46,7 @@ async function cleanUpCache(): Promise<boolean> {
 }
 
 async function cleanUpCacheAndSignal(): Promise<void> {
-    const hasCleanedUp = await initCache();
+    const hasCleanedUp = await cleanUpCache();
 
     await global.clients.claim();
 
