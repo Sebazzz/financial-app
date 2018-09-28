@@ -28,12 +28,6 @@ class AuthConfirmEmailModelPage extends FormPage {
     }
 
     protected async onActivate(args?: any): Promise<void> {
-        if (await this.appContext.authentication.checkAuthentication()) {
-            console.info('AuthConfirmEmailModelPage: We are logged in. Redirecting to home.');
-
-            this.appContext.router.navigateToDefault();
-        }
-
         this.model.key((args && args.key) || null);
         this.model.token = (args && args.token) || null;
     }
