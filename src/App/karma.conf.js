@@ -60,7 +60,7 @@ module.exports = function(config) {
 
         webpack: {
             devtool: 'inline-source-map',
-            resolve: webpackConfig.reverse()[0].resolve, // Just take the first
+            resolve: webpackConfig[0].resolve, // Just take the first (ES5)
             module: {
                 rules: [
                     {
