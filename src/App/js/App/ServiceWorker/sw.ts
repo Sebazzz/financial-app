@@ -102,7 +102,7 @@ class ServiceWorkerMethods {
     }
 
     public static buildTypeQuery() {
-        return Promise.resolve(serviceWorkerOption.targetName);
+        return Promise.resolve(serviceWorkerOption.buildTarget);
     }
 }
 

@@ -36,18 +36,7 @@ export class ServiceWorkerMessaging {
 
             const messageChannel = new MessageChannel();
             messageChannel.port1.onmessage = (event: MessageEvent) => {
-                if (!event.data) {
-                    console.error(
-                        '[ServiceWorkerMessaging] Message %s -> Response error [%s]',
-                        messageString,
-                        '[NO DATA]'
-                    );
-
-                    reject('ERR_NO_DATA');
-                    return;
-                }
-
-                if (event.data.error) {
+                if (event.data && event.data.error) {
                     console.error(
                         '[ServiceWorkerMessaging] Message %s -> Response error [%s]',
                         messageString,
@@ -58,6 +47,7 @@ export class ServiceWorkerMessaging {
                 } else {
                     console.log('[ServiceWorkerMessaging] Message %s -> Response [%s]', messageString, event.data);
 
+                    // This can be null or undefined
                     resolve(event.data as TResult);
                 }
             };

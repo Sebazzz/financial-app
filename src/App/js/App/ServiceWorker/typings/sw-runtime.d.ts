@@ -6,7 +6,7 @@
         /**
          * Build target type
          */
-        targetName: string;
+        buildTarget: string;
     }
 }
 
