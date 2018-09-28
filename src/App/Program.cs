@@ -1,8 +1,5 @@
 ﻿
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 using Microsoft.Extensions.Logging;
 
 namespace App
@@ -25,6 +22,12 @@ namespace App
                 WebHost.CreateDefaultBuilder(args)
                        .ConfigureServices(ConfigureServerOptions)
                        .ConfigureAppConfiguration(cfg => cfg.AddApplicationInsightsSettings())
+                       .ConfigureAppConfiguration(cfg => {
+                              if (Environment.GetEnvironmentVariable(
+                                      "ASPNETCORE_FORCE_USERSECRETS") == "True") {
+                                  cfg.AddUserSecrets(typeof(Program).Assembly);
+                              }
+                        })
                        .ConfigureLogging((wc, logging) =>
                         {
                             var env = wc.HostingEnvironment;
