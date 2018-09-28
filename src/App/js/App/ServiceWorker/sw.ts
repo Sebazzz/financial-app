@@ -104,7 +104,7 @@ class ServiceWorkerMethods {
     }
 
     public static buildTypeQuery() {
-        return Promise.resolve(serviceWorkerOption.versionTimestamp);
+        return Promise.resolve(serviceWorkerOption.targetName);
     }
 }
 
