@@ -30,7 +30,8 @@
                 }
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "MAIL__SKIPTEST": "True"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceRoot}/Views"

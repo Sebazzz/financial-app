@@ -12,7 +12,8 @@
             "commandName": "Project",
             "launchUrl": "http://localhost:5000",
             "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "MAIL__SKIPTEST": "True"
             }
         },
         "web-perf-test": {
@@ -20,7 +21,8 @@
             "launchUrl": "http://localhost:5000",
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Production",
-                "ASPNETCORE_FORCE_USERSECRETS": "Production"
+                "ASPNETCORE_FORCE_USERSECRETS": "Production",
+                "MAIL__SKIPTEST": "True"
             }
         },
         "IIS Express": {
