@@ -14,7 +14,6 @@ function makeConfig(...params) {
 }
 
 // Export to multiple targets under the 'build' directory:
-// - ES5: ultimate fallback
-// - ES2015: 'yield' (generators) support
+// - ES5: fallback
 // - ES2017: 'async/await' support
-module.exports = [makeConfig('es5'), makeConfig('es6'), makeConfig('es2017')];
+module.exports = [makeConfig('es5'), makeConfig('es2017')];

@@ -5,7 +5,8 @@ using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 
-namespace App {
+namespace App
+{
     using System;
     using System.IO;
     using System.Threading.Tasks;
@@ -60,8 +61,10 @@ namespace App {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
-        public void ConfigureServices(IServiceCollection services) {
-            if (!String.Equals(this.Configuration["DISABLE_TELEMETRY"], "True", StringComparison.OrdinalIgnoreCase)) {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            if (!String.Equals(this.Configuration["DISABLE_TELEMETRY"], "True", StringComparison.OrdinalIgnoreCase))
+            {
                 services.AddApplicationInsightsTelemetry(this.Configuration);
             }
 
@@ -70,12 +73,14 @@ namespace App {
             services.Configure<MailSettings>(this.Configuration.GetSection("mail"));
             services.Configure<DiagnosticsOptions>(this.Configuration.GetSection("diagnostics"));
 
-            services.AddResponseCompression(opts => {
+            services.AddResponseCompression(opts =>
+            {
                 // Note the possible dangers for HTTPS: https://docs.microsoft.com/en-us/aspnet/core/performance/response-compression?tabs=aspnetcore2x#compression-with-secure-protocol
                 opts.EnableForHttps = true;
             });
 
-            services.AddMvc(options => {
+            services.AddMvc(options =>
+            {
                 options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
                 options.Filters.Add(typeof(ApiCachePreventionFilterAttribute));
@@ -83,7 +88,8 @@ namespace App {
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddIdentity<AppUser, AppRole>(
-                    options => {
+                    options =>
+                    {
                         options.Password.RequireDigit = false;
                         options.Password.RequireLowercase = false;
                         options.Password.RequireNonAlphanumeric = false;
@@ -104,26 +110,32 @@ namespace App {
                 .AddRoleStore<AppRoleStore>();
 
             services.ConfigureApplicationCookie(
-                opt => {
+                opt =>
+                {
                     opt.LoginPath = new PathString("/Account/Login");
                     opt.ExpireTimeSpan = TimeSpan.FromDays(365 / 2d);
                     opt.SlidingExpiration = true;
 
                     // Override cookie validator until setup has been completed
                     Func<CookieValidatePrincipalContext, Task> existingHandler = opt.Events.OnValidatePrincipal;
-                    opt.Events.OnValidatePrincipal = async (ctx) => {
+                    opt.Events.OnValidatePrincipal = async (ctx) =>
+                    {
                         RequestAppSetupState setupState = ctx.HttpContext.RequestServices.GetRequiredService<RequestAppSetupState>();
 
-                        if (await setupState.HasBeenSetup()) {
+                        if (await setupState.HasBeenSetup())
+                        {
                             await existingHandler(ctx);
-                        } else {
+                        }
+                        else
+                        {
                             ctx.RejectPrincipal();
                         }
                     };
                 }
             );
 
-            services.AddAuthorization(opt => {
+            services.AddAuthorization(opt =>
+            {
                 opt.AddPolicy("AppSetup", policy => policy.AddRequirements(new SetupNotRunAuthorizationRequirement()));
             });
 
@@ -132,7 +144,8 @@ namespace App {
             services.AddSignalR()
                     .AddJsonProtocol(options => options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
-            services.AddHangfire(c => {
+            services.AddHangfire(c =>
+            {
 #if DEBUG
                 c.UseMemoryStorage();
 #else
@@ -140,7 +153,7 @@ namespace App {
 #endif
             });
 
-            
+
 
             // DI
             services.AddScoped<AppDbContext>();
@@ -162,7 +175,7 @@ namespace App {
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<RecurringSheetEntry>>();
             services.AddScoped<AutoMapperEngineFactory.EntityResolver<Tag>>();
             services.AddScoped<AutoMapperEngineFactory.SheetEntryTagConverter>();
-            
+
             services.AddSingleton<IMapper>(AutoMapperEngineFactory.Create);
             services.AddSingleton<IAppVersionService, AppVersionService>();
 
@@ -179,10 +192,10 @@ namespace App {
             // ... Mail
             services.AddScoped<MailService>();
             services.AddScoped<TemplateProvider>();
-            
+
             // Needed for TemplateProvider
             services.AddSingleton<ISiteUrlDetectionService, SiteUrlDetectionService>();
-            
+
             // ... Mailers
             services.AddScoped<TwoFactorChangeNotificationMailer>();
             services.AddScoped<PasswordChangeNotificationMailer>();
@@ -214,7 +227,8 @@ namespace App {
             }
 
             // Startup checks
-            if (!app.RunStartupChecks()) {
+            if (!app.RunStartupChecks())
+            {
                 return;
             }
 
@@ -224,16 +238,21 @@ namespace App {
 
             app.UseAuthentication();
 
-            if (env.IsDevelopment()) {
+            if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
                     HotModuleReplacement = true
                 });
-            } else {
+            }
+            else
+            {
                 app.UseExceptionHandler("/");
             }
 
-            app.UseSignalR(builder => {
+            app.UseSignalR(builder =>
+            {
                 builder.MapHub<AppOwnerHub>("/extern/connect/app-owner");
             });
 
@@ -241,22 +260,25 @@ namespace App {
 
             app.UseSimpleUrlRemap("/browserconfig.xml", "/images/tiles/manifest-microsoft.xml");
             app.UseSimpleUrlRemap("/sw-es5.js", "/build/es5/sw-es5.js");
-            app.UseSimpleUrlRemap("/sw-es6.js", "/build/es6/sw-es6.js");
             app.UseSimpleUrlRemap("/sw-es2017.js", "/build/es2017/sw-es2017.js");
-            
+
             app.AddWildcardPatternRewrite("/build");
 
-            app.UseStaticFiles(new StaticFileOptions {
-                ContentTypeProvider = new FileExtensionContentTypeProvider {
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = new FileExtensionContentTypeProvider
+                {
                     Mappings = { [".webmanifest"] = "application/manifest+json" }
                 },
-                OnPrepareResponse = context => {
+                OnPrepareResponse = context =>
+                {
                     // Enable aggressive caching behavior - but be sure that requests from service workers must be properly addressed
                     const int expireTimeInDays = 7 * 4;
 
                     ResponseHeaders headers = context.Context.Response.GetTypedHeaders();
                     headers.Expires = DateTimeOffset.Now.AddDays(expireTimeInDays);
-                    headers.CacheControl = new CacheControlHeaderValue {
+                    headers.CacheControl = new CacheControlHeaderValue
+                    {
                         MaxAge = TimeSpan.FromDays(expireTimeInDays),
                         MustRevalidate = true,
                         Public = true,
@@ -267,30 +289,35 @@ namespace App {
             });
 
             // Let's encrypt support
-            app.UseRouter(r => {
-                r.MapGet(".well-known/acme-challenge/{id}", async (request, response, routeData) => {
+            app.UseRouter(r =>
+            {
+                r.MapGet(".well-known/acme-challenge/{id}", async (request, response, routeData) =>
+                {
                     string id = routeData.Values["id"] as string;
-                    if (id != Path.GetFileName(id)) {
+                    if (id != Path.GetFileName(id))
+                    {
                         return; // Prevent injection attack
                     }
 
-                    string file = Path.Combine(env.WebRootPath, ".well-known","acme-challenge", id);
+                    string file = Path.Combine(env.WebRootPath, ".well-known", "acme-challenge", id);
                     await response.SendFileAsync(file);
                 });
             });
 
             // Hangfire
             app.UseHangfireServer();
-            app.UseHangfireDashboard("/_internal/jobs", new DashboardOptions {
+            app.UseHangfireDashboard("/_internal/jobs", new DashboardOptions
+            {
                 AppPath = "/",
                 DisplayStorageConnectionString = false,
-                Authorization = new IDashboardAuthorizationFilter [] {
-                    new DiagnosticsHangfireDashboardAuthorizationFilter(), 
+                Authorization = new IDashboardAuthorizationFilter[] {
+                    new DiagnosticsHangfireDashboardAuthorizationFilter(),
                 }
             });
 
             // SPA bootstrapper
-            app.UseMvc(routes => {
+            app.UseMvc(routes =>
+            {
                 // If we still reached this at this point the ko-template was not found:
                 // Trigger an failure instead of sending the app bootstrapper which causes all kinds of havoc.
                 routes.MapFailedRoute("ko-templates/{*.}");
@@ -305,7 +332,8 @@ namespace App {
                 routes.MapRoute(
                     name: "default",
                     template: "{*.}",
-                    defaults: new {
+                    defaults: new
+                    {
                         controller = "Home",
                         action = "Index"
                     });

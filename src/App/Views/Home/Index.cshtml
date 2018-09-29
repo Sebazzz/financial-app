@@ -33,12 +33,10 @@
                     window[p] = new Function(s);
                 } catch(e){}
             }
-            sx('(function*(){})','es6');
             sx('(async function(){})','es2017');
         </script>
 
-        <link href="/build/es5/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="window.es2017||window.es6"/>
-        <link href="/build/es6/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="window.es2017"/>
+        <link href="/build/es5/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="window.es2017"/>
         <link href="/build/es2017/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="!window.es2017"/>
         
         <environment include="Development">
@@ -85,10 +83,8 @@
             <script src="/build/es5/eventsource-polyfill.js" fa-polyfill-test="window.EventSource"></script>
         </environment>
         <script src="/build/es5/es6-promise.js" fa-polyfill-test="window.Promise"></script>
-        <script src="/build/es5/lib.js" fa-versioned-file="true" fa-polyfill-test="window.es2017||window.es6" defer></script>
-        <script src="/build/es5/app.js" fa-versioned-file="true" fa-polyfill-test="window.es2017||window.es6" defer></script>
-        <script src="/build/es6/lib.js" fa-versioned-file="true" fa-polyfill-test="window.es2017" defer></script>
-        <script src="/build/es6/app.js" fa-versioned-file="true" fa-polyfill-test="window.es2017" defer></script>
+        <script src="/build/es5/lib.js" fa-versioned-file="true" fa-polyfill-test="window.es2017" defer></script>
+        <script src="/build/es5/app.js" fa-versioned-file="true" fa-polyfill-test="window.es2017" defer></script>
         <script src="/build/es2017/lib.js" fa-versioned-file="true" fa-polyfill-test="!window.es2017" defer></script>
         <script src="/build/es2017/app.js" fa-versioned-file="true" fa-polyfill-test="!window.es2017" defer></script>
     </body>
