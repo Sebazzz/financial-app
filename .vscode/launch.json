@@ -39,6 +39,41 @@
             "justMyCode": false
         },
         {
+            "name": ".NET Core Launch (web-perf)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceRoot}/src/App/bin/Debug/netcoreapp2.1/App.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/src/App",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "http://localhost:5000",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start http://localhost:5000"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Production",
+                "ASPNETCORE_FORCE_USERSECRETS": "Production",
+                "MAIL__SKIPTEST": "True"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceRoot}/Views"
+            },
+            "justMyCode": false
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",
