@@ -17,22 +17,20 @@
 
                 <td class="col-number" data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative': sheet.totals.bankAccount < 0 }"></td>
                 <td class="col-number" data-bind="formatText: sheet.totals.savingsAccount, format: 'c', css: {'balance-negative': sheet.totals.savingsAccount < 0 }"></td>
-                <td>
-                    <p class="pull-right">
-                        <a class="btn btn-secondary" 
-                           data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
-                              tooltip: 'Bewerken'">
-                            <span class="far fa-edit"></span>
-                        </a>
-                        <a class="btn btn-secondary" 
-                           data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }, tooltip: 'Rapportage'">
-                            <span class="fas fa-chart-bar"></span>
-                        </a>
-                        <a class="btn btn-secondary"
-                           data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }, tooltip: 'Vergelijking met begroting'">
-                            <span class="fas fa-table"></span>
-                        </a>
-                    </p>
+                <td class="col-actions">
+                    <a class="btn btn-secondary" 
+                        data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                            tooltip: 'Bewerken'">
+                        <span class="far fa-edit"></span>
+                    </a>
+                    <a class="btn btn-secondary" 
+                        data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }, tooltip: 'Rapportage'">
+                        <span class="fas fa-chart-bar"></span>
+                    </a>
+                    <a class="btn btn-secondary"
+                        data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }, tooltip: 'Vergelijking met begroting'">
+                        <span class="fas fa-table"></span>
+                    </a>
                 </td>
             </tr>
         </tbody>
