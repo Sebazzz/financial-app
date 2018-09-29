@@ -1,0 +1,48 @@
+$accent-color: #389fc5;
+
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$green: #28a745 !default;
+$cyan: #17a2b8 !default;
+$red: #dc3545 !default;
+$yellow: #ffc107 !default;
+
+$body-bg: #2b2b2b;
+$body-color: $gray-100;
+
+$theme-colors: (
+    primary: $accent-color,
+    secondary: $gray-600,
+    success: $green,
+    info: $cyan,
+    warning: $yellow,
+    danger: $red,
+    light: $gray-100,
+    dark: $gray-800
+);
+
+$enable-rounded: true;
+$enable-shadows: true;
+$enable-gradients: true;
+$enable-transitions: true;
+$border-radius: 0.1rem;
+$border-radius-lg: 0.1rem;
+$border-radius-sm: 0.1rem;
+$modal-content-bg: $gray-900;
+$modal-footer-border-width: 0;
+$modal-footer-bg: darken($modal-content-bg, 5%);
+$close-color: $white;
+$jumbotron-padding: 1rem;
+$jumbotron-bg: $body-bg;
+$popover-bg: $gray-900;
+$navbar-top-border-width: 4px;

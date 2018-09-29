@@ -36,9 +36,8 @@
             sx('(async function(){})','es2017');
         </script>
 
-        <link href="/build/es5/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="window.es2017"/>
-        <link href="/build/es2017/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="!window.es2017"/>
-        
+        <link href="/build/bootstrapper/bootstrapper.css" rel="stylesheet" fa-check-exists="true"/>
+
         <environment include="Development">
             <script>var DEBUG = true; window.DEBUG = DEBUG;</script>
         </environment>
@@ -49,26 +48,24 @@
           ko-css:authenticated="context.authentication.isAuthenticated">
         <loading-bar></loading-bar>
 
-        <top-menu></top-menu>
+        <top-menu>
+            <div class="top-menu-placeholder">
+                <h1 class="top-menu-placeholder__brand">Financial App</h1>
+            
+            </div>
+        </top-menu>
 
         <page-container class="container">
-            <h1 class="navbar-brand">Financial App</h1>
-
-            <p>
-                We zijn bezig met de benodigde bestanden voor de applicatie te downloaden.
-            </p>
-
-            <div class="initial-download-indicator">
-                <span class="fas fa-server" aria-hidden="true"></span>
-
-                <span class="fas fa-file-code" aria-hidden="true"></span>
-
-                <span class="fas fa-mobile-alt" aria-hidden="true"></span>
+            <div class="container-placeholder">
+                <span class="container-placeholder__throbber-container">
+                    <span class="container-placeholder__throbber container-placeholder__throbber-start">💻</span>
+                    <span class="container-placeholder__throbber container-placeholder__throbber-object">📄</span>
+                    <span class="container-placeholder__throbber container-placeholder__throbber-end">📱</span>
+                </span>
+                <p class="container-placeholder__text">
+                    Bezig met laden...
+                </p>
             </div>
-
-            <p>
-                Dit hoeft maar één keer te gebeuren, maar het kan even duren...
-            </p>
         </page-container>
 
         <span style="color:#FFF" id="scrollBottom">&nbsp;</span>
@@ -79,9 +76,12 @@
             </div>
         </noscript>
 
+
         <environment include="Development">
             <script src="/build/es5/eventsource-polyfill.js" fa-polyfill-test="window.EventSource"></script>
         </environment>
+        <link href="/build/es5/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="window.es2017"/>
+        <link href="/build/es2017/app.css" rel="stylesheet" fa-versioned-file="true" fa-check-exists="true" fa-polyfill-test="!window.es2017"/>
         <script src="/build/es5/es6-promise.js" fa-polyfill-test="window.Promise"></script>
         <script src="/build/es5/lib.js" fa-versioned-file="true" fa-polyfill-test="window.es2017" defer></script>
         <script src="/build/es5/app.js" fa-versioned-file="true" fa-polyfill-test="window.es2017" defer></script>
