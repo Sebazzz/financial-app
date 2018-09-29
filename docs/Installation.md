@@ -86,6 +86,10 @@ To configure e-mail settings your can use the following environment variables:
 
 `MAIL__FROMDISPLAYNAME`: Display name to use and shown in repicient mailbox.
 
+E-mail is optional, but is checked on startup. If you need to skip the startup test, use:
+
+`MAIL__SKIPTEST`: True or false. By default false.
+
 ### Database set-up
 
 Create an new empty database with a case insensitive collation (`SQL_Latin1_General_CP1_CI_AS` is preferred).
