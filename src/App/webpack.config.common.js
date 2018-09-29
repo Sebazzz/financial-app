@@ -113,7 +113,9 @@ function makeTargetSpecificConfig(targetName) {
         filename: `sw-${targetName}.js`,
         template: () => new Promise(resolve => resolve(`/* Generated at ${new Date().toString()}*/`)),
         transformOptions: serviceWorkerOption => ({
-            assets: serviceWorkerOption.assets.map(x => `/build/${targetName}${x}`),
+            assets: serviceWorkerOption.assets
+                .map(x => `/build/${targetName}${x}`)
+                .concat('/build/bootstrapper/bootstrapper.css'),
 
             // This ensures the service worker is always different for every published build:
             // It is always updated and reinstalled.
@@ -222,4 +224,86 @@ function makeTargetSpecificConfig(targetName) {
     return config;
 }
 
-module.exports = { makeTargetSpecificConfig };
+function makeBootstrapperConfig() {
+    // Define SCSS rules for SCSS extraction or loading
+    const scssRules = [
+        {
+            loader: 'file-loader',
+            options: {
+                name: '[name].css'
+            }
+        },
+        {
+            loader: 'extract-loader',
+            options: {
+                publicPath: `/build/bootstrapper/`
+            }
+        },
+        {
+            loader: 'css-loader',
+            options: {
+                sourceMap: generateSourceMaps
+            }
+        },
+        {
+            loader: 'postcss-loader',
+            options: {
+                plugins: function() {
+                    const plugins = [require('autoprefixer')];
+
+                    if (isProduction) {
+                        plugins.push(require('cssnano')({ preset: 'default' }));
+                    }
+
+                    return plugins;
+                },
+                sourceMap: generateSourceMaps
+            }
+        },
+        {
+            loader: 'sass-loader',
+            options: {
+                includePaths: ['./node_modules'],
+                sourceMap: generateSourceMaps
+            }
+        }
+    ];
+
+    const targetDir = path.resolve(__dirname, `wwwroot/build/bootstrapper`);
+
+    const config = {
+        devtool: 'inline-source-map',
+        entry: {
+            bootstrapper: ['./wwwroot/css/bootstrapper.scss']
+        },
+        output: {
+            filename: '[name].tmp',
+            path: targetDir,
+            publicPath: `/build/bootstrapper/`
+        },
+        resolve: {
+            extensions: ['.ts', '.js'],
+            alias: {
+                // ASP.NET-like virtual path
+                '~': path.resolve(__dirname)
+            }
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.(png|svg|jpg|gif|ttf|eot|woff|woff2)$/,
+                    use: 'url-loader?limit=8192'
+                },
+                {
+                    test: /\.scss$/,
+                    use: scssRules
+                }
+            ]
+        },
+        mode: isProduction ? 'production' : 'development'
+    };
+
+    return config;
+}
+
+module.exports = { makeTargetSpecificConfig, makeBootstrapperConfig };

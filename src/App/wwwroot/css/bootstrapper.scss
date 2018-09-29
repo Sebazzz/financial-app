@@ -1,0 +1,120 @@
+@import 'bootstrap-custom-variables';
+@import 'bootstrap/scss/bootstrap-reboot.scss';
+
+top-menu {
+    display: block;
+}
+
+.top-menu-placeholder {
+    border-top: $navbar-top-border-width solid darken($accent-color, 15%);
+    background-color: $gray-800;
+    padding: 0.5rem 1rem;
+
+    &__brand {
+        background: url(../images/icons/application.svg) 10px center no-repeat;
+        background-size: contain;
+        padding: 0.31rem 70px;
+        margin: 0;
+
+        font-size: 1.25rem;
+        font-weight: normal;
+    }
+}
+
+$initial-download-indicator-width: 200px;
+$initial-download-indicator-vert-padding: 5px;
+$initial-download-indicator-side-icon-size: 25px;
+$initial-download-indicator-outer-icon-size: $initial-download-indicator-side-icon-size * 2;
+
+$initial-download-indicator-anim-width: $initial-download-indicator-width -
+    ($initial-download-indicator-side-icon-size * 0.5);
+@keyframes initial-download-indicator {
+    0% {
+        transform: translate(0, 0) scale(0.8);
+        opacity: 0;
+    }
+
+    1% {
+        opacity: 1;
+    }
+
+    40% {
+        transform: translate($initial-download-indicator-anim-width * 0.45, -10px) rotate(0deg) scale(1.2);
+    }
+
+    50% {
+        transform: translate($initial-download-indicator-anim-width * 0.5, -20px) rotate(180deg) scale(1.5);
+    }
+
+    50% {
+        transform: translate($initial-download-indicator-anim-width * 0.55, -10px) rotate(360deg) scale(1.2);
+    }
+
+    99% {
+        transform: translate($initial-download-indicator-anim-width, 0px) scale(0.8);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+}
+
+@keyframes container-placeholder-text {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(0, -10px);
+    }
+    50% {
+        transform: translate(0, 10px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.container-placeholder {
+    text-align: center;
+    padding: 1rem 0.5rem;
+
+    &__throbber-container {
+        display: block;
+        margin: 1rem auto;
+
+        width: 250px;
+        font-size: $initial-download-indicator-side-icon-size;
+
+        position: relative;
+        text-align: left;
+    }
+
+    &__throbber {
+        display: inline-block;
+        transform-origin: 50% 50%;
+    }
+
+    &__throbber-object {
+        animation: initial-download-indicator 5s ease infinite;
+        margin-left: -1 * $initial-download-indicator-outer-icon-size;
+    }
+
+    &__throbber-end,
+    &__throbber-start {
+        font-size: $initial-download-indicator-outer-icon-size;
+        z-index: 10;
+        transform: scale(1);
+        position: relative;
+    }
+
+    &__throbber-end {
+        position: absolute;
+        right: 0;
+    }
+
+    &__text {
+        animation: container-placeholder-text 5s ease infinite;
+    }
+}
