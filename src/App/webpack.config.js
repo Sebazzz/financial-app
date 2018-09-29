@@ -17,3 +17,4 @@ function makeConfig(...params) {
 // - ES5: fallback
 // - ES2017: 'async/await' support
 module.exports = [commonConfig.makeBootstrapperConfig(), makeConfig('es5'), makeConfig('es2017')];
+module.exports.testConfig = module.exports[1];
