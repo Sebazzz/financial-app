@@ -114,3 +114,11 @@ This binding would extract the name:
 The `bindingContextLog` binding handler has no effect on the DOM but logs the current binding context and parent binding context inside a "console group". Usage:
 
     <!-- ko bindingContextLog: 'my title' --><!-- /ko -->
+
+### `responsiveRender`
+
+The `responsiveRender` binding handler renders only the contained element or elements if the application considers itself being rendered on a mobile or otherwise mobile-media query triggering device. This is useful to prevent seeping resources to render something that is not going to show anyway.
+
+Accepts either `desktop` or `mobile` as a string argument. Usage:
+
+    <!-- ko responsiveRender: 'mobile' --><p>I will only render and bind on mobile!</p><!-- /ko -->

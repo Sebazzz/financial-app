@@ -8,3 +8,4 @@ import './LookupScope';
 import './BindingContextLog';
 import './SwipeActions';
 import '../Forms/ValidationMessage';
+import '../Client/ResponsiveRenderBindingHandler';
