@@ -11,22 +11,21 @@
         </small>
     </p>
 
-    <p class="mobile-sheet-summary"
-       data-bind="with: { totals: $parent.totals, offset: offset }">
+    <p class="mobile-sheet-summary" data-bind="with: { totals: $parent.totals, offset: offset }">
         Bankrekening: <span data-bind="css: { 'balance-negative': totals().bankAccount < 0 }, formatText: totals().bankAccount, format: 'c'"></span>
-        <small>(vorige maand: <span data-bind="formatText: offset.bankAccountOffset, format: 'c'"></span>)</small> <br/>
+        <small>(vorige maand: <span data-bind="formatText: offset.bankAccountOffset, format: 'c'"></span>)</small> <br />
         Spaarrekening: <span data-bind="css: { 'balance-negative': totals().savingsAccount < 0 }, formatText: totals().savingsAccount, format: 'c'"></span>
         <small>(vorige maand: <span data-bind="formatText: offset.savingsAccountOffset, format: 'c'"></span>)</small>
     </p>
 
     <div class="btn-group btn-group-justified btn-group-sm" role="group" data-bind="visible: entries().length > 0">
-        <a class="btn btn-primary" href="#" 
-           data-bind="route: archive.sheet.entry.add | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
+        <a class="btn btn-primary" href="#" data-bind="route: archive.sheet.entry.add | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
             <span class="fas fa-plus"></span>
             Toevoegen
         </a>
         <div class="btn-group btn-group-sm" role="group" ko-visible="unusedTemplates().length !== 0">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
                 Van template
             </button>
             <div class="dropdown-menu" data-bind="foreach: unusedTemplates">
@@ -34,13 +33,14 @@
             </div>
         </div>
     </div>
-    
+
     <div data-bind="with: $parent.expenseTrajectory">
         <div class="card text-white bg-danger mb-3" style="max-width: 40rem;" data-bind="visible: unpayableExpenses.length > 0">
             <div class="card-header"><span class="far fa-credit-card"></span> Uitgavenwaarschuwing</div>
             <div class="card-body">
                 <p class="card-text" data-bind="visible: nextIncome, if: nextIncome">
-                    Let op! Er is tot de volgende inkomsten (<span data-bind="formatText: nextIncome.delta, format: 'c'"></span> via <span data-bind="text: nextIncome.source"></span>)
+                    Let op! Er is tot de volgende inkomsten (<span data-bind="formatText: nextIncome.delta, format: 'c'"></span>
+                    via <span data-bind="text: nextIncome.source"></span>)
                     onvoldoende geld beschikbaar om de volgende vaste lasten te kunnen betalen:
                 </p>
                 <p class="card-text" data-bind="hidden: nextIncome">
@@ -64,96 +64,77 @@
                     </tbody>
                 </table>
 
-                <p class="card-text">Maak geld vrij om ervoor te zorgen dat de bovenstaande uitgaven afgeschreven kunnen worden.</p>
+                <p class="card-text">Maak geld vrij om ervoor te zorgen dat de bovenstaande uitgaven afgeschreven
+                    kunnen worden.</p>
             </div>
         </div>
     </div>
 
-    <div data-bind="foreach: entries">
-        <table class="table table-sm sheet-mobile-table">
-            <tr>
-                <th colspan="2">
-                    <button class="pull-right btn btn-link"
-                            data-bind="visible: remark() && !showRemark(), click: toggleRemark, tooltip: 'Extra notities of opmerkingen bekijken'">
-                        <span class="fas fa-arrows-alt"></span>
-                    </button>
+    <ul ko-foreach:data="entries" ko-foreach:as#="entry" class="sheet-edit-touch-list touch-list touch-list--full-width">
+        <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
+            <div class="swipeable__action-container swipeable__action-container-left">
+                <a class="swipeable__action swipeable__action-left bg-primary" data-bind="route: archive.sheet.entry.edit | { month: $page.date().getMonth() + 1, year: $page.date().getFullYear(), id: entry.id }">
+                    <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
+                    <span class="swipeable__action-label">Bewerken</span>
+                </a>
 
-                    <div data-bind="text: source"></div>
-                </th>
-            </tr>
-            <tr data-bind="visible: showRemark">
-                <td>
-                    Opmerkingen
-                </td>
-                <td>
-                    <p class="preserve-whitespace" data-bind="text: remark"></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Categorie
-                </td>
-                <td data-bind="text: $page.categoryNameById(categoryId())"></td>
-            </tr>
-            <tr data-bind="visible: account() === AccountType.BankAccount">
-                <td>
-                    Betaalrekening
-                </td>
-                <td data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></td>
-            </tr>
-            <tr data-bind="visible: account() === AccountType.SavingsAccount">
-                <td>
-                    Spaarrekening
-                </td>
-                <td data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></td>
-            </tr>
-            <tr ko-visible="tags().length > 0" 
-                ko-lookup-scope:data="tags" 
-                ko-lookup-scope:source="$page.availableTags" 
-                ko-lookup-scope:selector#="id">
-                <td>
-                   Labels 
-                </td>
-                <td ko-foreach:data="$lookup"
-                    ko-foreach:as#="tag">
-                    <span class="tag-item" 
-                          ko-style:*background-color="tag.hexColorCode ? '#' + tag.hexColorCode : 'transparent'"
-                          ko-text="tag.name"
-                          ko-tooltip="tag.description">
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="padding-left: 0; padding-right: 0; text-align: center;">
-                    <div class="btn-group btn-group-justified btn-group-xs">
-                        <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Decrease)">
-                            <span class="fas fa-arrow-up"></span>
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Increase)">
-                            <span class="fas fa-arrow-down"></span>
-                        </button>
-                        <a class="btn btn-primary" href="#" 
-                           data-bind="disabled: isBusy, 
-                                      route: archive.sheet.entry.edit | { month: $page.date().getMonth() + 1, year: $page.date().getFullYear(), id: id }">
-                            <span class="far fa-edit"></span>
-                        </a>
-                        <button class="btn btn-danger" data-bind="disabled: isBusy, click: $page.deleteEntry">
-                            <span class="fas fa-trash"></span>
-                        </button>
+                <a class="swipeable__action swipeable__action-left bg-secondary" data-bind="click: $page.mutateSortOrderHandler(entry, SortOrderMutation.Decrease)">
+                    <span class="swipeable__action-icon"><span class="fas fa-arrow-up"></span></span>
+                    <span class="swipeable__action-label">Volgorde</span>
+                </a>
+
+                <a class="swipeable__action swipeable__action-left bg-secondary" data-bind="click: $page.mutateSortOrderHandler(entry, SortOrderMutation.Increase)">
+                    <span class="swipeable__action-icon"><span class="fas fa-arrow-down"></span></span>
+                    <span class="swipeable__action-label">Volgorde</span>
+                </a>
+            </div>
+
+            <div class="swipeable__action-container swipeable__action-container-right">
+                <a class="swipeable__action bg-danger" data-bind="click: $page.deleteEntry">
+                    <span class="swipeable__action-icon"><span class="fas fa-chart-bar"></span></span>
+                    <span class="swipeable__action-label">Verwijderen</span>
+                </a>
+            </div>
+
+            <div class="swipeable__body touch-list__item-body">
+                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="disabled: isBusy,
+                route: archive.sheet.entry.edit | { month: $page.date().getMonth() + 1, year: $page.date().getFullYear(), id: id }, text: entry.source"></a>
+                <div class="touch-list__item-details">
+                    <div ko-visible="tags().length > 0" ko-lookup-scope:data="tags" ko-lookup-scope:source="$page.availableTags"
+                        ko-lookup-scope:selector#="id" class="sheet-edit-touch-list__tag-list">
+                        <span ko-foreach:data="$lookup" ko-foreach:as#="tag">
+                            <span class="tag-item" ko-style:*background-color="tag.hexColorCode ? '#' + tag.hexColorCode : 'transparent'"
+                                ko-text="tag.name" ko-tooltip="tag.description">
+                            </span>
+                        </span>
                     </div>
-                </td>
-            </tr>
-        </table>
-    </div>
+
+                    <span data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></span>
+                    ({{entry.account() === AccountType.BankAccount ? 'Betaalrekening' : 'Spaarrekening'}}) in
+                    {{$page.categoryNameById(entry.categoryId())}}.
+
+                    <div ko-visible="remark() && !showRemark()">
+                        <br />
+                        <a href="#" data-bind="click: toggleRemark">
+                            <span class="fas fa-arrows-alt"></span> Opmerkingen tonen
+                        </a>
+                    </div>
+                    <div data-bind="visible: showRemark"><br />
+                        <p class="preserve-whitespace" data-bind="text: remark"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
 
     <div class="btn-group btn-group-justified" role="group">
-        <a class="btn btn-primary" href="#"
-           data-bind="route: archive.sheet.entry.add | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
+        <a class="btn btn-primary" href="#" data-bind="route: archive.sheet.entry.add | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
             <span class="fas fa-plus"></span>
             Toevoegen
         </a>
         <div class="btn-group" role="group" ko-visible="unusedTemplates().length !== 0">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
                 Van template
             </button>
             <div class="dropdown-menu" data-bind="foreach: unusedTemplates">
@@ -163,18 +144,16 @@
     </div>
 
     <p>
-        <a href="#"
-           class="btn btn-secondary btn-block"
-           data-bind="route: archive.sheet.statistics | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
+        <a href="#" class="btn btn-secondary btn-block" data-bind="route: archive.sheet.statistics | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
             <span class="fas fa-chart-bar"></span>
             Rapportage
         </a>
     </p>
 
     <h2>Totalen</h2>
-    <p class="mobile-sheet-summary"
-       data-bind="with: $parent.totals">
-        Bankrekening: <span data-bind="css: { 'balance-negative': bankAccount < 0 }, formatText: bankAccount, format: 'c'"></span> |
+    <p class="mobile-sheet-summary" data-bind="with: $parent.totals">
+        Bankrekening: <span data-bind="css: { 'balance-negative': bankAccount < 0 }, formatText: bankAccount, format: 'c'"></span>
+        |
         Spaarrekening: <span data-bind="css: { 'balance-negative': savingsAccount < 0 }, formatText: savingsAccount, format: 'c'"></span>
     </p>
 </div>
