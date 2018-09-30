@@ -1,13 +1,21 @@
 import * as ko from 'knockout';
 import 'swipe-listener';
 
+// Some shared constants
+const logPrefix = 'SwipeActions',
+    bodySelector = '.swipeable__body',
+    primaryActionSelector = '.swipeable__primary-action',
+    bodyAnimClass = bodySelector.substr(1) + '--is-settling';
+
+interface ISwipeAction {
+    element: HTMLElement;
+    width: number;
+    widthMultiplier: number;
+}
+
 ko.bindingHandlers.swipeActions = {
     init(element: HTMLElement) {
-        const logPrefix = 'SwipeActions',
-            bodySelector = '.swipeable__body',
-            primaryActionSelector = '.swipeable__primary-action',
-            bodyAnimClass = bodySelector.substr(1) + '--is-settling',
-            swipeableElement = element.querySelector(bodySelector) as HTMLElement | null,
+        const swipeableElement = element.querySelector(bodySelector) as HTMLElement | null,
             primaryActionElement =
                 swipeableElement && (swipeableElement.querySelector(primaryActionSelector) as HTMLElement | null);
         if (!swipeableElement || swipeableElement === null) {
@@ -15,20 +23,51 @@ ko.bindingHandlers.swipeActions = {
             throw new Error('Error: Unable to find ' + bodySelector);
         }
 
-        function countMaxSize(actions: NodeListOf<Element>) {
+        function indexActions(selector: string, reverse: boolean): ISwipeAction[] {
+            const result = [],
+                elements = element.querySelectorAll(selector);
+
+            for (let index = 0; index < elements.length; index++) {
+                const currentElement = elements.item(index),
+                    multiplierOffset = reverse ? elements.length - index - 1 : index + 1;
+
+                result.push({
+                    element: currentElement as HTMLElement,
+                    width: currentElement.clientWidth,
+                    widthMultiplier: 1 / multiplierOffset
+                });
+            }
+
+            return result;
+        }
+
+        function setSwipeCompletionAnimation(animElement: HTMLElement) {
+            function onSwipeSettled() {
+                animElement.removeEventListener('transitionend', onSwipeSettled);
+                animElement.removeEventListener('transitioncancel', onSwipeSettled);
+
+                animElement.classList.remove(bodyAnimClass);
+            }
+
+            animElement.addEventListener('transitionend', onSwipeSettled);
+            animElement.addEventListener('transitioncancel', onSwipeSettled);
+            animElement.classList.add(bodyAnimClass);
+        }
+
+        function sumActionSize(actions: ISwipeAction[]) {
             let size = 0;
-            for (let index = 0; index < actions.length; index++) {
-                size += actions.item(index).clientWidth;
+            for (const action of actions) {
+                size += action.width;
             }
             return size;
         }
 
         // We don't know before hand how many actions there are, and we don't know
         // the width per swipeable action. We measure the maximum swipe distance we allow.
-        const leftActions = element.querySelectorAll('.swipeable__action-container-left > .swipeable__action'),
-            leftActionSize = countMaxSize(leftActions),
-            rightActions = element.querySelectorAll('.swipeable__action-container-right > .swipeable__action'),
-            rightActionSize = countMaxSize(rightActions);
+        const leftActions = indexActions('.swipeable__action-container-left > .swipeable__action', false),
+            leftActionSize = sumActionSize(leftActions),
+            rightActions = indexActions('.swipeable__action-container-right > .swipeable__action', true),
+            rightActionSize = sumActionSize(rightActions);
 
         let currentOffset = 0,
             preventImmediateClick = false;
@@ -37,11 +76,25 @@ ko.bindingHandlers.swipeActions = {
             minVertical: 1000 // Prevent top/bottom swipe
         });
 
-        function setSwipeState(diff: number) {
-            const transformString = `translateX(${diff}px)`,
-                elementStyle = swipeableElement!.style;
+        function setElementTransform(element: HTMLElement, num: number) {
+            const transformString = `translateX(${num}px)`,
+                elementStyle = element.style;
             elementStyle.setProperty('-webkit-transform', transformString);
             elementStyle.setProperty('transform', transformString);
+        }
+
+        function setSwipeState(diff: number) {
+            setElementTransform(swipeableElement!, diff);
+
+            for (const action of leftActions) {
+                const total = diff * action.widthMultiplier - leftActionSize;
+                setElementTransform(action.element, total);
+            }
+
+            for (const action of rightActions) {
+                const total = diff * action.widthMultiplier + rightActionSize;
+                setElementTransform(action.element, total);
+            }
         }
 
         function calculateDiff(xStart: number, xEnd: number) {
@@ -60,16 +113,9 @@ ko.bindingHandlers.swipeActions = {
                 cancelThreshold = directionMax / 2;
 
             // Set-up animation
-            function onSwipeSettled() {
-                swipeableElement!.removeEventListener('transitionend', onSwipeSettled);
-                swipeableElement!.removeEventListener('transitioncancel', onSwipeSettled);
-
-                swipeableElement!.classList.remove(bodyAnimClass);
-            }
-
-            swipeableElement!.addEventListener('transitionend', onSwipeSettled);
-            swipeableElement!.addEventListener('transitioncancel', onSwipeSettled);
-            swipeableElement!.classList.add(bodyAnimClass);
+            setSwipeCompletionAnimation(swipeableElement!);
+            leftActions.forEach(item => setSwipeCompletionAnimation(item.element));
+            rightActions.forEach(item => setSwipeCompletionAnimation(item.element));
 
             // Force layout, otherwise transition won't happen (note: if this doesn't work out on Webkit, we can try .focus())
             swipeableElement!.offsetHeight.toString();
@@ -122,6 +168,7 @@ ko.bindingHandlers.swipeActions = {
             primaryActionElement.click();
         }
 
+        // Event-listener rearing
         swipeableElement!.addEventListener('click', onSwipeableElementClick);
         element.addEventListener('swiperelease', onSwipeEvent);
         element.addEventListener('swiping', onSwipingEvent);
@@ -133,5 +180,8 @@ ko.bindingHandlers.swipeActions = {
             element.removeEventListener('swipe', onSwipeEvent);
             element.removeEventListener('swiping', onSwipingEvent);
         });
+
+        // Initial init
+        setSwipeState(0);
     }
 };
