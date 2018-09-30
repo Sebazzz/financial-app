@@ -8,15 +8,24 @@
     <!-- ko responsiveRender: 'mobile' -->
     <ul ko-foreach:data="sheets" ko-foreach:as#="sheet" class="touch-list touch-list--full-width">
         <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
-            <a class="swipeable__action swipeable__action-left bg-info" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }">
-                <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
-                <span class="swipeable__action-label">Bewerken</span>
-            </a>
+            <div class="swipeable__action-container swipeable__action-container-left">
+                <a class="swipeable__action swipeable__action-left bg-info" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }">
+                    <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
+                    <span class="swipeable__action-label">Bewerken</span>
+                </a>
+            </div>
 
-            <a class="swipeable__action swipeable__action-right bg-info" data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }">
-                <span class="swipeable__action-icon"><span class="far fa-chart-bar"></span></span>
-                <span class="swipeable__action-label">Statistieken</span>
-            </a>
+            <div class="swipeable__action-container swipeable__action-container-right">
+                <a class="swipeable__action bg-info" data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }">
+                    <span class="swipeable__action-icon"><span class="fas fa-chart-bar"></span></span>
+                    <span class="swipeable__action-label">Statistieken</span>
+                </a>
+
+                <a class="swipeable__action bg-info" data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }">
+                    <span class="swipeable__action-icon"><span class="fas fa-table"></span></span>
+                    <span class="swipeable__action-label">Budget</span>
+                </a>
+            </div>
 
             <div class="swipeable__body touch-list__item-body">
                 <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
