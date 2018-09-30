@@ -37,7 +37,7 @@ ko.bindingHandlers.swipeActions = {
 
                 result.push({
                     element: currentElement as HTMLElement,
-                    width: currentElement.clientWidth,
+                    width: currentElement.getBoundingClientRect().width,
                     widthMultiplier: multiplierOffset / elements.length // 1 <= x < 0
                 });
             }
@@ -77,7 +77,7 @@ ko.bindingHandlers.swipeActions = {
             for (const action of actions) {
                 size += action.width;
             }
-            return size;
+            return size; // Offset for multiple actions, we are getting a difference somehow
         }
 
         // We don't know before hand how many actions there are, and we don't know
@@ -113,7 +113,10 @@ ko.bindingHandlers.swipeActions = {
             // items must have a translation of 0, so they appear where they should.
             for (const action of leftActions) {
                 const total = (diff - leftActionSize) * action.widthMultiplier;
-                setElementTransform(action.element, total);
+                setElementTransform(
+                    action.element,
+                    total - leftActions.length - 1 /*Account for offset at left side, was not able to find the cause*/
+                );
             }
 
             for (const action of rightActions) {

@@ -14,7 +14,6 @@
     }
 }
 
-
 @keyframes saving-row {
     0% {
         opacity: 0.6;
@@ -31,15 +30,15 @@
 
 @keyframes transient-row {
     0% {
-        background-color: rgba(0,0,0, 0);
+        background-color: rgba(0, 0, 0, 0);
     }
 
     50% {
-        background-color: rgba(0,0,0, 255);
+        background-color: rgba(0, 0, 0, 255);
     }
 
     100% {
-        background-color: rgba(0,0,0, 0);
+        background-color: rgba(0, 0, 0, 0);
     }
 }
 
@@ -47,7 +46,6 @@ tr.transient {
     opacity: 0.8;
     animation: transient-row 700ms linear infinite;
 }
-
 
 .sheet-mobile-table tr td:first-child {
     width: 30%;
@@ -99,5 +97,14 @@ tr#sheet-offset td + td {
 .budget-table {
     .negative {
         color: crimson;
+    }
+}
+
+.sheet-edit-touch-list {
+    margin-top: 2em;
+
+    &__tag-list {
+        margin-bottom: 0.5em;
+        float: right;
     }
 }
