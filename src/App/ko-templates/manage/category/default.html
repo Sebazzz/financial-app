@@ -5,33 +5,60 @@
         Onderstaand vind je categorieën die je kan gebruiken bij het indelen van je financiën.
     </p>
 
+    <!-- ko responsiveRender: 'mobile' -->
+    <ul ko-foreach:data="categories" ko-foreach:as#="category" class="touch-list touch-list--full-width">
+        <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
+            <div class="swipeable__action-container swipeable__action-container-left">
+                <a class="swipeable__action swipeable__action-left bg-primary" data-bind="route: manage.category.edit | { id: category.id }">
+                    <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
+                    <span class="swipeable__action-label">Bewerken</span>
+                </a>
+            </div>
+
+            <div class="swipeable__action-container swipeable__action-container-right">
+                <a class="swipeable__action bg-danger" data-bind="click: $page.deleteCategory, css: { 'disabled': !category.canBeDeleted }">
+                    <span class="swipeable__action-icon"><span class="fas fa-chart-bar"></span></span>
+                    <span class="swipeable__action-label">Verwijderen</span>
+                </a>
+            </div>
+
+            <div class="swipeable__body touch-list__item-body">
+                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="route: manage.category.edit | { id: category.id }, text: category.name"></a>
+                <div class="touch-list__item-details">
+                    <span data-bind="text: category.description">
+                    </span>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <!-- /ko -->
+
+    <!-- ko responsiveRender: 'desktop' -->
     <ul class="list-unstyled actionable-list" data-bind="foreach: { data: categories, as: 'category' }">
         <li>
             <div class="pull-right">
-                <a class="btn btn-secondary"
-                   href="#"
-                   data-bind="route: manage.category.edit | { id: category.id }, tooltip: 'Categorie bewerken'">
+                <a class="btn btn-primary" href="#" data-bind="route: manage.category.edit | { id: category.id }, tooltip: 'Categorie bewerken'">
                     <span class="far fa-edit"></span>
                 </a>
-                
+
                 <span class="inline-block" data-bind="tooltip: category.canBeDeleted ? 'Categorie verwijderen' : 'Deze categorie is in gebruik en kan daarom niet verwijderd worden.'">
-                    <a class="btn btn-outline-danger"
-                       data-bind="click: $parent.deleteCategory, css: { 'disabled': !category.canBeDeleted }">
+                    <a class="btn btn-outline-danger" data-bind="click: $page.deleteCategory, css: { 'disabled': !category.canBeDeleted }">
                         <span class="fas fa-trash"></span>
                     </a>
                 </span>
             </div>
-            
+
             <strong>
-                <a href="#"
-                   data-bind="route: manage.category.edit | { id: category.id }, text: category.name"></a>
-            </strong><br/>
+                <a href="#" data-bind="route: manage.category.edit | { id: category.id }, text: category.name"></a>
+            </strong><br />
 
             <small data-bind="text: category.description"></small>
         </li>
     </ul>
-    
+    <!-- /ko -->
+
     <p>
-        <a href="#" data-bind="route: manage.category.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuwe categorie</a>
+        <a href="#" data-bind="route: manage.category.add" class="btn btn-secondary"><span class="fas fa-plus"></span>
+            Nieuwe categorie</a>
     </p>
 </div>
