@@ -25,9 +25,9 @@ ko.bindingHandlers.swipeActions = {
 
         // We don't know before hand how many actions there are, and we don't know
         // the width per swipeable action. We measure the maximum swipe distance we allow.
-        const leftActions = element.querySelectorAll('.swipeable__action-left'),
+        const leftActions = element.querySelectorAll('.swipeable__action-container-left > .swipeable__action'),
             leftActionSize = countMaxSize(leftActions),
-            rightActions = element.querySelectorAll('.swipeable__action-right'),
+            rightActions = element.querySelectorAll('.swipeable__action-container-right > .swipeable__action'),
             rightActionSize = countMaxSize(rightActions);
 
         let currentOffset = 0,

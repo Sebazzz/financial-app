@@ -14,10 +14,14 @@
     }
 
     &__action {
-        display: block;
-        position: absolute;
-        top: 0;
-        bottom: 0;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        float: left;
+        height: 100%;
+
         text-align: center;
         padding: 0.25rem 1.5rem;
 
@@ -30,12 +34,19 @@
             color: #fff;
         }
 
-        &-left {
-            left: 0;
-        }
+        &-container {
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
 
-        &-right {
-            right: 0;
+            &-left {
+                left: 0;
+            }
+
+            &-right {
+                right: 0;
+            }
         }
 
         &-icon {
