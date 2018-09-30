@@ -7,7 +7,6 @@
     &__body {
         transform: translateX(0);
         background: inherit;
-        padding: 0.4rem 0.5rem;
 
         &--is-settling {
             transition: transform 750ms ease;
@@ -20,8 +19,16 @@
         top: 0;
         bottom: 0;
         text-align: center;
-        color: #fff;
-        padding: 0.1rem 0.5rem;
+        padding: 0.25rem 1.5rem;
+
+        &,
+        &:link,
+        &:visited,
+        &:hover,
+        &:active {
+            text-decoration: none;
+            color: #fff;
+        }
 
         &-left {
             left: 0;
