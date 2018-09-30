@@ -185,6 +185,11 @@ ko.bindingHandlers.swipeActions = {
                 return;
             }
 
+            // If it is an hyperlink, skip it
+            if (ev.target && (ev.target as HTMLElement).tagName === 'A') {
+                return;
+            }
+
             // Trigger click on primary element
             ev.preventDefault();
             ev.stopPropagation();
