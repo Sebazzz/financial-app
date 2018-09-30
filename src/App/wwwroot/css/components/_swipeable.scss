@@ -6,7 +6,6 @@
 
     &__body {
         transform: translateX(0);
-        background: inherit;
 
         &--is-settling {
             transition: transform 750ms ease;

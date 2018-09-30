@@ -3,12 +3,10 @@ $touch-list-border-color: $gray-600;
 .touch-list {
     list-style: none;
     padding: 0;
-    background: $body-bg;
     border-top: 1px solid $touch-list-border-color;
 
     &__item {
         border-bottom: 1px solid $touch-list-border-color;
-        background: inherit;
 
         &-body {
             padding: 0.6rem 0.5rem;
