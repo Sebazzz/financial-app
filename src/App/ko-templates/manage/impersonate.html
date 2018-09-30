@@ -5,14 +5,33 @@
         Log in als andere gebruikers die jouw account vertrouwen.
     </p>
 
-    <ul class="list-unstyled actionable-list" 
-        ko-foreach="users">
+    <!-- ko responsiveRender: 'mobile' -->
+    <ul ko-foreach="users" class="touch-list touch-list--full-width">
+        <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
+            <div class="swipeable__action-container swipeable__action-container-left">
+                <a class="swipeable__action swipeable__action-left bg-primary" data-bind="click: $parent.impersonate">
+                    <span class="swipeable__action-icon"><span class="far fa-user-circle"></span></span>
+                    <span class="swipeable__action-label">Inloggen</span>
+                </a>
+            </div>
+
+            <div class="swipeable__body touch-list__item-body">
+                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="click: $parent.impersonate, text: userName"></a>
+                <div class="touch-list__item-details">
+                    <span data-bind="text: email">
+                    </span>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <!-- /ko -->
+
+    <!-- ko responsiveRender: 'desktop' -->
+    <ul class="list-unstyled actionable-list" ko-foreach="users">
         <li>
             <div class="pull-right">
-                <span class="inline-block" 
-                      ko-tooltip#="Inloggen als deze gebruiker">
-                    <a class="btn btn-primary"
-                       ko-click="$parent.impersonate">
+                <span class="inline-block" ko-tooltip#="Inloggen als deze gebruiker">
+                    <a class="btn btn-primary" ko-click="$parent.impersonate">
                         <span class="far fa-user-circle"></span>
                         Inloggen
                     </a>
@@ -20,12 +39,11 @@
             </div>
 
             <strong>
-                <a href="#"
-                   ko-click="$parent.impersonate"
-                   ko-text="userName"></a>
-            </strong> 
+                <a href="#" ko-click="$parent.impersonate" ko-text="userName"></a>
+            </strong>
 
             <small>({{email}})</small>
         </li>
     </ul>
+    <!-- /ko -->
 </div>
