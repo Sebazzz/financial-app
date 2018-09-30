@@ -1,15 +1,17 @@
+$touch-list-border-color: $gray-600;
+
 .touch-list {
     list-style: none;
     padding: 0;
     background: $body-bg;
+    border-top: 1px solid $touch-list-border-color;
 
     &__item {
-        border-bottom: 1px solid $gray-100;
+        border-bottom: 1px solid $touch-list-border-color;
         background: inherit;
-        padding: 0.6rem 0.5rem;
 
-        &--is-swipeable {
-            padding: 0;
+        &-body {
+            padding: 0.6rem 0.5rem;
         }
 
         &-title {
@@ -29,6 +31,18 @@
         &-details {
             color: $gray-500;
             font-size: 0.8em;
+        }
+    }
+
+    &--full-width {
+        $neg-margin: ($grid-gutter-width / 2) * -1;
+        margin-left: $neg-margin;
+        margin-right: $neg-margin;
+
+        .swipeable .touch-list__item-body {
+            $extra-padding: $neg-margin * -2;
+            padding-left: $extra-padding;
+            padding-right: $extra-padding;
         }
     }
 }

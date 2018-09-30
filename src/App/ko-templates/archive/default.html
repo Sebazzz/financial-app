@@ -6,7 +6,7 @@
     </p>
 
     <!-- ko responsiveRender: 'mobile' -->
-    <ul ko-foreach:data="sheets" ko-foreach:as#="sheet" class="touch-list">
+    <ul ko-foreach:data="sheets" ko-foreach:as#="sheet" class="touch-list touch-list--full-width">
         <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
             <a class="swipeable__action swipeable__action-left bg-info" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }">
                 <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
@@ -18,7 +18,7 @@
                 <span class="swipeable__action-label">Statistieken</span>
             </a>
 
-            <div class="swipeable__body">
+            <div class="swipeable__body touch-list__item-body">
                 <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
                             text: $parent.displayName(sheet)"></a>
                 <div class="touch-list__item-details">

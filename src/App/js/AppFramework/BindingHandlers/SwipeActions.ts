@@ -3,7 +3,7 @@ import 'swipe-listener';
 
 ko.bindingHandlers.swipeActions = {
     init(element: HTMLElement) {
-        const logPrefix = 'SwipeActions: ',
+        const logPrefix = 'SwipeActions',
             bodySelector = '.swipeable__body',
             primaryActionSelector = '.swipeable__primary-action',
             bodyAnimClass = bodySelector.substr(1) + '--is-settling',
@@ -23,6 +23,8 @@ ko.bindingHandlers.swipeActions = {
             return size;
         }
 
+        // We don't know before hand how many actions there are, and we don't know
+        // the width per swipeable action. We measure the maximum swipe distance we allow.
         const leftActions = element.querySelectorAll('.swipeable__action-left'),
             leftActionSize = countMaxSize(leftActions),
             rightActions = element.querySelectorAll('.swipeable__action-right'),
