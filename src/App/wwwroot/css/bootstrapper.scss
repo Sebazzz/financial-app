@@ -5,6 +5,10 @@ top-menu {
     display: block;
 }
 
+.navbar {
+    display: none; // Prevent FOUC
+}
+
 .top-menu-placeholder {
     border-top: $navbar-top-border-width solid darken($accent-color, 15%);
     background-color: $gray-800;
