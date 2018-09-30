@@ -19,7 +19,7 @@
             </a>
 
             <div class="swipeable__body">
-                <a href="#" class="touch-list__item-title" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
                             text: $parent.displayName(sheet)"></a>
                 <div class="touch-list__item-details">
                     <span data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative':
