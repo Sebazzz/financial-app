@@ -6,16 +6,29 @@
     &__item {
         border-bottom: 1px solid $gray-100;
         background: inherit;
-        padding: 0.2rem 0.5rem;
+        padding: 0.6rem 0.5rem;
 
         &--is-swipeable {
             padding: 0;
         }
 
         &-title {
+            &,
+            &:link,
+            &:visited,
+            &:hover,
+            &:active {
+                text-decoration: none;
+                color: #fff;
+                font-weight: bold;
+                font-size: 1.2em;
+                line-height: 2;
+            }
         }
 
         &-details {
+            color: $gray-500;
+            font-size: 0.8em;
         }
     }
 }
