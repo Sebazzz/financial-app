@@ -213,8 +213,10 @@ ko.bindingHandlers.swipeActions = {
 
             // Click / touch happened somewhere else, prevent it from executing and slide current in
             // This behavior is the same on smartphone list views
-            ev.preventDefault();
-            ev.stopPropagation();
+            if ((ev.target && container.contains(ev.target as HTMLElement)) || ev.target === container) {
+                ev.preventDefault();
+                ev.stopPropagation();
+            }
 
             delete container!.dataset.itemIsOpened;
             prepareSwipeCompletionAnimation();
@@ -225,7 +227,7 @@ ko.bindingHandlers.swipeActions = {
         swipeableElement!.addEventListener('click', onSwipeableElementClick);
         element.addEventListener('swiperelease', onSwipeEvent);
         element.addEventListener('swiping', onSwipingEvent);
-        container!.addEventListener('click', onContainerClick);
+        document.body.addEventListener('click', onContainerClick);
 
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => {
             listener.off();
@@ -233,7 +235,7 @@ ko.bindingHandlers.swipeActions = {
             swipeableElement!.removeEventListener('click', onSwipeableElementClick);
             element.removeEventListener('swipe', onSwipeEvent);
             element.removeEventListener('swiping', onSwipingEvent);
-            container!.removeEventListener('click', onContainerClick);
+            document.body.removeEventListener('click', onContainerClick);
         });
 
         // Initial init
