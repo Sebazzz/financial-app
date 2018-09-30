@@ -32,12 +32,12 @@ ko.bindingHandlers.swipeActions = {
 
             for (let index = 0; index < elements.length; index++) {
                 const currentElement = elements.item(index),
-                    multiplierOffset = reverse ? elements.length - index - 1 : index + 1;
+                    multiplierOffset = reverse ? elements.length - index : index + 1;
 
                 result.push({
                     element: currentElement as HTMLElement,
                     width: currentElement.clientWidth,
-                    widthMultiplier: 1 / multiplierOffset
+                    widthMultiplier: multiplierOffset / elements.length // 1 <= x < 0
                 });
             }
 
@@ -92,18 +92,21 @@ ko.bindingHandlers.swipeActions = {
 
         /**
          * Set the relative swipe state (how open/closed) of the element
-         * @param diff Difference from base in px
+         * @param diff Difference from base position in px. IF swiping to the left, this is negative.
          */
         function setSwipeState(diff: number) {
             setElementTransform(swipeableElement!, diff);
 
+            // In base position the action items are translated just outside the viewport,
+            // and positioned on top of each other. In fully extended position the
+            // items must have a translation of 0, so they appear where they should.
             for (const action of leftActions) {
-                const total = diff * action.widthMultiplier - leftActionSize;
+                const total = (diff - leftActionSize) * action.widthMultiplier;
                 setElementTransform(action.element, total);
             }
 
             for (const action of rightActions) {
-                const total = diff * action.widthMultiplier + rightActionSize;
+                const total = (rightActionSize + diff) * action.widthMultiplier;
                 setElementTransform(action.element, total);
             }
         }
