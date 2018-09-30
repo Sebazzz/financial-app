@@ -15,7 +15,8 @@ interface ISwipeAction {
 
 ko.bindingHandlers.swipeActions = {
     init(element: HTMLElement) {
-        const swipeableElement = element.querySelector(bodySelector) as HTMLElement | null,
+        const container = element.parentElement as HTMLElement,
+            swipeableElement = element.querySelector(bodySelector) as HTMLElement | null,
             primaryActionElement =
                 swipeableElement && (swipeableElement.querySelector(primaryActionSelector) as HTMLElement | null);
         if (!swipeableElement || swipeableElement === null) {
@@ -59,6 +60,16 @@ ko.bindingHandlers.swipeActions = {
             animElement.addEventListener('transitionend', onSwipeSettled);
             animElement.addEventListener('transitioncancel', onSwipeSettled);
             animElement.classList.add(bodyAnimClass);
+        }
+
+        function prepareSwipeCompletionAnimation() {
+            // Set-up animation
+            setSwipeCompletionAnimation(swipeableElement!);
+            leftActions.forEach(item => setSwipeCompletionAnimation(item.element));
+            rightActions.forEach(item => setSwipeCompletionAnimation(item.element));
+
+            // Force layout, otherwise transition won't happen (note: if this doesn't work out on Webkit, we can try .focus())
+            swipeableElement!.offsetHeight.toString();
         }
 
         function sumActionSize(actions: ISwipeAction[]) {
@@ -126,22 +137,22 @@ ko.bindingHandlers.swipeActions = {
                 fullOpenSize = xDiff < 0 ? -1 * rightActionSize : leftActionSize,
                 cancelThreshold = directionMax / 2;
 
-            // Set-up animation
-            setSwipeCompletionAnimation(swipeableElement!);
-            leftActions.forEach(item => setSwipeCompletionAnimation(item.element));
-            rightActions.forEach(item => setSwipeCompletionAnimation(item.element));
-
-            // Force layout, otherwise transition won't happen (note: if this doesn't work out on Webkit, we can try .focus())
-            swipeableElement!.offsetHeight.toString();
-
+            // If we didn't swipe enough, we close again (observed threshold appears to be
+            // on the half of the swipe)
+            prepareSwipeCompletionAnimation();
             if (Math.abs(xDiff) < cancelThreshold) {
                 setSwipeState(0);
                 currentOffset = 0;
+
+                delete container!.dataset.itemIsOpened;
             } else {
                 setSwipeState(fullOpenSize);
                 currentOffset = xDiff;
+
+                container!.dataset.itemIsOpened = 'true';
             }
 
+            // Prevent click events to occur if we slided enough
             if (xDiff > 5) {
                 preventImmediateClick = true;
                 window.setTimeout(() => (preventImmediateClick = false), 1);
@@ -154,7 +165,7 @@ ko.bindingHandlers.swipeActions = {
             const [xStart, xEnd] = detail.x,
                 xDiff = calculateDiff(xStart, xEnd);
 
-            console.info('[%s] Swiping %s-%s=%s', logPrefix, xStart, xEnd, xDiff);
+            // Update offsets
             setSwipeState(xDiff);
         }
 
@@ -166,6 +177,11 @@ ko.bindingHandlers.swipeActions = {
                 primaryActionElement!.contains(ev.target as Node)
             ) {
                 // Let it propagate
+                return;
+            }
+
+            // We don't want to handle this event if there is another item open in the same container
+            if (container!.dataset.itemIsOpened === 'true') {
                 return;
             }
 
@@ -182,10 +198,34 @@ ko.bindingHandlers.swipeActions = {
             primaryActionElement.click();
         }
 
+        function onContainerClick(ev: MouseEvent) {
+            // Check whether current element was clicked
+            if (ev.target && swipeableElement) {
+                if (ev.target === swipeableElement || swipeableElement.contains(ev.target as HTMLElement)) {
+                    return;
+                }
+            }
+
+            // Check if we are the one that needs to retract
+            if (currentOffset === 0) {
+                return;
+            }
+
+            // Click / touch happened somewhere else, prevent it from executing and slide current in
+            // This behavior is the same on smartphone list views
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            delete container!.dataset.itemIsOpened;
+            prepareSwipeCompletionAnimation();
+            setSwipeState(0);
+        }
+
         // Event-listener rearing
         swipeableElement!.addEventListener('click', onSwipeableElementClick);
         element.addEventListener('swiperelease', onSwipeEvent);
         element.addEventListener('swiping', onSwipingEvent);
+        container!.addEventListener('click', onContainerClick);
 
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => {
             listener.off();
@@ -193,6 +233,7 @@ ko.bindingHandlers.swipeActions = {
             swipeableElement!.removeEventListener('click', onSwipeableElementClick);
             element.removeEventListener('swipe', onSwipeEvent);
             element.removeEventListener('swiping', onSwipingEvent);
+            container!.removeEventListener('click', onContainerClick);
         });
 
         // Initial init
