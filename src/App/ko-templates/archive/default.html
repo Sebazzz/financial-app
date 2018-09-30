@@ -9,7 +9,7 @@
     <ul ko-foreach:data="sheets" ko-foreach:as#="sheet" class="touch-list touch-list--full-width">
         <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
             <div class="swipeable__action-container swipeable__action-container-left">
-                <a class="swipeable__action swipeable__action-left bg-info" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }">
+                <a class="swipeable__action swipeable__action-left bg-primary" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }">
                     <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
                     <span class="swipeable__action-label">Bewerken</span>
                 </a>
@@ -21,7 +21,7 @@
                     <span class="swipeable__action-label">Statistieken</span>
                 </a>
 
-                <a class="swipeable__action bg-info" data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }">
+                <a class="swipeable__action bg-secondary" data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }">
                     <span class="swipeable__action-icon"><span class="fas fa-table"></span></span>
                     <span class="swipeable__action-label">Budget</span>
                 </a>
