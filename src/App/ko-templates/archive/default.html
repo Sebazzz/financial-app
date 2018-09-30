@@ -5,7 +5,8 @@
         Hier wordt een lijst getoond van opgeslagen maanden in het archief.
     </p>
 
-    <ul ko-foreach:data="[sheets()[0]]" ko-foreach:as#="sheet" class="touch-list">
+    <!-- ko responsiveRender: 'mobile' -->
+    <ul ko-foreach:data="sheets" ko-foreach:as#="sheet" class="touch-list">
         <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
             <a class="swipeable__action swipeable__action-left bg-info" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }">
                 <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
@@ -29,7 +30,9 @@
             </div>
         </li>
     </ul>
+    <!-- /ko -->
 
+    <!-- ko responsiveRender: 'desktop' -->
     <table class="table table-sm table-responsive-sm table-sheet-archive">
         <tbody data-bind="foreach: { data: sheets, as: 'sheet' }">
             <tr>
@@ -56,4 +59,5 @@
             </tr>
         </tbody>
     </table>
+    <!-- /ko -->
 </div>
