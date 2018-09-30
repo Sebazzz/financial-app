@@ -5,37 +5,60 @@
         Beheer met dit scherm de medegebruikers (en jezelf) in je account.
     </p>
 
-    <ul class="list-unstyled actionable-list" 
-        ko-foreach:data="users"
-        ko-foreach:as#="user">
+    <!-- ko responsiveRender: 'mobile' -->
+    <ul ko-foreach:data="users" ko-foreach:as#="user" class="touch-list touch-list--full-width">
+        <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
+            <div class="swipeable__action-container swipeable__action-container-left">
+                <a class="swipeable__action swipeable__action-left bg-primary" data-bind="route: manage.user.edit | { id: user.id }">
+                    <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
+                    <span class="swipeable__action-label">Bewerken</span>
+                </a>
+            </div>
+
+            <div class="swipeable__action-container swipeable__action-container-right">
+                <a class="swipeable__action bg-danger" data-bind="click: $page.deleteUser">
+                    <span class="swipeable__action-icon"><span class="fas fa-chart-bar"></span></span>
+                    <span class="swipeable__action-label">Verwijderen</span>
+                </a>
+            </div>
+
+            <div class="swipeable__body touch-list__item-body">
+                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="route: manage.user.edit | { id: user.id }, text: user.userName"></a>
+                <div class="touch-list__item-details">
+                    <span data-bind="text: user.email">
+                    </span>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <!-- /ko -->
+
+    <!-- ko responsiveRender: 'desktop' -->
+    <ul class="list-unstyled actionable-list" ko-foreach:data="users" ko-foreach:as#="user">
         <li>
             <div class="pull-right">
-                <a class="btn btn-secondary" 
-                   href="#"
-                   ko-tooltip#="Gebruiker bewerken"
-                   ko-route="manage.user.edit | { id: user.id }">
+                <a class="btn btn-primary" href="#" ko-tooltip#="Gebruiker bewerken" ko-route="manage.user.edit | { id: user.id }">
                     <span class="far fa-edit"></span>
                 </a>
 
                 <span class="inline-block" ko-tooltip#="Gebruiker verwijderen">
-                    <a class="btn btn-outline-danger"
-                       ko-click="$parent.deleteUser">
+                    <a class="btn btn-outline-danger" ko-click="$page.deleteUser">
                         <span class="fas fa-trash"></span>
                     </a>
                 </span>
             </div>
 
             <strong>
-                <a href="#"
-                   ko-route="manage.user.edit | { id: user.id }"
-                   ko-text="user.userName"></a>
-            </strong> 
+                <a href="#" ko-route="manage.user.edit | { id: user.id }" ko-text="user.userName"></a>
+            </strong>
 
             <small>({{user.email}})</small>
         </li>
     </ul>
-    
+    <!-- /ko -->
+
     <p>
-        <a href="#" ko-route="manage.user.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuwe gebruiker</a>
+        <a href="#" ko-route="manage.user.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuwe
+            gebruiker</a>
     </p>
 </div>
