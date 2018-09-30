@@ -2,37 +2,63 @@
 
 <div>
     <p>
-        Onderstaand vind je labels die je kan gebruiken om uitgaves te labelen zodat je hier later rapportages over kan bekijken. Bijvoorbeeld "Kerstcadeaus 2017". Labels die je niet meer wilt zien kan je verwijderen (inactief maken).
+        Onderstaand vind je labels die je kan gebruiken om uitgaves te labelen zodat je hier later rapportages over kan
+        bekijken. Bijvoorbeeld "Kerstcadeaus 2017". Labels die je niet meer wilt zien kan je verwijderen (inactief
+        maken).
     </p>
 
+    <!-- ko responsiveRender: 'mobile' -->
+    <ul ko-foreach:data="tags" ko-foreach:as#="tag" class="touch-list touch-list--full-width">
+        <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
+            <div class="swipeable__action-container swipeable__action-container-left">
+                <a class="swipeable__action swipeable__action-left bg-primary" data-bind="route: manage.tag.edit | { id: tag.id }">
+                    <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
+                    <span class="swipeable__action-label">Bewerken</span>
+                </a>
+            </div>
+
+            <div class="swipeable__action-container swipeable__action-container-right">
+                <a class="swipeable__action bg-danger" data-bind="click: $page.deleteTag">
+                    <span class="swipeable__action-icon"><span class="fas fa-chart-bar"></span></span>
+                    <span class="swipeable__action-label">Verwijderen</span>
+                </a>
+            </div>
+
+            <div class="swipeable__body touch-list__item-body tagged-with-border" ko-style:*border-left-color="tag.hexColorCode ? '#'+tag.hexColorCode : 'argb(0,0,0,0)'">
+                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="route: manage.tag.edit | { id: tag.id }, text: tag.name"></a>
+                <div class="touch-list__item-details">
+                    <span data-bind="text: tag.description">
+                    </span>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <!-- /ko -->
+
+    <!-- ko responsiveRender: 'desktop' -->
     <ul class="list-unstyled actionable-list" data-bind="foreach: { data: tags, as: 'tag' }">
         <li ko-style:*border-left-color="tag.hexColorCode ? '#'+tag.hexColorCode : 'argb(0,0,0,0)'" class="tagged-with-border">
             <div class="pull-right">
-                <a class="btn btn-secondary"
-                   href="#"
-                   ko-route="manage.tag.edit | { id: tag.id }"
-                   ko-tooltip#="Label bewerken">
+                <a class="btn btn-primary" href="#" ko-route="manage.tag.edit | { id: tag.id }" ko-tooltip#="Label bewerken">
                     <span class="far fa-edit"></span>
                 </a>
-                
+
                 <span class="inline-block" ko-tooltip#="Label verwijderen / inactief maken">
-                    <a class="btn btn-outline-danger"
-                       ko-click="$parent.deleteTag">
+                    <a class="btn btn-outline-danger" ko-click="$page.deleteTag">
                         <span class="fas fa-trash"></span>
                     </a>
                 </span>
             </div>
-            
+
             <strong>
-                <a href="#"
-                   ko-route="manage.tag.edit | { id: tag.id }"
-                   ko-text="tag.name"></a>
-            </strong><br/>
+                <a href="#" ko-route="manage.tag.edit | { id: tag.id }" ko-text="tag.name"></a>
+            </strong><br />
 
             <small data-bind="text: tag.description"></small>
         </li>
     </ul>
-    
+    <!-- /ko -->
+
     <p>
         <a href="#" ko-route="manage.tag.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuw label</a>
     </p>
