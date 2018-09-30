@@ -23,6 +23,9 @@ ko.bindingHandlers.swipeActions = {
             throw new Error('Error: Unable to find ' + bodySelector);
         }
 
+        /**
+         * Index the size and movement multiplier for actions matched this selector
+         */
         function indexActions(selector: string, reverse: boolean): ISwipeAction[] {
             const result = [],
                 elements = element.querySelectorAll(selector);
@@ -41,6 +44,10 @@ ko.bindingHandlers.swipeActions = {
             return result;
         }
 
+        /**
+         * Animate the element specified to their end position. Ensure to call for layout after this.
+         * @param animElement Element to animate
+         */
         function setSwipeCompletionAnimation(animElement: HTMLElement) {
             function onSwipeSettled() {
                 animElement.removeEventListener('transitionend', onSwipeSettled);
@@ -83,6 +90,10 @@ ko.bindingHandlers.swipeActions = {
             elementStyle.setProperty('transform', transformString);
         }
 
+        /**
+         * Set the relative swipe state (how open/closed) of the element
+         * @param diff Difference from base in px
+         */
         function setSwipeState(diff: number) {
             setElementTransform(swipeableElement!, diff);
 
