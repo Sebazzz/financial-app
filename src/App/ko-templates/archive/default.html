@@ -5,30 +5,51 @@
         Hier wordt een lijst getoond van opgeslagen maanden in het archief.
     </p>
 
+    <ul ko-foreach:data="[sheets()[0]]" ko-foreach:as#="sheet" class="touch-list">
+        <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
+            <a class="swipeable__action swipeable__action-left bg-info" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }">
+                <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
+                <span class="swipeable__action-label">Bewerken</span>
+            </a>
+
+            <a class="swipeable__action swipeable__action-right bg-info" data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }">
+                <span class="swipeable__action-icon"><span class="far fa-chart-bar"></span></span>
+                <span class="swipeable__action-label">Statistieken</span>
+            </a>
+
+            <div class="swipeable__body">
+                <a href="#" class="touch-list__item-title" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                            text: $parent.displayName(sheet)"></a>
+                <div class="touch-list__item-details">
+                    <span data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative':
+                                sheet.totals.bankAccount < 0 }">
+                    </span> |
+                    <span data-bind="formatText: sheet.totals.savingsAccount, format: 'c', css: {'balance-negative': sheet.totals.savingsAccount < 0 }"></span>
+                </div>
+            </div>
+        </li>
+    </ul>
+
     <table class="table table-sm table-responsive-sm table-sheet-archive">
         <tbody data-bind="foreach: { data: sheets, as: 'sheet' }">
             <tr>
                 <td>
 
-                    <a href="#"
-                       data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                    <a href="#" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
                               text: $parent.displayName(sheet)"></a>
                 </td>
 
                 <td class="col-number" data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative': sheet.totals.bankAccount < 0 }"></td>
                 <td class="col-number" data-bind="formatText: sheet.totals.savingsAccount, format: 'c', css: {'balance-negative': sheet.totals.savingsAccount < 0 }"></td>
                 <td class="col-actions">
-                    <a class="btn btn-secondary" 
-                        data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                    <a class="btn btn-secondary" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
                             tooltip: 'Bewerken'">
                         <span class="far fa-edit"></span>
                     </a>
-                    <a class="btn btn-secondary" 
-                        data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }, tooltip: 'Rapportage'">
+                    <a class="btn btn-secondary" data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }, tooltip: 'Rapportage'">
                         <span class="fas fa-chart-bar"></span>
                     </a>
-                    <a class="btn btn-secondary"
-                        data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }, tooltip: 'Vergelijking met begroting'">
+                    <a class="btn btn-secondary" data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }, tooltip: 'Vergelijking met begroting'">
                         <span class="fas fa-table"></span>
                     </a>
                 </td>

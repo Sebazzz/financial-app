@@ -31,7 +31,8 @@ const globalsProvider = new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
     'window.jQuery': 'jquery',
-    Popper: ['popper.js', 'default']
+    Popper: ['popper.js', 'default'],
+    SwipeListener: 'swipe-listener'
 });
 
 // Explicitly define libraries to extract to common pending webpack#6666
@@ -167,6 +168,8 @@ function makeTargetSpecificConfig(targetName) {
 
                 // Test framework
                 mocha: 'mocha/mocha.js',
+
+                'swipe-listener': 'swipe-listener/dist/swipe-listener.js',
 
                 // Chart.js: Unbundled version: https://github.com/chartjs/Chart.js/issues/5235
                 'chart.js': 'chart.js/dist/Chart.js',

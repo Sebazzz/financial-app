@@ -6,4 +6,5 @@ import './DataList';
 import './TextFormat';
 import './LookupScope';
 import './BindingContextLog';
+import './SwipeActions';
 import '../Forms/ValidationMessage';

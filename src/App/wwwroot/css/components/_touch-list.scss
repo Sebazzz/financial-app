@@ -1,0 +1,21 @@
+.touch-list {
+    list-style: none;
+    padding: 0;
+    background: $body-bg;
+
+    &__item {
+        border-bottom: 1px solid $gray-100;
+        background: inherit;
+        padding: 0.2rem 0.5rem;
+
+        &--is-swipeable {
+            padding: 0;
+        }
+
+        &-title {
+        }
+
+        &-details {
+        }
+    }
+}

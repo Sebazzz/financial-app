@@ -1,0 +1,39 @@
+.swipeable {
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+    overflow: hidden;
+
+    &__body {
+        transform: translateX(0);
+        background: inherit;
+        padding: 0.2rem 0.5rem;
+    }
+
+    &__action {
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        text-align: center;
+        color: #fff;
+        padding: 0.1rem 0.5rem;
+
+        &-left {
+            left: 0;
+        }
+
+        &-right {
+            right: 0;
+        }
+
+        &-icon {
+            display: block;
+            font-size: 20px;
+        }
+
+        &-label {
+            display: block;
+        }
+    }
+}
