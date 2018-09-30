@@ -2,17 +2,56 @@
 
 <div>
     <p>
-        Om maandelijks terugkerende uitgaven zoals vaste lasten bij te houden elke maand kan je regeltemplates aanmaken.
-        Deze laten in elke maandelijke sheet zien welke verwachte uitgaven er nog op stapel staan. Uitgaven worden meegeteld
+        Om maandelijks terugkerende uitgaven zoals vaste lasten bij te houden elke maand kan je regeltemplates
+        aanmaken.
+        Deze laten in elke maandelijke sheet zien welke verwachte uitgaven er nog op stapel staan. Uitgaven worden
+        meegeteld
         tot de eerste inkomsten die gemaakt zijn om een betrouwbare indicatie te geven.
     </p>
 
+    <!-- ko responsiveRender: 'mobile' -->
+    <ul ko-foreach:data="entryTemplates" ko-foreach:as#="entry" class="touch-list touch-list--full-width">
+        <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
+            <div class="swipeable__action-container swipeable__action-container-left">
+                <a class="swipeable__action swipeable__action-left bg-primary" data-bind="route: manage.entry-template.edit | { id: entry.id }">
+                    <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
+                    <span class="swipeable__action-label">Bewerken</span>
+                </a>
+
+                <a class="swipeable__action swipeable__action-left bg-secondary" data-bind="click: $parent.mutateSortOrderHandler(entry, $parent.SortOrderMutation.Decrease)">
+                    <span class="swipeable__action-icon"><span class="fas fa-arrow-up"></span></span>
+                    <span class="swipeable__action-label">Volgorde</span>
+                </a>
+
+                <a class="swipeable__action swipeable__action-left bg-secondary" data-bind="click: $parent.mutateSortOrderHandler(entry, $parent.SortOrderMutation.Increase)">
+                    <span class="swipeable__action-icon"><span class="fas fa-arrow-down"></span></span>
+                    <span class="swipeable__action-label">Volgorde</span>
+                </a>
+            </div>
+
+            <div class="swipeable__action-container swipeable__action-container-right">
+                <a class="swipeable__action bg-danger" data-bind="click: $page.deleteEntryTemplate">
+                    <span class="swipeable__action-icon"><span class="fas fa-chart-bar"></span></span>
+                    <span class="swipeable__action-label">Verwijderen</span>
+                </a>
+            </div>
+
+            <div class="swipeable__body touch-list__item-body">
+                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="route: manage.entry-template.edit | { id: entry.id }, text: entry.source"></a>
+                <div class="touch-list__item-details">
+                    {{entry.account === $parent.AccountType.BankAccount ? 'Betaalrekening' : 'Spaarrekening'}},
+                    categorie {{entry.categoryName}}.
+                </div>
+            </div>
+        </li>
+    </ul>
+    <!-- /ko -->
+
+    <!-- ko responsiveRender: 'desktop' -->
     <ul class="list-unstyled actionable-list" data-bind="foreach: {data: entryTemplates, as: 'entry'}">
         <li>
             <div class="pull-right">
-                <a class="btn btn-secondary"
-                   href="#"
-                   data-bind="route: manage.entry-template.edit | { id: entry.id }, tooltip: 'Regeltemplate bewerken'">
+                <a class="btn btn-primary" href="#" data-bind="route: manage.entry-template.edit | { id: entry.id }, tooltip: 'Regeltemplate bewerken'">
                     <span class="far fa-edit"></span>
                 </a>
 
@@ -24,25 +63,26 @@
                 </button>
 
                 <span class="inline-block" data-bind="tooltip: 'Regeltemplate verwijderen'">
-                    <a class="btn btn-outline-danger"
-                       data-bind="click: $parent.deleteEntryTemplate">
+                    <a class="btn btn-outline-danger" data-bind="click: $page.deleteEntryTemplate">
                         <span class="fas fa-trash"></span>
                     </a>
                 </span>
             </div>
-            
+
             <strong>
-                <a href="#"
-                   data-bind="route: manage.entry-template.edit | { id: entry.id }, text: entry.source"></a>
+                <a href="#" data-bind="route: manage.entry-template.edit | { id: entry.id }, text: entry.source"></a>
             </strong><br />
 
             <small>
-                {{entry.account === $parent.AccountType.BankAccount ? 'Betaalrekening' : 'Spaarrekening'}}, categorie {{entry.categoryName}}.
+                {{entry.account === $parent.AccountType.BankAccount ? 'Betaalrekening' : 'Spaarrekening'}}, categorie
+                {{entry.categoryName}}.
             </small>
         </li>
     </ul>
-    
+    <!-- /ko -->
+
     <p>
-        <a href="#" data-bind="route: manage.entry-template.add" class="btn btn-secondary"><span class="fas fa-plus"></span> Nieuwe regeltemplate</a>
+        <a href="#" data-bind="route: manage.entry-template.add" class="btn btn-secondary"><span class="fas fa-plus"></span>
+            Nieuwe regeltemplate</a>
     </p>
 </div>
