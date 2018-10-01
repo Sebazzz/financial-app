@@ -13,6 +13,15 @@ $touch-list-border-color: $gray-600;
         }
 
         &-title {
+            &:after {
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                opacity: 0.6;
+                float: right;
+
+                content: fa-content($fa-var-chevron-right);
+            }
+
             &,
             &:link,
             &:visited,
