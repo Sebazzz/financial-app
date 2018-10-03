@@ -3,8 +3,11 @@ import 'swipe-listener';
 
 // Some shared constants
 const logPrefix = 'SwipeActions',
+    // The body which is actually dragged
     bodySelector = '.swipeable__body',
+    // This is "clicked" when the list item is clicked
     primaryActionSelector = '.swipeable__primary-action',
+    // Animation ease class
     bodyAnimClass = bodySelector.substr(1) + '--is-settling';
 
 interface ISwipeAction {
@@ -126,7 +129,41 @@ ko.bindingHandlers.swipeActions = {
         }
 
         function calculateDiff(xStart: number, xEnd: number) {
-            return Math.min(Math.max(xEnd - xStart + currentOffset, -1 * rightActionSize), leftActionSize);
+            const diff = xEnd - xStart + currentOffset;
+
+            if (diff === 0) {
+                return 0;
+            }
+
+            // Determine the bounds.
+            // We need to make it progressively difficult to slide it further
+            // after the bounds, so it slide a bit further, then a bit back.
+            // We do this by a simple square root
+
+            /**
+             * Calculates the amount of distance we will move based on the incoming distance.
+             * This allows us to apply drag/resistance to the incoming touch.
+             *
+             * @param diffAfterBound Distance covered by touch, without the bound
+             * @param bound The current bound, essentially, sum of the action width
+             */
+            function calculateIncrease(diffAfterBound: number, bound: number) {
+                console.assert(diffAfterBound !== 0, 'diffAfterBound !== 0');
+
+                const absDeviation = Math.abs(diffAfterBound),
+                    // Note: sqrt input should be bigger > 5
+                    result = Math.sqrt(absDeviation * 5 /* Modifier, tested in practice */);
+
+                return bound + (diffAfterBound > 0 ? -1 * result : result);
+            }
+
+            if (diff < 0) {
+                const minBound = Math.max(diff, -1 * rightActionSize);
+                return diff < minBound ? calculateIncrease(minBound - diff, minBound) : diff;
+            } else {
+                const maxBound = Math.min(diff, leftActionSize);
+                return diff > maxBound ? calculateIncrease(maxBound - diff, maxBound) : diff;
+            }
         }
 
         function onSwipeEvent(ev: SwipeEvent<IBasicSwipeDetails>) {
@@ -229,6 +266,7 @@ ko.bindingHandlers.swipeActions = {
             delete container!.dataset.itemIsOpened;
             prepareSwipeCompletionAnimation();
             setSwipeState(0);
+            currentOffset = 0;
         }
 
         // Event-listener rearing

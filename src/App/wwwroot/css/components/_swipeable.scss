@@ -1,29 +1,67 @@
+// Shared code for the :before / :after modifiers
+%swipeable__action-modifier {
+    display: inline-block;
+    content: '';
+    background: inherit;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+// Swipeable is the mechanism that allows the swipe-to-delete and other swipe actions behind a list item.
+// This is common in mobile apps nowadays and allows actions to be offered without sacrificing screen estate.
+//
+// This implementation heavily relies on a correct implementation of the stacking context, see:
+// https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
+//
+// As for the HTML order: this should be the action containers first, then the body.
+// <swipeable
+//      <action-container left
+//          <action
+//           ...
+//      <action-container right
+//           ...
+//
+//      <swipeable__body
+//
+// The root is a relative-positioned container which hides overflowing elements. This prevents the actions, which
+// are translated outside the container, to become visible. The body is also translated outside the container when swiping.
 .swipeable {
     position: relative;
     user-select: none;
     cursor: pointer;
     overflow: hidden;
 
+    // The body contains the list item body, it can have a background assigned through another class. This is not necessary however.
     &__body {
         transform: translateX(0);
 
+        // Animation class that is assigned to allow settling the element after touchend
         &--is-settling {
             transition: transform 750ms ease;
         }
     }
 
+    // An individual action: delete, archive, whatever
+    // It is translated outside the container by default, then translated in as necessary.
+    // It is a flex container so the icon and any label text are properly layed out.
     &__action {
         display: inline-flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
 
+        // Float allows the item to nicely align with each other
         float: left;
         height: 100%;
 
-        text-align: center;
+        text-align: center; // Inherited by children
         padding: 0.25rem 1.5rem;
 
+        position: relative;
+
+        // Default styling
         &,
         &:link,
         &:visited,
@@ -34,6 +72,9 @@
             font-weight: bold;
         }
 
+        // The container ensures there is a central piece
+        // at which the height can be layed out, and the container has
+        // a fixed automatic width even though the contents are translated away.
         &-container {
             display: block;
             position: absolute;
@@ -42,10 +83,26 @@
 
             &-left {
                 left: 0;
+
+                // When the user swipes "too far" we allow this a bit, but do increase touch drag.
+                // However, since the actions keep translating we will have gaps that fall between the actions.
+                // This ensures we have a equal-width same-colored overflow to fill the gap.
+                // The default browser z-order will ensure the actions will not overflow over each over.
+                > .swipeable__action:before {
+                    left: -100%;
+
+                    @extend %swipeable__action-modifier;
+                }
             }
 
             &-right {
                 right: 0;
+
+                > .swipeable__action:after {
+                    right: -100%;
+
+                    @extend %swipeable__action-modifier;
+                }
             }
         }
 
