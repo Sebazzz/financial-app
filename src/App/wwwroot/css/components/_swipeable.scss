@@ -81,24 +81,38 @@
             top: 0;
             bottom: 0;
 
+            // When the user swipes "too far" we allow this a bit, but do increase touch drag.
+            // However, since the actions keep translating we will have gaps that fall between the actions.
+            // This ensures we have a equal-width same-colored overflow to fill the gap.
+            // The default browser z-order will ensure the actions will not overflow over each over.
+
             &-left {
                 left: 0;
 
-                // When the user swipes "too far" we allow this a bit, but do increase touch drag.
-                // However, since the actions keep translating we will have gaps that fall between the actions.
-                // This ensures we have a equal-width same-colored overflow to fill the gap.
-                // The default browser z-order will ensure the actions will not overflow over each over.
-                > .swipeable__action:before {
+                > .swipeable__action::before {
                     left: -100%;
 
                     @extend %swipeable__action-modifier;
                 }
+
+                // The left side is somewhat more difficult. Because of the document order the overflow from the
+                // later actions in the same element will be layed over the earlier versions. If we use flexbox
+                // and use row-reverse, we need completely different rendering logic.
+                //
+                // This is an easy solution: Simply stack them using z-indices and no more than $i-max actions will be used anyway.
+                $i-max: 4;
+                @for $i from 1 through 6 {
+                    > .swipeable__action:nth-child(#{$i}) {
+                        z-index: ($i-max - $i);
+                    }
+                }
             }
 
+            // The right one is pretty straightforward
             &-right {
                 right: 0;
 
-                > .swipeable__action:after {
+                > .swipeable__action::after {
                     right: -100%;
 
                     @extend %swipeable__action-modifier;
