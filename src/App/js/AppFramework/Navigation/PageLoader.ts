@@ -171,6 +171,7 @@ let pageComponentInstance: PageComponentModel | null = null;
 // tslint:disable-next-line:max-classes-per-file
 class PageComponentModel {
     private templateManager: PageTemplateManager;
+    private pageTemplateName: string | null = null;
 
     private pageRegistrationToPageIdMap: {
         [pageRegistrationId: string]: string | null | undefined;
@@ -255,6 +256,7 @@ class PageComponentModel {
             ]);
 
             this.page(page);
+            this.pageTemplateName = templateId;
             this.templateName(templateId);
             this.errorInfo(null);
 
@@ -318,6 +320,13 @@ class PageComponentModel {
 
             return false;
         }
+    }
+
+    /**
+     * Reload the current template
+     */
+    public reloadCurrentTemplate() {
+        this.hotReloadRunningTemplate(this.pageTemplateName || this.templateName.peek());
     }
 
     /**
@@ -416,4 +425,15 @@ export function tryReloadTemplate(
     }
 
     return pageComponentInstance.tryReloadTemplate(currentPageRegistration, replacementPageRegistration);
+}
+
+/**
+ * Reloads the the template of the current running page
+ */
+export function reloadCurrentTemplate() {
+    if (pageComponentInstance === null) {
+        throw new Error('Application not initialized');
+    }
+
+    pageComponentInstance.reloadCurrentTemplate();
 }

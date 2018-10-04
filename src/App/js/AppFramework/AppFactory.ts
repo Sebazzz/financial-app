@@ -1,6 +1,10 @@
 import AppContext from './AppContext';
 import { IPageRegistration } from 'AppFramework/Navigation/Page';
-import { default as registerPageLoader, tryReloadTemplate } from 'AppFramework/Navigation/PageLoader';
+import {
+    default as registerPageLoader,
+    tryReloadTemplate,
+    reloadCurrentTemplate
+} from 'AppFramework/Navigation/PageLoader';
 import { Router } from 'AppFramework/Navigation/Router';
 import * as $ from 'jquery';
 import * as ko from 'knockout';
@@ -57,6 +61,10 @@ export class App implements IPageRepository {
 
             uniquePageIds.push(page.id);
         }
+    }
+
+    public async refreshRender(): Promise<void> {
+        reloadCurrentTemplate();
     }
 
     public async replacePage(replacement: IPageRegistration): Promise<void> {
@@ -207,6 +215,21 @@ ${error.toString()}`);
     };
 }
 
+function bindingHandlerReloadSupport(app: App) {
+    // HMR support
+    if (module.hot) {
+        module.hot.accept('./BindingHandlers/All', () => {
+            console.warn('New binding handlers have been loaded - will attempt to reload current page template.');
+            console.warn('Please note though, they will only applied on new rendered templates or pages.');
+            console.warn(
+                'This might create some inconsistency in your views if the bindinghandler that has been reloaded exists in the main layout.'
+            );
+
+            app.refreshRender();
+        });
+    }
+}
+
 export function createApp<TModel extends App>(app: TModel) {
     console.info('AppFactory: CreateApp');
 
@@ -224,6 +247,7 @@ export function createApp<TModel extends App>(app: TModel) {
     registerBindingProvider();
     bind(app);
     startUp(app);
+    bindingHandlerReloadSupport(app);
 
     console.info('AppFactory: Done');
 }
@@ -231,12 +255,3 @@ export function createApp<TModel extends App>(app: TModel) {
 // For improved performance, by default defer all updates
 // via the knockout microtask queue
 ko.options.deferUpdates = true;
-
-// HMR support
-if (module.hot) {
-    module.hot.accept('./BindingHandlers/All', () => {
-        console.warn('New binding handlers have been loaded.');
-        console.warn('Please note though, they will only applied on new rendered templates or pages.');
-        console.warn('This might create some inconsistency in your views.');
-    });
-}
