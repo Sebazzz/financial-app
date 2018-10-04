@@ -9,11 +9,27 @@ import './Components/ScrollNub';
 import './BindingHandlers/All';
 import registerSetupInterceptor from './Services/SetupInterceptor';
 
+function bindingHandlerReloadSupport(app: App) {
+    // HMR support
+    if (module.hot) {
+        module.hot.accept('./BindingHandlers/All', () => {
+            console.warn('New binding handlers have been loaded - will attempt to reload current page template.');
+            console.warn('Please note though, they will only applied on new rendered templates or pages.');
+            console.warn(
+                'This might create some inconsistency in your views if the bindinghandler that has been reloaded exists in the main layout.'
+            );
+
+            app.refreshRender();
+        });
+    }
+}
+
 export class App extends af.App {
     constructor() {
         super();
 
         registerSetupInterceptor(this.context);
+        bindingHandlerReloadSupport(this);
     }
 
     public initRouter() {
