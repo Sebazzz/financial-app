@@ -26,11 +26,11 @@
 
             this._logger.LogInformation("Connection incoming, user: {0} of group {1}", identity, group);
 
+            await this.Clients.Group(group).SendAsync("pushClient", this.Context.User.Identity.Name);
             await this.Groups.AddToGroupAsync(this.Context.ConnectionId, group);
 
             string[] groupInfo = this._groupContext.AlterAndReturn(group, s => s.Add(identity)).ToArray();
             await this.Clients.Client(this.Context.ConnectionId).SendAsync("setInitialClientList", new object[] { groupInfo });
-            await this.Clients.Group(group).SendAsync("pushClient", this.Context.User.Identity.Name);
 
             await base.OnConnectedAsync();
         }
