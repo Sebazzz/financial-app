@@ -7,13 +7,13 @@ Financial management progressive web application meant for households created us
 
 ### Features
 
--   Manage your financial data on month-by-month basis
--   Split your financial data in different categories
--   Prediction of monthly balance
--   Monthly digest via e-mail
--   Follows security best practices, includes two-factor authentication
--   Statistics and analysis (_to be refined_)
--   Responsive: Works very well on both computer, tablet and mobile phone
+-   Manage your financial data on month-by-month basis;
+-   Split your financial data in different categories;
+-   Prediction of monthly balance;
+-   Monthly digest via e-mail;
+-   Follows security best practices, includes two-factor authentication;
+-   Statistics and analysis;
+-   Responsive: Works very well on both computer, tablet and mobile phone.
 
 ### Browser Support
 
@@ -44,6 +44,24 @@ If you prefer to build the application yourself, please follow the [compilation 
 ## Issues
 
 You can report bugs and improvements on this project. In case of any crashes, please submit the application logs in a Github Gist.
+
+## Screenshots
+
+### **Login**
+
+![Login](docs/screenshots/login.png)
+
+### **Welcome**
+
+![Welcome](docs/screenshots/welcome.png)
+
+### **Archive (mobile)**
+
+![Archive (mobile)](docs/screenshots/archive-mobile.png)
+
+### **Report - general report**
+
+![Reporting](docs/screenshots/reporting.png)
 
 ## Contributions
 
