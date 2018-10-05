@@ -140,7 +140,7 @@ namespace App
                 opt.AddPolicy("AppSetup", policy => policy.AddRequirements(new SetupNotRunAuthorizationRequirement()));
             });
 
-            DatabaseOptions dbOptions = this.Configuration.GetValue<DatabaseOptions>("database");
+            DatabaseOptions dbOptions = this.Configuration.GetSection("database").Get<DatabaseOptions>();
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(dbOptions.CreateConnectionString()));
 
             services.AddSignalR()
