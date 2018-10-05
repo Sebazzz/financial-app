@@ -29,8 +29,8 @@ export class Api extends ApiBase {
         return this.execDelete<void>(id);
     }
 
-    public get(number: number) {
-        return this.execGet<ICategory>(number);
+    public get(num: number) {
+        return this.execGet<ICategory>(num);
     }
 
     public create(entity: ICategory) {

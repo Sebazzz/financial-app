@@ -1,5 +1,6 @@
 ﻿namespace App.Models.Domain.Identity
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,17 @@
     public class AppUserTrustedUser
     {
         public virtual AppUser TargetUser { get; set; }
+
+        [Required]
         public virtual AppUser SourceUser { get; set; }
+
+        [Required]
+        public virtual string SecurityToken { get; set; }
+
+        [Required]
+        public virtual bool IsActive { get;set; }
+
+        public virtual DateTimeOffset CreationDate { get; set; }
 
         public virtual int Id { get; set; }
     }
@@ -26,7 +37,7 @@
 
     public class AppUser : IdentityUser<int>
     {
-        private ICollection<AppUserTrustedUser> _trustedUsers;
+        private ICollection<AppUserTrustedUser> _availableImpersonations;
 
         [Required]
         public virtual AppOwner Group { get; set; }
@@ -38,10 +49,10 @@
         /// <summary>
         /// Gets a list of trusted app users the current user may impersonate.
         /// </summary>
-        public virtual ICollection<AppUserTrustedUser> TrustedUsers
+        public virtual ICollection<AppUserTrustedUser> AvailableImpersonations
         {
-            get { return this._trustedUsers ?? (this._trustedUsers = new Collection<AppUserTrustedUser>()); }
-            set { this._trustedUsers = value; }
+            get => this._availableImpersonations ?? (this._availableImpersonations = new Collection<AppUserTrustedUser>());
+            set => this._availableImpersonations = value;
         }
 
         /// <summary>

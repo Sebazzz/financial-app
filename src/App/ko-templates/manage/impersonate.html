@@ -31,7 +31,7 @@
         <li>
             <div class="pull-right">
                 <span class="inline-block" ko-tooltip#="Inloggen als deze gebruiker">
-                    <a class="btn btn-primary" ko-click="$parent.impersonate">
+                    <a class="btn btn-primary" ko-click="$page.impersonate">
                         <span class="far fa-user-circle"></span>
                         Inloggen
                     </a>
@@ -39,11 +39,93 @@
             </div>
 
             <strong>
-                <a href="#" ko-click="$parent.impersonate" ko-text="userName"></a>
+                <a href="#" ko-click="$page.impersonate" ko-text="userName"></a>
             </strong>
 
-            <small>({{email}})</small>
+            <small>({{email}} - toestemming sinds <span ko-format-text="activeSince" ko-format#="F"></span>)</small>
         </li>
     </ul>
     <!-- /ko -->
+
+    <h2>Uitnodingen voor 'account wisselen'</h2>
+    <p>
+        Het is mogelijk om andere gebruikers uit te nodigen zodat zij op je account kunnen inloggen
+    </p>
+
+    <h3>Openstaande uitnodigingen</h3>
+    <p>
+        Hieronder vind je  uitnodigingen die je hebt openstaan zodat andere gebruikers op je account kunnen inloggen.
+    </p>
+
+    <ul class="list-unstyled actionable-list" ko-foreach="outstandingImpersonations">
+        <li>
+            <div class="pull-right">
+                <span class="inline-block" ko-tooltip#="Verwijder deze uitnodiging">
+                    <a class="btn btn-danger" ko-async-click="$page.deleteOutstandingImpersonation">
+                        <span class="fas fa-trash"></span>
+                        Verwijderen
+                    </a>
+                </span>
+            </div>
+
+            <kbd ko-text="securityToken"></kbd>
+            
+            <small>Aangemaakt op <span ko-format-text="creationDate" ko-format#="F"></span></small>
+        </li>
+    </ul>
+    <div class="alert alert-info" ko-visible="outstandingImpersonations().length === 0">
+        <strong>Leeg...</strong> Er zijn geen openstaande uitnodigingen.
+    </div>
+
+    <h3>Uitnodiging aanmaken</h3>
+    <p>
+        Maak een uitnodiging aan zodat een andere gebruiker op je account kan inloggen.
+    </p>
+
+    <p>
+        <button type="button" class="btn btn-secondary" ko-async-click="createImpersonationInvite"><span class="far fa-handshake"></span> Uitnodiging aanmaken</button>
+    </p>
+
+    <h3>Uitnodiging activeren</h3>
+    <p>
+        Heb je een beveiligingscode gekregen? Voer deze in om toegang te krijgen tot iemands account.
+    </p>
+
+    <p>
+        <button type="button" class="btn btn-secondary" ko-async-click="invokeCompleteImpersonationInvite"><span class="far fa-handshake"></span> Uitnodiging activeren</button>
+    </p>
 </div>
+
+<modal params="controller: createdSecurityTokenModal">
+    <p>
+        Geef de onderstaande beveiligingscode aan een andere gebruiker, zodat die gebruiker deze kan activeren om in te loggen op je account.
+    </p>
+
+    <p>
+        <input type="text" class="form-control form-control-lg" ko-value="securityToken" readonly>
+    </p>
+</modal>
+
+<modal params="controller: completeImpersonationInviteModal">
+    <modal-body>
+        <form role="form" id="form-complete-impersonation" novalidate ko-form:handler="save" ko-form:error-message="errorMessage"
+            ko-form:is-busy="isBusy">
+
+            <div class="alert alert-danger" ko-visible="errorMessage">
+                <strong>Oeps!</strong> <span ko-text="errorMessage"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="securityToken">Beveiligingscode:</label>
+                <input id="securityToken" name="securityToken" type="text" class="form-control" ko-value="securityToken"
+                    maxlength="150" />
+
+                <div ko-validation-message="securityToken"></div>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button type="submit" form="form-complete-impersonation" class="btn btn-primary btn-warning btn-modal-ignore">Doorgaan</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+    </modal-footer>
+</modal>

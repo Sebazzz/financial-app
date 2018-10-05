@@ -33,7 +33,7 @@
 
             modelBuilder.Entity<AppUserTrustedUser>()
                         .HasOne(x => x.SourceUser)
-                        .WithMany(x => x.TrustedUsers);
+                        .WithMany(x => x.AvailableImpersonations);
 
             modelBuilder.Entity<AppUserTrustedUser>()
                         .HasOne(x => x.TargetUser)

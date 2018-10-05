@@ -54,37 +54,40 @@ ko.bindingHandlers.form = {
             }
         }
 
-        const handler = async (ev: any) => {
+        const handler = (ev: any) => {
             ev.preventDefault();
 
-            console.group('Form: Submit');
+            (async () => {
+                console.group('Form: Submit');
 
-            try {
-                element.classList.remove('was-validated');
-                element.classList.add('is-busy');
+                try {
+                    element.classList.remove('was-validated');
+                    element.classList.add('is-busy');
 
-                options.isBusy(true);
-                setErrorMessage(null);
+                    options.isBusy(true);
+                    setErrorMessage(null);
 
-                // This is the fun/odd part: When a submit event is captured, we cannot actually find out
-                // which button has caused the submit, other than checking which buttons has the current focus
-                const focusedElement = document.activeElement;
-                console.debug(focusedElement);
+                    // This is the fun/odd part: When a submit event is captured, we cannot actually find out
+                    // which button has caused the submit, other than checking which buttons has the current focus
+                    const focusedElement = document.activeElement;
+                    console.debug(focusedElement);
 
-                const submissionName: string | null = (focusedElement && focusedElement.getAttribute('name')) || null;
-                await options.handler(viewModel, submissionName);
-            } catch (e) {
-                setErrorMessage('Dat ging niet goed. Probeer het nog eens.');
+                    const submissionName: string | null =
+                        (focusedElement && focusedElement.getAttribute('name')) || null;
+                    await options.handler(viewModel, submissionName);
+                } catch (e) {
+                    setErrorMessage('Dat ging niet goed. Probeer het nog eens.');
 
-                console.error('Form: Caught exception: %s', e);
-                console.error(e);
-            } finally {
-                element.classList.add('was-validated');
-                element.classList.remove('is-busy');
-                options.isBusy(false);
+                    console.error('Form: Caught exception: %s', e);
+                    console.error(e);
+                } finally {
+                    element.classList.add('was-validated');
+                    element.classList.remove('is-busy');
+                    options.isBusy(false);
 
-                console.groupEnd();
-            }
+                    console.groupEnd();
+                }
+            })();
         };
 
         if (element.tagName === 'FORM') {

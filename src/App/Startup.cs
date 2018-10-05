@@ -181,6 +181,10 @@ namespace App
 
             services.AddSingleton<IBuildAssetVersionCache, BuildAssetVersionCache>();
 
+            // ... Impersonation
+            services.AddScoped<AppUserTrustedUserRepository>();
+            services.AddScoped<AppImpersonationTokenService>();
+
             // ... Setup
             services.AddScoped<SetupService>();
             services.AddScoped<SetupStepFactory>();
