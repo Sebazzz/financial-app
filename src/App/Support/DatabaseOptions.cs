@@ -41,6 +41,7 @@ namespace App.Support
             if (!string.IsNullOrEmpty(this.UserId)) connStringBuilder.UserID = this.UserId;
             if (!string.IsNullOrEmpty(this.Password)) connStringBuilder.Password = this.Password;
             if (!string.IsNullOrEmpty(this.Server))connStringBuilder.DataSource = this.Server;
+            if (!string.IsNullOrEmpty(this.Database))connStringBuilder.InitialCatalog = this.Database;
 
             // Copy current connection string, overriding options here
             if (!string.IsNullOrEmpty(this.ConnectionString))
