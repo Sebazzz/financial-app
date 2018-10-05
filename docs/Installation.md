@@ -94,9 +94,29 @@ E-mail is optional, but is checked on startup. If you need to skip the startup t
 
 Create an new empty database with a case insensitive collation (`SQL_Latin1_General_CP1_CI_AS` is preferred).
 
+You can set the database settings as follows:
+
+`DATABASE__SERVER`: Server name and instance.
+
+`DATABASE__DATABASE`: Database name.
+
+`DATABASE__USERID`: User ID.
+
+`DATABASE__PASSWORD`: Password.
+
+`DATABASE__INTEGRATEDSECURITY`: Use integrated credentials. Cannot be combined with user id / password.
+
+`DATABASE__ENCRYPT`: Database connection encryption enabled.
+
+`DATABASE__CONNECTIONTIMEOUT`: Connection timeout to SQL Server. Set to 0 for unlimited. Set to 60 seconds for cloud environments.
+
+#### Advanced configuration
+
 Set the connection string using:
 
-`DATABASE__CONNECTIONSTRING`: Connection string used to connection to the database. Usually: `Server=myserver;Integrated Security=true;Database=mydatabase;MultipleActiveResultSets=true`. Please ensure that `MultipleActiveResultSets=true` is present in the connection string.
+`DATABASE__CONNECTIONSTRING`: Connection string used to connection to the database. Usually: `Server=myserver;Integrated Security=true;Database=mydatabase;MultipleActiveResultSets=true`.
+
+Options in the connection string will override manual "simple" configured options above.
 
 ### Application installation
 
