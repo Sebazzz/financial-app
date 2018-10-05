@@ -5,19 +5,22 @@
 //  Project         : App
 // ******************************************************************************
 
+using Microsoft.Extensions.Options;
+
 namespace App.Support.Diagnostics {
     using Microsoft.Extensions.Configuration;
 
     internal abstract class AbstractDatabaseStartupCheck : IStartupCheck {
-        protected const string ConfigurationKey = "Database:ConnectionString";
+        private readonly IOptions<DatabaseOptions> _configuration;
 
-        private readonly IConfiguration _configuration;
-
-        protected AbstractDatabaseStartupCheck(IConfiguration configuration) {
+        protected AbstractDatabaseStartupCheck(IOptions<DatabaseOptions> configuration) {
             this._configuration = configuration;
         }
 
-        protected string ConnectionString => this._configuration[ConfigurationKey];
+
+        protected DatabaseOptions DatabaseOptions => this._configuration.Value;
+
+        protected string ConnectionString => this.DatabaseOptions.CreateConnectionString();
 
         public abstract StartupCheckResult Run();
 

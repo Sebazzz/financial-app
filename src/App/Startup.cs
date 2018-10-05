@@ -68,6 +68,7 @@ namespace App
                 services.AddApplicationInsightsTelemetry(this.Configuration);
             }
 
+            services.Configure<DatabaseOptions>(this.Configuration.GetSection("database"));
             services.Configure<ServerOptions>(this.Configuration.GetSection("server"));
             services.Configure<HttpsServerOptions>(this.Configuration.GetSection("server").GetSection("https"));
             services.Configure<MailSettings>(this.Configuration.GetSection("mail"));
@@ -139,7 +140,8 @@ namespace App
                 opt.AddPolicy("AppSetup", policy => policy.AddRequirements(new SetupNotRunAuthorizationRequirement()));
             });
 
-            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(this.Configuration["Database:ConnectionString"]));
+            DatabaseOptions dbOptions = this.Configuration.GetValue<DatabaseOptions>("database");
+            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(dbOptions.CreateConnectionString()));
 
             services.AddSignalR()
                     .AddJsonProtocol(options => options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
@@ -149,11 +151,9 @@ namespace App
 #if DEBUG
                 c.UseMemoryStorage();
 #else
-                c.UseSqlServerStorage(this.Configuration["Database:ConnectionString"]);
+                c.UseSqlServerStorage(dbOptions.CreateConnectionString());
 #endif
             });
-
-
 
             // DI
             services.AddScoped<AppDbContext>();

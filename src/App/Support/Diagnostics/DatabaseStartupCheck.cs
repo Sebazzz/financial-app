@@ -5,6 +5,8 @@
 //  Project         : App
 // ******************************************************************************
 
+using Microsoft.Extensions.Options;
+
 namespace App.Support.Diagnostics {
     using System;
     using System.Collections.Generic;
@@ -14,7 +16,7 @@ namespace App.Support.Diagnostics {
     using Microsoft.Extensions.Configuration;
 
     internal sealed class DatabaseStartupCheck : AbstractDatabaseStartupCheck {
-        public DatabaseStartupCheck(IConfiguration configuration) : base(configuration) { }
+        public DatabaseStartupCheck(IOptions<DatabaseOptions> configuration) : base(configuration) { }
 
         public override string Description => "Check connection to database";
 
@@ -22,7 +24,7 @@ namespace App.Support.Diagnostics {
             var connectionString = this.ConnectionString;
             if (string.IsNullOrEmpty(connectionString))
                 return StartupCheckResult.Failure(
-                    $"Connection string is null or empty. Use configuration path {ConfigurationKey} to configure the connection string.");
+                    "Connection string is null or empty. Use configuration path 'Database' to configure the connection string.");
 
             // Even if the database does not exist, connection to master should always succeed
             var connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
