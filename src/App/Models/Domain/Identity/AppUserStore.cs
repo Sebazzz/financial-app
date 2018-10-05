@@ -11,7 +11,7 @@
         /// A navigation property for the users the store contains.
         /// </summary>
         public override IQueryable<AppUser> Users {
-            get { return base.Users.Include(x => x.Group).Include(x => x.TrustedUsers); }
+            get { return base.Users.Include(x => x.Group).Include(x => x.AvailableImpersonations); }
         }
     }
 

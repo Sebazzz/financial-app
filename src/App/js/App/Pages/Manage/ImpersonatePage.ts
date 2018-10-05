@@ -1,13 +1,27 @@
 import { Page, PageModule } from 'AppFramework/Navigation/Page';
 import AppContext from 'AppFramework/AppContext';
-import * as user from 'App/ServerApi/User';
+import confirmAsync from 'AppFramework/Forms/Confirmation';
+import * as modal from 'AppFramework/Components/Modal';
+import * as validate from 'AppFramework/Forms/ValidateableViewModel';
+import { IFormPage } from 'AppFramework/Forms/FormPage';
+
 import * as userImpersonate from 'App/ServerApi/UserImpersonate';
 import * as ko from 'knockout';
 
 class ImpersonatePage extends Page {
     private api = new userImpersonate.Api();
 
-    public users = ko.observableArray<user.IAppUserListing>();
+    public users = ko.observableArray<userImpersonate.IAppImpersonateUserListing>();
+    public outstandingImpersonations = ko.observableArray<userImpersonate.IAppOutstandingImpersonation>();
+
+    public createdSecurityTokenModal = new modal.ModalController<userImpersonate.IAppOutstandingImpersonation>(
+        'Aangemaakte uitnodigingscode',
+        null,
+        'Sluiten'
+    );
+    public completeImpersonationInviteModal = new modal.ModalController<CompleteImpersonationModel>(
+        'Uitnodigingscode invoeren'
+    );
 
     constructor(appContext: AppContext) {
         super(appContext);
@@ -15,16 +29,88 @@ class ImpersonatePage extends Page {
         this.title('Account wisselen');
 
         this.impersonate = this.impersonate.bind(this);
+        this.deleteOutstandingImpersonation = this.deleteOutstandingImpersonation.bind(this);
+        this.createImpersonationInvite = this.createImpersonationInvite.bind(this);
+        this.invokeCompleteImpersonationInvite = this.invokeCompleteImpersonationInvite.bind(this);
     }
 
-    protected async onActivate(args?: any): Promise<void> {
+    protected async onActivate(): Promise<void> {
+        await Promise.all([this.refreshUserListing(), this.refreshOutstandingImpersonations()]);
+    }
+
+    private async refreshOutstandingImpersonations() {
+        this.outstandingImpersonations(await this.api.getOutstandingImpersonations());
+    }
+
+    private async refreshUserListing() {
         this.users(await this.api.getListing());
     }
 
-    public async impersonate(userInfo: user.IAppUserListing) {
+    public async impersonate(userInfo: userImpersonate.IAppImpersonateUserListing) {
         const info = await this.api.impersonate(userInfo.id);
         this.appContext.authentication.currentAuthentication(info);
         this.appContext.router.navigateToDefault();
+    }
+
+    public async deleteOutstandingImpersonation(item: userImpersonate.IAppOutstandingImpersonation) {
+        if (
+            await confirmAsync(
+                'Weet je zeker dat je deze uitnodiging wilt verwijderen?',
+                'Uitnodiging verwijderen',
+                true
+            )
+        ) {
+            await this.api.deleteOutstandingImpersonation(item.securityToken);
+
+            this.refreshOutstandingImpersonations();
+        }
+    }
+
+    public async createImpersonationInvite() {
+        if (!(await confirmAsync('Hiermee kan je een andere gebruiker toegang geven tot je account. Doorgaan?'))) {
+            return;
+        }
+
+        const model = await this.api.createImpersonationInvite();
+        this.refreshOutstandingImpersonations();
+
+        await this.createdSecurityTokenModal.showDialog(model);
+    }
+
+    public async invokeCompleteImpersonationInvite() {
+        await this.completeImpersonationInviteModal.showDialog(
+            new CompleteImpersonationModel(this.completeImpersonationInviteModal)
+        );
+        await this.refreshUserListing();
+    }
+}
+
+class CompleteImpersonationModel extends validate.ValidateableViewModel implements IFormPage {
+    private api = new userImpersonate.Api();
+
+    public securityToken = ko.observable<string>(null);
+
+    public errorMessage = ko.observable<string>(null);
+    public isBusy = ko.observable<boolean>(false);
+
+    constructor(private controller: modal.ModalController<CompleteImpersonationModel>) {
+        super();
+
+        this.save = this.save.bind(this);
+    }
+
+    public async save(): Promise<void> {
+        try {
+            await this.api.completeImpersonationInvite(this.securityToken.peek());
+
+            this.controller.closeDialog();
+        } catch (e) {
+            const xhr = e as JQueryXHR;
+
+            if (!validate.tryExtractValidationError(xhr, this)) {
+                throw e;
+            }
+        }
     }
 }
 

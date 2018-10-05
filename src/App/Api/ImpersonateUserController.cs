@@ -6,11 +6,12 @@
 // ******************************************************************************
 
 namespace App.Api {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
-    using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Extensions;
     using Microsoft.AspNetCore.Authorization;
@@ -26,49 +27,120 @@ namespace App.Api {
     [Route("api/user/impersonate")]
     public class ImpersonateUserController : Controller {
         private readonly AppUserManager _appUserManager;
+        private readonly AppImpersonationTokenService _appImpersonationTokenService;
         private readonly SignInManager<AppUser> _authenticationManager;
-        private readonly IMapper _mappingEngine;
 
-        public ImpersonateUserController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager,
-            IMapper mappingEngine) {
+        public ImpersonateUserController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, AppImpersonationTokenService appImpersonationTokenService) {
             this._appUserManager = appUserManager;
             this._authenticationManager = authenticationManager;
-            this._mappingEngine = mappingEngine;
+            this._appImpersonationTokenService = appImpersonationTokenService;
         }
 
         // GET: api/user/impersonate
         [HttpGet]
         [Route("")]
         [ReadOnlyApi]
-        public IEnumerable<AppUserListing> Get() {
-            var userId = this.User.Identity.GetUserId();
-            return this._appUserManager.Users
-                .Where(x => x.TrustedUsers.Any(u => u.TargetUser.Id == userId))
-                .OrderBy(x => x.UserName)
-                .ProjectTo<AppUserListing>(this._mappingEngine.ConfigurationProvider);
+        public async Task<IEnumerable<AppImpersonationUserListing>> Get() {
+            AppUser currentUser = await this.GetCurrentUser();
+
+            return (
+                currentUser.AvailableImpersonations
+                .Where(x => x.IsActive)
+                .OrderBy(x => x.TargetUser.UserName)
+                .Select(token => new AppImpersonationUserListing {
+                    UserName = token.TargetUser.UserName,
+                    Email = token.TargetUser.Email,
+                    ActiveSince = token.CreationDate
+                })).ToList();
+        }
+
+        [HttpGet]
+        [Route("outstanding")]
+        [ReadOnlyApi]
+        public async Task<IEnumerable<OutstandingImpersonation>> GetOutstandingImpersonations() {
+            AppUser currentUser = await this.GetCurrentUser();
+
+            return (from trustedUser in this._appImpersonationTokenService.GetOutstandingImpersonations(currentUser)
+                   select CreateOutstandingImpersonationModel(trustedUser)).ToList();
+        }
+
+        [HttpDelete]
+        [Route("outstanding")]
+        public async Task<IActionResult> DeleteOutstandingInvitation([FromBody]SecurityTokenModel securityToken) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser currentUser = await this.GetCurrentUser();
+            await this._appImpersonationTokenService.DeleteImpersonationToken(currentUser, securityToken.SecurityToken);
+
+            return this.NoContent();
+        }
+
+        [HttpPost]
+        [Route("create-invitation")]
+        public async Task<OutstandingImpersonation> CreateImpersonationInvite() {
+            AppUser currentUser = await this.GetCurrentUser();
+
+            AppUserTrustedUser impersonationToken = await this._appImpersonationTokenService.CreateImpersonationInvite(currentUser);
+
+            return CreateOutstandingImpersonationModel(impersonationToken);
+        }
+
+        [HttpPost]
+        [Route("complete-invitation")]
+        public async Task<IActionResult> CompleteImpersonationInvite([FromBody]SecurityTokenModel securityToken) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser currentUser = await this.GetCurrentUser();
+
+            try {
+                await this._appImpersonationTokenService.CompleteImpersonationInvite(currentUser, securityToken.SecurityToken);
+            }
+            catch (ImpersonationNotAllowedException) {
+                this.ModelState.AddModelError(nameof(securityToken.SecurityToken), "Ongeldige beveiligingscode");
+                return this.BadRequest(this.ModelState);
+            }
+
+            return this.NoContent();
         }
 
         // POST: api/user/impersonate/3
         [HttpPost]
         [Route("{id}")]
         public async Task<AuthenticationInfo> Impersonate(int id) {
-            var currentUserId = this.User.Identity.GetUserId();
+            AppUser currentUser = await this.GetCurrentUser();
 
-            var currentUser = await this._appUserManager.FindByIdAsync(currentUserId)
-                .EnsureNotNull(HttpStatusCode.Forbidden);
+            try {
+                AppUser impersonationUser =
+                    await this._appImpersonationTokenService.GetImpersonationUser(currentUser, id);
 
-            var user = await this._appUserManager.Users.Where(x => x.Id == id).Include(x => x.TrustedUsers)
-                .FirstOrDefaultAsync().EnsureNotNull(HttpStatusCode.Forbidden);
+                await this._authenticationManager.SignInAsync(impersonationUser, true);
 
-            if (!user.TrustedUsers.Contains(currentUser)) throw new HttpStatusException(HttpStatusCode.Forbidden);
+                return new AuthenticationInfo {
+                    IsAuthenticated = true,
+                    UserId = impersonationUser.Id,
+                    UserName = impersonationUser.UserName
+                };
+            }
+            catch (ImpersonationNotAllowedException) {
+                throw new HttpStatusException(HttpStatusCode.Forbidden);
+            }
+        }
 
-            await this._authenticationManager.SignInAsync(user, true);
-
-            return new AuthenticationInfo {
-                IsAuthenticated = true,
-                UserId = user.Id,
-                UserName = user.UserName
+        private static OutstandingImpersonation CreateOutstandingImpersonationModel(AppUserTrustedUser trustedUser) {
+            return new OutstandingImpersonation {
+                CreationDate = trustedUser.CreationDate,
+                SecurityToken = trustedUser.SecurityToken
             };
+        }
+
+        private Task<AppUser> GetCurrentUser() {
+            int currentUserId = this.User.Identity.GetUserId();
+
+            return this._appUserManager.Users.Include(x => x.AvailableImpersonations).ThenInclude(x => x.TargetUser).FirstOrDefaultAsync(x => x.Id == currentUserId).EnsureNotNull(HttpStatusCode.Forbidden);
         }
     }
 }

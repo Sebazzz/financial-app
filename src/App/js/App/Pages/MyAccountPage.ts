@@ -108,8 +108,8 @@ class ChangePasswordModel extends validate.ValidateableViewModel implements IFor
     public currentPassword = ko.observable<string>(null);
     public newPassword = ko.observable<string>(null);
     public newPasswordConfirm = ko.observable<string>(null);
-    public errorMessage = ko.observable<string>(null);
 
+    public errorMessage = ko.observable<string>(null);
     public isBusy = ko.observable<boolean>(false);
 
     constructor(private controller: modal.ModalController<ChangePasswordModel>) {
