@@ -1,6 +1,7 @@
 import AppContext from 'AppFramework/AppContext';
 import { Router } from 'router5';
 import { RoutingTable } from 'AppFramework/Navigation/Router';
+import { IDisposable, disposeObject } from 'AppFramework/Utils/ObjectDisposal';
 
 import { Panel, ActivationPromise } from 'AppFramework/Panel';
 import * as ko from 'knockout';
@@ -71,7 +72,7 @@ export type PageRegistration = IPageRegistration;
 export interface IPageRegistrationCollection extends Array<PageRegistration | IPageRegistrationCollection> {}
 export type PageRegistrationCollection = IPageRegistrationCollection;
 
-export abstract class Page extends Panel {
+export abstract class Page extends Panel implements IDisposable {
     public title = ko.observable<string>();
 
     protected constructor(appContext: AppContext) {
@@ -91,25 +92,14 @@ export abstract class Page extends Panel {
     }
 
     public deactivate(): void {
-        this.disposeObservables();
+        this.dispose();
+    }
+
+    public dispose(): void {
+        disposeObject(this);
     }
 
     protected abstract onActivate(args?: any): ActivationPromise | null;
-
-    private disposeObservables() {
-        // Proactively dispose any computed properties to prevent memory leaks
-        const bag = this as any;
-
-        // ReSharper disable once MissingHasOwnPropertyInForeach
-        // tslint:disable-next-line:forin
-        for (const property in bag) {
-            const item = bag[property];
-
-            if (ko.isComputed(item)) {
-                item.dispose();
-            }
-        }
-    }
 }
 
 export class RouterUtils {
