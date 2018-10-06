@@ -24,6 +24,10 @@ namespace App.Models.DTO {
         public DateTimeOffset ActiveSince { get; set; }
     }
 
+    public class AppAllowedImpersonation : AppImpersonationUserListing {
+        public string SecurityToken { get; set; }
+    }
+
     public class OutstandingImpersonation : SecurityTokenModel {
         public DateTimeOffset CreationDate { get; set; }
     }

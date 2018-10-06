@@ -55,6 +55,36 @@ namespace App.Api {
         }
 
         [HttpGet]
+        [Route("allowed-impersonation")]
+        [ReadOnlyApi]
+        public async Task<IEnumerable<AppAllowedImpersonation>> GetAllowedImpersonations() {
+            AppUser currentUser = await this.GetCurrentUser();
+            IEnumerable<AppUserTrustedUser> allowedImpersonations = await this._appImpersonationTokenService.GetAllowedImpersonations(currentUser);
+
+            return (allowedImpersonations
+                    .OrderBy(x => x.TargetUser.UserName)
+                    .Select(token => new AppAllowedImpersonation {
+                        UserName = token.TargetUser.UserName,
+                        Email = token.TargetUser.Email,
+                        ActiveSince = token.CreationDate,
+                        SecurityToken = token.SecurityToken
+                    })).ToList();
+        }
+
+        [HttpDelete]
+        [Route("allowed-impersonation")]
+        public async Task<IActionResult> DeleteAllowedImpersonation([FromBody]SecurityTokenModel securityToken) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            AppUser currentUser = await this.GetCurrentUser();
+            await this._appImpersonationTokenService.DeleteAllowedImpersonation(currentUser, securityToken.SecurityToken);
+
+            return this.NoContent();
+        }
+
+        [HttpGet]
         [Route("outstanding")]
         [ReadOnlyApi]
         public async Task<IEnumerable<OutstandingImpersonation>> GetOutstandingImpersonations() {
