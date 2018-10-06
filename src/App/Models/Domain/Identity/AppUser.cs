@@ -41,6 +41,10 @@
         private ICollection<AppUserTrustedUser> _availableImpersonations;
         private ICollection<AppUserAvailableGroup> _availableGroups;
 
+        /// <summary>
+        /// Gets or sets the current active group. Active as in "this is the default group". The actual active group
+        /// is extracted from the login token if possible, but this property is updated when the user changes context.
+        /// </summary>
         [Required]
         public virtual AppOwner CurrentGroup { get; set; }
         public int CurrentGroupId { get; set; }
