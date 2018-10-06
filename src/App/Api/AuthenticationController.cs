@@ -41,10 +41,13 @@ namespace App.Api {
 
         [HttpGet("check")]
         [AllowDuringSetup]
-        public AuthenticationInfo CheckAuthentication() {
-            return new AuthenticationInfo() {
+        public async Task<AuthenticationInfo> CheckAuthentication() {
+            AppUser user = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Forbidden);
+
+            return new AuthenticationInfo {
                 UserId = this.User.Identity.GetUserId(),
                 UserName = this.User.Identity.Name,
+                CurrentGroupName = user.CurrentGroup.Name,
                 IsAuthenticated = this.User.Identity.IsAuthenticated,
                 Roles = this.User.FindAll(ClaimTypes.Role).Select(x => x.Value).ToArray()
             };
@@ -253,6 +256,7 @@ namespace App.Api {
         private async Task<OkObjectResult> ReturnAuthenticationInfoResult(AppUser user) {
             return this.Ok(new AuthenticationInfo {
                 IsAuthenticated = true,
+                CurrentGroupName = user.CurrentGroup.Name,
                 UserId = user.Id,
                 UserName = user.UserName,
                 Roles = await (await this._appUserManager.GetRolesAsync(user)).ToAsyncEnumerable().ToArray()

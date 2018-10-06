@@ -13,6 +13,9 @@
         public bool IsTwoFactorAuthenticationRequired {get;set;}
 
         [DataMember]
+        public string CurrentGroupName { get; set; }
+
+        [DataMember]
         public int UserId { get; set; }
 
         [DataMember]

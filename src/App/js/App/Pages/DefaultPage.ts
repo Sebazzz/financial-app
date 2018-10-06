@@ -4,6 +4,9 @@ import * as ko from 'knockout';
 
 class DefaultPage extends Page {
     public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
+    public currentGroupName = ko.pureComputed(
+        () => this.appContext.authentication.currentAuthentication().currentGroupName
+    );
 
     constructor(appContext: AppContext) {
         super(appContext);

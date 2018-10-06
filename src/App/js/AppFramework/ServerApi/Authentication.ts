@@ -3,6 +3,7 @@ import ApiBase from './ApiBase';
 export interface IAuthenticationInfo {
     userId: number;
     userName: string | null;
+    currentGroupName: string | null;
     isAuthenticated: boolean;
     isLockedOut: boolean;
     isTwoFactorAuthenticationRequired: boolean;
