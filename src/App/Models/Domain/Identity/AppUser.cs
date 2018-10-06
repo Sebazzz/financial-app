@@ -28,10 +28,11 @@
     {
         public bool EnableMonthlyDigest { get; set; }
         public bool EnableLoginNotifications { get; set; }
+        public bool GoToHomePageAfterContextSwitch { get; set; }
 
         public static AppUserPreferences CreateDefault()
         {
-            return new AppUserPreferences { EnableLoginNotifications = true };
+            return new AppUserPreferences { EnableLoginNotifications = true, GoToHomePageAfterContextSwitch = true };
         }
     }
 

@@ -11,5 +11,6 @@ namespace App.Models.DTO
     {
         public bool EnableMonthlyDigest { get; set; }
         public bool EnableLoginNotifications { get; set; }
+        public bool GoToHomePageAfterContextSwitch { get; set; }
     }
 }

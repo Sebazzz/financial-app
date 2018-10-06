@@ -78,6 +78,10 @@ class MyAccountPage extends Page {
 
             this.chosenGroupId(chosenId);
             this.initialGroupId(chosenId);
+
+            if (this.preferences.goToHomePageAfterContextSwitch.peek()) {
+                this.appContext.router.navigateToDefault();
+            }
         } catch (e) {
             console.error(e);
 
@@ -95,6 +99,7 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
 
     public enableMonthlyDigest = ko.observable<boolean>(false);
     public enableLoginNotifications = ko.observable<boolean>(false);
+    public goToHomePageAfterContextSwitch = ko.observable<boolean>(false);
 
     public async save(): Promise<void> {
         try {
@@ -102,7 +107,8 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
 
             const data: IPreferencesModel = {
                 enableMonthlyDigest: this.enableMonthlyDigest.peek(),
-                enableLoginNotifications: this.enableLoginNotifications.peek()
+                enableLoginNotifications: this.enableLoginNotifications.peek(),
+                goToHomePageAfterContextSwitch: this.goToHomePageAfterContextSwitch.peek()
             };
 
             await this.api.setPreferences(data);
@@ -122,6 +128,7 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
 
         this.enableMonthlyDigest(data.enableMonthlyDigest);
         this.enableLoginNotifications(data.enableLoginNotifications);
+        this.goToHomePageAfterContextSwitch(data.goToHomePageAfterContextSwitch);
     }
 
     constructor() {
