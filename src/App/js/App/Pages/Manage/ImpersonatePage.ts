@@ -13,6 +13,7 @@ class ImpersonatePage extends Page {
 
     public users = ko.observableArray<userImpersonate.IAppImpersonateUserListing>();
     public outstandingImpersonations = ko.observableArray<userImpersonate.IAppOutstandingImpersonation>();
+    public allowedImpersonations = ko.observableArray<userImpersonate.IAppAllowedImpersonation>();
 
     public createdSecurityTokenModal = new modal.ModalController<userImpersonate.IAppOutstandingImpersonation>(
         'Aangemaakte uitnodigingscode',
@@ -30,12 +31,17 @@ class ImpersonatePage extends Page {
 
         this.impersonate = this.impersonate.bind(this);
         this.deleteOutstandingImpersonation = this.deleteOutstandingImpersonation.bind(this);
+        this.deleteAllowedImpersonation = this.deleteAllowedImpersonation.bind(this);
         this.createImpersonationInvite = this.createImpersonationInvite.bind(this);
         this.invokeCompleteImpersonationInvite = this.invokeCompleteImpersonationInvite.bind(this);
     }
 
     protected async onActivate(): Promise<void> {
-        await Promise.all([this.refreshUserListing(), this.refreshOutstandingImpersonations()]);
+        await Promise.all([
+            this.refreshUserListing(),
+            this.refreshOutstandingImpersonations(),
+            this.refreshAllowedImpersonations()
+        ]);
     }
 
     private async refreshOutstandingImpersonations() {
@@ -44,6 +50,10 @@ class ImpersonatePage extends Page {
 
     private async refreshUserListing() {
         this.users(await this.api.getListing());
+    }
+
+    private async refreshAllowedImpersonations() {
+        this.allowedImpersonations(await this.api.getAllowedImpersonations());
     }
 
     public async impersonate(userInfo: userImpersonate.IAppImpersonateUserListing) {
@@ -63,6 +73,16 @@ class ImpersonatePage extends Page {
             await this.api.deleteOutstandingImpersonation(item.securityToken);
 
             this.refreshOutstandingImpersonations();
+        }
+    }
+
+    public async deleteAllowedImpersonation(item: userImpersonate.IAppAllowedImpersonation) {
+        if (
+            await confirmAsync('Weet je zeker dat je deze toestemming wilt intrekken?', 'Toestemming intrekken', true)
+        ) {
+            await this.api.deleteAllowedImpersonation(item.securityToken);
+
+            this.refreshAllowedImpersonations();
         }
     }
 
