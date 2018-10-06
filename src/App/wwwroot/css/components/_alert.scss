@@ -1,0 +1,8 @@
+$alert-translucent-opacity: 0.4;
+
+@each $color, $value in $theme-colors {
+    .alert-translucent.alert-#{$color} {
+        @include gradient-bg(rgba(theme-color-level($color, $alert-bg-level), $alert-translucent-opacity));
+        border-color: rgba(theme-color-level($color, $alert-border-level), $alert-translucent-opacity);
+    }
+}

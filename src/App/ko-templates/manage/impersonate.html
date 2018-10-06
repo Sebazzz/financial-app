@@ -60,25 +60,27 @@
         Hieronder vind je uitnodigingen die je hebt openstaan zodat andere gebruikers op je account kunnen inloggen.
     </p>
 
-    <ul class="list-unstyled actionable-list" ko-foreach="outstandingImpersonations">
-        <li>
-            <div class="pull-right">
-                <span class="inline-block" ko-tooltip#="Verwijder deze uitnodiging">
-                    <a class="btn btn-danger" ko-async-click="$page.deleteOutstandingImpersonation">
-                        <span class="fas fa-trash"></span>
-                        Verwijderen
-                    </a>
-                </span>
-            </div>
+    <div ko-async-loading-panel="outstandingImpersonations">
+        <ul class="list-unstyled actionable-list" ko-foreach="$data">
+            <li>
+                <div class="pull-right">
+                    <span class="inline-block" ko-tooltip#="Verwijder deze uitnodiging">
+                        <a class="btn btn-danger" ko-async-click="$page.deleteOutstandingImpersonation">
+                            <span class="fas fa-trash"></span>
+                            Verwijderen
+                        </a>
+                    </span>
+                </div>
 
-            <kbd ko-text="securityToken"></kbd>
+                <kbd ko-text="securityToken"></kbd>
 
-            <small>Aangemaakt op <span ko-format-text="creationDate" ko-format#="F"></span></small>
-        </li>
-    </ul>
+                <small>Aangemaakt op <span ko-format-text="creationDate" ko-format#="F"></span></small>
+            </li>
+        </ul>
 
-    <div class="alert alert-info" ko-visible="outstandingImpersonations().length === 0">
-        <strong>Leeg...</strong> Er zijn geen openstaande uitnodigingen.
+        <div class="alert alert-info" ko-visible="$data().length === 0">
+            <strong>Leeg...</strong> Er zijn geen openstaande uitnodigingen.
+        </div>
     </div>
 
     <h3>Uitnodiging aanmaken</h3>
@@ -109,25 +111,27 @@
         De onderstaande gebruikers mogen inloggen op jouw account. Je kan op elk moment toestemming intrekken.
     </p>
 
-    <ul class="list-unstyled actionable-list" ko-foreach="allowedImpersonations">
-        <li>
-            <div class="pull-right">
-                <span class="inline-block" ko-tooltip#="Verwijder deze uitnodiging">
-                    <a class="btn btn-danger" ko-async-click="$page.deleteAllowedImpersonation">
-                        <span class="fas fa-trash"></span>
-                        Intrekken
-                    </a>
-                </span>
-            </div>
-
-            <strong ko-text="userName"></strong>
-
-            <small>({{email}} - toestemming sinds <span ko-format-text="activeSince" ko-format#="F"></span>)</small>
-        </li>
-    </ul>
-
-    <div class="alert alert-info" ko-visible="allowedImpersonations().length === 0">
-        <strong>Leeg...</strong> Je hebt geen gebruikers toegang gegeven tot je account.
+    <div ko-async-loading-panel="allowedImpersonations">
+        <ul class="list-unstyled actionable-list" ko-foreach="$data">
+            <li>
+                <div class="pull-right">
+                    <span class="inline-block" ko-tooltip#="Verwijder deze uitnodiging">
+                        <a class="btn btn-danger" ko-async-click="$page.deleteAllowedImpersonation">
+                            <span class="fas fa-trash"></span>
+                            Intrekken
+                        </a>
+                    </span>
+                </div>
+    
+                <strong ko-text="userName"></strong>
+    
+                <small>({{email}} - toestemming sinds <span ko-format-text="activeSince" ko-format#="F"></span>)</small>
+            </li>
+        </ul>
+    
+        <div class="alert alert-info" ko-visible="$data().length === 0">
+            <strong>Leeg...</strong> Je hebt geen gebruikers toegang gegeven tot je account.
+        </div>
     </div>
     <!-- /ko -->
 </div>
