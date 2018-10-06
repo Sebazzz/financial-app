@@ -23,6 +23,7 @@
             <div ko-validation-message="email"></div>
         </div>
 
+        <!-- ko if: $parent.id() === 0 -->
         <div class="form-group">
             <label for="newPassword">Nieuw wachtwoord:</label>
             <input id="newPassword" name="newPassword" type="password" class="form-control" ko-value="newPassword" maxlength="150" />
@@ -36,8 +37,8 @@
             <input id="currentPassword" name="currentPassword" type="password" class="form-control" ko-value="currentPassword" maxlength="150" />
 
             <div ko-validation-message="currentPassword"></div>
-
         </div>
+        <!-- /ko -->
 
         <p class="button-bar">
             <button class="btn btn-primary">Opslaan</button>
