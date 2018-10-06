@@ -10,6 +10,7 @@ namespace App.Models.Domain.Services {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using DTO;
     using Identity;
     using Microsoft.EntityFrameworkCore;
     using Repositories;
@@ -84,6 +85,23 @@ namespace App.Models.Domain.Services {
             await this._appUserTrustedUserRepository.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<AppUserTrustedUser>> GetAllowedImpersonations(AppUser currentUser) {
+            List<AppUser> users = await this._appUserManager.Users.Where(u => u.AvailableImpersonations.Any(x => x.TargetUser.Id == currentUser.Id && x.IsActive)).Include(x => x.AvailableImpersonations).ThenInclude(x=>x.TargetUser).ToListAsync();
+
+            return users.Select(x => x.AvailableImpersonations.Single(imp => imp.TargetUser.Id == currentUser.Id));
+        }
+
+        public async Task DeleteAllowedImpersonation(AppUser currentUser, string securityToken) {
+            AppUser sourceUser = await this._appUserManager.Users.Where(u => u.AvailableImpersonations.Any(x => x.SecurityToken == securityToken && x.TargetUser.Id == currentUser.Id && x.IsActive)).Include(x => x.AvailableImpersonations).FirstOrDefaultAsync();
+
+            foreach (AppUserTrustedUser impersonation in sourceUser.AvailableImpersonations) {
+                if (impersonation.SecurityToken != securityToken) continue;
+
+                this._appUserTrustedUserRepository.Remove(impersonation);
+                await this._appUserTrustedUserRepository.SaveChangesAsync();
+                return;
+            }
+        }
     }
 
     [Serializable]
