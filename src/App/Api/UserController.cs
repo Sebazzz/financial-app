@@ -115,7 +115,7 @@
             currentUser.Email = value.Email ?? currentUser.Email;
             IdentityResult result = await this._appUserManager.UpdateAsync(currentUser);
             if (!result.Succeeded) {
-                this.ModelState.AppendIdentityResult(result, _ => nameof(value.NewPassword));
+                this.ModelState.AppendIdentityResult(result, _ => nameof(value.UserName));
                 return this.BadRequest(this.ModelState);
             }
 
