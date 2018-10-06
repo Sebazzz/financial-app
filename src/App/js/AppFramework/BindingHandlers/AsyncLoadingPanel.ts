@@ -1,4 +1,4 @@
-import { AsyncDataSource } from 'AppFramework/AsyncDataSource';
+import { AsyncDataSource } from 'AppFramework/Utils/AsyncDataSource';
 import * as ko from 'knockout';
 
 function makeArray<T>(arrayLikeObject: { [index: number]: T; length: number }) {
