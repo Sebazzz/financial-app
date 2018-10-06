@@ -31,7 +31,7 @@
         <ul class="navbar-nav">
             <li class="nav-item logged-in-text" ko-visible="$appContext.authentication.isAuthenticated">
                 <a href="#" class="nav-link" ko-route="my-account">
-                    <span ko-tooltip#="Persoonlijke instellingen">
+                    <span ko-tooltip="currentLoginTooltip">
                         Ingelogd als {{currentUserName}}
                         <span class="fas fa-cog"></span>
                     </span>

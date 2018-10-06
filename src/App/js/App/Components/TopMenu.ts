@@ -19,6 +19,10 @@ class TopMenu extends framework.Panel {
     });
 
     public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
+    public currentGroupName = ko.pureComputed(
+        () => this.appContext.authentication.currentAuthentication().currentGroupName
+    );
+
     public roles = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().roles.join(', '));
 
     public activeClientCount = this.activityService.activeClientCount;
@@ -27,6 +31,8 @@ class TopMenu extends framework.Panel {
     public activeClientTooltip = ko.pureComputed(
         () => 'Ingelogde gebruikers: ' + this.activityService.activeClients().join(', ')
     );
+
+    public currentLoginTooltip = ko.computed(() => `Huidige context: ${this.currentGroupName() || 'Unknown'}`);
 
     public deactivate(): void {
         this.activityService.stop();
