@@ -1,8 +1,9 @@
+import { IDisposable, disposeObject } from 'AppFramework/Utils/ObjectDisposal';
 import * as ko from 'knockout';
 
 export type AsyncDataLoader<T> = () => Promise<T>;
 
-export class AsyncDataSource<T> {
+export class AsyncDataSource<T> implements IDisposable {
     public isLoading = ko.observable<boolean>();
     public isLoaded = ko.observable<boolean>();
     public data = ko.observable<T>();
@@ -64,5 +65,9 @@ export class AsyncDataSource<T> {
                 this.isLoading(false);
             }
         })();
+    }
+
+    public dispose(): void {
+        disposeObject(this);
     }
 }
