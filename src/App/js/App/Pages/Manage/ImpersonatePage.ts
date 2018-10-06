@@ -4,7 +4,7 @@ import confirmAsync from 'AppFramework/Forms/Confirmation';
 import * as modal from 'AppFramework/Components/Modal';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 import { IFormPage } from 'AppFramework/Forms/FormPage';
-import { AsyncDataSource } from 'AppFramework/AsyncDataSource';
+import { AsyncDataSource } from 'AppFramework/Utils/AsyncDataSource';
 
 import * as userImpersonate from 'App/ServerApi/UserImpersonate';
 import * as ko from 'knockout';
