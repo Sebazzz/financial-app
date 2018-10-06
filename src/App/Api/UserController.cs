@@ -37,7 +37,7 @@
         [HttpGet("")]
         public IEnumerable<AppUserListing> Get() {
             return this._appUserManager.Users
-                                       .Where(x => x.CurrentGroupId == this.OwnerId)
+                                       .Where(u => u.AvailableGroups.Any(g => g.GroupId == this.OwnerId))
                                        .OrderBy(x => x.UserName)
                                        .ProjectTo<AppUserListing>(this._mappingEngine.ConfigurationProvider);
         }
@@ -147,7 +147,7 @@
         }
 
         private void EnsureAccess(AppUser user) {
-            if (user.CurrentGroupId != this.OwnerId) {
+            if (user.AvailableGroups.All(g => g.GroupId != this.OwnerId)) {
                 throw new HttpStatusException(HttpStatusCode.Forbidden);
             }
         }
