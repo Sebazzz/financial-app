@@ -16,9 +16,19 @@ export interface IAppOutstandingImpersonation extends IAppSecurityTokenModel {
     creationDate: DateTime;
 }
 
+export interface IAppAllowedImpersonation extends IAppSecurityTokenModel, IAppImpersonateUserListing {}
+
 export class Api extends ApiBase {
     public getListing(): Promise<IAppImpersonateUserListing[]> {
         return this.httpClient.get('/api/user/impersonate');
+    }
+
+    public getAllowedImpersonations(): Promise<IAppAllowedImpersonation[]> {
+        return this.httpClient.get('/api/user/impersonate/allowed-impersonation');
+    }
+
+    public deleteAllowedImpersonation(securityToken: string): Promise<void> {
+        return this.httpClient.delete('/api/user/impersonate/allowed-impersonation', { securityToken });
     }
 
     public getOutstandingImpersonations(): Promise<IAppOutstandingImpersonation[]> {

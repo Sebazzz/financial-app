@@ -64,8 +64,8 @@ namespace App.Api {
             return (allowedImpersonations
                     .OrderBy(x => x.TargetUser.UserName)
                     .Select(token => new AppAllowedImpersonation {
-                        UserName = token.TargetUser.UserName,
-                        Email = token.TargetUser.Email,
+                        UserName = token.SourceUser.UserName,
+                        Email = token.SourceUser.Email,
                         ActiveSince = token.CreationDate,
                         SecurityToken = token.SecurityToken
                     })).ToList();
