@@ -93,6 +93,10 @@ $initial-download-indicator-anim-width: $initial-download-indicator-width -
 
         position: relative;
         text-align: left;
+
+        .async-loading-panel & {
+            margin: 1rem;
+        }
     }
 
     &__throbber {
@@ -120,5 +124,9 @@ $initial-download-indicator-anim-width: $initial-download-indicator-width -
 
     &__text {
         animation: container-placeholder-text 5s ease infinite;
+    }
+
+    .async-loading-panel & {
+        display: inline-block;
     }
 }

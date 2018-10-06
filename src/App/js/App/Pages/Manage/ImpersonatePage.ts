@@ -4,6 +4,7 @@ import confirmAsync from 'AppFramework/Forms/Confirmation';
 import * as modal from 'AppFramework/Components/Modal';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 import { IFormPage } from 'AppFramework/Forms/FormPage';
+import { AsyncDataSource } from 'AppFramework/AsyncDataSource';
 
 import * as userImpersonate from 'App/ServerApi/UserImpersonate';
 import * as ko from 'knockout';
@@ -12,8 +13,8 @@ class ImpersonatePage extends Page {
     private api = new userImpersonate.Api();
 
     public users = ko.observableArray<userImpersonate.IAppImpersonateUserListing>();
-    public outstandingImpersonations = ko.observableArray<userImpersonate.IAppOutstandingImpersonation>();
-    public allowedImpersonations = ko.observableArray<userImpersonate.IAppAllowedImpersonation>();
+    public outstandingImpersonations = new AsyncDataSource(() => this.api.getOutstandingImpersonations());
+    public allowedImpersonations = new AsyncDataSource(() => this.api.getAllowedImpersonations());
 
     public createdSecurityTokenModal = new modal.ModalController<userImpersonate.IAppOutstandingImpersonation>(
         'Aangemaakte uitnodigingscode',
@@ -37,23 +38,19 @@ class ImpersonatePage extends Page {
     }
 
     protected async onActivate(): Promise<void> {
-        await Promise.all([
-            this.refreshUserListing(),
-            this.refreshOutstandingImpersonations(),
-            this.refreshAllowedImpersonations()
-        ]);
+        await this.refreshUserListing();
     }
 
     private async refreshOutstandingImpersonations() {
-        this.outstandingImpersonations(await this.api.getOutstandingImpersonations());
+        this.outstandingImpersonations.reload();
     }
 
     private async refreshUserListing() {
         this.users(await this.api.getListing());
     }
 
-    private async refreshAllowedImpersonations() {
-        this.allowedImpersonations(await this.api.getAllowedImpersonations());
+    private refreshAllowedImpersonations() {
+        this.allowedImpersonations.reload();
     }
 
     public async impersonate(userInfo: userImpersonate.IAppImpersonateUserListing) {

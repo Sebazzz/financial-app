@@ -13,5 +13,6 @@ function installTemplate(id: string, contents: string) {
 
 export default function install() {
     installTemplate('page-error', require('./page-error.html'));
+    installTemplate('panel-error', require('./panel-error.html'));
     installTemplate('page-loader', require('./page-loader.html'));
 }

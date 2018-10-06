@@ -122,3 +122,16 @@ The `responsiveRender` binding handler renders only the contained element or ele
 Accepts either `desktop` or `mobile` as a string argument. Usage:
 
     <!-- ko responsiveRender: 'mobile' --><p>I will only render and bind on mobile!</p><!-- /ko -->
+
+### `asyncLoadingPanel`
+
+Allows partial page loading with error handling and progress reporting. This prevents you from needing to prevent page loading while the potential slow loading is happening, while at the same time errors while loading are separatedly caught.
+
+The panel renders with a child binding context with two extra variables:
+
+-   `$dataSource`: The `AsyncDataSource<T>` instance that is in use.
+-   `$model`: The view model at the element level (often same as `$parent`).
+
+Must be passed an instance of `AsyncDataSource<T>`.
+
+     <div ko-async-loading-panel="mySlowApiLoader"><span ko-text="$data"></span></div>

@@ -8,5 +8,6 @@ import './TextFormat';
 import './LookupScope';
 import './BindingContextLog';
 import './SwipeActions';
+import './AsyncLoadingPanel';
 import '../Forms/ValidationMessage';
 import '../Client/ResponsiveRenderBindingHandler';
