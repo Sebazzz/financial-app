@@ -3,4 +3,5 @@ import { IPreferencesModel as IFrameworkPreferencesModel } from 'AppFramework/Se
 export interface IPreferencesModel extends IFrameworkPreferencesModel {
     enableMonthlyDigest: boolean;
     enableLoginNotifications: boolean;
+    goToHomePageAfterContextSwitch: boolean;
 }
