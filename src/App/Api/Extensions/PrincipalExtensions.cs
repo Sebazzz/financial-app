@@ -23,13 +23,14 @@
                 throw new ArgumentNullException(nameof(claimsIdentity));
             }
 
-            Claim foundClaim = claimsIdentity.FindFirst("AppOwnerGroup");
+            Claim foundClaim = claimsIdentity.FindFirst(AppClaimTypes.AppOwnerGroup);
             if (foundClaim == null) {
-                throw new InvalidDataException("Expected 'AppOwnerGroup' claim to be present");
+                throw new InvalidDataException($"Expected '{AppClaimTypes.AppOwnerGroup}' claim to be present");
             }
 
             return Int32.Parse(foundClaim.Value, CultureInfo.InvariantCulture);
         }
+
 
         public static int GetUserId([NotNull] this IIdentity identity) {
             if (identity == null) {

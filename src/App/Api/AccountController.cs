@@ -5,25 +5,25 @@
 //  Project         : App
 // ******************************************************************************
 
-using System;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using App.Api.Extensions;
-using App.Models.Domain.Identity;
-using App.Models.Domain.Repositories;
-using App.Models.DTO;
-using App.Support;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using QRCoder;
-using static QRCoder.PayloadGenerator;
-using static QRCoder.PayloadGenerator.OneTimePassword;
-
 namespace App.Api
 {
+    using System;
+    using System.Linq;
+    using System.Runtime.Serialization;
+    using System.Text;
+    using System.Threading.Tasks;
+    using App.Api.Extensions;
+    using App.Models.Domain.Identity;
+    using App.Models.Domain.Repositories;
+    using App.Models.DTO;
+    using App.Support;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using QRCoder;
+    using static QRCoder.PayloadGenerator;
+    using static QRCoder.PayloadGenerator.OneTimePassword;
+
     using System.Net;
     using AutoMapper;
 
@@ -32,15 +32,13 @@ namespace App.Api
     public class AccountController : Controller
     {
         private readonly AppUserManager _appUserManager;
-        private readonly AppOwnerRepository _appOwnerRepository;
         private readonly AppUserLoginEventRepository _appUserLoginEventRepository;
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public AccountController(AppUserManager appUserManager, AppOwnerRepository appOwnerRepository, IMapper mapper, AppUserLoginEventRepository appUserLoginEventRepository)
+        public AccountController(AppUserManager appUserManager, IMapper mapper, AppUserLoginEventRepository appUserLoginEventRepository)
         {
             this._appUserManager = appUserManager;
-            this._appOwnerRepository = appOwnerRepository;
             this._mapper = mapper;
             this._appUserLoginEventRepository = appUserLoginEventRepository;
         }
@@ -55,15 +53,21 @@ namespace App.Api
                 return this.NotFound();
             }
 
-            // Fix not lazily loaded property
-            currentUser.Group = (await this._appOwnerRepository.FindByIdAsync(currentUser.GroupId)).EnsureNotNull(HttpStatusCode.Unauthorized);
-
             return this.Ok(new
             {
                 UserName = currentUser.UserName,
                 Email = currentUser.Email,
                 EmailConfirmed = currentUser.EmailConfirmed,
-                GroupName = currentUser.Group?.Name,
+
+                CurrentGroupId = currentUser.CurrentGroupId,
+                CurrentGroupName = currentUser.CurrentGroup?.Name,
+                AvailableGroups = (
+                    from g in currentUser.AvailableGroups
+                    select new {
+                        Id = g.GroupId,
+                        Name = g.Group.Name
+                    }
+                ),
 
                 TwoFactorAuthentication = new
                 {

@@ -116,6 +116,12 @@ export default class AuthenticationService {
         return authInfo;
     }
 
+    public async changeActiveGroup(groupId: number) {
+        const authInfo = await this.api.changeActiveGroup(groupId);
+        this.currentAuthentication(authInfo);
+        return authInfo;
+    }
+
     private async checkAuthenticationCore() {
         console.log('AuthenticationService: Checking authentication');
         try {

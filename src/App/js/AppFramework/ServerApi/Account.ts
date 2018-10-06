@@ -1,9 +1,17 @@
 ﻿import ApiBase from './ApiBase';
 
+export interface IAvailableGroup {
+    id: number;
+    name: string;
+}
+
 export interface IAccountInfo {
     userName: string;
     email: string;
-    groupName: string;
+
+    currentGroupId: number;
+    currentGroupName: string;
+    availableGroups: IAvailableGroup[];
 
     twoFactorAuthentication: IAccountTwoFactorInfo;
     lastLoginEvents: ILoginEvent[];

@@ -140,17 +140,17 @@ namespace App
                 opt.AddPolicy("AppSetup", policy => policy.AddRequirements(new SetupNotRunAuthorizationRequirement()));
             });
 
-            DatabaseOptions dbOptions = this.Configuration.GetSection("database").Get<DatabaseOptions>();
-            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(dbOptions.CreateConnectionString()));
-
             services.AddSignalR()
                     .AddJsonProtocol(options => options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
+            services.AddDbContext<AppDbContext>();
 
             services.AddHangfire(c =>
             {
 #if DEBUG
                 c.UseMemoryStorage();
 #else
+                DatabaseOptions dbOptions = this.Configuration.GetSection("database").Get<DatabaseOptions>();
                 c.UseSqlServerStorage(dbOptions.CreateConnectionString());
 #endif
             });

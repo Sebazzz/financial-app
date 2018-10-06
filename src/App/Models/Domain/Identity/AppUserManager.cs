@@ -37,7 +37,7 @@
         public override async Task<IList<Claim>> GetClaimsAsync(AppUser user) {
             IList<Claim> claims = await base.GetClaimsAsync(user);
 
-            claims.Add(new Claim("AppOwnerGroup", user.GroupId.ToString(CultureInfo.InvariantCulture), typeof(Int32).FullName));
+            claims.Add(new Claim("AppOwnerGroup", user.CurrentGroupId.ToString(CultureInfo.InvariantCulture), typeof(Int32).FullName));
             return claims;
         }
 
@@ -54,7 +54,7 @@
         }
 
         private async Task<IList<AppUser>> GetUsersForAppOwnerGroup(int id) {
-            return await this.Users.Where(x => x.GroupId == id).ToListAsync();
+            return await this.Users.Where(x => x.CurrentGroupId == id).ToListAsync();
         }
 
         public override async Task<IdentityResult> ChangePasswordAsync(AppUser user, string currentPassword, string newPassword) {

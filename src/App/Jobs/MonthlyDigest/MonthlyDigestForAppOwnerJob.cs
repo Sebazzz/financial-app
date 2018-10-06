@@ -54,7 +54,7 @@ namespace App.Jobs.MonthlyDigest {
                 return;
             }
 
-            var users = await this._appUserManager.Users.Where(x => x.GroupId == appOwnerId && x.Preferences.EnableMonthlyDigest).ToListAsync();
+            var users = await this._appUserManager.Users.Where(x => x.CurrentGroupId == appOwnerId && x.Preferences.EnableMonthlyDigest).ToListAsync();
             if (users.Count == 0) {
                 this._logger.LogInformation($"Not going to process job for app owner #{appOwnerId}: no users want to receive the monthly digest");
                 return;

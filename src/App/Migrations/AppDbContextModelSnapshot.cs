@@ -35,6 +35,25 @@ namespace App.Migrations
                     b.ToTable("AppOwner");
                 });
 
+            modelBuilder.Entity("App.Models.Domain.AppUserAvailableGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GroupId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AppUserAvailableGroup");
+                });
+
             modelBuilder.Entity("App.Models.Domain.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -94,12 +113,12 @@ namespace App.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<int>("CurrentGroupId");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<int>("GroupId");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -126,7 +145,7 @@ namespace App.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
+                    b.HasIndex("CurrentGroupId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -426,6 +445,19 @@ namespace App.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("App.Models.Domain.AppUserAvailableGroup", b =>
+                {
+                    b.HasOne("App.Models.Domain.AppOwner", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("App.Models.Domain.Identity.AppUser", "User")
+                        .WithMany("AvailableGroups")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("App.Models.Domain.Category", b =>
                 {
                     b.HasOne("App.Models.Domain.AppOwner", "Owner")
@@ -436,9 +468,9 @@ namespace App.Migrations
 
             modelBuilder.Entity("App.Models.Domain.Identity.AppUser", b =>
                 {
-                    b.HasOne("App.Models.Domain.AppOwner", "Group")
+                    b.HasOne("App.Models.Domain.AppOwner", "CurrentGroup")
                         .WithMany("Users")
-                        .HasForeignKey("GroupId")
+                        .HasForeignKey("CurrentGroupId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.OwnsOne("App.Models.Domain.Identity.AppUserPreferences", "Preferences", b1 =>

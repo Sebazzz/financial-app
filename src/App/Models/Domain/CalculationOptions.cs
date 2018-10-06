@@ -1,9 +1,8 @@
 ﻿namespace App.Models.Domain {
-    using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
 
     [DataContract]
-    public sealed class CalculationOptions {
+    public class CalculationOptions {
         [DataMember]
         public decimal? SavingsAccountOffset { get; set; }
 

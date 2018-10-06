@@ -29,4 +29,10 @@
         [DataMember]
         public bool RememberClient { get;set; }
     }
+
+    [DataContract]
+    public sealed class ChangeGroupModel {
+        [DataMember]
+        public int GroupId { get; set; }
+    }
 }

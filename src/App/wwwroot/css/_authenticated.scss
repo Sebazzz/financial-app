@@ -160,3 +160,18 @@ $full-page-backgrounds: (
         @include full-page-background($bg);
     }
 }
+
+.form-control-inline {
+    margin-bottom: 0.5rem;
+    @include media-breakpoint-up(md) {
+        margin-bottom: 0;
+        display: inline-block;
+        width: auto;
+        vertical-align: baseline;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        + .btn {
+            vertical-align: baseline;
+        }
+    }
+}

@@ -44,8 +44,12 @@
     <p>
         <strong>Email:</strong> <span ko-text="email"></span>
     </p>
-    <p>
-        <strong>Groep:</strong> <span ko-text="groupName"></span>
+    <p ko-visible="availableGroups.length <= 1">
+        <strong>Huidige context:</strong> <span ko-text="currentGroupName"></span> 
+    </p>
+    <p ko-visible="availableGroups.length > 1">
+        <strong>Huidige context:</strong> <select ko-options="availableGroups" class="custom-select custom-select-sm form-control-inline" ko-options-text#="name" ko-options-value#="id" ko-value="$page.chosenGroupId"></select>
+        <button class="btn btn-primary btn-sm" ko-visible="$page.applyGroupIdAvailable" ko-async-click="$page.applyGroupChange">Activeren</button>
     </p>
 
     <p>

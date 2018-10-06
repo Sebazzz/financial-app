@@ -2,16 +2,20 @@
 
 namespace App.Api {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Extensions;
     using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Domain;
     using Models.Domain.Identity;
+    using Models.Domain.Services;
     using Models.DTO;
     using Support;
     using Support.Mailing;
@@ -64,12 +68,35 @@ namespace App.Api {
 
             await this._appUserLoginEventService.HandleUserLoginAsync(user, this.HttpContext);
 
-            return this.Ok(new AuthenticationInfo {
-                IsAuthenticated = true,
-                UserId = user.Id,
-                UserName = user.UserName,
-                Roles = await (await this._appUserManager.GetRolesAsync(user)).ToAsyncEnumerable().ToArray()
-            });
+            return await this.ReturnAuthenticationInfoResult(user);
+        }
+
+        [Authorize]
+        [HttpPost("change-active-group")]
+        public async Task<IActionResult> ChangeActiveGroup([FromBody] ChangeGroupModel changeGroupModel) {
+            if (!this.ModelState.IsValid) {
+                return this.BadRequest(this.ModelState);
+            }
+
+            ClaimsPrincipal principal = this.User;
+
+            AppUser user = await this._appUserManager.FindByIdAsync(principal.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Forbidden);
+
+            // Change the group and save
+            AppUserAvailableGroup desiredGroup = user.AvailableGroups.FirstOrDefault(x => x.GroupId == changeGroupModel.GroupId).EnsureNotNull(HttpStatusCode.Forbidden);
+            user.CurrentGroup = desiredGroup.Group;
+            user.CurrentGroupId = desiredGroup.GroupId;
+
+            await this._appUserManager.UpdateAsync(user);
+
+            // Send new login token
+            ClaimsIdentity identity = ((ClaimsIdentity) principal.Identity);
+            identity.TryRemoveClaim(identity.FindFirst(AppClaimTypes.AppOwnerGroup));
+            identity.AddClaim(new Claim(AppClaimTypes.AppOwnerGroup, user.CurrentGroupId.ToString(CultureInfo.InvariantCulture)));
+
+            await this.HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
+
+            return await this.ReturnAuthenticationInfoResult(user);
         }
 
         [HttpPost("login-two-factor-authentication")]
@@ -111,12 +138,7 @@ namespace App.Api {
 
             await this._appUserLoginEventService.HandleUserLoginAsync(user, this.HttpContext);
 
-            return this.Ok(new AuthenticationInfo {
-                IsAuthenticated = true,
-                UserId = user.Id,
-                UserName = user.UserName,
-                Roles = await (await this._appUserManager.GetRolesAsync(user)).ToAsyncEnumerable().ToArray()
-            });
+            return await this.ReturnAuthenticationInfoResult(user);
         }
 
         [HttpPost("logoff")]
@@ -225,6 +247,15 @@ namespace App.Api {
             }
 
             return this.NoContent();
+        }
+
+        private async Task<OkObjectResult> ReturnAuthenticationInfoResult(AppUser user) {
+            return this.Ok(new AuthenticationInfo {
+                IsAuthenticated = true,
+                UserId = user.Id,
+                UserName = user.UserName,
+                Roles = await (await this._appUserManager.GetRolesAsync(user)).ToAsyncEnumerable().ToArray()
+            });
         }
     }
 }

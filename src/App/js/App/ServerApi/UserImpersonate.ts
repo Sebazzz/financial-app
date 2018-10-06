@@ -19,35 +19,41 @@ export interface IAppOutstandingImpersonation extends IAppSecurityTokenModel {
 export interface IAppAllowedImpersonation extends IAppSecurityTokenModel, IAppImpersonateUserListing {}
 
 export class Api extends ApiBase {
+    constructor() {
+        super();
+
+        this.baseUrl = '/api/user/impersonate';
+    }
+
     public getListing(): Promise<IAppImpersonateUserListing[]> {
-        return this.httpClient.get('/api/user/impersonate');
+        return this.execGet();
     }
 
     public getAllowedImpersonations(): Promise<IAppAllowedImpersonation[]> {
-        return this.httpClient.get('/api/user/impersonate/allowed-impersonation');
+        return this.execGet('allowed-impersonation');
     }
 
     public deleteAllowedImpersonation(securityToken: string): Promise<void> {
-        return this.httpClient.delete('/api/user/impersonate/allowed-impersonation', { securityToken });
+        return this.execDelete('allowed-impersonation', { securityToken });
     }
 
     public getOutstandingImpersonations(): Promise<IAppOutstandingImpersonation[]> {
-        return this.httpClient.get('/api/user/impersonate/outstanding');
+        return this.execGet('outstanding');
     }
 
     public deleteOutstandingImpersonation(securityToken: string): Promise<void> {
-        return this.httpClient.delete('/api/user/impersonate/outstanding', { securityToken });
+        return this.execDelete('outstanding', { securityToken });
     }
 
     public impersonate(id: number): Promise<IAuthenticationInfo> {
-        return this.httpClient.post(`/api/user/impersonate/${id}`);
+        return this.execPost(`${id}`);
     }
 
     public createImpersonationInvite(): Promise<IAppOutstandingImpersonation> {
-        return this.httpClient.post('/api/user/impersonate/create-invitation');
+        return this.execPost('create-invitation');
     }
 
     public completeImpersonationInvite(securityToken: string | null): Promise<IAppImpersonateUserListing> {
-        return this.httpClient.post('/api/user/impersonate/complete-invitation', { securityToken });
+        return this.execPost('complete-invitation', { securityToken });
     }
 }
