@@ -1,4 +1,3 @@
-
 .navbar {
     border-top: $navbar-top-border-width solid darken($accent-color, 15%);
 }
@@ -11,7 +10,8 @@
     }
 }
 
-.navbar-brand, .application-header {
+.navbar-brand,
+.application-header {
     background: url(../images/icons/application.svg) 10px center no-repeat;
     background-size: contain;
     padding-left: 70px;
@@ -36,7 +36,8 @@
 $nav-link-active-border-width: 2px;
 $nav-link-active-border-width-mobile: 4px;
 
-.nav-link, .nav-item {
+.nav-link,
+.nav-item {
     margin-bottom: (-1 * $nav-link-active-border-width);
     border-bottom: $nav-link-active-border-width solid transparent;
 
@@ -44,17 +45,33 @@ $nav-link-active-border-width-mobile: 4px;
         margin-right: (-1 * $nav-link-active-border-width-mobile);
         border-right: $nav-link-active-border-width-mobile solid transparent;
     }
-    
-    &, > .nav-link {
+
+    &,
+    > .nav-link {
         transition: all 500ms ease-in-out;
     }
 
     &.active {
         border-bottom: $nav-link-active-border-width solid $accent-color;
-            
+
         @include media-breakpoint-down(md) {
             border-bottom: 0;
             border-right: $nav-link-active-border-width-mobile solid $accent-color;
+        }
+    }
+}
+
+.navbar {
+    &__logged-in-text {
+        margin-right: 4em;
+        font-size: 90%;
+    }
+
+    &__context-indicator {
+        font-size: 90%;
+
+        @include media-breakpoint-up(md) {
+            display: none;
         }
     }
 }
