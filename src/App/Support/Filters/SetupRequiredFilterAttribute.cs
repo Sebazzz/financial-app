@@ -1,36 +1,34 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using App.Api;
-using App.Support.Setup;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : SetupRequiredFilterAttribute.cs
+//  Project         : App
+// ******************************************************************************
 
-namespace App.Support.Filters
-{
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class AllowDuringSetupAttribute : Attribute, IFilterMetadata {
-    }
+namespace App.Support.Filters {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.DependencyInjection;
+    using Setup;
 
-    public class SetupRequiredFilterAttribute : ActionFilterAttribute
-    {
-        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
-        {
-            if (context.Filters.Any(x => x is AllowDuringSetupAttribute))
-            {
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class AllowDuringSetupAttribute : Attribute, IFilterMetadata { }
+
+    public class SetupRequiredFilterAttribute : ActionFilterAttribute {
+        public override async Task
+            OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next) {
+            if (context.Filters.Any(x => x is AllowDuringSetupAttribute)) {
                 await base.OnActionExecutionAsync(context, next);
                 return;
             }
-            
-            var setupState = GetSetupState(context);
+
+            var setupState = this.GetSetupState(context);
 
             var hasBeenSetup = await setupState.HasBeenSetup();
 
-            if (hasBeenSetup)
-            {
+            if (hasBeenSetup) {
                 await base.OnActionExecutionAsync(context, next);
                 return;
             }
@@ -40,8 +38,7 @@ namespace App.Support.Filters
             await base.OnActionExecutionAsync(context, next);
         }
 
-        private RequestAppSetupState GetSetupState(ActionExecutingContext context)
-        {
+        private RequestAppSetupState GetSetupState(ActionExecutingContext context) {
             return context.HttpContext.RequestServices.GetRequiredService<RequestAppSetupState>();
         }
     }

@@ -5,7 +5,7 @@
 //  Project         : App
 // ******************************************************************************
 
-namespace App.Models.Domain
+namespace App.Models.Domain.Services
 {
     using System;
     using System.Threading.Tasks;

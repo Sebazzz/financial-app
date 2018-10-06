@@ -38,13 +38,19 @@
     public class AppUser : IdentityUser<int>
     {
         private ICollection<AppUserTrustedUser> _availableImpersonations;
+        private ICollection<AppUserAvailableGroup> _availableGroups;
 
         [Required]
-        public virtual AppOwner Group { get; set; }
+        public virtual AppOwner CurrentGroup { get; set; }
+        public int CurrentGroupId { get; set; }
 
-        public AppUserPreferences Preferences { get; set; }
+        public virtual ICollection<AppUserAvailableGroup> AvailableGroups {
+            get => this._availableGroups ?? (this._availableGroups = new Collection<AppUserAvailableGroup>());
+            set => this._availableGroups = value;
+        }
 
-        public int GroupId { get; set; }
+        public virtual AppUserPreferences Preferences { get; set; }
+
 
         /// <summary>
         /// Gets a list of trusted app users the current user may impersonate.
@@ -66,16 +72,13 @@
             {
                 UserName = name,
                 Email = email,
-                Group = group,
+                CurrentGroup = group,
                 Preferences = AppUserPreferences.CreateDefault()
             };
         }
     }
 
-    public class AppUserLogin : IdentityUserLogin<int>
-    {
-
-    }
+    public class AppUserLogin : IdentityUserLogin<int> {}
 
     public class AppUserRole : IdentityUserRole<int>
     {

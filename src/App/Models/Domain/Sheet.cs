@@ -11,7 +11,8 @@
     [GenerateRepository]
     public class Sheet : IAppOwnerEntity, IHasId {
         private ICollection<SheetEntry> _entries;
-        private ICollection<SheetRecurringSheetEntry> _applicableEntries;
+        private ICollection<SheetRecurringSheetEntry> _applicableTemplates;
+        private CalculationOptions _calculationOptions;
         public int Id { get; set; }
 
         /// <summary>
@@ -26,15 +27,19 @@
 
         public DateTime CreateTimestamp { get; set; }
 
-        public CalculationOptions CalculationOptions { get; set; }
+        public virtual CalculationOptions CalculationOptions
+        {
+            get => this._calculationOptions ?? (this._calculationOptions = new CalculationOptions());
+            set => this._calculationOptions = value;
+        }
 
         [Required]
         [GenerateRepositoryQuery(IsMultiple = true)]
         public virtual AppOwner Owner { get; set; }
 
         public virtual ICollection<SheetEntry> Entries {
-            get { return this._entries ?? (this._entries = new Collection<SheetEntry>()); }
-            set { this._entries = value; }
+            get => this._entries ?? (this._entries = new Collection<SheetEntry>());
+            set => this._entries = value;
         }
 
         /// <summary>
@@ -42,8 +47,8 @@
         /// </summary>
         public virtual ICollection<SheetRecurringSheetEntry> ApplicableTemplates
         {
-            get { return this._applicableEntries ?? (this._applicableEntries = new Collection<SheetRecurringSheetEntry>()); }
-            set { this._applicableEntries = value; }
+            get => this._applicableTemplates ?? (this._applicableTemplates = new Collection<SheetRecurringSheetEntry>());
+            set => this._applicableTemplates = value;
         }
 
         /// <summary>
@@ -52,8 +57,6 @@
         public Sheet() {
             this.CreateTimestamp = DateTime.Now;
             this.UpdateTimestamp = DateTime.Now;
-
-            this.CalculationOptions = new CalculationOptions();
         }
 
     }

@@ -16,8 +16,8 @@
         public int Id { get; set; }
 
         public virtual ICollection<AppUser> Users {
-            get { return this._users ?? (this._users = new Collection<AppUser>()); }
-            set { this._users = value; }
+            get => this._users ?? (this._users = new Collection<AppUser>());
+            set => this._users = value;
         }
 
         [Required]
@@ -39,5 +39,20 @@
         public AppOwner(string name) {
             this.Name = name;
         }
+    }
+
+
+    public class AppUserAvailableGroup {
+        public virtual int Id { get; set; }
+
+        [Required]
+        public virtual AppOwner Group { get; set; }
+
+        public virtual int GroupId { get;set; }
+
+        [Required]
+        public virtual AppUser User { get; set; }
+
+        public virtual int UserId { get; set; }
     }
 }

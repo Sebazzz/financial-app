@@ -3,12 +3,24 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
+    using Microsoft.Extensions.Options;
+    using Support;
 
     /// <summary>
     /// Represents the database context for the application
     /// </summary>
     public sealed class AppDbContext : IdentityDbContext<AppUser, AppRole, int> {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {     
+        private readonly DatabaseOptions _databaseOptions;
+
+        public AppDbContext(IOptions<DatabaseOptions> databaseOptions) {
+            this._databaseOptions = databaseOptions.Value;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.UseSqlServer(this._databaseOptions.CreateConnectionString());
+            optionsBuilder.UseLazyLoadingProxies();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -26,6 +38,22 @@
 
             // login event keeping
             modelBuilder.Entity<AppUserLoginEvent>();
+
+            // direct data access
+            modelBuilder.Entity<AppUser>()
+                .HasOne(x => x.CurrentGroup)
+                .WithMany(x => x.Users);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(x => x.AvailableGroups)
+                .WithOne(x => x.User)
+                .HasForeignKey(x => x.UserId);
+
+            modelBuilder.Entity<AppUserAvailableGroup>()
+                .HasOne(x => x.Group)
+                .WithMany()
+                .HasForeignKey(x => x.GroupId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // impersonation
             modelBuilder.Entity<AppUserTrustedUser>()
@@ -84,14 +112,11 @@
         }
     }
 
-
     public sealed class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbContext> {
         public AppDbContext CreateDbContext(string[] args) {
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-
             // TODO: Find way to de-dup connection string from appsettings.json
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Integrated Security=true;Database=financial_app;MultipleActiveResultSets=true");
-            return new AppDbContext(optionsBuilder.Options);
+            string connString = "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Database=financial_app;MultipleActiveResultSets=true";
+            return new AppDbContext(new OptionsWrapper<DatabaseOptions>(new DatabaseOptions { ConnectionString = connString }));
         }
     }
 }

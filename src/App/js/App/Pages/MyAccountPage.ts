@@ -16,6 +16,10 @@ class MyAccountPage extends Page {
     public authInfo = ko.observable<account.IAccountInfo>();
     public twoFactorAuthentication: TwoFactorAuthenticationController;
 
+    public initialGroupId = ko.observable<number>(0);
+    public chosenGroupId = ko.observable<number>(0);
+    public applyGroupIdAvailable = ko.pureComputed(() => this.initialGroupId() !== this.chosenGroupId());
+
     public changePasswordModal = new modal.ModalController<ChangePasswordModel>('Wachtwoord wijzigen');
 
     public preferences = new PreferencesModel();
@@ -27,6 +31,7 @@ class MyAccountPage extends Page {
 
         this.refresh = this.refresh.bind(this);
         this.invokePasswordChange = this.invokePasswordChange.bind(this);
+        this.applyGroupChange = this.applyGroupChange.bind(this);
 
         this.twoFactorAuthentication = new TwoFactorAuthenticationController(this.refresh);
     }
@@ -43,8 +48,12 @@ class MyAccountPage extends Page {
         try {
             this.isRefreshing = true;
 
-            this.authInfo(await this.api.getInfo());
-            this.twoFactorAuthentication.twoFactorInfo(this.authInfo.peek()!.twoFactorAuthentication);
+            const authInfo = await this.api.getInfo();
+            this.initialGroupId(authInfo.currentGroupId);
+            this.chosenGroupId(authInfo.currentGroupId);
+            this.authInfo(authInfo);
+
+            this.twoFactorAuthentication.twoFactorInfo(authInfo.twoFactorAuthentication);
 
             ko.tasks.runEarly();
         } finally {
@@ -54,6 +63,26 @@ class MyAccountPage extends Page {
 
     public invokePasswordChange() {
         this.changePasswordModal.showDialog(new ChangePasswordModel(this.changePasswordModal));
+    }
+
+    public async applyGroupChange() {
+        const chosenId = this.chosenGroupId(),
+            initialGroupId = this.initialGroupId();
+
+        if (chosenId === initialGroupId) {
+            return;
+        }
+
+        try {
+            await this.appContext.authentication.changeActiveGroup(chosenId);
+
+            this.chosenGroupId(chosenId);
+            this.initialGroupId(chosenId);
+        } catch (e) {
+            console.error(e);
+
+            this.chosenGroupId(initialGroupId);
+        }
     }
 }
 

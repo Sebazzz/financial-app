@@ -55,6 +55,10 @@ export class Api extends ApiBase {
         return this.execPost<IAuthenticationInfo>('login', loginInfo);
     }
 
+    public changeActiveGroup(groupId: number): Promise<IAuthenticationInfo> {
+        return this.execPost('change-active-group', { groupId });
+    }
+
     public logoff(): Promise<IAuthenticationInfo> {
         return this.execPost<IAuthenticationInfo>('logoff');
     }
