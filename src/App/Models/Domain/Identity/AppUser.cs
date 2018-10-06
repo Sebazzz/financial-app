@@ -78,7 +78,13 @@
                 UserName = name,
                 Email = email,
                 CurrentGroup = group,
-                Preferences = AppUserPreferences.CreateDefault()
+                Preferences = AppUserPreferences.CreateDefault(),
+                AvailableGroups = {
+                    new AppUserAvailableGroup {
+                        Group = group,
+                        GroupId = group.Id
+                    }
+                }
             };
         }
     }

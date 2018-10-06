@@ -70,10 +70,12 @@
 
             IdentityResult result = await this._appUserManager.CreateAsync(newUser, value.NewPassword);
             if (!result.Succeeded) {
-                return this.BadRequest(result.Errors);
+                this.ModelState.AppendIdentityResult(result, _ => nameof(value.UserName));
+
+                return this.BadRequest(this.ModelState);
             }
 
-            return this.CreatedAtRoute("User-Get", new {id = newUser.Id}, this.Get(newUser.Id));
+            return this.CreatedAtRoute("User-Get", new {id = newUser.Id}, await this.Get(newUser.Id));
         }
 
         private async Task ValidatePasswordInformation(AppUserMutate value, AppUser newUser) {
