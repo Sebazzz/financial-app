@@ -100,6 +100,10 @@ FROM (
     INNER JOIN dbo.AspNetUsers tgtUser ON tgtUser.Id = srcTrustedUser.TargetUserId
 ) q
 ");
+
+            migrationBuilder.Sql(@"
+DELETE FROM dbo.AppUserTrustedUsers
+");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
