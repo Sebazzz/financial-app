@@ -79,7 +79,8 @@ namespace App.Models.Domain.Services {
             if (sourceUser == currentUser) throw new ImpersonationNotAllowedException();
 
             item.IsActive = true;
-            item.TargetUser = currentUser;
+            item.SourceUser = currentUser;
+            item.TargetUser = sourceUser;
             item.CreationDate = DateTimeOffset.Now;
 
             await this._appUserTrustedUserRepository.SaveChangesAsync();
