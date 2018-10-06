@@ -18,6 +18,7 @@ namespace App.Api {
     using Models.Domain.Services;
     using Models.DTO;
     using Support;
+    using Support.Hub;
     using Support.Mailing;
     using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 

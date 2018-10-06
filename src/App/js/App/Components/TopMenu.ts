@@ -25,7 +25,7 @@ class TopMenu extends framework.Panel {
     public isConnected = this.activityService.isConnected;
     public showActiveClientTooltip = ko.observable<boolean>(false);
     public activeClientTooltip = ko.pureComputed(
-        () => 'Ingelogde gebruikers: ' + this.activityService.activeClients().join(',')
+        () => 'Ingelogde gebruikers: ' + this.activityService.activeClients().join(', ')
     );
 
     public deactivate(): void {
@@ -157,11 +157,11 @@ class UserActivityService {
         this.connection.on('popClient', (name: string) => this.onPopClient(name));
         this.connection.on('setInitialClientList', (names: string[]) => this.onSetInitialClientList(names));
 
-        this.connection.onclose = () => {
-            console.error('UserActivityService: Connection failed.');
+        this.connection.onclose(() => {
+            console.warn('UserActivityService: Connection failed or closed');
 
             this.isConnected(false);
-        };
+        });
     }
 
     public async start() {
@@ -169,11 +169,23 @@ class UserActivityService {
             await this.initialize();
         }
 
-        if (this.isConnecting() || this.isConnected()) {
+        if (this.isConnecting()) {
             console.log(
                 'UserActivityService: start request ignored - either the connection is started or the connection is starting'
             );
             return;
+        }
+
+        if (this.isConnected()) {
+            console.log('UserActivityService: start request - while the connection is started - restarting connection');
+
+            if (this.connection) {
+                await this.connection.stop();
+
+                while (this.isConnected()) {
+                    await new Promise(resolve => window.setTimeout(() => resolve(), 10));
+                }
+            }
         }
 
         console.log('UserActivityService: starting connection');
