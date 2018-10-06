@@ -9,6 +9,7 @@ const defaultAuthInfo: auth.IAuthenticationInfo = {
     isAuthenticated: false,
     isLockedOut: false,
     isTwoFactorAuthenticationRequired: false,
+    currentGroupName: null,
     roles: []
 };
 

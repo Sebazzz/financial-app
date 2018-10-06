@@ -151,6 +151,7 @@ namespace App.Api {
 
                 return new AuthenticationInfo {
                     IsAuthenticated = true,
+                    CurrentGroupName = impersonationUser.CurrentGroup.Name,
                     UserId = impersonationUser.Id,
                     UserName = impersonationUser.UserName
                 };
