@@ -39,7 +39,6 @@ namespace App.Api {
         // GET: api/user/impersonate
         [HttpGet]
         [Route("")]
-        [ReadOnlyApi]
         public async Task<IEnumerable<AppImpersonationUserListing>> Get() {
             AppUser currentUser = await this.GetCurrentUser();
 
