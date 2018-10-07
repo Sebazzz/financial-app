@@ -12,10 +12,10 @@ function supportsValueAsNumber(element: HTMLInputElement) {
     try {
         element.valueAsNumber = 0; // This line will throw in MS Edge
 
-        element.valueAsNumber = NaN;
-
         return true;
     } catch (e) {
+        alert(e);
+        alert(e.message);
         return false;
     }
 }
@@ -61,6 +61,8 @@ ko.bindingHandlers.moneyInput = {
             // Force consistent behavior in Edge
             element.lang = parseCulture;
         }
+
+        alert(`isValueAsNumberSupported=${isValueAsNumberSupported};lang=${parseCulture}`);
 
         let isSettingValue = false;
 
