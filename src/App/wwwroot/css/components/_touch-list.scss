@@ -1,4 +1,5 @@
 $touch-list-border-color: $gray-600;
+$touch-list-active-color: $gray-700;
 
 .touch-list {
     list-style: none;
@@ -10,6 +11,10 @@ $touch-list-border-color: $gray-600;
 
         &-body {
             padding: 0.6rem 0.5rem;
+
+            &:active {
+                background-color: $touch-list-active-color;
+            }
         }
 
         &-title {
