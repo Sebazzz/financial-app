@@ -13,9 +13,12 @@ namespace App.Support.Filters {
 
     public sealed class ReadOnlyApiAttribute : ActionFilterAttribute {
         public override void OnActionExecuting(ActionExecutingContext context) {
-            DbContext dbContext = context.HttpContext.RequestServices.GetRequiredService<DbContext>();
-            
-            dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            // TODO: Enable once bugs in Entity Framework are resolved. This is caused by using lazy loading together with NoTracking.
+            //  --> https://github.com/aspnet/EntityFrameworkCore/issues/10042
+            //  --> https://github.com/aspnet/EntityFrameworkCore/issues/12780
+            //DbContext dbContext = context.HttpContext.RequestServices.GetRequiredService<DbContext>();
+
+            //dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
     }
 }

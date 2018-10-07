@@ -17,6 +17,7 @@
     using Models.Domain.Identity;
     using Models.Domain.Repositories;
     using Models.DTO;
+    using Support.Filters;
 
     [Authorize]
     [Route("api/user")]
@@ -35,6 +36,7 @@
 
         // GET: api/User
         [HttpGet("")]
+        [ReadOnlyApi]
         public IEnumerable<AppUserListing> Get() {
             return this._appUserManager.Users
                                        .Where(u => u.AvailableGroups.Any(g => g.GroupId == this.OwnerId))
@@ -44,6 +46,7 @@
 
         // GET: api/User/5
         [HttpGet("{id}", Name = "User-Get")]
+        [ReadOnlyApi]
         public async Task<AppUserListing> Get(int id) {
             AppUser user = await this.GetUser(id);
 
