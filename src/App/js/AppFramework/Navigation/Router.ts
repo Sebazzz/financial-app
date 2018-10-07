@@ -12,8 +12,9 @@ export interface IRouteProvider {
 }
 
 export class Router {
-    private router: RouterImpl = createRouter.call(window, undefined, {
-        defaultRoute: 'default'
+    private router: RouterImpl = createRouter([], {
+        defaultRoute: 'default',
+        queryParamsMode: 'loose'
     });
 
     private pendingRoutes: Routes = [];
