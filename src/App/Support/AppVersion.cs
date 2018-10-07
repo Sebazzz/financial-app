@@ -27,6 +27,8 @@
             return versionAttr.Version;
         }
 
+        internal static string GetInformationalVersion() => InitVersion();
+
         public AppVersionService(IHostingEnvironment hostingEnvironment) {
             this._hostingEnvironment = hostingEnvironment;
         }

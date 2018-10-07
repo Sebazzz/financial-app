@@ -1,9 +1,9 @@
-﻿
-using System;
-using Microsoft.Extensions.Logging;
-
-namespace App
+﻿namespace App
 {
+
+    using System;
+    using Microsoft.Extensions.Logging;
+
     using System.Net;
 
     using Microsoft.AspNetCore;
@@ -13,57 +13,68 @@ namespace App
     using Microsoft.Extensions.DependencyInjection;
 
     using App.Support.Https;
+    using Support;
 
     public class Program
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine($"Financial App - v{AppVersionService.GetInformationalVersion()}");
+            Console.WriteLine($"Starting at {DateTime.Now:s}");
+
+            Console.WriteLine();
+            Console.WriteLine("Configuring web host...");
+
+            var host = BuildWebHost(args);
+
+            Console.WriteLine();
+            Console.WriteLine("Starting host...");
+            host.Run();
+        }
+
+        private static IWebHost BuildWebHost(string[] args) {
             IWebHost host =
                 WebHost.CreateDefaultBuilder(args)
-                       .ConfigureServices(ConfigureServerOptions)
-                       .ConfigureAppConfiguration(cfg => cfg.AddApplicationInsightsSettings())
-                       .ConfigureAppConfiguration(cfg => {
-                              if (Environment.GetEnvironmentVariable(
-                                      "ASPNETCORE_FORCE_USERSECRETS") == "True") {
-                                  cfg.AddUserSecrets(typeof(Program).Assembly);
+                    .ConfigureServices(ConfigureServerOptions)
+                    .ConfigureAppConfiguration(cfg => cfg.AddApplicationInsightsSettings())
+                    .ConfigureAppConfiguration(cfg => {
+                           if (Environment.GetEnvironmentVariable(
+                                   "ASPNETCORE_FORCE_USERSECRETS") == "True") {
+                               cfg.AddUserSecrets(typeof(Program).Assembly);
+                           }
+                       })
+                    .ConfigureLogging((wc, logging) => {
+                          var env = wc.HostingEnvironment;
+                          var config = wc.Configuration;
+
+                          Console.WriteLine($"Current environment: {env.EnvironmentName}");
+
+                          logging.AddConfiguration(config.GetSection("Logging"));
+                          logging.AddConsole();
+
+                          if (env.IsDevelopment()) {
+                              logging.AddDebug();
+                          }
+                          else {
+                              var fileSection = config.GetSection("Logging").GetSection("File");
+                              var fileName = fileSection?.GetValue<string>("Path");
+
+                              if (!string.IsNullOrEmpty(fileName)) {
+                                  try {
+                                      logging.AddFile(fileSection);
+                                  }
+                                  catch (Exception ex) {
+                                      Console.WriteLine($"Failed to add file log to path [{fileName}]: {ex}");
+                                  }
                               }
-                        })
-                       .ConfigureLogging((wc, logging) =>
-                        {
-                            var env = wc.HostingEnvironment;
-                            var config = wc.Configuration;
-
-                            logging.AddConfiguration(config.GetSection("Logging"));
-                            logging.AddConsole();
-
-                            if (env.IsDevelopment())
-                            {
-                                logging.AddDebug();
-                            }
-                            else
-                            {
-                                var fileSection = config.GetSection("Logging").GetSection("File");
-                                var fileName = fileSection?.GetValue<string>("Path");
-
-                                if (!string.IsNullOrEmpty(fileName))
-                                {
-                                    try
-                                    {
-                                        logging.AddFile(fileSection);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine($"Failed to add file log to path [{fileName}]: {ex}");
-                                    }
-                                }
-                            }
-
-                        })
-
-                       .UseStartup<Startup>()
-                       .Build();
-
-            host.Run();
+                              else {
+                                  Console.WriteLine("Skipping file logging...");
+                              }
+                          }
+                      })
+                    .UseStartup<Startup>()
+                    .Build();
+            return host;
         }
 
         private static void ConfigureServerOptions(WebHostBuilderContext wc, IServiceCollection sc)
