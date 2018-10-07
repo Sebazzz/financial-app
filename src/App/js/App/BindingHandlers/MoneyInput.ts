@@ -62,8 +62,6 @@ ko.bindingHandlers.moneyInput = {
             element.lang = parseCulture;
         }
 
-        alert(`isValueAsNumberSupported=${isValueAsNumberSupported};lang=${parseCulture}`);
-
         let isSettingValue = false;
 
         // Read from
