@@ -21,6 +21,11 @@ body {
     top-menu {
         transition: opacity 500ms linear;
     }
+
+    // Fix elderly font-size that apparently happens on the Moto G
+    @media (-webkit-min-device-pixel-ratio: 3) {
+        font-size: 0.9rem;
+    }
 }
 
 * + h2,
