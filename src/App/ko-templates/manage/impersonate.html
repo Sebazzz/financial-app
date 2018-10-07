@@ -24,6 +24,10 @@
             </div>
         </li>
     </ul>
+
+    <div class="alert alert-info" ko-visible="users().length === 0">
+        <strong>Leeg...</strong> Het is niet mogelijk om in te loggen op iemand anders' account.
+    </div>
     <!-- /ko -->
 
     <!-- ko responsiveRender: 'desktop' -->
