@@ -6,15 +6,16 @@
 <div data-bind="with: sheet">
     <p>
         <small>
-            Aangemaakt: <span data-bind="formatText: createTimestamp, format: '{0:d MMMM} om {0:t}'"></span> |
+            Aangemaakt: <span data-bind="formatText: createTimestamp, format: '{0:d MMMM} om {0:t}'"></span> <span class="portrait-break">|</span>
             Laatst bijgewerkt: <span data-bind="formatText: updateTimestamp, format: '{0:d MMMM} om {0:t}'"></span>
         </small>
     </p>
 
     <p class="mobile-sheet-summary" data-bind="with: { totals: $parent.totals, offset: offset }">
-        Bankrekening: <span data-bind="css: { 'balance-negative': totals().bankAccount < 0 }, formatText: totals().bankAccount, format: 'c'"></span>
-        <small>(vorige maand: <span data-bind="formatText: offset.bankAccountOffset, format: 'c'"></span>)</small> <br />
-        Spaarrekening: <span data-bind="css: { 'balance-negative': totals().savingsAccount < 0 }, formatText: totals().savingsAccount, format: 'c'"></span>
+        Bankrekening: <span data-bind="css: { 'balance-negative': totals().bankAccount < 0 }, formatText: totals().bankAccount, format: 'c'"></span><span class="portrait-break"></span>
+        <small>(vorige maand: <span data-bind="formatText: offset.bankAccountOffset, format: 'c'"></span>)</small> <br>
+        
+        Spaarrekening: <span data-bind="css: { 'balance-negative': totals().savingsAccount < 0 }, formatText: totals().savingsAccount, format: 'c'"></span><span class="portrait-break"></span>
         <small>(vorige maand: <span data-bind="formatText: offset.savingsAccountOffset, format: 'c'"></span>)</small>
     </p>
 
@@ -153,7 +154,7 @@
     <h2>Totalen</h2>
     <p class="mobile-sheet-summary" data-bind="with: $parent.totals">
         Bankrekening: <span data-bind="css: { 'balance-negative': bankAccount < 0 }, formatText: bankAccount, format: 'c'"></span>
-        |
+        <span class="portrait-break"></span>
         Spaarrekening: <span data-bind="css: { 'balance-negative': savingsAccount < 0 }, formatText: savingsAccount, format: 'c'"></span>
     </p>
 </div>

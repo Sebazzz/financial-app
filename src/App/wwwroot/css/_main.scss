@@ -136,3 +136,12 @@ input[type='color'].form-control {
 .pull-right {
     float: right;
 }
+
+// Allow breaks to happen on mobile portrait mode only
+$portrait-max: breakpoint-max('sm', $grid-breakpoints);
+@media (max-width: $portrait-max) and (orientation: portrait) {
+    .portrait-break {
+        visibility: hidden;
+        display: block;
+    }
+}
