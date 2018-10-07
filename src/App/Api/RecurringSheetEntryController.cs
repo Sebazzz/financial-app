@@ -81,7 +81,7 @@
             this._recurringSheetEntryRepository.Add(entry);
             await this._recurringSheetEntryRepository.SaveChangesAsync();
 
-            return this.CreatedAtRoute("RecurringSheetEntry-Get", new {id = value.Id}, this.Get(entry.Id));
+            return this.CreatedAtRoute("RecurringSheetEntry-Get", new {id = entry.Id}, await this.Get(entry.Id));
         }
 
         // PUT: api/sheetentry-recurring/5
