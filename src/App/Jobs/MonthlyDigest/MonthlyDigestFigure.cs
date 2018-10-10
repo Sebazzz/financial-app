@@ -4,7 +4,6 @@
 //  File:           : MonthlyDigestFigure.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Jobs.MonthlyDigest {
     public sealed class MonthlyDigestFigure {
         public decimal Amount { get; set; }

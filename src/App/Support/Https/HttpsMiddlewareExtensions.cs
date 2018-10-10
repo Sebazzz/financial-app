@@ -1,3 +1,9 @@
+// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : HttpsMiddlewareExtensions.cs
+//  Project         : App
+// ******************************************************************************
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

@@ -1,4 +1,10 @@
-﻿using System;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : 20181005174818_AddAppUserCreationDate.cs
+//  Project         : App
+// ******************************************************************************
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App.Migrations

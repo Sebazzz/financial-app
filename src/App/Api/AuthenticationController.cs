@@ -1,4 +1,10 @@
-﻿using App.Support.Filters;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : AuthenticationController.cs
+//  Project         : App
+// ******************************************************************************
+using App.Support.Filters;
 
 namespace App.Api {
     using System;

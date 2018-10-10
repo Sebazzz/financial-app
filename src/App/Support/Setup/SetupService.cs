@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : VersionedFileTagHelper.cs
+//  File:           : SetupService.cs
 //  Project         : App
 // ******************************************************************************
-
 
 namespace App.Support.Setup {
     using System;

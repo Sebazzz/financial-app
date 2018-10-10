@@ -4,7 +4,6 @@
 //  File:           : AppLoginEventMailer.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Mailing {
     using System.Threading.Tasks;
     using Models.Domain.Identity;

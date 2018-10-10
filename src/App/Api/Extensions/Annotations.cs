@@ -1,4 +1,10 @@
-﻿
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : Annotations.cs
+//  Project         : App
+// ******************************************************************************
+
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedParameter.Local

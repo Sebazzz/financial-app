@@ -4,7 +4,6 @@
 //  File:           : MailStartupCheck.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Diagnostics
 {
     using System;

@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain.Services {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : SheetRetrievalService.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain.Services {
     using System;
     using System.Collections.Generic;
     using System.Linq;

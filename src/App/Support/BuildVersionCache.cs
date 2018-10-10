@@ -4,7 +4,6 @@
 //  File:           : BuildVersionCache.cs
 //  Project         : App
 // ******************************************************************************
-
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;

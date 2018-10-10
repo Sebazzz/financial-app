@@ -1,4 +1,10 @@
-﻿namespace App.Api {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : BaseEntityController.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Api {
     using Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

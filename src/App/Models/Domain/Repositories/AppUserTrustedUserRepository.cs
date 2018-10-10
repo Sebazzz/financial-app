@@ -4,7 +4,6 @@
 //  File:           : AppUserTrustedUserRepository.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.Domain.Repositories {
     using System.Threading.Tasks;
     using Identity;

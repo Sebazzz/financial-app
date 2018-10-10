@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain.Services {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : EntityOwnerService.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain.Services {
     using System.Diagnostics;
     using System.Security;
     using Repositories;

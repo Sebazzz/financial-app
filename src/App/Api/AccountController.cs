@@ -4,7 +4,6 @@
 //  File:           : AccountController.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Api
 {
     using System;

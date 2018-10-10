@@ -1,4 +1,10 @@
-﻿namespace App {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : AutoMapperEngineFactory.cs
+//  Project         : App
+// ******************************************************************************
+namespace App {
     using System;
     using System.Globalization;
     using System.Linq;

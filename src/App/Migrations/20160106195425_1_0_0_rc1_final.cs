@@ -1,3 +1,9 @@
+// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : 20160106195425_1_0_0_rc1_final.cs
+//  Project         : App
+// ******************************************************************************
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;

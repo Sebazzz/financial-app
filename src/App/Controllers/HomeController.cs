@@ -1,4 +1,10 @@
-﻿namespace App.Controllers {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : HomeController.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Controllers {
     using Microsoft.AspNetCore.Mvc;
     using Support;
     using Support.Filters;

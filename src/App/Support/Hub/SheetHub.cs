@@ -1,4 +1,10 @@
-﻿#if SIGNALR
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : SheetHub.cs
+//  Project         : App
+// ******************************************************************************
+#if SIGNALR
 namespace App.Support.Hub {
     using System;
     using System.Collections.Generic;

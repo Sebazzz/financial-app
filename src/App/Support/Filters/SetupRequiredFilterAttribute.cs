@@ -4,7 +4,6 @@
 //  File:           : SetupRequiredFilterAttribute.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Filters {
     using System;
     using System.Linq;

@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
-//  © 2015 Sebastiaan Dammann | damsteen.nl
+//  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
 //  File:           : AppUserListing.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.DTO {
     using System;
     using System.ComponentModel.DataAnnotations;

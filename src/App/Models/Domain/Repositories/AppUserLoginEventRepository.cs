@@ -4,7 +4,6 @@
 //  File:           : AppUserLoginEventRepository.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.Domain.Repositories {
     using System.Linq;
     using System.Threading.Tasks;

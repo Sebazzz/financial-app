@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain.Services {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : SortOrderComparer.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain.Services {
     using System.Collections.Generic;
 
     internal class SortOrderComparer<T> : Comparer<T> where T : class, IHasSortOrder {

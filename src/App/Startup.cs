@@ -1,4 +1,10 @@
-﻿using System.Data.Common;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : Startup.cs
+//  Project         : App
+// ******************************************************************************
+using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using App.Support.Https;
 using Microsoft.ApplicationInsights;

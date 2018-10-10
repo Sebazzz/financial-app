@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain.Identity {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : AppUserStore.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain.Identity {
     using System.Linq;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

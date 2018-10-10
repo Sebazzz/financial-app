@@ -4,7 +4,6 @@
 //  File:           : DiagnosticsOptions.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Diagnostics {
     public class DiagnosticsOptions {
         public string[] AllowedIPAddresses { get; set; }

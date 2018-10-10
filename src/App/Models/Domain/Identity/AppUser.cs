@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain.Identity
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : AppUser.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain.Identity
 {
     using System;
     using System.Collections.Generic;

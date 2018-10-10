@@ -4,7 +4,6 @@
 //  File:           : StringBuilderExtensions.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support {
     using System;
     using System.Text;

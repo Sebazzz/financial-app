@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
-//  © 2015 Sebastiaan Dammann | damsteen.nl
+//  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
 //  File:           : ImpersonateUserController.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Api {
     using System;
     using System.Collections.Generic;

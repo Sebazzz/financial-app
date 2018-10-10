@@ -1,4 +1,10 @@
-﻿namespace App.Support {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : Annotations.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Support {
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global

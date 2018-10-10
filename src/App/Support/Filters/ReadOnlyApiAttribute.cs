@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : VersionedFileTagHelper.cs
+//  File:           : ReadOnlyApiAttribute.cs
 //  Project         : App
 // ******************************************************************************
-
 
 namespace App.Support.Filters {
     using Microsoft.AspNetCore.Mvc.Filters;

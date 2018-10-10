@@ -4,7 +4,6 @@
 //  File:           : Template.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Mailing {
     using System;
     using System.Collections.Generic;

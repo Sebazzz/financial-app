@@ -1,4 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : 20171213215601_SheetEntryTagging.cs
+//  Project         : App
+// ******************************************************************************
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;

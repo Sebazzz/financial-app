@@ -1,4 +1,10 @@
-﻿namespace App.Support.Filters {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : DefaultResponseCacheFilterAttribute.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Support.Filters {
     using System;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Headers;

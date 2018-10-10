@@ -1,4 +1,10 @@
-﻿namespace App.Support.Setup.Steps {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : DatabaseSchemaSetupStep.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Support.Setup.Steps {
     using System;
     using System.Data.Common;
     using System.Linq;

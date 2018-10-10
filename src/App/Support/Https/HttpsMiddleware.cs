@@ -1,3 +1,9 @@
+// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : HttpsMiddleware.cs
+//  Project         : App
+// ******************************************************************************
 using System;
 using System.Threading.Tasks;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;

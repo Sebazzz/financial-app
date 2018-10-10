@@ -1,4 +1,10 @@
-﻿namespace App.Support.Hub
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : AppOwnerHub.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Support.Hub
 {
     using System;
     using System.Collections.Generic;

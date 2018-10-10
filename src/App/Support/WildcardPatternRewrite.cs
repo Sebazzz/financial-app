@@ -4,7 +4,6 @@
 //  File:           : WildcardPatternRewrite.cs
 //  Project         : App
 // ******************************************************************************
-
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;

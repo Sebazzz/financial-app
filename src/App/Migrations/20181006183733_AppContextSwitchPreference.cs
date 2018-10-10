@@ -1,4 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : 20181006183733_AppContextSwitchPreference.cs
+//  Project         : App
+// ******************************************************************************
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App.Migrations
 {

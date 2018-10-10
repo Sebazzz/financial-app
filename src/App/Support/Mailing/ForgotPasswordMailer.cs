@@ -4,7 +4,6 @@
 //  File:           : ForgotPasswordMailer.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Mailing {
     using System;
     using System.Threading.Tasks;

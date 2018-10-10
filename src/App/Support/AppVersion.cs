@@ -1,4 +1,10 @@
-﻿namespace App.Support {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : AppVersion.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Support {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;

@@ -4,7 +4,6 @@
 //  File:           : TokenModel.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.DTO {
     using System.ComponentModel.DataAnnotations;
 

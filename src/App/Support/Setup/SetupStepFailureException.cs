@@ -1,4 +1,10 @@
-﻿namespace App.Support.Setup {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : SetupStepFailureException.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Support.Setup {
     using System;
     using System.Runtime.Serialization;
 

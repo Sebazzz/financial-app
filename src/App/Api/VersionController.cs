@@ -1,3 +1,9 @@
+// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : VersionController.cs
+//  Project         : App
+// ******************************************************************************
 namespace App.Api {
     using System.Collections.Generic;
     using System.Threading.Tasks;

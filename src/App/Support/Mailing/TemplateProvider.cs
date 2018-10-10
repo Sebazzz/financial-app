@@ -1,10 +1,9 @@
 // ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : TemplateProcessor.cs
+//  File:           : TemplateProvider.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Mailing {
     using System;
     using System.IO;

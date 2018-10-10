@@ -4,7 +4,6 @@
 //  File:           : SiteUrlDetectionService.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support {
     using System;
     using System.Threading.Tasks;

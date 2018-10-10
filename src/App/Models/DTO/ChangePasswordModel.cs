@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : ChangePasswordModel.cs
+//  Project         : App
+// ******************************************************************************
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace App.Models.DTO {

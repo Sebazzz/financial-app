@@ -4,7 +4,6 @@
 //  File:           : ResetPasswordModel.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.DTO {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

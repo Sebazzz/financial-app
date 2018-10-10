@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : SheetStatisticsController.cs
+//  Project         : App
+// ******************************************************************************
+using System.Collections.Generic;
 
 namespace App.Api {
     using System;

@@ -4,7 +4,6 @@
 //  File:           : DatabaseServerStartupCheck.cs
 //  Project         : App
 // ******************************************************************************
-
 using Microsoft.Extensions.Options;
 
 namespace App.Support.Diagnostics {

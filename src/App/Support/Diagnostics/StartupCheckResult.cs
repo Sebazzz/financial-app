@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : StartupCheck.cs
+//  File:           : StartupCheckResult.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Diagnostics {
     using System;
 

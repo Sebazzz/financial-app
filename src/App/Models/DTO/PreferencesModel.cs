@@ -4,7 +4,6 @@
 //  File:           : PreferencesModel.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.DTO
 {
     public class PreferencesModel

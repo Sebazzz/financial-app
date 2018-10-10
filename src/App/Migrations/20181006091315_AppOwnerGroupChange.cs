@@ -1,4 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : 20181006091315_AppOwnerGroupChange.cs
+//  Project         : App
+// ******************************************************************************
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace App.Migrations

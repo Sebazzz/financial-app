@@ -4,7 +4,6 @@
 //  File:           : AppUserLoginEvent.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.Domain.Identity {
     using System;
     using System.ComponentModel.DataAnnotations;

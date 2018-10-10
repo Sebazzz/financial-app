@@ -1,3 +1,9 @@
+// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : HttpsServerOptions.cs
+//  Project         : App
+// ******************************************************************************
 namespace App.Support.Https
 {
     public sealed class HttpsServerOptions

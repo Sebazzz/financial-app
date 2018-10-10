@@ -4,7 +4,6 @@
 //  File:           : ModelStateExtensions.cs
 //  Project         : App
 // ******************************************************************************
-
 using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;

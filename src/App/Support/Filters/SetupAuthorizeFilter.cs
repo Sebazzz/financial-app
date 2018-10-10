@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : VersionedFileTagHelper.cs
+//  File:           : SetupAuthorizeFilter.cs
 //  Project         : App
 // ******************************************************************************
-
 
 namespace App.Support.Filters {
     using System.Threading.Tasks;

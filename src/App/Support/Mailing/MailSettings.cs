@@ -1,10 +1,9 @@
 // ******************************************************************************
-//  � 2018 Sebastiaan Dammann | damsteen.nl
+//  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
 //  File:           : MailSettings.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Mailing
 {
     public sealed class MailSettings

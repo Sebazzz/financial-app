@@ -1,4 +1,10 @@
-﻿namespace App.Models.DTO {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : CategoryListing.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.DTO {
     using System.Runtime.Serialization;
 
     [DataContract]

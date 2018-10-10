@@ -1,4 +1,10 @@
-﻿namespace App.Support.Setup.Steps {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : DatabaseInitialSeedStep.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Support.Setup.Steps {
     using System.Linq;
     using System.Threading.Tasks;
 

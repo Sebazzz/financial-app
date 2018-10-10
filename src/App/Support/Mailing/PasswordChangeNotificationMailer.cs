@@ -4,7 +4,6 @@
 //  File:           : PasswordChangeNotificationMailer.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Mailing {
     using System.Threading.Tasks;
 

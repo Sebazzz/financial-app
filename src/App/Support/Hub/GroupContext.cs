@@ -1,4 +1,10 @@
-﻿namespace App.Support.Hub {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : GroupContext.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Support.Hub {
     using System;
     using System.Collections.Concurrent;
     using GroupName=System.String;

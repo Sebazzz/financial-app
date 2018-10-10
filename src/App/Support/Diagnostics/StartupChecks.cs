@@ -4,7 +4,6 @@
 //  File:           : StartupChecks.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Diagnostics {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;

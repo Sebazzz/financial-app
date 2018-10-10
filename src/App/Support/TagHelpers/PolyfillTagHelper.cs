@@ -4,7 +4,6 @@
 //  File:           : PolyfillTagHelper.cs
 //  Project         : App
 // ******************************************************************************
-
 using System;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Hosting;

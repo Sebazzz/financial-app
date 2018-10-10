@@ -4,7 +4,6 @@
 //  File:           : MailService.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Mailing {
     using System;
     using System.Net;

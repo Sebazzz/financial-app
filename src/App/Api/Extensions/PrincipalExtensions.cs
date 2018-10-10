@@ -1,4 +1,10 @@
-﻿namespace App.Api.Extensions {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : PrincipalExtensions.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Api.Extensions {
     using System;
     using System.Globalization;
     using System.IO;

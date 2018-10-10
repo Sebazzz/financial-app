@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : AppUserLoginEventService.cs
+//  File:           : AppLoginEventService.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.Domain.Services
 {
     using System;

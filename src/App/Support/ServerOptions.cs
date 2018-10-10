@@ -4,7 +4,6 @@
 //  File:           : ServerOptions.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support {
     public class ServerOptions {
         public string BaseUrl { get; set; }

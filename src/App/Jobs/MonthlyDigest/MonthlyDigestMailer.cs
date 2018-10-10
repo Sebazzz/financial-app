@@ -4,7 +4,6 @@
 //  File:           : MonthlyDigestMailer.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Jobs.MonthlyDigest {
     using System;
     using System.Collections.Generic;

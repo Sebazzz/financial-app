@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : AppImpersonationtokenService.cs
+//  File:           : AppImpersonationTokenService.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.Domain.Services {
     using System;
     using System.Collections.Generic;

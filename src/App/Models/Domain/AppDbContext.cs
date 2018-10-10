@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : AppDbContext.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain {
     using Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;

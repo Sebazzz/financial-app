@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : PasswordChangeNotificationMailer.cs
+//  File:           : TwoFactorEnableNotificationMailer.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Mailing {
     using System.Threading.Tasks;
 

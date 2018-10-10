@@ -1,3 +1,9 @@
+// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : 20160107204157_RecurringSheetEntry.cs
+//  Project         : App
+// ******************************************************************************
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;

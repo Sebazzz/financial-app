@@ -4,7 +4,6 @@
 //  File:           : MonthlyDigestInvocationJob.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Jobs.MonthlyDigest
 {
     using System;

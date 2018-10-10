@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : Category.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;

@@ -4,7 +4,6 @@
 //  File:           : SimpleUrlRewriteExtensions.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;

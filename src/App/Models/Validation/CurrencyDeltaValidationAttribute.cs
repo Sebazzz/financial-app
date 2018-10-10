@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : VersionedFileTagHelper.cs
+//  File:           : CurrencyDeltaValidationAttribute.cs
 //  Project         : App
 // ******************************************************************************
-
 
 namespace App.Models.Validation {
     using System.ComponentModel.DataAnnotations;

@@ -4,7 +4,6 @@
 //  File:           : UserManagerExtensions.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support {
     using System.Threading.Tasks;
     using Models.Domain.Identity;

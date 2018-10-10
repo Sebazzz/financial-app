@@ -4,7 +4,6 @@
 //  File:           : MonthlyDigestWealthData.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Jobs.MonthlyDigest {
     public sealed class MonthlyDigestWealthData {
         public MonthlyDigestFigure BankAccount { get; } = new MonthlyDigestFigure();

@@ -4,7 +4,6 @@
 //  File:           : DatabaseOptions.cs
 //  Project         : App
 // ******************************************************************************
-
 using System;
 using System.Data.SqlClient;
 

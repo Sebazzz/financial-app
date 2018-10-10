@@ -1,4 +1,10 @@
-﻿namespace App.Models.DTO {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : RecurringSheetEntry.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.DTO {
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
     using Domain.Services;

@@ -4,7 +4,6 @@
 //  File:           : AppClaimTypes.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Api.Extensions {
     public static class AppClaimTypes {
         public const string AppOwnerGroup = nameof(AppOwnerGroup);

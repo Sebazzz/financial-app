@@ -1,4 +1,10 @@
-﻿namespace App.Jobs.MonthlyDigest {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : MonthlyDigestDataFactory.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Jobs.MonthlyDigest {
     using System;
     using System.Linq;
     using Models.Domain;

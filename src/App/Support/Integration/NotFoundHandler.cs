@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : VersionedFileTagHelper.cs
+//  File:           : NotFoundHandler.cs
 //  Project         : App
 // ******************************************************************************
-
 
 namespace App.Support.Integration {
     using System.Threading.Tasks;

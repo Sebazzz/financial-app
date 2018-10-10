@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
-//  File:           : VersionedFileTagHelper.cs
+//  File:           : Tag.cs
 //  Project         : App
 // ******************************************************************************
-
 
 namespace App.Models.Domain {
     using System.ComponentModel.DataAnnotations;

@@ -4,7 +4,6 @@
 //  File:           : AbstractDatabaseStartupCheck.cs
 //  Project         : App
 // ******************************************************************************
-
 using Microsoft.Extensions.Options;
 
 namespace App.Support.Diagnostics {

@@ -1,4 +1,10 @@
-﻿using System;
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : IncludeTagHelperBase.cs
+//  Project         : App
+// ******************************************************************************
+using System;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace App.Support.TagHelpers

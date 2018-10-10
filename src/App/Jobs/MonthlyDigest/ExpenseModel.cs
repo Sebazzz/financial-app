@@ -4,7 +4,6 @@
 //  File:           : ExpenseModel.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Jobs.MonthlyDigest {
     public sealed class ExpenseModel {
         public string Source { get; set; }

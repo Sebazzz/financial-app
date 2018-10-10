@@ -4,7 +4,6 @@
 //  File:           : DiagnosticsHangfireDashboardAuthorizationFilter.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Diagnostics {
     using System;
     using Hangfire.Dashboard;

@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain.Repositories {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : RecurringSheetEntryRepository.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain.Repositories {
     using System.Linq;
     using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,10 @@
-﻿namespace App.Models.Domain.Repositories {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : SheetEntryRepository.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Models.Domain.Repositories {
     using Microsoft.EntityFrameworkCore;
 
     partial class SheetEntryRepository {

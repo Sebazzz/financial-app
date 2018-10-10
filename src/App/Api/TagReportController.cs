@@ -1,4 +1,10 @@
-﻿namespace App.Api {
+﻿// ******************************************************************************
+//  © 2018 Sebastiaan Dammann | damsteen.nl
+// 
+//  File:           : TagReportController.cs
+//  Project         : App
+// ******************************************************************************
+namespace App.Api {
     using System;
     using System.Collections.Generic;
     using System.Linq;

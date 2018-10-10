@@ -4,7 +4,6 @@
 //  File:           : AppInsightsHangfireJobFilter.cs
 //  Project         : App
 // ******************************************************************************
-
 using System;
 using Hangfire;
 using Hangfire.Common;
