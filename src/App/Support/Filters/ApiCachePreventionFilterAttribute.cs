@@ -4,7 +4,6 @@
 //  File:           : ApiCachePreventionFilterAttribute.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Filters {
     using System;
 

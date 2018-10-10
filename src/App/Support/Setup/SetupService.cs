@@ -4,7 +4,6 @@
 //  File:           : SetupService.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Setup {
     using System;
     using System.Collections.Generic;

@@ -4,7 +4,6 @@
 //  File:           : AppSetupState.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Setup {
     using System.Threading.Tasks;
 

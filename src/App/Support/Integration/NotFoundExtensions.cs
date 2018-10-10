@@ -4,7 +4,6 @@
 //  File:           : NotFoundExtensions.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Integration {
     using Microsoft.AspNetCore.Routing;
 

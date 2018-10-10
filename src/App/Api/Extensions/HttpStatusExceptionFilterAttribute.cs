@@ -4,7 +4,6 @@
 //  File:           : HttpStatusExceptionFilterAttribute.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Api.Extensions {
     using System;
     using System.Net;

@@ -4,7 +4,6 @@
 //  File:           : ModelStateCamelCaseFilter.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support {
     using System.Linq;
 

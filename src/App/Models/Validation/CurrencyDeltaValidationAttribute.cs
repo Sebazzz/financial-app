@@ -4,7 +4,6 @@
 //  File:           : CurrencyDeltaValidationAttribute.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Models.Validation {
     using System.ComponentModel.DataAnnotations;
 

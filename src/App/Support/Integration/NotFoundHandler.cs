@@ -4,7 +4,6 @@
 //  File:           : NotFoundHandler.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Integration {
     using System.Threading.Tasks;
 

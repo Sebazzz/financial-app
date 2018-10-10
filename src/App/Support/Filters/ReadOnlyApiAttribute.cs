@@ -4,7 +4,6 @@
 //  File:           : ReadOnlyApiAttribute.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Filters {
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.EntityFrameworkCore;

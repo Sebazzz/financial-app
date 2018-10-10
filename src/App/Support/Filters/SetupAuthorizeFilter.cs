@@ -4,7 +4,6 @@
 //  File:           : SetupAuthorizeFilter.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Filters {
     using System.Threading.Tasks;
 

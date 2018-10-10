@@ -1,4 +1,4 @@
-﻿import * as ko from 'knockout';
+import * as ko from 'knockout';
 import * as $ from 'jquery';
 import 'bootstrap/js/dist/popover';
 

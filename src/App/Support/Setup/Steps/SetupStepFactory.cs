@@ -4,7 +4,6 @@
 //  File:           : SetupStepFactory.cs
 //  Project         : App
 // ******************************************************************************
-
 namespace App.Support.Setup.Steps {
     using System;
 

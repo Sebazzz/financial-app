@@ -12,7 +12,7 @@ namespace App.Models.DTO {
     using Validation;
 
     [DataContract]
-    public class RecurringSheetEntry : IValidatableObject {
+    public class RecurringSheetEntry {
         [DataMember]
         public int Id { get; set; }
 
@@ -38,7 +38,5 @@ namespace App.Models.DTO {
         [DataMember]
         [Required(ErrorMessage = "Kies het type mutatie")]
         public AccountType? Account { get; set; }
-            }
-        }
     }
 }
