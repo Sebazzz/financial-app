@@ -5,6 +5,8 @@ Financial management progressive web application meant for households created us
 [![Build status](https://ci.appveyor.com/api/projects/status/p31vw84asaq445h5?svg=true)](https://ci.appveyor.com/project/Sebazzz/financial-app) [![Build Status](https://travis-ci.org/Sebazzz/financial-app.svg)](https://travis-ci.org/Sebazzz/financial-app)
 [![Dependencies](https://david-dm.org/sebazzz/financial-app.svg)](https://david-dm.org/sebazzz/financial-app.svg)
 
+Licensed: GNU GPL v3.0
+
 ### Features
 
 -   Manage your financial data on month-by-month basis;
