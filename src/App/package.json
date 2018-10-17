@@ -37,7 +37,7 @@
         "popper.js": "1.14.4",
         "postcss-loader": "3.0.0",
         "prettier": "^1.14.3",
-        "pretty-quick": "^1.7.0",
+        "pretty-quick": "^1.8.0",
         "sass-loader": "7.1.0",
         "style-loader": "0.23.1",
         "ts-loader": "5.2.1",
@@ -60,7 +60,7 @@
         "cssnano": "^4.1.4",
         "es6-promise": "4.2.5",
         "extract-loader": "^3.0.0",
-        "husky": "^0.14.3",
+        "husky": "^1.1.2",
         "jquery": "3.3.1",
         "knockout": "3.4.2",
         "moment": "2.22.2",
@@ -78,12 +78,16 @@
         "start": "webpack",
         "build": "webpack",
         "build-mailtemplates": "powershell -File Email/Build.ps1",
-        "precommit": "pretty-quick --staged",
         "test": "karma start --single-run",
         "test-watch": "karma start --no-single-run",
         "test-mailtemplates": "powershell -File Email/Build.ps1 -ArgumentList -LocalTesting",
         "tslint-check": "tslint-config-prettier-check ./tslint.json",
         "webpack-stats": "webpack --json > ../../build/webpack-stats.json",
         "watch": "webpack --watch"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
     }
 }
