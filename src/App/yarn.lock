@@ -48,9 +48,11 @@
   dependencies:
     "@types/sizzle" "*"
 
-"@types/jquery@3.3.6":
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.6.tgz#5932ead926307ca21e5b36808257f7c926b06565"
+"@types/jquery@3.3.19":
+  version "3.3.19"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.19.tgz#ebb1e86c89e8e6fe2797bf3206843a114831958b"
+  dependencies:
+    "@types/sizzle" "*"
 
 "@types/knockout@3.4.59":
   version "3.4.59"

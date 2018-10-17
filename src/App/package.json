@@ -7,7 +7,7 @@
         "@types/bootstrap": "4.1.2",
         "@types/chai": "4.1.6",
         "@types/chart.js": "2.7.38",
-        "@types/jquery": "3.3.6",
+        "@types/jquery": "3.3.19",
         "@types/knockout": "3.4.59",
         "@types/mocha": "5.2.5",
         "@types/rx": "4.1.1",
