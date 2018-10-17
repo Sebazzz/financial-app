@@ -167,6 +167,26 @@
         </div>
     </div>
 
+    <h3>Login met Windows Hello of Yubikey</h3>
+
+    <p>
+        Je kan een inlog aanmaken zodat je voortaan met Windows Hello of een Yubikey kan inloggen in Financial App. 
+    </p>
+
+    <div ko-with="$page.webAuthentication">
+        <div ko-if="hasClientSupport">
+            <p>
+                <button class="btn btn-primary" ko-async-click="initiateWebAuthRegistration">Registreren</button>
+            </p>
+        </div>
+
+        <div ko-ifnot="hasClientSupport">
+            <p>
+                Je huidige webbrowser ondersteunt geen login met <i>WebAuthn</i>. Gebruik een andere browser die dit wel ondersteunt.
+            </p>
+        </div>
+    </div>
+
     <div ko-visible="lastLoginEvents.length > 0">
         <h3>Laatste inloggebeurtenissen</h3>
         <p>

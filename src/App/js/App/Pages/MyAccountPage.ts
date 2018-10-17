@@ -15,6 +15,7 @@ class MyAccountPage extends Page {
 
     public authInfo = ko.observable<account.IAccountInfo>();
     public twoFactorAuthentication: TwoFactorAuthenticationController;
+    public webAuthentication: WebAuthenticationController;
 
     public initialGroupId = ko.observable<number>(0);
     public chosenGroupId = ko.observable<number>(0);
@@ -34,6 +35,7 @@ class MyAccountPage extends Page {
         this.applyGroupChange = this.applyGroupChange.bind(this);
 
         this.twoFactorAuthentication = new TwoFactorAuthenticationController(this.refresh);
+        this.webAuthentication = new WebAuthenticationController();
     }
 
     protected async onActivate(args?: any): Promise<void> {
@@ -315,6 +317,27 @@ class TwoFactorAuthenticationController {
 
 export class RecoveryKeysModel {
     public recoveryKeys = ko.observable<string[]>();
+}
+
+export class WebAuthenticationController {
+    public hasClientSupport = ko.pureComputed(() => 'credentials' in navigator);
+
+    constructor() {
+        this.initiateWebAuthRegistration = this.initiateWebAuthRegistration.bind(this);
+    }
+
+    public async initiateWebAuthRegistration() {
+        try {
+            const result = await navigator.credentials.create();
+
+            if (!result) {
+                throw new Error('No webauth');
+            }
+        } catch (e) {
+            console.error(e);
+            alert('Registratie niet voltooid.');
+        }
+    }
 }
 
 export default {
