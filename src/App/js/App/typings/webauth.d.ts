@@ -7,6 +7,15 @@ interface Credential {
     type: string;
 }
 
+interface PublicKeyCredential extends Credential {
+    rawId: ArrayBuffer;
+    response: AuthenticatorResponse;
+}
+
+interface AuthenticatorResponse {
+    clientDataJSON: ArrayBuffer;
+}
+
 interface CredentialsContainer {
     create(options?: CredentialCreationOptions): Promise<Credential | null>;
     get(options?: CredentialRequestOptions): Promise<Credential | null>;

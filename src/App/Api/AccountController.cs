@@ -32,20 +32,22 @@ namespace App.Api
     {
         private readonly AppUserManager _appUserManager;
         private readonly AppUserLoginEventRepository _appUserLoginEventRepository;
+        private readonly WebAuthenticationService _webAuthenticationService;
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public AccountController(AppUserManager appUserManager, IMapper mapper, AppUserLoginEventRepository appUserLoginEventRepository)
+        public AccountController(AppUserManager appUserManager, IMapper mapper, AppUserLoginEventRepository appUserLoginEventRepository, WebAuthenticationService webAuthenticationService)
         {
             this._appUserManager = appUserManager;
             this._mapper = mapper;
             this._appUserLoginEventRepository = appUserLoginEventRepository;
+            this._webAuthenticationService = webAuthenticationService;
         }
 
         [HttpGet("my-info")]
         public async Task<IActionResult> MyInfo()
         {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
+            AppUser currentUser = await this.GetUser();
 
             if (currentUser == null)
             {
@@ -95,7 +97,7 @@ namespace App.Api
                 return this.BadRequest(this.ModelState);
             }
 
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
+            AppUser currentUser = await this.GetUser();
             IdentityResult result = await this._appUserManager.ChangePasswordAsync(currentUser, input.CurrentPassword, input.NewPassword);
 
             if (!result.Succeeded)
@@ -110,7 +112,7 @@ namespace App.Api
         [HttpPost("two-factor-authentication/pre-enable")]
         public async Task<IActionResult> PreEnable()
         {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
+            AppUser currentUser = await this.GetUser();
             string key = await this.GetTwoFactorKeyAsync(currentUser);
 
             return this.Ok(new
@@ -123,7 +125,7 @@ namespace App.Api
         [HttpPost("two-factor-authentication/reset-recovery-keys")]
         public async Task<IActionResult> ResetRecoveryKeys()
         {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
+            AppUser currentUser = await this.GetUser();
 
             string[] recoveryCodes = (await this._appUserManager.GenerateNewTwoFactorRecoveryCodesAsync(currentUser, 10)).ToArray();
 
@@ -136,7 +138,7 @@ namespace App.Api
         [HttpPost("two-factor-authentication")]
         public async Task<IActionResult> Enable([FromBody] TwoFactorAuthenticationEnableInfo input)
         {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
+            AppUser currentUser = await this.GetUser();
 
             string token = input.VerificationCode?.Replace("-", "").Replace(" ", "");
             if (String.IsNullOrEmpty(token))
@@ -164,7 +166,7 @@ namespace App.Api
         [HttpDelete("two-factor-authentication")]
         public async Task<IActionResult> Disable()
         {
-            AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
+            AppUser currentUser = await this.GetUser();
             await this._appUserManager.SetTwoFactorEnabledAsync(currentUser, false);
             return this.NoContent();
         }
@@ -192,6 +194,17 @@ namespace App.Api
             await this._appUserManager.UpdateAsync(currentUser);
 
             return this.NoContent();
+        }
+
+        [HttpPost("webauth/create")]
+        public async Task<IActionResult> CreateWebAuthCredentials() {
+            AppUser currentUser = await this.GetUser();
+
+            return this.Ok(this._webAuthenticationService.CreateRegistration(currentUser));
+        }
+
+        private Task<AppUser> GetUser() {
+            return this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
         }
 
         private static string CreateBase64QRCode(string key, AppUser user)

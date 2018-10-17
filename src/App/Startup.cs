@@ -223,6 +223,9 @@ namespace App
             services.AddScoped<AppUserLoginEventService>();
             services.AddScoped<AppUserLoginEventMailer>();
 
+            // ... Misc auth
+            services.AddScoped<WebAuthenticationService>();
+
             // ... Startup health checks
             services.AddStartupChecks();
         }

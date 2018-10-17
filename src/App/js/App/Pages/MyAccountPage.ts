@@ -319,7 +319,54 @@ export class RecoveryKeysModel {
     public recoveryKeys = ko.observable<string[]>();
 }
 
+function coerceToArrayBuffer(buf: string | Uint8Array | ArrayBuffer, name: string | null) {
+    name = name || "''";
+
+    if (typeof buf === 'string') {
+        // base64url to base64
+        buf = buf.replace(/-/g, '+').replace(/_/g, '/');
+
+        // base64 to Buffer
+        const raw = window.atob(buf);
+        const rawLength = raw.length;
+
+        const array = new Uint8Array(new ArrayBuffer(rawLength));
+        for (let i = 0; i < rawLength; i++) {
+            array[i] = raw.charCodeAt(i);
+        }
+
+        buf = array;
+    }
+
+    // Array to Uint8Array
+    if (Array.isArray(buf)) {
+        buf = new Uint8Array(buf);
+    }
+
+    // Uint8Array to ArrayBuffer
+    if (buf instanceof Uint8Array) {
+        buf = buf.buffer;
+    }
+
+    // error if none of the above worked
+    if (!(buf instanceof ArrayBuffer)) {
+        throw new TypeError(`could not coerce '${name}' to ArrayBuffer`);
+    }
+
+    return buf;
+}
+
+function makeArrayBuffer<T>(object: T, prop: keyof T) {
+    const val: any = object[prop];
+
+    if (typeof val !== 'undefined' && val !== null) {
+        object[prop] = coerceToArrayBuffer(val, prop && prop.toString()) as any;
+    }
+}
+
 export class WebAuthenticationController {
+    private api = new account.Api();
+
     public hasClientSupport = ko.pureComputed(() => 'credentials' in navigator);
 
     constructor() {
@@ -328,11 +375,20 @@ export class WebAuthenticationController {
 
     public async initiateWebAuthRegistration() {
         try {
-            const result = await navigator.credentials.create();
+            const createParam = {
+                publicKey: await this.api.createWebAuthCredential()
+            };
+
+            makeArrayBuffer(createParam.publicKey.user, 'id');
+            makeArrayBuffer(createParam.publicKey, 'challenge');
+
+            const result = await navigator.credentials.create(createParam);
 
             if (!result) {
                 throw new Error('No webauth');
             }
+
+            console.log(result);
         } catch (e) {
             console.error(e);
             alert('Registratie niet voltooid.');

@@ -91,4 +91,8 @@ export class Api extends ApiBase {
     public setPreferences<T extends IPreferencesModel>(preferences: T) {
         return this.execPut<T>('preferences', preferences);
     }
+
+    public createWebAuthCredential() {
+        return this.execPost<PublicKeyCredentialCreationOptions>('webauth/create');
+    }
 }
