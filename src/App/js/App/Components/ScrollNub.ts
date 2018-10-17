@@ -2,7 +2,7 @@ let currentpageYOffset: number;
 let scrollNub: HTMLDivElement;
 
 function getPageYOffset() {
-    return window.pageYOffset || window.document.documentElement.scrollTop;
+    return window.pageYOffset || window.document.documentElement!.scrollTop;
 }
 
 function registerEvent(): void {
@@ -14,7 +14,7 @@ function checkScroll(): void {
     const minTopPosition = (document.querySelector('top-menu') as HTMLElement).offsetHeight;
     const maxBottomPosition =
         (document.querySelector('body > #scrollBottom') as HTMLElement).offsetTop -
-        document.documentElement.clientHeight;
+        document.documentElement!.clientHeight;
 
     if (pageYOffset > minTopPosition) {
         if (currentpageYOffset > pageYOffset || pageYOffset > maxBottomPosition) {

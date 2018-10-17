@@ -80,7 +80,7 @@ class DefaultPage extends FormPage {
             this.isBusy(true);
 
             if (currentStep!.isDone) {
-                document.location.pathname = '/';
+                document.location!.pathname = '/';
                 return;
             }
 
@@ -99,7 +99,7 @@ class DefaultPage extends FormPage {
                     }
 
                     alert('Ongeldige wizard staat. Applicatie wordt herladen.');
-                    document.location.reload(true);
+                    document.location!.reload(true);
                     return;
             }
 

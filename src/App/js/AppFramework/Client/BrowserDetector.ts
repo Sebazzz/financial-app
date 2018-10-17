@@ -35,6 +35,7 @@ function getMobileQueryMatch() {
     return mobileQueryMatch;
 }
 
+export type MediaQueryListListener = ((this: MediaQueryList, ev: MediaQueryListEvent) => any) | null;
 export function addResponsiveListener(listener: MediaQueryListListener) {
     const matcher = getMobileQueryMatch();
 

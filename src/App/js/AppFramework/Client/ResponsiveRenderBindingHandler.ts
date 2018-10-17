@@ -21,7 +21,7 @@ ko.bindingHandlers.responsiveRender = {
             return (mode === ResponsiveRenderMode.Mobile) === isMatch;
         }
 
-        function updateShouldRender(mql: MediaQueryList) {
+        function updateShouldRender(mql: MediaQueryListEvent) {
             shouldRender(checkShouldRender(mql.matches));
         }
 

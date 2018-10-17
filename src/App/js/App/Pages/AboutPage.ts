@@ -31,7 +31,7 @@ class AboutPage extends Page {
         this.appVersionId = version.appVersionId;
         this.isMobileMode = mobileDetection();
 
-        this.clientVersionId = document.documentElement.getAttribute('data-app-version') || '???';
+        this.clientVersionId = this.appContext.versionStamp;
     }
 }
 
@@ -174,11 +174,11 @@ class ServiceWorkerController {
     public forceReload(ignored: never, event: MouseEvent) {
         const success = this.executeAction(async reg => {
             await reg.update();
-            document.location.reload(true);
+            document.location!.reload(true);
         }, event);
 
         if (!success) {
-            document.location.reload(true);
+            document.location!.reload(true);
         }
     }
 

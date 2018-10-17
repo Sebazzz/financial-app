@@ -72,7 +72,7 @@ export function trackBindingFrameworkException(error: Error) {
 
     appInsights.trackException(error, 'knockout', {
         bindingFrameworkError: 'yes',
-        location: document.location.href,
+        location: document.location!.href,
         documentTitle: document.title
     });
 }

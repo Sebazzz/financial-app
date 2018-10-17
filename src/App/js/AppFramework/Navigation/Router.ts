@@ -87,7 +87,7 @@ export class Router {
             }
 
             const href = (anchor as HTMLAnchorElement).href,
-                origin = document.location.origin,
+                origin = document.location!.origin,
                 hrefWithoutOrigin = href && href.indexOf(origin) === 0 ? href.substr(origin.length) : href;
 
             if (!hrefWithoutOrigin || hrefWithoutOrigin.indexOf('#') === 0) {

@@ -13,7 +13,7 @@ async function registerServiceWorker() {
 
 async function onUpdateAvailable() {
     if (await confirmAsync('We hebben een update. Wil je de applicatie herladen?', 'Update gevonden')) {
-        document.location.reload(true);
+        document.location!.reload(true);
     }
 }
 
