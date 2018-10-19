@@ -23,7 +23,7 @@ namespace App.Support {
             this._secureRng = RandomNumberGenerator.Create();
         }
 
-        public PublicKeyCredentialCreationOptions CreateRegistration(AppUser appUser) {
+        public PublicKeyCredentialCreationOptions CreateRegistration(AppUser user) {
             // Create challenge
             byte[] challenge = new byte[ChallengeSize];
             this._secureRng.GetBytes(challenge);
@@ -37,9 +37,9 @@ namespace App.Support {
                     Id = uri.Host
                 },
                 User = new PublicKeyCredentialUserEntity {
-                    DisplayName = $"{appUser.UserName} [{appUser.Email}]",
-                    Name = appUser.UserName,
-                    Id = appUser.UserName
+                    DisplayName = $"{user.UserName} [{user.Email}]",
+                    Name = user.UserName,
+                    Id = user.UserName
                 },
                 Challenge = challenge,
                 PublicKeyCredentialParameters = new[] {
@@ -55,6 +55,10 @@ namespace App.Support {
                     PublicKeyCredentialParameters.RS1
                 },
             };
+        }
+
+        public void CompleteRegistration(AuthenticatorAttestationRawResponse response, AppUser user) {
+
         }
 
         public void Dispose() {

@@ -25,6 +25,4 @@ namespace App.Models.DTO.WebAuthn {
         [DataMember(Name = "pubKeyCredParams")]
         public PublicKeyCredentialParameters[] PublicKeyCredentialParameters { get; set; }
     }
-
-
 }
