@@ -11,6 +11,7 @@ import * as ko from 'knockout';
 import 'json.date-extensions';
 import * as ComponentLoader from './ComponentLoader';
 import './BindingHandlers/All';
+import registerInstallPrompt from './Components/InstallPrompt';
 import registerLoadingBar from './Components/LoadingBar';
 import registerModal from './Components/Modal';
 import registerPopover from './Components/Popover';
@@ -162,6 +163,7 @@ function bind(app: App) {
 }
 
 function registerComponents(appContext: AppContext) {
+    registerInstallPrompt(appContext);
     registerLoadingBar(appContext);
     registerModal();
     registerPopover();

@@ -1,5 +1,6 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Boolean x:Key="/Default/CodeEditing/TypingAssist/Html/FormatOnEnter/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/CodeInspection/Browsers/Browsers/@EntryValue">C65+,E12+,FF35+,IE11+,S9+</s:String>
 	<s:Boolean x:Key="/Default/CodeInspection/CodeAnnotations/NamespacesWithAnnotations/=App/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/GeneratedFilesAndFolders/=D653B77B_002D6B7D_002D4465_002D9897_002DC08BE13EC2AD_002Fd_003Awwwroot_002Fd_003Abuild/@EntryIndexedValue">D653B77B-6B7D-4465-9897-C08BE13EC2AD/d:wwwroot/d:build</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=Html_002EPathError/@EntryIndexedValue">HINT</s:String>
