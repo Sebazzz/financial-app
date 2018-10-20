@@ -14,6 +14,7 @@ export class InstallPrompt extends framework.Panel {
         // Bind "this"
         this.onBeforeInstallPrompt = this.onBeforeInstallPrompt.bind(this);
         this.onInstallPromptClick = this.onInstallPromptClick.bind(this);
+        this.onAppInstalled = this.onAppInstalled.bind(this);
 
         // We do this now because in activate we may be too late. In fact, we may be too late already
         // because of the time it takes to initialize. Still, do it ASAP, which is now.
@@ -34,11 +35,13 @@ export class InstallPrompt extends framework.Panel {
 
     private registerEvent() {
         window.addEventListener('beforeinstallprompt', this.onBeforeInstallPrompt);
+        window.addEventListener('appinstalled', this.onAppInstalled);
         this.element.addEventListener('click', this.onInstallPromptClick);
     }
 
     private unregisterEvent() {
         window.removeEventListener('beforeinstallprompt', this.onBeforeInstallPrompt);
+        window.removeEventListener('appinstalled', this.onAppInstalled);
         this.element.removeEventListener('click', this.onInstallPromptClick);
     }
 
@@ -47,6 +50,10 @@ export class InstallPrompt extends framework.Panel {
 
         this.showPrompt();
         this.promptFunction = () => event.prompt();
+    }
+
+    private onAppInstalled(event: Event) {
+        alert('Financial App is nu geïnstalleerd op je startscherm. Je kan voortaan vanaf daar starten.');
     }
 
     private onInstallPromptClick(event: MouseEvent) {
@@ -64,8 +71,6 @@ export class InstallPrompt extends framework.Panel {
 
                 try {
                     await promptFn();
-
-                    alert('Financial App is nu geïnstalleerd op je startscherm. Je kan voortaan vanaf daar starten.');
                 } catch (e) {
                     console.error(e);
 

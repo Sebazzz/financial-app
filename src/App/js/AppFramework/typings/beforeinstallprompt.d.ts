@@ -4,6 +4,7 @@
 
 interface WindowEventMap {
     beforeinstallprompt: BeforeInstallPromptEvent;
+    appinstalled: Event;
 }
 
 interface BeforeInstallPromptEvent {
