@@ -6,7 +6,7 @@ export interface IDisposable {
 }
 
 export function isDisposable(item: any): item is IDisposable {
-    return item && typeof item.dispose === 'function';
+    return typeof item !== 'undefined' && typeof item.dispose === 'function';
 }
 
 export function disposeObject(obj: any) {
