@@ -21,9 +21,6 @@ class DefaultPage extends Page {
 
 export default {
     id: module.id,
-    template: {
-        default: import(/*webpackMode: "eager"*/ 'Template/default.html'),
-        mobile: import(/*webpackMode: "eager"*/ 'Template/default.mobile.html')
-    },
+    template: import(/*webpackMode: "eager"*/ 'Template/default.html'),
     createPage: appContext => new DefaultPage(appContext)
 } as PageModule;

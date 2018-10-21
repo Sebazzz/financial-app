@@ -2,13 +2,6 @@
     padding-top: 0;
 }
 
-.dashboard-action-primary {
-    a {
-        font-weight: bold;
-        font-size: 120%;
-    }
-}
-
 .btn-group + .panel {
     margin-top: 1em;
 }
@@ -126,19 +119,6 @@ h4 {
 
     &::after {
         content: ')';
-    }
-}
-
-.dashboard-action-list {
-    line-height: 2;
-    list-style: none;
-    padding-left: 0;
-}
-
-body.page-dashboard {
-    .jumbotron {
-        background: rgba($body-bg, 0.7);
-        border-radius: 3px;
     }
 }
 

@@ -1,0 +1,29 @@
+.dashboard-action-container {
+    background: rgba($body-bg, 0.7);
+    border-radius: 3px;
+
+    @include media-breakpoint-down(sm) {
+        margin-right: -1 * ($grid-gutter-width / 2);
+        margin-left: -1 * ($grid-gutter-width / 2);
+        border-radius: 0;
+    }
+}
+
+.dashboard-action-list {
+    line-height: 2;
+    list-style: none;
+    padding-left: 0;
+}
+
+.dashboard-action {
+    &__primary {
+        a {
+            font-weight: bold;
+            font-size: 120%;
+        }
+    }
+
+    &__separated {
+        margin-top: 1rem;
+    }
+}
