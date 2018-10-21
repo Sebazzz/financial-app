@@ -3,7 +3,9 @@ import * as framework from 'AppFramework/Panel';
 
 const clazz = 'install-prompt',
     visibleClazz = clazz + '--is-visible',
-    animatingClazz = clazz + '--is-animating';
+    animatingClazz = clazz + '--is-animating',
+    acceptButtonClazz = clazz + '__accept-button',
+    dismissButtonClazz = clazz + '__dismiss-button';
 
 export class InstallPrompt extends framework.Panel {
     private promptFunction: (() => Promise<void>) | null = null;
@@ -57,7 +59,14 @@ export class InstallPrompt extends framework.Panel {
     }
 
     private onInstallPromptClick(event: MouseEvent) {
-        if (event.target && (event.target as HTMLElement).classList.contains('btn-primary')) {
+        if (event.target && (event.target as HTMLElement).classList.contains(dismissButtonClazz)) {
+            event.preventDefault();
+
+            this.hidePrompt();
+            return;
+        }
+
+        if (event.target && (event.target as HTMLElement).classList.contains(acceptButtonClazz)) {
             event.preventDefault();
 
             (async () => {

@@ -18,12 +18,17 @@
 
     &__title {
         font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-        margin-right: 2rem;
+        margin: 0 2rem 0.5rem 2rem;
         line-height: 1.5;
 
         display: inline-block;
         vertical-align: text-top;
+    }
+
+    &__dismiss-button {
+        float: right;
+        margin-top: 0.5rem;
+        cursor: pointer;
     }
 
     &--is-animating {
