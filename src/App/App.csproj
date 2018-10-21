@@ -9,7 +9,7 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
-    <Version>2.0.0-beta5</Version>
+    <Version>2.0.0-beta6</Version>
     <Authors>Sebastiaan Dammann</Authors>
     <Company>Damsteen.nl</Company>
     <Product>Financial App</Product>
