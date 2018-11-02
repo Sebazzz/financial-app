@@ -41,7 +41,7 @@ namespace App.Jobs.MonthlyDigest {
 
                 string color = figure.Difference < 0 ? "red" : "green";
 
-                template.AddReplacement($"fig-wealth-{id}-diff", diffString);
+                template.AddReplacement($"fig-wealth-{id}-diff-human", diffString);
                 template.AddReplacement($"fig-wealth-{id}-color", color);
 
                 var changePercentage = figure.ChangeQuotient.ToString("P");
