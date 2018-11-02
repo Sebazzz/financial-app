@@ -7,6 +7,7 @@
 namespace App.Jobs.MonthlyDigest {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
     using Hangfire;
@@ -38,6 +39,10 @@ namespace App.Jobs.MonthlyDigest {
 
         [AutomaticRetry(Attempts = 2)]
         public async Task Execute(int appOwnerId) {
+            // Set a culture, we currently only support hardcoded NL
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("nl-NL");
+
+            // Retrieve the user
             AppOwner appOwner = await this._appOwnerRepository.FindByIdAsync(appOwnerId);
             if (appOwner == null) {
                 this._logger.LogError($"Unable to process job for app owner #{appOwnerId}: entity cannot be found");
