@@ -70,7 +70,11 @@ namespace App.Models.Domain.Services {
             if (theSheet == null) {
                 theSheet = this.CreateSheet(month, year, ownerId);
 
+                // Even though CalculationOptions shares the table, it is a fully fledged
+                // entity and needs to be registered with EF together with the Sheet entity itself.
+                this._sheetRepository.Add(theSheet.CalculationOptions);
                 this._sheetRepository.Add(theSheet);
+
                 this._sheetRepository.SaveChanges();
             }
             else {
