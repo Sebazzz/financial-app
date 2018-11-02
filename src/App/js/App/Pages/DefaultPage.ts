@@ -4,6 +4,9 @@ import * as ko from 'knockout';
 
 class DefaultPage extends Page {
     public currentUserName = ko.pureComputed(() => this.appContext.authentication.currentAuthentication().userName);
+    public isImpersonated = ko.pureComputed(
+        () => !!this.appContext.authentication.currentAuthentication().previousActiveOwnedGroupId
+    );
     public currentGroupName = ko.pureComputed(
         () => this.appContext.authentication.currentAuthentication().currentGroupName
     );
@@ -12,10 +15,20 @@ class DefaultPage extends Page {
         super(appContext);
 
         this.title('Welkom');
+
+        this.exitImpersonation = this.exitImpersonation.bind(this);
     }
 
     protected onActivate(): Promise<void> {
         return Promise.resolve();
+    }
+
+    public async exitImpersonation() {
+        const previousActiveOwnedGroupId = this.appContext.authentication.currentAuthentication()
+            .previousActiveOwnedGroupId;
+        if (previousActiveOwnedGroupId) {
+            await this.appContext.authentication.changeActiveGroup(previousActiveOwnedGroupId);
+        }
     }
 }
 

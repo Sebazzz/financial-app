@@ -6,6 +6,7 @@ export type DateTime = Date;
 
 export interface IAppImpersonateUserListing extends dto.IAppUserListing {
     activeSince: DateTime;
+    groupId: number;
 }
 
 export interface IAppSecurityTokenModel {

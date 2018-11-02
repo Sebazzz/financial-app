@@ -60,5 +60,7 @@ namespace App.Models.Domain {
         public virtual AppUser User { get; set; }
 
         public virtual int UserId { get; set; }
+
+        public virtual bool HasOwnership { get; set; }
     }
 }

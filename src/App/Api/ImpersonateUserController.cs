@@ -17,9 +17,11 @@ namespace App.Api {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Models.Domain;
     using Models.Domain.Identity;
     using Models.Domain.Services;
     using Models.DTO;
+    using Models.DTO.Services;
     using Support.Filters;
 
     [Authorize]
@@ -27,12 +29,14 @@ namespace App.Api {
     public class ImpersonateUserController : Controller {
         private readonly AppUserManager _appUserManager;
         private readonly AppImpersonationTokenService _appImpersonationTokenService;
-        private readonly SignInManager<AppUser> _authenticationManager;
+        private readonly AppOwnerTokenChangeService _appOwnerTokenChangeService;
+        private readonly AuthenticationInfoFactory _authenticationInfoFactory;
 
-        public ImpersonateUserController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, AppImpersonationTokenService appImpersonationTokenService) {
+        public ImpersonateUserController(AppUserManager appUserManager, AppImpersonationTokenService appImpersonationTokenService, AppOwnerTokenChangeService appOwnerTokenChangeService, AuthenticationInfoFactory authenticationInfoFactory) {
             this._appUserManager = appUserManager;
-            this._authenticationManager = authenticationManager;
             this._appImpersonationTokenService = appImpersonationTokenService;
+            this._appOwnerTokenChangeService = appOwnerTokenChangeService;
+            this._authenticationInfoFactory = authenticationInfoFactory;
         }
 
         // GET: api/user/impersonate
@@ -48,7 +52,9 @@ namespace App.Api {
                 .Select(token => new AppImpersonationUserListing {
                     UserName = token.TargetUser.UserName,
                     Email = token.TargetUser.Email,
-                    ActiveSince = token.CreationDate
+                    ActiveSince = token.CreationDate,
+                    Id = token.TargetUser.Id,
+                    GroupId = token.Group.Id
                 })).ToList();
         }
 
@@ -65,7 +71,8 @@ namespace App.Api {
                         UserName = token.SourceUser.UserName,
                         Email = token.SourceUser.Email,
                         ActiveSince = token.CreationDate,
-                        SecurityToken = token.SecurityToken
+                        SecurityToken = token.SecurityToken,
+                        Id = token.SourceUser.Id
                     })).ToList();
         }
 
@@ -142,17 +149,12 @@ namespace App.Api {
             AppUser currentUser = await this.GetCurrentUser();
 
             try {
-                AppUser impersonationUser =
-                    await this._appImpersonationTokenService.GetImpersonationUser(currentUser, id);
+                AppOwner impersonationGroup =
+                    await this._appImpersonationTokenService.GetImpersonationUserGroup(currentUser, id);
 
-                await this._authenticationManager.SignInAsync(impersonationUser, true);
+                await this._appOwnerTokenChangeService.ChangeActiveGroupAsync(this.User, currentUser, impersonationGroup, this.HttpContext);
 
-                return new AuthenticationInfo {
-                    IsAuthenticated = true,
-                    CurrentGroupName = impersonationUser.CurrentGroup.Name,
-                    UserId = impersonationUser.Id,
-                    UserName = impersonationUser.UserName
-                };
+                return await this._authenticationInfoFactory.CreateAsync(currentUser, this.User);
             }
             catch (ImpersonationNotAllowedException) {
                 throw new HttpStatusException(HttpStatusCode.Forbidden);

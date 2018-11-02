@@ -21,6 +21,7 @@ namespace App.Models.DTO {
 
     public class AppImpersonationUserListing : AppUserListing {
         public DateTimeOffset ActiveSince { get; set; }
+        public int GroupId { get; set; }
     }
 
     public class AppAllowedImpersonation : AppImpersonationUserListing {

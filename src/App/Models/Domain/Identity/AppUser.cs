@@ -20,6 +20,9 @@ namespace App.Models.Domain.Identity
         public virtual AppUser SourceUser { get; set; }
 
         [Required]
+        public virtual AppOwner Group { get;set; }
+
+        [Required]
         public virtual string SecurityToken { get; set; }
 
         [Required]

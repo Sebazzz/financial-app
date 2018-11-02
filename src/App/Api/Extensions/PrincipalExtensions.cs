@@ -37,6 +37,30 @@ namespace App.Api.Extensions {
             return Int32.Parse(foundClaim.Value, CultureInfo.InvariantCulture);
         }
 
+        public static int? GetPreviousActiveOwnedOwnerGroupId([NotNull] this IIdentity identity) {
+            if (identity == null) {
+                throw new ArgumentNullException(nameof(identity));
+            }
+
+            if (!(identity is ClaimsIdentity claimsIdentity) || !identity.IsAuthenticated) {
+                return null;
+            }
+
+            return claimsIdentity.GetPreviousActiveOwnedOwnerGroupId();
+        }
+
+        public static int? GetPreviousActiveOwnedOwnerGroupId([NotNull] this ClaimsIdentity claimsIdentity) {
+            if (claimsIdentity == null) {
+                throw new ArgumentNullException(nameof(claimsIdentity));
+            }
+
+            Claim foundClaim = claimsIdentity.FindFirst(AppClaimTypes.PreviousActiveOwnedAppOwnerGroup);
+            if (foundClaim == null) {
+                return null;
+            }
+
+            return Int32.Parse(foundClaim.Value, CultureInfo.InvariantCulture);
+        }
 
         public static int GetUserId([NotNull] this IIdentity identity) {
             if (identity == null) {

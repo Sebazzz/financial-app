@@ -4,6 +4,7 @@ export interface IAuthenticationInfo {
     userId: number;
     userName: string | null;
     currentGroupName: string | null;
+    previousActiveOwnedGroupId: number | null;
     isAuthenticated: boolean;
     isLockedOut: boolean;
     isTwoFactorAuthenticationRequired: boolean;
@@ -21,10 +22,6 @@ export interface ILoginTwoFactorAuthenticationModel {
     isRecoveryCode: boolean;
     verificationCode: string;
     rememberClient: boolean;
-}
-
-export interface IForgotPasswordModel {
-    user: string;
 }
 
 export interface IForgotPasswordModel {
@@ -54,6 +51,10 @@ export class Api extends ApiBase {
 
     public login(loginInfo: ILoginModel): Promise<IAuthenticationInfo> {
         return this.execPost<IAuthenticationInfo>('login', loginInfo);
+    }
+
+    public impersonate(id: number): Promise<IAuthenticationInfo> {
+        return this.httpClient.post(`/api/user/impersonate/${id}`);
     }
 
     public changeActiveGroup(groupId: number): Promise<IAuthenticationInfo> {

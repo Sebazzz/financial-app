@@ -9,6 +9,7 @@ const defaultAuthInfo: auth.IAuthenticationInfo = {
     isAuthenticated: false,
     isLockedOut: false,
     isTwoFactorAuthenticationRequired: false,
+    previousActiveOwnedGroupId: null,
     currentGroupName: null,
     roles: []
 };
@@ -113,6 +114,12 @@ export default class AuthenticationService {
         };
 
         const authInfo = await this.api.loginTwoFactorAuthentication(parameters);
+        this.currentAuthentication(authInfo);
+        return authInfo;
+    }
+
+    public async impersonate(userId: number) {
+        const authInfo = await this.api.impersonate(userId);
         this.currentAuthentication(authInfo);
         return authInfo;
     }

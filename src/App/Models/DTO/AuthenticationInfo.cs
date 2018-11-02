@@ -19,6 +19,9 @@ namespace App.Models.DTO {
         public bool IsTwoFactorAuthenticationRequired {get;set;}
 
         [DataMember]
+        public int? PreviousActiveOwnedGroupId { get; set; }
+
+        [DataMember]
         public string CurrentGroupName { get; set; }
 
         [DataMember]

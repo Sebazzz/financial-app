@@ -23,6 +23,7 @@ namespace App.Api {
     using Models.Domain.Identity;
     using Models.Domain.Services;
     using Models.DTO;
+    using Models.DTO.Services;
     using Support;
     using Support.Hub;
     using Support.Mailing;
@@ -37,11 +38,16 @@ namespace App.Api {
         private readonly ForgotPasswordMailer _forgotPasswordMailer;
         private readonly AppUserLoginEventService _appUserLoginEventService;
 
-        public AuthenticationController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, ConfirmEmailMailer confirmEmailMailer, ForgotPasswordMailer forgotPasswordMailer, AppUserLoginEventService appUserLoginEventService) {
+        private readonly AuthenticationInfoFactory _authenticationInfoFactory;
+        private readonly AppOwnerTokenChangeService _appOwnerTokenChangeService;
+
+        public AuthenticationController(AppUserManager appUserManager, SignInManager<AppUser> authenticationManager, ConfirmEmailMailer confirmEmailMailer, ForgotPasswordMailer forgotPasswordMailer, AppUserLoginEventService appUserLoginEventService, AuthenticationInfoFactory authenticationInfoFactory, AppOwnerTokenChangeService appOwnerTokenChangeService) {
             this._appUserManager = appUserManager;
             this._authenticationManager = authenticationManager;
             this._forgotPasswordMailer = forgotPasswordMailer;
             this._appUserLoginEventService = appUserLoginEventService;
+            this._authenticationInfoFactory = authenticationInfoFactory;
+            this._appOwnerTokenChangeService = appOwnerTokenChangeService;
             this._confirmEmailMailer = confirmEmailMailer;
         }
 
@@ -50,13 +56,7 @@ namespace App.Api {
         public async Task<AuthenticationInfo> CheckAuthentication() {
             AppUser user = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Forbidden);
 
-            return new AuthenticationInfo {
-                UserId = this.User.Identity.GetUserId(),
-                UserName = this.User.Identity.Name,
-                CurrentGroupName = user.CurrentGroup.Name,
-                IsAuthenticated = this.User.Identity.IsAuthenticated,
-                Roles = this.User.FindAll(ClaimTypes.Role).Select(x => x.Value).ToArray()
-            };
+            return await this._authenticationInfoFactory.CreateAsync(user, this.User);
         }
 
         [HttpPost("login")]
@@ -88,23 +88,11 @@ namespace App.Api {
                 return this.BadRequest(this.ModelState);
             }
 
-            ClaimsPrincipal principal = this.User;
+            // Determine the group to change to and save
+            AppUser user = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Forbidden);
+            AppOwner desiredGroup = (user.AvailableGroups.FirstOrDefault(x => x.GroupId == changeGroupModel.GroupId)?.Group ?? user.AvailableImpersonations.GetForGroup(changeGroupModel.GroupId)?.Group).EnsureNotNull(HttpStatusCode.Forbidden);
 
-            AppUser user = await this._appUserManager.FindByIdAsync(principal.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Forbidden);
-
-            // Change the group and save
-            AppUserAvailableGroup desiredGroup = user.AvailableGroups.FirstOrDefault(x => x.GroupId == changeGroupModel.GroupId).EnsureNotNull(HttpStatusCode.Forbidden);
-            user.CurrentGroup = desiredGroup.Group;
-            user.CurrentGroupId = desiredGroup.GroupId;
-
-            await this._appUserManager.UpdateAsync(user);
-
-            // Send new login token
-            ClaimsIdentity identity = ((ClaimsIdentity) principal.Identity);
-            identity.TryRemoveClaim(identity.FindFirst(AppClaimTypes.AppOwnerGroup));
-            identity.AddClaim(new Claim(AppClaimTypes.AppOwnerGroup, user.CurrentGroupId.ToString(CultureInfo.InvariantCulture)));
-
-            await this.HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
+            await this._appOwnerTokenChangeService.ChangeActiveGroupAsync(this.User, user, desiredGroup, this.HttpContext);
 
             return await this.ReturnAuthenticationInfoResult(user);
         }
@@ -260,13 +248,7 @@ namespace App.Api {
         }
 
         private async Task<OkObjectResult> ReturnAuthenticationInfoResult(AppUser user) {
-            return this.Ok(new AuthenticationInfo {
-                IsAuthenticated = true,
-                CurrentGroupName = user.CurrentGroup.Name,
-                UserId = user.Id,
-                UserName = user.UserName,
-                Roles = await (await this._appUserManager.GetRolesAsync(user)).ToAsyncEnumerable().ToArray()
-            });
+            return this.Ok(await this._authenticationInfoFactory.CreateAsync(user, this.User));
         }
     }
 }

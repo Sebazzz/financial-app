@@ -61,11 +61,20 @@ namespace App.Api
                 CurrentGroupId = currentUser.CurrentGroupId,
                 CurrentGroupName = currentUser.CurrentGroup?.Name,
                 AvailableGroups = (
-                    from g in currentUser.AvailableGroups
-                    select new {
-                        Id = g.GroupId,
-                        Name = g.Group.Name
-                    }
+                    (
+                        from g in currentUser.AvailableGroups
+                        select new {
+                            Id = g.GroupId,
+                            Name = g.Group.Name
+                        }
+                    ).Concat(
+                        from imp in currentUser.AvailableImpersonations
+                        where imp.IsActive
+                        select new {
+                            Id = imp.Group.Id,
+                            Name = imp.Group.Name
+                        }
+                    ).Distinct()
                 ),
 
                 TwoFactorAuthentication = new

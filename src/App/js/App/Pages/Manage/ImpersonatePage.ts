@@ -12,6 +12,10 @@ import * as ko from 'knockout';
 class ImpersonatePage extends Page {
     private api = new userImpersonate.Api();
 
+    public isImpersonated = ko.pureComputed(
+        () => !!this.appContext.authentication.currentAuthentication().previousActiveOwnedGroupId
+    );
+
     public users = ko.observableArray<userImpersonate.IAppImpersonateUserListing>();
     public outstandingImpersonations = new AsyncDataSource(() => this.api.getOutstandingImpersonations());
     public allowedImpersonations = new AsyncDataSource(() => this.api.getAllowedImpersonations());
@@ -54,8 +58,7 @@ class ImpersonatePage extends Page {
     }
 
     public async impersonate(userInfo: userImpersonate.IAppImpersonateUserListing) {
-        const info = await this.api.impersonate(userInfo.id);
-        this.appContext.authentication.currentAuthentication(info);
+        await this.appContext.authentication.impersonate(userInfo.id);
         this.appContext.router.navigateToDefault();
     }
 

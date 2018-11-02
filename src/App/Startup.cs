@@ -54,6 +54,7 @@ namespace App
     using Support.Setup.Steps;
 
     using Microsoft.AspNetCore.SpaServices.Webpack;
+    using Models.DTO.Services;
     using Support.Diagnostics;
 
     public class Startup
@@ -190,6 +191,7 @@ namespace App
             // ... Impersonation
             services.AddScoped<AppUserTrustedUserRepository>();
             services.AddScoped<AppImpersonationTokenService>();
+            services.AddScoped<AppOwnerTokenChangeService>();
 
             // ... Setup
             services.AddScoped<SetupService>();
@@ -197,6 +199,7 @@ namespace App
             services.AddScoped<RequestAppSetupState>();
             services.AddSingleton<AppSetupState>();
 
+            services.AddScoped<AuthenticationInfoFactory>();
             services.AddSingleton<IAuthorizationHandler, SetupNotRunAuthorizationHandler>();
 
             // ... Mail

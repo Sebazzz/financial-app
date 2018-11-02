@@ -34,7 +34,8 @@ namespace App.Models.Domain.Services {
                 CreationDate = DateTimeOffset.Now,
                 IsActive = false,
                 SecurityToken = Guid.NewGuid().ToString("N"),
-                SourceUser = user
+                SourceUser = user,
+                Group = user.CurrentGroup
             };
             user.AvailableImpersonations.Add(impersonationToken);
 
@@ -44,15 +45,15 @@ namespace App.Models.Domain.Services {
             return impersonationToken;
         }
 
-        public async Task<AppUser> GetImpersonationUser(AppUser currentUser, int impersonationUserId) {
-            AppUser impersonatingUser = await this._appUserManager.Users.Where(x => x.Id == impersonationUserId).Include(x => x.AvailableImpersonations)
-                .FirstOrDefaultAsync();
+        public async Task<AppOwner> GetImpersonationUserGroup(AppUser currentUser, int impersonationUserId) {
+            AppUser impersonatingUser = await this._appUserManager.Users.Where(x => x.Id == impersonationUserId).FirstOrDefaultAsync();
 
             if (impersonatingUser == null) throw new ImpersonationNotAllowedException();
 
-            if (!impersonatingUser.AvailableImpersonations.Contains(currentUser)) throw new ImpersonationNotAllowedException();
+            AppUserTrustedUser item = currentUser.AvailableImpersonations.GetForTrustee(impersonatingUser);
+            if (item == null) throw new ImpersonationNotAllowedException();
 
-            return impersonatingUser;
+            return item.Group;
         }
 
         public async Task DeleteImpersonationToken(AppUser currentUser, string securityToken) {

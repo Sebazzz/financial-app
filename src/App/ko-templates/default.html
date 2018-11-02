@@ -37,4 +37,8 @@
             <a href="#" ko-route="my-account">Mijn instellingen en accountbeveiliging bekijken</a>
         </li>
     </ul>
+    
+    <div class="alert alert-info" ko-visible="isImpersonated">
+        <strong>Let op!</strong> Je bent nu ingelogd als een andere gebruiker, <a href="#" ko-async-click="exitImpersonation" class="alert-link">klik om de sessie te stoppen</a>.
+    </div>
 </div>
