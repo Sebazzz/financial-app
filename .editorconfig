@@ -8,8 +8,51 @@ end_of_line = lf
 indent_style = space
 indent_size = 4
 
-[*.html]
+[*.{html,cshtml}]
 indent_size = 2
+
+# Ref: https://www.jetbrains.com/help/resharper/2018.1/EditorConfig_Razor_CSharp_RazorCodeStylePageImplSchema.html
+linebreaks_around_razor_statements = true
+html_blank_lines_around_razor_functions = 2
+blank_lines_around_razor_helpers = 1
+blank_lines_around_razor_sections = 1
+
+spaces_around_eq_in_attribute = false
+space_after_last_attribute = false
+space_before_self_closing = false
+attribute_style = do_not_touch
+attribute_indent = align_by_first_attribute
+
+sort_class_selectors = false
+linebreak_before_all_elements = false
+extra_spaces = leave_all
+quote_style = doublequoted
+delete_quotes_from_solid_values = false
+normalize_tag_names = true
+
+[*.{scss,css}]
+#Ref: https://www.jetbrains.com/help/resharper/2018.1/EditorConfig_CSS_CodeLayoutPageSchema.html
+# (note these settings don't matter much - prettier takes over when committing files anyway)
+
+declarations_style = separate_lines
+brace_style = end_of_line
+keep_user_linebreaks = true
+keep_blank_lines_between_declarations = 1
+space_around_selector_operator = true
+
+[*.{js,ts}]
+#Ref: https://www.jetbrains.com/help/resharper/2018.1/EditorConfig_JAVA_SCRIPT_BracesPageSchema.html
+# (note these settings don't matter much - prettier takes over when committing files anyway)
+
+empty_block_style = together
+function_braces = end_of_line
+function_in_invocation_braces = end_of_line
+control_statements_braces = end_of_line
+indent_pars = outside_and_inside
+force_control_statements_braces = do_not_change
+indent_switch_labels = true
+space_before_colon_in_type_annotation = false
+space_around_pipe_or_amper_in_type_usage = false
 
 [*.xml]
 indent_size = 2
@@ -20,12 +63,15 @@ indent_size = 4
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
 
-[*.{cs,vb,cshtml}]
+[*.{cs,cshtml}]
 charset = utf-8-bom
 
-[*.{cs,vb,ts,scss,css,js}]
+[*.{cs,ts,js,scss,css}]
 trim_trailing_whitespace = true
 insert_final_newline = true
+
+# Line length in .prettierrc
+max_line_length = 120
 
 ## Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#language-conventions
 # Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#this_and_me
@@ -207,3 +253,59 @@ dotnet_naming_symbols.all_members.applicable_kinds = *
 
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 
+# Ref: https://www.jetbrains.com/help/resharper/2018.1/EditorConfig_Index.html
+add_imports_to_deepest_scope = true
+
+default_private_modifier = explicit
+
+arguments_literal = named
+arguments_string_literal = named
+arguments_named = named
+arguments_anonymous_function = named
+
+braces_for_ifelse = required_for_multiline_statement
+braces_for_for = required
+braces_for_foreach = required
+braces_for_while = required_for_multiline
+braces_for_dowhile = required
+braces_for_dowhile = required
+braces_for_using = required_for_multiline
+braces_for_lock = required
+braces_for_fixed = required
+
+braces_redundant = true
+
+local_function_body = expression_body
+constructor_or_destructor_body = block_body
+
+force_attribute_style = separate
+
+csharp_keep_user_linebreaks = true
+
+keep_existing_attribute_arrangement = false
+place_attribute_on_same_line = if_owner_is_single_line
+
+csharp_wrap_parameters_style = chop_if_long
+keep_existing_declaration_parens_arrangement = false
+
+wrap_before_declaration_lpar = false
+wrap_after_declaration_lpar = true
+wrap_before_declaration_rpar = true
+
+place_constructor_initializer_on_same_line = true
+
+csharp_wrap_arguments_style = chop_if_long
+csharp_wrap_after_dot_in_method_calls = true
+csharp_wrap_chained_method_calls = chop_if_long
+csharp_wrap_before_binary_opsign = false
+
+csharp_wrap_linq_expressions = chop_always
+csharp_wrap_before_linq_expression = true
+csharp_place_linq_into_on_new_line = false
+
+csharp_extra_spaces = remove_all
+space_before_colon_in_inheritance_clause = true
+space_after_colon_in_inheritance_clause = true
+
+space_before_type_parameter_constraint_colon= true
+space_after_type_parameter_constraint_colon= true
