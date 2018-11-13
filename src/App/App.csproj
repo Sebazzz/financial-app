@@ -59,7 +59,7 @@
     <PackageReference Include="HangFire.Core" Version="1.6.21" />
     <PackageReference Include="HangFire.MemoryStorage" Version="1.5.2" />
     <PackageReference Include="HangFire.SqlServer" Version="1.6.21" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.4" />
