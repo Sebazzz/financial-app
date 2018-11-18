@@ -101,9 +101,13 @@ h1,
 h2,
 h3,
 h4 {
+    line-height: 1;
+
     small {
         opacity: 0.5;
         font-size: 60%;
+
+        display: inline-block; // Wrap the entire block around on small screens
     }
 }
 
