@@ -56,7 +56,11 @@ namespace App.Models.DTO {
     }
 
     [DataContract]
-    public class SheetEntry : SheetEntryBase {}
+    public class SheetEntry : SheetEntryBase
+    {
+        [DataMember]
+        public bool IsNewSinceLastVisit { get; set; }
+    }
 
     [DataContract]
     public sealed class TagReportSheetEntry : SheetEntryBase {

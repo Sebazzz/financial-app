@@ -12,7 +12,6 @@ namespace App.Models.Domain {
     using Repositories;
 
     [DataContract]
-    [GenerateRepository]
     public class Category : IAppOwnerEntity, IHasId {
         [DataMember]
         public int Id { get; set; }
@@ -24,7 +23,6 @@ namespace App.Models.Domain {
 
         [IgnoreDataMember]
         [Required]
-        [GenerateRepositoryQuery(IsMultiple = true)]
         public virtual AppOwner Owner { get; set; }
 
         [IgnoreDataMember]

@@ -11,7 +11,6 @@ namespace App.Models.Domain {
     /// <summary>
     /// Represents a tag - a way to organise related expenses. Like "Christmas presents 2017". An expense can have zero or more tags.
     /// </summary>
-    [GenerateRepository]
     public class Tag : IHasId, IAppOwnerEntity {
         public virtual AppOwner Owner { get; set; }
         public int OwnerId { get; set; }

@@ -14,7 +14,6 @@ namespace App.Models.Domain {
     /// Represents a recurring sheet entry - expenses or income which is 'to be expected' each period (for now: month). In effective
     /// a recurring sheet entry is a template.
     /// </summary>
-    [GenerateRepository]
     public class RecurringSheetEntry : IHasId, IAppOwnerEntity {
         public int Id { get; set; }
 

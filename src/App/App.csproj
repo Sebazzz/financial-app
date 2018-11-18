@@ -43,11 +43,6 @@
     <None Remove="js\App\Pages\Manage\User\index.ts" />
     <None Remove="js\App\Pages\Report\index.ts" />
     <None Remove="js\App\Pages\Setup\index.ts" />
-   
-    <Content Include="Models\Domain\Repositories\Repositories.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Repositories.generated.cs</LastGenOutput>
-    </Content>
     <None Update="**.user;.\wwwroot\build\**\*.ts;.\wwwroot\js\**\*;.\wwwroot\css\**\*;.\wwwroot\bower_components\**\*;**\*.ts;**.vspscc">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
@@ -123,14 +118,6 @@
     <TypeScriptCompile Include="js\App\Pages\Manage\User\index.ts" />
     <TypeScriptCompile Include="js\App\Pages\Report\index.ts" />
     <TypeScriptCompile Include="js\App\Pages\Setup\index.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Models\Domain\Repositories\Repositories.generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Repositories.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

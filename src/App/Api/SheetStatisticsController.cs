@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace App.Api {
     using System;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Domain;
@@ -30,16 +30,16 @@ namespace App.Api {
         }
 
         [HttpGet("")]
-        public SheetGlobalStatistics Get(int sheetMonth, int sheetYear) {
-            Sheet s = this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId);
+        public async Task<SheetGlobalStatistics> Get(int sheetMonth, int sheetYear) {
+            Sheet s = await this._sheetRetrievalService.GetBySubjectAsync(sheetMonth, sheetYear, this.OwnerId);
             this.EntityOwnerService.EnsureOwner(s, this.OwnerId);
 
             return this._sheetStatisticsService.CalculateExpensesPerCategory(s);
         }
 
         [HttpGet("chart")]
-        public Report GetStats(int sheetMonth, int sheetYear) {
-            Sheet s = this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId);
+        public async Task<Report> GetStats(int sheetMonth, int sheetYear) {
+            Sheet s = await this._sheetRetrievalService.GetBySubjectAsync(sheetMonth, sheetYear, this.OwnerId);
             this.EntityOwnerService.EnsureOwner(s, this.OwnerId);
 
             DateTime previousSheetDate = s.Subject.AddMonths(-1);
@@ -47,10 +47,10 @@ namespace App.Api {
             List<Sheet> sheet = new List<Sheet>(3);
 
             if (nextSheetDate < DateTime.Now) {
-                sheet.Add(this._sheetRetrievalService.GetBySubject(nextSheetDate.Month, nextSheetDate.Year, this.OwnerId));
+                sheet.Add(await this._sheetRetrievalService.GetBySubjectAsync(nextSheetDate.Month, nextSheetDate.Year, this.OwnerId));
             }
-            sheet.Add(this._sheetRetrievalService.GetBySubject(previousSheetDate.Month, previousSheetDate.Year, this.OwnerId));
-            sheet.Add(this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId));
+            sheet.Add(await this._sheetRetrievalService.GetBySubjectAsync(previousSheetDate.Month, previousSheetDate.Year, this.OwnerId));
+            sheet.Add(await this._sheetRetrievalService.GetBySubjectAsync(sheetMonth, sheetYear, this.OwnerId));
 
             Sheet[] dataArray = sheet.ToArray();
             return new Report {

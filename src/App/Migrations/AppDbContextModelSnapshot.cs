@@ -325,6 +325,27 @@ namespace App.Migrations
                     b.ToTable("SheetEntryTag");
                 });
 
+            modelBuilder.Entity("App.Models.Domain.SheetLastVisitedMarker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("LastVisitDate");
+
+                    b.Property<int>("SheetId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SheetId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SheetLastVisitedMarker");
+                });
+
             modelBuilder.Entity("App.Models.Domain.SheetRecurringSheetEntry", b =>
                 {
                     b.Property<int>("Id")
@@ -592,6 +613,19 @@ namespace App.Migrations
                     b.HasOne("App.Models.Domain.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("App.Models.Domain.SheetLastVisitedMarker", b =>
+                {
+                    b.HasOne("App.Models.Domain.Sheet", "Sheet")
+                        .WithMany()
+                        .HasForeignKey("SheetId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("App.Models.Domain.Identity.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

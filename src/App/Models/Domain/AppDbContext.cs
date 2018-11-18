@@ -85,7 +85,18 @@ namespace App.Models.Domain {
                 .HasOne(x => x.Template)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
+            modelBuilder.Entity<SheetLastVisitedMarker>()
+                .HasOne(x => x.Sheet)
+                .WithMany()
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SheetLastVisitedMarker>()
+                .HasOne(x => x.User)
+                .WithMany()
+                .IsRequired();
+
             modelBuilder.Entity<SheetEntry>()
                         .HasOne(x => x.Category)
                         .WithMany(x => x.SheetEntries)

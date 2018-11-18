@@ -75,7 +75,7 @@ namespace App.Jobs.MonthlyDigest {
         }
 
         private async Task SendDigestInternal(AppOwner appOwner, List<AppUser> users) {
-            MonthlyDigestData data = this._monthlyDigestDataFactory.GetFor(appOwner.Id);
+            MonthlyDigestData data = await this._monthlyDigestDataFactory.GetForAsync(appOwner.Id);
             data.AppOwnerName = appOwner.Name;
 
             foreach (AppUser appUser in users) {

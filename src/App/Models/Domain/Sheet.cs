@@ -9,12 +9,12 @@ namespace App.Models.Domain {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
+    using Identity;
     using Repositories;
 
     /// <summary>
     /// Represents a sheet of months expenses
     /// </summary>
-    [GenerateRepository]
     public class Sheet : IAppOwnerEntity, IHasId {
         private ICollection<SheetEntry> _entries;
         private ICollection<SheetRecurringSheetEntry> _applicableTemplates;
@@ -40,7 +40,6 @@ namespace App.Models.Domain {
         }
 
         [Required]
-        [GenerateRepositoryQuery(IsMultiple = true)]
         public virtual AppOwner Owner { get; set; }
 
         public virtual ICollection<SheetEntry> Entries {
@@ -68,7 +67,7 @@ namespace App.Models.Domain {
     }
 
     /// <summary>
-    /// Workaround for EF not supporting many-to-many
+    /// Represents the applicable templates for a sheet - seperate class [Workaround for EF not supporting many-to-many]
     /// </summary>
     public class SheetRecurringSheetEntry {
         [Required]
@@ -83,5 +82,22 @@ namespace App.Models.Domain {
                 Template = template
             };
         }
+    }
+
+
+    public class SheetLastVisitedMarker : IHasId
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public virtual Sheet Sheet { get; set; }
+
+        public int SheetId { get; set; }
+
+        [Required] public virtual AppUser User { get; set; }
+
+        public int UserId { get;set; }
+
+        public DateTime LastVisitDate { get; set; }
     }
 }

@@ -19,6 +19,8 @@ export interface ISheetEntry {
     updateTimestamp: DateTime;
     createTimestamp: DateTime;
 
+    isNewSinceLastVisit: boolean;
+
     account: AccountType;
 
     tags: number[];

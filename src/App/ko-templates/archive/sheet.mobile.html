@@ -1,4 +1,4 @@
-﻿<h1>
+<h1>
     Financiën
     <small data-bind="formatText: date, format: 'MMMM yyyy'"></small>
 </h1>
@@ -98,7 +98,8 @@
             </div>
 
             <div class="swipeable__body touch-list__item-body">
-                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="disabled: isBusy,
+                <a href="#" class="touch-list__item-title swipeable__primary-action" 
+                   data-bind="disabled: isBusy,
                 route: archive.sheet.entry.edit | { month: $page.date().getMonth() + 1, year: $page.date().getFullYear(), id: id }, text: entry.source"></a>
                 <div class="touch-list__item-details">
                     <div ko-visible="tags().length > 0" ko-lookup-scope:data="tags" ko-lookup-scope:source="$page.availableTags"
@@ -109,7 +110,8 @@
                             </span>
                         </span>
                     </div>
-
+                  
+                    <span ko-visible="isNewSinceLastVisit" class="sheet-edit-touch-list__item--is-new-since-last-visit">Nieuw!</span>
                     <span data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></span>
                     ({{entry.account() === AccountType.BankAccount ? 'Betaalrekening' : 'Spaarrekening'}}) in
                     {{$page.categoryNameById(entry.categoryId())}}.

@@ -7,6 +7,7 @@
 namespace App.Jobs.MonthlyDigest {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using Models.Domain;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
@@ -22,7 +23,7 @@ namespace App.Jobs.MonthlyDigest {
             this._calculationService = calculationService;
         }
 
-        public MonthlyDigestData GetFor(int appOwnerId) {
+        public async Task<MonthlyDigestData> GetForAsync(int appOwnerId) {
             DateTime previousMonth = DateTime.Today.AddMonths(-1);
             previousMonth = new DateTime(previousMonth.Year, previousMonth.Month, 1);
 
@@ -30,16 +31,16 @@ namespace App.Jobs.MonthlyDigest {
 
             MonthlyDigestData digestData = new MonthlyDigestData();
 
-            this.AddPreviousMonth(previousMonth, digestData, appOwnerId);
-            this.AddSecondPreviousMonthFigures(secondPreviousMonth, digestData, appOwnerId);
+            await this.AddPreviousMonthAsync(previousMonth, digestData, appOwnerId);
+            await this.AddSecondPreviousMonthFiguresAsync(secondPreviousMonth, digestData, appOwnerId);
             this.AddUpcomingExpenses(digestData, appOwnerId);
-            this.AddWealthInformation(previousMonth, digestData, appOwnerId);
+            await this.AddWealthInformationAsync(previousMonth, digestData, appOwnerId);
 
             return digestData;
         }
 
-        private void AddWealthInformation(DateTime previousMonth, MonthlyDigestData digestData, int appOwnerId) {
-            Sheet sheet = this._sheetRetrievalService.GetBySubject(previousMonth.Month, previousMonth.Year, appOwnerId);
+        private async Task AddWealthInformationAsync(DateTime previousMonth, MonthlyDigestData digestData, int appOwnerId) {
+            Sheet sheet = await this._sheetRetrievalService.GetBySubjectAsync(previousMonth.Month, previousMonth.Year, appOwnerId);
             CalculationOptions calcOffset = this._calculationService.CalculateOffset(sheet);
 
             digestData.Wealth.BankAccount.PreviousAmount = calcOffset.BankAccountOffset ?? 0;
@@ -63,16 +64,16 @@ namespace App.Jobs.MonthlyDigest {
                 .Take(numberOfExpenses));
         }
 
-        private void AddSecondPreviousMonthFigures(DateTime timestamp, MonthlyDigestData digestData, int appOwnerId) {
-            Sheet sheet = this._sheetRetrievalService.GetBySubject(timestamp.Month, timestamp.Year, appOwnerId);
+        private async Task AddSecondPreviousMonthFiguresAsync(DateTime timestamp, MonthlyDigestData digestData, int appOwnerId) {
+            Sheet sheet = await this._sheetRetrievalService.GetBySubjectAsync(timestamp.Month, timestamp.Year, appOwnerId);
 
             digestData.Expenses.PreviousAmount = Math.Abs(CalculateExpenses(sheet));
             digestData.Income.PreviousAmount = CalculateIncome(sheet);
             digestData.Savings.PreviousAmount = CalculateSavings(sheet);
         }
 
-        private void AddPreviousMonth(DateTime timestamp, MonthlyDigestData digestData, int appOwnerId) {
-            Sheet sheet = this._sheetRetrievalService.GetBySubject(timestamp.Month, timestamp.Year, appOwnerId);
+        private async Task AddPreviousMonthAsync(DateTime timestamp, MonthlyDigestData digestData, int appOwnerId) {
+            Sheet sheet = await this._sheetRetrievalService.GetBySubjectAsync(timestamp.Month, timestamp.Year, appOwnerId);
 
             digestData.MonthName = sheet.Subject.ToString("MMMM yyyy");
 

@@ -11,7 +11,6 @@ namespace App.Models.Domain {
     using Repositories;
     using Services;
 
-    [GenerateRepository]
     public class SheetEntry : IHasId, IHasSortOrder {
         private ICollection<SheetEntryTag> _tags;
         public int Id { get; set; }

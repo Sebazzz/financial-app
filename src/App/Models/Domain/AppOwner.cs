@@ -15,7 +15,6 @@ namespace App.Models.Domain {
     /// <summary>
     /// Represents a group of owners - this allows defining shared objects
     /// </summary>
-    [GenerateRepository]
     public class AppOwner {
         private ICollection<AppUser> _users;
 

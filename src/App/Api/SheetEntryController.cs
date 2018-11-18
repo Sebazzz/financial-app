@@ -19,6 +19,8 @@ namespace App.Api {
 
     using Models.Domain.Repositories;
     using Models.Domain.Services;
+    using Models.DTO;
+    using Support.Mapping;
     using Sheet = Models.Domain.Sheet;
     using SheetEntry = Models.Domain.SheetEntry;
     using SheetEntryDTO=Models.DTO.SheetEntry;
@@ -28,21 +30,28 @@ namespace App.Api {
     public class SheetEntryController : BaseEntityController {
         private readonly SheetEntryRepository _sheetEntryRepository;
         private readonly SheetRetrievalService _sheetRetrievalService;
+        private readonly SheetLastVisitedMarkerService _sheetLastVisitedMarkerService;
         private readonly IMapper _mappingEngine;
 
-        public SheetEntryController(EntityOwnerService entityOwnerService, SheetEntryRepository sheetEntryRepository, SheetRetrievalService sheetRetrievalService, IMapper mappingEngine) : base(entityOwnerService) {
+        public SheetEntryController(EntityOwnerService entityOwnerService, SheetEntryRepository sheetEntryRepository, SheetRetrievalService sheetRetrievalService, IMapper mappingEngine, SheetLastVisitedMarkerService sheetLastVisitedMarkerService) : base(entityOwnerService) {
             this._sheetEntryRepository = sheetEntryRepository;
             this._sheetRetrievalService = sheetRetrievalService;
             this._mappingEngine = mappingEngine;
+            this._sheetLastVisitedMarkerService = sheetLastVisitedMarkerService;
         }
 
         // GET: api/sheet/1/entries/1
         [HttpGet("{id}", Name = "SheetEntry-Get")]
-        public SheetEntryDTO Get(int id) {
-            SheetEntry entry = this._sheetEntryRepository.FindById(id).EnsureNotNull();
+        public async Task<SheetEntryDTO> Get(int id, int sheetYear, int sheetMonth) {
+            Sheet targetSheet = await this._sheetRetrievalService.GetBySubjectAsync(sheetMonth, sheetYear, this.OwnerId).EnsureNotNull();
+            this.EntityOwnerService.EnsureOwner(targetSheet, this.OwnerId);
+
+            SheetEntry entry = await this._sheetEntryRepository.FindByIdAsync(id).EnsureNotNull();
             this.EnsureCorrectSheet(entry);
 
-            return this._mappingEngine.Map<SheetEntryDTO>(entry);
+            PreviousSheetVisitMarker marker = await this._sheetLastVisitedMarkerService.GetAndUpdateAsync(targetSheet, this.User.Identity.GetUserId());
+
+            return this._mappingEngine.Map<SheetEntry, SheetEntryDTO>(entry, opts => opts.SetPreviousSheetVisitMarker(marker));
         }
 
         [HttpPost("{id}/order/{mutation}")]
@@ -69,7 +78,7 @@ namespace App.Api {
         // POST: api/sheet/2014-10/entries
         [HttpPost("")]
         public async Task<IActionResult> Post(int sheetYear, int sheetMonth, [FromBody] SheetEntryDTO value) {
-            Sheet targetSheet = this._sheetRetrievalService.GetBySubject(sheetMonth, sheetYear, this.OwnerId).EnsureNotNull();
+            Sheet targetSheet = await this._sheetRetrievalService.GetBySubjectAsync(sheetMonth, sheetYear, this.OwnerId).EnsureNotNull();
             this.EntityOwnerService.EnsureOwner(targetSheet, this.OwnerId);
 
             if (!this.ModelState.IsValid) {
@@ -86,7 +95,9 @@ namespace App.Api {
             this._sheetEntryRepository.Add(entry);
             await this._sheetEntryRepository.SaveChangesAsync();
 
-            return this.CreatedAtRoute("SheetEntry-Get", new {id = entry.Id}, this.Get(entry.Id));
+            await this._sheetLastVisitedMarkerService.AddOrUpdateImmediateAsync(targetSheet, this.User.Identity.GetUserId());
+
+            return this.CreatedAtRoute("SheetEntry-Get", new {id = entry.Id}, await this.Get(entry.Id, sheetYear, sheetMonth));
         }
 
         // PUT: api/sheet/2014-10/entries
@@ -103,6 +114,7 @@ namespace App.Api {
             entry.Sheet.UpdateTimestamp = DateTime.Now;
 
             await this._sheetEntryRepository.SaveChangesAsync();
+            await this._sheetLastVisitedMarkerService.AddOrUpdateImmediateAsync(entry.Sheet, this.User.Identity.GetUserId());
 
             return this.NoContent();
         }
@@ -112,6 +124,8 @@ namespace App.Api {
         public async Task<IActionResult> Delete(int id) {
             SheetEntry entry = await this.GetByIdAsync(id);
             entry.Sheet.UpdateTimestamp = DateTime.Now;
+
+            await this._sheetLastVisitedMarkerService.AddOrUpdateImmediateAsync(entry.Sheet, this.User.Identity.GetUserId());
 
             this._sheetEntryRepository.Delete(entry);
             await this._sheetEntryRepository.SaveChangesAsync();

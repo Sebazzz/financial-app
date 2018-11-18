@@ -393,6 +393,7 @@ export class SheetEntry extends validate.ValidateableViewModel {
     public editMode = ko.observable<boolean>(false);
 
     public isBusy = ko.observable<boolean>(false);
+    public isNewSinceLastVisit = ko.observable<boolean>(false); // Set by server
     public isTransient = ko.observable<boolean>(false); // TODO: SignalR / realtime
     public userName = ko.observable<string | null>(null);
 

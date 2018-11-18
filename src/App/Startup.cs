@@ -23,10 +23,10 @@ namespace App
     using App.Models.Domain.Identity;
     using App.Support.Integration;
     using App.Support.Mailing;
-    using AutoMapper;
     using Hangfire;
     using Hangfire.Dashboard;
     using Hangfire.MemoryStorage;
+    using Jobs.DelayedSheetVisitUpdateMarker;
     using Jobs.MonthlyDigest;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
@@ -56,6 +56,7 @@ namespace App
     using Microsoft.AspNetCore.SpaServices.Webpack;
     using Models.DTO.Services;
     using Support.Diagnostics;
+    using Support.Mapping;
 
     public class Startup
     {
@@ -169,21 +170,26 @@ namespace App
             services.AddScoped<AppUserManager>();
             services.AddScoped<AppUserStore>();
 
-            services.AddTransient<AppOwnerRepository>();
-            RepositoryRegistry.InsertIn(services);
+            services.AddScoped<AppOwnerRepository>();
+            services.AddScoped<CategoryRepository>();
+            services.AddScoped<RecurringSheetEntryRepository>();
+            services.AddScoped<SheetEntryRepository>();
+            services.AddScoped<SheetLastVisitedMarkerRepository>();
+            services.AddScoped<SheetRepository>();
+            services.AddScoped<TagRepository>();
 
             services.AddScoped<SheetRetrievalService>();
             services.AddScoped<EntityOwnerService>();
             services.AddScoped<SheetOffsetCalculationService>();
             services.AddScoped<SheetStatisticsService>();
             services.AddScoped<BudgetRetrievalService>();
-            services.AddScoped<AutoMapperEngineFactory.SheetOffsetCalculationResolver>();
-            services.AddScoped<AutoMapperEngineFactory.EntityResolver<Category>>();
-            services.AddScoped<AutoMapperEngineFactory.EntityResolver<RecurringSheetEntry>>();
-            services.AddScoped<AutoMapperEngineFactory.EntityResolver<Tag>>();
-            services.AddScoped<AutoMapperEngineFactory.SheetEntryTagConverter>();
 
-            services.AddSingleton<IMapper>(AutoMapperEngineFactory.Create);
+            services.AddScoped<SheetLastVisitedMarkerService>();
+            services.AddScoped<DelayedSheetVisitUpdateMarkerJob>();
+            services.AddScoped<DelayedSheetVisitUpdateJobInvoker>();
+
+            services.AddAutoMapper();
+
             services.AddSingleton<IAppVersionService, AppVersionService>();
 
             services.AddSingleton<IBuildAssetVersionCache, BuildAssetVersionCache>();

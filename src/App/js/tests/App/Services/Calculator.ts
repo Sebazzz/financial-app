@@ -19,7 +19,8 @@ function createEntry(delta: number, type: AccountType): ISheetEntry {
         id: ++id,
         templateId: null,
         remark: null,
-        tags: []
+        tags: [],
+        isNewSinceLastVisit: false
     };
 }
 

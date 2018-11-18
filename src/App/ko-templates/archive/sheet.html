@@ -1,4 +1,4 @@
-﻿<h1>
+<h1>
     Financiën
     <small data-bind="formatText: date, format: 'MMMM yyyy'"></small>
 </h1>
@@ -101,13 +101,11 @@
             <!-- Body -->
             <tbody data-bind="foreach: entries">
             <!-- ko if: editMode -->
-            <tr class="row-middle"
-                data-bind="visible: editMode,
-                            css: { 'saving': isBusy },
-                            form: {
-                                handler: $page.saveEntry,
-                                isBusy: isBusy
-                            }">
+            <tr class="sheet-table__row"
+                ko-visible="editMode"
+                ko-css:*sheet-table__row--is-saving="isBusy"
+                ko-form:handler="$page.saveEntry"
+                ko-form:is-busy="isBusy">
                 <td>
                     <div class="input-group input-group-sm" data-bind="validationProperty: source">
                         <input type="text"
@@ -193,11 +191,14 @@
             <!-- /ko -->
                 
             <!-- ko ifnot: editMode -->
-            <tr class="row-middle"
-                data-bind="
-                    hidden: editMode, 
-                    css: { 'saving': isBusy, 'transient': isTransient },
-                    tooltip: { text: tooltip, forceOpen: isTransient }">
+            <tr class="sheet-table__row"
+                ko-hidden="editMode"
+                ko-css:*sheet-table__row--is-saving="isBusy"
+                ko-css:*sheet-table__row--is-transient="isTransient"
+                ko-css:*sheet-table__row--is-new-since-last-visit="isNewSinceLastVisit"
+                ko-tooltip:text="tooltip"
+                ko-tooltip:force-open="isTransient"
+              >
                 <td ko-style:*border-left-color="$page.getSheetEntryColor($data)" 
                     class="tagged-with-border">
                     <span data-bind="text: source"></span>

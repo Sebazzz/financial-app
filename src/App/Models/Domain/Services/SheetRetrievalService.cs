@@ -9,6 +9,7 @@ namespace App.Models.Domain.Services {
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Threading.Tasks;
     using Api.Extensions;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -62,10 +63,10 @@ namespace App.Models.Domain.Services {
         }
 
         [NotNull]
-        public Sheet GetBySubject(int month, int year, int ownerId) {
-            Sheet theSheet = this._sheetRepository.GetByDatePart(month, year, ownerId)
+        public async Task<Sheet> GetBySubjectAsync(int month, int year, int ownerId) {
+            Sheet theSheet = await this._sheetRepository.GetByDatePart(month, year, ownerId)
                                                   .Include(x => x.Owner)
-                                                  .FirstOrDefault();
+                                                  .FirstOrDefaultAsync();
 
             if (theSheet == null) {
                 theSheet = this.CreateSheet(month, year, ownerId);
@@ -75,11 +76,11 @@ namespace App.Models.Domain.Services {
                 this._sheetRepository.Add(theSheet.CalculationOptions);
                 this._sheetRepository.Add(theSheet);
 
-                this._sheetRepository.SaveChanges();
+                await this._sheetRepository.SaveChangesAsync();
             }
             else {
-                theSheet.Entries = new List<Domain.SheetEntry>(this._sheetRepository.GetOfSheet(theSheet));
-                theSheet.ApplicableTemplates = new List<Domain.SheetRecurringSheetEntry>(this._sheetRepository.GetTemplatesOfSheet(theSheet));
+                theSheet.Entries = await this._sheetRepository.GetOfSheet(theSheet).ToListAsync();
+                theSheet.ApplicableTemplates = await this._sheetRepository.GetTemplatesOfSheet(theSheet).ToListAsync();
             }
 
             return theSheet;
