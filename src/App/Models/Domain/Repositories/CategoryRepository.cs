@@ -7,6 +7,7 @@
 namespace App.Models.Domain.Repositories {
     using System.Linq;
     using System.Threading.Tasks;
+    using DTO;
     using Microsoft.EntityFrameworkCore;
 
     public sealed class CategoryRepository {
@@ -33,17 +34,26 @@ namespace App.Models.Domain.Repositories {
             return this._entitySet.Include(x => x.Owner);
         }
 
-        
-        [NotNull]
-        public IQueryable<App.Models.Domain.Category> GetByOwner(App.Models.Domain.AppOwner owner) {
-            return this._entitySet.Where(x => x.Owner.Id == owner.Id);
-        }
-
         [NotNull]
         public IQueryable<App.Models.Domain.Category> GetByOwner(int ownerId) {
             return this._entitySet.Where(x => x.Owner.Id == ownerId).Include(x => x.Owner);
         }
 
+        public IQueryable<CategoryListing> GetListingByOwner(int ownerId)
+        {
+            DbSet<Domain.SheetEntry> sheetEntries = this._dbContext.Set<Domain.SheetEntry>();
+            DbSet<Domain.RecurringSheetEntry> recurringSheetEntries = this._dbContext.Set<Domain.RecurringSheetEntry>();
+
+            return this._entitySet
+                .Where(x => x.Owner.Id == ownerId)
+                .Select(x => new CategoryListing
+            {
+                Description = x.Description,
+                Name = x.Name,
+                Id = x.Id,
+                CanBeDeleted = sheetEntries.Any(entry => entry.Category.Id == x.Id) || recurringSheetEntries.Any(entry => entry.Category.Id == x.Id)
+            });
+        }
                 
 
         public void Add(App.Models.Domain.Category item) {

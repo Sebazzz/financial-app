@@ -99,7 +99,7 @@ namespace App.Models.Domain {
 
             modelBuilder.Entity<SheetEntry>()
                         .HasOne(x => x.Category)
-                        .WithMany(x => x.SheetEntries)
+                        .WithMany()
                         .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<SheetEntry>()
@@ -109,7 +109,7 @@ namespace App.Models.Domain {
 
             modelBuilder.Entity<RecurringSheetEntry>()
                         .HasOne(x => x.Category)
-                        .WithMany(x => x.RecurringSheetEntries)
+                        .WithMany()
                         .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<SheetEntryTag>()

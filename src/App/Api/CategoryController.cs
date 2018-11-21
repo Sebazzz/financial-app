@@ -13,6 +13,7 @@ namespace App.Api {
     using AutoMapper;
     using Extensions;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Models.Domain;
     using Models.Domain.Repositories;
     using Models.Domain.Services;
@@ -35,15 +36,10 @@ namespace App.Api {
         // GET: api/Category
         [HttpGet("")]
         [ReadOnlyApi]
-        public IEnumerable<CategoryListing> Get() {
-            var q = this._categoryRepository.GetByOwner(this.OwnerId);
+        public async Task<IActionResult> Get() {
+            IQueryable<CategoryListing> q = this._categoryRepository.GetListingByOwner(this.OwnerId);
 
-            return q.Select(x => new CategoryListing {
-                Description = x.Description,
-                Name = x.Name,
-                Id = x.Id,
-                CanBeDeleted = !x.SheetEntries.Any() // TODO: EF doesn't support this projection
-            }).OrderBy(x => x.Name);
+            return this.Ok(await q.OrderBy(x => x.Name).ToListAsync(this.HttpContext.RequestAborted));
         }
 
 
