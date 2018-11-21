@@ -51,7 +51,7 @@ namespace App.Models.Domain.Repositories {
                 Description = x.Description,
                 Name = x.Name,
                 Id = x.Id,
-                CanBeDeleted = sheetEntries.Any(entry => entry.Category.Id == x.Id) || recurringSheetEntries.Any(entry => entry.Category.Id == x.Id)
+                CanBeDeleted = !(sheetEntries.Any(entry => entry.Category.Id == x.Id) || recurringSheetEntries.Any(entry => entry.Category.Id == x.Id))
             });
         }
                 
