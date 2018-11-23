@@ -19,6 +19,7 @@ namespace App
     using Microsoft.Extensions.DependencyInjection;
 
     using App.Support.Https;
+    using Microsoft.Extensions.Configuration.Ini;
     using Support;
 
     public class Program
@@ -44,11 +45,13 @@ namespace App
                     .ConfigureServices(ConfigureServerOptions)
                     .ConfigureAppConfiguration(cfg => cfg.AddApplicationInsightsSettings())
                     .ConfigureAppConfiguration(cfg => {
-                           if (Environment.GetEnvironmentVariable(
-                                   "ASPNETCORE_FORCE_USERSECRETS") == "True") {
-                               cfg.AddUserSecrets(typeof(Program).Assembly);
-                           }
-                       })
+                        if (Environment.GetEnvironmentVariable("ASPNETCORE_FORCE_USERSECRETS") == "True") {
+                            cfg.AddUserSecrets(typeof(Program).Assembly);
+                        }
+
+                        cfg.AddJsonFile("/etc/fa-app/config.json", true);
+                        cfg.AddIniFile("/etc/fa-app/config.ini", true);
+                    })
                     .ConfigureLogging((wc, logging) => {
                           var env = wc.HostingEnvironment;
                           var config = wc.Configuration;
