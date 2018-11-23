@@ -25,11 +25,6 @@ namespace App.Models.Domain {
         [Required]
         public virtual AppOwner Owner { get; set; }
 
-        [IgnoreDataMember]
-        public virtual ICollection<SheetEntry> SheetEntries { get; set; }
-        [IgnoreDataMember]
-        public virtual ICollection<RecurringSheetEntry> RecurringSheetEntries { get; set; }
-            
         [DataMember]
         public string Description { get; set; }
 

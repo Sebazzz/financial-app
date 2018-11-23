@@ -49,12 +49,12 @@ namespace App {
                 cfg.CreateMap<RecurringSheetEntry, RecurringSheetEntryListing>();
 
                 cfg.CreateMap<Sheet, Models.DTO.Sheet>(MemberList.Destination)
-                                 .ForMember(x => x.Offset, m => m.ResolveUsing<SheetOffsetCalculationResolver>())
+                                 .ForMember(x => x.Offset, m => m.MapFrom<SheetOffsetCalculationResolver>())
                                  .ForMember(x => x.ApplicableTemplates, a => a.MapFrom(e => e.ApplicableTemplates.Select(x=>x.Template)));
 
                 cfg.CreateMap<Models.DTO.Sheet, Sheet>(MemberList.Source)
-                                 .ForSourceMember(x => x.Offset, m=>m.Ignore())
-                                 .ForSourceMember(x => x.ApplicableTemplates, m=>m.Ignore())
+                                 .ForSourceMember(x => x.Offset, m=>m.DoNotValidate())
+                                 .ForSourceMember(x => x.ApplicableTemplates, m=>m.DoNotValidate())
                                  .ForMember(x => x.ApplicableTemplates, a => a.Ignore());
 
                 cfg.CreateMap<AppUser, AppUserListing>(MemberList.Destination);
@@ -62,7 +62,7 @@ namespace App {
                 cfg.CreateMap<SheetEntry, Models.DTO.SheetEntry>(MemberList.Destination)
                     .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id))
                     .ForMember(x => x.TemplateId, m => m.MapFrom(x => x.Template != null ? x.Template.Id : (int?)null))
-                    .ForMember(x => x.IsNewSinceLastVisit, m => m.ResolveUsing<SheetEntryNewIndicatorConverter>());
+                    .ForMember(x => x.IsNewSinceLastVisit, m => m.MapFrom<SheetEntryNewIndicatorConverter>());
 
                 cfg.CreateMap<SheetEntry, Models.DTO.TagReportSheetEntry>(MemberList.Destination)
                     .ForMember(x => x.CategoryId, m => m.MapFrom(x => x.Category.Id))
@@ -73,7 +73,7 @@ namespace App {
 
 
                 cfg.CreateMap<Models.DTO.SheetEntry, SheetEntry>(MemberList.Source)
-                    .ForSourceMember(x => x.IsNewSinceLastVisit, m => m.Ignore());
+                    .ForSourceMember(x => x.IsNewSinceLastVisit, m => m.DoNotValidate());
 
                 cfg.CreateMap<Models.DTO.RecurringSheetEntry, RecurringSheetEntry>(MemberList.Source);
 

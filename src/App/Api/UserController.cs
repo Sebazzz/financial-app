@@ -52,7 +52,6 @@ namespace App.Api {
 
         // GET: api/User/5
         [HttpGet("{id}", Name = "User-Get")]
-        [ReadOnlyApi]
         public async Task<AppUserListing> Get(int id) {
             AppUser user = await this.GetUser(id);
 
