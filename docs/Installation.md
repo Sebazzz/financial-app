@@ -42,7 +42,19 @@ For QR code support in two-factor-authentication:
 
 ## Installation
 
-You can configure the application via environment variables or configuration files. Environment variables are more update-friendly. The configurations shown below are environment variables (you can set them in bash by `export NAME=VALUE` and in Powershell via `$ENV:NAME = "VALUE"`).
+You can configure the application via environment variables or configuration files. 
+
+Environment variables are more easier to configure, but usually also more insecure. The configurations shown below are environment variables (you can set them in bash by `export NAME=VALUE` and in Powershell via `$ENV:NAME = "VALUE"`).
+
+### File-based configuration
+Configuration files are searched on platform-specific paths:
+
+- Windows 
+   - Common application data (usually `C:\ProgramData\financial-app\config.<extension>`)
+- Unix / Linux - excluding MacOS
+   - `/etc/financial-app/config.<extension>`
+
+You can use either `.json` or `.ini` files to configure the paplication.
 
 ### General configuration
 
