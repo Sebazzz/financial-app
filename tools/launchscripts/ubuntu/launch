@@ -12,8 +12,8 @@ function run {
 	source $FA_HOME/launch.conf
 	
 	echo Starting application
-	cd app
-	$FA_APP_DIR/App
+	cd $FA_APP_DIR
+	./App
 	
 	exit $?
 }
