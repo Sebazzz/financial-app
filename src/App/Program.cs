@@ -93,7 +93,7 @@ namespace App
             const string appSpecificFolder = "financial-app";
             const string configFileName = "config";
             const string iniFileExt = "ini";
-            const string jsonFileExt = "ini";
+            const string jsonFileExt = "json";
 
             string MakeWin32FilePath(string extension)
             {
