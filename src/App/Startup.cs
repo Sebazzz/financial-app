@@ -237,12 +237,19 @@ namespace App
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment)
         {
             // Logging (TODO: until app insights can use ILoggingBuilder)
             if (!env.IsDevelopment())
             {
                 loggerFactory.AddApplicationInsights(app.ApplicationServices);
+            }
+
+            // Log hosting environment
+            {
+                ILogger logger = loggerFactory.CreateLogger("Startup");
+                logger.LogInformation("Using content root: {0}", hostingEnvironment.ContentRootPath);
+                logger.LogInformation("Using web root: {0}", hostingEnvironment.WebRootPath);
             }
 
             // Startup checks
