@@ -5,6 +5,7 @@ import {
     tryReloadTemplate,
     reloadCurrentTemplate
 } from 'AppFramework/Navigation/PageLoader';
+import 'AppFramework/Client/AndroidInputScroller';
 import { Router } from 'AppFramework/Navigation/Router';
 import * as $ from 'jquery';
 import * as ko from 'knockout';

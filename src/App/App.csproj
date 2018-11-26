@@ -27,6 +27,7 @@
     <Content Include="Email\build\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Remove="js\AppFramework\Client\AndroidInputScroller.ts" />
     <None Remove="js\AppFramework\Components\InstallPrompt.ts" />
     <None Remove="js\AppFramework\Navigation\PageLoader.ts" />
     <None Remove="js\AppFramework\Navigation\PageRegistry.ts" />
@@ -103,6 +104,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="js\AppFramework\Client\AndroidInputScroller.ts" />
     <TypeScriptCompile Include="js\AppFramework\Components\InstallPrompt.ts" />
     <TypeScriptCompile Include="js\AppFramework\Navigation\PageLoader.ts" />
     <TypeScriptCompile Include="js\AppFramework\Navigation\PageRegistry.ts" />
