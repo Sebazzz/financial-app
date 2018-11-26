@@ -36,8 +36,8 @@ Download a release from the [releases](https://github.com/Sebazzz/financial-app/
 Current-edge builds are available from AppVeyor:
 
 -   [Windows 10 / Windows Server 2016 (x64)](https://ci.appveyor.com/api/projects/Sebazzz/financial-app/artifacts/financial-app-win10-x64.zip)
--   [Ubuntu 14.04 (x64)](https://ci.appveyor.com/api/projects/Sebazzz/financial-app/artifacts/financial-app-ubuntu.14.04-x64.tar.gz)
 -   [Ubuntu 16.10 (x64)](https://ci.appveyor.com/api/projects/Sebazzz/financial-app/artifacts/financial-app-ubuntu.16.10-x64.tar.gz)
+-   [Ubuntu 18.04 (x64)](https://ci.appveyor.com/api/projects/Sebazzz/financial-app/artifacts/financial-app-ubuntu.18.04-x64.tar.gz)
 
 ## Building Financial App from sources
 

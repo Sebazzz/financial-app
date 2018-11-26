@@ -280,8 +280,8 @@ void UbuntuPublishTask(string taskId, string versionId, string description) {
 	ubuntuAllPublishTask.IsDependentOn(taskName);
 }
 
-UbuntuPublishTask("14.04-x64", "ubuntu.14.04-x64", "Ubuntu 14.04 64-bit");
 UbuntuPublishTask("16.10-x64", "ubuntu.16.10-x64", "Ubuntu 16.10/17.04 64-bit");
+UbuntuPublishTask("18.04-x64", "ubuntu.18.04-x64", "Ubuntu 18.04 64-bit");
 //UbuntuPublishTask("16.10-x64-ngen", "ubuntu.16.10-x64-corert", "Ubuntu 16.10/17.04 64-bit - experimental ahead-of-time compiled version");
 
 Task("Publish")

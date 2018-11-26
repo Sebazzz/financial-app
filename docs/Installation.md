@@ -26,11 +26,11 @@ In addition, for Ubuntu 16.x:
 
     sudo apt-get install libicu55
 
-For Ubuntu 14.x:
-
-    sudo apt-get install libicu52
-
 For Ubuntu 17.x:
+
+    sudo apt-get install libicu57
+
+For Ubuntu 18.x:
 
     sudo apt-get install libicu57
 
