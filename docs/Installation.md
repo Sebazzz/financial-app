@@ -42,91 +42,121 @@ For QR code support in two-factor-authentication:
 
 ## Installation
 
-You can configure the application via environment variables or configuration files. 
+You can configure the application via environment variables or configuration files.
+
+Settings are grouped per section, and consist of key-value pairs. In this documentation the section name is shown in the title of each configuration.
+
+### Environment variables
 
 Environment variables are more easier to configure, but usually also more insecure. The configurations shown below are environment variables (you can set them in bash by `export NAME=VALUE` and in Powershell via `$ENV:NAME = "VALUE"`).
 
+Section parts and key-value pairs are concatenated by using two underscores. For instance with section `Server.Https` and setting `CertificatePath` becomes: `SERVER__HTTPS__CERTIFICATEPATH`.
+
 ### File-based configuration
+
 Configuration files are searched on platform-specific paths:
 
-- Windows 
-   - Common application data (usually `C:\ProgramData\financial-app\config.<extension>`)
-- Unix / Linux - excluding MacOS
-   - `/etc/financial-app/config.<extension>`
+-   Windows
+    -   Common application data (usually `C:\ProgramData\financial-app\config.<extension>`)
+-   Unix / Linux - excluding MacOS
+    -   `/etc/financial-app/config.<extension>`
 
-You can use either `.json` or `.ini` files to configure the paplication.
+You can use either `.json` or `.ini` files to configure the application. Using both is not recommended.
 
-### General configuration
+#### INI files
 
-`SERVER__BASEURL`: Base URL used for mailing. If not set, auto-detection is attempted.
+INI files groups key-value pairs of the sections with a `[section:subsection]` header. Key-value pairs are simply `key=value`. It is probably the most human-editable file format.
 
-### HTTPS configuration
+For instance with section `Server.Https` and setting `CertificatePath` becomes:
+
+    [Server:Https]
+    CertificatePath=path
+
+#### JSON files
+
+JSON files follow a standard JSON file format. Each section is an nested object.
+
+For instance with section `Server.Https` and setting `CertificatePath` becomes:
+
+    {
+       "Server": {
+          "Https": {
+              "CertificatePath": "path"
+          }
+       }
+    }
+
+### General configuration - `Server`
+
+`BaseUrl`: Base URL used for mailing. If not set, auto-detection is attempted.
+
+### HTTPS configuration - `Server.Https`
 
 To use HTTPs, use the following environment variables:
 
-`SERVER__HTTPS__CERTIFICATEPATH`: Path to pfx file.
+`CertificatePath`: Path to pfx file.
 
-`SERVER__HTTPS__CERTIFICATEPASSWORD`: Password for pfx file.
+`CertificatePassword`: Password for pfx file.
 
 The server will automatically start on port 80 and 443.
 
-### Logging configuration
+### Logging configuration - `Logging.File`
 
 To configure logging to a file:
 
-`LOGGING__FILE__PATH`: Path to log file.
+`Path`: Path to log file.
 
-`LOGGING__FILE__FILESIZELIMITBYTES`: Maximum size of log file in bytes. 0 for unlimited.
+`FileSizeLimitBytes`: Maximum size of log file in bytes. 0 for unlimited.
 
-`LOGGING__FILE__MAXROLLINGFILES`: Maximum file rollover. 0 for unlimited.
+`MaxRollingFiles`: Maximum file rollover. 0 for unlimited.
 
-### E-mail configuration
+### E-mail configuration - `Mail`
 
 To configure e-mail settings your can use the following environment variables:
 
-`MAIL__HOST`: SMTP host name.
+`Host`: SMTP host name.
 
-`MAIL__ENABLESSL`: Enable SSL when connecting to SMTP `true`/`false`.
+`EnableSSL`: Enable SSL when connecting to SMTP `true`/`false`.
 
-`MAIL__PORT`: SMTP port number.
+`Port`: SMTP port number.
 
-`MAIL__USERNAME`: User name.
+`Username`: User name.
 
-`MAIL__PASSWORD`: Password.
+`Password`: Password.
 
-`MAIL__FROMADDRESS`: Source e-mail address used for sending e-mail.
+`FromAddress`: Source e-mail address used for sending e-mail.
 
-`MAIL__FROMDISPLAYNAME`: Display name to use and shown in repicient mailbox.
+`FromDisplayName`: Display name to use and shown in repicient mailbox.
 
-E-mail is optional, but is checked on startup. If you need to skip the startup test, use:
+E-mail is optional, but is checked on startup. If you need to skip the startup test (because you won't or cannot use e-mail), use:
 
-`MAIL__SKIPTEST`: True or false. By default false.
+`SkipTest`: True or false. By default false.
 
-### Database set-up
+### Database set-up - `Database`
 
 Create an new empty database with a case insensitive collation (`SQL_Latin1_General_CP1_CI_AS` is preferred).
 
 You can set the database settings as follows:
 
-`DATABASE__SERVER`: Server name and instance.
+`Server`: Server name and instance.
 
-`DATABASE__DATABASE`: Database name.
+`Database`: Database name.
 
-`DATABASE__USERID`: User ID.
+`UserID`: User ID.
 
-`DATABASE__PASSWORD`: Password.
+`Password`: Password.
 
-`DATABASE__INTEGRATEDSECURITY`: Use integrated credentials. Cannot be combined with user id / password.
+`IntegratedSecurity`: Use integrated credentials. Cannot be combined with user id / password.
 
-`DATABASE__ENCRYPT`: Database connection encryption enabled.
+`Encrypt`: Database connection encryption enabled.
 
-`DATABASE__CONNECTIONTIMEOUT`: Connection timeout to SQL Server. Set to 0 for unlimited. Set to 60 seconds for cloud environments.
+`ConnectionTimeout`: Connection timeout to SQL Server. Set to 0 for unlimited. Set to 60 seconds for cloud environments.
 
 #### Advanced configuration
 
 Set the connection string using:
 
-`DATABASE__CONNECTIONSTRING`: Connection string used to connection to the database. Usually: `Server=myserver;Integrated Security=true;Database=mydatabase;MultipleActiveResultSets=true`.
+`ConnectionString`: Connection string used to connection to the database. Usually: `Server=myserver;Integrated Security=true;Database=mydatabase;MultipleActiveResultSets=true`.
 
 Options in the connection string will override manual "simple" configured options above.
 
