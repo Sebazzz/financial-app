@@ -8,6 +8,7 @@ namespace App
 {
 
     using System;
+    using System.IO;
     using Microsoft.Extensions.Logging;
 
     using System.Net;
@@ -21,7 +22,7 @@ namespace App
     using App.Support.Https;
     using Support;
 
-    public class Program
+    internal static class Program
     {
         public static void Main(string[] args)
         {
@@ -43,12 +44,14 @@ namespace App
                 WebHost.CreateDefaultBuilder(args)
                     .ConfigureServices(ConfigureServerOptions)
                     .ConfigureAppConfiguration(cfg => cfg.AddApplicationInsightsSettings())
-                    .ConfigureAppConfiguration(cfg => {
-                           if (Environment.GetEnvironmentVariable(
-                                   "ASPNETCORE_FORCE_USERSECRETS") == "True") {
-                               cfg.AddUserSecrets(typeof(Program).Assembly);
-                           }
-                       })
+                    .ConfigureAppConfiguration(cfg =>
+                        {
+                            if (Environment.GetEnvironmentVariable("ASPNETCORE_FORCE_USERSECRETS") == "True") {
+                                cfg.AddUserSecrets(typeof(Program).Assembly);
+                            }
+
+                            cfg.AddOperatingSpecificConfigurationFolders();
+                        })
                     .ConfigureLogging((wc, logging) => {
                           var env = wc.HostingEnvironment;
                           var config = wc.Configuration;
@@ -81,6 +84,52 @@ namespace App
                     .UseStartup<Startup>()
                     .Build();
             return host;
+        }
+
+        private static void AddOperatingSpecificConfigurationFolders([NotNull] this IConfigurationBuilder cfg)
+        {
+            if (cfg == null) throw new ArgumentNullException(nameof(cfg));
+
+            const string appSpecificFolder = "financial-app";
+            const string configFileName = "config";
+            const string iniFileExt = "ini";
+            const string jsonFileExt = "ini";
+
+            string MakeWin32FilePath(string extension)
+            {
+                return Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                    appSpecificFolder,
+                    Path.ChangeExtension(configFileName, extension)
+                );
+            }
+
+            string MakeUnixFilePath(string extension)
+            {
+                return Path.Combine(
+                    "/etc",
+                    appSpecificFolder,
+                    Path.ChangeExtension(configFileName, extension)
+                );
+            }
+
+            string EmitConfigSearchMessage(string path)
+            {
+                Console.WriteLine("\tLoading configuration from: {0}", path);
+                return path;
+            }
+
+            switch (Environment.OSVersion.Platform)
+            {
+                case PlatformID.Win32NT:
+                    cfg.AddJsonFile(EmitConfigSearchMessage(MakeWin32FilePath(jsonFileExt)), true);
+                    cfg.AddIniFile(EmitConfigSearchMessage(MakeWin32FilePath(iniFileExt)), true);
+                    break;
+                case PlatformID.Unix:
+                    cfg.AddJsonFile(EmitConfigSearchMessage(MakeUnixFilePath(jsonFileExt)), true);
+                    cfg.AddIniFile(EmitConfigSearchMessage(MakeUnixFilePath(iniFileExt)), true);
+                    break;
+            }
         }
 
         private static void ConfigureServerOptions(WebHostBuilderContext wc, IServiceCollection sc)
