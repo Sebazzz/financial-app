@@ -52,7 +52,7 @@
     <PackageReference Include="Dapper" Version="1.50.5" />
     <PackageReference Include="HangFire.AspNetCore" Version="1.6.21" />
     <PackageReference Include="HangFire.Core" Version="1.6.21" />
-    <PackageReference Include="HangFire.MemoryStorage" Version="1.5.2" />
+    <PackageReference Include="HangFire.MemoryStorage" Version="1.5.3" />
     <PackageReference Include="HangFire.SqlServer" Version="1.6.21" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.1" />
@@ -76,7 +76,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.1.1" />
     <PackageReference Include="NReco.Logging.File" Version="1.0.4" />
-    <PackageReference Include="QRCoder" Version="1.3.4" />
+    <PackageReference Include="QRCoder" Version="1.3.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
