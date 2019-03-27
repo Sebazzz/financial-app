@@ -90,27 +90,13 @@ namespace App
         {
             if (cfg == null) throw new ArgumentNullException(nameof(cfg));
 
-            const string appSpecificFolder = "financial-app";
             const string configFileName = "config";
             const string iniFileExt = "ini";
             const string jsonFileExt = "json";
 
-            string MakeWin32FilePath(string extension)
+            string MakeFilePath(string extension)
             {
-                return Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
-                    appSpecificFolder,
-                    Path.ChangeExtension(configFileName, extension)
-                );
-            }
-
-            string MakeUnixFilePath(string extension)
-            {
-                return Path.Combine(
-                    "/etc",
-                    appSpecificFolder,
-                    Path.ChangeExtension(configFileName, extension)
-                );
+                return EmitConfigSearchMessage(EnvironmentPath.CreatePath(Path.ChangeExtension(configFileName, extension)));
             }
 
             string EmitConfigSearchMessage(string path)
@@ -122,12 +108,9 @@ namespace App
             switch (Environment.OSVersion.Platform)
             {
                 case PlatformID.Win32NT:
-                    cfg.AddJsonFile(EmitConfigSearchMessage(MakeWin32FilePath(jsonFileExt)), true);
-                    cfg.AddIniFile(EmitConfigSearchMessage(MakeWin32FilePath(iniFileExt)), true);
-                    break;
                 case PlatformID.Unix:
-                    cfg.AddJsonFile(EmitConfigSearchMessage(MakeUnixFilePath(jsonFileExt)), true);
-                    cfg.AddIniFile(EmitConfigSearchMessage(MakeUnixFilePath(iniFileExt)), true);
+                    cfg.AddJsonFile(MakeFilePath(jsonFileExt), true);
+                    cfg.AddIniFile(MakeFilePath(iniFileExt), true);
                     break;
             }
         }

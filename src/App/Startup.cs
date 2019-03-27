@@ -55,6 +55,7 @@ namespace App
 
     using Microsoft.AspNetCore.SpaServices.Webpack;
     using Models.DTO.Services;
+    using Support.DataProtection;
     using Support.Diagnostics;
     using Support.Mapping;
 
@@ -87,6 +88,8 @@ namespace App
                 // Note the possible dangers for HTTPS: https://docs.microsoft.com/en-us/aspnet/core/performance/response-compression?tabs=aspnetcore2x#compression-with-secure-protocol
                 opts.EnableForHttps = true;
             });
+
+            services.AddConfiguredDataProtection(this.Configuration);
 
             services.AddMvc(options =>
             {
