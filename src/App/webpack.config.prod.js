@@ -54,8 +54,6 @@ function makeTargetSpecificMinimizer(targetName) {
 
 module.exports = {
     makeTargetSpecificConfig: targetName => {
-        const targetDir = path.resolve(__dirname, `wwwroot/build/${targetName}`);
-
         const config = {
             stats: { chunkModules: true },
             output: {
@@ -64,7 +62,7 @@ module.exports = {
             optimization: {
                 minimizer: [makeTargetSpecificMinimizer(targetName)]
             },
-            plugins: [new CleanWebpackPlugin([targetDir])]
+            plugins: [new CleanWebpackPlugin()]
         };
 
         // If we need to visualize, it must be set in the WEBPACK_ENABLE_VISUALIZER var
