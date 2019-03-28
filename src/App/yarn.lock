@@ -17,24 +17,28 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@types/applicationinsights-js@1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.7.tgz#b98f6298860fcc71009b7c14cf7f4b6ced115c3e"
+"@types/applicationinsights-js@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.9.tgz#791581118068517ecd0bc29fd4590239a577a489"
+  integrity sha512-tf2BBQFIRgaoxkii5Ys4Q2nvhPQ2PFt9FfgDc+xL7+XPi3s4ScqzRuAn8FRBCglnyzVvwEznOtdfqGREzUOkCw==
 
-"@types/bootstrap@4.1.2":
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-4.1.2.tgz#3d6a3ea111e88ca926803a0e02b1f3d4c9913a5b"
+"@types/bootstrap@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-4.3.0.tgz#4cac01617f56239a5146945a98bde64274838c35"
+  integrity sha512-v1BkpRVgNH9eXE+RtWFP1wh/+SAkPZaxHthS6umqf1sGV0tAvHdPHZpAOB+H74e91ElOxtS56dxbon+lXWk4AQ==
   dependencies:
     "@types/jquery" "*"
     popper.js "^1.14.1"
 
-"@types/chai@4.1.6":
-  version "4.1.6"
-  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.6.tgz#1eb26c040e3a84205b1008ad55c800e5e8a94e34"
+"@types/chai@4.1.7":
+  version "4.1.7"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.7.tgz#1b8e33b61a8c09cbe1f85133071baa0dbf9fa71a"
+  integrity sha512-2Y8uPt0/jwjhQ6EiluT0XCri1Dbplr0ZxfFXUz+ye13gaqE8u5gL5ppao1JrUYr9cIip5S6MvQzBS7Kke7U9VA==
 
-"@types/chart.js@2.7.38":
-  version "2.7.38"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.38.tgz#b8590885aea0b71d4e8400af45cd85eab960d528"
+"@types/chart.js@2.7.50":
+  version "2.7.50"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.50.tgz#28043d583e33a5be18c9062ca9ac9c8bab144afa"
+  integrity sha512-n9DUf8WR3eaoW9V2RQWkIjv+Jd9xFV532hLoyULmqes58R7j00UVwsBjxwB5J3cZFLtekMdYZAglZzBbNKI8Lw==
 
 "@types/commander@^2.11.0":
   version "2.12.2"
@@ -48,19 +52,22 @@
   dependencies:
     "@types/sizzle" "*"
 
-"@types/jquery@3.3.19":
-  version "3.3.19"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.19.tgz#ebb1e86c89e8e6fe2797bf3206843a114831958b"
+"@types/jquery@3.3.29":
+  version "3.3.29"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.29.tgz#680a2219ce3c9250483722fccf5570d1e2d08abd"
+  integrity sha512-FhJvBninYD36v3k6c+bVk1DSZwh7B5Dpb/Pyk3HKVsiohn0nhbefZZ+3JXbWQhFyt0MxSl2jRDdGQPHeOHFXrQ==
   dependencies:
     "@types/sizzle" "*"
 
-"@types/knockout@3.4.59":
-  version "3.4.59"
-  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.59.tgz#87911eee72222141c76f6fc7c63115815b049fef"
+"@types/knockout@3.4.64":
+  version "3.4.64"
+  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.64.tgz#50c5970545a8b2c9aa60b64994a99a722227548c"
+  integrity sha512-9RI6yMmXx7imrphme3BPAQAnwRScs9zho1PAeQbv8BqdNhYrDyrC3Inuc0S+3fgzOi8wH4sdWxG06CJfVieaIQ==
 
-"@types/mocha@5.2.5":
-  version "5.2.5"
-  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.5.tgz#8a4accfc403c124a0bafe8a9fc61a05ec1032073"
+"@types/mocha@5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.6.tgz#b8622d50557dd155e9f2f634b7d68fd38de5e94b"
+  integrity sha512-1axi39YdtBI7z957vdqXI4Ac25e7YihYQtJa+Clnxg1zTJEaIRbndt71O3sP4GAMgiAm0pY26/b9BrY4MR/PMw==
 
 "@types/rx-core-binding@*":
   version "4.0.4"

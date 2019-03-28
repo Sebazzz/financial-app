@@ -71,7 +71,7 @@ ko.bindingHandlers.asyncLoadingPanel = {
         // Set-up binding context
         const childBindingContext = bindingContext.createChildContext(
             () => ko.computed(() => dataSource.data),
-            null,
+            undefined,
             (ctx: any) => {
                 ctx.$dataSource = dataSource;
                 ctx.$model = viewModel;
