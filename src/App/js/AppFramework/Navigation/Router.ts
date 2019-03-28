@@ -1,5 +1,6 @@
-import browserPlugin from 'router5/plugins/browser';
-import { createRouter, loggerPlugin, Route as RouteImpl, Router as RouterImpl } from 'router5';
+import browserPlugin from 'router5-plugin-browser';
+import loggerPlugin from 'router5-plugin-logger';
+import { createRouter, Route as RouteImpl, Router as RouterImpl } from 'router5';
 import * as $ from 'jquery';
 import { telemetryPlugin } from 'AppFramework/Services/Telemetry';
 

@@ -1,6 +1,5 @@
 import * as framework from 'AppFramework/Panel';
-import { State } from 'router5';
-import { Plugin, PluginFactory } from 'router5/core/plugins';
+import { Plugin, PluginFactory, State } from 'router5';
 import AppContext from 'AppFramework/AppContext';
 import * as ko from 'knockout';
 import NowRouteProvider from 'App/Services/NowRoute';
@@ -77,7 +76,6 @@ class TopMenu extends framework.Panel {
             } as Plugin;
         }) as any) as PluginFactory;
 
-        menuPlugin.pluginName = 'top-menu-plugin';
         appContext.router.usePlugin(menuPlugin);
 
         this.activeClientCount.subscribe(x => {

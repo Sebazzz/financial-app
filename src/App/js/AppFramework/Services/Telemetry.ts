@@ -1,5 +1,6 @@
 import { Router, Plugin as RouterPlugin, PluginFactory, State } from 'router5';
 import { RouterUtils } from 'AppFramework/Navigation/Page';
+
 import * as auth from '../ServerApi/Authentication';
 
 function applicationInsightsAvailable(): boolean {
@@ -44,8 +45,6 @@ const plugin: PluginFactory = ((router: Router): RouterPlugin => {
 
     return new TelemetryPlugin(appInsights, router);
 }) as PluginFactory;
-
-plugin.pluginName = 'Telemetry';
 
 export const telemetryPlugin = plugin;
 

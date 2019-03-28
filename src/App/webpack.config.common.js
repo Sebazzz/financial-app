@@ -39,7 +39,8 @@ const globalsProvider = new webpack.ProvidePlugin({
 const libraries = [
     'jquery',
     'router5',
-    'router5/plugins/browser',
+    'router5-plugin-browser',
+    'router5-plugin-logger',
     'router5-transition-path',
     'reflect-metadata',
     'tslib',

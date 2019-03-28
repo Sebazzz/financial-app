@@ -1,7 +1,9 @@
-import * as auth from '../ServerApi/Authentication';
 import * as ko from 'knockout';
-import { MiddlewareFactory, Middleware, Router, State } from 'router5';
+import { Middleware, Router, State } from 'router5';
+import { MiddlewareFactory } from 'router5/types/types/router';
+
 import { trackLogin, trackLogout } from './Telemetry';
+import * as auth from '../ServerApi/Authentication';
 
 const defaultAuthInfo: auth.IAuthenticationInfo = {
     userId: 0,
