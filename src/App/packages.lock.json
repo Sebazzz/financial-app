@@ -423,6 +423,16 @@
                     "Microsoft.Extensions.Options": "2.2.0"
                 }
             },
+            "Microsoft.Extensions.Logging.ApplicationInsights": {
+                "type": "Direct",
+                "requested": "[2.9.1, )",
+                "resolved": "2.9.1",
+                "contentHash": "MJtrD5RzDbYwNKNLfGDBu1TQh5DqiL+/8cvdBovD0s6FtLz5doeHwhIyK8Kh24CCO3kTQOPQ85hRMnFPBJ9UGw==",
+                "dependencies": {
+                    "Microsoft.ApplicationInsights": "2.9.1",
+                    "Microsoft.Extensions.Logging": "2.1.0"
+                }
+            },
             "Microsoft.Extensions.Logging.Console": {
                 "type": "Direct",
                 "requested": "[2.2.0, )",

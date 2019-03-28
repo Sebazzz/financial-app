@@ -64,7 +64,10 @@ namespace App
                           if (env.IsDevelopment()) {
                               logging.AddDebug();
                           }
-                          else {
+                          else
+                          {
+                              logging.AddApplicationInsights();
+
                               var fileSection = config.GetSection("Logging").GetSection("File");
                               var fileName = fileSection?.GetValue<string>("Path");
 
