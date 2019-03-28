@@ -6,13 +6,10 @@
 // ******************************************************************************
 using System;
 using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.AspNetCore.Mvc.TagHelpers.Internal;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace App.Support.TagHelpers
 {
@@ -21,13 +18,10 @@ namespace App.Support.TagHelpers
         private const string PolyfillTestAttribute = "fa-polyfill-test";
         private const string HtmlSrcAttribute = "src";
 
-        private FileVersionProvider _fileVersionProvider;
-        private readonly IMemoryCache _cache;
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public ScriptPolyfillTagHelper(IHostingEnvironment hostingEnvironment, IMemoryCache cache)
+        private readonly IFileVersionProvider _fileVersionProvider;
+        public ScriptPolyfillTagHelper(IFileVersionProvider fileVersionProvider)
         {
-            this._hostingEnvironment = hostingEnvironment;
-            this._cache = cache;
+            this._fileVersionProvider = fileVersionProvider;
         }
 
         [HtmlAttributeNotBound]
@@ -64,23 +58,12 @@ namespace App.Support.TagHelpers
             }
 
             // Output path in polyfill detection code with version string
-            this.EnsureFileVersionProvider();
-            
             output.Attributes.Remove(srcAttribute);
 
-            string path = this._fileVersionProvider.AddFileVersionToPath(this.Src);
+            string path = this._fileVersionProvider.AddFileVersionToPath(this.ViewContext.HttpContext.Request.PathBase, this.Src);
             output.Content.SetHtmlContent(
                 $"{this.PolyfillTest}||pf('{JavaScriptEncoder.Default.Encode(path)}')"
             );
-        }
-
-        private void EnsureFileVersionProvider() {
-            if (this._fileVersionProvider == null) {
-                this._fileVersionProvider = new FileVersionProvider(
-                    this._hostingEnvironment.WebRootFileProvider,
-                    this._cache, 
-                    this.ViewContext.HttpContext.Request.PathBase);
-            }
         }
 
         // We need this tag helper to execute as last
@@ -92,12 +75,10 @@ namespace App.Support.TagHelpers
         private const string PolyfillTestAttribute = "fa-polyfill-test";
         private const string HtmlHrefAttribute = "href";
 
-        private FileVersionProvider _fileVersionProvider;
-        private readonly IMemoryCache _cache;
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public LinkPolyfillTagHelper(IHostingEnvironment hostingEnvironment, IMemoryCache cache) {
-            this._hostingEnvironment = hostingEnvironment;
-            this._cache = cache;
+        private readonly IFileVersionProvider  _fileVersionProvider;
+        public LinkPolyfillTagHelper(IFileVersionProvider fileVersionProvider)
+        {
+            this._fileVersionProvider = fileVersionProvider;
         }
 
         [HtmlAttributeNotBound]
@@ -131,26 +112,15 @@ namespace App.Support.TagHelpers
             }
 
             // Output path in polyfill detection code with version string
-            this.EnsureFileVersionProvider();
-
             output.Attributes.Remove(hrefAttribute);
             output.Attributes.RemoveAll("rel");
 
-            string path = this._fileVersionProvider.AddFileVersionToPath(this.Href);
+            string path = this._fileVersionProvider.AddFileVersionToPath(this.ViewContext.HttpContext.Request.PathBase, this.Href);
             output.TagName = "script";
             output.TagMode = TagMode.StartTagAndEndTag;
             output.Content.SetHtmlContent(
                 $"{this.PolyfillTest}||ss('{JavaScriptEncoder.Default.Encode(path)}')"
             );
-        }
-
-        private void EnsureFileVersionProvider() {
-            if (this._fileVersionProvider == null) {
-                this._fileVersionProvider = new FileVersionProvider(
-                    this._hostingEnvironment.WebRootFileProvider,
-                    this._cache,
-                    this.ViewContext.HttpContext.Request.PathBase);
-            }
         }
 
         // We need this tag helper to execute as last
