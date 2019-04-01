@@ -54,9 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.60.1" />
+    <PackageReference Include="Dapper" Version="1.60.6" />
     <PackageReference Include="HangFire.AspNetCore" Version="1.6.24" />
-    <PackageReference Include="HangFire.Core" Version="1.6.24" />
+    <PackageReference Include="HangFire.Core" Version="1.7.0" />
     <PackageReference Include="HangFire.MemoryStorage" Version="1.6.0" />
     <PackageReference Include="HangFire.SqlServer" Version="1.6.24" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
@@ -92,7 +92,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
-	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
     <PackageReference Include="AutoMapper" Version="8.0.0" />
   </ItemGroup>
 
