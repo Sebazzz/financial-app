@@ -21,18 +21,6 @@ jobs:
                       apt-get install --no-install-recommends -y nodejs
 
             - run:
-                  name: Install mono prereqs
-                  command: |
-                      apt-get -y --no-install-recommends install apt-transport-https dirmngr gnupg ca-certificates
-                      apt-get -y --no-install-recommends install apt-transport-https dirmngr gnupg ca-certificates
-
-            - run:
-                  name: Install mono
-                  command: |
-                      echo "deb https://download.mono-project.com/repo/debian stable-stretch main" | tee /etc/apt/sources.list.d/mono-official-stable.list
-                      apt-get -y --no-install-recommends install mono-devel ca-certificates-mono
-
-            - run:
                   name: Install Yarn
                   command: |
                       curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
@@ -44,7 +32,6 @@ jobs:
                       node --version
                       yarn --version
                       dotnet --version
-                      mono --version
 
             - run:
                   name: Build - restore nuget packages

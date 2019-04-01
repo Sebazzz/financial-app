@@ -14,7 +14,7 @@ If you like to build Financial App from sources, you can follow the instructions
 
 ### Additional prequisites on Linux (Ubuntu)
 
--   Mono (latest)
+-   Powershell Core (for building mail templates)
 
 Environment:
 
