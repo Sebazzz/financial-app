@@ -6,11 +6,9 @@
 *.user
 *.sln.docstates
 .vs
+.dotnet
+tools/*
 project.lock.json
-
-# *nix build req
-tools/Cake
-tools/GitVersion.CommandLine
 
 # Build results
 artifacts

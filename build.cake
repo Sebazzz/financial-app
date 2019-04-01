@@ -1,5 +1,6 @@
-#addin nuget:?package=Cake.Compression&version=0.1.6
-#addin nuget:?package=SharpZipLib
+#addin nuget:?package=Cake.Compression&version=0.2.2
+#addin nuget:?package=SharpZipLib&version=1.1.0
+#tool nuget:?package=GitVersion.CommandLine&version=4.0.0
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -272,8 +273,8 @@ void UbuntuPublishTask(string taskId, string versionId, string description) {
 		.IsDependentOn(internalTaskName)
 		.Description($"Publish for {description}, output to {output}")
 		.Does(() => {
-		   CopyFile(File("./tools/launchscripts/ubuntu/launch"), publishDir + File($"{versionId}/launch"));
-		   CopyFile(File("./tools/launchscripts/ubuntu/launch.conf"), publishDir + File($"{versionId}/launch.conf.example"));
+		   CopyFile(File("./tools/distscripts/ubuntu/launch"), publishDir + File($"{versionId}/launch"));
+		   CopyFile(File("./tools/distscripts/ubuntu/launch.conf"), publishDir + File($"{versionId}/launch.conf.example"));
 		   GZipCompress(publishDir + Directory($"{versionId}/"), output);
 		});
 	

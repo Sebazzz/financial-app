@@ -1,0 +1,65 @@
+version: 2
+jobs:
+    build:
+        docker:
+            - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+        steps:
+            - checkout
+
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  keys:
+                      - yarn-packages-{{ checksum "src/App/yarn.lock" }}
+            - run:
+                  name: Install node.js prereqs
+                  command: apt-get -qq update && apt-get -qqy --no-install-recommends install wget gnupg git unzip
+
+            - run:
+                  name: Download and install node.js
+                  command: |
+                      curl -sL https://deb.nodesource.com/setup_10.x |  bash -
+                      apt-get install --no-install-recommends -y nodejs
+
+            - run:
+                  name: Install mono prereqs
+                  command: |
+                      apt-get -y --no-install-recommends install apt-transport-https dirmngr gnupg ca-certificates
+                      apt-get -y --no-install-recommends install apt-transport-https dirmngr gnupg ca-certificates
+
+            - run:
+                  name: Install mono
+                  command: |
+                      echo "deb https://download.mono-project.com/repo/debian stable-stretch main" | tee /etc/apt/sources.list.d/mono-official-stable.list
+                      apt-get -y --no-install-recommends install mono-devel ca-certificates-mono
+
+            - run:
+                  name: Install Yarn
+                  command: |
+                      curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+                      echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
+
+            - run:
+                  name: Output important software versions
+                  command: |
+                      node --version
+                      yarn --version
+                      dotnet --version
+                      mono --version
+
+            - run:
+                  name: Build - restore nuget packages
+                  command: ./build.sh --target=restore-nuget-packages --verbosity=verbose
+
+            - run:
+                  name: Build - restore node packages
+                  command: ./build.sh --target=restore-node-packages --verbosity=verbose
+
+            - run:
+                  name: Build - test
+                  command: ./build.sh --target=test --verbosity=verbose
+
+            - save_cache:
+                  name: Save Yarn Package Cache
+                  key: yarn-packages-{{ checksum "yarn.lock" }}
+                  paths:
+                      - ~/.cache/yarn

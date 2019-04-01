@@ -2,7 +2,8 @@
 
 Financial management progressive web application meant for households created using ASP.NET Core, Knockout.js and Entity Framework. Installable as a web app on mobile devices.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/p31vw84asaq445h5?svg=true)](https://ci.appveyor.com/project/Sebazzz/financial-app) [![Build Status](https://travis-ci.org/Sebazzz/financial-app.svg)](https://travis-ci.org/Sebazzz/financial-app)
+[![Build status](https://ci.appveyor.com/api/projects/status/p31vw84asaq445h5?svg=true)](https://ci.appveyor.com/project/Sebazzz/financial-app)
+[![CircleCI](https://circleci.com/gh/Sebazzz/financial-app.svg?style=svg)](https://circleci.com/gh/Sebazzz/financial-app)
 [![Dependencies](https://david-dm.org/sebazzz/financial-app.svg)](https://david-dm.org/sebazzz/financial-app.svg)
 
 Licensed: GNU GPL v3.0
