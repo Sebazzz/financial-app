@@ -30,7 +30,7 @@ jobs:
                   name: Install mono
                   command: |
                       echo "deb https://download.mono-project.com/repo/debian stable-stretch main" | tee /etc/apt/sources.list.d/mono-official-stable.list
-                      apt-get -y --no-install-recommends install mono-devel
+                      apt-get -y --no-install-recommends install mono-devel ca-certificates-mono
 
             - run:
                   name: Install Yarn
@@ -39,10 +39,12 @@ jobs:
                       echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
 
             - run:
-                  name: Output node.js and yarn versions
+                  name: Output important software versions
                   command: |
                       node --version
                       yarn --version
+                      dotnet --version
+                      mono --version
 
             - run:
                   name: Build - restore nuget packages
