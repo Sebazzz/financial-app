@@ -12,7 +12,8 @@
         "removeComments": false,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "incremental": true
     },
     "compileOnSave": false
 }
