@@ -94,6 +94,7 @@ if [ not_running_in_docker ]; then
 	fi
 fi
 
+export ContinuousIntegrationBuild=True
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
