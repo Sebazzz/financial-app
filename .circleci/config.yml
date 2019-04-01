@@ -18,7 +18,7 @@ jobs:
                   name: Download and install node.js
                   command: |
                       curl -sL https://deb.nodesource.com/setup_10.x |  bash -
-                      apt-get install --no-install-recommends -y nodejs
+                      apt-get install --no-install-recommends -y gcc g++ make build-essential nodejs
 
             - run:
                   name: Install Yarn

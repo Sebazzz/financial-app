@@ -3,51 +3,10 @@
 # Define directories.
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TOOLS_DIR=$SCRIPT_DIR/tools
-NUGET_EXE=$TOOLS_DIR/nuget.exe
-CAKE_EXE=$TOOLS_DIR/Cake/Cake.exe
-PACKAGES_CONFIG=$TOOLS_DIR/packages.config
-PACKAGES_CONFIG_MD5=$TOOLS_DIR/packages.config.md5sum
-
-# Define md5sum or md5 depending on Linux/OSX
-MD5_EXE=
-if [[ "$(uname -s)" == "Darwin" ]]; then
-    MD5_EXE="md5 -r"
-else
-    MD5_EXE="md5sum"
-fi
-
-# Define default arguments.
-SCRIPT="build.cake"
-TARGET="Default"
-CONFIGURATION="Release"
-VERBOSITY="verbose"
-DRYRUN=
-SHOW_VERSION=false
-SCRIPT_ARGUMENTS=()
-
-# Parse arguments.
-for i in "$@"; do
-    case $1 in
-        --version) SHOW_VERSION=true ;;
-        --) shift; SCRIPT_ARGUMENTS+=("$@"); break ;;
-        *) SCRIPT_ARGUMENTS+=("$1") ;;
-    esac
-    shift
-done
 
 # Make sure the tools folder exist.
 if [ ! -d "$TOOLS_DIR" ]; then
   mkdir "$TOOLS_DIR"
-fi
-
-# Make sure that packages.config exist.
-if [ ! -f "$TOOLS_DIR/packages.config" ]; then
-    echo "Downloading packages.config..."
-    curl -Lsfo "$TOOLS_DIR/packages.config" https://cakebuild.net/download/bootstrapper/packages
-    if [ $? -ne 0 ]; then
-        echo "An error occurred while downloading packages.config."
-        exit 1
-    fi
 fi
 
 #!/usr/bin/env bash
@@ -87,6 +46,8 @@ fi
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
+export DOTNET_ROOT=$SCRIPT_DIR/.dotnet
+
 ###########################################################################
 # INSTALL CAKE
 ###########################################################################
@@ -121,4 +82,4 @@ fi
 ###########################################################################
 
 # Start Cake
-(exec "$CAKE_EXE" build.cake --bootstrap) && (exec "$CAKE_EXE" build.cake "$@")
+(exec "$CAKE_EXE" --bootstrap) && (exec "$CAKE_EXE" "$@")
