@@ -28,11 +28,6 @@ SCRIPT_ARGUMENTS=()
 # Parse arguments.
 for i in "$@"; do
     case $1 in
-        -s|--script) SCRIPT="$2"; shift ;;
-        -t|--target) TARGET="$2"; shift ;;
-        -c|--configuration) CONFIGURATION="$2"; shift ;;
-        -v|--verbosity) VERBOSITY="$2"; shift ;;
-        -d|--dryrun) DRYRUN="-dryrun" ;;
         --version) SHOW_VERSION=true ;;
         --) shift; SCRIPT_ARGUMENTS+=("$@"); break ;;
         *) SCRIPT_ARGUMENTS+=("$1") ;;
@@ -54,6 +49,7 @@ if [ ! -f "$TOOLS_DIR/packages.config" ]; then
         exit 1
     fi
 fi
+
 #!/usr/bin/env bash
 # Define varibles
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -78,20 +74,14 @@ fi
 
 DOTNET_INSTALLED_VERSION=$(dotnet --version 2>&1)
 
-not_running_in_docker() {
-  (awk -F: '$3 ~ /docker/' /proc/self/cgroup | read)
-}
-
-if [ not_running_in_docker ]; then
-	if [ "$DOTNET_VERSION" != "$DOTNET_INSTALLED_VERSION" ]; then
-		echo "Installing .NET CLI..."
-		if [ ! -d "$SCRIPT_DIR/.dotnet" ]; then
-		  mkdir "$SCRIPT_DIR/.dotnet"
-		fi
-		curl -Lsfo "$SCRIPT_DIR/.dotnet/dotnet-install.sh" https://dot.net/v1/dotnet-install.sh
-		bash "$SCRIPT_DIR/.dotnet/dotnet-install.sh" --version $DOTNET_VERSION --install-dir .dotnet --no-path
-		export PATH="$SCRIPT_DIR/.dotnet":$PATH
+if [ "$DOTNET_VERSION" != "$DOTNET_INSTALLED_VERSION" ]; then
+	echo "Installing .NET CLI..."
+	if [ ! -d "$SCRIPT_DIR/.dotnet" ]; then
+	  mkdir "$SCRIPT_DIR/.dotnet"
 	fi
+	curl -Lsfo "$SCRIPT_DIR/.dotnet/dotnet-install.sh" https://dot.net/v1/dotnet-install.sh
+	bash "$SCRIPT_DIR/.dotnet/dotnet-install.sh" --version $DOTNET_VERSION --install-dir .dotnet --no-path
+	export PATH="$SCRIPT_DIR/.dotnet":$PATH
 fi
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
