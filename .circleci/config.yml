@@ -5,6 +5,11 @@ jobs:
             - image: mcr.microsoft.com/dotnet/core/sdk:2.2
         steps:
             - checkout
+
+            - restore_cache:
+                  name: Restore Yarn Package Cache
+                  keys:
+                      - yarn-packages-{{ checksum "src/App/yarn.lock" }}
             - run:
                   name: Install node.js prereqs
                   command: apt-get -qq update && apt-get -qqy --no-install-recommends install wget gnupg git unzip
@@ -31,7 +36,7 @@ jobs:
                   name: Install Yarn
                   command: |
                       curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
-                      export PATH=$HOME/.yarn/bin:$PATH
+                      echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
 
             - run:
                   name: Output node.js and yarn versions
@@ -50,3 +55,9 @@ jobs:
             - run:
                   name: Build - test
                   command: ./build.sh --target test
+
+            - save_cache:
+                  name: Save Yarn Package Cache
+                  key: yarn-packages-{{ checksum "yarn.lock" }}
+                  paths:
+                      - ~/.cache/yarn
