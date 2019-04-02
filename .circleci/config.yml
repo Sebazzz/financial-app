@@ -21,7 +21,7 @@ jobs:
                       echo "deb http://archive.ubuntu.com/ubuntu/ bionic main restricted" | tee -a /etc/apt/sources.list
                       echo "deb http://archive.ubuntu.com/ubuntu/ bionic universe" | tee -a /etc/apt/sources.list
                       echo "deb http://archive.ubuntu.com/ubuntu/ bionic multiverse" | tee -a /etc/apt/sources.list
-                      wget -q0 http://archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg | sudo apt-key -y add -
+                      curl -L http://archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg | sudo apt-key -y add -
                       apt-get -y update
                       apt-get -y install bzip2 libxtst6 firefox
                       apt-get install -y libgtk3.0-cil-dev libasound2 libasound2 libdbus-glib-1-2 libdbus-1-3
