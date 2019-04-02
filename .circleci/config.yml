@@ -43,7 +43,9 @@ jobs:
 
             - run:
                   name: Build - test
-                  command: ./build.sh --target=test --verbosity=verbose
+                  command: |
+                      export MOZ_HEADLESS=1
+                      ./build.sh --target=test --verbosity=verbose
 
             - save_cache:
                   name: Save Yarn Package Cache
