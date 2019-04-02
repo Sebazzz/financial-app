@@ -10,6 +10,18 @@ jobs:
                   name: Restore Yarn Package Cache
                   keys:
                       - yarn-packages-{{ checksum "src/App/yarn.lock" }}
+
+            - run:
+                  name: Install Firefox
+                  command: |
+                      apt-get -qq update
+                      apt-get -y remove firefox-mozilla-build binutils
+                      sh -c "echo 'deb http://ftp.hr.debian.org/debian sid main' >> /etc/apt/sources.list"
+                      apt-get -y --no-install-recommends install sid
+                      apt-get -y --no-install-recommends install firefox
+                      ln -sf /usr/lib/firefox/firefox /usr/bin/firefox
+                      firefox --version
+
             - run:
                   name: Install node.js prereqs
                   command: apt-get -qq update && apt-get -qqy --no-install-recommends install wget gnupg git unzip
