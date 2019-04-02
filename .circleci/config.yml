@@ -16,7 +16,6 @@ jobs:
                   command: |
                       apt-get -qq update
                       apt-get -y remove binutils
-                      sh -c "echo 'deb http://ftp.hr.debian.org/debian sid main' >> /etc/apt/sources.list"
                       apt-get -y --no-install-recommends install firefox
                       ln -sf /usr/lib/firefox/firefox /usr/bin/firefox
                       firefox --version
