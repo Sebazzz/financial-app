@@ -20,7 +20,6 @@ jobs:
                       echo "deb http://deb.debian.org/debian stretch-updates main contrib non-free" | tee -a /etc/apt/sources.list
                       apt-get -y update
                       apt-get -y install bzip2 libxtst6 firefox
-                      locate libXtst
                       FIREFOX_URL="https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
                       ACTUAL_URL=$(curl -Ls -o /dev/null -w %{url_effective} $FIREFOX_URL)
                       curl --silent --show-error --location --fail --retry 3 --output /tmp/firefox.tar.bz2 $ACTUAL_URL
