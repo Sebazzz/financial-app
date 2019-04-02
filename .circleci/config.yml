@@ -24,13 +24,7 @@ jobs:
                       wget -q0 http://archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg | sudo apt-key -y add -
                       apt-get -y update
                       apt-get -y install bzip2 libxtst6 firefox
-                      FIREFOX_URL="https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
-                      ACTUAL_URL=$(curl -Ls -o /dev/null -w %{url_effective} $FIREFOX_URL)
-                      curl --silent --show-error --location --fail --retry 3 --output /tmp/firefox.tar.bz2 $ACTUAL_URL
-                      tar -xvjf /tmp/firefox.tar.bz2 -C /opt
-                      ln -s /opt/firefox/firefox /usr/local/bin/firefox
                       apt-get install -y libgtk3.0-cil-dev libasound2 libasound2 libdbus-glib-1-2 libdbus-1-3
-                      rm -rf /tmp/firefox.*
                       firefox --version
 
             - run:
