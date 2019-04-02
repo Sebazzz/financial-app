@@ -81,7 +81,7 @@
         "start": "webpack",
         "build": "webpack",
         "build-mailtemplates": "powershell -File Email/Build.ps1",
-        "test": "karma start --single-run",
+        "test": "karma start --single-run --log-level debug",
         "test-watch": "karma start --no-single-run",
         "test-mailtemplates": "powershell -File Email/Build.ps1 -ArgumentList -LocalTesting",
         "tslint-check": "tslint-config-prettier-check ./tslint.json",
