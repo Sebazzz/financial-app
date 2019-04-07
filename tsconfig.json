@@ -12,6 +12,7 @@
         "removeComments": false,
         "strictBindCallApply": true,
         "strictNullChecks": true,
+        "strictFunctionTypes": false,
         "strictPropertyInitialization": true,
         "sourceMap": true,
         "incremental": true
