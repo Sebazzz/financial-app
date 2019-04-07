@@ -427,7 +427,7 @@ class UnnamedBindingProvider implements KnockoutBindingProvider {
                 throw new Error('getBindingAccessors not available');
             }
 
-            return defaultMethod.apply(defaultBindingProvider, arguments);
+            return defaultMethod.apply(defaultBindingProvider, [node, bindingContext]);
         }
 
         const bindings = getBindingAccessors(node, bindingContext),

@@ -10,6 +10,7 @@
         "noUnusedLocals": true,
         "preserveConstEnums": true,
         "removeComments": false,
+        "strictBindCallApply": true,
         "strictNullChecks": true,
         "strictPropertyInitialization": true,
         "sourceMap": true,

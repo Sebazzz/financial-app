@@ -58,16 +58,16 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
         createChildContext = bindingContext.createChildContext;
 
     writeableBindingContext.extend = function() {
-        const newContext = extend.apply(this, arguments);
+        const newContext = extend.apply(this, arguments as any);
 
-        delete newContext[bindingContextPreprocessMarker];
+        delete (newContext as any)[bindingContextPreprocessMarker];
         preprocessBindingContext(newContext);
 
         return newContext;
     };
 
     writeableBindingContext.createChildContext = function() {
-        const childContext = createChildContext.apply(this, arguments);
+        const childContext = createChildContext.apply(this, arguments as any);
 
         delete childContext[bindingContextPreprocessMarker];
         preprocessBindingContext(childContext);
