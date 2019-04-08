@@ -52,7 +52,7 @@ registerLazyBindingHandler(
             library: IChartLoader,
             element: HTMLCanvasElement,
             valueAccessor: () => any,
-            allBindingsAccessor: ko.AllBindings /* viewModel?: any, bindingContext?: KnockoutBindingContext*/
+            allBindingsAccessor: ko.AllBindings /* viewModel?: any, bindingContext?: ko.BindingContext*/
         ) {
             initChart(library, element, valueAccessor, allBindingsAccessor);
         }

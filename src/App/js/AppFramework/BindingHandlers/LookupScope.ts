@@ -19,7 +19,7 @@ ko.bindingHandlers.lookupScope = {
         valueAccessor: () => ISubstituteScopeOptions<TSource, TIdentifier>,
         allBindingsAccessor: ko.AllBindings,
         viewModel: any,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
         const options = valueAccessor(),
             accessor =

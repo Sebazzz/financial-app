@@ -60,7 +60,7 @@ ko.bindingHandlers.bindingContextLog = {
         valueAccessor: () => string,
         allBindingsAccessor: ko.AllBindings,
         viewModel: any,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
         if (DEBUG === false) {
             return;

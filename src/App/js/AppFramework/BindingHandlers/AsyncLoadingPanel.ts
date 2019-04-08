@@ -30,7 +30,7 @@ ko.bindingHandlers.asyncLoadingPanel = {
         valueAccessor: () => AsyncDataSource<T>,
         allBindingsAccessor: ko.AllBindings,
         viewModel: any,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
         // Mark panel
         element.classList.add('async-loading-panel');

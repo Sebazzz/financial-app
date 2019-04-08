@@ -81,7 +81,7 @@ class PopoverComponentComponentModel {
                     try {
                         const template = $popover.data('bs.popover').getTipElement() as Element,
                             root = template.querySelector('.ko-root') as Element,
-                            bindingContext = ko.contextFor(element) as KnockoutBindingContext,
+                            bindingContext = ko.contextFor(element) as ko.BindingContext,
                             childBindingContext = bindingContext.extend({
                                 $component: this.controller,
                                 $viewModel: ko.utils.peekObservable(this.controller.popoverViewModel),
@@ -187,7 +187,7 @@ export default function register() {
             },
             allBindingsAccessor: ko.AllBindings,
             viewModel: any,
-            bindingContext: KnockoutBindingContext
+            bindingContext: ko.BindingContext
         ): void {
             const options = valueAccessor(),
                 controller = options.controller;

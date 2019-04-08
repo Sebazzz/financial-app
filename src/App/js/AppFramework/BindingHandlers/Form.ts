@@ -3,8 +3,8 @@ import { Page } from 'AppFramework/Navigation/Page';
 import { ValidateableViewModel } from '../Forms/ValidateableViewModel';
 import { IFormPage } from '../Forms/FormPage';
 
-function findPage(bindingContext: KnockoutBindingContext): IFormPage {
-    let currentBindingContext: KnockoutBindingContext | undefined = bindingContext,
+function findPage(bindingContext: ko.BindingContext): IFormPage {
+    let currentBindingContext: ko.BindingContext | undefined = bindingContext,
         viewModel = bindingContext.$data;
 
     while (!(viewModel instanceof Page) && viewModel) {
@@ -38,7 +38,7 @@ ko.bindingHandlers.form = {
         valueAccessor: () => IFormOptions | undefined,
         allBindingsAccessor: ko.AllBindings,
         viewModel: ValidateableViewModel,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
         const $element = $(element),
             page = findPage(bindingContext),

@@ -11,7 +11,7 @@ export interface IPartialBindingHandler<T> {
         valueAccessor: () => any,
         allBindingsAccessor?: ko.AllBindings,
         viewModel?: any,
-        bindingContext?: KnockoutBindingContext
+        bindingContext?: ko.BindingContext
     ) => void;
 }
 
@@ -27,7 +27,7 @@ export default function register<T>(
             valueAccessor: () => any,
             allBindingsAccessor?: ko.AllBindings,
             viewModel?: any,
-            bindingContext?: KnockoutBindingContext
+            bindingContext?: ko.BindingContext
         ) {
             const initInternal = async () => {
                 let disposed = false;

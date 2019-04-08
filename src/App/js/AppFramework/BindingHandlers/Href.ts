@@ -18,24 +18,22 @@ ko.bindingHandlers.href = {
         valueAccessor: () => HrefOptions,
         ignored1: any,
         ignored2: any,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
-        ko
-            .computed(() => {
-                const options = ko.unwrap<IRouteOptions | string>(valueAccessor());
-                if (!isRouteOptions(options)) {
-                    element.href = options;
-                    return;
-                }
+        ko.computed(() => {
+            const options = ko.unwrap<IRouteOptions | string>(valueAccessor());
+            if (!isRouteOptions(options)) {
+                element.href = options;
+                return;
+            }
 
-                const $app = bindingContext.$root as App,
-                    href = $app.router.getRoute(options.route, ko.toJS(options.params));
+            const $app = bindingContext.$root as App,
+                href = $app.router.getRoute(options.route, ko.toJS(options.params));
 
-                element.href = href;
-            })
-            .extend({
-                disposeWhenNodeIsRemoved: element
-            });
+            element.href = href;
+        }).extend({
+            disposeWhenNodeIsRemoved: element
+        });
     }
 };
 
@@ -45,25 +43,23 @@ ko.bindingHandlers.route = {
         valueAccessor: () => HrefOptions,
         ignored1: any,
         ignored2: any,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
-        ko
-            .computed(() => {
-                let options = ko.unwrap<IRouteOptions | string>(valueAccessor());
-                if (!isRouteOptions(options)) {
-                    options = {
-                        route: options
-                    } as IRouteOptions;
-                }
+        ko.computed(() => {
+            let options = ko.unwrap<IRouteOptions | string>(valueAccessor());
+            if (!isRouteOptions(options)) {
+                options = {
+                    route: options
+                } as IRouteOptions;
+            }
 
-                const $app = bindingContext.$root as App,
-                    href = $app.router.getRoute(options.route, ko.toJS(options.params));
+            const $app = bindingContext.$root as App,
+                href = $app.router.getRoute(options.route, ko.toJS(options.params));
 
-                element.href = href;
-            })
-            .extend({
-                disposeWhenNodeIsRemoved: element
-            });
+            element.href = href;
+        }).extend({
+            disposeWhenNodeIsRemoved: element
+        });
     },
     preprocess(input: string) {
         // We allow the following syntax:

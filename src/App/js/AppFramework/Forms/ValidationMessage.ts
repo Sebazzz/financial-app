@@ -2,8 +2,8 @@ import * as ko from 'knockout';
 import * as v from './ValidateableViewModel';
 import { Page } from 'AppFramework/Navigation/Page';
 
-function findValidateableViewModel(bindingContext: KnockoutBindingContext): v.ValidateableViewModel | null {
-    let currentBindingContext: KnockoutBindingContext | undefined = bindingContext,
+function findValidateableViewModel(bindingContext: ko.BindingContext): v.ValidateableViewModel | null {
+    let currentBindingContext: ko.BindingContext | undefined = bindingContext,
         viewModel = bindingContext.$data;
 
     while (!(viewModel instanceof v.ValidateableViewModel) && viewModel && !(viewModel instanceof Page) /* too far */) {
@@ -25,7 +25,7 @@ ko.bindingHandlers.validationMessage = {
         valueAccessor: () => string,
         allBindingsAccessor: ko.AllBindings,
         viewModel: any,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
         const validatable = findValidateableViewModel(bindingContext),
             property = valueAccessor(),
@@ -64,7 +64,7 @@ ko.bindingHandlers.validationProperty = {
         valueAccessor: () => string,
         allBindingsAccessor: ko.AllBindings,
         viewModel: any,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
         const validatable = findValidateableViewModel(bindingContext),
             property = valueAccessor();

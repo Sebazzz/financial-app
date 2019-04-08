@@ -2,7 +2,7 @@ import { Page } from 'AppFramework/Navigation/Page';
 
 const bindingContextPreprocessMarker = '__unnamedBindingContextExtender';
 
-export default function preprocessBindingContext(bindingContext: KnockoutBindingContext) {
+export default function preprocessBindingContext(bindingContext: ko.BindingContext) {
     const writeableBindingContext = bindingContext as any;
 
     if (writeableBindingContext[bindingContextPreprocessMarker]) {
@@ -15,7 +15,7 @@ export default function preprocessBindingContext(bindingContext: KnockoutBinding
             return page;
         }
 
-        let ctx: KnockoutBindingContext | undefined = bindingContext;
+        let ctx: ko.BindingContext | undefined = bindingContext;
         while (ctx) {
             if (ctx.$data instanceof Page) {
                 return (page = ctx.$data);

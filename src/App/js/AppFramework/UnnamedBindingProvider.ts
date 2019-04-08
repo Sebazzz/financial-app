@@ -1,15 +1,12 @@
 import extendBindingContext from './BindingContextExtender';
 import * as ko from 'knockout';
 
-interface IBindingAccessors {
-    [key: string]: string;
-}
 // tslint:disable-next-line:no-empty-interface
 interface IBindings {}
 type BindingMap = Array<{ key: string; value: string }>;
 type PreprocessBindings = (bindings: BindingMap | string, options: { valueAccessors: boolean }) => string;
 
-type BindingsFactory = (bindingContext: KnockoutBindingContext, node: Node) => IBindingAccessors;
+type BindingsFactory = (bindingContext: ko.BindingContext, node: Node) => ko.BindingAccessors;
 
 type ParsedAttributeBinding = [string, string[]];
 
@@ -316,7 +313,7 @@ function getEscapedPropertyValue(bindingName: string, bindingValue: string): [st
     return null;
 }
 
-function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext): IBindingAccessors | null {
+function getBindingAccessors(node: Node, bindingContext: ko.BindingContext): ko.BindingAccessors | null {
     if (!isElement(node) || !node.hasAttributes()) {
         return {};
     }
@@ -397,7 +394,7 @@ function getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext)
     return evaluator(bindingContext, node);
 }
 
-class UnnamedBindingProvider implements KnockoutBindingProvider {
+class UnnamedBindingProvider implements ko.IBindingProvider {
     public nodeHasBindings(node: Node): boolean {
         if (defaultBindingProvider.nodeHasBindings(node)) {
             if (DEBUG && nodeHasBindings(node)) {
@@ -412,11 +409,11 @@ class UnnamedBindingProvider implements KnockoutBindingProvider {
         return nodeHasBindings(node);
     }
 
-    public getBindings(node: Node, bindingContext: KnockoutBindingContext): IBindings {
+    public getBindings(node: Node, bindingContext: ko.BindingContext): IBindings {
         throw new Error('getBindings: not implemented');
     }
 
-    public getBindingAccessors(node: Node, bindingContext: KnockoutBindingContext): IBindingAccessors {
+    public getBindingAccessors(node: Node, bindingContext: ko.BindingContext): ko.BindingAccessors {
         extendBindingContext(bindingContext);
         transformInnerTextNodes(node);
 

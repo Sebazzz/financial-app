@@ -15,7 +15,7 @@ ko.bindingHandlers.cleave = {
         valueAccessor: () => any,
         allBindingsAccessor: ko.AllBindings,
         viewModel?: any,
-        bindingContext?: KnockoutBindingContext
+        bindingContext?: ko.BindingContext
     ): void {
         const app = bindingContext && bindingContext.$root;
 
@@ -67,7 +67,7 @@ ko.bindingHandlers.cleaveNumber = ko.bindingHandlers.cleaveCurrency = {
         valueAccessor: () => any,
         allBindingsAccessor: ko.AllBindings,
         viewModel?: any,
-        bindingContext?: KnockoutBindingContext
+        bindingContext?: ko.BindingContext
     ): void {
         const app = bindingContext && bindingContext.$root;
 

@@ -12,7 +12,7 @@ ko.bindingHandlers.responsiveRender = {
         valueAccessor: () => ResponsiveRenderMode,
         allBindingsAccessor: ko.AllBindings,
         viewModel: any,
-        bindingContext: KnockoutBindingContext
+        bindingContext: ko.BindingContext
     ) {
         const mode = valueAccessor(),
             shouldRender = ko.observable(checkShouldRender(isMobile()));
