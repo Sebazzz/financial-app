@@ -18,5 +18,5 @@ after_build:
     - ps: Get-ChildItem ./build/publish/* -File | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
     - ps: Get-ChildItem ./build/ -File | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 test_script:
-    - cmd: build.cmd -Target Test
+    - cmd: build.cmd --target=Test
 deploy: off
