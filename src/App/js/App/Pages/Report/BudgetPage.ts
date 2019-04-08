@@ -14,7 +14,7 @@ class BudgetReportPage extends Page {
     public hasPreselectedDate = ko.pureComputed(() => this.preselectedDate !== null);
 
     public sheets = ko.observableArray<sheet.ISheetListing>();
-    public budget = ko.observable<budget.IBudget>(null);
+    public budget = ko.observable<budget.IBudget | null>(null);
 
     public selectedSheet = ko.observable<sheet.ISheetListing>();
     public selectedDate = ko.pureComputed(() => {

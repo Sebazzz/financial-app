@@ -180,7 +180,7 @@ export class EditViewModel extends validate.ValidateableViewModel {
     public delta = ko.observable<number>();
     public source = ko.observable<string>();
     public sortOrder = ko.observable<number>(0);
-    public remark = ko.observable<string>(null);
+    public remark = ko.observable<string | null>(null);
     public account = ko.observable<AccountType>();
     public templateId = ko.observable<number>();
     public tags = ko.observableArray<number>();

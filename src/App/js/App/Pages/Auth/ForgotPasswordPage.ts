@@ -16,7 +16,7 @@ class AuthForgotPasswordPage extends FormPage {
 
     public success = ko.observable<boolean>(false);
 
-    public errorMessage = ko.observable<string>(null);
+    public errorMessage = ko.observable<string | null>(null);
 
     public disableForm = ko.pureComputed(() => this.isBusy() || this.success());
 

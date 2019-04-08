@@ -6,7 +6,7 @@ import { Api as AuthApi } from 'AppFramework/ServerApi/Authentication';
 import * as validate from 'AppFramework/Forms/ValidateableViewModel';
 
 class ConfirmEmailModel extends validate.ValidateableViewModel {
-    public key = ko.observable<string>(null);
+    public key = ko.observable<string | null>(null);
     public token = '';
 }
 
@@ -17,7 +17,7 @@ class AuthConfirmEmailModelPage extends FormPage {
 
     public success = ko.observable<boolean>(false);
 
-    public errorMessage = ko.observable<string>(null);
+    public errorMessage = ko.observable<string | null>(null);
 
     public disableForm = ko.pureComputed(() => this.isBusy() || this.success());
 

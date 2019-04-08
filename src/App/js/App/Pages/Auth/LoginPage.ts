@@ -4,15 +4,15 @@ import * as ko from 'knockout';
 import { IAuthenticationInfo } from 'AppFramework/ServerApi/Authentication';
 
 class AuthLoginPage extends Page {
-    public userName = ko.observable<string>(null);
-    public password = ko.observable<string>(null);
+    public userName = ko.observable<string | null>(null);
+    public password = ko.observable<string | null>(null);
     public persist = ko.observable<boolean>(true);
     public rememberMachine = ko.observable<boolean>(false);
 
     public success = ko.observable<boolean>(false);
 
     public isBusy = ko.observable<boolean>(false);
-    public errorMessage = ko.observable<string>(null);
+    public errorMessage = ko.observable<string | null>(null);
 
     public returnUrl = ko.observable<string | null>(null);
     public returnUrlIsDefaultPage = ko.pureComputed(
@@ -23,7 +23,7 @@ class AuthLoginPage extends Page {
     );
 
     public requireTwoFactorAuthentication = ko.observable<boolean>(false);
-    public twoFactorVerificationCode = ko.observable<string>(null);
+    public twoFactorVerificationCode = ko.observable<string | null>(null);
     public isEnteringRecoveryCode = ko.observable<boolean>(false);
 
     public disableForm = ko.pureComputed(() => this.isBusy() || this.success());

@@ -95,7 +95,7 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
 
     public isBusy = ko.observable<boolean>(false);
     public saveSuccess = ko.observable<boolean>();
-    public errorMessage = ko.observable<string>(null);
+    public errorMessage = ko.observable<string | null>(null);
 
     public enableMonthlyDigest = ko.observable<boolean>(false);
     public enableLoginNotifications = ko.observable<boolean>(false);
@@ -141,11 +141,11 @@ class PreferencesModel extends validate.ValidateableViewModel implements IFormPa
 class ChangePasswordModel extends validate.ValidateableViewModel implements IFormPage {
     private api = new account.Api();
 
-    public currentPassword = ko.observable<string>(null);
-    public newPassword = ko.observable<string>(null);
-    public newPasswordConfirm = ko.observable<string>(null);
+    public currentPassword = ko.observable<string | null>(null);
+    public newPassword = ko.observable<string | null>(null);
+    public newPasswordConfirm = ko.observable<string | null>(null);
 
-    public errorMessage = ko.observable<string>(null);
+    public errorMessage = ko.observable<string | null>(null);
     public isBusy = ko.observable<boolean>(false);
 
     constructor(private controller: modal.ModalController<ChangePasswordModel>) {
@@ -176,16 +176,16 @@ class ChangePasswordModel extends validate.ValidateableViewModel implements IFor
 class TwoFactorAuthenticationController {
     private api = new account.Api();
 
-    public twoFactorInfo = ko.observable<account.IAccountTwoFactorInfo>(null);
+    public twoFactorInfo = ko.observable<account.IAccountTwoFactorInfo | null>(null);
     public isEnabling = ko.observable<boolean>(false);
     public isEnabled = ko.pureComputed(() => this.twoFactorInfo() && this.twoFactorInfo()!.isEnabled);
     public isBusy = ko.observable<boolean>(false);
 
     public preEnableInfo = ko.observable<account.ITwoFactorPreEnableInfo>();
     public twoFactorVerificationCode = ko.observable<string>();
-    public errorMessage = ko.observable<string>(null);
+    public errorMessage = ko.observable<string | null>(null);
 
-    public recoveryCodes = ko.observable<string[]>(null);
+    public recoveryCodes = ko.observable<string[] | null>(null);
     public justEnabledTwoFactorAuthentication = ko.observable<boolean>(false);
 
     public recoveryKeysDisplayModal = new modal.ModalController<RecoveryKeysModel>(

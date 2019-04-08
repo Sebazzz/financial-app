@@ -108,9 +108,9 @@ class ImpersonatePage extends Page {
 class CompleteImpersonationModel extends validate.ValidateableViewModel implements IFormPage {
     private api = new userImpersonate.Api();
 
-    public securityToken = ko.observable<string>(null);
+    public securityToken = ko.observable<string | null>(null);
 
-    public errorMessage = ko.observable<string>(null);
+    public errorMessage = ko.observable<string | null>(null);
     public isBusy = ko.observable<boolean>(false);
 
     constructor(private controller: modal.ModalController<CompleteImpersonationModel>) {

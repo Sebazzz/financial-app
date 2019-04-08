@@ -33,7 +33,7 @@ class SheetPage extends FormPage {
 
     public availableTags = ko.observableArray<tag.ITag>();
     public availableCategories = ko.observableArray<category.ICategoryListing>();
-    public sheet = ko.observable<Sheet>(null);
+    public sheet = ko.observable<Sheet | null>(null);
 
     public sourceAutocompletionData = ko.observableArray<string>();
 
@@ -380,8 +380,8 @@ export class SheetEntry extends validate.ValidateableViewModel {
 
     public delta = ko.observable<number>();
 
-    public source = ko.observable<string>(null);
-    public remark = ko.observable<string>(null);
+    public source = ko.observable<string | null>(null);
+    public remark = ko.observable<string | null>(null);
 
     public sortOrder = ko.observable<number>(0);
 
