@@ -273,8 +273,8 @@ void UbuntuPublishTask(string taskId, string versionId, string description) {
 		.IsDependentOn(internalTaskName)
 		.Description($"Publish for {description}, output to {output}")
 		.Does(() => {
-		   CopyFile(File("./tools/distscripts/ubuntu/launch"), publishDir + File($"{versionId}/launch"));
-		   CopyFile(File("./tools/distscripts/ubuntu/launch.conf"), publishDir + File($"{versionId}/launch.conf.example"));
+		   CopyFile(File("./distscripts/ubuntu/launch"), publishDir + File($"{versionId}/launch"));
+		   CopyFile(File("./distscripts/ubuntu/launch.conf"), publishDir + File($"{versionId}/launch.conf.example"));
 		   GZipCompress(publishDir + Directory($"{versionId}/"), output);
 		});
 	
