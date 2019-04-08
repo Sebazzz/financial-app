@@ -4,7 +4,7 @@ import HttpClient from './ServerApi/HttpClient';
 
 export function register(appContext: AppContext) {
     const appVersion = appContext.versionStamp;
-    const defaultLoader = ko.components.defaultLoader;
+    const defaultLoader: ko.components.defaultLoader = ko.components.defaultLoader as any; // knockout/issues/2459
     const httpClient = HttpClient.create();
 
     ko.components.loaders.unshift({
