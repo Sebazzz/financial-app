@@ -427,13 +427,38 @@ class UnnamedBindingProvider implements ko.IBindingProvider {
             return defaultMethod.apply(defaultBindingProvider, [node, bindingContext]);
         }
 
-        const bindings = getBindingAccessors(node, bindingContext),
-            delegate = (ko.components as any).addBindingsForCustomElement;
+        const bindings = getBindingAccessors(node, bindingContext);
 
-        return delegate(bindings, node, bindingContext, /* valueAccessors */ true);
+        return AddBindingsForCustomElement.invoke(bindings || {}, node, bindingContext);
     }
 
     public static instance = new UnnamedBindingProvider();
+}
+
+/*
+ As of Knockout 3.5.0 ko.components.addBindingsForCustomElement is not exposed anymore,
+ but we can call it indirectly. This is in fact the only way to get the binding handler working.
+*/
+class AddBindingsForCustomElement extends ko.bindingProvider {
+    private constructor(private parsedBindings: ko.BindingAccessors) {
+        super();
+    }
+
+    public parseBindingsString() {
+        return this.parsedBindings;
+    }
+
+    public getBindingsString() {
+        return 'FAKE';
+    }
+
+    public static invoke(
+        parsedBindings: ko.BindingAccessors,
+        node: Node,
+        bindingContext: ko.BindingContext
+    ): ko.BindingAccessors {
+        return new AddBindingsForCustomElement(parsedBindings).getBindingAccessors(node, bindingContext);
+    }
 }
 
 export default function() {
