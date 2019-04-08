@@ -4,6 +4,7 @@ import { Format as NumberFormat } from 'AppFramework/Internationalization/Number
 import AppContext from 'AppFramework/AppContext';
 import * as api from 'App/ServerApi/SheetStatistics';
 import { ChartOptions } from 'chart.js';
+import * as ko from 'knockout';
 
 const offwhite = '#f8f9fa';
 

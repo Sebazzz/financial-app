@@ -11,6 +11,7 @@ import * as modal from 'AppFramework/Components/Modal';
 import * as popover from 'AppFramework/Components/Popover';
 
 import * as calculator from 'App/Services/Calculator';
+import * as ko from 'knockout';
 
 class TagsPage extends Page {
     private tagApi = new tag.Api();
