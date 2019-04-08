@@ -6,26 +6,33 @@
 <div data-bind="with: sheet">
     <p>
         <small>
-            Aangemaakt: <span data-bind="formatText: createTimestamp, format: '{0:d MMMM} om {0:t}'"></span> |
-            Laatst bijgewerkt: <span data-bind="formatText: updateTimestamp, format: '{0:d MMMM} om {0:t}'"></span>
+            Aangemaakt: <span data-bind="formatText: createTimestamp, format: '{0:d MMMM} om {0:t}'"></span> | Laatst
+            bijgewerkt: <span data-bind="formatText: updateTimestamp, format: '{0:d MMMM} om {0:t}'"></span>
         </small>
     </p>
-    
+
     <div class="alert alert-danger" data-bind="visible: $parent.errorMessage">
         <strong>Oeps!</strong> <span data-bind="text: $parent.errorMessage"></span>
-        
+
         <ul data-bind="visible: $parent.currentValidationErrors().length > 0, foreach: $parent.currentValidationErrors">
             <li data-bind="text: $data"></li>
         </ul>
     </div>
-    
+
     <div data-bind="with: $parent.expenseTrajectory">
-        <div class="card text-white bg-danger mb-3" style="max-width: 40rem;" data-bind="visible: unpayableExpenses.length > 0">
+        <div
+            class="card text-white bg-danger mb-3"
+            style="max-width: 40rem;"
+            data-bind="visible: unpayableExpenses.length > 0"
+        >
             <div class="card-header"><span class="far fa-credit-card"></span> Uitgavenwaarschuwing</div>
             <div class="card-body">
                 <p class="card-text" data-bind="visible: nextIncome, if: nextIncome">
-                    Let op! Er is tot de volgende inkomsten (<span data-bind="formatText: nextIncome.delta, format: 'c'"></span> via <span data-bind="text: nextIncome.source"></span>)
-                    onvoldoende geld beschikbaar om de volgende vaste lasten te kunnen betalen:
+                    Let op! Er is tot de volgende inkomsten (<span
+                        data-bind="formatText: nextIncome.delta, format: 'c'"
+                    ></span>
+                    via <span data-bind="text: nextIncome.source"></span>) onvoldoende geld beschikbaar om de volgende
+                    vaste lasten te kunnen betalen:
                 </p>
                 <p class="card-text" data-bind="hidden: nextIncome">
                     Let op! Er is onvoldoende geld beschikbaar om de volgende vaste lasten te kunnen betalen:
@@ -42,239 +49,284 @@
                         <tr>
                             <td data-bind="text: expense.source"></td>
                             <td data-bind="text: $page.categoryNameById(expense.categoryId)"></td>
-                            <td data-bind="css: {'balance-negative': expense.delta < 0 },
-                                           formatText: expense.delta, format: 'c'"></td>
+                            <td
+                                data-bind="css: {'balance-negative': expense.delta < 0 },
+                                           formatText: expense.delta, format: 'c'"
+                            ></td>
                         </tr>
                     </tbody>
                 </table>
 
-                <p class="card-text">Maak geld vrij om ervoor te zorgen dat de bovenstaande uitgaven afgeschreven kunnen worden.</p>
+                <p class="card-text">
+                    Maak geld vrij om ervoor te zorgen dat de bovenstaande uitgaven afgeschreven kunnen worden.
+                </p>
             </div>
         </div>
     </div>
-  
+
     <form name="sheetForm" novalidate>
         <table class="table table-sm table-responsive-sm table-sheet">
             <colgroup>
-                <col/>
-                <col/>
-                <col/>
-                <col/>
-                <col style="width: 10.5em"/>
+                <col />
+                <col />
+                <col />
+                <col />
+                <col style="width: 10.5em" />
             </colgroup>
 
             <!-- Header -->
             <thead>
-            <tr>
-                <th>
-                    Bron / reden
-                </th>
-                <th>
-                    Categorie
-                </th>
+                <tr>
+                    <th>
+                        Bron / reden
+                    </th>
+                    <th>
+                        Categorie
+                    </th>
 
-                <th>
-                    Betaalrekening
-                </th>
+                    <th>
+                        Betaalrekening
+                    </th>
 
-                <th>
-                    Spaarrekening
-                </th>
+                    <th>
+                        Spaarrekening
+                    </th>
 
-                <th>
-                    &nbsp; <!-- Column for action buttons-->
-                </th>
-            </tr>
+                    <th>
+                        &nbsp;
+                        <!-- Column for action buttons-->
+                    </th>
+                </tr>
 
-            <tr id="sheet-offset">
-                <td>Startbedrag</td>
-                <td>
-                    <a href="#"
-                        data-bind="href: $parent.previousSheetRoute,
-                                    formatText: $parent.previousDate, format: 'MMMM yyyy'"></a>
-                </td>
-                <td data-bind="formatText: offset.bankAccountOffset, format: 'c'"></td>
-                <td data-bind="formatText: offset.savingsAccountOffset, format: 'c'"></td>
-            </tr>
+                <tr id="sheet-offset">
+                    <td>Startbedrag</td>
+                    <td>
+                        <a
+                            href="#"
+                            data-bind="href: $parent.previousSheetRoute,
+                                    formatText: $parent.previousDate, format: 'MMMM yyyy'"
+                        ></a>
+                    </td>
+                    <td data-bind="formatText: offset.bankAccountOffset, format: 'c'"></td>
+                    <td data-bind="formatText: offset.savingsAccountOffset, format: 'c'"></td>
+                </tr>
             </thead>
 
             <!-- Body -->
             <tbody data-bind="foreach: entries">
-            <!-- ko if: editMode -->
-            <tr class="sheet-table__row"
-                ko-visible="editMode"
-                ko-css:*sheet-table__row--is-saving="isBusy"
-                ko-form:handler="$page.saveEntry"
-                ko-form:is-busy="isBusy">
-                <td>
-                    <div class="input-group input-group-sm" data-bind="validationProperty: source">
-                        <input type="text"
+                <!-- ko if: editMode -->
+                <tr
+                    class="sheet-table__row"
+                    ko-visible="editMode"
+                    ko-css:*sheet-table__row--is-saving="isBusy"
+                    ko-form:handler="$page.saveEntry"
+                    ko-form:is-busy="isBusy"
+                >
+                    <td>
+                        <div class="input-group input-group-sm" data-bind="validationProperty: source">
+                            <input
+                                type="text"
                                 placeholder="(winkel, vaste lasten, etc)"
                                 class="form-control form-control-sm"
                                 data-bind="value: source"
                                 maxlength="250"
                                 list="source-autocompletion"
-                                required/>
-                        <span class="input-group-append">
-                            <button class="btn btn-secondary btn-sm"
-                                    data-bind="click: $page.editRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bewerken'">
-                                <span class="fas fa-arrows-alt"></span>
-                            </button>
-                            <button class="btn btn-secondary btn-sm"
+                                required
+                            />
+                            <span class="input-group-append">
+                                <button
+                                    class="btn btn-secondary btn-sm"
+                                    data-bind="click: $page.editRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bewerken'"
+                                >
+                                    <span class="fas fa-arrows-alt"></span>
+                                </button>
+                                <button
+                                    class="btn btn-secondary btn-sm"
                                     ko-click="$page.editTagsOfEntry"
                                     ko-visible="$page.availableTags().length !== 0"
-                                    ko-tooltip#="Labels selecteren">
-                                <span class="fas fa-tags"></span>
-                            </button>
-                        </span>
-                    </div>
-                </td>
+                                    ko-tooltip#="Labels selecteren"
+                                >
+                                    <span class="fas fa-tags"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </td>
 
-                <td>
-                    <select id="categoryId"
+                    <td>
+                        <select
+                            id="categoryId"
                             data-bind="value: categoryId, options: $page.availableCategories, optionsText: 'name', optionsValue: 'id', optionsCaption: '-- maak een keuze--'"
                             class="custom-select form-control-sm"
-                            required>
-                        <option value="">-- maak een keuze --</option>
-                    </select>
-                </td>
+                            required
+                        >
+                            <option value="">-- maak een keuze --</option>
+                        </select>
+                    </td>
 
-                <td>
-                    <div data-bind="visible: account() === AccountType.BankAccount, css: { 'balance-negative': delta() < 0 }">
-                        <input type="text"
+                    <td>
+                        <div
+                            data-bind="visible: account() === AccountType.BankAccount, css: { 'balance-negative': delta() < 0 }"
+                        >
+                            <input
+                                type="text"
                                 data-bind="moneyInput: delta, validationProperty: delta"
                                 class="form-control form-control-sm"
-                                placeholder="(voer bedrag in, negatief of positief)" />
-                    </div>
-                    <div data-bind="visible: account() !== AccountType.BankAccount">
-                        <button class="btn btn-link"
-                                type="button"
-                                data-bind="click: toggleAccount">
-                            Bankrekening?
-                        </button>
-                    </div>
-                </td>
+                                placeholder="(voer bedrag in, negatief of positief)"
+                            />
+                        </div>
+                        <div data-bind="visible: account() !== AccountType.BankAccount">
+                            <button class="btn btn-link" type="button" data-bind="click: toggleAccount">
+                                Bankrekening?
+                            </button>
+                        </div>
+                    </td>
 
-                <td>
-                    <div data-bind="visible: account() === AccountType.SavingsAccount, css: { 'balance-negative': delta() < 0 },">
-                        <input type="text"
+                    <td>
+                        <div
+                            data-bind="visible: account() === AccountType.SavingsAccount, css: { 'balance-negative': delta() < 0 },"
+                        >
+                            <input
+                                type="text"
                                 data-bind="moneyInput: delta, validationProperty: delta"
                                 class="form-control form-control-sm"
-                                placeholder="(voer bedrag in, negatief of positief)" />
-                    </div>
-                    <div data-bind="visible: account() !== AccountType.SavingsAccount">
-                        <button class="btn btn-link"
+                                placeholder="(voer bedrag in, negatief of positief)"
+                            />
+                        </div>
+                        <div data-bind="visible: account() !== AccountType.SavingsAccount">
+                            <button class="btn btn-link" type="button" data-bind="click: toggleAccount">
+                                Spaarrekening?
+                            </button>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-primary" data-bind="disable: isBusy">
+                                <span class="far fa-save"></span>
+                            </button>
+                            <button class="btn btn-danger" data-bind="click: $page.deleteEntry, disable: isBusy">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                            <button type="button" class="btn btn-secondary" disabled="disabled">
+                                <span class="fas fa-arrow-up"></span>
+                            </button>
+                            <button type="button" class="btn btn-secondary" disabled="disabled">
+                                <span class="fas fa-arrow-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <!-- /ko -->
+
+                <!-- ko ifnot: editMode -->
+                <tr
+                    class="sheet-table__row"
+                    ko-hidden="editMode"
+                    ko-css:*sheet-table__row--is-saving="isBusy"
+                    ko-css:*sheet-table__row--is-transient="isTransient"
+                    ko-css:*sheet-table__row--is-new-since-last-visit="isNewSinceLastVisit"
+                    ko-tooltip:text="tooltip"
+                    ko-tooltip:force-open="isTransient"
+                >
+                    <td ko-style:*border-left-color="$page.getSheetEntryColor($data)" class="tagged-with-border">
+                        <span data-bind="text: source"></span>
+
+                        <a
+                            class="btn btn-link btn-sm pull-right"
+                            href="#"
+                            data-bind="visible: !!remark(), click: $page.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'"
+                        >
+                            <span class="fas fa-arrows-alt"></span>
+                        </a>
+
+                        <a
+                            class="btn btn-link btn-sm pull-right"
+                            href="#"
+                            ko-popover:controller="$page.tagViewerPopover"
+                            ko-visible="tags().length !== 0"
+                        >
+                            <span class="fas fa-tags"></span>
+                        </a>
+                    </td>
+
+                    <td data-bind="text: $page.categoryNameById(categoryId())"></td>
+
+                    <td>
+                        <div data-bind="visible: account() === AccountType.BankAccount">
+                            <span
+                                data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"
+                            ></span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div data-bind="visible: account() === AccountType.SavingsAccount">
+                            <span
+                                data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"
+                            ></span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="btn-group btn-group-sm" data-bind="hidden: isTransient">
+                            <button class="btn btn-primary" data-bind="disable: isBusy, click: toggleEdit">
+                                <span class="far fa-edit"></span>
+                            </button>
+                            <button class="btn btn-danger" data-bind="disable: isBusy, click: $page.deleteEntry">
+                                <span class="fas fa-trash"></span>
+                            </button>
+                            <button
                                 type="button"
-                                data-bind="click: toggleAccount">
-                            Spaarrekening?
-                        </button>
-                    </div>
-                </td>
-
-                <td>
-                    <div class="btn-group btn-group-sm">
-                        <button class="btn btn-primary" data-bind="disable: isBusy">
-                            <span class="far fa-save"></span>
-                        </button>
-                        <button class="btn btn-danger" data-bind="click: $page.deleteEntry, disable: isBusy">
-                            <span class="fas fa-trash"></span>
-                        </button>
-                        <button type="button" class="btn btn-secondary" disabled="disabled">
-                            <span class="fas fa-arrow-up"></span>
-                        </button>
-                        <button type="button" class="btn btn-secondary" disabled="disabled">
-                            <span class="fas fa-arrow-down"></span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <!-- /ko -->
-                
-            <!-- ko ifnot: editMode -->
-            <tr class="sheet-table__row"
-                ko-hidden="editMode"
-                ko-css:*sheet-table__row--is-saving="isBusy"
-                ko-css:*sheet-table__row--is-transient="isTransient"
-                ko-css:*sheet-table__row--is-new-since-last-visit="isNewSinceLastVisit"
-                ko-tooltip:text="tooltip"
-                ko-tooltip:force-open="isTransient"
-              >
-                <td ko-style:*border-left-color="$page.getSheetEntryColor($data)" 
-                    class="tagged-with-border">
-                    <span data-bind="text: source"></span>
-
-                    <a class="btn btn-link btn-sm pull-right" href="#"
-                       data-bind="visible: !!remark(), click: $page.showRemarksOfEntry, tooltip: 'Extra notities of opmerkingen bekijken'">
-                        <span class="fas fa-arrows-alt"></span>
-                    </a>
-                    
-                    <a class="btn btn-link btn-sm pull-right"
-                       href="#"
-                       ko-popover:controller="$page.tagViewerPopover"
-                       ko-visible="tags().length !== 0">
-                        <span class="fas fa-tags"></span>
-                    </a>
-                </td>
-
-                <td data-bind="text: $page.categoryNameById(categoryId())"></td>
-
-                <td>
-                    <div data-bind="visible: account() === AccountType.BankAccount">
-                        <span data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></span>
-                    </div>
-                </td>
-
-                <td>
-                    <div data-bind="visible: account() === AccountType.SavingsAccount">
-                        <span data-bind="css: { 'balance-negative': delta() < 0 }, formatText: delta, format: 'c'"></span>
-                    </div>
-                </td>
-
-                <td>
-                    <div class="btn-group btn-group-sm" data-bind="hidden: isTransient">
-                        <button class="btn btn-primary" data-bind="disable: isBusy, click: toggleEdit">
-                            <span class="far fa-edit"></span>
-                        </button>
-                        <button class="btn btn-danger" data-bind="disable: isBusy, click: $page.deleteEntry">
-                            <span class="fas fa-trash"></span>
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Decrease), disable: isBusy">
-                            <span class="fas fa-arrow-up"></span>
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Increase), disable: isBusy">
-                            <span class="fas fa-arrow-down"></span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <!-- /ko -->
+                                class="btn btn-secondary"
+                                data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Decrease), disable: isBusy"
+                            >
+                                <span class="fas fa-arrow-up"></span>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bind="click: $page.mutateSortOrderHandler($data, SortOrderMutation.Increase), disable: isBusy"
+                            >
+                                <span class="fas fa-arrow-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <!-- /ko -->
             </tbody>
 
             <!-- Footer -->
             <tfoot>
-            <tr data-bind="with: { expenseTrajectory: $parent.expenseTrajectory, totals: $parent.totals }">
-                <td colspan="2">
-                    &nbsp;
-                </td>
+                <tr data-bind="with: { expenseTrajectory: $parent.expenseTrajectory, totals: $parent.totals }">
+                    <td colspan="2">
+                        &nbsp;
+                    </td>
 
-                <td>
-                    <span data-bind="css: { 'balance-negative': totals().bankAccount < 0 },
-                                        formatText: totals().bankAccount, format: 'c'"></span>
-                    <span data-bind="css: { 'balance-negative': expenseTrajectory().totalBankWithExpense < 0 },
-                                        visible: expenseTrajectory().totalBankWithExpense != totals().bankAccount">
-                        (<span data-bind="formatText: expenseTrajectory().totalBankWithExpense, format: 'c'"></span>)
-                    </span>
-                </td>
+                    <td>
+                        <span
+                            data-bind="css: { 'balance-negative': totals().bankAccount < 0 },
+                                        formatText: totals().bankAccount, format: 'c'"
+                        ></span>
+                        <span
+                            data-bind="css: { 'balance-negative': expenseTrajectory().totalBankWithExpense < 0 },
+                                        visible: expenseTrajectory().totalBankWithExpense != totals().bankAccount"
+                        >
+                            (<span data-bind="formatText: expenseTrajectory().totalBankWithExpense, format: 'c'"></span
+                            >)
+                        </span>
+                    </td>
 
-                <td>
-                    <span data-bind="css: { 'balance-negative': totals().savingsAccount < 0 },
-                                        formatText: totals().savingsAccount, format: 'c'"></span>
-                </td>
+                    <td>
+                        <span
+                            data-bind="css: { 'balance-negative': totals().savingsAccount < 0 },
+                                        formatText: totals().savingsAccount, format: 'c'"
+                        ></span>
+                    </td>
 
-                <td>
-                    &nbsp;
-                </td>
-            </tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
             </tfoot>
         </table>
         <div class="btn-toolbar" style="float: right;" role="toolbar">
@@ -285,7 +337,12 @@
 
                         Toevoegen
                     </button>
-                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bind="hidden: unusedTemplates().length === 0" data-toggle="dropdown">
+                    <button
+                        type="button"
+                        class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                        data-bind="hidden: unusedTemplates().length === 0"
+                        data-toggle="dropdown"
+                    >
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu" data-bind="foreach: unusedTemplates">
@@ -295,39 +352,37 @@
             </div>
 
             <div class="btn-group" role="group">
-                <a href="#"
-                   class="btn btn-secondary"
-                   data-bind="route: archive.sheet.statistics | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }">
+                <a
+                    href="#"
+                    class="btn btn-secondary"
+                    data-bind="route: archive.sheet.statistics | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }"
+                >
                     <span class="fas fa-chart-bar"></span>
                     Rapportage
                 </a>
-                
-                <a class="btn btn-secondary"
-                   data-bind="route: archive.sheet.budget | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }, tooltip: 'Vergelijking met begroting'">
+
+                <a
+                    class="btn btn-secondary"
+                    data-bind="route: archive.sheet.budget | { month: $parent.date().getMonth() + 1, year: $parent.date().getFullYear() }, tooltip: 'Vergelijking met begroting'"
+                >
                     <span class="fas fa-table"></span>
-                    
+
                     Begroting
                 </a>
             </div>
         </div>
-        
+
         <a href="#" data-bind="route: archive" class="btn btn-link">Terug naar archief</a>
     </form>
 </div>
 
 <popover params="controller: tagSelectionPopover">
     <!-- ko lookupScope: { data: tags, source: $page.availableTags, selector: 'id' } -->
-    <ul ko-foreach:data="$page.availableTags"
-        ko-foreach:as#="tag"
-        class="tag-list">
+    <ul ko-foreach:data="$page.availableTags" ko-foreach:as#="tag" class="tag-list">
         <li>
             <label class="custom-control custom-checkbox tag-item" ko-tag-styling="tag">
-                <input type="checkbox" class="custom-control-input"
-                       ko-checked-value="$data"
-                       ko-checked="$parentContext.$lookup">
-                <span class="custom-control-label"
-                      ko-text="name"
-                      ko-tooltip="description"></span>
+                <input type="checkbox" class="custom-control-input" ko-checked-value="$data" ko-checked="$lookup" />
+                <span class="custom-control-label" ko-text="name" ko-tooltip="description"></span>
             </label>
         </li>
     </ul>
@@ -336,27 +391,24 @@
 
 <popover params="controller: tagViewerPopover">
     <!-- ko lookupScope: { data: tags, source: $page.availableTags, selector: 'id' } -->
-    <ul ko-foreach:data="$lookup"
-        ko-foreach:as#="tag"
-        class="tag-list">
+    <ul ko-foreach:data="$lookup" ko-foreach:as#="tag" class="tag-list">
         <li>
-            <span class="tag-item"
-                  ko-tag-styling="tag"
-                  ko-text="tag.name"
-                  ko-tooltip="tag.description">
-            </span>
+            <span class="tag-item" ko-tag-styling="tag" ko-text="tag.name" ko-tooltip="tag.description"> </span>
         </li>
     </ul>
     <!-- /ko -->
 </popover>
 
 <modal params="controller: remarksEditModal">
-    <textarea class="form-control" data-bind="textInput: content" placeholder="(eventuele extra opmerkingen, notities, etc)"></textarea>
+    <textarea
+        class="form-control"
+        data-bind="textInput: content"
+        placeholder="(eventuele extra opmerkingen, notities, etc)"
+    ></textarea>
 </modal>
 
 <modal params="controller: remarksDisplayModal">
     <p data-bind="text: content" class="preserve-whitespace"></p>
 </modal>
 
-<datalist id="source-autocompletion"
-          ko-data-list="$page.sourceAutocompletionData"></datalist>
+<datalist id="source-autocompletion" ko-data-list="$page.sourceAutocompletionData"></datalist>

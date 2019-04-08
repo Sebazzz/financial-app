@@ -9,32 +9,50 @@
     <ul ko-foreach:data="sheets" ko-foreach:as#="sheet" class="touch-list touch-list--full-width">
         <li class="touch-list__item touch-list__item--is-swipeable swipeable" ko-swipe-actions>
             <div class="swipeable__action-container swipeable__action-container-left">
-                <a class="swipeable__action swipeable__action-left bg-primary" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }">
+                <a
+                    class="swipeable__action swipeable__action-left bg-primary"
+                    data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year }"
+                >
                     <span class="swipeable__action-icon"><span class="far fa-edit"></span></span>
                     <span class="swipeable__action-label">Bewerken</span>
                 </a>
             </div>
 
             <div class="swipeable__action-container swipeable__action-container-right">
-                <a class="swipeable__action bg-info" data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }">
+                <a
+                    class="swipeable__action bg-info"
+                    data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }"
+                >
                     <span class="swipeable__action-icon"><span class="fas fa-chart-bar"></span></span>
                     <span class="swipeable__action-label">Statistieken</span>
                 </a>
 
-                <a class="swipeable__action bg-secondary" data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }">
+                <a
+                    class="swipeable__action bg-secondary"
+                    data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }"
+                >
                     <span class="swipeable__action-icon"><span class="fas fa-table"></span></span>
                     <span class="swipeable__action-label">Budget</span>
                 </a>
             </div>
 
             <div class="swipeable__body touch-list__item-body">
-                <a href="#" class="touch-list__item-title swipeable__primary-action" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
-                            text: $parent.displayName(sheet)"></a>
+                <a
+                    href="#"
+                    class="touch-list__item-title swipeable__primary-action"
+                    data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                            text: displayName(sheet)"
+                ></a>
                 <div class="touch-list__item-details">
-                    <span data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative':
-                                sheet.totals.bankAccount < 0 }">
-                    </span> |
-                    <span data-bind="formatText: sheet.totals.savingsAccount, format: 'c', css: {'balance-negative': sheet.totals.savingsAccount < 0 }"></span>
+                    <span
+                        data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative':
+                                sheet.totals.bankAccount < 0 }"
+                    >
+                    </span>
+                    |
+                    <span
+                        data-bind="formatText: sheet.totals.savingsAccount, format: 'c', css: {'balance-negative': sheet.totals.savingsAccount < 0 }"
+                    ></span>
                 </div>
             </div>
         </li>
@@ -46,22 +64,39 @@
         <tbody data-bind="foreach: { data: sheets, as: 'sheet' }">
             <tr>
                 <td>
-
-                    <a href="#" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
-                              text: $parent.displayName(sheet)"></a>
+                    <a
+                        href="#"
+                        data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                              text: displayName(sheet)"
+                    ></a>
                 </td>
 
-                <td class="col-number" data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative': sheet.totals.bankAccount < 0 }"></td>
-                <td class="col-number" data-bind="formatText: sheet.totals.savingsAccount, format: 'c', css: {'balance-negative': sheet.totals.savingsAccount < 0 }"></td>
+                <td
+                    class="col-number"
+                    data-bind="formatText: sheet.totals.bankAccount, format: 'c', css: {'balance-negative': sheet.totals.bankAccount < 0 }"
+                ></td>
+                <td
+                    class="col-number"
+                    data-bind="formatText: sheet.totals.savingsAccount, format: 'c', css: {'balance-negative': sheet.totals.savingsAccount < 0 }"
+                ></td>
                 <td class="col-actions">
-                    <a class="btn btn-secondary" data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
-                            tooltip: 'Bewerken'">
+                    <a
+                        class="btn btn-secondary"
+                        data-bind="route: archive.sheet | {month: sheet.month, year: sheet.year },
+                            tooltip: 'Bewerken'"
+                    >
                         <span class="far fa-edit"></span>
                     </a>
-                    <a class="btn btn-secondary" data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }, tooltip: 'Rapportage'">
+                    <a
+                        class="btn btn-secondary"
+                        data-bind="route: archive.sheet.statistics | {month: sheet.month, year: sheet.year }, tooltip: 'Rapportage'"
+                    >
                         <span class="fas fa-chart-bar"></span>
                     </a>
-                    <a class="btn btn-secondary" data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }, tooltip: 'Vergelijking met begroting'">
+                    <a
+                        class="btn btn-secondary"
+                        data-bind="route: archive.sheet.budget | {month: sheet.month, year: sheet.year }, tooltip: 'Vergelijking met begroting'"
+                    >
                         <span class="fas fa-table"></span>
                     </a>
                 </td>
