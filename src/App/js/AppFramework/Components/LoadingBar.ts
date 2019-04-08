@@ -10,7 +10,7 @@ const settings = {
     latencyThreshold: 100
 };
 
-class LoadingBarComponentModel implements IHttpInterceptor {
+class LoadingBarComponentModel implements IHttpInterceptor, ko.components.ViewModel {
     private $element: JQuery<Element>;
     private status = 0;
     private increaseTimeoutHandle: number = 0;
@@ -32,6 +32,10 @@ class LoadingBarComponentModel implements IHttpInterceptor {
         this.requestCompleted = this.requestCompleted.bind(this);
 
         console.log('LoadingBar started [%s]', this.appContext.title);
+    }
+
+    public dispose() {
+        // STFU tsc
     }
 
     public interceptRequest() {
@@ -161,7 +165,7 @@ class LoadingBarComponentModel implements IHttpInterceptor {
     }
 }
 
-class LoadingBarComponent implements KnockoutComponentTypes.ComponentConfig {
+class LoadingBarComponent implements ko.components.Config {
     private appContext: AppContext;
 
     public template = require<string>('./templates/loading-bar.html');

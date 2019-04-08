@@ -235,7 +235,7 @@ class ModalComponentComponentModel {
     }
 }
 
-class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
+class ModalComponent implements ko.components.Config {
     public template = null;
 
     public viewModel: ko.components.ViewModelFactory = {

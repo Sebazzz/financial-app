@@ -157,7 +157,7 @@ export interface IPopoverParams {
     controller: PopoverController;
 }
 
-class PopoverComponent implements KnockoutComponentTypes.ComponentConfig {
+class PopoverComponent implements ko.components.Config {
     public template = '<span></span>';
 
     public viewModel: ko.components.ViewModelFactory = {
