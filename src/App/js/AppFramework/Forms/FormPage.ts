@@ -4,7 +4,7 @@ import AppContext from '../AppContext';
 import { ValidateableViewModel } from 'AppFramework/Forms/ValidateableViewModel';
 
 export interface IFormPage {
-    isBusy: KnockoutObservable<boolean>;
+    isBusy: ko.Observable<boolean>;
 
     /**
      * Called when the form submits. May throw an exception containing validation errors.
@@ -12,7 +12,7 @@ export interface IFormPage {
      */
     save(viewModel: ValidateableViewModel, submissionName?: string | null): Promise<void>;
 
-    errorMessage: KnockoutObservable<string | null>;
+    errorMessage: ko.Observable<string | null>;
 }
 
 export default abstract class FormPage extends Page implements IFormPage {

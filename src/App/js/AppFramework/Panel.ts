@@ -12,7 +12,7 @@ export enum LoadingStatus {
 export type ActivationPromise = Promise<void>;
 
 export interface IPanel {
-    loadStatus: KnockoutObservable<LoadingStatus>;
+    loadStatus: ko.Observable<LoadingStatus>;
 
     activate(): Promise<void>;
 

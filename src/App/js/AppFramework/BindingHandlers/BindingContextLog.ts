@@ -2,7 +2,7 @@ import * as ko from 'knockout';
 
 const noImplMarker = new Object().toString();
 
-function getName(input: any | KnockoutObservable<any> | undefined | null): string {
+function getName(input: any | ko.Observable<any> | undefined | null): string {
     const unwrapped = ko.unwrap(input);
 
     let toString: string;

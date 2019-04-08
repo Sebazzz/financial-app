@@ -3,17 +3,17 @@ import * as $ from 'jquery';
 import 'bootstrap/js/dist/tooltip';
 
 interface ITooltipOptions {
-    text: KnockoutObservable<string> | string;
-    forceOpen: KnockoutObservable<boolean> | boolean;
+    text: ko.Observable<string> | string;
+    forceOpen: ko.Observable<boolean> | boolean;
 }
 
-type TooltipOptions = KnockoutObservable<string> | string | ITooltipOptions;
+type TooltipOptions = ko.Observable<string> | string | ITooltipOptions;
 
 function getTooltipOptions(input: TooltipOptions) {
     const textMaybeString = ko.unwrap<string | ITooltipOptions>(input);
     if (typeof textMaybeString === 'string') {
         return {
-            text: input as KnockoutObservable<string> | string,
+            text: input as ko.Observable<string> | string,
             forceOpen: false
         };
     }

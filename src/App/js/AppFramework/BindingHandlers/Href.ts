@@ -10,7 +10,7 @@ function isRouteOptions(item: string | IRouteOptions): item is IRouteOptions {
     return typeof item !== 'string';
 }
 
-type HrefOptions = KnockoutObservable<string> | string | KnockoutObservable<IRouteOptions> | IRouteOptions;
+type HrefOptions = ko.Observable<string> | string | ko.Observable<IRouteOptions> | IRouteOptions;
 
 ko.bindingHandlers.href = {
     init(

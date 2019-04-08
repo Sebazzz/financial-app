@@ -475,7 +475,7 @@ export class Sheet {
 
 export class RemarksModel {
     public content = ko.observable<string | null>(null);
-    public editMode: KnockoutObservable<boolean>;
+    public editMode: ko.Observable<boolean>;
 
     constructor(private sheetEntry: SheetEntry) {
         this.content(sheetEntry.remark());

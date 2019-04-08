@@ -176,7 +176,7 @@ interface IPropertyAccessor {
 
 class KnockoutPropertyAccessor implements IPropertyAccessor {
     public set(object: Object, name: string, value: any) {
-        const observable = (object as any)[name] as KnockoutObservable<any>;
+        const observable = (object as any)[name] as ko.Observable<any>;
 
         observable(value);
     }

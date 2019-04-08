@@ -50,7 +50,7 @@ function parseValue(element: HTMLInputElement, culture: Culture): number {
 }
 
 ko.bindingHandlers.moneyInput = {
-    init(element: HTMLInputElement, valueAccessor: () => KnockoutObservable<number | null> | number | null): void {
+    init(element: HTMLInputElement, valueAccessor: () => ko.Observable<number | null> | number | null): void {
         element.classList.add('input-money');
         element.type = 'number';
         element.step = '0.01';

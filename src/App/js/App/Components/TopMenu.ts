@@ -98,7 +98,7 @@ class TopMenu extends framework.Panel {
         }
     }
 
-    public hasLocation(paramRaw: string | KnockoutObservable<string>) {
+    public hasLocation(paramRaw: string | ko.Observable<string>) {
         const isMatch = (param: string) => {
             const matchRouteNode = param.indexOf('/') === -1;
             let isMatch: boolean;
