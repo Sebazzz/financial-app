@@ -12,7 +12,7 @@ export interface IJsonMetaData<T> {
     /**
      * Constructor of the type. Required for observables, because Typescript doesn't encode the generic type arguments in the metadata: https://github.com/Microsoft/TypeScript/issues/3015
      */
-    clazz?: { new (): T };
+    clazz?: new () => T;
 
     /**
      * Factory method for class
@@ -99,7 +99,7 @@ export class MapUtils {
         return Reflect.getMetadata(jsonMetadataKey, target, propertyKey);
     }
 
-    public static deserialize<T>(ctor: { new (): T }, jsonObject: any): T | undefined {
+    public static deserialize<T>(ctor: new () => T, jsonObject: any): T | undefined {
         if (ctor === undefined || jsonObject === undefined) {
             return undefined;
         }
@@ -171,11 +171,11 @@ export class MapUtils {
 }
 
 interface IPropertyAccessor {
-    set(object: Object, name: string, value: any): void;
+    set(object: any, name: string, value: any): void;
 }
 
 class KnockoutPropertyAccessor implements IPropertyAccessor {
-    public set(object: Object, name: string, value: any) {
+    public set(object: any, name: string, value: any) {
         const observable = (object as any)[name] as ko.Observable<any>;
 
         observable(value);
@@ -185,7 +185,7 @@ class KnockoutPropertyAccessor implements IPropertyAccessor {
 }
 
 class RegularPropertyAccessor implements IPropertyAccessor {
-    public set(object: Object, name: string, value: any) {
+    public set(object: any, name: string, value: any) {
         (object as any)[name] = value;
     }
 
