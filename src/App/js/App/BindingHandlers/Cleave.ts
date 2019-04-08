@@ -13,7 +13,7 @@ ko.bindingHandlers.cleave = {
     init(
         element: HTMLInputElement,
         valueAccessor: () => any,
-        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        allBindingsAccessor: ko.AllBindings,
         viewModel?: any,
         bindingContext?: KnockoutBindingContext
     ): void {
@@ -65,7 +65,7 @@ ko.bindingHandlers.cleaveNumber = ko.bindingHandlers.cleaveCurrency = {
     init(
         element: HTMLInputElement,
         valueAccessor: () => any,
-        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        allBindingsAccessor: ko.AllBindings,
         viewModel?: any,
         bindingContext?: KnockoutBindingContext
     ): void {

@@ -6,7 +6,7 @@ function initChart(
     chartLoader: IChartLoader,
     element: HTMLCanvasElement,
     valueAccessor: () => any,
-    allBindingsAccessor: KnockoutAllBindingsAccessor
+    allBindingsAccessor: ko.AllBindings
 ) {
     if (element.tagName.toUpperCase() !== 'CANVAS') {
         throw new Error('Invalid tag name: This item should be applied to canvas');
@@ -52,7 +52,7 @@ registerLazyBindingHandler(
             library: IChartLoader,
             element: HTMLCanvasElement,
             valueAccessor: () => any,
-            allBindingsAccessor: KnockoutAllBindingsAccessor /* viewModel?: any, bindingContext?: KnockoutBindingContext*/
+            allBindingsAccessor: ko.AllBindings /* viewModel?: any, bindingContext?: KnockoutBindingContext*/
         ) {
             initChart(library, element, valueAccessor, allBindingsAccessor);
         }

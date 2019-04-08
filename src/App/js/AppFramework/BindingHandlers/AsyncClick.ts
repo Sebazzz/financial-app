@@ -6,7 +6,7 @@ ko.bindingHandlers.asyncClick = {
     init<TViewModel>(
         element: HTMLButtonElement,
         valueAccessor: () => AsyncClickHandler<TViewModel>,
-        _: KnockoutAllBindingsAccessor,
+        _: ko.AllBindings,
         viewModel: TViewModel
     ) {
         ko.utils.registerEventHandler(element, 'click', (event: MouseEvent) => {

@@ -36,7 +36,7 @@ ko.bindingHandlers.form = {
     init(
         element: HTMLElement,
         valueAccessor: () => IFormOptions | undefined,
-        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        allBindingsAccessor: ko.AllBindings,
         viewModel: ValidateableViewModel,
         bindingContext: KnockoutBindingContext
     ) {

@@ -10,7 +10,7 @@ ko.bindingHandlers.responsiveRender = {
     init(
         element: Node,
         valueAccessor: () => ResponsiveRenderMode,
-        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        allBindingsAccessor: ko.AllBindings,
         viewModel: any,
         bindingContext: KnockoutBindingContext
     ) {

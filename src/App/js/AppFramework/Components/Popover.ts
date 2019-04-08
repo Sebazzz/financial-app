@@ -185,7 +185,7 @@ export default function register() {
                 controller: PopoverController;
                 data: any | DataFactory;
             },
-            allBindingsAccessor: KnockoutAllBindingsAccessor,
+            allBindingsAccessor: ko.AllBindings,
             viewModel: any,
             bindingContext: KnockoutBindingContext
         ): void {

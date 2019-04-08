@@ -23,7 +23,7 @@ ko.bindingHandlers.validationMessage = {
     init(
         element: HTMLElement,
         valueAccessor: () => string,
-        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        allBindingsAccessor: ko.AllBindings,
         viewModel: any,
         bindingContext: KnockoutBindingContext
     ) {
@@ -62,7 +62,7 @@ ko.bindingHandlers.validationProperty = {
     init(
         element: HTMLInputElement,
         valueAccessor: () => string,
-        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        allBindingsAccessor: ko.AllBindings,
         viewModel: any,
         bindingContext: KnockoutBindingContext
     ) {

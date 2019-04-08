@@ -28,7 +28,7 @@ ko.bindingHandlers.asyncLoadingPanel = {
     init<T>(
         element: Element,
         valueAccessor: () => AsyncDataSource<T>,
-        allBindingsAccessor: KnockoutAllBindingsAccessor,
+        allBindingsAccessor: ko.AllBindings,
         viewModel: any,
         bindingContext: KnockoutBindingContext
     ) {

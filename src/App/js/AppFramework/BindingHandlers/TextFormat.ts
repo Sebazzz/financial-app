@@ -4,7 +4,7 @@ import * as $ from 'jquery';
 import { compositeFormat, toString as valueToString } from 'AppFramework/Internationalization/String';
 
 ko.bindingHandlers.formatText = {
-    init(element: HTMLElement, valueAccessor: () => any | undefined, allBindingsAccessor: KnockoutAllBindingsAccessor) {
+    init(element: HTMLElement, valueAccessor: () => any | undefined, allBindingsAccessor: ko.AllBindings) {
         const $element = $(element);
 
         ko.computed(() => {

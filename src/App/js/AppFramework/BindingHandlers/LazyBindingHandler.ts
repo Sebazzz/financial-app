@@ -9,7 +9,7 @@ export interface IPartialBindingHandler<T> {
         library: T,
         element: any,
         valueAccessor: () => any,
-        allBindingsAccessor?: KnockoutAllBindingsAccessor,
+        allBindingsAccessor?: ko.AllBindings,
         viewModel?: any,
         bindingContext?: KnockoutBindingContext
     ) => void;
@@ -25,7 +25,7 @@ export default function register<T>(
         init(
             element: Element,
             valueAccessor: () => any,
-            allBindingsAccessor?: KnockoutAllBindingsAccessor,
+            allBindingsAccessor?: ko.AllBindings,
             viewModel?: any,
             bindingContext?: KnockoutBindingContext
         ) {
