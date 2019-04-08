@@ -118,7 +118,8 @@ class TopMenu extends framework.Panel {
         };
 
         return ko.pureComputed(() => {
-            const requestingNowPath = paramRaw === this.nowPath,
+            const nowPath = ko.unwrap(this.nowPath),
+                requestingNowPath = paramRaw === nowPath,
                 param = ko.unwrap(paramRaw);
 
             let matchingParam = isMatch(param);
