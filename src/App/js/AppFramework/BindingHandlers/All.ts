@@ -2,7 +2,6 @@
 import './AsyncClick';
 import './Tooltip';
 import './Form';
-import './Hidden';
 import './DataList';
 import './TextFormat';
 import './LookupScope';
