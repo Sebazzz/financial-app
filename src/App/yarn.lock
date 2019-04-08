@@ -58,11 +58,6 @@
   dependencies:
     "@types/sizzle" "*"
 
-"@types/knockout@3.4.64":
-  version "3.4.64"
-  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.64.tgz#50c5970545a8b2c9aa60b64994a99a722227548c"
-  integrity sha512-9RI6yMmXx7imrphme3BPAQAnwRScs9zho1PAeQbv8BqdNhYrDyrC3Inuc0S+3fgzOi8wH4sdWxG06CJfVieaIQ==
-
 "@types/mocha@5.2.6":
   version "5.2.6"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.6.tgz#b8622d50557dd155e9f2f634b7d68fd38de5e94b"
@@ -3898,9 +3893,10 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
   integrity sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
 
-knockout@3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/knockout/-/knockout-3.4.2.tgz#e87958de77ad1e936f7ce645bab8b5d7c456d937"
+knockout@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/knockout/-/knockout-3.5.0.tgz#6d3e19bf53b1dc4d8de81c97a5ba9672443dc292"
+  integrity sha512-vBUF/IsBDzaejHkNpiquKdc5uPrImXuQ4Mb9lEfNNJ5cyHGI8ThDupR+h3eMFZhfmPE/brfwcIAn/fm0yOvJUg==
 
 lazy-debug-legacy@0.0.X:
   version "0.0.1"
