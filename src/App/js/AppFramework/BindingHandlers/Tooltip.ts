@@ -25,35 +25,39 @@ ko.bindingHandlers.tooltip = {
     init(element: HTMLElement, valueAccessor: () => TooltipOptions) {
         const $element = $(element);
 
-        ko.computed(() => {
-            const options = getTooltipOptions(valueAccessor());
-            const text = options && ko.unwrap(options.text);
-            if (!text) {
-                return;
-            }
-
-            const forceOpen = ko.unwrap(options.forceOpen);
-            const trigger = forceOpen ? 'manual' : 'hover focus';
-
-            $element.tooltip('dispose');
-            $element.tooltip({
-                title: text,
-                trigger
-            });
-
-            if (forceOpen && $element.is(':visible')) {
-                try {
-                    $element.tooltip('show');
-                } catch (e) {
-                    console.warn(e);
-
-                    // This may fail on tooltips of which the element is not visible,
-                    // for instance a tooltip in the menu on mobile
+        ko.computed(
+            () => {
+                const options = getTooltipOptions(valueAccessor());
+                const text = options && ko.unwrap(options.text);
+                if (!text) {
+                    return;
                 }
+
+                const forceOpen = ko.unwrap(options.forceOpen);
+                const trigger = forceOpen ? 'manual' : 'hover focus';
+
+                $element.tooltip('dispose');
+                $element.tooltip({
+                    title: text,
+                    trigger
+                });
+
+                if (forceOpen && $element.is(':visible')) {
+                    try {
+                        $element.tooltip('show');
+                    } catch (e) {
+                        console.warn(e);
+
+                        // This may fail on tooltips of which the element is not visible,
+                        // for instance a tooltip in the menu on mobile
+                    }
+                }
+            },
+            null,
+            {
+                disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */
             }
-        }).extend({
-            disposeWhenNodeIsRemoved: element
-        });
+        );
 
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => {
             const tooltip = $element.data('bs.tooltip'),

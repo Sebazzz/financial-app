@@ -97,6 +97,8 @@ ko.bindingHandlers.form = {
         }
 
         const $buttons = $(element).find('button');
-        ko.computed(() => $buttons.prop('disabled', options.isBusy())).extend({ disposeWhenNodeIsRemoved: element });
+        ko.computed(() => $buttons.prop('disabled', options.isBusy()), null, {
+            disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */
+        });
     }
 };

@@ -20,20 +20,24 @@ ko.bindingHandlers.href = {
         ignored2: any,
         bindingContext: ko.BindingContext
     ) {
-        ko.computed(() => {
-            const options = ko.unwrap<IRouteOptions | string>(valueAccessor());
-            if (!isRouteOptions(options)) {
-                element.href = options;
-                return;
+        ko.computed(
+            () => {
+                const options = ko.unwrap<IRouteOptions | string>(valueAccessor());
+                if (!isRouteOptions(options)) {
+                    element.href = options;
+                    return;
+                }
+
+                const $app = bindingContext.$root as App,
+                    href = $app.router.getRoute(options.route, ko.toJS(options.params));
+
+                element.href = href;
+            },
+            null,
+            {
+                disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */
             }
-
-            const $app = bindingContext.$root as App,
-                href = $app.router.getRoute(options.route, ko.toJS(options.params));
-
-            element.href = href;
-        }).extend({
-            disposeWhenNodeIsRemoved: element
-        });
+        );
     }
 };
 
@@ -45,21 +49,25 @@ ko.bindingHandlers.route = {
         ignored2: any,
         bindingContext: ko.BindingContext
     ) {
-        ko.computed(() => {
-            let options = ko.unwrap<IRouteOptions | string>(valueAccessor());
-            if (!isRouteOptions(options)) {
-                options = {
-                    route: options
-                } as IRouteOptions;
+        ko.computed(
+            () => {
+                let options = ko.unwrap<IRouteOptions | string>(valueAccessor());
+                if (!isRouteOptions(options)) {
+                    options = {
+                        route: options
+                    } as IRouteOptions;
+                }
+
+                const $app = bindingContext.$root as App,
+                    href = $app.router.getRoute(options.route, ko.toJS(options.params));
+
+                element.href = href;
+            },
+            null,
+            {
+                disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */
             }
-
-            const $app = bindingContext.$root as App,
-                href = $app.router.getRoute(options.route, ko.toJS(options.params));
-
-            element.href = href;
-        }).extend({
-            disposeWhenNodeIsRemoved: element
-        });
+        );
     },
     preprocess(input: string) {
         // We allow the following syntax:

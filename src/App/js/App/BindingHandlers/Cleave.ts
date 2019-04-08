@@ -40,7 +40,7 @@ ko.bindingHandlers.cleave = {
                 cleave.setRawValue(rawValue);
             },
             this,
-            { disposeWhenNodeIsRemoved: element }
+            { disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */ }
         );
 
         function updateObservable() {
@@ -102,7 +102,7 @@ ko.bindingHandlers.cleaveNumber = ko.bindingHandlers.cleaveCurrency = {
                 cleave.setRawValue(rawValue);
             },
             this,
-            { disposeWhenNodeIsRemoved: element }
+            { disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */ }
         );
 
         function updateObservable() {

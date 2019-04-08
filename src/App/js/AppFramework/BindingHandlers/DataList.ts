@@ -10,18 +10,22 @@ ko.bindingHandlers.dataList = {
             );
         }
 
-        ko.computed(() => {
-            const values = ko.unwrap(valueAccessor());
+        ko.computed(
+            () => {
+                const values = ko.unwrap(valueAccessor());
 
-            while (element.firstChild) {
-                element.removeChild(element.firstChild);
-            }
+                while (element.firstChild) {
+                    element.removeChild(element.firstChild);
+                }
 
-            for (const value of values) {
-                const option = document.createElement('option');
-                option.value = value;
-                element.appendChild(option);
-            }
-        }).extend({ disposeWhenNodeIsRemoved: element });
+                for (const value of values) {
+                    const option = document.createElement('option');
+                    option.value = value;
+                    element.appendChild(option);
+                }
+            },
+            null,
+            { disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */ }
+        );
     }
 };

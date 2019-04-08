@@ -60,13 +60,15 @@ ko.bindingHandlers.asyncLoadingPanel = {
         document.body.appendChild(container);
 
         // Set-up rendering
-        const template = ko
-            .computed(() => {
+        const template = ko.computed(
+            () => {
                 const templateName = dataSource.template() || container.id;
                 console.warn('template: %s', templateName);
                 return templateName;
-            })
-            .extend({ disposeWhenNodeIsRemoved: element });
+            },
+            null,
+            { disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */ }
+        );
 
         // Set-up binding context
         const childBindingContext = bindingContext.createChildContext(

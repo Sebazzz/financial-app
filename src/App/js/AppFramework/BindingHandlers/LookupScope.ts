@@ -26,8 +26,8 @@ ko.bindingHandlers.lookupScope = {
                 typeof options.selector === 'string'
                     ? makeAccessor<TSource, TIdentifier>(options.selector)
                     : options.selector,
-            childData = ko
-                .computed({
+            childData = ko.computed(
+                {
                     read: () => {
                         const identifiers = ko.unwrap<TIdentifier[] | TIdentifier>(options.data),
                             sourceData = ko.unwrap(options.source);
@@ -64,8 +64,10 @@ ko.bindingHandlers.lookupScope = {
                             }
                         }
                     }
-                })
-                .extend({ disposeWhenNodeIsRemoved: element });
+                },
+                null,
+                { disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */ }
+            );
 
         const ctx = bindingContext.extend({
             $lookup: childData

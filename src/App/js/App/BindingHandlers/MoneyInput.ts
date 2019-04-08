@@ -80,7 +80,7 @@ ko.bindingHandlers.moneyInput = {
                 }
             },
             this,
-            { disposeWhenNodeIsRemoved: element }
+            { disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */ }
         );
 
         // Write to

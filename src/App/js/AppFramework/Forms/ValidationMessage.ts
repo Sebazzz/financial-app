@@ -38,19 +38,23 @@ ko.bindingHandlers.validationMessage = {
         element.classList.add('invalid-feedback');
         element.classList.add('invalid-feedback-list');
 
-        ko.computed(() => {
-            const modelState = validatable.modelState();
-            if (!modelState) {
-                return;
-            }
+        ko.computed(
+            () => {
+                const modelState = validatable.modelState();
+                if (!modelState) {
+                    return;
+                }
 
-            const propertyState = modelState[property];
-            if (!propertyState) {
-                $element.text('');
-            } else {
-                $element.text(propertyState.join('\r\n'));
-            }
-        }).extend({ disposeWhenNodeIsRemoved: element });
+                const propertyState = modelState[property];
+                if (!propertyState) {
+                    $element.text('');
+                } else {
+                    $element.text(propertyState.join('\r\n'));
+                }
+            },
+            null,
+            { disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */ }
+        );
     },
 
     preprocess(value: string) {
@@ -93,19 +97,23 @@ ko.bindingHandlers.validationProperty = {
             }
         }
 
-        ko.computed(() => {
-            const modelState = validatable.modelState();
-            if (!modelState) {
-                return;
-            }
+        ko.computed(
+            () => {
+                const modelState = validatable.modelState();
+                if (!modelState) {
+                    return;
+                }
 
-            const propertyState = modelState[property];
-            if (!propertyState) {
-                mark(undefined);
-            } else {
-                mark(propertyState.join('\r\n'));
-            }
-        }).extend({ disposeWhenNodeIsRemoved: element });
+                const propertyState = modelState[property];
+                if (!propertyState) {
+                    mark(undefined);
+                } else {
+                    mark(propertyState.join('\r\n'));
+                }
+            },
+            null,
+            { disposeWhenNodeIsRemoved: element as any /* knockout/issues/2471 */ }
+        );
     },
 
     preprocess(value: string) {
