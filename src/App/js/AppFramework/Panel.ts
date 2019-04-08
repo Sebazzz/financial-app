@@ -43,13 +43,13 @@ export abstract class Panel {
     }
 }
 
-export type PanelFactory<T> = (params?: any, componentInfo?: KnockoutComponentTypes.ComponentInfo) => T;
+export type PanelFactory<T> = (params?: any, componentInfo?: ko.components.ComponentInfo) => T;
 
-export class PanelComponent<T extends Panel> implements KnockoutComponentTypes.Config {
+export class PanelComponent<T extends Panel> implements ko.components.Config {
     protected factory: PanelFactory<T>;
 
-    public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
-        createViewModel: (params?: any, componentInfo?: KnockoutComponentTypes.ComponentInfo) => {
+    public viewModel: ko.components.ViewModelFactory = {
+        createViewModel: (params?: any, componentInfo?: ko.components.ComponentInfo) => {
             const panel = this.factory(params, componentInfo);
 
             panel.activate();

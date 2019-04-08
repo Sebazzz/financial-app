@@ -9,6 +9,7 @@ import {
 } from 'AppFramework/Navigation/Page';
 import { State } from 'router5';
 import isMobile from 'AppFramework/Client/BrowserDetector';
+import * as ko from 'knockout';
 
 const defaultTemplateName = 'page-loader',
     errorTemplateName = 'page-error';
@@ -169,7 +170,7 @@ class PageTemplateManager {
 let pageComponentInstance: PageComponentModel | null = null;
 
 // tslint:disable-next-line:max-classes-per-file
-class PageComponentModel {
+class PageComponentModel implements ko.components.ViewModel {
     private templateManager: PageTemplateManager;
     private pageTemplateName: string | null = null;
 
@@ -384,12 +385,16 @@ class PageComponentModel {
 
         return page;
     }
+
+    public dispose() {
+        // STFU tsc
+    }
 }
 
 // tslint:disable-next-line:max-classes-per-file
-class PageComponent implements KnockoutComponentTypes.ComponentConfig {
+class PageComponent implements ko.components.Config {
     private appContext: AppContext;
-    public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
+    public viewModel: ko.components.ViewModelFactory = {
         createViewModel: () => {
             return new PageComponentModel(this.appContext);
         }

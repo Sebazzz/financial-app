@@ -238,8 +238,8 @@ class ModalComponentComponentModel {
 class ModalComponent implements KnockoutComponentTypes.ComponentConfig {
     public template = null;
 
-    public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
-        createViewModel: (params: IModalParams, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
+    public viewModel: ko.components.ViewModelFactory = {
+        createViewModel: (params: IModalParams, componentInfo: ko.components.ComponentInfo) => {
             return new ModalComponentComponentModel(
                 params,
                 componentInfo.templateNodes,

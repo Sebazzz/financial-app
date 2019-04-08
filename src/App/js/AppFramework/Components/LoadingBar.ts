@@ -166,8 +166,8 @@ class LoadingBarComponent implements KnockoutComponentTypes.ComponentConfig {
 
     public template = require<string>('./templates/loading-bar.html');
 
-    public viewModel: KnockoutComponentTypes.ViewModelFactoryFunction = {
-        createViewModel: (params: any, componentInfo: KnockoutComponentTypes.ComponentInfo) => {
+    public viewModel: ko.components.ViewModelFactory = {
+        createViewModel: (params: any, componentInfo: ko.components.ComponentInfo) => {
             const vm = new LoadingBarComponentModel(this.appContext, componentInfo.element as Element);
             HttpClient.registerInterceptor(vm);
 
