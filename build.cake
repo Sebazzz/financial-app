@@ -149,7 +149,6 @@ Task("Set-NodeEnvironment")
 Task("Restore-Node-Packages")
 	.IsDependentOn("Check-Node-Version")
 	.IsDependentOn("Check-Yarn-Version")
-	.IsDependentOn("Run-DotnetFormatToolInstall")
 	.Does(() => {
 	
 	int exitCode;
