@@ -80,6 +80,8 @@
         "start": "webpack",
         "build": "webpack",
         "build-mailtemplates": "powershell -File Email/Build.ps1",
+        "pre-commit": "../../build --target=Run-Precommit-Tasks",
+        "pre-commit--pretty-quick": "pretty-quick --staged",
         "test": "karma start --single-run",
         "test-watch": "karma start --no-single-run",
         "test-mailtemplates": "powershell -File Email/Build.ps1 -ArgumentList -LocalTesting",
@@ -90,7 +92,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "pretty-quick --staged"
+            "pre-commit": "yarn pre-commit"
         }
     }
 }

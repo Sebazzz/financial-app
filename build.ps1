@@ -77,7 +77,8 @@ if (Get-Command dotnet -ErrorAction SilentlyContinue) {
     $FoundDotNetCliVersion = dotnet --version;
 }
 
-if($FoundDotNetCliVersion -ne $DotNetVersion) {
+if($FoundDotNetCliVersion -lt $DotNetVersion -or
+   $FoundDotNetVersion -gt $DotNetVersion.SubString($DotNetVersion.IndexOf('.'))) {
     $InstallPath = Join-Path $PSScriptRoot ".dotnet"
     if (!(Test-Path $InstallPath)) {
         New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null;
