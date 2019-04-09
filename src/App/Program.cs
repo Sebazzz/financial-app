@@ -2,10 +2,9 @@
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
 //  File:           : Program.cs 
-//  Project         : App
+//  Project         : App 
 // ******************************************************************************
-namespace App
-{
+namespace App {
 
     using System;
     using System.IO;
@@ -22,10 +21,8 @@ namespace App
     using App.Support.Https;
     using Support;
 
-    internal static class Program
-    {
-        public static void Main(string[] args)
-        {
+    internal static class Program {
+        public static void Main(string[] args) {
             Console.WriteLine($"Financial App - v{AppVersionService.GetInformationalVersion()}");
             Console.WriteLine($"Starting at {DateTime.Now:s}");
 
@@ -44,72 +41,66 @@ namespace App
                 WebHost.CreateDefaultBuilder(args)
                     .ConfigureServices(ConfigureServerOptions)
                     .ConfigureAppConfiguration(cfg => cfg.AddApplicationInsightsSettings())
-                    .ConfigureAppConfiguration(cfg =>
-                        {
-                            if (Environment.GetEnvironmentVariable("ASPNETCORE_FORCE_USERSECRETS") == "True") {
-                                cfg.AddUserSecrets(typeof(Program).Assembly);
-                            }
+                    .ConfigureAppConfiguration(cfg => {
+                        if (Environment.GetEnvironmentVariable("ASPNETCORE_FORCE_USERSECRETS") == "True") {
+                            cfg.AddUserSecrets(typeof(Program).Assembly);
+                        }
 
-                            cfg.AddOperatingSpecificConfigurationFolders();
-                        })
+                        cfg.AddOperatingSpecificConfigurationFolders();
+                    })
                     .ConfigureLogging((wc, logging) => {
-                          var env = wc.HostingEnvironment;
-                          var config = wc.Configuration;
+                        var env = wc.HostingEnvironment;
+                        var config = wc.Configuration;
 
-                          Console.WriteLine($"Current environment: {env.EnvironmentName}");
+                        Console.WriteLine($"Current environment: {env.EnvironmentName}");
 
-                          logging.AddConfiguration(config.GetSection("Logging"));
-                          logging.AddConsole();
+                        logging.AddConfiguration(config.GetSection("Logging"));
+                        logging.AddConsole();
 
-                          if (env.IsDevelopment()) {
-                              logging.AddDebug();
-                          }
-                          else
-                          {
-                              logging.AddApplicationInsights();
+                        if (env.IsDevelopment()) {
+                            logging.AddDebug();
+                        }
+                        else {
+                            logging.AddApplicationInsights();
 
-                              var fileSection = config.GetSection("Logging").GetSection("File");
-                              var fileName = fileSection?.GetValue<string>("Path");
+                            var fileSection = config.GetSection("Logging").GetSection("File");
+                            var fileName = fileSection?.GetValue<string>("Path");
 
-                              if (!string.IsNullOrEmpty(fileName)) {
-                                  try {
-                                      logging.AddFile(fileSection);
-                                  }
-                                  catch (Exception ex) {
-                                      Console.WriteLine($"Failed to add file log to path [{fileName}]: {ex}");
-                                  }
-                              }
-                              else {
-                                  Console.WriteLine("Skipping file logging...");
-                              }
-                          }
-                      })
+                            if (!string.IsNullOrEmpty(fileName)) {
+                                try {
+                                    logging.AddFile(fileSection);
+                                }
+                                catch (Exception ex) {
+                                    Console.WriteLine($"Failed to add file log to path [{fileName}]: {ex}");
+                                }
+                            }
+                            else {
+                                Console.WriteLine("Skipping file logging...");
+                            }
+                        }
+                    })
                     .UseStartup<Startup>()
                     .Build();
             return host;
         }
 
-        private static void AddOperatingSpecificConfigurationFolders([NotNull] this IConfigurationBuilder cfg)
-        {
+        private static void AddOperatingSpecificConfigurationFolders([NotNull] this IConfigurationBuilder cfg) {
             if (cfg == null) throw new ArgumentNullException(nameof(cfg));
 
             const string configFileName = "config";
             const string iniFileExt = "ini";
             const string jsonFileExt = "json";
 
-            string MakeFilePath(string extension)
-            {
+            string MakeFilePath(string extension) {
                 return EmitConfigSearchMessage(EnvironmentPath.CreatePath(Path.ChangeExtension(configFileName, extension)));
             }
 
-            string EmitConfigSearchMessage(string path)
-            {
+            string EmitConfigSearchMessage(string path) {
                 Console.WriteLine("\tLoading configuration from: {0}", path);
                 return path;
             }
 
-            switch (Environment.OSVersion.Platform)
-            {
+            switch (Environment.OSVersion.Platform) {
                 case PlatformID.Win32NT:
                 case PlatformID.Unix:
                     cfg.AddJsonFile(MakeFilePath(jsonFileExt), true);
@@ -118,20 +109,16 @@ namespace App
             }
         }
 
-        private static void ConfigureServerOptions(WebHostBuilderContext wc, IServiceCollection sc)
-        {
-            sc.Configure<KestrelServerOptions>(options =>
-            {
+        private static void ConfigureServerOptions(WebHostBuilderContext wc, IServiceCollection sc) {
+            sc.Configure<KestrelServerOptions>(options => {
                 options.AddServerHeader = false;
                 options.UseSystemd();
 
                 HttpsServerOptions httpsOptions = wc.Configuration.GetSection("server").GetSection("https").Get<HttpsServerOptions>();
 
-                if (httpsOptions?.CertificatePath != null)
-                {
+                if (httpsOptions?.CertificatePath != null) {
                     options.Listen(IPAddress.Any, 80);
-                    options.Listen(IPAddress.Any, 443, opts =>
-                    {
+                    options.Listen(IPAddress.Any, 443, opts => {
                         opts.UseHttps(httpsOptions.CertificatePath, httpsOptions.CertificatePassword);
                     });
                 }
