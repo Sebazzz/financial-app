@@ -51,10 +51,10 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.60.6" />
-    <PackageReference Include="HangFire.AspNetCore" Version="1.7.0" />
-    <PackageReference Include="HangFire.Core" Version="1.7.0" />
+    <PackageReference Include="HangFire.AspNetCore" Version="1.7.1" />
+    <PackageReference Include="HangFire.Core" Version="1.7.1" />
     <PackageReference Include="HangFire.MemoryStorage" Version="1.6.0" />
-    <PackageReference Include="HangFire.SqlServer" Version="1.7.0" />
+    <PackageReference Include="HangFire.SqlServer" Version="1.7.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />
