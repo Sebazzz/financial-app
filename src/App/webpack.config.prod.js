@@ -20,8 +20,7 @@ function makeTargetSpecificMinimizer(targetName) {
                         DEBUG: false,
                         'module.hot': false
                     },
-                    passes: 2,
-                    warnings: true
+                    passes: 2
                 },
                 output: {
                     beautify: false
