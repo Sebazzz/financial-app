@@ -28,7 +28,7 @@ export class ServiceWorkerMessaging {
         return this.sendMessageAsync(invocation);
     }
 
-    public static sendMessageAsync<TResult, TMessage>(message: TMessage): Promise<TResult> {
+    public static sendMessageAsync<TResult, TMessage extends {}>(message: TMessage): Promise<TResult> {
         return new Promise((resolve, reject) => {
             const messageString = (message && message.toString()) || JSON.stringify(message);
 
