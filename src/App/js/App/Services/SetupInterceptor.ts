@@ -5,20 +5,20 @@ const serviceNotAvailable = 503;
 const reasonHeaderName = 'X-Reason',
     reasonHeaderValue = 'Setup';
 
-function isSetupRequiredRequest(xhr: JQuery.jqXHR) {
+function isSetupRequiredRequest(xhr: Response) {
     if (!xhr) {
         return false;
     }
 
-    return xhr.status === serviceNotAvailable && xhr.getResponseHeader(reasonHeaderName) === reasonHeaderValue;
+    return xhr.status === serviceNotAvailable && xhr.headers.get(reasonHeaderName) === reasonHeaderValue;
 }
 
 class SetupInterceptor implements http.IHttpInterceptor {
     constructor(private appContext: AppContext) {}
 
-    public interceptRequest<T>(request: JQuery.AjaxSettings): http.RequestHandler<T> {
-        return (requestInProgress: Promise<T>) => {
-            requestInProgress.catch((xhr: JQuery.jqXHR) => {
+    public interceptRequest<T>(_: Request): http.RequestHandler<T> {
+        return (requestInProgress: Promise<Response>) => {
+            requestInProgress.catch((xhr: Response) => {
                 if (isSetupRequiredRequest(xhr)) {
                     this.ensureRedirectToSetup();
                 }

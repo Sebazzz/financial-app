@@ -3,7 +3,7 @@ import AppContext from '../AppContext';
 
 const authorizationRequiredHttpCode = 401;
 
-function isAuthorizationRequiredRequest(xhr: JQuery.jqXHR) {
+function isAuthorizationRequiredRequest(xhr: Response) {
     if (!xhr) {
         return false;
     }
@@ -14,9 +14,9 @@ function isAuthorizationRequiredRequest(xhr: JQuery.jqXHR) {
 class AuthenticationInterceptor implements http.IHttpInterceptor {
     constructor(private appContext: AppContext) {}
 
-    public interceptRequest<T>(request: JQuery.AjaxSettings): http.RequestHandler<T> {
-        return (requestInProgress: Promise<T>) => {
-            requestInProgress.catch((xhr: JQuery.jqXHR) => {
+    public interceptRequest<T>(_: Request): http.RequestHandler<T> {
+        return (requestInProgress: Promise<Response>) => {
+            requestInProgress.then((xhr: Response) => {
                 if (isAuthorizationRequiredRequest(xhr)) {
                     this.ensureRedirectToLogin();
                 }

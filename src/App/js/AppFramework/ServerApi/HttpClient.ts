@@ -15,10 +15,20 @@ const textRequest: IRequestFormat = {
 };
 const interceptors: IHttpInterceptor[] = [];
 
-export type RequestHandler<T> = (promise: Promise<T>) => void;
+export type RequestHandler<T> = (promise: Promise<Response>) => void;
 
 export interface IHttpInterceptor {
-    interceptRequest<T>(request: JQuery.AjaxSettings): RequestHandler<T> | null;
+    interceptRequest<T>(request: Request): RequestHandler<T> | null;
+}
+
+export class HttpError extends Error {
+    constructor(public response: Response) {
+        super();
+    }
+
+    public toString() {
+        return `[HttpError] ${this.response.status} ${this.response.statusText}`;
+    }
 }
 
 export default class HttpClient {
@@ -50,21 +60,29 @@ export default class HttpClient {
         return this.method(url, 'DELETE', data);
     }
 
-    private method<T>(url: string, method: string, data: any, requestFormat: IRequestFormat = jsonRequest): Promise<T> {
+    private async method<T>(
+        url: string,
+        method: string,
+        data: any,
+        requestFormat: IRequestFormat = jsonRequest
+    ): Promise<T> {
+        // Prepare request
         let convertData = () => JSON.stringify(data);
 
         if (method === 'GET') {
             convertData = () => $.param(data);
         }
 
-        const ajaxOptions: JQuery.AjaxSettings = {
-            url,
-            contentType: requestFormat.contentType,
-            data: data === null ? data : convertData(),
-            dataType: requestFormat.dataType,
+        const ajaxOptions: Request = new Request(url, {
+            body: data === null ? data : convertData(),
             method
-        };
+        });
 
+        if (requestFormat.contentType) {
+            ajaxOptions.headers.set('Content-Type', requestFormat.contentType);
+        }
+
+        // Append interceptors
         const requestHandlers: Array<RequestHandler<T>> = [];
         for (const interceptor of interceptors) {
             const handler = interceptor.interceptRequest(ajaxOptions);
@@ -73,11 +91,18 @@ export default class HttpClient {
             }
         }
 
-        const promise = $.ajax(ajaxOptions);
+        const promise = fetch(ajaxOptions);
         for (const requestHandler of requestHandlers) {
             requestHandler(promise);
         }
 
-        return promise;
+        // Response handling
+        const response = await promise;
+
+        if (response.status >= 400) {
+            throw new HttpError(response);
+        }
+
+        return await response.json();
     }
 }
