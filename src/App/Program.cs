@@ -100,13 +100,8 @@ namespace App {
                 return path;
             }
 
-            switch (Environment.OSVersion.Platform) {
-                case PlatformID.Win32NT:
-                case PlatformID.Unix:
-                    cfg.AddJsonFile(MakeFilePath(jsonFileExt), true);
-                    cfg.AddIniFile(MakeFilePath(iniFileExt), true);
-                    break;
-            }
+            cfg.AddJsonFile(MakeFilePath(jsonFileExt), true);
+            cfg.AddIniFile(MakeFilePath(iniFileExt), true);
         }
 
         private static void ConfigureServerOptions(WebHostBuilderContext wc, IServiceCollection sc) {

@@ -8,22 +8,24 @@
 namespace App.Support {
     using System;
     using System.IO;
+    using System.Runtime.InteropServices;
 
     public static class EnvironmentPath {
         private const string AppSpecificFolder = "financial-app";
 
         public static string CreatePath(string subPath)
         {
-            switch (Environment.OSVersion.Platform)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                case PlatformID.Win32NT:
-                    return MakeWin32FilePath(subPath);
-                case PlatformID.Unix:
-                    return MakeUnixFilePath(subPath);
-
-                default:
-                    throw new InvalidOperationException($"Unsupported platform family '{Environment.OSVersion.Platform}' of {Environment.OSVersion}");
+                return MakeWin32FilePath(subPath);
             }
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return MakeUnixFilePath(subPath);
+            }
+
+            throw new InvalidOperationException($"Unsupported platform family '{RuntimeInformation.OSDescription}'");
         }
 
         private static string MakeWin32FilePath(string subPath)
