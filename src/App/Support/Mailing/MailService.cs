@@ -7,10 +7,13 @@
 namespace App.Support.Mailing {
     using System;
     using System.Net;
-    using System.Net.Mail;
+    using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using MimeKit;
+    using MimeKit.Text;
+    using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
     public sealed class MailService {
         private readonly MailSettings _mailSettings;
@@ -26,24 +29,29 @@ namespace App.Support.Mailing {
 
             this.ValidateSettings();
 
-            using (SmtpClient smtpClient = this.CreateSmtpClient()) {
+            using (SmtpClient smtpClient = await this.CreateConnectedSmtpClientAsync(CancellationToken.None)) {
                 StringifiedTemplate stringifiedTemplate = template.Stringify();
 
                 this._logger.LogInformation($"Going to send mail [{stringifiedTemplate.Title}] to {to}");
 
                 try {
-                    MailMessage mailMessage = new MailMessage {
-                        From = new MailAddress(this._mailSettings.FromAddress, this._mailSettings.FromDisplayName),
+                    MimeMessage mailMessage = new MimeMessage {
+                        From =
+                        {
+                            new MailboxAddress(this._mailSettings.FromDisplayName, this._mailSettings.FromAddress)
+                        },
                         To = {
-                            to
+                            new MailboxAddress(to)
                         },
 
                         Subject = stringifiedTemplate.Title,
-                        Body = stringifiedTemplate.Body,
-                        IsBodyHtml = true,
+                        Body = new TextPart(TextFormat.Html)
+                        {
+                            Text = stringifiedTemplate.Body
+                        }
                     };
 
-                    await smtpClient.SendMailAsync(mailMessage);
+                    await smtpClient.SendAsync(mailMessage, CancellationToken.None);
 
                     this._logger.LogInformation($"Sent mail [{stringifiedTemplate.Title}] to {to}");
                 }
@@ -73,21 +81,35 @@ namespace App.Support.Mailing {
             }
         }
 
-        private SmtpClient CreateSmtpClient() {
-            try {
-                return new SmtpClient {
-                    Host = this._mailSettings.Host,
-                    Port = this._mailSettings.Port,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    EnableSsl = this._mailSettings.EnableSSL,
-                    Credentials = new NetworkCredential {
-                        UserName = this._mailSettings.UserName,
-                        Password = this._mailSettings.Password
-                    }
-                };
+        private async Task<SmtpClient> CreateConnectedSmtpClientAsync(CancellationToken cancellationToken)
+        {
+            SmtpClient smtpClient = new SmtpClient();
+
+            try
+            {
+                await smtpClient.ConnectAsync(
+                    this._mailSettings.Host,
+                    this._mailSettings.Port,
+                    this._mailSettings.EnableSSL,
+                    cancellationToken
+                );
+
+                if (this._mailSettings.HasAuthenticationInfo)
+                {
+                    await smtpClient.AuthenticateAsync(
+                        this._mailSettings.UserName,
+                        this._mailSettings.Password,
+                        cancellationToken
+                    );
+                }
+
+                return smtpClient;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 this._logger.LogError(ex, $"Unable to create SMTP client for {this._mailSettings.Host}:{this._mailSettings.Port}");
+
+                smtpClient?.Dispose();
 
                 throw new MailServiceException($"Unable to create SMTP client for host {this._mailSettings.Host}", ex);
             }

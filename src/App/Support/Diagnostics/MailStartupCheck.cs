@@ -8,9 +8,12 @@ namespace App.Support.Diagnostics
 {
     using System;
     using System.Net;
-    using System.Net.Mail;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Mailing;
+    using MailKit.Net.Smtp;
     using Microsoft.Extensions.Options;
+    using MimeKit;
 
     internal sealed class MailStartupCheck : IStartupCheck
     {
@@ -33,9 +36,10 @@ namespace App.Support.Diagnostics
 
             try
             {
-                using (var smtpClient = this.CreateSmtpClient())
+                // Using MailKit we can simple connect and authenticate without sending mail
+                using (SmtpClient smtpClient = this.CreateConnectedSmtpClient())
                 {
-                    smtpClient.Send(this._mailSettings.FromAddress, this._mailSettings.TestMailTarget ?? "void@example.com", "Test e-mail", "Startup-check");
+                    smtpClient.NoOp();
                 }
             }
             catch (Exception ex)
@@ -50,22 +54,28 @@ namespace App.Support.Diagnostics
 
         public string Description => "E-mail (SMTP) connection";
 
-        private SmtpClient CreateSmtpClient()
+        private SmtpClient CreateConnectedSmtpClient()
         {
             try
             {
-                return new SmtpClient
+                SmtpClient smtpClient = new SmtpClient();
+
+                smtpClient.Connect(
+                    this._mailSettings.Host,
+                    this._mailSettings.Port,
+                    this._mailSettings.EnableSSL,
+                    CancellationToken.None
+                );
+
+                if (this._mailSettings.HasAuthenticationInfo)
                 {
-                    Host = this._mailSettings.Host,
-                    Port = this._mailSettings.Port,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    EnableSsl = this._mailSettings.EnableSSL,
-                    Credentials = new NetworkCredential
-                    {
-                        UserName = this._mailSettings.UserName,
-                        Password = this._mailSettings.Password
-                    }
-                };
+                    smtpClient.Authenticate(
+                        this._mailSettings.UserName,
+                        this._mailSettings.Password
+                    );
+                }
+
+                return smtpClient;
             }
             catch (Exception ex)
             {

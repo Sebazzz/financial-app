@@ -1,4 +1,4 @@
-// ******************************************************************************
+﻿// ******************************************************************************
 //  © 2018 Sebastiaan Dammann | damsteen.nl
 // 
 //  File:           : MailSettings.cs
@@ -6,6 +6,8 @@
 // ******************************************************************************
 namespace App.Support.Mailing
 {
+    using System;
+
     public sealed class MailSettings
     {
         public int Port { get; set; }
@@ -14,8 +16,9 @@ namespace App.Support.Mailing
         public string Host { get; set; }
         public string FromAddress { get; set; }
         public string FromDisplayName { get; set; }
-        public string TestMailTarget { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+
+        public bool HasAuthenticationInfo => !String.IsNullOrEmpty(this.UserName);
     }
 }
