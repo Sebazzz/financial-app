@@ -5,10 +5,11 @@
 //  Project         : App
 // ******************************************************************************
 using System;
-using System.Data.SqlClient;
 
 namespace App.Support
 {
+    using Microsoft.Data.SqlClient;
+
     public class DatabaseOptions
     {
         private string _cachedConnectionString;

@@ -8,8 +8,8 @@ using Microsoft.Extensions.Options;
 
 namespace App.Support.Diagnostics {
     using System;
-    using System.Data.SqlClient;
     using System.Diagnostics;
+    using Microsoft.Data.SqlClient;
     using Microsoft.Extensions.Configuration;
 
     internal sealed class DatabaseServerStartupCheck : AbstractDatabaseStartupCheck {

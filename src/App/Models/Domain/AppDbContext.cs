@@ -9,8 +9,10 @@ namespace App.Models.Domain {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
+    using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
     using Microsoft.Extensions.Options;
     using Support;
+    using SqlServerConnection = Support.SqlServerConnection;
 
     /// <summary>
     /// Represents the database context for the application
@@ -26,6 +28,7 @@ namespace App.Models.Domain {
             base.OnConfiguring(optionsBuilder);
 
             optionsBuilder.UseSqlServer(this._databaseOptions.CreateConnectionString());
+            optionsBuilder.ReplaceService<ISqlServerConnection, SqlServerConnection>(); // TODO: Remove after transition to Core 3
             optionsBuilder.UseLazyLoadingProxies();
         }
 

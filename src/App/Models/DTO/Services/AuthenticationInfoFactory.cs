@@ -6,6 +6,7 @@
 // ******************************************************************************
 
 namespace App.Models.DTO.Services {
+    using System;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -21,10 +22,10 @@ namespace App.Models.DTO.Services {
 
         public async Task<AuthenticationInfo> CreateAsync(AppUser user, ClaimsPrincipal currentLoggedInPrincipal) {
             // Determine previous active group ID
-            int? previousActiveOwnedGroupId = currentLoggedInPrincipal.Identity.GetPreviousActiveOwnedOwnerGroupId();
+            Int32? previousActiveOwnedGroupId = currentLoggedInPrincipal.Identity.GetPreviousActiveOwnedOwnerGroupId();
 
             if (previousActiveOwnedGroupId == null) {
-                previousActiveOwnedGroupId = user.AvailableGroups.First(x => x.HasOwnership).GroupId;
+                previousActiveOwnedGroupId = user.AvailableGroups.FirstOrDefault(x => x.HasOwnership)?.GroupId;
             }
 
             return new AuthenticationInfo {

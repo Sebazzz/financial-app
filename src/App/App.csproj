@@ -50,7 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="Dapper" Version="2.0.4" />
     <PackageReference Include="HangFire.AspNetCore" Version="1.7.6" />
     <PackageReference Include="HangFire.Core" Version="1.7.6" />
     <PackageReference Include="HangFire.MemoryStorage" Version="1.6.1" />
@@ -66,6 +66,7 @@
     <PackageReference Include="Microsoft.AspNetCore.WebSockets.Server" Version="0.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="1.0.19239.1" />
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.2.12-alpha">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
