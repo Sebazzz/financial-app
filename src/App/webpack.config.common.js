@@ -79,7 +79,9 @@ function makeTargetSpecificConfig(targetName) {
         {
             loader: 'sass-loader',
             options: {
-                includePaths: ['./node_modules'],
+                sassOptions: {
+					includePaths: ['./node_modules']
+				},
                 sourceMap: generateSourceMaps
             }
         }
@@ -267,7 +269,9 @@ function makeBootstrapperConfig() {
         {
             loader: 'sass-loader',
             options: {
-                includePaths: ['./node_modules'],
+                sassOptions: {
+					includePaths: ['./node_modules']
+				},
                 sourceMap: generateSourceMaps
             }
         }
