@@ -30,7 +30,7 @@ namespace App.Support.Diagnostics {
         }
 
         private static bool CheckIpAddress(DashboardContext context, AspNetCoreDashboardContext aspNetCoreContext) {
-            IOptionsSnapshot<DiagnosticsOptions> diagOptions = aspNetCoreContext.HttpContext.RequestServices
+            var diagOptions = aspNetCoreContext.HttpContext.RequestServices
                 .GetRequiredService<IOptionsSnapshot<DiagnosticsOptions>>();
 
             string[] ipAddresses = diagOptions.Value?.AllowedIPAddresses;

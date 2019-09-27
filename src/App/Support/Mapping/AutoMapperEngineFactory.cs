@@ -26,7 +26,7 @@ namespace App {
 
     public static class AutoMapperEngineFactory {
         public static IMapper Create(IServiceProvider serviceProvider) {
-            MapperConfiguration config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg => {
                 cfg.ConstructServicesUsing(t => serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext.RequestServices.GetService(t));
                 cfg.AddGlobalIgnore("Owner");
 
@@ -198,7 +198,7 @@ namespace App {
             }
 
             private static int? GetPrimaryKey(object value) {
-                IHasId hasId = value as IHasId;
+                var hasId = value as IHasId;
                 if (hasId != null) {
                     return hasId.Id;
                 }

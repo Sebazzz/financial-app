@@ -44,7 +44,7 @@ namespace App.Api {
 
             DateTime previousSheetDate = s.Subject.AddMonths(-1);
             DateTime nextSheetDate = s.Subject.AddMonths(1);
-            List<Sheet> sheet = new List<Sheet>(3);
+            var sheet = new List<Sheet>(3);
 
             if (nextSheetDate < DateTime.Now) {
                 sheet.Add(await this._sheetRetrievalService.GetBySubjectAsync(nextSheetDate.Month, nextSheetDate.Year, this.OwnerId));
@@ -60,7 +60,7 @@ namespace App.Api {
         }
 
         private ReportDigest Create(Sheet[] sheets, Func<decimal, bool> filter, Func<decimal, decimal> transform) {
-            SheetGlobalStatistics[] calculatedStats = new SheetGlobalStatistics[sheets.Length];
+            var calculatedStats = new SheetGlobalStatistics[sheets.Length];
             for (int index = 0; index < sheets.Length; index++) {
                 calculatedStats[index] = this._sheetStatisticsService.CalculateExpensesPerCategory(sheets[index]);
             }

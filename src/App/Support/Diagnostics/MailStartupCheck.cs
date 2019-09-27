@@ -58,7 +58,7 @@ namespace App.Support.Diagnostics
         {
             try
             {
-                SmtpClient smtpClient = new SmtpClient();
+                var smtpClient = new SmtpClient();
 
                 smtpClient.Connect(
                     this._mailSettings.Host,

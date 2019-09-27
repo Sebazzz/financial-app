@@ -29,7 +29,7 @@ namespace App.Jobs.MonthlyDigest {
 
             DateTime secondPreviousMonth = previousMonth.AddMonths(-1);
 
-            MonthlyDigestData digestData = new MonthlyDigestData();
+            var digestData = new MonthlyDigestData();
 
             await this.AddPreviousMonthAsync(previousMonth, digestData, appOwnerId);
             await this.AddSecondPreviousMonthFiguresAsync(secondPreviousMonth, digestData, appOwnerId);

@@ -9,7 +9,7 @@ namespace App.Models.Validation {
 
     public sealed class CurrencyDeltaValidationAttribute : ValidationAttribute {
         protected override ValidationResult IsValid(object rawValue, ValidationContext validationContext) {
-            decimal? value = (decimal?) rawValue;
+            var value = (decimal?) rawValue;
 
             if (value == 0) {
                 return new ValidationResult("Voer een getal in groter of kleiner dan 0", new []{ validationContext.MemberName });

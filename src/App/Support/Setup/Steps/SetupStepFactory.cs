@@ -20,9 +20,9 @@ namespace App.Support.Setup.Steps {
         }
 
         public AbstractSetupStep[] GetSteps() {
-            DbContext dbContext = this._requestServiceProvider.GetRequiredService<DbContext>();
-            AppRoleManager roleManager = this._requestServiceProvider.GetRequiredService<AppRoleManager>();
-            AppUserManager userManager = this._requestServiceProvider.GetRequiredService<AppUserManager>();
+            var dbContext = this._requestServiceProvider.GetRequiredService<DbContext>();
+            var roleManager = this._requestServiceProvider.GetRequiredService<AppRoleManager>();
+            var userManager = this._requestServiceProvider.GetRequiredService<AppUserManager>();
 
             return new AbstractSetupStep[] {
                 new WelcomeSetupStep(),

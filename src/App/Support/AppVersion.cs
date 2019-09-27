@@ -27,7 +27,7 @@ namespace App.Support {
         private static string InitVersion() {
             Assembly assembly = typeof (AppVersionService).GetTypeInfo().Assembly;
 
-            AssemblyFileVersionAttribute versionAttr =
+            var versionAttr =
                 assembly.GetCustomAttribute<AssemblyFileVersionAttribute>();
             Debug.Assert(versionAttr != null, "This should not be null. Was the assembly properly built?");
             return versionAttr.Version;

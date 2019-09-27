@@ -35,7 +35,7 @@ namespace App.Support.Mailing {
                 this._logger.LogInformation($"Going to send mail [{stringifiedTemplate.Title}] to {to}");
 
                 try {
-                    MimeMessage mailMessage = new MimeMessage {
+                    var mailMessage = new MimeMessage {
                         From =
                         {
                             new MailboxAddress(this._mailSettings.FromDisplayName, this._mailSettings.FromAddress)
@@ -83,7 +83,7 @@ namespace App.Support.Mailing {
 
         private async Task<SmtpClient> CreateConnectedSmtpClientAsync(CancellationToken cancellationToken)
         {
-            SmtpClient smtpClient = new SmtpClient();
+            var smtpClient = new SmtpClient();
 
             try
             {

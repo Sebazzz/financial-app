@@ -11,7 +11,7 @@ namespace App.Support.Filters {
 
     public sealed class ReadOnlyApiAttribute : ActionFilterAttribute {
         public override void OnActionExecuting(ActionExecutingContext context) {
-            DbContext dbContext = context.HttpContext.RequestServices.GetRequiredService<DbContext>();
+            var dbContext = context.HttpContext.RequestServices.GetRequiredService<DbContext>();
 
             dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 

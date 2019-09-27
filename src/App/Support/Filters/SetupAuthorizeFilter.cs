@@ -24,7 +24,7 @@ namespace App.Support.Filters {
             if (context.Resource is Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext mvcContext) {
                 HttpContext httpContext = mvcContext.HttpContext;
 
-                RequestAppSetupState appSetupState = httpContext.RequestServices.GetRequiredService<RequestAppSetupState>();
+                var appSetupState = httpContext.RequestServices.GetRequiredService<RequestAppSetupState>();
 
                 if (!await appSetupState.HasBeenSetup()) {
                     context.Succeed(requirement);

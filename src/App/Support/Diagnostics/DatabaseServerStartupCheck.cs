@@ -24,7 +24,7 @@ namespace App.Support.Diagnostics {
                     $"Connection string is null or empty. Use configuration path 'Database' to configure the connection string.");
 
             // Even if the database does not exist, connection to master should always succeed
-            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
+            var connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
             connectionStringBuilder.InitialCatalog = "master";
 
             var sw = new Stopwatch();

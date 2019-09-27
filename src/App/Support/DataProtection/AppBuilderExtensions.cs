@@ -16,7 +16,7 @@ namespace App.Support.DataProtection {
     internal static class ServiceCollectionExtensions {
         public static void AddConfiguredDataProtection(this IServiceCollection services, IConfiguration configuration)
         {
-            DataProtectionOptions dataProtectionOptions = configuration.GetValue<DataProtectionOptions>("DataProtection");
+            var dataProtectionOptions = configuration.GetValue<DataProtectionOptions>("DataProtection");
 
             if (dataProtectionOptions == null)
             {
@@ -76,7 +76,7 @@ namespace App.Support.DataProtection {
                 storageOptions.Path = EnvironmentPath.CreatePath("key-store");
             }
 
-            DirectoryInfo directory = new DirectoryInfo(storageOptions.Path);
+            var directory = new DirectoryInfo(storageOptions.Path);
             directory.Create();
 
             builder.PersistKeysToFileSystem(
@@ -97,7 +97,7 @@ namespace App.Support.DataProtection {
 
             certificateOptions.Validate();
 
-            X509Certificate2 certificate = new X509Certificate2(certificateOptions.CertificatePath, certificateOptions.Password);
+            var certificate = new X509Certificate2(certificateOptions.CertificatePath, certificateOptions.Password);
 
             builder.ProtectKeysWithCertificate(
                 certificate

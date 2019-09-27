@@ -24,7 +24,7 @@ namespace App.Tests {
         [TestCase("", "", 0)]
         public void IndexOf_ReturnsCorrectIndex(string haystack, string needle, int offset) {
             // Given
-            StringBuilder stringBuilder = new StringBuilder(haystack);
+            var stringBuilder = new StringBuilder(haystack);
             int expectedIndex = haystack.IndexOf(needle, offset, StringComparison.OrdinalIgnoreCase);
 
             // When

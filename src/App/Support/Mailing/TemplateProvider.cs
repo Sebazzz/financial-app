@@ -34,8 +34,8 @@ namespace App.Support.Mailing {
                 throw new ArgumentException($"Template [{name}] at path [{fullPath}] does not exist", nameof(name));
 
             try {
-                using (StreamReader sr = new StreamReader(file.CreateReadStream())) {
-                    Template template = new Template(await sr.ReadToEndAsync());
+                using (var sr = new StreamReader(file.CreateReadStream())) {
+                    var template = new Template(await sr.ReadToEndAsync());
                     template.AddReplacement("base-url", this._baseUrl);
                     template.AddReplacement("version", this._appVersionService.GetVersion());
 

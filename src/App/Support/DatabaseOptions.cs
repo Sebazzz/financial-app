@@ -32,7 +32,7 @@ namespace App.Support
             }
 
             // Create new conn string
-            SqlConnectionStringBuilder connStringBuilder = new SqlConnectionStringBuilder();
+            var connStringBuilder = new SqlConnectionStringBuilder();
 
             // Set values current connection string
             if (this.ConnectionTimeout != null) connStringBuilder.ConnectTimeout = this.ConnectionTimeout.Value;
@@ -46,7 +46,7 @@ namespace App.Support
             // Copy current connection string, overriding options here
             if (!string.IsNullOrEmpty(this.ConnectionString))
             {
-                SqlConnectionStringBuilder srcConnStringBuilder = new SqlConnectionStringBuilder(this.ConnectionString);
+                var srcConnStringBuilder = new SqlConnectionStringBuilder(this.ConnectionString);
                 foreach (string key in srcConnStringBuilder.Keys ?? throw new InvalidOperationException("Invalid connection string"))
                 {
                     connStringBuilder[key] = srcConnStringBuilder[key];

@@ -23,7 +23,7 @@ namespace App.Support.TagHelpers
         {
             TagHelperContent content = await output.GetChildContentAsync();
 
-            StringBuilder str = new StringBuilder(content.GetContent()?.Trim());
+            var str = new StringBuilder(content.GetContent()?.Trim());
             str.Replace("\n", string.Empty);
             str.Replace("\r", string.Empty);
 

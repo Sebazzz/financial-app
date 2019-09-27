@@ -133,7 +133,7 @@ namespace App
                     Func<CookieValidatePrincipalContext, Task> existingHandler = opt.Events.OnValidatePrincipal;
                     opt.Events.OnValidatePrincipal = async (ctx) =>
                     {
-                        RequestAppSetupState setupState = ctx.HttpContext.RequestServices.GetRequiredService<RequestAppSetupState>();
+                        var setupState = ctx.HttpContext.RequestServices.GetRequiredService<RequestAppSetupState>();
 
                         if (await setupState.HasBeenSetup())
                         {

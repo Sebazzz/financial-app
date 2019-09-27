@@ -65,7 +65,7 @@ namespace App.Api {
                 return this.BadRequest(this.ModelState);
             }
 
-            Tag entity = new Tag();
+            var entity = new Tag();
 
             this.EntityOwnerService.AssignOwner(entity, this.OwnerId);
             this._mapper.Map(value, entity);

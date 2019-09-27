@@ -16,7 +16,7 @@ namespace App.Tests.Mailing {
         [Test]
         public void Template_InputEmptyString_OutputsEmptyString() {
             // Given
-            Template template = new Template(String.Empty);
+            var template = new Template(String.Empty);
 
             // When
             StringifiedTemplate output = template.Stringify();
@@ -29,7 +29,7 @@ namespace App.Tests.Mailing {
         [Test]
         public void Template_InputHtml_ExtractsTitle() {
             // Given
-            Template template = new Template("<html><head><title>Derp</title></head><body>Bla bla</body></html>");
+            var template = new Template("<html><head><title>Derp</title></head><body>Bla bla</body></html>");
 
             // When
             StringifiedTemplate output = template.Stringify();
@@ -42,7 +42,7 @@ namespace App.Tests.Mailing {
         [Test]
         public void Template_InputHtml_ExtractsTitleTrimmed() {
             // Given
-            Template template = new Template("<html><head><title>    Collapse Outer Whitespace title </title></head><body>Bla bla</body></html>");
+            var template = new Template("<html><head><title>    Collapse Outer Whitespace title </title></head><body>Bla bla</body></html>");
 
             // When
             StringifiedTemplate output = template.Stringify();
@@ -55,7 +55,7 @@ namespace App.Tests.Mailing {
         [Test]
         public void Template_InputHtml_ReplacesTokens() {
             // Given
-            Template template = new Template("<html><head><title>Hello {subject}</title></head><body>Hi {subject}!</body></html>");
+            var template = new Template("<html><head><title>Hello {subject}</title></head><body>Hi {subject}!</body></html>");
 
             // When
             template.AddReplacement("subject", "World");
@@ -69,7 +69,7 @@ namespace App.Tests.Mailing {
         [Test]
         public void Template_InputHtml_HideSection_RemovesFromHtml() {
             // Given
-            Template template = new Template(FileOpener.GetMailExample("Input"));
+            var template = new Template(FileOpener.GetMailExample("Input"));
 
             // When
             template.AddReplacement("subject", "World");
@@ -84,7 +84,7 @@ namespace App.Tests.Mailing {
         [Test]
         public void Template_InputHtml_RepeatSection_DuplicatesInHtml() {
             // Given
-            Template template = new Template(FileOpener.GetMailExample("Input"));
+            var template = new Template(FileOpener.GetMailExample("Input"));
             (string name, int age)[] dataList = {
                 ("John Doe", 32),
                 ("Jane Doe", 26)

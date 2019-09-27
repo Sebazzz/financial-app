@@ -76,7 +76,7 @@ namespace App.Api {
 
         [HttpGet("{year:int:max(2100):min(2000)}-{month:int:max(12):min(1)}/source-autocompletion-data")]
         public string[] SourceAutoCompletionData(int month, int year) {
-            HashSet<string> sources = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+            var sources = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
 
             sources.UnionWith(
                 from sheet in this._sheetRepository.GetByDatePart(month, year, this.OwnerId)

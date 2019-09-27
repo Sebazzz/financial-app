@@ -43,6 +43,7 @@ namespace App.Api
         }
 
         [HttpGet("my-info")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "<Pending>")]
         public async Task<IActionResult> MyInfo()
         {
             AppUser currentUser = await this._appUserManager.FindByIdAsync(this.User.Identity.GetUserId()).EnsureNotNull(HttpStatusCode.Unauthorized);
@@ -205,7 +206,7 @@ namespace App.Api
 
         private static string CreateBase64QRCode(string key, AppUser user)
         {
-            OneTimePassword qrPayload = new OneTimePassword
+            var qrPayload = new OneTimePassword
             {
                 Issuer = "Financial App",
                 Secret = key,
@@ -213,10 +214,10 @@ namespace App.Api
                 Label = user.UserName
             };
 
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            var qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrPayload.ToString(), QRCodeGenerator.ECCLevel.L);
 
-            Base64QRCode qrCode = new Base64QRCode(qrCodeData);
+            var qrCode = new Base64QRCode(qrCodeData);
 
             return qrCode.GetGraphic(5);
         }

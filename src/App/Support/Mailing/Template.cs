@@ -74,7 +74,7 @@ namespace App.Support.Mailing {
 
             // ... Prepare repeated template insertion
             int insertOffset = innerStartIndex + innerLength;
-            char[] templateSource = new char[innerLength];
+            var templateSource = new char[innerLength];
             this._contents.CopyTo(innerStartIndex, templateSource, 0, templateSource.Length);
 
             foreach (T dataItem in data.Skip(1).Reverse()) {

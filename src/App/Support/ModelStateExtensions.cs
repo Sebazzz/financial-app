@@ -20,7 +20,7 @@ namespace App.Support
         public static void AppendIdentityResult(this ModelStateDictionary modelState, IdentityResult identityResult,
                                                 Func<string, string> propertySelector = null)
         {
-            HashSet<string> uniqueErrors = new HashSet<string>();
+            var uniqueErrors = new HashSet<string>();
 
             foreach (IdentityError identityError in identityResult.Errors)
             {

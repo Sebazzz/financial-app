@@ -58,7 +58,7 @@ namespace App.Support.Setup.Steps
         {
             if (!result.Succeeded)
             {
-                ModelStateDictionary modelState = new ModelStateDictionary();
+                var modelState = new ModelStateDictionary();
                 foreach (IdentityError identityError in result.Errors)
                 {
                     switch (identityError)

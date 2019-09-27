@@ -110,7 +110,7 @@ namespace App {
                 options.AddServerHeader = false;
                 options.UseSystemd();
 
-                HttpsServerOptions httpsOptions = wc.Configuration.GetSection("server").GetSection("https").Get<HttpsServerOptions>();
+                var httpsOptions = wc.Configuration.GetSection("server").GetSection("https").Get<HttpsServerOptions>();
 
                 if (httpsOptions?.CertificatePath != null) {
                     options.Listen(IPAddress.Any, 80);

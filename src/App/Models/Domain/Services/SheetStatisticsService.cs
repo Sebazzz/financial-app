@@ -44,7 +44,7 @@ namespace App.Models.Domain.Services {
                 from date in dates
                 select date.ToString("Y")).ToArray();
 
-            Report report = new Report {
+            var report = new Report {
                 Expenses = new ReportDigest {
                     Labels = labels,
                     DataSets = GenerateDataSet(x => x.Delta < 0, x => -x, statistics, dates)

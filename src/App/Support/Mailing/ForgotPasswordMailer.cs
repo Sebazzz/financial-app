@@ -20,7 +20,7 @@ namespace App.Support.Mailing {
         }
 
         public async Task SendAsync(string to, string baseUrl, string resetToken) {
-            UriBuilder uriBuilder = new UriBuilder(baseUrl) {
+            var uriBuilder = new UriBuilder(baseUrl) {
                 Path = "auth/reset-password",
                 Query = "token=" + Uri.EscapeDataString(resetToken) + "&key=" + Uri.EscapeDataString(to)
             };

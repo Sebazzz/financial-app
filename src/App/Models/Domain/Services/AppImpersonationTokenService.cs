@@ -30,7 +30,7 @@ namespace App.Models.Domain.Services {
         }
 
         public async Task<AppUserTrustedUser> CreateImpersonationInvite(AppUser user) {
-            AppUserTrustedUser impersonationToken = new AppUserTrustedUser {
+            var impersonationToken = new AppUserTrustedUser {
                 CreationDate = DateTimeOffset.Now,
                 IsActive = false,
                 SecurityToken = Guid.NewGuid().ToString("N"),

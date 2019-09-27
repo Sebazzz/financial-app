@@ -38,7 +38,7 @@ namespace App.Models.Domain.Services {
             await this._appUserManager.UpdateAsync(currentUser);
 
             // Send new login token
-            ClaimsIdentity identity = ((ClaimsIdentity)currentPrincipal.Identity);
+            var identity = ((ClaimsIdentity)currentPrincipal.Identity);
             identity.TryRemoveClaim(identity.FindFirst(AppClaimTypes.AppOwnerGroup));
             identity.AddClaim(new Claim(AppClaimTypes.AppOwnerGroup, currentUser.CurrentGroupId.ToString(CultureInfo.InvariantCulture)));
 

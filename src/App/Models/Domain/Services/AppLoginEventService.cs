@@ -73,7 +73,7 @@ namespace App.Models.Domain.Services
                 return;
             }
 
-            AppUserLoginEvent loginEvent = new AppUserLoginEvent
+            var loginEvent = new AppUserLoginEvent
             {
                 IPAddress = ipAddress,
                 UserAgent = userAgent,
@@ -102,7 +102,7 @@ namespace App.Models.Domain.Services
             string securityKey = user.SecurityStamp;
             string encryptedSecurityKey = this._dataProtector.Protect(securityKey);
 
-            CookieOptions cookieOptions = new CookieOptions
+            var cookieOptions = new CookieOptions
             {
                 Expires = DateTimeOffset.UtcNow.AddDays(365),
                 HttpOnly = true,

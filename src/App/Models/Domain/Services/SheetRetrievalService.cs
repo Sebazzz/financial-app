@@ -43,7 +43,7 @@ namespace App.Models.Domain.Services {
             // sheet entry will be created
             var all = sheets.DefaultIfEmpty(this._mappingEngine.Map<Sheet, SheetListing>(this.CreateCurrentMonthSheet(ownerId)));
 
-            SheetTotals totals = new SheetTotals{BankAccount = 0, SavingsAccount = 0};
+            var totals = new SheetTotals{BankAccount = 0, SavingsAccount = 0};
             foreach (SheetListing listing in all) {
                 totals.BankAccount += listing.Totals.BankAccount ?? 0;
                 totals.SavingsAccount += listing.Totals.SavingsAccount ?? 0;
@@ -91,7 +91,7 @@ namespace App.Models.Domain.Services {
         }
 
         private Sheet CreateSheet(int month, int year, int ownerId) {
-            Sheet sheet = new Sheet();
+            var sheet = new Sheet();
 
             sheet.Subject = new DateTime(year, month, 1);
             sheet.Owner = this._appOwnerRepository.FindById(ownerId).EnsureNotNull(HttpStatusCode.BadRequest);

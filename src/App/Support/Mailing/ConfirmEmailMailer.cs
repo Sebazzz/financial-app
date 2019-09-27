@@ -20,7 +20,7 @@ namespace App.Support.Mailing {
         }
 
         public async Task SendAsync(string to, string baseUrl, string confirmToken, string userName) {
-            UriBuilder uriBuilder = new UriBuilder(baseUrl) {
+            var uriBuilder = new UriBuilder(baseUrl) {
                 Path = "auth/confirm-email",
                 Query = "token=" + Uri.EscapeDataString(confirmToken) + "&key=" + Uri.EscapeDataString(to)
             };
