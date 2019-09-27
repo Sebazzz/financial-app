@@ -9,13 +9,12 @@ namespace App.Support {
     using Microsoft.AspNetCore.Http;
 
     public static class SimpleUrlRewriteExtensions {
-        public static void UseSimpleUrlRemap(this IApplicationBuilder app, PathString incoming, PathString rewritten) {
+        public static void UseSimpleUrlRemap(this IApplicationBuilder app, PathString incoming, PathString rewritten) =>
             app.Use((ctx, next) => {
                 if (ctx.Request.Path.StartsWithSegments(new PathString(incoming))) {
                     ctx.Request.Path = new PathString(rewritten);
                 }
                 return next();
             });
-        }
     }
 }

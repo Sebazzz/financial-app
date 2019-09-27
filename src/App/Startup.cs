@@ -94,8 +94,6 @@ namespace App
 
             services.AddMvc(options =>
             {
-                options.EnableEndpointRouting = false;
-
                 options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
                 options.Filters.Add(typeof(ApiCachePreventionFilterAttribute));
@@ -262,6 +260,7 @@ namespace App
             app.UseHttps();
             app.UseMiddleware<SiteUrlDetectionService.Middleware>();
 
+            app.UseRouting();
             app.UseAuthentication();
 
             if (env.IsDevelopment())
@@ -279,13 +278,6 @@ namespace App
                 app.UseExceptionHandler("/");
             }
 
-#pragma warning disable 618 // .NET Core 3.0 upgrade
-            app.UseSignalR(builder =>
-            {
-                builder.MapHub<AppOwnerHub>("/extern/connect/app-owner");
-            });
-#pragma warning restore 618
-
             app.UseResponseCompression();
 
             app.UseSimpleUrlRemap("/browserconfig.xml", "/images/tiles/manifest-microsoft.xml");
@@ -298,6 +290,7 @@ namespace App
             {
                 ContentTypeProvider = new FileExtensionContentTypeProvider
                 {
+                    // TODO: Remove when https://github.com/aspnet/AspNetCore/issues/2442 is done
                     Mappings = { [".webmanifest"] = "application/manifest+json" }
                 },
                 OnPrepareResponse = context =>
@@ -346,27 +339,26 @@ namespace App
             });
 
             // SPA bootstrapper
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
+                // SignalR hub
+                endpoints.MapHub<AppOwnerHub>("/extern/connect/app-owner");
+
+                // MVC api controllers
+                endpoints.MapControllers();
+
                 // If we still reached this at this point the ko-template was not found:
                 // Trigger an failure instead of sending the app bootstrapper which causes all kinds of havoc.
-                routes.MapFailedRoute("ko-templates/{*.}");
-                routes.MapFailedRoute("build/{*.}");
+                endpoints.MapFailedRoute("ko-templates/{*.}");
+                endpoints.MapFailedRoute("build/{*.}");
 
                 // Any non-matched web api calls should fail as well
-                routes.MapFailedRoute("api/{*.}");
+                endpoints.MapFailedRoute("api/{*.}");
 
                 // We only match one controller since we will want
                 // all requests to go to the controller which renders
                 // the initial view / SPA bootstrapper.
-                routes.MapRoute(
-                    name: "default",
-                    template: "{*.}",
-                    defaults: new
-                    {
-                        controller = "Home",
-                        action = "Index"
-                    });
+                endpoints.MapFallbackToController("{*.}", "Index", "Home");
             });
 
             // Configure recurring jobs
