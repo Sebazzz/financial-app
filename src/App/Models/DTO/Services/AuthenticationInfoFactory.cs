@@ -22,11 +22,8 @@ namespace App.Models.DTO.Services {
 
         public async Task<AuthenticationInfo> CreateAsync(AppUser user, ClaimsPrincipal currentLoggedInPrincipal) {
             // Determine previous active group ID
-            Int32? previousActiveOwnedGroupId = currentLoggedInPrincipal.Identity.GetPreviousActiveOwnedOwnerGroupId();
-
-            if (previousActiveOwnedGroupId == null) {
-                previousActiveOwnedGroupId = user.AvailableGroups.FirstOrDefault(x => x.HasOwnership)?.GroupId;
-            }
+            Int32? previousActiveOwnedGroupId = currentLoggedInPrincipal.Identity.GetPreviousActiveOwnedOwnerGroupId() ??
+                                                user.AvailableGroups.FirstOrDefault(x => x.HasOwnership)?.GroupId;
 
             return new AuthenticationInfo {
                 IsAuthenticated = true,
@@ -34,7 +31,7 @@ namespace App.Models.DTO.Services {
                 UserId = user.Id,
                 UserName = user.UserName,
                 PreviousActiveOwnedGroupId = user.AvailableGroups.Any(x => x.GroupId == user.CurrentGroupId && !x.HasOwnership) ? previousActiveOwnedGroupId : null,
-                Roles = await (await this._appUserManager.GetRolesAsync(user)).ToAsyncEnumerable().ToArray()
+                Roles = (await this._appUserManager.GetRolesAsync(user)).ToArray()
             };
         }
     }

@@ -10,12 +10,14 @@ using Microsoft.Extensions.FileProviders;
 
 namespace App.Tests.TestSupport
 {
-    internal sealed class FakeWebRootHostingEnvironment : IHostingEnvironment
+    using Microsoft.Extensions.Hosting;
+
+    internal sealed class FakeWebRootHostingEnvironment : IWebHostEnvironment
     {
         /// <inheritdoc />
         public string EnvironmentName
         {
-            get => Microsoft.AspNetCore.Hosting.EnvironmentName.Production;
+            get => Environments.Production;
             set => throw new System.NotImplementedException();
         }
 

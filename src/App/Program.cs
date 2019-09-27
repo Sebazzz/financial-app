@@ -19,6 +19,7 @@ namespace App {
     using Microsoft.Extensions.DependencyInjection;
 
     using App.Support.Https;
+    using Microsoft.Extensions.Hosting;
     using Support;
 
     internal static class Program {

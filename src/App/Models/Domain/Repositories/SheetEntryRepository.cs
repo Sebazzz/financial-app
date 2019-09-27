@@ -60,11 +60,7 @@ namespace App.Models.Domain.Repositories {
         }
 
         public void ReplaceSortOrder(Sheet sheet, int oldSortOrder, int newSortOrder) {
-            this._dbContext.Database.ExecuteSqlCommand(
-                "UPDATE dbo.SheetEntry SET SortOrder = @p0 WHERE SortOrder = @p1 AND SheetId = @p2",
-                newSortOrder,
-                oldSortOrder,
-                sheet.Id);
+            this._dbContext.Database.ExecuteSqlInterpolated($"UPDATE dbo.SheetEntry SET SortOrder = {newSortOrder} WHERE SortOrder = {oldSortOrder} AND SheetId = {sheet.Id}");
         }
     }
 }

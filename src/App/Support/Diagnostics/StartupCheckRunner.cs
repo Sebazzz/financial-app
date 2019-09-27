@@ -8,15 +8,15 @@ namespace App.Support.Diagnostics {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
     internal sealed class StartupCheckRunner {
-        private readonly IApplicationLifetime _appLifetime;
+        private readonly IHostApplicationLifetime _appLifetime;
         private readonly ILogger<StartupCheckRunner> _logger;
         private readonly List<IStartupCheck> _startupChecks;
 
-        public StartupCheckRunner(IApplicationLifetime appLifetime, ILogger<StartupCheckRunner> logger,
+        public StartupCheckRunner(IHostApplicationLifetime appLifetime, ILogger<StartupCheckRunner> logger,
             IEnumerable<IStartupCheck> startupChecks) {
             this._appLifetime = appLifetime;
             this._logger = logger;

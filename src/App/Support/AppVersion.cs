@@ -21,7 +21,7 @@ namespace App.Support {
 
     public sealed class AppVersionService : IAppVersionService {
         private readonly string _informational = InitVersion();
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private string _cachedAppVersion;
 
         private static string InitVersion() {
@@ -35,7 +35,7 @@ namespace App.Support {
 
         internal static string GetInformationalVersion() => InitVersion();
 
-        public AppVersionService(IHostingEnvironment hostingEnvironment) {
+        public AppVersionService(IWebHostEnvironment hostingEnvironment) {
             this._hostingEnvironment = hostingEnvironment;
         }
 

@@ -15,6 +15,8 @@ using Microsoft.Extensions.Primitives;
 
 namespace App.Support
 {
+    using Microsoft.Extensions.Hosting;
+
     public interface IBuildAssetVersionCache {
         string MatchFile(string path);
     }
@@ -23,7 +25,7 @@ namespace App.Support
     {
         private const string Extension = ".js";
 
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         private readonly ConcurrentDictionary<string, string> _lookupCache;
         private readonly ConcurrentDictionary<string, IChangeToken> _fileWatcherCache;
@@ -31,7 +33,7 @@ namespace App.Support
         private readonly ILogger<BuildAssetVersionCache> _logger;
 
         /// <inheritdoc />
-        public BuildAssetVersionCache(IHostingEnvironment hostingEnvironment, ILogger<BuildAssetVersionCache> logger)
+        public BuildAssetVersionCache(IWebHostEnvironment hostingEnvironment, ILogger<BuildAssetVersionCache> logger)
         {
             this._hostingEnvironment = hostingEnvironment;
             this._logger = logger;

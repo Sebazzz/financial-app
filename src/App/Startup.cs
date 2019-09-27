@@ -54,6 +54,7 @@ namespace App
     using Support.Setup.Steps;
 
     using Microsoft.AspNetCore.SpaServices.Webpack;
+    using Microsoft.Extensions.Hosting;
     using Models.DTO.Services;
     using Support.DataProtection;
     using Support.Diagnostics;
@@ -93,11 +94,13 @@ namespace App
 
             services.AddMvc(options =>
             {
+                options.EnableEndpointRouting = false;
+
                 options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
                 options.Filters.Add(typeof(ApiCachePreventionFilterAttribute));
                 options.Filters.Add(typeof(SetupRequiredFilterAttribute));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddIdentity<AppUser, AppRole>(
                     options =>
@@ -152,7 +155,7 @@ namespace App
             });
 
             services.AddSignalR()
-                    .AddJsonProtocol(options => options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+                    .AddJsonProtocol();
 
             services.AddDbContext<AppDbContext>();
 
@@ -240,7 +243,7 @@ namespace App
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IHostingEnvironment hostingEnvironment)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IWebHostEnvironment hostingEnvironment)
         {
             // Log hosting environment
             {
@@ -264,20 +267,24 @@ namespace App
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+#pragma warning disable 618 // .NET Core 3.0 upgrade
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
                 });
+#pragma warning restore 618
             }
             else
             {
                 app.UseExceptionHandler("/");
             }
 
+#pragma warning disable 618 // .NET Core 3.0 upgrade
             app.UseSignalR(builder =>
             {
                 builder.MapHub<AppOwnerHub>("/extern/connect/app-owner");
             });
+#pragma warning restore 618
 
             app.UseResponseCompression();
 

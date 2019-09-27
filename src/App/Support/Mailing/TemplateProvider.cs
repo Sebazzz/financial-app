@@ -18,7 +18,7 @@ namespace App.Support.Mailing {
         private readonly IFileProvider _fileProvider;
         private readonly IAppVersionService _appVersionService;
 
-        public TemplateProvider(IHostingEnvironment hostingEnvironment, ISiteUrlDetectionService siteUrlDetectionService, IAppVersionService appVersionService) {
+        public TemplateProvider(IWebHostEnvironment hostingEnvironment, ISiteUrlDetectionService siteUrlDetectionService, IAppVersionService appVersionService) {
             this._appVersionService = appVersionService;
             this._fileProvider = hostingEnvironment.ContentRootFileProvider;
 

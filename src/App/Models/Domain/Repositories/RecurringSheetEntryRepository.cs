@@ -41,7 +41,7 @@ namespace App.Models.Domain.Repositories {
 
         public void Delete(App.Models.Domain.RecurringSheetEntry item) {
             if (item != null) {
-                this._dbContext.Database.ExecuteSqlCommand("UPDATE dbo.SheetEntry SET TemplateId = NULL WHERE TemplateId = @p0", item.Id);
+                this._dbContext.Database.ExecuteSqlInterpolated($"UPDATE dbo.SheetEntry SET TemplateId = NULL WHERE TemplateId = {item.Id}");
                 this._entitySet.Remove(item);
             }
         }
@@ -65,11 +65,7 @@ namespace App.Models.Domain.Repositories {
             return this._entitySet.Where(x => x.Owner.Id == ownerId);
         }
         public void ReplaceSortOrder(int ownerId, int oldSortOrder, int newSortOrder) {
-            this._dbContext.Database.ExecuteSqlCommand(
-                "UPDATE dbo.RecurringSheetEntry SET SortOrder = @p0 WHERE SortOrder = @p1 AND OwnerId = @p2",
-                newSortOrder,
-                oldSortOrder,
-                ownerId);
+            this._dbContext.Database.ExecuteSqlInterpolated($"UPDATE dbo.RecurringSheetEntry SET SortOrder = {newSortOrder} WHERE SortOrder = {oldSortOrder} AND OwnerId = {ownerId}");
         }
 
         public int FindNextSortOrder(int ownerId) {

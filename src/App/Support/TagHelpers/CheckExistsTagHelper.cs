@@ -14,9 +14,9 @@ namespace App.Support.TagHelpers
     public class CheckExistsTagHelper : IncludeTagHelperBase {
         private const string CheckExistsAttribute = "fa-check-exists";
 
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public CheckExistsTagHelper(IHostingEnvironment hostingEnvironment) {
+        public CheckExistsTagHelper(IWebHostEnvironment hostingEnvironment) {
             this._hostingEnvironment = hostingEnvironment;
         }
 
