@@ -163,6 +163,12 @@ function makeTargetSpecificConfig(targetName) {
             }
         },
 
+        devServer: {
+            contentBase: path.join(__dirname, 'wwwroot'),
+            compress: true,
+            port: 9000
+        },
+
         resolve: {
             extensions: ['.ts', '.js'],
             alias: {
