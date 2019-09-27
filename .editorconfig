@@ -73,6 +73,7 @@ insert_final_newline = true
 # Line length in .prettierrc
 max_line_length = 120
 
+[*]
 ## Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#language-conventions
 # Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#this_and_me
 dotnet_style_qualification_for_field = true:error
@@ -82,7 +83,7 @@ dotnet_style_qualification_for_event = true:error
 
 # Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#language_keywords
 dotnet_style_predefined_type_for_locals_parameters_members = false:suggestion
-dotnet_style_predefined_type_for_member_access = true:suggestion
+dotnet_style_predefined_type_for_member_access = false:suggestion
 
 # Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#normalize_modifiers
 dotnet_style_require_accessibility_modifiers = always:error
@@ -144,6 +145,7 @@ csharp_prefer_braces=false:suggestion
 ## Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#formatting-conventions
 # Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#usings
 dotnet_sort_system_directives_first = false:warning
+dotnet_separate_import_directive_groups = true:suggestion
 
 # Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#newline
 csharp_new_line_before_open_brace = all:warning
@@ -175,8 +177,6 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false:warnin
 # Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference?view=vs-2017#wrapping
 csharp_preserve_single_line_statements = false:suggestion
 csharp_preserve_single_line_blocks = true:silent
-
-[*.{cs,vb}]
 
 ## Ref: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-naming-conventions?view=vs-2017
 # Public members must be capitalized (public_members_must_be_capitalized)
