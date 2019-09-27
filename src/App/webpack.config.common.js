@@ -134,9 +134,9 @@ function makeTargetSpecificConfig(targetName) {
     const config = {
         devtool: 'inline-source-map',
         entry: {
-            app: ['./js/App/main.ts']
+            app: ['webpack-hot-middleware/client', './js/App/main.ts']
         },
-        plugins: [copyPolyfill, globalsProvider, serviceWorker],
+        plugins: [copyPolyfill, globalsProvider, serviceWorker, new webpack.HotModuleReplacementPlugin()],
         output: {
             filename: '[name].[hash].js',
             path: targetDir,
@@ -161,12 +161,6 @@ function makeTargetSpecificConfig(targetName) {
                     }
                 }
             }
-        },
-
-        devServer: {
-            contentBase: path.join(__dirname, 'wwwroot'),
-            compress: true,
-            port: 9000
         },
 
         resolve: {
@@ -230,7 +224,8 @@ function makeTargetSpecificConfig(targetName) {
                 }
             ]
         },
-        mode: isProduction ? 'production' : 'development'
+        mode: isProduction ? 'production' : 'development',
+        name: targetName
     };
 
     return config;
@@ -314,7 +309,8 @@ function makeBootstrapperConfig() {
                 }
             ]
         },
-        mode: isProduction ? 'production' : 'development'
+        mode: isProduction ? 'production' : 'development',
+        name: 'bootstrapper'
     };
 
     return config;

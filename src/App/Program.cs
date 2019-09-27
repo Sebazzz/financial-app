@@ -30,7 +30,7 @@ namespace App {
             Console.WriteLine();
             Console.WriteLine("Configuring web host...");
 
-            var host = BuildWebHost(args);
+            IWebHost host = BuildWebHost(args);
 
             Console.WriteLine();
             Console.WriteLine("Starting host...");

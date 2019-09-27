@@ -266,12 +266,20 @@ namespace App
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-#pragma warning disable 618 // .NET Core 3.0 upgrade
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
-#pragma warning restore 618
+
+                app.UseWhen(
+                    ctx => ctx.Request.Path.StartsWithSegments("/build") ||
+                           ctx.Request.Path.StartsWithSegments("/sw-es5.js") ||
+                           ctx.Request.Path.StartsWithSegments("/sw-es2017.js") ||
+                           ctx.Request.Path.StartsWithSegments("/__webpack_hmr"),
+                    spaApp =>
+                    {
+                        spaApp.UseSpa(spa =>
+                        {
+                            spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+                        });
+                    }
+                );
             }
             else
             {
