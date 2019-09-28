@@ -1,5 +1,6 @@
 # Check if dotnet-format is installed
 $ENV:PATH = $ENV:PATH + [System.IO.Path]::PathSeparator + $(Join-Path $PSScriptRoot ".dotnet")
+$ENV:PATH = $ENV:PATH + [System.IO.Path]::PathSeparator + $(Join-Path $PSScriptRoot ".dotnet/dotnet-format")
 
 if (!(Get-Command "dotnet-format" -ErrorAction SilentlyContinue)) {
     Write-Host "dotnet-format not installed - installing"
