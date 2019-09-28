@@ -32,7 +32,6 @@ function makeTargetSpecificMinimizer(targetName) {
     }
 
     return new TerserPlugin({
-        parallel: true,
         terserOptions: {
             compress: {
                 drop_console: true,
