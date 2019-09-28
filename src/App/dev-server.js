@@ -1,5 +1,4 @@
-const
-    fs = require('fs'),
+const fs = require('fs'),
     http = require('http'),
     express = require('express'),
     webpack = require('webpack');
@@ -88,24 +87,38 @@ const app = express();
     webpackConfig.forEach((config, index) => {
         const compiler = webpack(config);
 
-        app
-            .use(require('webpack-dev-middleware')(compiler,
-                {
-                    publicPath: config.output.publicPath,
-                    writeToDisk: true,
-                    hot: true
-                }))
-            .use(require('webpack-hot-middleware')(compiler,
-                {
-                    log: console.log,
-                    path: config.name === 'es2017' ? `/__webpack_hmr` : '/__whatever',
-                    heartbeat: 10 * 1000
-                }));
+        app.use(
+            require('webpack-dev-middleware')(compiler, {
+                publicPath: config.output.publicPath,
+                writeToDisk: true,
+                hot: true
+            })
+        ).use(
+            require('webpack-hot-middleware')(compiler, {
+                log: console.log,
+                path: config.name === 'es2017' ? `/__webpack_hmr` : '/__whatever',
+                heartbeat: 10 * 1000
+            })
+        );
     });
 })();
 
+function args_port() {
+    const processArgs = process.argv.slice(2);
+
+    for (const arg of processArgs) {
+        const match = arg.match(/--port=(\d+)/i);
+
+        if (match && +match[1]) {
+            return +match[1];
+        }
+    }
+
+    return null;
+}
+
 if (require.main === module) {
     const server = http.createServer(app);
-    server.listen(process.env.PORT || 8080, () => console.log('Listening on %j', server.address()));
+    server.listen(args_port() || process.env.PORT || 8080, () => console.log('Listening on %j', server.address()));
     server.mutex = mutex;
 }

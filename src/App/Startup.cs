@@ -279,14 +279,10 @@ namespace App
                             Process.Start(new ProcessStartInfo
                             {
                                 FileName = "node.exe",
-                                Arguments = "dev-server.js",
+                                Arguments = $"dev-server.js --port={port}",
                                 WorkingDirectory = hostingEnvironment.ContentRootPath,
                                 UseShellExecute = true,
-                                WindowStyle = ProcessWindowStyle.Normal,
-                                EnvironmentVariables =
-                                {
-                                    ["PORT"] = port.ToString()
-                                }
+                                WindowStyle = ProcessWindowStyle.Minimized
                             });
 
                             spa.UseProxyToSpaDevelopmentServer($"http://localhost:{port}/");
