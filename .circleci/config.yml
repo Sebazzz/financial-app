@@ -43,7 +43,7 @@ jobs:
                       curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
                       chmod +x dotnet-install.sh
                       echo "export TERM=xterm-256color" >> $BASH_ENV
-                      ./dotnet-install.sh --version 2.2.105
+                      ./dotnet-install.sh --version 2.2.105 --verbose --install-dir /usr/share/dotnet
 
             - run:
                   name: Install Yarn
@@ -70,6 +70,7 @@ jobs:
                   name: Build - test
                   command: |
                       export MOZ_HEADLESS=1
+                      export CIRCLECI=1
                       ./build.sh --target=test --verbosity=verbose
 
             - save_cache:
