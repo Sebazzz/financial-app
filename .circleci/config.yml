@@ -34,13 +34,15 @@ jobs:
             - run:
                   name: Download and install node.js
                   command: |
-                      curl -sL https://deb.nodesource.com/setup_10.x |  bash -
+                      curl -sL https://deb.nodesource.com/setup_10.x | bash -
                       apt-get install --no-install-recommends -y gcc g++ make build-essential nodejs
 
             - run:
                   name: Install .NET 2.x SDK for Cake (temporary)
                   command: |
-                      curl -o- -L https://dot.net/v1/dotnet-install.sh | bash -s -- --version 2.1.13
+                      curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh
+                      chmod +x dotnet-install.sh
+                      ./dotnet-install.sh --version 2.1.13
 
             - run:
                   name: Install Yarn
