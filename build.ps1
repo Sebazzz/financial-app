@@ -78,7 +78,7 @@ if (Get-Command dotnet -ErrorAction SilentlyContinue) {
 }
 
 if($FoundDotNetCliVersion -lt $DotNetVersion -or
-   $FoundDotNetVersion -gt $DotNetVersion.SubString($DotNetVersion.IndexOf('.'))) {
+    $FoundDotNetVersion -gt $DotNetVersion.SubString($DotNetVersion.IndexOf('.'))) {
     $InstallPath = Join-Path $PSScriptRoot ".dotnet"
     if (!(Test-Path $InstallPath)) {
         New-Item -Path $InstallPath -ItemType Directory -Force | Out-Null;
@@ -97,6 +97,10 @@ if($FoundDotNetCliVersion -lt $DotNetVersion -or
     $env:PATH = "$InstallPath;$env:PATH"
 }
 
+$DotNetRoot = Get-Command dotnet -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source | Split-Path -Parent
+
+
+$env:DOTNET_ROOT=1
 $env:DOTNET_CLI_TELEMETRY_OPTOUT=1
 $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
