@@ -94,5 +94,8 @@
         "hooks": {
             "pre-commit": "yarn pre-commit"
         }
+    },
+    "optionalDependencies": {
+        "windows-mutex": "^0.3.0"
     }
 }

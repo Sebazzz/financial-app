@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.StaticFiles;
 namespace App
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -45,15 +46,12 @@ namespace App
     using Models.Domain.Repositories;
     using Models.Domain.Services;
 
-    using Newtonsoft.Json.Serialization;
-
     using Support;
     using Support.Filters;
     using Support.Hub;
     using Support.Setup;
     using Support.Setup.Steps;
 
-    using Microsoft.AspNetCore.SpaServices.Webpack;
     using Microsoft.Extensions.Hosting;
     using Models.DTO.Services;
     using Support.DataProtection;
@@ -276,7 +274,22 @@ namespace App
                     {
                         spaApp.UseSpa(spa =>
                         {
-                            spa.UseProxyToSpaDevelopmentServer("http://localhost:8080/");
+                            const int port = 8080;
+
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = "node.exe",
+                                Arguments = "dev-server.js",
+                                WorkingDirectory = hostingEnvironment.ContentRootPath,
+                                UseShellExecute = true,
+                                WindowStyle = ProcessWindowStyle.Normal,
+                                EnvironmentVariables =
+                                {
+                                    ["PORT"] = port.ToString()
+                                }
+                            });
+
+                            spa.UseProxyToSpaDevelopmentServer($"http://localhost:{port}/");
                         });
                     }
                 );
