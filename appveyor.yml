@@ -10,6 +10,8 @@ dotnet_csproj:
     informational_version: '{version}'
 install:
     - ps: Install-Product node LTS x64
+    - choco install firefox
+    - choco install googlechrome
 cache: '%LOCALAPPDATA%\Yarn'
 build_script:
     - cmd: build.cmd --target=Publish --verbosity=verbose
