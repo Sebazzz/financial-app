@@ -4,7 +4,7 @@ Financial management progressive web application meant for households created us
 
 [![Build status](https://ci.appveyor.com/api/projects/status/p31vw84asaq445h5?svg=true)](https://ci.appveyor.com/project/Sebazzz/financial-app)
 [![CircleCI](https://circleci.com/gh/Sebazzz/financial-app.svg?style=svg)](https://circleci.com/gh/Sebazzz/financial-app)
-[![Github CI](https://github.com/sebazzz/financial-app/workflows/Continuous%20integration/badge.svg)]
+![Github CI](https://github.com/sebazzz/financial-app/workflows/Continuous%20integration/badge.svg)
 [![Dependencies](https://david-dm.org/sebazzz/financial-app.svg)](https://david-dm.org/sebazzz/financial-app.svg)
 
 Licensed: GNU GPL v3.0
