@@ -38,11 +38,6 @@ jobs:
             - name: Output important software versions (dotnet)
               run: dotnet --version
 
-            - name: Output important software versions (dotnet)
-              env:
-                  MOZ_HEADLESS: 1
-              run: firefox --version
-
             - name: Build - restore nuget packages
               if: contains(matrix.os, 'windows')
               run: .\build.cmd --target=restore-nuget-packages --verbosity=verbose
