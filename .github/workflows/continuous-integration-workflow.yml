@@ -44,15 +44,15 @@ jobs:
               run: firefox --version
 
             - name: Build - restore nuget packages
-              if: contains($${{ matrix.os == 'windows' }}, 'windows')
+              if: contains(matrix.os, 'windows')
               run: .\build.cmd --target=restore-nuget-packages --verbosity=verbose
 
             - name: Build - restore node packages
-              if: contains($${{ matrix.os == 'windows' }}, 'windows')
+              if: contains(matrix.os, 'windows')
               run: .\build.cmd --target=restore-node-packages --verbosity=verbose
 
             - name: Build - test
-              if: contains($${{ matrix.os == 'windows' }}, 'windows')
+              if: contains(matrix.os, 'windows')
               env:
                   MOZ_HEADLESS: 1
                   CIRCLECI: 1
