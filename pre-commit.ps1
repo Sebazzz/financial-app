@@ -9,7 +9,7 @@ if (!(Get-Command "dotnet-format" -ErrorAction SilentlyContinue)) {
     dotnet tool install --tool-path .dotnet/dotnet-format dotnet-format
 
     if ($LASTEXITCODE -ne 0) {
-        return $LASTEXITCODE
+        Exit $LASTEXITCODE
     }
 }
 
@@ -17,7 +17,7 @@ if (!(Get-Command "dotnet-format" -ErrorAction SilentlyContinue)) {
 pretty-quick --staged
 
 if ($LASTEXITCODE -ne 0) {
-    return $LASTEXITCODE
+    Exit $LASTEXITCODE
 }
 
 # Run dotnet-format
@@ -27,6 +27,8 @@ if ([String]::IsNullOrEmpty($CSharpFiles) -ne $true) {
     dotnet-format.exe --files $CSharpFiles
 
     if ($LASTEXITCODE -ne 0) {
-        return $LASTEXITCODE
+        Exit $LASTEXITCODE
     }
 }
+
+Exit 0

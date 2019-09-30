@@ -11,8 +11,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 
-namespace App
-{
+namespace App {
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -58,10 +57,8 @@ namespace App
     using Support.Diagnostics;
     using Support.Mapping;
 
-    public class Startup
-    {
-        public Startup(IConfiguration env)
-        {
+    public class Startup {
+        public Startup(IConfiguration env) {
             this.Configuration = env;
         }
 
@@ -69,10 +66,8 @@ namespace App
 
         // This method gets called by the runtime. Use this method to add services to the container.
         [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
-        public void ConfigureServices(IServiceCollection services)
-        {
-            if (!String.Equals(this.Configuration["DISABLE_TELEMETRY"], "True", StringComparison.OrdinalIgnoreCase))
-            {
+        public void ConfigureServices(IServiceCollection services) {
+            if (!String.Equals(this.Configuration["DISABLE_TELEMETRY"], "True", StringComparison.OrdinalIgnoreCase)) {
                 services.AddApplicationInsightsTelemetry(this.Configuration);
             }
 
@@ -82,16 +77,14 @@ namespace App
             services.Configure<MailSettings>(this.Configuration.GetSection("mail"));
             services.Configure<DiagnosticsOptions>(this.Configuration.GetSection("diagnostics"));
 
-            services.AddResponseCompression(opts =>
-            {
+            services.AddResponseCompression(opts => {
                 // Note the possible dangers for HTTPS: https://docs.microsoft.com/en-us/aspnet/core/performance/response-compression?tabs=aspnetcore2x#compression-with-secure-protocol
                 opts.EnableForHttps = true;
             });
 
             services.AddConfiguredDataProtection(this.Configuration);
 
-            services.AddMvc(options =>
-            {
+            services.AddMvc(options => {
                 options.Filters.Add(typeof(HttpStatusExceptionFilterAttribute));
                 options.Filters.Add(typeof(ModelStateCamelCaseFilter));
                 options.Filters.Add(typeof(ApiCachePreventionFilterAttribute));
@@ -99,8 +92,7 @@ namespace App
             }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddIdentity<AppUser, AppRole>(
-                    options =>
-                    {
+                    options => {
                         options.Password.RequireDigit = false;
                         options.Password.RequireLowercase = false;
                         options.Password.RequireNonAlphanumeric = false;
@@ -121,32 +113,27 @@ namespace App
                 .AddRoleStore<AppRoleStore>();
 
             services.ConfigureApplicationCookie(
-                opt =>
-                {
+                opt => {
                     opt.LoginPath = new PathString("/Account/Login");
                     opt.ExpireTimeSpan = TimeSpan.FromDays(365 / 2d);
                     opt.SlidingExpiration = true;
 
                     // Override cookie validator until setup has been completed
                     Func<CookieValidatePrincipalContext, Task> existingHandler = opt.Events.OnValidatePrincipal;
-                    opt.Events.OnValidatePrincipal = async (ctx) =>
-                    {
+                    opt.Events.OnValidatePrincipal = async (ctx) => {
                         var setupState = ctx.HttpContext.RequestServices.GetRequiredService<RequestAppSetupState>();
 
-                        if (await setupState.HasBeenSetup())
-                        {
+                        if (await setupState.HasBeenSetup()) {
                             await existingHandler(ctx);
                         }
-                        else
-                        {
+                        else {
                             ctx.RejectPrincipal();
                         }
                     };
                 }
             );
 
-            services.AddAuthorization(opt =>
-            {
+            services.AddAuthorization(opt => {
                 opt.AddPolicy("AppSetup", policy => policy.AddRequirements(new SetupNotRunAuthorizationRequirement()));
             });
 
@@ -155,8 +142,7 @@ namespace App
 
             services.AddDbContext<AppDbContext>();
 
-            services.AddHangfire(c =>
-            {
+            services.AddHangfire(c => {
 #if DEBUG
                 c.UseMemoryStorage();
 #else
@@ -239,8 +225,7 @@ namespace App
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IWebHostEnvironment hostingEnvironment)
-        {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IWebHostEnvironment hostingEnvironment) {
             // Log hosting environment
             {
                 ILogger logger = loggerFactory.CreateLogger("Startup");
@@ -249,8 +234,7 @@ namespace App
             }
 
             // Startup checks
-            if (!app.RunStartupChecks())
-            {
+            if (!app.RunStartupChecks()) {
                 return;
             }
 
@@ -261,8 +245,7 @@ namespace App
             app.UseRouting();
             app.UseAuthentication();
 
-            if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
 
                 app.UseWhen(
@@ -270,14 +253,11 @@ namespace App
                            ctx.Request.Path.StartsWithSegments("/sw-es5.js") ||
                            ctx.Request.Path.StartsWithSegments("/sw-es2017.js") ||
                            ctx.Request.Path.StartsWithSegments("/__webpack_hmr"),
-                    spaApp =>
-                    {
-                        spaApp.UseSpa(spa =>
-                        {
+                    spaApp => {
+                        spaApp.UseSpa(spa => {
                             const int port = 8080;
 
-                            Process.Start(new ProcessStartInfo
-                            {
+                            Process.Start(new ProcessStartInfo {
                                 FileName = "node.exe",
                                 Arguments = $"dev-server.js --port={port}",
                                 WorkingDirectory = hostingEnvironment.ContentRootPath,
@@ -290,8 +270,7 @@ namespace App
                     }
                 );
             }
-            else
-            {
+            else {
                 app.UseExceptionHandler("/");
             }
 
@@ -303,22 +282,18 @@ namespace App
 
             app.AddWildcardPatternRewrite("/build");
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                ContentTypeProvider = new FileExtensionContentTypeProvider
-                {
+            app.UseStaticFiles(new StaticFileOptions {
+                ContentTypeProvider = new FileExtensionContentTypeProvider {
                     // TODO: Remove when https://github.com/aspnet/AspNetCore/issues/2442 is done
                     Mappings = { [".webmanifest"] = "application/manifest+json" }
                 },
-                OnPrepareResponse = context =>
-                {
+                OnPrepareResponse = context => {
                     // Enable aggressive caching behavior - but be sure that requests from service workers must be properly addressed
                     const int expireTimeInDays = 7 * 4;
 
                     ResponseHeaders headers = context.Context.Response.GetTypedHeaders();
                     headers.Expires = DateTimeOffset.Now.AddDays(expireTimeInDays);
-                    headers.CacheControl = new CacheControlHeaderValue
-                    {
+                    headers.CacheControl = new CacheControlHeaderValue {
                         MaxAge = TimeSpan.FromDays(expireTimeInDays),
                         MustRevalidate = true,
                         Public = true,
@@ -329,13 +304,10 @@ namespace App
             });
 
             // Let's encrypt support
-            app.UseRouter(r =>
-            {
-                r.MapGet(".well-known/acme-challenge/{id}", async (request, response, routeData) =>
-                {
+            app.UseRouter(r => {
+                r.MapGet(".well-known/acme-challenge/{id}", async (request, response, routeData) => {
                     string id = routeData.Values["id"] as string;
-                    if (id != Path.GetFileName(id))
-                    {
+                    if (id != Path.GetFileName(id)) {
                         return; // Prevent injection attack
                     }
 
@@ -346,8 +318,7 @@ namespace App
 
             // Hangfire
             app.UseHangfireServer();
-            app.UseHangfireDashboard("/_internal/jobs", new DashboardOptions
-            {
+            app.UseHangfireDashboard("/_internal/jobs", new DashboardOptions {
                 AppPath = "/",
                 DisplayStorageConnectionString = false,
                 Authorization = new IDashboardAuthorizationFilter[] {
@@ -356,8 +327,7 @@ namespace App
             });
 
             // SPA bootstrapper
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 // SignalR hub
                 endpoints.MapHub<AppOwnerHub>("/extern/connect/app-owner");
 
