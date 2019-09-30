@@ -8,6 +8,11 @@ jobs:
         strategy:
             matrix:
                 os: [windows-2019, ubuntu-16.04]
+                include:
+                    - os: windows-2019
+                      script_name: .\build.cmd
+                    - os: ubuntu-16.04
+                      script_name: ./build.sh
         steps:
             - name: checkout
               uses: actions/checkout@v1
@@ -39,16 +44,13 @@ jobs:
               run: dotnet --version
 
             - name: Build - restore nuget packages
-              if: contains(matrix.os, 'windows')
-              run: .\build.cmd --target=restore-nuget-packages --verbosity=verbose
+              run: ${{ matrix.script_name }} --target=restore-nuget-packages --verbosity=verbose
 
             - name: Build - restore node packages
-              if: contains(matrix.os, 'windows')
-              run: .\build.cmd --target=restore-node-packages --verbosity=verbose
+              run: ${{ matrix.script_name }} --target=restore-node-packages --verbosity=verbose
 
             - name: Build - test
-              if: contains(matrix.os, 'windows')
               env:
                   MOZ_HEADLESS: 1
                   CIRCLECI: 1
-              run: .\build.cmd --target=test --verbosity=verbose
+              run: ${{ matrix.script_name }} --target=test --verbosity=verbose
