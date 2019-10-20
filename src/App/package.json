@@ -30,7 +30,7 @@
         "karma-webpack": "4.0.2",
         "mime": "2.4.4",
         "mjml": "^4.5.1",
-        "mocha": "6.2.0",
+        "mocha": "6.2.2",
         "node-sass": "4.12.0",
         "popper.js": "1.15.0",
         "postcss-loader": "3.0.0",
