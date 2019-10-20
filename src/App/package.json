@@ -6,7 +6,7 @@
         "@types/applicationinsights-js": "1.0.9",
         "@types/bootstrap": "4.3.1",
         "@types/chai": "4.2.3",
-        "@types/chart.js": "2.8.5",
+        "@types/chart.js": "2.8.7",
         "@types/jquery": "3.3.31",
         "@types/mocha": "5.2.7",
         "@types/rx": "4.1.1",
