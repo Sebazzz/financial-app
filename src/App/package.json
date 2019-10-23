@@ -5,7 +5,7 @@
     "devDependencies": {
         "@types/applicationinsights-js": "1.0.9",
         "@types/bootstrap": "4.3.1",
-        "@types/chai": "4.2.3",
+        "@types/chai": "4.2.4",
         "@types/chart.js": "2.8.8",
         "@types/jquery": "3.3.31",
         "@types/mocha": "5.2.7",
