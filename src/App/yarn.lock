@@ -61,10 +61,10 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.4.tgz#8936cffad3c96ec470a2dc26a38c3ba8b9b6f619"
   integrity sha512-7qvf9F9tMTzo0akeswHPGqgUx/gIaJqrOEET/FCD8CFRkSUHlygQiM5yB6OvjrtdxBVLSyw7COJubsFYs0683g==
 
-"@types/chart.js@2.8.8":
-  version "2.8.8"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.8.8.tgz#fd0b92bc573e97f0a0a661419b0094940949e223"
-  integrity sha512-kCCPrWLdR8Ze7h/YsF2k1SKjmlhFY0mjfociJSljfk8vtTs8nTIq/gCDvonUbKdVbGq5IUOlc+GqtvEArJk+Kg==
+"@types/chart.js@2.8.9":
+  version "2.8.9"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.8.9.tgz#1ea37b2ad54917a4da09d40f50c2d39a2af3004d"
+  integrity sha512-IMXVwV3VClTMDWIbD8cddj2Hhb7SCkVs5iiZ21Qevt2zbftPTw3DFx3nDSzwQtPZuLq0Ez/BgyfgIxNfbNs6bg==
 
 "@types/events@*":
   version "3.0.0"
