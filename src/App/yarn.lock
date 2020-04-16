@@ -7973,10 +7973,10 @@ trim-newlines@^1.0.0:
   dependencies:
     glob "^7.1.2"
 
-ts-loader@6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-6.1.2.tgz#ff6bc767334970226438949fbde2e211147a1325"
-  integrity sha512-dudxFKm0Ellrg/gLNlu+97/UgwvoMK0SdUVImPUSzq3IcRUVtShylZvcMX+CgvCQL1BEKb913NL0gAP1GA/OFw==
+ts-loader@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/ts-loader/-/ts-loader-7.0.0.tgz#7c74dfa8956e3e33b91d98d4ed7b6f7575c35c25"
+  integrity sha512-qq9iPK235Xf/uPS1I72CIwB8qpbW0rys3entnXO+rIo2km50lMmeHKCNn1m047W6Sk4kceF6n5NWEnq/V8xdYQ==
   dependencies:
     chalk "^2.3.0"
     enhanced-resolve "^4.0.0"
