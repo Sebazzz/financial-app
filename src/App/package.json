@@ -62,7 +62,7 @@
         "husky": "^3.0.9",
         "jquery": "3.4.1",
         "knockout": "3.5.0",
-        "moment": "2.24.0",
+        "moment": "2.29.4",
         "reflect-metadata": "0.1.13",
         "router5": "7.0.2",
         "router5-plugin-browser": "^7.0.2",
